@@ -69,11 +69,8 @@ const FEATURE_SECTIONS: FeatureSection[] = [
   {
     title: "Integrations",
     rows: [
-      { name: "Email notifications",                       starter: true,  pro: true,  enterprise: true  },
-      { name: "Webhook on new quote",                      starter: false, pro: true,  enterprise: true  },
-      { name: "Zapier integration",                        starter: false, pro: true,  enterprise: true  },
-      { name: "CRM integration (HubSpot, Salesforce)",    starter: false, pro: false, enterprise: true  },
-      { name: "Custom API access",                         starter: false, pro: false, enterprise: true  },
+      { name: "Email notifications",   starter: true,  pro: true,  enterprise: true  },
+      { name: "Webhook on new quote",  starter: false, pro: true,  enterprise: true  },
     ],
   },
   {
@@ -381,7 +378,7 @@ export default function PricingPage() {
               </Link>
               {/* Features */}
               <ul className="space-y-3.5 mt-auto">
-                {["Everything in Pro", "Custom Integrations", "Dedicated Account Manager", "SLA & Uptime Guarantee", "Volume Discounts"].map((item) => (
+                {["Everything in Pro", "Dedicated Account Manager", "SLA & Uptime Guarantee", "Volume Discounts", "Onboarding Call"].map((item) => (
                   <li key={item} className="flex items-center gap-3 text-slate-400 font-medium text-sm">
                     <CheckCircle2 size={15} className="text-amber-400/70 shrink-0" />{item}
                   </li>
