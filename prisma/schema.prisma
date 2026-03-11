@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Company {
+  id             String          @id @default(cuid())
+  email          String          @unique
+  passwordHash   String
+  name           String
+  logoUrl        String?
+  timezone       String          @default("UTC")
+  createdAt      DateTime        @default(now())
+  pricingProfile PricingProfile?
+  quoteRequests  QuoteRequest[]
+  widgetSettings WidgetSettings?
+}
+
+model PricingProfile {
+  id                String  @id @default(cuid())
+  companyId         String  @unique
+  baseRatePerMile   Float   @default(2.50)
+  minimumCharge     Float   @default(35.00)
+  stairsFee         Float   @default(0)
+  insideDeliveryFee Float   @default(0)
+  afterHoursFee     Float   @default(0)
+  largeItemFee      Float   @default(0)
+  company           Company @relation(fields: [companyId], references: [id])
+}
+
+model WidgetSettings {
+  id             String  @id @default(cuid())
+  companyId      String  @unique
+  showWeight     Boolean @default(false)
+  showExtras     Boolean @default(true)
+  primaryColor   String  @default("#1E40AF")
+  buttonText     String  @default("Get Instant Quote")
+  headerText     String  @default("Delivery Quote Calculator")
+  disclaimerText String  @default("Estimate only. Final price confirmed after booking.")
+  company        Company @relation(fields: [companyId], references: [id])
+}
+
+model QuoteRequest {
+  id             String   @id @default(cuid())
+  companyId      String
+  customerName   String
+  customerEmail  String
+  customerPhone  String?
+  pickupZip      String
+  dropoffZip     String
+  distanceMiles  Float
+  serviceType    String
+  packageSize    String?
+  packageWeight  String?
+  selectedExtras String?
+  status         String   @default("PENDING")
+  estimatedPrice Float
+  createdAt      DateTime @default(now())
+  company        Company  @relation(fields: [companyId], references: [id])
+}

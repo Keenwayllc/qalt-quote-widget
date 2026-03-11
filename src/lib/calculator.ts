@@ -1,0 +1,69 @@
+import zipcodes from "zipcodes";
+
+/**
+ * Calculates the Haversine distance between two ZIP codes in miles.
+ * If one or both ZIPs are invalid, returns null.
+ */
+export function calculateDistance(zip1: string, zip2: string): number | null {
+  const loc1 = zipcodes.lookup(zip1);
+  const loc2 = zipcodes.lookup(zip2);
+
+  if (!loc1 || !loc2) return null;
+
+  const lat1 = loc1.latitude;
+  const lon1 = loc1.longitude;
+  const lat2 = loc2.latitude;
+  const lon2 = loc2.longitude;
+
+  const R = 3958.8; // Earth's radius in miles
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) *
+      Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c;
+
+  return distance;
+}
+
+/**
+ * Estimates the price based on distance and company pricing rules.
+ */
+export function estimatePrice(
+  distance: number,
+  rules: {
+    baseRatePerMile: number;
+    minimumCharge: number;
+    stairsFee: number;
+    insideDeliveryFee: number;
+    afterHoursFee: number;
+    largeItemFee: number;
+  },
+  extras: {
+    hasStairs: boolean;
+    needsInsideDelivery: boolean;
+    isAfterHours: boolean;
+    isLargeItem: boolean;
+  }
+): number {
+  let total = distance * rules.baseRatePerMile;
+
+  // Apply minimum charge if distance-based price is lower
+  if (total < rules.minimumCharge) {
+    total = rules.minimumCharge;
+  }
+
+  // Add extras
+  if (extras.hasStairs) total += rules.stairsFee;
+  if (extras.needsInsideDelivery) total += rules.insideDeliveryFee;
+  if (extras.isAfterHours) total += rules.afterHoursFee;
+  if (extras.isLargeItem) total += rules.largeItemFee;
+
+  return total;
+}
