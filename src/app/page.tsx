@@ -6,12 +6,14 @@ import Link from "next/link";
 import {
   Calculator,
   ArrowRight,
+  ArrowUp,
   Zap,
   ShieldCheck,
   MousePointerClick,
   Layout,
   BarChart3,
   Code2,
+  CheckCircle2,
 } from "lucide-react";
 
 const BANNER_IMAGES = [
@@ -21,6 +23,7 @@ const BANNER_IMAGES = [
 
 export default function LandingPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -29,18 +32,25 @@ export default function LandingPage() {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => setShowScrollTop(window.scrollY > 400);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-blue-100 selection:text-blue-900">
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <Image src="/images/qalt-dark.png" alt="Qalt" width={220} height={66} className="h-16 w-auto" />
+            <Image src="/images/qalt-logo.png" alt="Qalt" width={240} height={72} className="h-14 w-auto" />
           </Link>
           
           <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500 uppercase tracking-widest">
             <a href="#features" className="hover:text-blue-600 transition-colors">Features</a>
             <a href="#how-it-works" className="hover:text-blue-600 transition-colors">How it Works</a>
+            <Link href="/pricing" className="hover:text-blue-600 transition-colors">Pricing</Link>
           </div>
 
           <div className="flex items-center gap-4">
@@ -179,6 +189,81 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* Pricing */}
+        <section id="pricing" className="py-32 bg-slate-50">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-20">
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">Simple, Transparent Pricing</h2>
+              <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium">Start free. Upgrade when you&apos;re ready to scale.</p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {/* Free */}
+              <div className="bg-white p-10 rounded-[32px] border border-slate-100 hover:shadow-xl transition-all">
+                <h3 className="text-lg font-bold uppercase tracking-widest text-slate-400 mb-4">Starter</h3>
+                <div className="flex items-baseline gap-1 mb-2">
+                  <span className="text-5xl font-black">$0</span>
+                  <span className="text-slate-400 font-medium">/mo</span>
+                </div>
+                <p className="text-slate-500 font-medium mb-8">Perfect for trying Qalt out.</p>
+                <ul className="space-y-4 mb-10">
+                  {["1 Quote Widget", "50 Quotes/month", "Basic Customization", "Email Support"].map((item, i) => (
+                    <li key={i} className="flex items-center gap-3 text-slate-600 font-medium">
+                      <CheckCircle2 size={18} className="text-blue-500 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/register" className="block w-full text-center py-4 bg-slate-100 text-slate-700 rounded-2xl font-bold hover:bg-slate-200 transition-colors">
+                  Get Started Free
+                </Link>
+              </div>
+
+              {/* Pro — highlighted */}
+              <div className="bg-blue-600 p-10 rounded-[32px] text-white shadow-2xl shadow-blue-500/20 relative scale-[1.03] hover:scale-105 transition-transform">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-5 py-1.5 bg-yellow-400 text-slate-900 rounded-full text-xs font-black uppercase tracking-widest">Most Popular</div>
+                <h3 className="text-lg font-bold uppercase tracking-widest text-blue-200 mb-4">Pro</h3>
+                <div className="flex items-baseline gap-1 mb-2">
+                  <span className="text-5xl font-black">$19</span>
+                  <span className="text-blue-200 font-medium">/mo</span>
+                </div>
+                <p className="text-blue-100 font-medium mb-8">For growing delivery companies.</p>
+                <ul className="space-y-4 mb-10">
+                  {["Unlimited Widgets", "Unlimited Quotes", "Full White-Label", "Analytics Dashboard", "Priority Support"].map((item, i) => (
+                    <li key={i} className="flex items-center gap-3 text-white/90 font-medium">
+                      <CheckCircle2 size={18} className="text-yellow-400 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/register" className="block w-full text-center py-4 bg-white text-blue-600 rounded-2xl font-bold hover:bg-blue-50 transition-colors">
+                  Start Pro Trial
+                </Link>
+              </div>
+
+              {/* Enterprise */}
+              <div className="bg-white p-10 rounded-[32px] border border-slate-100 hover:shadow-xl transition-all">
+                <h3 className="text-lg font-bold uppercase tracking-widest text-slate-400 mb-4">Enterprise</h3>
+                <div className="flex items-baseline gap-1 mb-2">
+                  <span className="text-5xl font-black">Custom</span>
+                </div>
+                <p className="text-slate-500 font-medium mb-8">For high-volume operations.</p>
+                <ul className="space-y-4 mb-10">
+                  {["Everything in Pro", "Custom Integrations", "Dedicated Account Manager", "SLA & Uptime Guarantee", "Volume Discounts"].map((item, i) => (
+                    <li key={i} className="flex items-center gap-3 text-slate-600 font-medium">
+                      <CheckCircle2 size={18} className="text-blue-500 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/register" className="block w-full text-center py-4 bg-slate-100 text-slate-700 rounded-2xl font-bold hover:bg-slate-200 transition-colors">
+                  Contact Sales
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Testimonials */}
         <section className="py-32 bg-slate-900 text-white overflow-hidden relative">
           <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -231,7 +316,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="flex flex-col items-center md:items-start gap-4">
-              <Image src="/images/qalt-dark.png" alt="Qalt" width={200} height={60} className="h-14 w-auto" />
+              <Image src="/images/qalt-logo.png" alt="Qalt" width={200} height={60} className="h-12 w-auto" />
               <p className="text-slate-400 font-medium">© 2024 Qalt SaaS. All rights reserved.</p>
             </div>
             <div className="flex gap-10 text-sm font-bold text-slate-400 uppercase tracking-widest">
@@ -242,6 +327,14 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
+      {/* Scroll to Top Button */}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        className={`fixed bottom-8 right-8 z-50 w-12 h-12 bg-blue-600 text-white rounded-full shadow-xl shadow-blue-500/25 flex items-center justify-center hover:bg-blue-700 hover:scale-110 transition-all duration-300 ${showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
+        aria-label="Scroll to top"
+      >
+        <ArrowUp size={20} />
+      </button>
     </div>
   );
 }
