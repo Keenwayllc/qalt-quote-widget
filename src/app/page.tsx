@@ -197,70 +197,80 @@ export default function LandingPage() {
               <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium">Start free. Upgrade when you&apos;re ready to scale.</p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto items-end">
+            <div className="grid md:grid-cols-3 gap-px bg-slate-200 rounded-2xl overflow-hidden shadow-sm max-w-5xl mx-auto">
               {/* Starter */}
-              <div className="bg-linear-to-b from-white to-slate-50 p-9 rounded-2xl border border-slate-200 hover:shadow-md transition-all">
-                <div className="w-1 h-7 bg-slate-300 rounded-full mb-5" />
-                <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-5">Starter</h3>
-                <div className="flex items-baseline gap-1 mb-1">
+              <div className="bg-white p-10 flex flex-col">
+                <div className="border-t-4 border-slate-300 -mx-10 -mt-10 mb-8 pt-8 px-10">
+                  <div className="flex items-center gap-3 mb-1">
+                    <h3 className="text-base font-black text-slate-800">Starter</h3>
+                  </div>
+                  <p className="text-slate-500 text-sm font-medium leading-snug">Perfect for trying Qalt out.</p>
+                </div>
+                <div className="mb-1">
                   <span className="text-5xl font-black text-slate-900">Free</span>
                 </div>
-                <p className="text-slate-500 font-medium text-sm mt-3 mb-7">Perfect for trying Qalt out.</p>
-                <ul className="space-y-3 mb-8">
-                  {["1 Quote Widget", "50 Quotes/month", "Basic Customization", "Email Support"].map((item, i) => (
-                    <li key={i} className="flex items-center gap-2.5 text-slate-600 font-medium text-sm">
-                      <CheckCircle2 size={16} className="text-blue-500 shrink-0" />{item}
-                    </li>
-                  ))}
-                </ul>
-                <Link href="/register" className="block w-full text-center py-3.5 bg-white border border-slate-300 text-slate-700 rounded-lg font-bold text-sm hover:bg-slate-50 transition-colors">
+                <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-6">Forever free</p>
+                <Link href="/register" className="block w-full text-center py-3 border-2 border-slate-900 text-slate-900 rounded-lg font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
                   Get Started Free
                 </Link>
-              </div>
-
-              {/* Pro — gradient elevated */}
-              <div className="bg-linear-to-br from-blue-600 via-blue-600 to-blue-800 p-9 rounded-2xl text-white shadow-2xl shadow-blue-600/30 relative md:-translate-y-4 hover:-translate-y-5 transition-all">
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 bg-yellow-400 text-slate-900 rounded-full text-[10px] font-black uppercase tracking-widest whitespace-nowrap">Most Popular</div>
-                <div className="w-1 h-7 bg-blue-300/50 rounded-full mb-5" />
-                <h3 className="text-[11px] font-black uppercase tracking-widest text-blue-300 mb-5">Pro</h3>
-                <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-5xl font-black">$29</span>
-                  <span className="text-blue-300 font-medium">/mo</span>
-                </div>
-                <p className="text-blue-300 text-xs font-bold mt-1">Billed annually</p>
-                <p className="text-blue-100 font-medium text-sm mt-3 mb-7">For growing delivery companies.</p>
-                <ul className="space-y-3 mb-8">
-                  {["Unlimited Widgets", "Unlimited Quotes", "Full White-Label", "Analytics Dashboard", "Priority Support"].map((item, i) => (
-                    <li key={i} className="flex items-center gap-2.5 text-white/90 font-medium text-sm">
-                      <CheckCircle2 size={16} className="text-yellow-400 shrink-0" />{item}
+                <ul className="space-y-3 mt-auto">
+                  {["1 Quote Widget", "50 Quotes/month", "Basic Customization", "Email Support"].map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
+                      <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
                     </li>
                   ))}
                 </ul>
-                <Link href="/register" className="block w-full text-center py-3.5 bg-white text-blue-700 rounded-lg font-bold text-sm hover:bg-blue-50 transition-colors">
+              </div>
+
+              {/* Pro — dark card, Freshdesk style */}
+              <div className="bg-linear-to-b from-slate-900 to-slate-800 p-10 flex flex-col relative">
+                <div className="border-t-4 border-blue-500 -mx-10 -mt-10 mb-8 pt-8 px-10">
+                  <div className="flex items-center gap-3 mb-1">
+                    <h3 className="text-base font-black text-white">Pro</h3>
+                    <span className="px-2.5 py-0.5 bg-blue-500 text-white rounded-full text-[10px] font-black uppercase tracking-widest">Most Popular</span>
+                  </div>
+                  <p className="text-slate-400 text-sm font-medium leading-snug">For growing delivery companies.</p>
+                </div>
+                <div className="mb-1">
+                  <span className="text-5xl font-black text-white">$29</span>
+                  <span className="text-slate-400 font-medium text-lg ml-1">/mo</span>
+                </div>
+                <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-6">Billed annually · $39/mo monthly</p>
+                <Link href="/register" className="block w-full text-center py-3 bg-blue-600 text-white rounded-lg font-bold text-sm hover:bg-blue-500 active:scale-[0.98] transition-all mb-8 shadow-lg shadow-blue-900/40">
                   Start Free Trial
                 </Link>
-              </div>
-
-              {/* Enterprise — dark gradient */}
-              <div className="bg-linear-to-br from-slate-800 via-slate-900 to-slate-900 p-9 rounded-2xl border border-slate-700 text-white hover:shadow-xl transition-all">
-                <div className="w-1 h-7 bg-slate-500 rounded-full mb-5" />
-                <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-5">Enterprise</h3>
-                <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-5xl font-black text-white">$79</span>
-                  <span className="text-slate-400 font-medium">/mo</span>
-                </div>
-                <p className="text-slate-500 text-xs font-bold mt-1">Billed annually</p>
-                <p className="text-slate-400 font-medium text-sm mt-3 mb-7">For high-volume operations.</p>
-                <ul className="space-y-3 mb-8">
-                  {["Everything in Pro", "Custom Integrations", "Dedicated Account Manager", "SLA & Uptime Guarantee", "Volume Discounts"].map((item, i) => (
-                    <li key={i} className="flex items-center gap-2.5 text-slate-300 font-medium text-sm">
-                      <CheckCircle2 size={16} className="text-blue-400 shrink-0" />{item}
+                <ul className="space-y-3 mt-auto">
+                  {["Unlimited Widgets", "Unlimited Quotes", "Full White-Label", "Analytics Dashboard", "Priority Support"].map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-slate-300 font-medium text-sm">
+                      <CheckCircle2 size={16} className="text-blue-400 shrink-0 mt-0.5" />{item}
                     </li>
                   ))}
                 </ul>
-                <Link href="/register" className="block w-full text-center py-3.5 bg-white/10 border border-white/20 text-white rounded-lg font-bold text-sm hover:bg-white/20 transition-colors">
+              </div>
+
+              {/* Enterprise */}
+              <div className="bg-white p-10 flex flex-col">
+                <div className="border-t-4 border-slate-900 -mx-10 -mt-10 mb-8 pt-8 px-10">
+                  <div className="flex items-center gap-3 mb-1">
+                    <h3 className="text-base font-black text-slate-800">Enterprise</h3>
+                  </div>
+                  <p className="text-slate-500 text-sm font-medium leading-snug">For high-volume operations.</p>
+                </div>
+                <div className="mb-1">
+                  <span className="text-5xl font-black text-slate-900">$79</span>
+                  <span className="text-slate-400 font-medium text-lg ml-1">/mo</span>
+                </div>
+                <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-6">Billed annually · $99/mo monthly</p>
+                <Link href="/register" className="block w-full text-center py-3 border-2 border-slate-900 text-slate-900 rounded-lg font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
                   Contact Sales
                 </Link>
+                <ul className="space-y-3 mt-auto">
+                  {["Everything in Pro", "Custom Integrations", "Dedicated Account Manager", "SLA & Uptime Guarantee", "Volume Discounts"].map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
+                      <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
 
