@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
@@ -38,15 +39,21 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative">
+      <Link href="/" className="absolute top-6 left-6 flex items-center gap-2 text-slate-500 hover:text-blue-600 transition-colors font-medium text-sm group">
+        <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+        Back to Home
+      </Link>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <Image 
-          src="/images/qalt-with-tagline.png" 
-          alt="Qalt Logo" 
-          width={400} 
-          height={120} 
-          className="mx-auto h-32 w-auto mb-10"
-        />
+        <Link href="/">
+          <Image
+            src="/images/qalt-with-tagline.png"
+            alt="Qalt Logo"
+            width={400}
+            height={120}
+            className="mx-auto h-32 w-auto mb-10"
+          />
+        </Link>
         <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">
           Log in to Qalt
         </h2>
