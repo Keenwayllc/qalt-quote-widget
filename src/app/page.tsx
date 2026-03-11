@@ -156,12 +156,12 @@ export default function LandingPage() {
                   desc: "Built on top-tier infrastructure for 99.9% uptime and lightning-fast loading."
                 }
               ].map((feature, i) => (
-                <div key={i} className="bg-white p-10 rounded-[32px] border border-slate-100 hover:shadow-xl hover:shadow-blue-900/5 transition-all group">
-                  <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                <div key={i} className="bg-linear-to-b from-white to-slate-50 p-9 rounded-xl border border-slate-200 hover:shadow-lg hover:shadow-blue-900/5 hover:-translate-y-1 transition-all group">
+                  <div className="w-12 h-12 bg-blue-600/10 border border-blue-100 rounded-lg flex items-center justify-center mb-7 group-hover:bg-blue-600/15 transition-colors">
                     {feature.icon}
                   </div>
-                  <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
-                  <p className="text-slate-500 leading-relaxed font-medium">{feature.desc}</p>
+                  <h3 className="text-xl font-black mb-3 text-slate-900">{feature.title}</h3>
+                  <p className="text-slate-500 leading-relaxed font-medium text-sm">{feature.desc}</p>
                 </div>
               ))}
             </div>
@@ -179,10 +179,10 @@ export default function LandingPage() {
                 { step: "02", title: "Set Rates", desc: "Build your flat or dynamic pricing." },
                 { step: "03", title: "Copy & Paste", desc: "Embed the code on your site." }
               ].map((step, i) => (
-                <div key={i} className="flex-1 bg-white p-8 rounded-3xl border border-slate-50 shadow-sm relative z-10 hover:-translate-y-2 transition-transform duration-500">
-                  <span className="text-6xl font-black text-blue-50/50 absolute top-4 left-4 -z-10">{step.step}</span>
-                  <h3 className="text-xl font-black mb-3 text-slate-900">{step.title}</h3>
-                  <p className="text-slate-500 font-medium">{step.desc}</p>
+                <div key={i} className="flex-1 bg-linear-to-br from-white to-slate-50 p-8 rounded-xl border border-slate-200 shadow-sm relative z-10 hover:-translate-y-2 transition-transform duration-500 overflow-hidden">
+                  <span className="text-8xl font-black text-slate-100 absolute -top-2 -right-2 select-none pointer-events-none leading-none">{step.step}</span>
+                  <h3 className="text-lg font-black mb-2 text-slate-900">{step.title}</h3>
+                  <p className="text-slate-500 font-medium text-sm">{step.desc}</p>
                 </div>
               ))}
             </div>
@@ -197,99 +197,107 @@ export default function LandingPage() {
               <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium">Start free. Upgrade when you&apos;re ready to scale.</p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              {/* Free */}
-              <div className="bg-white p-10 rounded-[32px] border border-slate-100 hover:shadow-xl transition-all">
-                <h3 className="text-lg font-bold uppercase tracking-widest text-slate-400 mb-4">Starter</h3>
-                <div className="flex items-baseline gap-1 mb-2">
-                  <span className="text-5xl font-black">$0</span>
-                  <span className="text-slate-400 font-medium">/mo</span>
+            <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto items-end">
+              {/* Starter */}
+              <div className="bg-linear-to-b from-white to-slate-50 p-9 rounded-2xl border border-slate-200 hover:shadow-md transition-all">
+                <div className="w-1 h-7 bg-slate-300 rounded-full mb-5" />
+                <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-5">Starter</h3>
+                <div className="flex items-baseline gap-1 mb-1">
+                  <span className="text-5xl font-black text-slate-900">Free</span>
                 </div>
-                <p className="text-slate-500 font-medium mb-8">Perfect for trying Qalt out.</p>
-                <ul className="space-y-4 mb-10">
+                <p className="text-slate-500 font-medium text-sm mt-3 mb-7">Perfect for trying Qalt out.</p>
+                <ul className="space-y-3 mb-8">
                   {["1 Quote Widget", "50 Quotes/month", "Basic Customization", "Email Support"].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 text-slate-600 font-medium">
-                      <CheckCircle2 size={18} className="text-blue-500 shrink-0" />
-                      {item}
+                    <li key={i} className="flex items-center gap-2.5 text-slate-600 font-medium text-sm">
+                      <CheckCircle2 size={16} className="text-blue-500 shrink-0" />{item}
                     </li>
                   ))}
                 </ul>
-                <Link href="/register" className="block w-full text-center py-4 bg-slate-100 text-slate-700 rounded-2xl font-bold hover:bg-slate-200 transition-colors">
+                <Link href="/register" className="block w-full text-center py-3.5 bg-white border border-slate-300 text-slate-700 rounded-lg font-bold text-sm hover:bg-slate-50 transition-colors">
                   Get Started Free
                 </Link>
               </div>
 
-              {/* Pro — highlighted */}
-              <div className="bg-blue-600 p-10 rounded-[32px] text-white shadow-2xl shadow-blue-500/20 relative scale-[1.03] hover:scale-105 transition-transform">
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-5 py-1.5 bg-yellow-400 text-slate-900 rounded-full text-xs font-black uppercase tracking-widest">Most Popular</div>
-                <h3 className="text-lg font-bold uppercase tracking-widest text-blue-200 mb-4">Pro</h3>
-                <div className="flex items-baseline gap-1 mb-2">
-                  <span className="text-5xl font-black">$19</span>
-                  <span className="text-blue-200 font-medium">/mo</span>
+              {/* Pro — gradient elevated */}
+              <div className="bg-linear-to-br from-blue-600 via-blue-600 to-blue-800 p-9 rounded-2xl text-white shadow-2xl shadow-blue-600/30 relative md:-translate-y-4 hover:-translate-y-5 transition-all">
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 bg-yellow-400 text-slate-900 rounded-full text-[10px] font-black uppercase tracking-widest whitespace-nowrap">Most Popular</div>
+                <div className="w-1 h-7 bg-blue-300/50 rounded-full mb-5" />
+                <h3 className="text-[11px] font-black uppercase tracking-widest text-blue-300 mb-5">Pro</h3>
+                <div className="flex items-baseline gap-1 mb-1">
+                  <span className="text-5xl font-black">$29</span>
+                  <span className="text-blue-300 font-medium">/mo</span>
                 </div>
-                <p className="text-blue-100 font-medium mb-8">For growing delivery companies.</p>
-                <ul className="space-y-4 mb-10">
+                <p className="text-blue-300 text-xs font-bold mt-1">Billed annually</p>
+                <p className="text-blue-100 font-medium text-sm mt-3 mb-7">For growing delivery companies.</p>
+                <ul className="space-y-3 mb-8">
                   {["Unlimited Widgets", "Unlimited Quotes", "Full White-Label", "Analytics Dashboard", "Priority Support"].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 text-white/90 font-medium">
-                      <CheckCircle2 size={18} className="text-yellow-400 shrink-0" />
-                      {item}
+                    <li key={i} className="flex items-center gap-2.5 text-white/90 font-medium text-sm">
+                      <CheckCircle2 size={16} className="text-yellow-400 shrink-0" />{item}
                     </li>
                   ))}
                 </ul>
-                <Link href="/register" className="block w-full text-center py-4 bg-white text-blue-600 rounded-2xl font-bold hover:bg-blue-50 transition-colors">
-                  Start Pro Trial
+                <Link href="/register" className="block w-full text-center py-3.5 bg-white text-blue-700 rounded-lg font-bold text-sm hover:bg-blue-50 transition-colors">
+                  Start Free Trial
                 </Link>
               </div>
 
-              {/* Enterprise */}
-              <div className="bg-white p-10 rounded-[32px] border border-slate-100 hover:shadow-xl transition-all">
-                <h3 className="text-lg font-bold uppercase tracking-widest text-slate-400 mb-4">Enterprise</h3>
-                <div className="flex items-baseline gap-1 mb-2">
-                  <span className="text-5xl font-black">Custom</span>
+              {/* Enterprise — dark gradient */}
+              <div className="bg-linear-to-br from-slate-800 via-slate-900 to-slate-900 p-9 rounded-2xl border border-slate-700 text-white hover:shadow-xl transition-all">
+                <div className="w-1 h-7 bg-slate-500 rounded-full mb-5" />
+                <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-5">Enterprise</h3>
+                <div className="flex items-baseline gap-1 mb-1">
+                  <span className="text-5xl font-black text-white">$79</span>
+                  <span className="text-slate-400 font-medium">/mo</span>
                 </div>
-                <p className="text-slate-500 font-medium mb-8">For high-volume operations.</p>
-                <ul className="space-y-4 mb-10">
+                <p className="text-slate-500 text-xs font-bold mt-1">Billed annually</p>
+                <p className="text-slate-400 font-medium text-sm mt-3 mb-7">For high-volume operations.</p>
+                <ul className="space-y-3 mb-8">
                   {["Everything in Pro", "Custom Integrations", "Dedicated Account Manager", "SLA & Uptime Guarantee", "Volume Discounts"].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 text-slate-600 font-medium">
-                      <CheckCircle2 size={18} className="text-blue-500 shrink-0" />
-                      {item}
+                    <li key={i} className="flex items-center gap-2.5 text-slate-300 font-medium text-sm">
+                      <CheckCircle2 size={16} className="text-blue-400 shrink-0" />{item}
                     </li>
                   ))}
                 </ul>
-                <Link href="/register" className="block w-full text-center py-4 bg-slate-100 text-slate-700 rounded-2xl font-bold hover:bg-slate-200 transition-colors">
+                <Link href="/register" className="block w-full text-center py-3.5 bg-white/10 border border-white/20 text-white rounded-lg font-bold text-sm hover:bg-white/20 transition-colors">
                   Contact Sales
                 </Link>
               </div>
+            </div>
+
+            <div className="text-center mt-10">
+              <Link href="/pricing" className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors">
+                View full feature comparison →
+              </Link>
             </div>
           </div>
         </section>
 
         {/* Testimonials */}
-        <section className="py-32 bg-slate-900 text-white overflow-hidden relative">
+        <section className="py-32 bg-linear-to-br from-slate-900 via-slate-900 to-blue-950 text-white overflow-hidden relative">
           <div className="max-w-7xl mx-auto px-6 relative z-10">
             <h2 className="text-4xl md:text-5xl font-black mb-16 text-center tracking-tight leading-tight">Trusted by Delivery Titans</h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="p-10 bg-white/5 backdrop-blur-md rounded-[32px] border border-white/10 hover:bg-white/10 transition-colors">
-                <p className="text-2xl font-medium mb-8 leading-relaxed italic opacity-90">
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="p-9 bg-white/5 border border-white/10 rounded-xl hover:bg-white/8 transition-colors">
+                <p className="text-xl font-medium mb-8 leading-relaxed italic text-white/80">
                   &quot;The conversion rate jump was immediate. We used to lose leads because of manual pricing delay. With Qalt, it&apos;s instant.&quot;
                 </p>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center font-bold">JD</div>
+                  <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center font-bold text-sm">JD</div>
                   <div>
-                    <div className="font-bold text-lg">John Doe</div>
-                    <div className="text-blue-400 text-sm font-bold uppercase tracking-widest">CEO, QuickShip Ltd.</div>
+                    <div className="font-bold">John Doe</div>
+                    <div className="text-blue-400 text-xs font-black uppercase tracking-widest">CEO, QuickShip Ltd.</div>
                   </div>
                 </div>
               </div>
-              <div className="p-10 bg-white/5 backdrop-blur-md rounded-[32px] border border-white/10 hover:bg-white/10 transition-colors translate-y-8 md:translate-y-12">
-                <p className="text-2xl font-medium mb-8 leading-relaxed italic opacity-90">
+              <div className="p-9 bg-white/5 border border-white/10 rounded-xl hover:bg-white/8 transition-colors md:translate-y-10">
+                <p className="text-xl font-medium mb-8 leading-relaxed italic text-white/80">
                   &quot;Implementing the Qalt widget was the best tech decision we made this year. Took 5 minutes and works perfectly.&quot;
                 </p>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center font-bold">SS</div>
+                  <div className="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center font-bold text-sm">SS</div>
                   <div>
-                    <div className="font-bold text-lg">Sarah Smith</div>
-                    <div className="text-green-400 text-sm font-bold uppercase tracking-widest">Founder, Swift Delivery</div>
+                    <div className="font-bold">Sarah Smith</div>
+                    <div className="text-emerald-400 text-xs font-black uppercase tracking-widest">Founder, Swift Delivery</div>
                   </div>
                 </div>
               </div>
@@ -300,12 +308,12 @@ export default function LandingPage() {
         {/* Final CTA */}
         <section className="py-40 relative bg-white overflow-hidden">
           <div className="max-w-4xl mx-auto px-6 text-center">
-            <div className="w-24 h-24 bg-blue-600 rounded-[32px] mx-auto mb-10 flex items-center justify-center shadow-2xl shadow-blue-500/20 rotate-12">
-              <Zap size={48} className="text-white fill-white" />
+            <div className="w-20 h-20 bg-linear-to-br from-blue-500 to-blue-700 rounded-2xl mx-auto mb-10 flex items-center justify-center shadow-2xl shadow-blue-500/25 rotate-6">
+              <Zap size={40} className="text-white fill-white" />
             </div>
             <h2 className="text-5xl md:text-7xl font-black mb-8 tracking-tighter leading-[0.9]">Start Automating<br />Your Quotes Today</h2>
             <p className="text-xl text-slate-500 mb-12 font-medium">Join companies scaling with our premium embeddable quote widget.</p>
-            <Link href="/register" className="inline-flex px-12 py-6 bg-blue-600 text-white rounded-2xl font-black text-lg hover:bg-blue-700 hover:scale-105 transition-all shadow-xl shadow-blue-200">
+            <Link href="/register" className="inline-flex px-12 py-5 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-xl font-black text-lg hover:from-blue-700 hover:to-blue-800 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-blue-300">
               Create Your Account
             </Link>
           </div>
