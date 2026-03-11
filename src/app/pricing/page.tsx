@@ -291,82 +291,99 @@ export default function PricingPage() {
 
         {/* Tier Cards */}
         <div className="max-w-5xl mx-auto px-6 mb-24">
-          <div className="grid md:grid-cols-3 gap-px bg-slate-200 rounded-2xl overflow-hidden shadow-sm">
+          <div className="grid md:grid-cols-3 gap-6 items-stretch">
 
             {/* Starter */}
-            <div className="bg-white p-10 flex flex-col">
-              <div className="border-t-4 border-slate-300 -mx-10 -mt-10 mb-8 pt-8 px-10">
-                <div className="flex items-center gap-3 mb-1">
-                  <h3 className="text-base font-black text-slate-800">Starter</h3>
+            <div className="bg-linear-to-br from-sky-50 via-white to-blue-50 border border-blue-100 rounded-2xl p-10 flex flex-col shadow-sm hover:shadow-md transition-shadow">
+              {/* Header */}
+              <div className="mb-8 pb-8 border-b border-blue-100">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="w-2 h-2 rounded-full bg-slate-400" />
+                  <h3 className="text-sm font-black uppercase tracking-widest text-slate-500">Starter</h3>
                 </div>
-                <p className="text-slate-500 text-sm font-medium leading-snug">Perfect for trying Qalt out.</p>
+                <p className="text-slate-600 text-sm font-medium leading-snug">Perfect for trying Qalt. No credit card needed.</p>
               </div>
+              {/* Price */}
               <div className="mb-1">
-                <span className="text-5xl font-black text-slate-900">Free</span>
+                <span className="text-6xl font-black text-slate-900 tracking-tight">Free</span>
               </div>
-              <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-6">Forever free</p>
-              <Link href="/register" className="block w-full text-center py-3 border-2 border-slate-900 text-slate-900 rounded-lg font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
+              <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-8">Forever · No card required</p>
+              {/* CTA */}
+              <Link href="/register" className="block w-full text-center py-3.5 border-2 border-slate-800 text-slate-800 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
                 Get Started Free
               </Link>
-              <ul className="space-y-3 mt-auto">
+              {/* Features */}
+              <ul className="space-y-3.5 mt-auto">
                 {["1 Quote Widget", "50 Quotes/month", "Basic Customization", "Email Support"].map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
-                    <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
+                  <li key={item} className="flex items-center gap-3 text-slate-600 font-medium text-sm">
+                    <CheckCircle2 size={15} className="text-blue-400 shrink-0" />{item}
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Pro — dark card */}
-            <div className="bg-linear-to-b from-slate-900 to-slate-800 p-10 flex flex-col">
-              <div className="border-t-4 border-blue-500 -mx-10 -mt-10 mb-8 pt-8 px-10">
-                <div className="flex items-center gap-3 mb-1">
-                  <h3 className="text-base font-black text-white">Pro</h3>
-                  <span className="px-2.5 py-0.5 bg-blue-500 text-white rounded-full text-[10px] font-black uppercase tracking-widest">Most Popular</span>
+            {/* Pro — elevated dark card */}
+            <div className="bg-linear-to-br from-slate-900 via-blue-950 to-slate-900 rounded-2xl p-10 flex flex-col shadow-2xl shadow-blue-950/40 relative md:-translate-y-4 border border-blue-900/40">
+              {/* Most Popular badge */}
+              <div className="absolute top-0 inset-x-0 h-1 bg-linear-to-r from-blue-500 via-blue-400 to-blue-600 rounded-t-2xl" />
+              {/* Header */}
+              <div className="mb-8 pb-8 border-b border-white/10">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-400" />
+                  <h3 className="text-sm font-black uppercase tracking-widest text-blue-300">Pro</h3>
+                  <span className="ml-auto px-2.5 py-0.5 bg-blue-500/20 border border-blue-500/30 text-blue-300 rounded-full text-[10px] font-black uppercase tracking-widest">Most Popular</span>
                 </div>
-                <p className="text-slate-400 text-sm font-medium leading-snug">For growing delivery companies.</p>
+                <p className="text-slate-400 text-sm font-medium leading-snug">For growing delivery companies that need scale.</p>
               </div>
-              <div className="mb-1">
-                <span className="text-5xl font-black text-white">{annual ? "$29" : "$39"}</span>
-                <span className="text-slate-400 font-medium text-lg ml-1">/mo</span>
+              {/* Price */}
+              <div className="mb-1 flex items-end gap-2">
+                <span className="text-6xl font-black text-white tracking-tight">{annual ? "$29" : "$39"}</span>
+                <span className="text-slate-400 font-medium text-lg mb-2">/mo</span>
               </div>
-              <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-6">
-                {annual ? "Billed $348/year" : "Billed monthly"}
+              <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-8">
+                {annual ? "Billed $348 annually · save $120" : "Switch to annual & save $120/yr"}
               </p>
-              <Link href="/register" className="block w-full text-center py-3 bg-blue-600 text-white rounded-lg font-bold text-sm hover:bg-blue-500 active:scale-[0.98] transition-all mb-8 shadow-lg shadow-blue-900/40">
+              {/* CTA */}
+              <Link href="/register" className="block w-full text-center py-3.5 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-500 active:scale-[0.98] transition-all mb-8 shadow-lg shadow-blue-900/60">
                 Start Free Trial
               </Link>
-              <ul className="space-y-3 mt-auto">
+              {/* Features */}
+              <ul className="space-y-3.5 mt-auto">
                 {["Unlimited Widgets", "Unlimited Quotes", "Full White-Label", "Analytics Dashboard", "Priority Support"].map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-slate-300 font-medium text-sm">
-                    <CheckCircle2 size={16} className="text-blue-400 shrink-0 mt-0.5" />{item}
+                  <li key={item} className="flex items-center gap-3 text-slate-300 font-medium text-sm">
+                    <CheckCircle2 size={15} className="text-blue-400 shrink-0" />{item}
                   </li>
                 ))}
               </ul>
             </div>
 
             {/* Enterprise */}
-            <div className="bg-white p-10 flex flex-col">
-              <div className="border-t-4 border-slate-900 -mx-10 -mt-10 mb-8 pt-8 px-10">
-                <div className="flex items-center gap-3 mb-1">
-                  <h3 className="text-base font-black text-slate-800">Enterprise</h3>
+            <div className="bg-linear-to-br from-slate-800 via-slate-900 to-slate-800 border border-slate-700/60 rounded-2xl p-10 flex flex-col shadow-sm hover:shadow-md transition-shadow">
+              {/* Header */}
+              <div className="mb-8 pb-8 border-b border-white/10">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="w-2 h-2 rounded-full bg-amber-400" />
+                  <h3 className="text-sm font-black uppercase tracking-widest text-slate-400">Enterprise</h3>
                 </div>
-                <p className="text-slate-500 text-sm font-medium leading-snug">For high-volume operations.</p>
+                <p className="text-slate-400 text-sm font-medium leading-snug">For high-volume operations with custom needs.</p>
               </div>
-              <div className="mb-1">
-                <span className="text-5xl font-black text-slate-900">{annual ? "$79" : "$99"}</span>
-                <span className="text-slate-400 font-medium text-lg ml-1">/mo</span>
+              {/* Price */}
+              <div className="mb-1 flex items-end gap-2">
+                <span className="text-6xl font-black text-white tracking-tight">{annual ? "$79" : "$99"}</span>
+                <span className="text-slate-500 font-medium text-lg mb-2">/mo</span>
               </div>
-              <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-6">
-                {annual ? "Billed $948/year" : "Billed monthly"}
+              <p className="text-slate-600 text-xs font-bold uppercase tracking-widest mb-8">
+                {annual ? "Billed $948 annually" : "Billed monthly"}
               </p>
-              <Link href="/register" className="block w-full text-center py-3 border-2 border-slate-900 text-slate-900 rounded-lg font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
+              {/* CTA */}
+              <Link href="/register" className="block w-full text-center py-3.5 border-2 border-slate-500 text-slate-200 rounded-xl font-bold text-sm hover:border-white hover:text-white active:scale-[0.98] transition-all mb-8">
                 Contact Sales
               </Link>
-              <ul className="space-y-3 mt-auto">
+              {/* Features */}
+              <ul className="space-y-3.5 mt-auto">
                 {["Everything in Pro", "Custom Integrations", "Dedicated Account Manager", "SLA & Uptime Guarantee", "Volume Discounts"].map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
-                    <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
+                  <li key={item} className="flex items-center gap-3 text-slate-400 font-medium text-sm">
+                    <CheckCircle2 size={15} className="text-amber-400/70 shrink-0" />{item}
                   </li>
                 ))}
               </ul>
