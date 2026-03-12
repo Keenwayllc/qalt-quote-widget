@@ -449,10 +449,10 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
         {/* Footer */}
         <div className="px-8 py-5 bg-slate-50/80 border-t border-slate-100/80">
           <p className="text-[10px] text-slate-400 text-center leading-relaxed font-medium">{widgetSettings.disclaimerText}</p>
-          <div className="mt-3 flex items-center justify-center gap-2.5 opacity-40 hover:opacity-70 transition-opacity cursor-default">
+          <a href="https://qalt.site" target="_blank" rel="noopener noreferrer" className="mt-3 flex items-center justify-center gap-2.5 opacity-40 hover:opacity-70 transition-opacity">
             <span className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em]">Powered by</span>
             <Image src="/images/qalt.png" alt="Qalt" width={60} height={18} className="h-4 w-auto" />
-          </div>
+          </a>
         </div>
       </div>
     </div>
