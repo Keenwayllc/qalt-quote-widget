@@ -47,8 +47,8 @@ export default function QaltLogo({
       <QaltIcon
         size={s.icon}
         color="#255d84"
-        eyeColor="#60A5FA"
-        className=""
+        eyeColor="#255d84"
+        className="-translate-y-[2px]"
       />
       {/*
         Image: h-* drives display height, w-auto preserves aspect ratio.

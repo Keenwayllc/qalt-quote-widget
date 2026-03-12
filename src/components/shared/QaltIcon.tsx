@@ -59,7 +59,7 @@ const QaltIcon = ({
         r="38" 
         fill="none" 
         stroke={color} 
-        strokeWidth="14" 
+        strokeWidth="18" 
       />
       
       {/* Left Eye Bar */}
