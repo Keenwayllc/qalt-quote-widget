@@ -28,10 +28,10 @@ interface QaltLogoProps {
 }
 
 const SIZES = {
-  //          iconSize  imageH   imageW  negMarginLeft
-  sm: { icon: 28, h: "h-8",  w: "w-auto", ml: "-ml-1" },
-  md: { icon: 36, h: "h-10", w: "w-auto", ml: "-ml-1.5" },
-  lg: { icon: 44, h: "h-12", w: "w-auto", ml: "-ml-2" },
+  //          iconSize  imageH   imageW  negMarginLeft iconOffset
+  sm: { icon: 28, h: "h-10", w: "w-auto", ml: "-ml-1.5", translateY: "-translate-y-[3px]" },
+  md: { icon: 36, h: "h-12", w: "w-auto", ml: "-ml-2",   translateY: "-translate-y-[5px]" },
+  lg: { icon: 44, h: "h-14", w: "w-auto", ml: "-ml-2.5", translateY: "-translate-y-[6px]" },
 } as const;
 
 export default function QaltLogo({
@@ -48,7 +48,7 @@ export default function QaltLogo({
         size={s.icon}
         color="#255d84"
         eyeColor="#255d84"
-        className="-translate-y-[2px]"
+        className={s.translateY}
       />
       {/*
         Image: h-* drives display height, w-auto preserves aspect ratio.
