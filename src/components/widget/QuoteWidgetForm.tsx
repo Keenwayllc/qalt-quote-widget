@@ -452,10 +452,10 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
           <p className="text-[10px] text-slate-400 text-center leading-relaxed font-medium">{widgetSettings.disclaimerText}</p>
           <a href="https://qalt.site" target="_blank" rel="noopener noreferrer" className="mt-3 flex items-center justify-center gap-2.5 opacity-40 hover:opacity-70 transition-opacity">
             <span className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em]">Powered by</span>
-            <div className="flex items-center gap-1 scale-75 opacity-70 transform origin-right">
-            <QaltIcon size={24} />
-            <Image src="/images/qalt.png" alt="Qalt Logo" width={70} height={20} className="h-5 w-auto object-contain -translate-y-[2px]" />
-          </div>
+            <div className="flex items-center gap-1.5 scale-75 opacity-70 transform origin-right">
+              <QaltIcon size={20} />
+              <Image src="/images/qalt.png" alt="Qalt Logo" width={80} height={24} className="h-6 w-auto object-contain" />
+            </div>
           </a>
         </div>
       </div>

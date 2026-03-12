@@ -123,9 +123,9 @@ export default function PricingPage() {
       {/* Nav */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-1.5">
-            <QaltIcon size={40} />
-            <Image src="/images/qalt.png" alt="Qalt Logo" width={115} height={34} className="h-9 w-auto object-contain -translate-y-[2px]" />
+          <Link href="/" className="flex items-center gap-2">
+            <QaltIcon size={36} />
+            <Image src="/images/qalt.png" alt="Qalt Logo" width={140} height={42} className="h-10 w-auto object-contain -translate-y-[1px]" />
           </Link>
           <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500 uppercase tracking-widest">
             <Link href="/#features" className="hover:text-blue-600 transition-colors">Features</Link>
