@@ -18,9 +18,9 @@ interface QaltIconProps {
  */
 const QaltIcon = ({ 
   size = 100, 
-  color = "#1E40AF", 
+  color = "currentColor", 
   eyeColor = "#60A5FA",
-  className = "" 
+  className = "text-[#32496a] dark:text-white" 
 }: QaltIconProps) => {
   // Animation keyframes for the blink effect (4s interval)
   const blinkAnimation = (

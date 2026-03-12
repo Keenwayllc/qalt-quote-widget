@@ -47,8 +47,10 @@ export default function LoginPage() {
       </Link>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <Link href="/" className="flex flex-col items-center mb-6">
-          <QaltIcon size={80} />
-          <Image src="/images/qalt.png" alt="Qalt Logo" width={240} height={72} className="h-20 w-auto object-contain mt-4" />
+          <div className="flex items-center gap-1.5 scale-125">
+            <QaltIcon size={48} />
+            <Image src="/images/qalt.png" alt="Qalt Logo" width={135} height={40} className="h-10 w-auto object-contain" />
+          </div>
         </Link>
         <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">
           Log in to Qalt
