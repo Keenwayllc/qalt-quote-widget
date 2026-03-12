@@ -40,6 +40,8 @@ export function estimatePrice(
   rules: {
     baseRatePerMile: number;
     minimumCharge: number;
+    useMinimumCharge: boolean;
+    minMilesThreshold: number;
     weightFee: number;
     itemCountFee: number;
     stairsFee: number;
@@ -56,10 +58,12 @@ export function estimatePrice(
     itemCount?: number;
   }
 ): number {
-  let total = distance * rules.baseRatePerMile;
+  // Subtract threshold from distance
+  const distanceToCharge = Math.max(0, distance - rules.minMilesThreshold);
+  let total = distanceToCharge * rules.baseRatePerMile;
 
-  // Apply minimum charge if distance-based price is lower
-  if (total < rules.minimumCharge) {
+  // Apply minimum charge if toggled on and distance-based price is lower
+  if (rules.useMinimumCharge && total < rules.minimumCharge) {
     total = rules.minimumCharge;
   }
 

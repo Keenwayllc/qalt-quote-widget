@@ -10,7 +10,7 @@ interface Plan {
   price: string;
   priceDetail: string;
   description: string;
-  icon: any;
+  icon: React.ElementType;
   features: string[];
   color: string;
 }
@@ -128,14 +128,7 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
           </div>
 
           <ul className="space-y-4 mb-10 flex-1">
-            {plan.featureList?.map((feature) => (
-              <li key={feature} className="flex items-start gap-3">
-                <div className="mt-1 shrink-0 w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center">
-                  <Check size={12} className="text-emerald-600" strokeWidth={3} />
-                </div>
-                <span className="text-sm text-slate-600 font-medium">{feature}</span>
-              </li>
-            )) || plan.features.map((feature) => (
+            {plan.features.map((feature) => (
               <li key={feature} className="flex items-start gap-3">
                 <div className="mt-1 shrink-0 w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center">
                   <Check size={12} className="text-emerald-600" strokeWidth={3} />

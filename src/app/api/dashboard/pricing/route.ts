@@ -14,18 +14,21 @@ export async function POST(req: Request) {
 
     const data = await req.json();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await prisma.pricingProfile.update({
       where: { companyId: payload.companyId },
-      data: {
+      data: ({
         baseRatePerMile: data.baseRatePerMile,
         minimumCharge: data.minimumCharge,
+        useMinimumCharge: data.useMinimumCharge,
+        minMilesThreshold: data.minMilesThreshold,
         weightFee: data.weightFee || 0,
         itemCountFee: data.itemCountFee || 0,
         stairsFee: data.stairsFee || 0,
         insideDeliveryFee: data.insideDeliveryFee || 0,
         afterHoursFee: data.afterHoursFee || 0,
         largeItemFee: data.largeItemFee || 0,
-      },
+      } as unknown) as any,
     });
 
     return NextResponse.json({ success: true });

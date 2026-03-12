@@ -27,9 +27,11 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       return NextResponse.json({ error: "Invalid ZIP code(s)" }, { status: 400 });
     }
 
-    const estimate = estimatePrice(distance, company.pricingProfile as {
+    const estimate = estimatePrice(distance, (company.pricingProfile as unknown) as {
       baseRatePerMile: number;
       minimumCharge: number;
+      useMinimumCharge: boolean;
+      minMilesThreshold: number;
       weightFee: number;
       itemCountFee: number;
       stairsFee: number;

@@ -27,6 +27,8 @@ model PricingProfile {
   companyId         String  @unique
   baseRatePerMile   Float   @default(2.50)
   minimumCharge     Float   @default(35.00)
+  useMinimumCharge  Boolean @default(true)
+  minMilesThreshold Float   @default(0)
   weightFee         Float   @default(0)
   itemCountFee      Float   @default(0)
   stairsFee         Float   @default(0)

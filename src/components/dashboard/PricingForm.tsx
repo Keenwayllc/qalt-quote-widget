@@ -7,6 +7,8 @@ import { DollarSign, Save, Weight } from "lucide-react";
 interface PricingProfile {
   baseRatePerMile: number;
   minimumCharge: number;
+  useMinimumCharge: boolean;
+  minMilesThreshold: number;
   weightFee: number;
   itemCountFee: number;
   stairsFee: number;
@@ -29,6 +31,8 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
     const data = {
       baseRatePerMile: parseFloat(formData.get("baseRatePerMile") as string),
       minimumCharge: parseFloat(formData.get("minimumCharge") as string),
+      useMinimumCharge: formData.get("useMinimumCharge") === "on",
+      minMilesThreshold: parseFloat(formData.get("minMilesThreshold") as string),
       weightFee: parseFloat(formData.get("weightFee") as string),
       itemCountFee: parseFloat(formData.get("itemCountFee") as string),
       stairsFee: parseFloat(formData.get("stairsFee") as string),
@@ -85,6 +89,18 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
               />
             </div>
             <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Free Miles Threshold (Distance)</label>
+              <input
+                name="minMilesThreshold"
+                type="number"
+                step="0.1"
+                required
+                defaultValue={initialData?.minMilesThreshold ?? 0}
+                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+              />
+              <p className="text-xs text-slate-400 mt-1">Number of miles included before per-mile rate kicks in</p>
+            </div>
+            <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Minimum Job Charge ($)</label>
               <input
                 name="minimumCharge"
@@ -94,6 +110,18 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
                 defaultValue={initialData?.minimumCharge}
                 className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
               />
+            </div>
+            <div className="flex items-center gap-3 pt-6">
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  name="useMinimumCharge" 
+                  defaultChecked={initialData?.useMinimumCharge ?? true}
+                  className="sr-only peer" 
+                />
+                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                <span className="ml-3 text-sm font-medium text-slate-700">Apply Minimum Charge</span>
+              </label>
             </div>
           </div>
         </div>
