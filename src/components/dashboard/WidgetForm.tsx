@@ -19,6 +19,8 @@ interface WidgetProps {
       showExtras: boolean;
       disclaimerText: string;
       backgroundImageUrl?: string | null;
+      companyNameText?: string | null;
+      companyNameFont?: string;
     };
   };
 }
@@ -128,7 +130,7 @@ export default function WidgetSettingsForm({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Image Uploads */}
-              <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-slate-50 border border-slate-100 rounded-lg">
+              <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-white border border-slate-300 rounded-lg shadow-sm">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Company Logo</label>
                   <div className="flex items-center gap-4">
@@ -137,7 +139,7 @@ export default function WidgetSettingsForm({
                         <Image src={logo} alt="Logo" fill className="object-contain bg-white rounded-lg border border-slate-200" unoptimized />
                       </div>
                     ) : (
-                      <div className="w-12 h-12 bg-white rounded-lg border border-slate-200 flex items-center justify-center">
+                      <div className="w-12 h-12 bg-white rounded-lg border border-slate-300 flex items-center justify-center">
                         <ImageIcon size={20} className="text-slate-300" />
                       </div>
                     )}
@@ -161,7 +163,7 @@ export default function WidgetSettingsForm({
                     {previewData.backgroundImageUrl ? (
                       <div className="w-24 h-12 rounded-lg border border-slate-200 bg-cover bg-center" style={{ backgroundImage: `url(${previewData.backgroundImageUrl})` }} />
                     ) : (
-                      <div className="w-24 h-12 bg-white rounded-lg border border-slate-200 flex items-center justify-center">
+                      <div className="w-24 h-12 bg-white rounded-lg border border-slate-300 flex items-center justify-center">
                         <ImageIcon size={20} className="text-slate-300" />
                       </div>
                     )}
@@ -178,6 +180,40 @@ export default function WidgetSettingsForm({
                       </label>
                     )}
                   </div>
+                </div>
+              </div>
+
+              {/* Text Branding (Free Plan Option) */}
+              <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-white border border-slate-300 rounded-lg shadow-sm">
+                <div>
+                  <label htmlFor="companyNameText" className="block text-sm font-medium text-slate-700 mb-1">Company Name (Text Branding)</label>
+                  <input
+                    id="companyNameText"
+                    name="companyNameText"
+                    type="text"
+                    placeholder="Your Company"
+                    value={previewData.companyNameText || ""}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                  />
+                  <p className="text-xs text-slate-400 mt-1">Shown if no logo is uploaded (Free plan option)</p>
+                </div>
+                <div>
+                  <label htmlFor="companyNameFont" className="block text-sm font-medium text-slate-700 mb-1">Branding Font</label>
+                  <select
+                    id="companyNameFont"
+                    name="companyNameFont"
+                    value={previewData.companyNameFont || "Inter"}
+                    onChange={(e) => setPreviewData(prev => ({ ...prev, companyNameFont: e.target.value }))}
+                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                  >
+                    <option value="Inter" style={{ fontFamily: 'Inter, sans-serif' }}>Inter (Sans)</option>
+                    <option value="Roboto" style={{ fontFamily: 'Roboto, sans-serif' }}>Roboto (Clean)</option>
+                    <option value="Playfair Display" style={{ fontFamily: 'Playfair Display, serif' }}>Playfair Display (Serif)</option>
+                    <option value="Montserrat" style={{ fontFamily: 'Montserrat, sans-serif' }}>Montserrat (Modern)</option>
+                    <option value="Outfit" style={{ fontFamily: 'Outfit, sans-serif' }}>Outfit (Tech)</option>
+                    <option value="Source Code Pro" style={{ fontFamily: 'Source Code Pro, monospace' }}>Source Code Pro (Mono)</option>
+                  </select>
                 </div>
               </div>
 
@@ -331,7 +367,12 @@ export default function WidgetSettingsForm({
                      <Image src={logo} alt="Logo" fill className="object-contain object-left" unoptimized />
                    </div>
                  ) : (
-                   <div className="text-white font-bold opacity-80">Qalt</div>
+                   <div 
+                     className="text-white font-bold opacity-90 text-lg"
+                     style={{ fontFamily: previewData.companyNameFont || 'Inter' }}
+                   >
+                     {previewData.companyNameText || "Qalt"}
+                   </div>
                  )}
                  <h3 className="font-bold text-white text-xl drop-shadow-md">{previewData.headerText}</h3>
                </div>

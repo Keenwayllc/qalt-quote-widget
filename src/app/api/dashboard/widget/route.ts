@@ -45,6 +45,8 @@ export async function POST(req: Request) {
       headerText:        data.headerText        || "Delivery Quote Calculator",
       disclaimerText:    data.disclaimerText    || "Estimate only. Final price confirmed after booking.",
       backgroundImageUrl: data.backgroundImageUrl ?? null,
+      companyNameText:   data.companyNameText    ?? null,
+      companyNameFont:   data.companyNameFont    || "Inter",
     };
 
     await prisma.widgetSettings.upsert({
