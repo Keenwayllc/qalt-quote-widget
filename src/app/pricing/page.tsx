@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+import QaltIcon from "@/components/shared/QaltIcon";
 import { CheckCircle2, Minus, ChevronDown, ChevronUp } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -122,8 +123,9 @@ export default function PricingPage() {
       {/* Nav */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-          <Link href="/">
-            <Image src="/images/qalt.png" alt="Qalt" width={260} height={78} className="h-20 w-auto" />
+          <Link href="/" className="flex items-center gap-3">
+            <QaltIcon size={48} />
+            <Image src="/images/qalt.png" alt="Qalt Logo" width={160} height={48} className="h-12 w-auto object-contain" />
           </Link>
           <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500 uppercase tracking-widest">
             <Link href="/#features" className="hover:text-blue-600 transition-colors">Features</Link>
@@ -334,8 +336,11 @@ export default function PricingPage() {
       {/* Footer */}
       <footer className="py-20 border-t border-slate-100 bg-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex flex-col items-center md:items-start gap-4">
-            <Image src="/images/qalt.png" alt="Qalt" width={200} height={60} className="h-14 w-auto" />
+          <div className="flex flex-col items-center md:items-start gap-6">
+            <Link href="/" className="flex items-center gap-3">
+              <QaltIcon size={40} />
+              <Image src="/images/qalt.png" alt="Qalt Logo" width={120} height={40} className="h-10 w-auto object-contain" />
+            </Link>
             <p className="text-slate-400 font-medium">© 2024 Qalt SaaS. All rights reserved.</p>
           </div>
           <div className="flex gap-10 text-sm font-bold text-slate-400 uppercase tracking-widest">

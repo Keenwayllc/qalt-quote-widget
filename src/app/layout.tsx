@@ -16,6 +16,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Qalt - Embeddable Quote Calculators for Delivery Companies",
   description: "The easiest way to add an instant delivery quote widget to your website. Boost your leads and save time with Qalt.",
+  icons: {
+    icon: "/qalt_favicon.svg",
+    shortcut: "/qalt_favicon.svg",
+    apple: "/qalt_favicon.svg",
+  },
 };
 
 export default function RootLayout({

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import QaltIcon from "@/components/shared/QaltIcon";
 import { 
   LayoutDashboard, 
   FileText, 
@@ -57,13 +58,10 @@ export default function DashboardLayout({
       `}>
         <div className="flex flex-col h-full">
           <div className="p-8">
-            <Image
-              src="/images/qalt.png"
-              alt="Qalt"
-              width={120}
-              height={40}
-              className="h-10 w-auto object-contain"
-            />
+            <Link href="/" className="flex items-center gap-3">
+              <QaltIcon size={36} />
+              <Image src="/images/qalt.png" alt="Qalt" width={100} height={32} className="h-8 w-auto object-contain" />
+            </Link>
           </div>
         
         <nav className="flex-1 px-4 py-6 space-y-1">
@@ -110,13 +108,10 @@ export default function DashboardLayout({
       <main className="flex-1 flex flex-col min-w-0">
         {/* Mobile header */}
         <header className="md:hidden bg-white border-b border-slate-200 h-24 flex items-center justify-between px-6">
-          <Image 
-            src="/images/qalt.png" 
-            alt="Qalt Logo" 
-            width={160} 
-            height={48} 
-            className="h-12 w-auto object-contain"
-          />
+          <Link href="/" className="flex items-center gap-3">
+            <QaltIcon size={36} />
+            <Image src="/images/qalt.png" alt="Qalt Logo" width={120} height={40} className="h-10 w-auto object-contain" />
+          </Link>
         </header>
 
         <div className="flex-1 overflow-auto">

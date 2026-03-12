@@ -1,0 +1,14 @@
+<svg viewBox="0 0 100 100" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Qalt Animated Icon - Standalone SVG Version -->
+  <circle cx="50" cy="50" r="38" fill="none" stroke="#1E40AF" stroke-width="14" />
+  
+  <rect x="38" y="38" width="6" height="24" rx="1" fill="#60A5FA">
+    <animate attributeName="height" values="24;24;2;24;24" keyTimes="0;0.95;0.97;0.99;1" dur="4s" repeatCount="indefinite" />
+    <animate attributeName="y" values="38;38;49;38;38" keyTimes="0;0.95;0.97;0.99;1" dur="4s" repeatCount="indefinite" />
+  </rect>
+
+  <rect x="56" y="38" width="6" height="24" rx="1" fill="#60A5FA">
+    <animate attributeName="height" values="24;24;2;24;24" keyTimes="0;0.95;0.97;0.99;1" dur="4s" repeatCount="indefinite" />
+    <animate attributeName="y" values="38;38;49;38;38" keyTimes="0;0.95;0.97;0.99;1" dur="4s" repeatCount="indefinite" />
+  </rect>
+</svg>

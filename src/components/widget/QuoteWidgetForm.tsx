@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import QaltIcon from "@/components/shared/QaltIcon";
 import { MapPin, CheckCircle, ArrowRight, User, Mail, Phone, Truck, Sparkles, Weight, Hash, Footprints, Home, Clock, Box } from "lucide-react";
 
 interface WidgetProps {
@@ -451,7 +452,10 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
           <p className="text-[10px] text-slate-400 text-center leading-relaxed font-medium">{widgetSettings.disclaimerText}</p>
           <a href="https://qalt.site" target="_blank" rel="noopener noreferrer" className="mt-3 flex items-center justify-center gap-2.5 opacity-40 hover:opacity-70 transition-opacity">
             <span className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em]">Powered by</span>
-            <Image src="/images/qalt.png" alt="Qalt" width={60} height={18} className="h-4 w-auto" />
+            <div className="flex items-center gap-1.5 grayscale opacity-50">
+              <QaltIcon size={16} />
+              <span className="text-[12px] font-black tracking-tighter text-slate-900">Qalt</span>
+            </div>
           </a>
         </div>
       </div>

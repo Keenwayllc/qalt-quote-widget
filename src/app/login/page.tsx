@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import QaltIcon from "@/components/shared/QaltIcon";
 import { ArrowLeft } from "lucide-react";
 
 export default function LoginPage() {
@@ -45,14 +46,9 @@ export default function LoginPage() {
         Back to Home
       </Link>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <Link href="/">
-          <Image
-            src="/images/qalt.png"
-            alt="Qalt Logo"
-            width={320}
-            height={96}
-            className="mx-auto h-24 w-auto mb-10"
-          />
+        <Link href="/" className="flex flex-col items-center mb-6">
+          <QaltIcon size={80} />
+          <Image src="/images/qalt.png" alt="Qalt Logo" width={240} height={72} className="h-20 w-auto object-contain mt-4" />
         </Link>
         <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">
           Log in to Qalt

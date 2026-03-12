@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import QaltIcon from "@/components/shared/QaltIcon";
 import { Copy, Check, ExternalLink } from "lucide-react";
 
 export default function EmbedCodePage() {
@@ -104,8 +104,8 @@ export default function EmbedCodePage() {
             </div>
 
             <div className="bg-blue-50 rounded-[32px] p-10 border border-blue-100 relative overflow-hidden">
-               <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-                 <Image src="/images/qalt.png" alt="" width={200} height={60} />
+               <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none scale-150">
+                 <QaltIcon size={120} />
                </div>
                <h3 className="text-xl font-black text-blue-900 mb-6">Installation Guide</h3>
                <ul className="space-y-6">
