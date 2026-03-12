@@ -194,7 +194,7 @@ export default function WidgetSettingsForm({
                     placeholder="Your Company"
                     value={previewData.companyNameText || ""}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
                   />
                   <p className="text-xs text-slate-400 mt-1">Shown if no logo is uploaded (Free plan option)</p>
                 </div>
@@ -205,7 +205,7 @@ export default function WidgetSettingsForm({
                     name="companyNameFont"
                     value={previewData.companyNameFont || "Inter"}
                     onChange={(e) => setPreviewData(prev => ({ ...prev, companyNameFont: e.target.value }))}
-                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
                   >
                     <option value="Inter" style={{ fontFamily: 'Inter, sans-serif' }}>Inter (Sans)</option>
                     <option value="Roboto" style={{ fontFamily: 'Roboto, sans-serif' }}>Roboto (Clean)</option>
@@ -241,7 +241,7 @@ export default function WidgetSettingsForm({
                     placeholder="#3B82F6"
                     value={previewData.primaryColor}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm uppercase transition-all shadow-sm"
+                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm uppercase transition-all shadow-sm"
                     style={{ '--tw-ring-color': previewData.primaryColor } as React.CSSProperties}
                   />
                   <button
@@ -263,7 +263,7 @@ export default function WidgetSettingsForm({
                   required
                   value={previewData.buttonText}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                  className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
                 />
               </div>
             </div>
@@ -277,7 +277,7 @@ export default function WidgetSettingsForm({
                 required
                 value={previewData.headerText}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
               />
             </div>
 
@@ -289,7 +289,7 @@ export default function WidgetSettingsForm({
                 rows={3}
                 value={previewData.disclaimerText}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
               />
             </div>
 
