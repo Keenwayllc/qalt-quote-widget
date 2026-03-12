@@ -29,9 +29,9 @@ interface QaltLogoProps {
 
 const SIZES = {
   //          iconSize  imageH   imageW  negMarginLeft iconOffset
-  sm: { icon: 28, h: "h-10", w: "w-auto", ml: "-ml-1.5", translateY: "-translate-y-[3px]" },
-  md: { icon: 36, h: "h-12", w: "w-auto", ml: "-ml-2",   translateY: "-translate-y-[5px]" },
-  lg: { icon: 44, h: "h-14", w: "w-auto", ml: "-ml-2.5", translateY: "-translate-y-[6px]" },
+  sm: { icon: 28, h: "h-10", w: "w-auto", ml: "-ml-1.5", translateY: "translate-y-[1px]" },
+  md: { icon: 36, h: "h-12", w: "w-auto", ml: "-ml-2",   translateY: "translate-y-[1px]" },
+  lg: { icon: 44, h: "h-14", w: "w-auto", ml: "-ml-2.5", translateY: "translate-y-[1px]" },
 } as const;
 
 export default function QaltLogo({
