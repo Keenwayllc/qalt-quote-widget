@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body { background: #333; display: flex; gap: 20px; padding: 50px; }
+  svg { background: #fff; }
+</style>
+</head>
+<body>
+
+<!-- Option 1: Arc + Polygon -->
+<svg viewBox="0 0 100 100" width="200" height="200">
+  <!-- broken circle -->
+  <!-- 
+    a=65: x = 50 + 38*cos(65) = 66.0, y = 50 + 38*sin(65) = 84.4
+    a=25: x = 50 + 38*cos(25) = 84.4, y = 50 + 38*sin(25) = 66.0
+  -->
+  <path d="M 66 84.4 A 38 38 0 1 0 84.4 66" fill="none" stroke="#255d84" stroke-width="18" stroke-linecap="butt" />
+  
+  <!-- tail -->
+  <!-- 
+    The end at angle 25 has points:
+    Inner: x = 50 + 29*cos(25) = 76.3, y = 50 + 29*sin(25) = 62.3
+    Outer: x = 50 + 47*cos(25) = 92.6, y = 50 + 47*sin(25) = 69.9
+    Let's make a triangle from these two points to a tail tip.
+    Tip: e.g. (92, 92)
+  -->
+  <path d="M 76.3 62.3 L 92.6 69.9 L 88 92 Z" fill="#255d84" />
+</svg>
+
+</body>
+</html>

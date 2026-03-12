@@ -8,6 +8,35 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
     const { companyId } = await params;
     const data = await req.json();
 
+    const company = await prisma.company.findUnique({
+      where: { id: companyId },
+      select: { subscriptionPlan: true }
+    });
+
+    if (!company) {
+      return NextResponse.json({ error: "Company not found." }, { status: 404 });
+    }
+
+    if (company.subscriptionPlan === "STARTER") {
+      const startOfMonth = new Date();
+      startOfMonth.setDate(1);
+      startOfMonth.setHours(0, 0, 0, 0);
+
+      const quoteCount = await prisma.quoteRequest.count({
+        where: {
+          companyId,
+          createdAt: { gte: startOfMonth }
+        }
+      });
+
+      if (quoteCount >= 50) {
+        return NextResponse.json(
+          { error: "Monthly quote limit reached for this plan." },
+          { status: 403 }
+        );
+      }
+    }
+
     const quote = await prisma.quoteRequest.create({
       data: {
         companyId,

@@ -10,6 +10,7 @@ interface WidgetProps {
     id: string;
     name: string;
     logoUrl?: string | null;
+    subscriptionPlan: string;
     pricingProfile: Record<string, unknown>;
     widgetSettings: {
       primaryColor: string;
@@ -39,16 +40,22 @@ interface FormData {
 }
 
 export default function QuoteWidgetForm({ company }: WidgetProps) {
-  const widgetSettings = company.widgetSettings || {
-    primaryColor: "#3B82F6",
-    headerText: "Delivery Quote Calculator",
-    buttonText: "Get Instant Quote",
-    showWeight: false,
-    showItemCount: true,
-    showExtras: true,
-    disclaimerText: "Estimate only. Final price confirmed after booking.",
-    backgroundImageUrl: null
+  const isStarter = company.subscriptionPlan === "STARTER";
+  const widgetSettings = {
+    ...(company.widgetSettings || {
+      primaryColor: "#3B82F6",
+      headerText: "Delivery Quote Calculator",
+      buttonText: "Get Instant Quote",
+      showWeight: false,
+      showItemCount: true,
+      showExtras: true,
+      disclaimerText: "Estimate only. Final price confirmed after booking.",
+      backgroundImageUrl: null
+    }),
+    ...(isStarter ? { backgroundImageUrl: undefined } : {})
   };
+  const logoUrlToUse = isStarter ? null : company.logoUrl;
+
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [estimate, setEstimate] = useState<number | null>(null);
@@ -172,9 +179,9 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
           
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-3">
-              {company.logoUrl ? (
+              {logoUrlToUse ? (
                 <div className="relative h-10 w-24">
-                  <Image src={company.logoUrl} alt={company.name} fill className="object-contain object-left rounded-lg bg-white/10 p-1 backdrop-blur-sm" unoptimized />
+                  <Image src={logoUrlToUse} alt={company.name} fill className="object-contain object-left rounded-lg bg-white/10 p-1 backdrop-blur-sm" unoptimized />
                 </div>
               ) : (
                 <div className="p-2.5 bg-white/15 rounded-2xl backdrop-blur-md ring-1 ring-white/20">
@@ -183,7 +190,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
               )}
               <h2 className="text-xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">{widgetSettings.headerText}</h2>
             </div>
-            {!company.logoUrl && <p className="text-white/70 text-sm font-medium pl-1">{company.name}</p>}
+            {!logoUrlToUse && <p className="text-white/70 text-sm font-medium pl-1">{company.name}</p>}
           </div>
 
           {/* Step indicator */}
@@ -450,13 +457,15 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
         {/* Footer */}
         <div className="px-8 py-5 bg-slate-50/80 border-t border-slate-100/80">
           <p className="text-[10px] text-slate-400 text-center leading-relaxed font-medium">{widgetSettings.disclaimerText}</p>
-          <a href="https://qalt.site" target="_blank" rel="noopener noreferrer" className="mt-3 flex items-center justify-center gap-2.5 opacity-40 hover:opacity-70 transition-opacity">
-            <span className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em]">Powered by</span>
-            <div className="flex items-center gap-1.5 scale-75 opacity-70 transform origin-right">
-              <QaltIcon size={20} />
-              <Image src="/images/qalt.png" alt="Qalt Logo" width={80} height={24} className="h-6 w-auto object-contain" />
-            </div>
-          </a>
+          {isStarter && (
+            <a href="https://qalt.site" target="_blank" rel="noopener noreferrer" className="mt-3 flex items-center justify-center gap-2.5 opacity-40 hover:opacity-70 transition-opacity">
+              <span className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em]">Powered by</span>
+              <div className="flex items-center gap-1.5 scale-75 opacity-70 transform origin-right">
+                <QaltIcon size={20} />
+                <Image src="/images/qalt.png" alt="Qalt Logo" width={80} height={24} className="h-6 w-auto object-contain" />
+              </div>
+            </a>
+          )}
         </div>
       </div>
     </div>

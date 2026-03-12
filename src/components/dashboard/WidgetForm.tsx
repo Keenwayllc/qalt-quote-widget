@@ -25,10 +25,12 @@ interface WidgetProps {
 
 export default function WidgetSettingsForm({ 
   initialData, 
-  companyLogoUrl 
+  companyLogoUrl,
+  subscriptionPlan
 }: { 
   initialData: WidgetProps['company']['widgetSettings'];
   companyLogoUrl?: string | null;
+  subscriptionPlan: string;
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -139,11 +141,18 @@ export default function WidgetSettingsForm({
                         <ImageIcon size={20} className="text-slate-300" />
                       </div>
                     )}
-                    <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-sm font-medium text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors">
-                      <Upload size={16} />
-                      Upload Logo
-                      <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'logo')} />
-                    </label>
+                    {subscriptionPlan === "STARTER" ? (
+                      <div className="flex flex-col gap-1">
+                        <span className="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-1 rounded inline-block w-max">Pro Feature</span>
+                        <p className="text-xs text-slate-500">Upgrade to add a custom logo.</p>
+                      </div>
+                    ) : (
+                      <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-sm font-medium text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors">
+                        <Upload size={16} />
+                        Upload Logo
+                        <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'logo')} />
+                      </label>
+                    )}
                   </div>
                 </div>
                 <div>
@@ -156,11 +165,18 @@ export default function WidgetSettingsForm({
                         <ImageIcon size={20} className="text-slate-300" />
                       </div>
                     )}
-                    <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-sm font-medium text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors">
-                      <Upload size={16} />
-                      Upload Background
-                      <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'background')} />
-                    </label>
+                    {subscriptionPlan === "STARTER" ? (
+                      <div className="flex flex-col gap-1">
+                        <span className="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-1 rounded inline-block w-max">Pro Feature</span>
+                        <p className="text-xs text-slate-500">Upgrade to add a custom background.</p>
+                      </div>
+                    ) : (
+                      <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-sm font-medium text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors">
+                        <Upload size={16} />
+                        Upload Background
+                        <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'background')} />
+                      </label>
+                    )}
                   </div>
                 </div>
               </div>
