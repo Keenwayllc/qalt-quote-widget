@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
-import { adminStorage } from "@/lib/firebase-admin";
+import { getAdminStorage } from "@/lib/firebase-admin";
 import path from "path";
 
 export async function POST(req: Request) {
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
     const extension = path.extname(file.name) || ".png";
     const uniqueFilename = `uploads/${companyId}-${Date.now()}${extension}`;
 
-    const bucket = adminStorage.bucket();
+    const bucket = getAdminStorage().bucket();
     const fileRef = bucket.file(uniqueFilename);
 
     await fileRef.save(buffer, {

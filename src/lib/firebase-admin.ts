@@ -1,8 +1,10 @@
-import { initializeApp, getApps, cert, App } from "firebase-admin/app";
-import { getStorage } from "firebase-admin/storage";
+import { initializeApp, getApps, cert } from "firebase-admin/app";
+import { getStorage, Storage } from "firebase-admin/storage";
 
-function getAdminApp(): App {
-  if (getApps().length > 0) return getApps()[0];
+let _storage: Storage | null = null;
+
+export function getAdminStorage(): Storage {
+  if (_storage) return _storage;
 
   const raw = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
   if (!raw) {
@@ -11,10 +13,18 @@ function getAdminApp(): App {
 
   const serviceAccount = JSON.parse(raw);
 
-  return initializeApp({
-    credential: cert(serviceAccount),
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  });
-}
+  // Vercel env vars sometimes double-escape \n in the private key — fix it
+  if (typeof serviceAccount.private_key === "string") {
+    serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, "\n");
+  }
 
-export const adminStorage = getStorage(getAdminApp());
+  const app = getApps().length > 0
+    ? getApps()[0]
+    : initializeApp({
+        credential: cert(serviceAccount),
+        storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+      });
+
+  _storage = getStorage(app);
+  return _storage;
+}

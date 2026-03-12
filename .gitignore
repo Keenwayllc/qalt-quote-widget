@@ -36,3 +36,5 @@ yarn-error.log*
 # vercel
 .vercel
 
+`n# secrets`n*.json`n!package.json`n!tsconfig.json`n!next.config.json`n`n# logs`n*-debug.log*`n*.txt`ntsconfig.tsbuildinfo
+qalt-site-production-firebase-adminsdk-fbsvc-*.json

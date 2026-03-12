@@ -178,10 +178,12 @@ export default function LandingPage() {
                 { step: "02", title: "Set Rates", desc: "Build your flat or dynamic pricing." },
                 { step: "03", title: "Copy & Paste", desc: "Embed the code on your site." }
               ].map((step, i) => (
-                <div key={i} className="flex-1 bg-linear-to-br from-white to-slate-50 p-8 rounded-xl border border-slate-200 shadow-sm relative z-10 hover:-translate-y-2 transition-transform duration-500 overflow-hidden">
-                  <span className="text-8xl font-black text-slate-100 absolute -bottom-4 -right-2 select-none pointer-events-none leading-none">{step.step}</span>
-                  <h3 className="text-lg font-black mb-2 text-slate-900">{step.title}</h3>
-                  <p className="text-slate-500 font-medium text-sm">{step.desc}</p>
+                <div key={i} className="flex-1 bg-linear-to-br from-white to-slate-50 p-8 rounded-xl border border-slate-200 shadow-sm relative z-10 hover:-translate-y-2 transition-transform duration-500 overflow-hidden text-left">
+                  <span className="text-8xl font-black text-slate-200/30 absolute -bottom-4 -right-2 select-none pointer-events-none leading-none z-0">{step.step}</span>
+                  <div className="relative z-10">
+                    <h3 className="text-lg font-black mb-2 text-slate-900">{step.title}</h3>
+                    <p className="text-slate-500 font-medium text-sm">{step.desc}</p>
+                  </div>
                 </div>
               ))}
             </div>

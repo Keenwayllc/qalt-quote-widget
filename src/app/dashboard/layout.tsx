@@ -41,28 +41,30 @@ export default function DashboardLayout({
   };
 
   return (
-    <div className="flex h-screen bg-slate-50 font-sans">
+    <div className="flex h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
       {/* Mobile Sidebar Toggle */}
       <button 
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className="lg:hidden fixed bottom-6 right-6 z-50 p-4 bg-blue-600 text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all"
+        className="lg:hidden fixed bottom-6 right-6 z-50 p-4 bg-blue-600 text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
       >
         {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
       {/* Sidebar */}
       <aside className={`
-        fixed inset-y-0 left-0 z-40 w-72 bg-white border-r border-slate-200 transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0
+        fixed inset-y-0 left-0 z-40 w-72 bg-white/80 backdrop-blur-xl border-r border-slate-200/60 transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <div className="flex flex-col h-full">
           <div className="p-8">
-            <QaltLogo size="sm" />
+            <Link href="/dashboard" className="transition-opacity hover:opacity-80">
+              <QaltLogo size="sm" />
+            </Link>
           </div>
         
-        <nav className="flex-1 px-4 py-6 space-y-1">
-          <div className="mb-6 px-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">
-            Menu
+        <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto custom-scrollbar">
+          <div className="mb-6 px-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+            Merchant Console
           </div>
           {navItems.map((item) => {
             const isActive = pathname === item.href;
@@ -71,29 +73,34 @@ export default function DashboardLayout({
                 key={item.href}
                 href={item.href}
                 className={`
-                   flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors group
-                  ${isActive ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"}
+                   flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all group relative
+                  ${isActive 
+                    ? "bg-blue-600 text-white shadow-lg shadow-blue-200 scale-[1.02]" 
+                    : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"}
                 `}
               >
                 <item.icon
                   className={`
                     mr-3 h-5 w-5 shrink-0 transition-colors
-                    ${isActive ? "text-blue-700" : "text-slate-400 group-hover:text-slate-600"}
+                    ${isActive ? "text-white" : "text-slate-400 group-hover:text-slate-900"}
                   `}
                 />
                 {item.name}
+                {isActive && (
+                  <div className="absolute left-0 w-1 h-6 bg-white rounded-r-full" />
+                )}
               </Link>
             );
           })}
         </nav>
 
-        <div className="p-4 border-t border-slate-200">
+        <div className="p-4 mt-auto border-t border-slate-100/60">
           <button
             onClick={handleLogout}
             disabled={isLoggingOut}
-            className="flex w-full items-center px-3 py-2.5 text-sm font-medium text-slate-600 rounded-lg hover:bg-slate-50 hover:text-slate-900 transition-colors"
+            className="flex w-full items-center px-4 py-3 text-sm font-bold text-slate-600 rounded-xl hover:bg-rose-50 hover:text-rose-600 transition-all group"
           >
-            <LogOut className="mr-3 h-5 w-5 text-slate-400" />
+            <LogOut className="mr-3 h-5 w-5 text-slate-400 group-hover:text-rose-500 transition-colors" />
             {isLoggingOut ? "Logging out..." : "Log out"}
           </button>
         </div>
@@ -101,13 +108,17 @@ export default function DashboardLayout({
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 flex flex-col min-w-0">
+      <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+        {/* Subtle Background Glows */}
+        <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-400/5 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[30%] h-[30%] bg-indigo-400/5 blur-[100px] rounded-full pointer-events-none" />
+
         {/* Mobile header */}
-        <header className="md:hidden bg-white border-b border-slate-200 h-24 flex items-center justify-between px-6">
+        <header className="lg:hidden bg-white/80 backdrop-blur-md border-b border-slate-200 h-20 flex items-center justify-between px-6 shrink-0 relative z-10">
           <QaltLogo size="sm" />
         </header>
 
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-auto relative z-10 custom-scrollbar">
           {children}
         </div>
       </main>
