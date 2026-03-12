@@ -52,15 +52,20 @@ const QaltIcon = ({
       aria-label="Qalt Animated Icon"
       xmlns="http://www.w3.org/2000/svg"
     >
-      {/* Symmetrical Bold Circle Frame */}
-      <circle 
-        cx="50" 
-        cy="50" 
-        r="38" 
-        fill="none" 
-        stroke={color} 
-        strokeWidth="18" 
-      />
+      {/* Q-Shape Animated Frame */}
+      <g>
+        <path 
+          d="M 69.0 82.9 A 38 38 0 1 0 82.9 69.0" 
+          fill="none" 
+          stroke={color} 
+          strokeWidth="18" 
+          strokeLinecap="butt" 
+        />
+        <polygon 
+          points="75.1,64.5 90.7,73.5 90,95" 
+          fill={color} 
+        />
+      </g>
       
       {/* Left Eye Bar */}
       <rect x="38" y="38" width="6" height="24" rx="1" fill={eyeColor}>

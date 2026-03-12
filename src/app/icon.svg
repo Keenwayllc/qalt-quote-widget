@@ -1,13 +1,18 @@
 <svg viewBox="0 0 100 100" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .frame { stroke: #255d84; }
+    .frame-stroke { stroke: #255d84; }
+    .frame-fill { fill: #255d84; }
     .eye { fill: #255d84; }
     @media (prefers-color-scheme: dark) {
-      .frame { stroke: #60A5FA; }
+      .frame-stroke { stroke: #60A5FA; }
+      .frame-fill { fill: #60A5FA; }
       .eye { fill: #60A5FA; }
     }
   </style>
-  <circle cx="50" cy="50" r="38" fill="none" class="frame" stroke-width="18" />
+  <g>
+    <path d="M 69.0 82.9 A 38 38 0 1 0 82.9 69.0" fill="none" class="frame-stroke" stroke-width="18" stroke-linecap="butt" />
+    <polygon points="75.1,64.5 90.7,73.5 90,95" class="frame-fill" />
+  </g>
   <rect x="38" y="38" width="6" height="24" rx="1" class="eye">
     <animate attributeName="height" values="24;24;2;24;24" keyTimes="0;0.95;0.97;0.99;1" dur="4s" repeatCount="indefinite" />
     <animate attributeName="y" values="38;38;49;38;38" keyTimes="0;0.95;0.97;0.99;1" dur="4s" repeatCount="indefinite" />
