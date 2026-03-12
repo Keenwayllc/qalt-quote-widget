@@ -85,7 +85,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
                 step="0.01"
                 required
                 defaultValue={initialData?.baseRatePerMile}
-                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400 transition-all shadow-sm"
               />
             </div>
             <div>
@@ -96,7 +96,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
                 step="0.1"
                 required
                 defaultValue={initialData?.minMilesThreshold ?? 0}
-                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400 transition-all shadow-sm"
               />
               <p className="text-xs text-slate-400 mt-1">Number of miles included before per-mile rate kicks in</p>
             </div>
@@ -108,7 +108,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
                 step="0.01"
                 required
                 defaultValue={initialData?.minimumCharge}
-                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400 transition-all shadow-sm"
               />
             </div>
             <div className="flex items-center gap-3 pt-6">
@@ -141,7 +141,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
                 type="number"
                 step="0.01"
                 defaultValue={initialData?.weightFee ?? 0}
-                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400 transition-all shadow-sm"
               />
               <p className="text-xs text-slate-400 mt-1">Charged per pound of package weight</p>
             </div>
@@ -152,7 +152,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
                 type="number"
                 step="0.01"
                 defaultValue={initialData?.itemCountFee ?? 0}
-                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400 transition-all shadow-sm"
               />
               <p className="text-xs text-slate-400 mt-1">Charged per item in the shipment</p>
             </div>
@@ -174,7 +174,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
                 type="number"
                 step="0.01"
                 defaultValue={initialData?.stairsFee}
-                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400 transition-all shadow-sm"
               />
             </div>
             <div>
@@ -184,7 +184,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
                 type="number"
                 step="0.01"
                 defaultValue={initialData?.insideDeliveryFee}
-                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400 transition-all shadow-sm"
               />
             </div>
             <div>
@@ -194,7 +194,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
                 type="number"
                 step="0.01"
                 defaultValue={initialData?.afterHoursFee}
-                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400 transition-all shadow-sm"
               />
             </div>
             <div>
@@ -204,7 +204,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
                 type="number"
                 step="0.01"
                 defaultValue={initialData?.largeItemFee}
-                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400 transition-all shadow-sm"
               />
             </div>
           </div>

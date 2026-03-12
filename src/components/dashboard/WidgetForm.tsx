@@ -147,7 +147,7 @@ export default function WidgetSettingsForm({
                         <p className="text-xs text-slate-500">Upgrade to add a custom logo.</p>
                       </div>
                     ) : (
-                      <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-sm font-medium text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors">
+                      <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 text-sm font-medium text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors shadow-sm">
                         <Upload size={16} />
                         Upload Logo
                         <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'logo')} />
@@ -171,7 +171,7 @@ export default function WidgetSettingsForm({
                         <p className="text-xs text-slate-500">Upgrade to add a custom background.</p>
                       </div>
                     ) : (
-                      <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-sm font-medium text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors">
+                      <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 text-sm font-medium text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors shadow-sm">
                         <Upload size={16} />
                         Upload Background
                         <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'background')} />
@@ -205,13 +205,13 @@ export default function WidgetSettingsForm({
                     placeholder="#3B82F6"
                     value={previewData.primaryColor}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm uppercase"
+                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm uppercase transition-all shadow-sm"
                     style={{ '--tw-ring-color': previewData.primaryColor } as React.CSSProperties}
                   />
                   <button
                     type="button"
                     onClick={() => setPreviewData((prev) => ({ ...prev, primaryColor: '#3B82F6' }))}
-                    className="shrink-0 flex items-center justify-center px-3 bg-white border border-slate-200 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"
+                    className="shrink-0 flex items-center justify-center px-3 bg-white border border-slate-300 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors shadow-sm"
                     title="Reset to default color"
                   >
                      <RotateCcw size={18} />
@@ -227,7 +227,7 @@ export default function WidgetSettingsForm({
                   required
                   value={previewData.buttonText}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
                 />
               </div>
             </div>
@@ -241,7 +241,7 @@ export default function WidgetSettingsForm({
                 required
                 value={previewData.headerText}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
               />
             </div>
 
@@ -253,7 +253,7 @@ export default function WidgetSettingsForm({
                 rows={3}
                 value={previewData.disclaimerText}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
               />
             </div>
 
@@ -338,8 +338,8 @@ export default function WidgetSettingsForm({
              </div>
              <div className="p-6 space-y-4">
                <div>
-                  <div className="h-8 bg-slate-100 rounded-md w-full mb-2" />
-                  <div className="h-8 bg-slate-100 rounded-md w-full" />
+                  <div className="h-8 bg-slate-200 rounded-md w-full mb-2" />
+                  <div className="h-8 bg-slate-200 rounded-md w-full" />
                </div>
                <div className="py-4 border-t border-slate-100">
                   <div className="w-full h-12 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: previewData.primaryColor }}>
