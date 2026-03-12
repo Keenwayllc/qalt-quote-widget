@@ -21,6 +21,7 @@ interface WidgetProps {
       showExtras: boolean;
       disclaimerText: string;
       backgroundImageUrl?: string | null;
+      companyNameText?: string | null;
     };
   };
 }
@@ -190,7 +191,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
               )}
               <h2 className="text-xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">{widgetSettings.headerText}</h2>
             </div>
-            {!logoUrlToUse && <p className="text-white/70 text-sm font-medium pl-1">{company.name}</p>}
+            {!logoUrlToUse && <p className="text-white/70 text-sm font-medium pl-1">{widgetSettings.companyNameText || company.name}</p>}
           </div>
 
           {/* Step indicator */}

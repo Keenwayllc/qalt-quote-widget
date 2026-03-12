@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { sendEmail } from "@/lib/email";
+import { NewQuoteEmail } from "@/components/emails/NewQuoteEmail";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +12,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
 
     const company = await prisma.company.findUnique({
       where: { id: companyId },
-      select: { subscriptionPlan: true }
+      select: { subscriptionPlan: true, email: true }
     });
 
     if (!company) {
@@ -56,6 +58,24 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
           isAfterHours: data.isAfterHours,
         })
       },
+    });
+
+    // Send email notification to the company owner
+    await sendEmail({
+      to: company.email,
+      subject: `New Quote Request from ${data.customerName}`,
+      react: (
+        <NewQuoteEmail
+          customerName={data.customerName}
+          customerEmail={data.customerEmail}
+          customerPhone={data.customerPhone}
+          pickupZip={data.pickupZip}
+          dropoffZip={data.dropoffZip}
+          distanceMiles={data.distanceMiles}
+          estimatedPrice={data.estimatedPrice}
+          serviceType={data.isLargeItem ? "Large Item Delivery" : "Standard Delivery"}
+        />
+      ),
     });
 
     return NextResponse.json({ success: true, quoteId: quote.id });

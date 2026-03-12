@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
+import { storage } from "@/lib/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import path from "path";
 
 export async function POST(req: Request) {
   try {
@@ -37,7 +38,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // 4. Save File Locally
+    // 4. Upload to Firebase Storage
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
@@ -45,20 +46,15 @@ export async function POST(req: Request) {
     const extension = path.extname(file.name) || ".png";
     const uniqueFilename = `${companyId}-${Date.now()}${extension}`;
     
-    // Ensure the uploads directory exists
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-    try {
-      await mkdir(uploadDir, { recursive: true });
-    } catch (err) {
-      // Ignore if it already exists
-    }
-
-    const filePath = path.join(uploadDir, uniqueFilename);
+    const storageRef = ref(storage, `uploads/${uniqueFilename}`);
     
-    await writeFile(filePath, buffer);
+    // Upload the file
+    await uploadBytes(storageRef, buffer, {
+      contentType: file.type,
+    });
 
-    // 5. Return path (relative to public directory for serving)
-    const fileUrl = `/uploads/${uniqueFilename}`;
+    // Get the download URL
+    const fileUrl = await getDownloadURL(storageRef);
 
     return NextResponse.json({ url: fileUrl });
   } catch (error) {

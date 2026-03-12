@@ -41,7 +41,7 @@ export default function CookieBanner() {
         <div className="max-w-7xl mx-auto px-4 py-4 md:py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="flex-1 pr-4 md:pr-8">
             <p className="text-xs text-slate-500 leading-relaxed font-medium">
-              We use cookies to track visitors, measure ads, ad campaign effectiveness and analyze site traffic. We may also share information about your use of our site with 3rd parties. For more info, see, our <a href="#" className="text-indigo-600 font-semibold hover:underline">Cookie Policy</a> and our <a href="#" className="text-indigo-600 font-semibold hover:underline">Privacy Policy</a>. By clicking on &quot;<button onClick={() => setIsModalOpen(true)} className="text-indigo-600 font-semibold hover:underline">Cookie Preference Manager</button>&quot; you can choose to enable or disable them. By clicking &quot;Accept all&quot; you agree to the storing of all cookies on your device.
+              We use cookies to track visitors, measure ads, ad campaign effectiveness and analyze site traffic. We may also share information about your use of our site with 3rd parties. For more info, see, our <a href="/legal/privacy" className="text-indigo-600 font-semibold hover:underline">Cookie Policy</a> and our <a href="/legal/privacy" className="text-indigo-600 font-semibold hover:underline">Privacy Policy</a>. By clicking on &quot;<button onClick={() => setIsModalOpen(true)} className="text-indigo-600 font-semibold hover:underline">Cookie Preference Manager</button>&quot; you can choose to enable or disable them. By clicking &quot;Accept all&quot; you agree to the storing of all cookies on your device.
             </p>
           </div>
           
