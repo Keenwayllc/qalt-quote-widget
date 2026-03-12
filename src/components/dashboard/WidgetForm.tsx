@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw, ExternalLink } from "lucide-react";
 
@@ -42,6 +42,19 @@ export default function WidgetSettingsForm({
   const [errorStatus, setErrorStatus] = useState<string | null>(null);
   const [previewData, setPreviewData] = useState(initialData);
   const [logo, setLogo] = useState(companyLogoUrl || "");
+
+  // Dynamically load the selected Google Font so the preview renders correctly
+  useEffect(() => {
+    const font = previewData.companyNameFont || "Inter";
+    const id = `gfont-${font.replace(/\s+/g, "-")}`;
+    if (!document.getElementById(id)) {
+      const link = document.createElement("link");
+      link.id = id;
+      link.rel = "stylesheet";
+      link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(font)}:wght@400;700&display=swap`;
+      document.head.appendChild(link);
+    }
+  }, [previewData.companyNameFont]);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'logo' | 'background') => {
     const file = e.target.files?.[0];
@@ -197,6 +210,7 @@ export default function WidgetSettingsForm({
                     value={previewData.companyNameText || ""}
                     onChange={handleChange}
                     className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                    style={{ fontFamily: previewData.companyNameFont || "Inter" }}
                   />
                   <p className="text-xs text-slate-400 mt-1">Shown if no logo is uploaded (Free plan option)</p>
                 </div>
