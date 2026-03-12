@@ -1,6 +1,10 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) throw new Error("RESEND_API_KEY env var is not set");
+  return new Resend(key);
+}
 
 export const sendEmail = async ({
   to,
@@ -12,6 +16,7 @@ export const sendEmail = async ({
   react: React.ReactNode;
 }) => {
   try {
+    const resend = getResend();
     const data = await resend.emails.send({
       from: 'Qalt <notifications@qalt.site>',
       to,
