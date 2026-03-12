@@ -44,7 +44,7 @@ export default function LandingPage() {
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <Image src="/images/qalt-logo.png" alt="Qalt" width={240} height={72} className="h-14 w-auto" />
+            <Image src="/images/qalt.png" alt="Qalt" width={260} height={78} className="h-20 w-auto" />
           </Link>
           
           <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500 uppercase tracking-widest">
@@ -197,20 +197,20 @@ export default function LandingPage() {
               <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium">Start free. Upgrade when you&apos;re ready to scale.</p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-px bg-slate-200 rounded-2xl overflow-hidden shadow-sm max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-3 rounded-2xl overflow-hidden shadow-xl max-w-5xl mx-auto border border-slate-200 bg-white">
               {/* Starter */}
               <div className="bg-white p-10 flex flex-col">
-                <div className="border-t-4 border-slate-300 -mx-10 -mt-10 mb-8 pt-8 px-10">
-                  <div className="flex items-center gap-3 mb-1">
-                    <h3 className="text-base font-black text-slate-800">Starter</h3>
+                <div className="mb-8">
+                  <div className="flex items-center gap-3 mb-2">
+                    <h3 className="text-2xl font-black tracking-tight text-slate-900">Starter</h3>
                   </div>
-                  <p className="text-slate-500 text-sm font-medium leading-snug">Perfect for trying Qalt out.</p>
+                  <p className="text-slate-500 text-sm font-medium leading-relaxed">Perfect for trying Qalt out.</p>
                 </div>
                 <div className="mb-1">
                   <span className="text-5xl font-black text-slate-900">Free</span>
                 </div>
-                <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-6">Forever free</p>
-                <Link href="/register" className="block w-full text-center py-3 border-2 border-slate-900 text-slate-900 rounded-lg font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
+                <p className="text-slate-500 text-sm font-medium mb-8">Forever · No card required</p>
+                <Link href="/register" className="block w-full text-center py-3.5 border-2 border-slate-900 text-slate-900 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
                   Get Started Free
                 </Link>
                 <ul className="space-y-3 mt-auto">
@@ -222,25 +222,25 @@ export default function LandingPage() {
                 </ul>
               </div>
 
-              {/* Pro — dark card, Freshdesk style */}
-              <div className="bg-linear-to-b from-slate-900 to-slate-800 p-10 flex flex-col relative">
-                <div className="border-t-4 border-blue-500 -mx-10 -mt-10 mb-8 pt-8 px-10">
-                  <div className="flex items-center gap-3 mb-1">
-                    <h3 className="text-base font-black text-white">Pro</h3>
-                    <span className="px-2.5 py-0.5 bg-blue-500 text-white rounded-full text-[10px] font-black uppercase tracking-widest">Most Popular</span>
+              {/* Pro — premium gradient card */}
+              <div className="bg-linear-to-bl from-[#131526] via-[#1a1636] to-[#2d1b54] p-10 flex flex-col relative">
+                <div className="mb-8">
+                  <div className="flex items-center gap-3 mb-2">
+                    <h3 className="text-2xl font-black tracking-tight text-white">Pro</h3>
+                    <span className="px-2 py-0.5 bg-white text-slate-900 rounded-full text-[10px] font-black uppercase tracking-widest">Most Popular</span>
                   </div>
-                  <p className="text-slate-400 text-sm font-medium leading-snug">For growing delivery companies.</p>
+                  <p className="text-slate-300 text-sm font-medium leading-relaxed">For growing delivery companies.</p>
                 </div>
                 <div className="mb-1">
-                  <span className="text-5xl font-black text-white">$29</span>
-                  <span className="text-slate-400 font-medium text-lg ml-1">/mo</span>
+                  <span className="text-5xl font-black text-white">$14</span>
+                  <span className="text-slate-300 font-medium text-lg ml-1">/mo</span>
                 </div>
-                <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-6">Billed annually · $39/mo monthly</p>
-                <Link href="/register" className="block w-full text-center py-3 bg-blue-600 text-white rounded-lg font-bold text-sm hover:bg-blue-500 active:scale-[0.98] transition-all mb-8 shadow-lg shadow-blue-900/40">
+                <p className="text-slate-400 text-sm font-medium mb-8">Billed $168 annually · Save $60</p>
+                <Link href="/register" className="block w-full text-center py-3.5 bg-violet-600 text-white rounded-xl font-bold text-sm hover:bg-violet-500 active:scale-[0.98] transition-all mb-8 shadow-lg shadow-violet-900/40">
                   Start Free Trial
                 </Link>
                 <ul className="space-y-3 mt-auto">
-                  {["Unlimited Widgets", "Unlimited Quotes", "Full White-Label", "Analytics Dashboard", "Priority Support"].map((item) => (
+                  {["Unlimited Quotes", "Full White-Label", "Advanced Customization", "Analytics Dashboard", "Priority Support"].map((item) => (
                     <li key={item} className="flex items-start gap-3 text-slate-300 font-medium text-sm">
                       <CheckCircle2 size={16} className="text-blue-400 shrink-0 mt-0.5" />{item}
                     </li>
@@ -249,19 +249,19 @@ export default function LandingPage() {
               </div>
 
               {/* Enterprise */}
-              <div className="bg-white p-10 flex flex-col">
-                <div className="border-t-4 border-slate-900 -mx-10 -mt-10 mb-8 pt-8 px-10">
-                  <div className="flex items-center gap-3 mb-1">
-                    <h3 className="text-base font-black text-slate-800">Enterprise</h3>
+              <div className="bg-white p-10 flex flex-col relative">
+                <div className="mb-8">
+                  <div className="flex items-center gap-3 mb-2">
+                    <h3 className="text-2xl font-black tracking-tight text-slate-900">Enterprise</h3>
                   </div>
-                  <p className="text-slate-500 text-sm font-medium leading-snug">For high-volume operations.</p>
+                  <p className="text-slate-500 text-sm font-medium leading-relaxed">For high-volume operations.</p>
                 </div>
                 <div className="mb-1">
-                  <span className="text-5xl font-black text-slate-900">$79</span>
+                  <span className="text-5xl font-black text-slate-900">$29</span>
                   <span className="text-slate-400 font-medium text-lg ml-1">/mo</span>
                 </div>
-                <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-6">Billed annually · $99/mo monthly</p>
-                <Link href="/register" className="block w-full text-center py-3 border-2 border-slate-900 text-slate-900 rounded-lg font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
+                <p className="text-slate-500 text-sm font-medium mb-8">Billed $348 annually · Save $120</p>
+                <Link href="/register" className="block w-full text-center py-3.5 border-2 border-slate-900 text-slate-900 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
                   Contact Sales
                 </Link>
                 <ul className="space-y-3 mt-auto">
@@ -334,7 +334,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="flex flex-col items-center md:items-start gap-4">
-              <Image src="/images/qalt-logo.png" alt="Qalt" width={200} height={60} className="h-12 w-auto" />
+              <Image src="/images/qalt.png" alt="Qalt" width={220} height={66} className="h-16 w-auto" />
               <p className="text-slate-400 font-medium">© 2024 Qalt SaaS. All rights reserved.</p>
             </div>
             <div className="flex gap-10 text-sm font-bold text-slate-400 uppercase tracking-widest">

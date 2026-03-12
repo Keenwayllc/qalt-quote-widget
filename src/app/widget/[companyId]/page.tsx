@@ -21,7 +21,7 @@ export default async function PublicWidgetPage({ params }: { params: { companyId
 
   // Pure widget page, no layout from dashboard
   return (
-    <div className="min-h-screen bg-transparent p-4 sm:p-8 flex items-center justify-center">
+    <div className="min-h-screen bg-slate-100 p-4 sm:p-8 flex items-center justify-center">
       <QuoteWidgetForm company={company as any} />
     </div>
   );

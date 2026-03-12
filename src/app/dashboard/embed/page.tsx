@@ -75,14 +75,14 @@ export default function EmbedCodePage() {
               </div>
               
               <div className="relative group">
-                <pre className="bg-slate-900 text-slate-300 p-8 rounded-2xl overflow-x-auto text-sm font-mono leading-relaxed ring-1 ring-slate-800 shadow-2xl">
+                <pre className="bg-slate-900 text-slate-300 p-8 rounded-xl overflow-x-auto text-sm font-mono leading-relaxed ring-1 ring-slate-800 shadow-2xl">
                   <code className="text-blue-400">
                     {embedCode}
                   </code>
                 </pre>
               </div>
               
-              <div className="mt-8 flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+              <div className="mt-8 flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
                     <ExternalLink size={16} />
@@ -138,7 +138,7 @@ export default function EmbedCodePage() {
             <div className="bg-white rounded-[32px] p-8 shadow-sm border border-slate-100">
               <h3 className="text-lg font-bold text-slate-900 mb-4">Need help?</h3>
               <p className="text-sm text-slate-500 leading-relaxed mb-8">Not sure where to paste the code? Our engineering team can help you get it installed in minutes.</p>
-              <button className="w-full py-4 bg-slate-900 text-white rounded-2xl text-xs font-bold uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl shadow-slate-200">
+              <button className="w-full py-4 bg-slate-900 text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl shadow-slate-200">
                 Contact Technical Support
               </button>
             </div>

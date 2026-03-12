@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { DollarSign, Save } from "lucide-react";
+import { DollarSign, Save, Weight } from "lucide-react";
 
 interface PricingProfile {
   baseRatePerMile: number;
   minimumCharge: number;
+  weightFee: number;
+  itemCountFee: number;
   stairsFee: number;
   insideDeliveryFee: number;
   afterHoursFee: number;
@@ -27,6 +29,8 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
     const data = {
       baseRatePerMile: parseFloat(formData.get("baseRatePerMile") as string),
       minimumCharge: parseFloat(formData.get("minimumCharge") as string),
+      weightFee: parseFloat(formData.get("weightFee") as string),
+      itemCountFee: parseFloat(formData.get("itemCountFee") as string),
       stairsFee: parseFloat(formData.get("stairsFee") as string),
       insideDeliveryFee: parseFloat(formData.get("insideDeliveryFee") as string),
       afterHoursFee: parseFloat(formData.get("afterHoursFee") as string),
@@ -46,7 +50,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
       } else {
         setMessage({ type: "error", text: "Failed to update pricing rules." });
       }
-    } catch (err) {
+    } catch {
       setMessage({ type: "error", text: "An error occurred." });
     } finally {
       setLoading(false);
@@ -62,7 +66,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
 
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Core Pricing */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
           <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
             <DollarSign className="text-blue-600" size={20} />
             Core Rates
@@ -77,7 +81,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
                 step="0.01"
                 required
                 defaultValue={initialData?.baseRatePerMile}
-                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
               />
             </div>
             <div>
@@ -88,14 +92,47 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
                 step="0.01"
                 required
                 defaultValue={initialData?.minimumCharge}
-                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
               />
             </div>
           </div>
         </div>
 
+        {/* Weight & Item Count Fees */}
+        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+          <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <Weight className="text-blue-600" size={20} />
+            Per-Unit Fees
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Weight Fee ($ per lb)</label>
+              <input
+                name="weightFee"
+                type="number"
+                step="0.01"
+                defaultValue={initialData?.weightFee ?? 0}
+                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+              />
+              <p className="text-xs text-slate-400 mt-1">Charged per pound of package weight</p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Item Count Fee ($ per item)</label>
+              <input
+                name="itemCountFee"
+                type="number"
+                step="0.01"
+                defaultValue={initialData?.itemCountFee ?? 0}
+                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+              />
+              <p className="text-xs text-slate-400 mt-1">Charged per item in the shipment</p>
+            </div>
+          </div>
+        </div>
+
         {/* Extra Fees */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
           <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
             <DollarSign className="text-blue-600" size={20} />
             Optional Extra Fees
@@ -109,7 +146,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
                 type="number"
                 step="0.01"
                 defaultValue={initialData?.stairsFee}
-                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
               />
             </div>
             <div>
@@ -119,7 +156,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
                 type="number"
                 step="0.01"
                 defaultValue={initialData?.insideDeliveryFee}
-                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
               />
             </div>
             <div>
@@ -129,7 +166,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
                 type="number"
                 step="0.01"
                 defaultValue={initialData?.afterHoursFee}
-                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
               />
             </div>
             <div>
@@ -139,7 +176,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
                 type="number"
                 step="0.01"
                 defaultValue={initialData?.largeItemFee}
-                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
               />
             </div>
           </div>
@@ -149,7 +186,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
           <button
             type="submit"
             disabled={loading}
-            className="flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all disabled:opacity-50"
+            className="flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all disabled:opacity-50"
           >
             <Save size={20} />
             {loading ? "Saving..." : "Save Changes"}

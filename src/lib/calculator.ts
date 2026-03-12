@@ -40,6 +40,8 @@ export function estimatePrice(
   rules: {
     baseRatePerMile: number;
     minimumCharge: number;
+    weightFee: number;
+    itemCountFee: number;
     stairsFee: number;
     insideDeliveryFee: number;
     afterHoursFee: number;
@@ -50,6 +52,8 @@ export function estimatePrice(
     needsInsideDelivery: boolean;
     isAfterHours: boolean;
     isLargeItem: boolean;
+    packageWeight?: number;
+    itemCount?: number;
   }
 ): number {
   let total = distance * rules.baseRatePerMile;
@@ -59,7 +63,17 @@ export function estimatePrice(
     total = rules.minimumCharge;
   }
 
-  // Add extras
+  // Add weight-based fee (per lb)
+  if (extras.packageWeight && extras.packageWeight > 0 && rules.weightFee > 0) {
+    total += extras.packageWeight * rules.weightFee;
+  }
+
+  // Add item count fee (per item)
+  if (extras.itemCount && extras.itemCount > 0 && rules.itemCountFee > 0) {
+    total += extras.itemCount * rules.itemCountFee;
+  }
+
+  // Add flat extras
   if (extras.hasStairs) total += rules.stairsFee;
   if (extras.needsInsideDelivery) total += rules.insideDeliveryFee;
   if (extras.isAfterHours) total += rules.afterHoursFee;

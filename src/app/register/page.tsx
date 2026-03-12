@@ -48,11 +48,11 @@ export default function RegisterPage() {
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <Link href="/">
           <Image
-            src="/images/qalt-with-tagline.png"
+            src="/images/qalt.png"
             alt="Qalt Logo"
-            width={400}
-            height={120}
-            className="mx-auto h-32 w-auto mb-10"
+            width={320}
+            height={96}
+            className="mx-auto h-24 w-auto mb-10"
           />
         </Link>
         <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">

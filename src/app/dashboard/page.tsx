@@ -18,26 +18,26 @@ export default async function DashboardOverview() {
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold text-slate-900 mb-2">Welcome back, {company.name}</h1>
-      <p className="text-slate-500 mb-8">Here's an overview of your widget performance.</p>
+      <p className="text-slate-500 mb-8">Here&apos;s an overview of your widget performance.</p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
           <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">Total Quotes Requested</h3>
           <p className="text-4xl font-extrabold text-slate-900">{totalQuotes}</p>
         </div>
         
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
           <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">Current Base Rate</h3>
           <p className="text-4xl font-extrabold text-slate-900">${company.pricingProfile?.baseRatePerMile.toFixed(2)} / mi</p>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
           <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">Widget Status</h3>
           <p className="text-4xl font-extrabold text-emerald-600">Active</p>
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="px-6 py-5 border-b border-slate-200 flex justify-between items-center">
           <h2 className="text-lg font-bold text-slate-900">Recent Quote Requests</h2>
         </div>

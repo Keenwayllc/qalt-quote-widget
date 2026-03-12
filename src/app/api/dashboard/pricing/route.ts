@@ -19,6 +19,8 @@ export async function POST(req: Request) {
       data: {
         baseRatePerMile: data.baseRatePerMile,
         minimumCharge: data.minimumCharge,
+        weightFee: data.weightFee || 0,
+        itemCountFee: data.itemCountFee || 0,
         stairsFee: data.stairsFee || 0,
         insideDeliveryFee: data.insideDeliveryFee || 0,
         afterHoursFee: data.afterHoursFee || 0,

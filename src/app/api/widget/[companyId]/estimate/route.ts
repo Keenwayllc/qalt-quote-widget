@@ -30,6 +30,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
     const estimate = estimatePrice(distance, company.pricingProfile as {
       baseRatePerMile: number;
       minimumCharge: number;
+      weightFee: number;
+      itemCountFee: number;
       stairsFee: number;
       insideDeliveryFee: number;
       afterHoursFee: number;

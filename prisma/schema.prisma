@@ -24,6 +24,8 @@ model PricingProfile {
   companyId         String  @unique
   baseRatePerMile   Float   @default(2.50)
   minimumCharge     Float   @default(35.00)
+  weightFee         Float   @default(0)
+  itemCountFee      Float   @default(0)
   stairsFee         Float   @default(0)
   insideDeliveryFee Float   @default(0)
   afterHoursFee     Float   @default(0)
@@ -32,15 +34,17 @@ model PricingProfile {
 }
 
 model WidgetSettings {
-  id             String  @id @default(cuid())
-  companyId      String  @unique
-  showWeight     Boolean @default(false)
-  showExtras     Boolean @default(true)
-  primaryColor   String  @default("#1E40AF")
-  buttonText     String  @default("Get Instant Quote")
-  headerText     String  @default("Delivery Quote Calculator")
-  disclaimerText String  @default("Estimate only. Final price confirmed after booking.")
-  company        Company @relation(fields: [companyId], references: [id])
+  id                 String  @id @default(cuid())
+  companyId          String  @unique
+  showWeight         Boolean @default(false)
+  showItemCount      Boolean @default(true)
+  showExtras         Boolean @default(true)
+  primaryColor       String  @default("#1E40AF")
+  buttonText         String  @default("Get Instant Quote")
+  headerText         String  @default("Delivery Quote Calculator")
+  disclaimerText     String  @default("Estimate only. Final price confirmed after booking.")
+  backgroundImageUrl String?
+  company            Company @relation(fields: [companyId], references: [id])
 }
 
 model QuoteRequest {

@@ -4,5 +4,5 @@ import WidgetForm from "@/components/dashboard/WidgetForm";
 export default async function WidgetSettingsPage() {
   const company = await getCurrentCompany();
   
-  return <WidgetForm initialData={company.widgetSettings!} />;
+  return <WidgetForm initialData={company.widgetSettings!} companyLogoUrl={company.logoUrl} />;
 }

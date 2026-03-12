@@ -12,7 +12,8 @@ import {
   LogOut,
   Menu,
   X,
-  CreditCard
+  CreditCard,
+  DollarSign
 } from "lucide-react";
 
 export default function DashboardLayout({
@@ -26,7 +27,8 @@ export default function DashboardLayout({
 
   const navItems = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
-    { name: "My Widget", href: "/dashboard/pricing", icon: Settings },
+    { name: "Pricing Settings", href: "/dashboard/pricing", icon: DollarSign },
+    { name: "Widget Appearance", href: "/dashboard/widget", icon: Settings },
     { name: "Quotes", href: "/dashboard/quotes", icon: FileText },
     { name: "Get Embed Code", href: "/dashboard/embed", icon: Code },
     { name: "Subscription", href: "/dashboard/billing", icon: CreditCard },
