@@ -454,7 +454,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
             <span className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em]">Powered by</span>
             <div className="flex items-center gap-1 scale-75 opacity-70 transform origin-right">
             <QaltIcon size={24} />
-            <Image src="/images/qalt.png" alt="Qalt Logo" width={70} height={20} className="h-5 w-auto object-contain" />
+            <Image src="/images/qalt.png" alt="Qalt Logo" width={70} height={20} className="h-5 w-auto object-contain -translate-y-[2px]" />
           </div>
           </a>
         </div>

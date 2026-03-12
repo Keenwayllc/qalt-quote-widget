@@ -50,7 +50,7 @@ export default function RegisterPage() {
         <Link href="/" className="flex flex-col items-center mb-6">
           <div className="flex items-center gap-1.5 scale-125">
             <QaltIcon size={48} />
-            <Image src="/images/qalt.png" alt="Qalt Logo" width={135} height={40} className="h-10 w-auto object-contain" />
+            <Image src="/images/qalt.png" alt="Qalt Logo" width={135} height={40} className="h-10 w-auto object-contain -translate-y-[2px]" />
           </div>
         </Link>
         <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">

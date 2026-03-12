@@ -60,7 +60,7 @@ export default function DashboardLayout({
           <div className="p-8">
             <Link href="/" className="flex items-center gap-1.5">
               <QaltIcon size={32} />
-              <Image src="/images/qalt.png" alt="Qalt Logo" width={90} height={28} className="h-7 w-auto object-contain" />
+              <Image src="/images/qalt.png" alt="Qalt Logo" width={90} height={28} className="h-7 w-auto object-contain -translate-y-[2px]" />
             </Link>
           </div>
         
