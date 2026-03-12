@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
-import { storage } from "@/lib/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { adminStorage } from "@/lib/firebase-admin";
 import path from "path";
 
 export async function POST(req: Request) {
@@ -38,27 +37,28 @@ export async function POST(req: Request) {
       );
     }
 
-    // 4. Upload to Firebase Storage
+    // 4. Upload via Admin SDK (bypasses Firebase Storage security rules)
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Create unique filename using companyId and original extension
     const extension = path.extname(file.name) || ".png";
-    const uniqueFilename = `${companyId}-${Date.now()}${extension}`;
-    
-    const storageRef = ref(storage, `uploads/${uniqueFilename}`);
-    
-    // Upload the file
-    await uploadBytes(storageRef, buffer, {
-      contentType: file.type,
+    const uniqueFilename = `uploads/${companyId}-${Date.now()}${extension}`;
+
+    const bucket = adminStorage.bucket();
+    const fileRef = bucket.file(uniqueFilename);
+
+    await fileRef.save(buffer, {
+      metadata: { contentType: file.type },
     });
 
-    // Get the download URL
-    const fileUrl = await getDownloadURL(storageRef);
+    // Make publicly readable so the widget can display it
+    await fileRef.makePublic();
+
+    const fileUrl = `https://storage.googleapis.com/${bucket.name}/${uniqueFilename}`;
 
     return NextResponse.json({ url: fileUrl });
-  } catch (error) {
-    console.error("Upload error:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  } catch (error: unknown) {
+    console.error("Upload error:", error instanceof Error ? error.message : String(error));
+    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
 }
