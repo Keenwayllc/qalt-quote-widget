@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw } from "lucide-react";
+import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw, ExternalLink } from "lucide-react";
 
 import Image from "next/image";
 
@@ -25,14 +25,16 @@ interface WidgetProps {
   };
 }
 
-export default function WidgetSettingsForm({ 
-  initialData, 
+export default function WidgetSettingsForm({
+  initialData,
   companyLogoUrl,
-  subscriptionPlan
-}: { 
+  subscriptionPlan,
+  companyId,
+}: {
   initialData: WidgetProps['company']['widgetSettings'];
   companyLogoUrl?: string | null;
   subscriptionPlan: string;
+  companyId: string;
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -326,6 +328,15 @@ export default function WidgetSettingsForm({
               <Save size={20} />
               {loading ? "Saving..." : "Save Settings"}
             </button>
+            <a
+              href={`/widget/${companyId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-300 text-slate-700 font-bold rounded-lg hover:bg-slate-50 transition-all"
+            >
+              <ExternalLink size={18} />
+              Preview Widget
+            </a>
             
             {message.text && (
               <p className={`text-sm font-semibold ${message.type === "success" ? "text-emerald-600" : "text-red-600"}`}>

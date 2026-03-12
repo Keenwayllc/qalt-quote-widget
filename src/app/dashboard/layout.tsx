@@ -29,8 +29,8 @@ export default function DashboardLayout({
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { name: "Pricing Settings", href: "/dashboard/pricing", icon: DollarSign },
     { name: "Widget Appearance", href: "/dashboard/widget", icon: Settings },
-    { name: "Quotes", href: "/dashboard/quotes", icon: FileText },
     { name: "Get Embed Code", href: "/dashboard/embed", icon: Code },
+    { name: "Quotes", href: "/dashboard/quotes", icon: FileText },
     { name: "Subscription", href: "/dashboard/billing", icon: CreditCard },
   ];
 
