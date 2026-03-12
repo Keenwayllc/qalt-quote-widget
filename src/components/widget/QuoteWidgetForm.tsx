@@ -442,7 +442,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
               <div>
                 <h3 className="text-2xl font-black text-slate-900 tracking-tight">You&apos;re All Set!</h3>
                 <p className="text-sm text-slate-500 mt-3 leading-relaxed px-2 font-medium">
-                  Thanks, <strong className="text-slate-700">{formData.customerName}</strong>. {company.name} will reach out shortly about your <strong className="text-emerald-600">${estimate?.toFixed(2)}</strong> delivery quote.
+                  Thanks, <strong className="text-slate-700">{formData.customerName}</strong>. {widgetSettings.companyNameText || company.name} will reach out shortly about your <strong className="text-emerald-600">${estimate?.toFixed(2)}</strong> delivery quote.
                 </p>
               </div>
               <button
