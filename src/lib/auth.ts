@@ -1,8 +1,13 @@
 import * as jose from "jose";
 import bcrypt from "bcryptjs";
 
-const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret-for-dev-only-do-not-use-in-prod";
-const encodedSecret = new TextEncoder().encode(JWT_SECRET);
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET && process.env.NODE_ENV === "production") {
+  throw new Error("JWT_SECRET environment variable is required in production");
+}
+
+const secretKey = JWT_SECRET || "dev-fallback-secret-key-only-for-local-use";
+const encodedSecret = new TextEncoder().encode(secretKey);
 
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
