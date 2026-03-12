@@ -3,7 +3,7 @@
     .frame { stroke: #255d84; }
     .eye { fill: #255d84; }
     @media (prefers-color-scheme: dark) {
-      .frame { stroke: #FFFFFF; }
+      .frame { stroke: #60A5FA; }
       .eye { fill: #60A5FA; }
     }
   </style>
