@@ -3,8 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
-import QaltIcon from "@/components/shared/QaltIcon";
+import QaltLogo from "@/components/shared/QaltLogo";
 import { 
   LayoutDashboard, 
   FileText, 
@@ -58,10 +57,7 @@ export default function DashboardLayout({
       `}>
         <div className="flex flex-col h-full">
           <div className="p-8">
-            <Link href="/" className="flex items-center gap-2">
-              <QaltIcon size={28} />
-              <Image src="/images/qalt.png" alt="Qalt Logo" width={110} height={34} className="h-8 w-auto object-contain -translate-y-[1px]" />
-            </Link>
+            <QaltLogo size="sm" />
           </div>
         
         <nav className="flex-1 px-4 py-6 space-y-1">
@@ -108,10 +104,7 @@ export default function DashboardLayout({
       <main className="flex-1 flex flex-col min-w-0">
         {/* Mobile header */}
         <header className="md:hidden bg-white border-b border-slate-200 h-24 flex items-center justify-between px-6">
-          <Link href="/" className="flex items-center gap-2">
-            <QaltIcon size={28} />
-            <Image src="/images/qalt.png" alt="Qalt Logo" width={115} height={34} className="h-9 w-auto object-contain -translate-y-[1px]" />
-          </Link>
+          <QaltLogo size="sm" />
         </header>
 
         <div className="flex-1 overflow-auto">

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import QaltIcon from "@/components/shared/QaltIcon";
+import QaltLogo from "@/components/shared/QaltLogo";
 import {
   Calculator,
   ArrowRight,
@@ -44,10 +44,7 @@ export default function LandingPage() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <QaltIcon size={36} />
-            <Image src="/images/qalt.png" alt="Qalt Logo" width={140} height={42} className="h-10 w-auto object-contain -translate-y-[1px]" />
-          </Link>
+          <QaltLogo size="md" />
           
           <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500 uppercase tracking-widest">
             <a href="#features" className="hover:text-blue-600 transition-colors">Features</a>
@@ -336,10 +333,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="flex flex-col items-center md:items-start gap-6">
-              <Link href="/" className="flex items-center gap-2">
-                <QaltIcon size={32} />
-                <Image src="/images/qalt.png" alt="Qalt Logo" width={120} height={36} className="h-9 w-auto object-contain -translate-y-[1px]" />
-              </Link>
+              <QaltLogo size="sm" />
               <p className="text-slate-400 font-medium">© 2024 Qalt SaaS. All rights reserved.</p>
             </div>
             <div className="flex gap-10 text-sm font-bold text-slate-400 uppercase tracking-widest">

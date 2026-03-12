@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import QaltIcon from "@/components/shared/QaltIcon";
+import QaltLogo from "@/components/shared/QaltLogo";
 import { ArrowLeft } from "lucide-react";
 
 export default function RegisterPage() {
@@ -47,12 +46,9 @@ export default function RegisterPage() {
         Back to Home
       </Link>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <Link href="/" className="flex flex-col items-center mb-6">
-          <div className="flex items-center gap-2.5 scale-125">
-            <QaltIcon size={40} />
-            <Image src="/images/qalt.png" alt="Qalt Logo" width={160} height={48} className="h-12 w-auto object-contain -translate-y-[2px]" />
-          </div>
-        </Link>
+        <div className="flex justify-center mb-6">
+          <QaltLogo size="lg" />
+        </div>
         <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">
           Create your Qalt account
         </h2>
