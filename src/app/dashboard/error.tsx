@@ -29,6 +29,9 @@ export default function DashboardError({
         {error.digest && (
           <p className="text-xs text-slate-400 font-mono mb-4">Error ID: {error.digest}</p>
         )}
+        {error.message && (
+          <p className="text-xs text-red-400 font-mono mb-4 break-all">{error.message}</p>
+        )}
         <button
           onClick={reset}
           className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all"
