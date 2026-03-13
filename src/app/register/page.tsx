@@ -2,8 +2,15 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { Building2, Mail, Lock, ArrowRight, Loader2, CheckCircle, Zap, Shield, BarChart3 } from "lucide-react";
 import QaltLogo from "@/components/shared/QaltLogo";
-import { ArrowLeft } from "lucide-react";
+
+const features = [
+  { icon: Zap, title: "Instant Quotes", desc: "Embed a real-time calculator in minutes." },
+  { icon: Shield, title: "Plan Enforcement", desc: "Automatic limits, billing, and upgrades built in." },
+  { icon: BarChart3, title: "Lead Tracking", desc: "Every quote request saved and tracked for you." },
+];
 
 export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
@@ -40,90 +47,187 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative">
-      <Link href="/" className="absolute top-6 left-6 flex items-center gap-2 text-slate-500 hover:text-blue-600 transition-colors font-medium text-sm group">
-        <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-        Back to Home
-      </Link>
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center mb-6">
-          <QaltLogo size="lg" />
+    <div className="min-h-screen flex">
+      {/* Left brand panel */}
+      <div className="hidden lg:flex lg:w-[45%] bg-[#1E40AF] relative flex-col justify-between p-12 overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute inset-0 bg-linear-to-br from-[#1E40AF] to-[#1e3a8a]" />
+        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-white/5" />
+        <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-white/5" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-white/2 border border-white/10" />
+
+        {/* Logo */}
+        <div className="relative z-10">
+          <QaltLogo size="sm" />
         </div>
-        <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">
-          Create your Qalt account
-        </h2>
-        <p className="mt-2 text-center text-sm text-slate-600">
-          Or{" "}
-          <Link href="/login" className="font-medium text-blue-600 hover:text-blue-500">
-            sign in to your existing account
-          </Link>
-        </p>
+
+        {/* Center content */}
+        <div className="relative z-10 space-y-10">
+          <div className="space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 rounded-full border border-white/20">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/70">Now in Beta</span>
+            </div>
+            <h1 className="text-4xl font-black text-white tracking-tight leading-tight">
+              Turn visitors into<br />
+              <span className="text-blue-200">booked deliveries.</span>
+            </h1>
+            <p className="text-blue-200/80 font-medium text-sm leading-relaxed max-w-xs">
+              Qalt gives your business an embeddable quote calculator that captures leads and converts them automatically.
+            </p>
+          </div>
+
+          {/* Features */}
+          <div className="space-y-4">
+            {features.map((f, i) => (
+              <motion.div
+                key={f.title}
+                initial={{ opacity: 0, x: -16 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 + i * 0.1, duration: 0.4 }}
+                className="flex items-start gap-4"
+              >
+                <div className="p-2 bg-white/10 rounded-xl border border-white/15 shrink-0">
+                  <f.icon size={16} className="text-blue-200" />
+                </div>
+                <div>
+                  <p className="text-sm font-black text-white">{f.title}</p>
+                  <p className="text-xs text-blue-200/70 font-medium mt-0.5">{f.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom social proof */}
+        <div className="relative z-10">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
+            Trusted by delivery companies
+          </p>
+        </div>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow-sm sm:rounded-2xl sm:px-10 border border-slate-100">
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-slate-700">Company Name</label>
-              <div className="mt-1">
+      {/* Right form panel */}
+      <div className="flex-1 flex flex-col justify-center px-6 py-12 sm:px-12 lg:px-16 bg-slate-50">
+        {/* Mobile logo */}
+        <div className="lg:hidden mb-10 flex justify-center">
+          <QaltLogo size="sm" />
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="w-full max-w-md mx-auto"
+        >
+          {/* Header */}
+          <div className="mb-8">
+            <h2 className="text-3xl font-black text-slate-900 tracking-tight">
+              Create your account
+            </h2>
+            <p className="mt-2 text-sm font-medium text-slate-500">
+              Already have one?{" "}
+              <Link href="/login" className="text-[#1E40AF] font-bold hover:text-blue-800 transition-colors">
+                Sign in instead
+              </Link>
+            </p>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Company Name */}
+            <div className="space-y-2">
+              <label htmlFor="name" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">
+                Company Name
+              </label>
+              <div className="relative">
+                <Building2 className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                 <input
                   id="name"
                   name="name"
                   type="text"
+                  autoComplete="organization"
                   required
-                  className="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm placeholder-slate-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-slate-900 bg-white"
                   placeholder="Acme Deliveries"
+                  className="w-full pl-14 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-[#1E40AF] transition-all font-semibold text-slate-900 text-sm placeholder:text-slate-400 shadow-sm"
                 />
               </div>
             </div>
 
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-700">Email address</label>
-              <div className="mt-1">
+            {/* Email */}
+            <div className="space-y-2">
+              <label htmlFor="email" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">
+                Email Address
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                 <input
                   id="email"
                   name="email"
                   type="email"
                   autoComplete="email"
                   required
-                  className="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm placeholder-slate-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-slate-900 bg-white"
-                  placeholder="hello@acme.com"
+                  placeholder="hello@company.com"
+                  className="w-full pl-14 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-[#1E40AF] transition-all font-semibold text-slate-900 text-sm placeholder:text-slate-400 shadow-sm"
                 />
               </div>
             </div>
 
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-slate-700">Password</label>
-              <div className="mt-1">
+            {/* Password */}
+            <div className="space-y-2">
+              <label htmlFor="password" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                 <input
                   id="password"
                   name="password"
                   type="password"
                   autoComplete="new-password"
                   required
-                  className="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm placeholder-slate-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-slate-900 bg-white"
-                  placeholder="••••••••"
+                  placeholder="Min. 8 characters"
+                  className="w-full pl-14 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-[#1E40AF] transition-all font-semibold text-slate-900 text-sm placeholder:text-slate-400 shadow-sm"
                 />
               </div>
             </div>
 
+            {/* Error */}
             {error && (
-              <div className="text-sm text-red-600 font-medium">
-                {error}
-              </div>
+              <motion.div
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-center gap-3 p-4 bg-rose-50 border border-rose-100 rounded-2xl"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
+                <p className="text-sm font-semibold text-rose-700">{error}</p>
+              </motion.div>
             )}
 
-            <div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
-              >
-                {loading ? "Creating account..." : "Register"}
-              </button>
-            </div>
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full flex items-center justify-center gap-2.5 py-4 bg-[#1E40AF] hover:bg-blue-800 text-white font-black text-sm uppercase tracking-[0.15em] rounded-2xl transition-all shadow-lg shadow-blue-900/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+            >
+              {loading ? (
+                <><Loader2 className="w-4 h-4 animate-spin" /> Creating account...</>
+              ) : (
+                <>Create Account <ArrowRight size={16} /></>
+              )}
+            </button>
           </form>
-        </div>
+
+          {/* Feature checklist */}
+          <div className="mt-8 pt-8 border-t border-slate-200 space-y-2.5">
+            {["Free to start — no credit card required", "Widget live on your site in under 10 minutes", "Cancel anytime"].map((text) => (
+              <div key={text} className="flex items-center gap-2.5">
+                <CheckCircle size={14} className="text-emerald-500 shrink-0" />
+                <span className="text-xs font-medium text-slate-500">{text}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </div>
   );
