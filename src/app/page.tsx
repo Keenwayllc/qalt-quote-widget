@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import QaltLogo from "@/components/shared/QaltLogo";
+import QaltIcon from "@/components/shared/QaltIcon";
 import {
   Calculator,
   ArrowRight,
@@ -286,13 +287,17 @@ export default function LandingPage() {
 
         {/* Testimonials */}
         <section className="py-32 bg-linear-to-br from-slate-900 via-slate-900 to-blue-950 text-white overflow-hidden relative">
+          {/* Background Qalt icon — decorative */}
+          <div className="absolute -bottom-40 -right-40 pointer-events-none select-none" aria-hidden="true">
+            <QaltIcon size={2000} color="rgba(255,255,255,0.05)" eyeColor="rgba(255,255,255,0.09)" />
+          </div>
           <div className="max-w-7xl mx-auto relative z-10">
             <div className="px-6 mb-16 text-center">
               <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-tight">
-                Trusted by Delivery Titans
+                Trusted by Businesses Like Yours
               </h2>
               <p className="text-xl text-slate-400 max-w-2xl mx-auto font-medium">
-                From local flower shops to enterprise logistics, Qalt is the standard for instant, automated quotes.
+                Any industry. Any product. If you quote it, Qalt can automate it.
               </p>
             </div>
             
