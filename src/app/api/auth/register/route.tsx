@@ -3,6 +3,9 @@ import prisma from "@/lib/prisma";
 import { hashPassword, signToken } from "@/lib/auth";
 import { sendEmail } from "@/lib/email";
 import { WelcomeEmail } from "@/components/emails/WelcomeEmail";
+import React from 'react';
+
+const getWelcomeEmail = (name: string) => <WelcomeEmail companyName={name} />;
 
 export async function POST(req: Request) {
   try {
@@ -44,11 +47,13 @@ export async function POST(req: Request) {
     const token = await signToken({ companyId: company.id, email: company.email });
 
     // Send welcome email
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    const emailComponent = getWelcomeEmail(company.name);
     try {
       await sendEmail({
         to: company.email,
         subject: "Welcome to Qalt!",
-        react: <WelcomeEmail companyName={company.name} />,
+        react: emailComponent,
       });
     } catch (emailError) {
       console.error("Failed to send welcome email:", emailError);

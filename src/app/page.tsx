@@ -78,7 +78,7 @@ export default function LandingPage() {
                 alt={`Qalt Banner ${index + 1}`}
                 fill
                 priority={index === 0}
-                className="object-cover scale-105 group-hover:scale-100 transition-transform duration-[12000ms]"
+                className="object-cover scale-105 group-hover:scale-100 transition-transform duration-12000"
               />
             </div>
           ))}

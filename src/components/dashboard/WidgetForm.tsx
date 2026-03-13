@@ -173,7 +173,7 @@ export default function WidgetSettingsForm({
               {/* Image Uploads */}
               <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-white border border-slate-300 rounded-lg shadow-sm">
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2 flex items-center gap-2">
+                  <label className="text-sm font-medium text-slate-700 mb-2 flex items-center gap-2">
                     Company Logo
                     {!entitlements.isAdvancedCustomizationEnabled && <Lock size={12} className="text-amber-500" />}
                   </label>
@@ -201,7 +201,7 @@ export default function WidgetSettingsForm({
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2 flex items-center gap-2">
+                  <label className="text-sm font-medium text-slate-700 mb-2 flex items-center gap-2">
                     Widget Background
                     {!entitlements.isAdvancedCustomizationEnabled && <Lock size={12} className="text-amber-500" />}
                   </label>
@@ -231,7 +231,7 @@ export default function WidgetSettingsForm({
               {/* Text Branding (Free Plan Option) */}
               <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-white border border-slate-300 rounded-lg shadow-sm">
                 <div>
-                  <label htmlFor="companyNameText" className="block text-sm font-medium text-slate-700 mb-1 flex items-center gap-2">
+                  <label htmlFor="companyNameText" className="text-sm font-medium text-slate-700 mb-1 flex items-center gap-2">
                     Company Name (Text Branding)
                     {!entitlements.isAdvancedCustomizationEnabled && <Lock size={12} className="text-amber-500" />}
                   </label>
@@ -249,7 +249,7 @@ export default function WidgetSettingsForm({
                   <p className="text-xs text-slate-400 mt-1">Shown if no logo is uploaded</p>
                 </div>
                 <div>
-                  <label htmlFor="companyNameFont" className="block text-sm font-medium text-slate-700 mb-1 flex items-center gap-2">
+                  <label htmlFor="companyNameFont" className="text-sm font-medium text-slate-700 mb-1 flex items-center gap-2">
                     Branding Font
                     {!entitlements.isAdvancedCustomizationEnabled && <Lock size={12} className="text-amber-500" />}
                   </label>
@@ -336,7 +336,7 @@ export default function WidgetSettingsForm({
             </div>
 
             <div>
-              <label htmlFor="disclaimerText" className="block text-sm font-medium text-slate-700 mb-1 flex items-center gap-2">
+              <label htmlFor="disclaimerText" className="text-sm font-medium text-slate-700 mb-1 flex items-center gap-2">
                 Disclaimer Text
                 {!entitlements.isAdvancedCustomizationEnabled && <Lock size={12} className="text-amber-500" />}
               </label>
