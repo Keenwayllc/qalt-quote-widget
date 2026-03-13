@@ -16,15 +16,20 @@ export default async function DashboardOverview() {
   const company = await getCurrentCompany();
 
   // Get recent quotes
-  const recentQuotes = await prisma.quoteRequest.findMany({
-    where: { companyId: company.id },
-    orderBy: { createdAt: "desc" },
-    take: 5,
-  });
-
-  const totalQuotes = await prisma.quoteRequest.count({
-    where: { companyId: company.id },
-  });
+  let recentQuotes: Awaited<ReturnType<typeof prisma.quoteRequest.findMany>> = [];
+  let totalQuotes = 0;
+  try {
+    [recentQuotes, totalQuotes] = await Promise.all([
+      prisma.quoteRequest.findMany({
+        where: { companyId: company.id },
+        orderBy: { createdAt: "desc" },
+        take: 5,
+      }),
+      prisma.quoteRequest.count({ where: { companyId: company.id } }),
+    ]);
+  } catch (error) {
+    console.error("Dashboard query error:", error instanceof Error ? error.message : String(error));
+  }
 
   return (
     <div className="p-4 lg:p-10 space-y-10 max-w-7xl mx-auto">
