@@ -16,6 +16,7 @@ import {
   Code2,
   CheckCircle2,
 } from "lucide-react";
+import TestimonialsCarousel from "@/components/landing/TestimonialsCarousel";
 
 const BANNER_IMAGES = [
   "/images/banner-1.jpg",
@@ -285,34 +286,17 @@ export default function LandingPage() {
 
         {/* Testimonials */}
         <section className="py-32 bg-linear-to-br from-slate-900 via-slate-900 to-blue-950 text-white overflow-hidden relative">
-          <div className="max-w-7xl mx-auto px-6 relative z-10">
-            <h2 className="text-4xl md:text-5xl font-black mb-16 text-center tracking-tight leading-tight">Trusted by Delivery Titans</h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="p-9 bg-white/5 border border-white/10 rounded-xl hover:bg-white/8 transition-colors">
-                <p className="text-xl font-medium mb-8 leading-relaxed italic text-white/80">
-                  &quot;The conversion rate jump was immediate. We used to lose leads because of manual pricing delay. With Qalt, it&apos;s instant.&quot;
-                </p>
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center font-bold text-sm">JD</div>
-                  <div>
-                    <div className="font-bold">John Doe</div>
-                    <div className="text-blue-400 text-xs font-black uppercase tracking-widest">CEO, QuickShip Ltd.</div>
-                  </div>
-                </div>
-              </div>
-              <div className="p-9 bg-white/5 border border-white/10 rounded-xl hover:bg-white/8 transition-colors md:translate-y-10">
-                <p className="text-xl font-medium mb-8 leading-relaxed italic text-white/80">
-                  &quot;Implementing the Qalt widget was the best tech decision we made this year. Took 5 minutes and works perfectly.&quot;
-                </p>
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center font-bold text-sm">SS</div>
-                  <div>
-                    <div className="font-bold">Sarah Smith</div>
-                    <div className="text-emerald-400 text-xs font-black uppercase tracking-widest">Founder, Swift Delivery</div>
-                  </div>
-                </div>
-              </div>
+          <div className="max-w-7xl mx-auto relative z-10">
+            <div className="px-6 mb-16 text-center">
+              <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-tight">
+                Trusted by Delivery Titans
+              </h2>
+              <p className="text-xl text-slate-400 max-w-2xl mx-auto font-medium">
+                From local flower shops to enterprise logistics, Qalt is the standard for instant, automated quotes.
+              </p>
             </div>
+            
+            <TestimonialsCarousel />
           </div>
         </section>
 
