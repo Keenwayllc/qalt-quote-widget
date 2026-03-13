@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Building2, Mail, Lock, ArrowRight, Loader2, CheckCircle, Zap, Shield, BarChart3 } from "lucide-react";
+import { Building2, Mail, Lock, ArrowRight, ArrowLeft, Loader2, CheckCircle, Zap, Shield, BarChart3 } from "lucide-react";
 import QaltLogo from "@/components/shared/QaltLogo";
 import QaltIcon from "@/components/shared/QaltIcon";
 import Image from "next/image";
@@ -59,10 +59,11 @@ export default function RegisterPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-white/2 border border-white/10" />
 
         {/* Logo */}
-        <div className="relative z-10 flex items-center gap-2 -translate-y-8">
-          <QaltIcon size={48} color="white" eyeColor="white" />
-          <Image src="/images/qalt.png" alt="Qalt" width={280} height={169} className="h-14 w-auto -ml-2 object-contain brightness-0 invert" priority />
-        </div>
+        <Link href="/" className="relative z-10 flex items-center gap-3 w-fit group">
+          <ArrowLeft size={16} className="text-white/40 group-hover:text-white/70 group-hover:-translate-x-0.5 transition-all shrink-0" />
+          <QaltIcon size={56} color="white" eyeColor="white" />
+          <Image src="/images/qalt.png" alt="Qalt" width={280} height={169} className="h-[62px] w-auto -ml-2 object-contain brightness-0 invert -translate-x-[10px] translate-y-[4px]" priority />
+        </Link>
 
         {/* Center content */}
         <div className="relative z-10 space-y-10">

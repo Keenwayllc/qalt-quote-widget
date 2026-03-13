@@ -71,7 +71,7 @@ export default function DashboardClientLayout({
         <div className="flex flex-col h-full">
           <div className="p-8">
             <Link href="/dashboard" className="transition-opacity hover:opacity-80">
-              <QaltLogo size="sm" />
+              <QaltLogo size="xl" />
             </Link>
           </div>
         
@@ -135,7 +135,7 @@ export default function DashboardClientLayout({
 
         {/* Mobile header */}
         <header className="lg:hidden bg-white/80 backdrop-blur-md border-b border-slate-200 h-20 flex items-center justify-between px-6 shrink-0 relative z-10">
-          <QaltLogo size="sm" />
+          <QaltLogo size="xl" />
         </header>
 
         <div className="flex-1 overflow-auto relative z-10 custom-scrollbar">

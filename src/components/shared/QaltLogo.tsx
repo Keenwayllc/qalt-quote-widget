@@ -21,17 +21,18 @@ import QaltIcon from "./QaltIcon";
 
 interface QaltLogoProps {
   /** Controls everything — icon px size drives all other proportions. */
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
   /** Wrap in a link to "/" (default true). */
   linked?: boolean;
   className?: string;
 }
 
 const SIZES = {
-  //          iconSize  imageH   imageW  negMarginLeft iconOffset
-  sm: { icon: 28, h: "h-10", w: "w-auto", ml: "-ml-1.5", translateY: "-translate-y-[3px] -translate-x-[2px]" },
-  md: { icon: 36, h: "h-12", w: "w-auto", ml: "-ml-2",   translateY: "-translate-y-[3px] -translate-x-[2px]" },
-  lg: { icon: 44, h: "h-14", w: "w-auto", ml: "-ml-2.5", translateY: "-translate-y-[3px] -translate-x-[2px]" },
+  //          iconSize  imageH   imageW  negMarginLeft iconOffset             gap     imgExtra
+  sm: { icon: 28, h: "h-10", w: "w-auto", ml: "-ml-1.5", translateY: "-translate-y-[3px] -translate-x-[2px]", gap: "gap-1", imgExtra: "" },
+  md: { icon: 36, h: "h-12", w: "w-auto", ml: "-ml-2",   translateY: "-translate-y-[3px] -translate-x-[2px]", gap: "gap-1", imgExtra: "" },
+  lg: { icon: 44, h: "h-14", w: "w-auto", ml: "-ml-2.5", translateY: "-translate-y-[3px] -translate-x-[2px]", gap: "gap-1", imgExtra: "" },
+  xl: { icon: 56, h: "h-[62px]", w: "w-auto", ml: "-ml-2",   translateY: "translate-y-[1px]", gap: "gap-3", imgExtra: "-translate-x-[10px] translate-y-[4px]" },
 } as const;
 
 export default function QaltLogo({
@@ -42,7 +43,7 @@ export default function QaltLogo({
   const s = SIZES[size];
 
   const inner = (
-    <span className={`flex items-center gap-1 ${className}`}>
+    <span className={`flex items-center ${s.gap} ${className}`}>
       {/* Icon: explicit color so it never depends on currentColor inheritance */}
       <QaltIcon
         size={s.icon}
@@ -61,7 +62,7 @@ export default function QaltLogo({
         alt="Qalt"
         width={280}
         height={169}
-        className={`${s.h} ${s.w} ${s.ml} object-contain`}
+        className={`${s.h} ${s.w} ${s.ml} object-contain ${s.imgExtra}`}
         priority
       />
     </span>

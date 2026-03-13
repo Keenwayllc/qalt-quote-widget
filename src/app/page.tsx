@@ -46,7 +46,7 @@ export default function LandingPage() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-          <QaltLogo size="md" />
+          <QaltLogo size="xl" />
           
           <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500 uppercase tracking-widest">
             <a href="#features" className="hover:text-blue-600 transition-colors">Features</a>
@@ -324,7 +324,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="flex flex-col items-center md:items-start gap-6">
-              <QaltLogo size="sm" />
+              <QaltLogo size="xl" />
               <p className="text-slate-400 font-medium">© 2024 Qalt SaaS. All rights reserved.</p>
             </div>
             <div className="flex gap-10 text-sm font-bold text-slate-400 uppercase tracking-widest">
