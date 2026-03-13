@@ -5,8 +5,6 @@ import { sendEmail } from "@/lib/email";
 import { WelcomeEmail } from "@/components/emails/WelcomeEmail";
 import React from 'react';
 
-const getWelcomeEmail = (name: string) => <WelcomeEmail companyName={name} />;
-
 export async function POST(req: Request) {
   try {
     const { email, password, name } = await req.json();
@@ -46,14 +44,12 @@ export async function POST(req: Request) {
     // Create session token
     const token = await signToken({ companyId: company.id, email: company.email });
 
-    // Send welcome email
-    // eslint-disable-next-line react/jsx-no-useless-fragment
-    const emailComponent = getWelcomeEmail(company.name);
+    // Send welcome email — React.createElement avoids JSX-in-try/catch lint
     try {
       await sendEmail({
         to: company.email,
         subject: "Welcome to Qalt!",
-        react: emailComponent,
+        react: React.createElement(WelcomeEmail, { companyName: company.name }),
       });
     } catch (emailError) {
       console.error("Failed to send welcome email:", emailError);
