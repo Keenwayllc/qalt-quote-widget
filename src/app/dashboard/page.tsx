@@ -13,20 +13,7 @@ import {
 import Link from "next/link";
 
 export default async function DashboardOverview() {
-  let company;
-  try {
-    company = await getCurrentCompany();
-  } catch (error: unknown) {
-    // Re-throw Next.js internal errors (redirect, notFound)
-    if (error && typeof error === "object" && "digest" in error) throw error;
-    const msg = error instanceof Error ? error.message : String(error);
-    return (
-      <div className="p-10 max-w-xl mx-auto mt-20 bg-white rounded-2xl border border-red-200 shadow-xl text-center">
-        <h2 className="text-xl font-black text-slate-900 mb-2">Session Error</h2>
-        <p className="text-sm text-red-500 font-mono break-all">{msg}</p>
-      </div>
-    );
-  }
+  const company = await getCurrentCompany();
 
   // Get recent quotes
   let recentQuotes: Awaited<ReturnType<typeof prisma.quoteRequest.findMany>> = [];
