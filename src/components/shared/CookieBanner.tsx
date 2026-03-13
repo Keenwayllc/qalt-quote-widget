@@ -11,10 +11,13 @@ export default function CookieBanner() {
 
   useEffect(() => {
     setMounted(true);
-    // Check if consent has already been given
-    const consent = localStorage.getItem("cookieConsent");
-    if (!consent) {
-      setIsVisible(true);
+    try {
+      const consent = localStorage.getItem("cookieConsent");
+      if (!consent) {
+        setIsVisible(true);
+      }
+    } catch {
+      // localStorage blocked in cross-origin iframes — hide banner
     }
   }, []);
 
@@ -25,7 +28,11 @@ export default function CookieBanner() {
       performance: true,
       targeting: true,
     };
-    localStorage.setItem("cookieConsent", JSON.stringify(preferences));
+    try {
+      localStorage.setItem("cookieConsent", JSON.stringify(preferences));
+    } catch {
+      // localStorage blocked in cross-origin iframes
+    }
     setIsVisible(false);
   };
 

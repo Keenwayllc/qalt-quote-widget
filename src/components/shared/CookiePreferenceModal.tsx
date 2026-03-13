@@ -29,7 +29,8 @@ export default function CookiePreferenceModal({ isOpen, onClose, onAcceptAll, on
   useEffect(() => {
     setMounted(true);
     if (isOpen) {
-      const saved = localStorage.getItem("cookieConsent");
+      let saved: string | null = null;
+      try { saved = localStorage.getItem("cookieConsent"); } catch { /* blocked in iframe */ }
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
@@ -58,7 +59,7 @@ export default function CookiePreferenceModal({ isOpen, onClose, onAcceptAll, on
       strictlyNecessary: true,
       ...preferences
     };
-    localStorage.setItem("cookieConsent", JSON.stringify(finalPreferences));
+    try { localStorage.setItem("cookieConsent", JSON.stringify(finalPreferences)); } catch { /* blocked in iframe */ }
     onClose();
     onBannerDismiss();
   };
