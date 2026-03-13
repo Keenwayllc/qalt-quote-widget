@@ -56,7 +56,7 @@ export default function LoginPage() {
         <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-white/5" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-white/2 border border-white/10" />
 
-        <div className="relative z-10 flex items-center gap-2">
+        <div className="relative z-10 flex items-center gap-2 -translate-y-8">
           <QaltIcon size={48} color="white" eyeColor="white" />
           <Image src="/images/qalt.png" alt="Qalt" width={280} height={169} className="h-14 w-auto -ml-2 object-contain brightness-0 invert" priority />
         </div>
