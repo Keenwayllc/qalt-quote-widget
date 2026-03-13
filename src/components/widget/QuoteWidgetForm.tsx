@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { getEntitlements } from "@/lib/plans";
 import QaltIcon from "@/components/shared/QaltIcon";
 import { MapPin, CheckCircle, ArrowRight, User, Mail, Phone, Truck, Sparkles, Weight, Hash, Footprints, Home, Clock, Box } from "lucide-react";
 
@@ -41,7 +42,8 @@ interface FormData {
 }
 
 export default function QuoteWidgetForm({ company }: WidgetProps) {
-  const isStarter = company.subscriptionPlan === "STARTER";
+  const entitlements = getEntitlements(company.subscriptionPlan);
+  
   const widgetSettings = {
     ...(company.widgetSettings || {
       primaryColor: "#3B82F6",
@@ -51,11 +53,16 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
       showItemCount: true,
       showExtras: true,
       disclaimerText: "Estimate only. Final price confirmed after booking.",
-      backgroundImageUrl: null
     }),
-    ...(isStarter ? { backgroundImageUrl: undefined } : {})
+    // Strictly override if plan doesn't allow it
+    ...(!entitlements.isAdvancedCustomizationEnabled ? { 
+      backgroundImageUrl: null,
+      companyNameText: null,
+    } : {}),
   };
-  const logoUrlToUse = isStarter ? null : company.logoUrl;
+
+  const showWhiteLabel = entitlements.isWhiteLabelEnabled;
+  const logoUrlToUse = entitlements.isAdvancedCustomizationEnabled ? company.logoUrl : null;
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -458,7 +465,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
         {/* Footer */}
         <div className="px-8 py-5 bg-slate-50/80 border-t border-slate-100/80">
           <p className="text-[10px] text-slate-400 text-center leading-relaxed font-medium">{widgetSettings.disclaimerText}</p>
-          {isStarter && (
+          {!showWhiteLabel && (
             <a href="https://qalt.site" target="_blank" rel="noopener noreferrer" className="mt-3 flex items-center justify-center gap-2.5 opacity-40 hover:opacity-70 transition-opacity">
               <span className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em]">Powered by</span>
               <div className="flex items-center gap-1.5 scale-75 opacity-70 transform origin-right">

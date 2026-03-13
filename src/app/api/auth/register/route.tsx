@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { hashPassword, signToken } from "@/lib/auth";
+import { sendEmail } from "@/lib/email";
+import { WelcomeEmail } from "@/components/emails/WelcomeEmail";
 
 export async function POST(req: Request) {
   try {
@@ -40,6 +42,18 @@ export async function POST(req: Request) {
 
     // Create session token
     const token = await signToken({ companyId: company.id, email: company.email });
+
+    // Send welcome email
+    try {
+      await sendEmail({
+        to: company.email,
+        subject: "Welcome to Qalt!",
+        react: <WelcomeEmail companyName={company.name} />,
+      });
+    } catch (emailError) {
+      console.error("Failed to send welcome email:", emailError);
+      // We don't block registration if welcome email fails
+    }
 
     const response = NextResponse.json({ success: true, companyId: company.id });
     

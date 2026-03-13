@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw, ExternalLink } from "lucide-react";
+import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw, ExternalLink, Lock, Sparkles } from "lucide-react";
+import { getEntitlements } from "@/lib/plans";
+import Link from 'next/link';
 
 import Image from "next/image";
 
@@ -40,8 +42,17 @@ export default function WidgetSettingsForm({
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
   const [errorStatus, setErrorStatus] = useState<string | null>(null);
-  const [previewData, setPreviewData] = useState(initialData);
-  const [logo, setLogo] = useState(companyLogoUrl || "");
+  
+  const entitlements = getEntitlements(subscriptionPlan);
+  
+  const [previewData, setPreviewData] = useState({
+    ...initialData,
+    backgroundImageUrl: entitlements.isAdvancedCustomizationEnabled ? initialData.backgroundImageUrl : null,
+    companyNameText: entitlements.isAdvancedCustomizationEnabled ? initialData.companyNameText : null,
+    companyNameFont: entitlements.isAdvancedCustomizationEnabled ? initialData.companyNameFont : "Inter",
+    disclaimerText: entitlements.isAdvancedCustomizationEnabled ? initialData.disclaimerText : "Estimate only. Final price confirmed after booking.",
+  });
+  const [logo, setLogo] = useState(entitlements.isAdvancedCustomizationEnabled ? (companyLogoUrl || "") : "");
 
   // Dynamically load the selected Google Font so the preview renders correctly
   useEffect(() => {
@@ -140,14 +151,32 @@ export default function WidgetSettingsForm({
           <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-6">
             <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
               <Settings className="text-blue-600" size={20} />
-              Visual Settings
+              Appearance & Branding
             </h2>
+
+            {!entitlements.isAdvancedCustomizationEnabled && (
+              <div className="p-4 bg-amber-50 border border-amber-100 rounded-xl flex items-start gap-4 mb-6">
+                <div className="p-2 bg-amber-100 rounded-lg shrink-0">
+                   <Sparkles className="text-amber-600" size={20} />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-amber-900 leading-none mb-1">Unlock Premium Customization</h3>
+                  <p className="text-xs text-amber-700 leading-relaxed">
+                    Upgrade to <strong>Pro</strong> to unlock custom logos, background images, custom fonts, and white-labeling.
+                  </p>
+                  <Link href="/dashboard/billing" className="text-xs font-bold text-amber-900 underline mt-2 inline-block">View Plans</Link>
+                </div>
+              </div>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Image Uploads */}
               <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-white border border-slate-300 rounded-lg shadow-sm">
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Company Logo</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2 flex items-center gap-2">
+                    Company Logo
+                    {!entitlements.isAdvancedCustomizationEnabled && <Lock size={12} className="text-amber-500" />}
+                  </label>
                   <div className="flex items-center gap-4">
                     {logo ? (
                       <div className="relative w-12 h-12">
@@ -158,11 +187,10 @@ export default function WidgetSettingsForm({
                         <ImageIcon size={20} className="text-slate-300" />
                       </div>
                     )}
-                    {subscriptionPlan === "STARTER" ? (
-                      <div className="flex flex-col gap-1">
-                        <span className="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-1 rounded inline-block w-max">Pro Feature</span>
-                        <p className="text-xs text-slate-500">Upgrade to add a custom logo.</p>
-                      </div>
+                    {!entitlements.isAdvancedCustomizationEnabled ? (
+                      <button type="button" disabled className="px-4 py-2 bg-slate-50 border border-slate-200 text-sm font-medium text-slate-400 rounded-lg flex items-center gap-2">
+                        <Lock size={14} /> Locked
+                      </button>
                     ) : (
                       <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 text-sm font-medium text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors shadow-sm">
                         <Upload size={16} />
@@ -173,7 +201,10 @@ export default function WidgetSettingsForm({
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Widget Background</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2 flex items-center gap-2">
+                    Widget Background
+                    {!entitlements.isAdvancedCustomizationEnabled && <Lock size={12} className="text-amber-500" />}
+                  </label>
                   <div className="flex items-center gap-4">
                     {previewData.backgroundImageUrl ? (
                       <div className="w-24 h-12 rounded-lg border border-slate-200 bg-cover bg-center" style={{ backgroundImage: `url(${previewData.backgroundImageUrl})` }} />
@@ -182,11 +213,10 @@ export default function WidgetSettingsForm({
                         <ImageIcon size={20} className="text-slate-300" />
                       </div>
                     )}
-                    {subscriptionPlan === "STARTER" ? (
-                      <div className="flex flex-col gap-1">
-                        <span className="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-1 rounded inline-block w-max">Pro Feature</span>
-                        <p className="text-xs text-slate-500">Upgrade to add a custom background.</p>
-                      </div>
+                    {!entitlements.isAdvancedCustomizationEnabled ? (
+                      <button type="button" disabled className="px-4 py-2 bg-slate-50 border border-slate-200 text-sm font-medium text-slate-400 rounded-lg flex items-center gap-2">
+                        <Lock size={14} /> Locked
+                      </button>
                     ) : (
                       <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 text-sm font-medium text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors shadow-sm">
                         <Upload size={16} />
@@ -201,27 +231,35 @@ export default function WidgetSettingsForm({
               {/* Text Branding (Free Plan Option) */}
               <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-white border border-slate-300 rounded-lg shadow-sm">
                 <div>
-                  <label htmlFor="companyNameText" className="block text-sm font-medium text-slate-700 mb-1">Company Name (Text Branding)</label>
+                  <label htmlFor="companyNameText" className="block text-sm font-medium text-slate-700 mb-1 flex items-center gap-2">
+                    Company Name (Text Branding)
+                    {!entitlements.isAdvancedCustomizationEnabled && <Lock size={12} className="text-amber-500" />}
+                  </label>
                   <input
                     id="companyNameText"
                     name="companyNameText"
                     type="text"
-                    placeholder="Your Company"
+                    disabled={!entitlements.isAdvancedCustomizationEnabled}
+                    placeholder={entitlements.isAdvancedCustomizationEnabled ? "Your Company" : "Locked (Starter Plan)"}
                     value={previewData.companyNameText || ""}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm disabled:bg-slate-50 disabled:text-slate-400"
                     style={{ fontFamily: previewData.companyNameFont || "Inter" }}
                   />
-                  <p className="text-xs text-slate-400 mt-1">Shown if no logo is uploaded (Free plan option)</p>
+                  <p className="text-xs text-slate-400 mt-1">Shown if no logo is uploaded</p>
                 </div>
                 <div>
-                  <label htmlFor="companyNameFont" className="block text-sm font-medium text-slate-700 mb-1">Branding Font</label>
+                  <label htmlFor="companyNameFont" className="block text-sm font-medium text-slate-700 mb-1 flex items-center gap-2">
+                    Branding Font
+                    {!entitlements.isAdvancedCustomizationEnabled && <Lock size={12} className="text-amber-500" />}
+                  </label>
                   <select
                     id="companyNameFont"
                     name="companyNameFont"
+                    disabled={!entitlements.isAdvancedCustomizationEnabled}
                     value={previewData.companyNameFont || "Inter"}
                     onChange={(e) => setPreviewData(prev => ({ ...prev, companyNameFont: e.target.value }))}
-                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm disabled:bg-slate-50 disabled:text-slate-400"
                   >
                     <option value="Inter" style={{ fontFamily: 'Inter, sans-serif' }}>Inter (Sans)</option>
                     <option value="Roboto" style={{ fontFamily: 'Roboto, sans-serif' }}>Roboto (Clean)</option>
@@ -298,15 +336,22 @@ export default function WidgetSettingsForm({
             </div>
 
             <div>
-              <label htmlFor="disclaimerText" className="block text-sm font-medium text-slate-700 mb-1">Disclaimer Text</label>
+              <label htmlFor="disclaimerText" className="block text-sm font-medium text-slate-700 mb-1 flex items-center gap-2">
+                Disclaimer Text
+                {!entitlements.isAdvancedCustomizationEnabled && <Lock size={12} className="text-amber-500" />}
+              </label>
               <textarea
                 id="disclaimerText"
                 name="disclaimerText"
                 rows={3}
+                disabled={!entitlements.isAdvancedCustomizationEnabled}
                 value={previewData.disclaimerText}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm disabled:bg-slate-50 disabled:text-slate-400"
               />
+              {!entitlements.isAdvancedCustomizationEnabled && (
+                <p className="text-[10px] text-amber-600 bg-amber-50 px-2 py-1 rounded w-max mt-2 font-semibold">Custom disclaimers are a Pro feature.</p>
+              )}
             </div>
 
             <div className="flex flex-wrap gap-8">

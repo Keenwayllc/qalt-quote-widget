@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import { getEntitlements } from "@/lib/plans";
 
 export async function GET() {
   try {
@@ -19,7 +20,22 @@ export async function GET() {
 
     if (!company) return NextResponse.json({ error: "Company not found" }, { status: 404 });
 
-    return NextResponse.json({ id: company.id, name: company.name, widgetSettings: company.widgetSettings });
+    const entitlements = getEntitlements(company.subscriptionPlan);
+    
+    // Filter settings if not on advanced plan
+    const widgetSettings = company.widgetSettings ? {
+      ...company.widgetSettings,
+      backgroundImageUrl: entitlements.isAdvancedCustomizationEnabled ? company.widgetSettings.backgroundImageUrl : null,
+      companyNameText: entitlements.isAdvancedCustomizationEnabled ? company.widgetSettings.companyNameText : null,
+      companyNameFont: entitlements.isAdvancedCustomizationEnabled ? company.widgetSettings.companyNameFont : "Inter",
+    } : null;
+
+    return NextResponse.json({ 
+      id: company.id, 
+      name: company.name, 
+      subscriptionPlan: company.subscriptionPlan,
+      widgetSettings: widgetSettings 
+    });
   } catch (error) {
     console.error("Widget settings fetch error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
@@ -35,6 +51,13 @@ export async function POST(req: Request) {
     const payload = await verifyToken(token);
     if (!payload) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
+    const company = await prisma.company.findUnique({
+      where: { id: payload.companyId }
+    });
+
+    if (!company) return NextResponse.json({ error: "Company not found" }, { status: 404 });
+
+    const entitlements = getEntitlements(company.subscriptionPlan);
     const data = await req.json();
 
     const settingsData = {
@@ -43,10 +66,12 @@ export async function POST(req: Request) {
       primaryColor:      data.primaryColor      || "#3B82F6",
       buttonText:        data.buttonText        || "Get Instant Quote",
       headerText:        data.headerText        || "Delivery Quote Calculator",
-      disclaimerText:    data.disclaimerText    || "Estimate only. Final price confirmed after booking.",
-      backgroundImageUrl: data.backgroundImageUrl ?? null,
-      companyNameText:   data.companyNameText    ?? null,
-      companyNameFont:   data.companyNameFont    || "Inter",
+      disclaimerText:    (entitlements.isAdvancedCustomizationEnabled && data.disclaimerText)
+                          ? data.disclaimerText 
+                          : "Estimate only. Final price confirmed after booking.",
+      backgroundImageUrl: entitlements.isAdvancedCustomizationEnabled ? (data.backgroundImageUrl ?? null) : null,
+      companyNameText:   entitlements.isAdvancedCustomizationEnabled ? (data.companyNameText    ?? null) : null,
+      companyNameFont:   entitlements.isAdvancedCustomizationEnabled ? (data.companyNameFont    || "Inter") : "Inter",
     };
 
     await prisma.widgetSettings.upsert({
