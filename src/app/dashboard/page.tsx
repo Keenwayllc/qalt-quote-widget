@@ -13,7 +13,20 @@ import {
 import Link from "next/link";
 
 export default async function DashboardOverview() {
-  const company = await getCurrentCompany();
+  let company;
+  try {
+    company = await getCurrentCompany();
+  } catch (error: unknown) {
+    // Re-throw Next.js internal errors (redirect, notFound)
+    if (error && typeof error === "object" && "digest" in error) throw error;
+    const msg = error instanceof Error ? error.message : String(error);
+    return (
+      <div className="p-10 max-w-xl mx-auto mt-20 bg-white rounded-2xl border border-red-200 shadow-xl text-center">
+        <h2 className="text-xl font-black text-slate-900 mb-2">Session Error</h2>
+        <p className="text-sm text-red-500 font-mono break-all">{msg}</p>
+      </div>
+    );
+  }
 
   // Get recent quotes
   let recentQuotes: Awaited<ReturnType<typeof prisma.quoteRequest.findMany>> = [];
@@ -64,16 +77,16 @@ export default async function DashboardOverview() {
           title="Total Quotes"
           value={totalQuotes}
           description="Cumulative quote requests generated"
-          icon={FileText}
+          icon={<FileText size={20} />}
           variant="blue"
           trend={{ value: 12, isPositive: true }}
         />
-        
+
         <MetricCard
           title="Base Rate"
-          value={`$${company.pricingProfile?.baseRatePerMile.toFixed(2)}`}
+          value={`$${company.pricingProfile?.baseRatePerMile.toFixed(2) ?? "0.00"}`}
           description="Current price per mile"
-          icon={DollarSign}
+          icon={<DollarSign size={20} />}
           variant="emerald"
         />
 
@@ -81,7 +94,7 @@ export default async function DashboardOverview() {
           title="Active Status"
           value="Online"
           description="Widget is initialized on your site"
-          icon={Activity}
+          icon={<Activity size={20} />}
           variant="indigo"
         />
       </div>

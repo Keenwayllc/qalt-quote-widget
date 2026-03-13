@@ -1,12 +1,12 @@
 "use client";
 
-import { LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
 
 interface MetricCardProps {
   title: string;
   value: string | number;
   description?: string;
-  icon: LucideIcon;
+  icon: ReactNode;
   trend?: {
     value: number;
     isPositive: boolean;
@@ -18,7 +18,7 @@ export default function MetricCard({
   title,
   value,
   description,
-  icon: Icon,
+  icon,
   trend,
   variant = "blue",
 }: MetricCardProps) {
@@ -44,7 +44,7 @@ export default function MetricCard({
       <div className="relative z-10">
         <div className="flex items-center justify-between mb-4">
           <div className={`p-2.5 rounded-xl ${iconVariants[variant]} transition-transform group-hover:scale-110`}>
-            <Icon size={20} />
+            {icon}
           </div>
           {trend && (
             <div className={`text-xs font-bold px-2 py-1 rounded-full ${trend.isPositive ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}`}>
