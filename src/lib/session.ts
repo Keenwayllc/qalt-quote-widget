@@ -1,9 +1,10 @@
+import { cache } from "react";
 import { cookies } from "next/headers";
 import { verifyToken } from "./auth";
 import prisma from "./prisma";
 import { redirect } from "next/navigation";
 
-export async function getCurrentCompany() {
+export const getCurrentCompany = cache(async function getCurrentCompany() {
   const cookieStore = await cookies();
   const token = cookieStore.get("qalt_token")?.value;
 
@@ -29,4 +30,4 @@ export async function getCurrentCompany() {
   }
 
   return company;
-}
+});

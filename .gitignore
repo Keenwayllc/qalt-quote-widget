@@ -1,5 +1,3 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
 /.pnp
@@ -24,19 +22,35 @@
 .DS_Store
 *.pem
 
-# debug
+# debug / logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+*-debug.log*
+*.log
 
-# env files (can opt-in for committing if needed)
+# env files
 .env*
 
 # vercel
 .vercel
 
-`n# secrets`n*.json`n!package.json`n!tsconfig.json`n!next.config.json`n`n# logs`n*-debug.log*`n*.txt`ntsconfig.tsbuildinfo
+# secrets
+*.json
+!package.json
+!tsconfig.json
+!next.config.json
+
+# temp files
+*.txt
+tsconfig.tsbuildinfo
+
+# databases
+*.db
+
+# firebase credentials
 qalt-site-production-firebase-adminsdk-fbsvc-*.json
 
-.vercel
+# uploads (user-generated, not for git)
+/public/uploads/
