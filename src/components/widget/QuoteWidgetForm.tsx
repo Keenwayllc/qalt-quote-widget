@@ -76,15 +76,9 @@ const AutocompleteInput = ({
   } = usePlacesAutocomplete({
     requestOptions: { types: ["address"] },
     debounce: 300,
-    initOnMount: isLoaded
+    initOnMount: isLoaded,
+    defaultValue: value,
   });
-
-  // Sync input value with parent state (Crucial for persistence and clearing)
-  useEffect(() => {
-    if (value !== inputValue) {
-      setValue(value, false);
-    }
-  }, [value, setValue, inputValue]);
 
   return (
     <div className="relative">

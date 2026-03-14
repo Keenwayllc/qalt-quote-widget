@@ -4,7 +4,7 @@
  * This is a server-side only function.
  */
 export async function calculateDrivingDistance(origin: string, destination: string): Promise<number | null> {
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY || process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   if (!apiKey) {
     console.warn("Google Maps API Key not found in environment variables.");
     return null;
@@ -20,10 +20,9 @@ export async function calculateDrivingDistance(origin: string, destination: stri
 
     if (data.status === "OK" && data.rows[0].elements[0].status === "OK") {
       const distanceInMeters = data.rows[0].elements[0].distance.value;
-      const distanceInMiles = distanceInMeters * 0.000621371; // Convert meters to miles
-      return distanceInMiles;
+      return distanceInMeters * 0.000621371;
     } else {
-      console.error("Distance Matrix API error:", data.status, data.rows[0].elements[0].status);
+      console.error("[google-maps] Distance Matrix API error — top-level status:", data.status, "| element status:", data.rows?.[0]?.elements?.[0]?.status, "| error_message:", data.error_message);
       return null;
     }
   } catch (error) {
