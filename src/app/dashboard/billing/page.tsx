@@ -1,8 +1,14 @@
 import { getCurrentCompany } from "@/lib/session";
 import BillingClient from "./BillingClient";
+import SuccessBanner from "./SuccessBanner";
 
-export default async function BillingPage() {
-  const company = await getCurrentCompany();
+export default async function BillingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ success?: string }>;
+}) {
+  const [company, params] = await Promise.all([getCurrentCompany(), searchParams]);
+  const showSuccess = params.success === "1";
 
   return (
     <div className="p-8 max-w-6xl mx-auto">
@@ -10,6 +16,8 @@ export default async function BillingPage() {
         <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Subscription</h1>
         <p className="text-slate-500 mt-1">Manage your plan and feature access.</p>
       </div>
+
+      {showSuccess && <SuccessBanner plan={company.subscriptionPlan} />}
 
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-10 flex items-center justify-between">
         <div>

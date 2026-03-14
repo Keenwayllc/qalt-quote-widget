@@ -15,7 +15,9 @@ model Company {
   name           String
   logoUrl        String?
   timezone       String          @default("UTC")
-  subscriptionPlan String        @default("STARTER")
+  subscriptionPlan     String   @default("STARTER")
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
   createdAt      DateTime        @default(now())
   pricingProfile PricingProfile?
   quoteRequests  QuoteRequest[]
