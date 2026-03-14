@@ -41,16 +41,24 @@ export default function LandingPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-blue-100 selection:text-blue-900">
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
           <QaltLogo size="xl" />
-          
+
           <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500 uppercase tracking-widest">
-            <a href="#features" className="hover:text-blue-600 transition-colors">Features</a>
-            <a href="#how-it-works" className="hover:text-blue-600 transition-colors">How it Works</a>
+            <button onClick={() => scrollTo("features")} className="hover:text-blue-600 transition-colors">Features</button>
+            <button onClick={() => scrollTo("how-it-works")} className="hover:text-blue-600 transition-colors">How it Works</button>
+            <button onClick={() => scrollTo("testimonials")} className="hover:text-blue-600 transition-colors">Testimonials</button>
             <Link href="/pricing" className="hover:text-blue-600 transition-colors">Pricing</Link>
           </div>
 
@@ -108,16 +116,16 @@ export default function LandingPage() {
                 Get Started for Free
                 <ArrowRight className="group-hover/btn:translate-x-1 transition-transform" />
               </Link>
-              <a href="#features" className="px-10 py-5 bg-white/10 backdrop-blur-md border-2 border-white/20 text-white rounded-2xl font-bold hover:bg-white/20 transition-all">
+              <button onClick={() => scrollTo("features")} className="px-10 py-5 bg-white/10 backdrop-blur-md border-2 border-white/20 text-white rounded-2xl font-bold hover:bg-white/20 transition-all">
                 Explore Features
-              </a>
+              </button>
             </div>
 
           </div>
         </section>
 
         {/* Features Grid */}
-        <section id="features" className="py-32 bg-slate-50 relative overflow-hidden">
+        <section id="features" className="py-32 bg-slate-50 relative overflow-hidden scroll-mt-24">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-24">
               <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">Built for Reliability & Speed</h2>
@@ -170,7 +178,7 @@ export default function LandingPage() {
         </section>
 
         {/* How It Works */}
-        <section id="how-it-works" className="py-32 bg-white">
+        <section id="how-it-works" className="py-32 bg-white scroll-mt-24">
           <div className="max-w-5xl mx-auto px-6 text-center">
             <h2 className="text-4xl md:text-5xl font-black mb-20 tracking-tight text-slate-900">Setting Up Is Instant</h2>
             <div className="flex flex-col md:flex-row items-center gap-12 relative">
@@ -286,7 +294,7 @@ export default function LandingPage() {
         </section>
 
         {/* Testimonials */}
-        <section className="py-32 bg-linear-to-br from-slate-900 via-slate-900 to-blue-950 text-white overflow-hidden relative">
+        <section id="testimonials" className="py-32 bg-linear-to-br from-slate-900 via-slate-900 to-blue-950 text-white overflow-hidden relative scroll-mt-24">
           {/* Background Qalt icon — decorative */}
           <div className="absolute -bottom-40 -right-40 pointer-events-none select-none" aria-hidden="true">
             <QaltIcon size={2000} color="rgba(255,255,255,0.05)" eyeColor="rgba(255,255,255,0.09)" />
