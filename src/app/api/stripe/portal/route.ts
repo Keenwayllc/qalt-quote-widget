@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getCurrentCompany } from "@/lib/session";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 
 export async function POST() {
   try {
@@ -10,6 +10,7 @@ export async function POST() {
       return NextResponse.json({ error: "No active subscription found." }, { status: 400 });
     }
 
+    const stripe = getStripe();
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://qalt.site";
 
     const session = await stripe.billingPortal.sessions.create({

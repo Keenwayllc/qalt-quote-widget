@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import prisma from "@/lib/prisma";
 import type Stripe from "stripe";
 
@@ -19,6 +19,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Missing signature." }, { status: 400 });
   }
 
+  const stripe = getStripe();
   let event: Stripe.Event;
   try {
     event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!);

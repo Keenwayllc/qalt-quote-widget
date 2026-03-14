@@ -1,22 +1,23 @@
 import { NextResponse } from "next/server";
 import { getCurrentCompany } from "@/lib/session";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import prisma from "@/lib/prisma";
-
-const PRICE_IDS: Record<string, string | undefined> = {
-  PRO: process.env.STRIPE_PRO_PRICE_ID,
-  ENTERPRISE: process.env.STRIPE_ENTERPRISE_PRICE_ID,
-};
 
 export async function POST(req: Request) {
   try {
     const company = await getCurrentCompany();
     const { plan } = await req.json();
 
-    const priceId = PRICE_IDS[plan];
+    const priceIds: Record<string, string | undefined> = {
+      PRO: process.env.STRIPE_PRO_PRICE_ID,
+      ENTERPRISE: process.env.STRIPE_ENTERPRISE_PRICE_ID,
+    };
+    const priceId = priceIds[plan];
     if (!priceId) {
       return NextResponse.json({ error: "Invalid plan." }, { status: 400 });
     }
+
+    const stripe = getStripe();
 
     // Create Stripe customer if one doesn't exist yet
     let stripeCustomerId = company.stripeCustomerId;
