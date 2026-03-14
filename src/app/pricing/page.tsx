@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import QaltLogo from "@/components/shared/QaltLogo";
-import { CheckCircle2, Minus, ChevronDown, ChevronUp } from "lucide-react";
+import { CheckCircle2, Minus, ChevronDown, ChevronUp, ArrowUp } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -68,8 +68,6 @@ const FEATURE_SECTIONS: FeatureSection[] = [
       { name: "Webhook on new quote",      starter: false, pro: true,  enterprise: true  },
       { name: "Email support",             starter: true,  pro: true,  enterprise: true  },
       { name: "Priority support",          starter: false, pro: true,  enterprise: true  },
-      { name: "Onboarding call",           starter: false, pro: false, enterprise: true  },
-      { name: "Dedicated account manager", starter: false, pro: false, enterprise: true  },
       { name: "SLA & uptime guarantee",    starter: false, pro: false, enterprise: true  },
     ],
   },
@@ -115,6 +113,13 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 
 export default function PricingPage() {
   const [annual, setAnnual] = useState(true);
+  const [showScroll, setShowScroll] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShowScroll(window.scrollY > 400);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white text-slate-900">
@@ -246,7 +251,7 @@ export default function PricingPage() {
                 Contact Sales
               </Link>
               <ul className="space-y-3 mt-auto">
-                {["Everything in Pro", "Dedicated Account Manager", "SLA & Uptime Guarantee", "Volume Discounts", "Onboarding Call"].map((item) => (
+                {["Everything in Pro", "SLA & Uptime Guarantee", "Volume Discounts", "Custom CSS & Webhooks"].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
                     <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
                   </li>
@@ -328,6 +333,17 @@ export default function PricingPage() {
           </div>
         </div>
       </section>
+
+      {/* Scroll to top */}
+      {showScroll && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="fixed bottom-8 right-8 z-50 w-11 h-11 bg-slate-900 text-white rounded-full shadow-xl flex items-center justify-center hover:bg-blue-600 transition-all hover:-translate-y-0.5 active:scale-95"
+          aria-label="Scroll to top"
+        >
+          <ArrowUp size={18} />
+        </button>
+      )}
 
       {/* Footer */}
       <footer className="py-20 border-t border-slate-100 bg-white">

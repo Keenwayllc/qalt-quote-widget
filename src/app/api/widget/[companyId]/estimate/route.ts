@@ -38,6 +38,11 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       insideDeliveryFee: number;
       afterHoursFee: number;
       largeItemFee: number;
+      businessHoursStart?: string;
+      businessHoursEnd?: string;
+      businessDays?: string;
+      largeItemsEnabled?: boolean;
+      largeItemCategories?: Array<{ name: string; price: number }>;
     }, extras);
 
     return NextResponse.json({ estimate, distance });

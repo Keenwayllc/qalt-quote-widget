@@ -58,10 +58,9 @@ const PLANS: Plan[] = [
     color: "indigo",
     features: [
       "Everything in Pro",
-      "Dedicated Account Manager",
       "SLA & Uptime Guarantee",
       "Volume Discounts",
-      "Onboarding Call"
+      "Custom CSS & Webhooks"
     ]
   }
 ];

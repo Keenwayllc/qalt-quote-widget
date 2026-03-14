@@ -33,8 +33,9 @@ interface FormData {
   dropoffZip: string;
   hasStairs: boolean;
   needsInsideDelivery: boolean;
-  isAfterHours: boolean;
-  isLargeItem: boolean;
+  pickupDate: string;
+  pickupTime: string;
+  selectedLargeItems: string[];
   packageWeight: string;
   itemCount: string;
   customerName: string;
@@ -44,7 +45,7 @@ interface FormData {
 
 export default function QuoteWidgetForm({ company }: WidgetProps) {
   const entitlements = getEntitlements(company.subscriptionPlan);
-  
+
   const widgetSettings = {
     ...(company.widgetSettings || {
       primaryColor: "#3B82F6",
@@ -56,10 +57,22 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
       disclaimerText: "Estimate only. Final price confirmed after booking.",
     }),
     // Strictly override if plan doesn't allow it
-    ...(!entitlements.isAdvancedCustomizationEnabled ? { 
+    ...(!entitlements.isAdvancedCustomizationEnabled ? {
       backgroundImageUrl: null,
     } : {}),
   };
+
+  const pricingProfile = company.pricingProfile as {
+    afterHoursFee?: number;
+    largeItemsEnabled?: boolean;
+    largeItemCategories?: Array<{ name: string; price: number }>;
+  };
+  const largeItemsEnabled = pricingProfile?.largeItemsEnabled ?? false;
+  const largeItemCategories: Array<{ name: string; price: number }> = Array.isArray(
+    pricingProfile?.largeItemCategories
+  )
+    ? (pricingProfile.largeItemCategories as Array<{ name: string; price: number }>)
+    : [];
 
   useEffect(() => {
     const font = widgetSettings.companyNameFont || "Inter";
@@ -88,8 +101,9 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
     dropoffZip: "",
     hasStairs: false,
     needsInsideDelivery: false,
-    isAfterHours: false,
-    isLargeItem: false,
+    pickupDate: "",
+    pickupTime: "",
+    selectedLargeItems: [] as string[],
     packageWeight: "",
     itemCount: "",
     customerName: "",
@@ -101,6 +115,15 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
     const { name, value, type } = e.target;
     const val = type === "checkbox" ? (e.target as HTMLInputElement).checked : value;
     setFormData(prev => ({ ...prev, [name]: val }));
+  };
+
+  const toggleLargeItem = (name: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      selectedLargeItems: prev.selectedLargeItems.includes(name)
+        ? prev.selectedLargeItems.filter((i) => i !== name)
+        : [...prev.selectedLargeItems, name],
+    }));
   };
 
   const getEstimate = async (e: React.FormEvent) => {
@@ -118,11 +141,13 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
           extras: {
             hasStairs: formData.hasStairs,
             needsInsideDelivery: formData.needsInsideDelivery,
-            isAfterHours: formData.isAfterHours,
-            isLargeItem: formData.isLargeItem,
+            pickupDateTime: formData.pickupDate && formData.pickupTime
+              ? `${formData.pickupDate}T${formData.pickupTime}`
+              : undefined,
+            selectedLargeItems: formData.selectedLargeItems,
             packageWeight: parseFloat(formData.packageWeight) || 0,
             itemCount: parseInt(formData.itemCount) || 0,
-          }
+          },
         }),
       });
 
@@ -154,6 +179,10 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
           ...formData,
           estimatedPrice: estimate,
           distanceMiles: distance,
+          pickupDateTime: formData.pickupDate && formData.pickupTime
+            ? `${formData.pickupDate}T${formData.pickupTime}`
+            : undefined,
+          selectedLargeItems: formData.selectedLargeItems,
         }),
       });
 
@@ -175,12 +204,12 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
   return (
     <div className="w-full max-w-md font-sans" style={{ fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif" }}>
       <div className="relative rounded-[28px] overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)]">
-        
+
         {/* Header */}
-        <div 
+        <div
           className="relative px-8 pt-8 pb-10 overflow-hidden bg-cover bg-center"
           style={
-            widgetSettings.backgroundImageUrl 
+            widgetSettings.backgroundImageUrl
               ? { backgroundImage: `url(${widgetSettings.backgroundImageUrl})` }
               : { backgroundColor: primaryColor }
           }
@@ -197,7 +226,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
               <div className="absolute -bottom-6 -left-6 w-28 h-28 rounded-full opacity-10" style={{ background: 'white' }}></div>
             </>
           )}
-          
+
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-3">
               {logoUrlToUse ? (
@@ -212,7 +241,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
               <h2 className="text-xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">{widgetSettings.headerText}</h2>
             </div>
             {!logoUrlToUse && (
-              <p 
+              <p
                 className="text-white/90 text-sm font-medium pl-1"
                 style={{ fontFamily: widgetSettings.companyNameFont || "Inter" }}
               >
@@ -240,7 +269,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
 
         {/* Body */}
         <div className="bg-white px-8 py-8">
-          
+
           {/* Step 1 */}
           {step === 1 && (
             <form onSubmit={getEstimate} className="space-y-5">
@@ -288,6 +317,29 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                 </div>
               </div>
 
+              {/* Pickup Date & Time */}
+              <div>
+                <p className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] flex items-center gap-1.5 mb-2 ml-1">
+                  <Clock size={11} className="text-slate-400" /> Pickup Date &amp; Time
+                </p>
+                <div className="grid grid-cols-2 gap-3">
+                  <input
+                    type="date"
+                    name="pickupDate"
+                    value={formData.pickupDate}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-semibold text-slate-800 focus:ring-2 focus:border-transparent outline-none transition-all duration-200"
+                  />
+                  <input
+                    type="time"
+                    name="pickupTime"
+                    value={formData.pickupTime}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-semibold text-slate-800 focus:ring-2 focus:border-transparent outline-none transition-all duration-200"
+                  />
+                </div>
+              </div>
+
               {/* Weight & Item Count */}
               <div className="grid grid-cols-2 gap-4">
                 {widgetSettings.showWeight && (
@@ -327,20 +379,18 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                 <div className="space-y-3">
                   <p className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] ml-1">Add-ons</p>
                   <div className="grid grid-cols-2 gap-2.5">
-                     {(['hasStairs', 'needsInsideDelivery', 'isAfterHours', 'isLargeItem'] as const).map((id) => {
+                    {(['hasStairs', 'needsInsideDelivery'] as const).map((id) => {
                       const config: Record<string, { label: string; icon: React.ReactNode }> = {
                         hasStairs: { label: 'Stairs', icon: <Footprints size={15} /> },
                         needsInsideDelivery: { label: 'Inside', icon: <Home size={15} /> },
-                        isAfterHours: { label: 'After Hours', icon: <Clock size={15} /> },
-                        isLargeItem: { label: 'Large Item', icon: <Box size={15} /> }
                       };
                       return (
-                        <label 
+                        <label
                           key={id}
                           className={`
                             relative flex items-center gap-2.5 px-4 py-3 border rounded-xl cursor-pointer transition-all duration-200 select-none overflow-hidden
-                            ${formData[id] 
-                              ? 'border-transparent shadow-md scale-[1.02]' 
+                            ${formData[id]
+                              ? 'border-transparent shadow-md scale-[1.02]'
                               : 'bg-slate-50 border-slate-300 hover:border-slate-400 hover:bg-white'}
                           `}
                           style={formData[id] ? { borderColor: primaryColor } : {}}
@@ -361,8 +411,44 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                           </span>
                         </label>
                       );
-                     })}
+                    })}
                   </div>
+
+                  {largeItemsEnabled && largeItemCategories.length > 0 && (
+                    <div className="space-y-3">
+                      <p className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] ml-1 flex items-center gap-1.5">
+                        <Box size={11} /> Special Items
+                      </p>
+                      <div className="grid grid-cols-2 gap-2.5">
+                        {largeItemCategories.map((cat) => {
+                          const selected = formData.selectedLargeItems.includes(cat.name);
+                          return (
+                            <button
+                              key={cat.name}
+                              type="button"
+                              onClick={() => toggleLargeItem(cat.name)}
+                              className={`relative flex items-center justify-between gap-2 px-4 py-3 border rounded-xl cursor-pointer transition-all duration-200 select-none overflow-hidden text-left ${
+                                selected
+                                  ? "border-transparent shadow-md scale-[1.02]"
+                                  : "bg-slate-50 border-slate-300 hover:border-slate-400 hover:bg-white"
+                              }`}
+                              style={selected ? { borderColor: primaryColor } : {}}
+                            >
+                              {selected && (
+                                <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundColor: primaryColor }} />
+                              )}
+                              <span className={`text-[12px] font-bold relative ${selected ? "text-slate-800" : "text-slate-500"}`}>
+                                {cat.name}
+                              </span>
+                              <span className={`text-[11px] font-bold relative shrink-0 ${selected ? "text-slate-600" : "text-slate-400"}`}>
+                                +${cat.price.toFixed(2)}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 

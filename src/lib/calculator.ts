@@ -1,5 +1,10 @@
 import zipcodes from "zipcodes";
 
+export interface LargeItemCategory {
+  name: string;
+  price: number;
+}
+
 /**
  * Calculates the Haversine distance between two ZIP codes in miles.
  * If one or both ZIPs are invalid, returns null.
@@ -27,9 +32,34 @@ export function calculateDistance(zip1: string, zip2: string): number | null {
       Math.sin(dLon / 2);
 
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const distance = R * c;
+  return R * c;
+}
 
-  return distance;
+/**
+ * Returns true if the given ISO datetime string falls outside business hours.
+ * businessDays is a comma-separated list of day numbers (0=Sun, 6=Sat).
+ */
+export function isPickupAfterHours(
+  pickupDateTimeISO: string,
+  businessHoursStart: string,
+  businessHoursEnd: string,
+  businessDays: string
+): boolean {
+  const dt = new Date(pickupDateTimeISO);
+  if (isNaN(dt.getTime())) return false;
+
+  const dayOfWeek = dt.getDay();
+  const timeMinutes = dt.getHours() * 60 + dt.getMinutes();
+
+  const [startH, startM] = businessHoursStart.split(":").map(Number);
+  const [endH, endM] = businessHoursEnd.split(":").map(Number);
+  const startMinutes = startH * 60 + startM;
+  const endMinutes = endH * 60 + endM;
+
+  const allowedDays = businessDays.split(",").map(Number);
+  if (!allowedDays.includes(dayOfWeek)) return true;
+  if (timeMinutes < startMinutes || timeMinutes >= endMinutes) return true;
+  return false;
 }
 
 /**
@@ -47,41 +77,77 @@ export function estimatePrice(
     stairsFee: number;
     insideDeliveryFee: number;
     afterHoursFee: number;
+    businessHoursStart?: string;
+    businessHoursEnd?: string;
+    businessDays?: string;
     largeItemFee: number;
+    largeItemsEnabled?: boolean;
+    largeItemCategories?: LargeItemCategory[];
   },
   extras: {
     hasStairs: boolean;
     needsInsideDelivery: boolean;
-    isAfterHours: boolean;
-    isLargeItem: boolean;
+    isAfterHours?: boolean;
+    pickupDateTime?: string;
+    isLargeItem?: boolean;
+    selectedLargeItems?: string[];
     packageWeight?: number;
     itemCount?: number;
   }
 ): number {
-  // Subtract threshold from distance
   const distanceToCharge = Math.max(0, distance - rules.minMilesThreshold);
   let total = distanceToCharge * rules.baseRatePerMile;
 
-  // Apply minimum charge if toggled on and distance-based price is lower
   if (rules.useMinimumCharge && total < rules.minimumCharge) {
     total = rules.minimumCharge;
   }
 
-  // Add weight-based fee (per lb)
   if (extras.packageWeight && extras.packageWeight > 0 && rules.weightFee > 0) {
     total += extras.packageWeight * rules.weightFee;
   }
 
-  // Add item count fee (per item)
   if (extras.itemCount && extras.itemCount > 0 && rules.itemCountFee > 0) {
     total += extras.itemCount * rules.itemCountFee;
   }
 
-  // Add flat extras
   if (extras.hasStairs) total += rules.stairsFee;
   if (extras.needsInsideDelivery) total += rules.insideDeliveryFee;
-  if (extras.isAfterHours) total += rules.afterHoursFee;
-  if (extras.isLargeItem) total += rules.largeItemFee;
+
+  // After-hours: auto-detect via pickup datetime if provided, else use manual flag
+  if (
+    extras.pickupDateTime &&
+    rules.businessHoursStart &&
+    rules.businessHoursEnd &&
+    rules.businessDays
+  ) {
+    if (
+      isPickupAfterHours(
+        extras.pickupDateTime,
+        rules.businessHoursStart,
+        rules.businessHoursEnd,
+        rules.businessDays
+      )
+    ) {
+      total += rules.afterHoursFee;
+    }
+  } else if (extras.isAfterHours) {
+    total += rules.afterHoursFee;
+  }
+
+  // Large items: sum category prices if enabled, else fall back to single fee
+  if (
+    extras.selectedLargeItems &&
+    extras.selectedLargeItems.length > 0 &&
+    rules.largeItemsEnabled &&
+    rules.largeItemCategories
+  ) {
+    for (const itemName of extras.selectedLargeItems) {
+      const cat = rules.largeItemCategories.find((c) => c.name === itemName);
+      if (cat) total += cat.price;
+    }
+  } else if (extras.isLargeItem) {
+    total += rules.largeItemFee;
+  }
 
   return total;
 }

@@ -28,6 +28,11 @@ export async function POST(req: Request) {
         insideDeliveryFee: data.insideDeliveryFee || 0,
         afterHoursFee: data.afterHoursFee || 0,
         largeItemFee: data.largeItemFee || 0,
+        businessHoursStart: data.businessHoursStart || "08:00",
+        businessHoursEnd: data.businessHoursEnd || "18:00",
+        businessDays: data.businessDays || "1,2,3,4,5",
+        largeItemsEnabled: data.largeItemsEnabled ?? false,
+        largeItemCategories: data.largeItemCategories ?? [],
       } as unknown) as any,
     });
 

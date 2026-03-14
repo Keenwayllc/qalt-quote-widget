@@ -35,9 +35,14 @@ model PricingProfile {
   itemCountFee      Float   @default(0)
   stairsFee         Float   @default(0)
   insideDeliveryFee Float   @default(0)
-  afterHoursFee     Float   @default(0)
-  largeItemFee      Float   @default(0)
-  company           Company @relation(fields: [companyId], references: [id])
+  afterHoursFee       Float   @default(0)
+  businessHoursStart  String  @default("08:00")
+  businessHoursEnd    String  @default("18:00")
+  businessDays        String  @default("1,2,3,4,5")
+  largeItemFee        Float   @default(0)
+  largeItemsEnabled   Boolean @default(false)
+  largeItemCategories Json    @default("[]")
+  company             Company @relation(fields: [companyId], references: [id])
 }
 
 model WidgetSettings {

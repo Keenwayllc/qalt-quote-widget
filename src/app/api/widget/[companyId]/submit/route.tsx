@@ -57,13 +57,14 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
         dropoffZip: data.dropoffZip,
         distanceMiles: data.distanceMiles,
         estimatedPrice: data.estimatedPrice,
-        serviceType: data.isLargeItem ? "Large Item Delivery" : "Standard Delivery",
+        serviceType: (data.selectedLargeItems?.length > 0) ? "Large Item Delivery" : "Standard Delivery",
         status: "PENDING",
         packageWeight: data.packageWeight ? String(data.packageWeight) : null,
         selectedExtras: JSON.stringify({
           hasStairs: data.hasStairs,
           needsInsideDelivery: data.needsInsideDelivery,
-          isAfterHours: data.isAfterHours,
+          pickupDateTime: data.pickupDateTime || null,
+          selectedLargeItems: data.selectedLargeItems || [],
         })
       },
     });
@@ -82,7 +83,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
             dropoffZip={data.dropoffZip}
             distanceMiles={data.distanceMiles}
             estimatedPrice={data.estimatedPrice}
-            serviceType={data.isLargeItem ? "Large Item Delivery" : "Standard Delivery"}
+            serviceType={(data.selectedLargeItems?.length > 0) ? "Large Item Delivery" : "Standard Delivery"}
           />
         ),
       });
