@@ -170,7 +170,7 @@ export default function TestimonialsCarousel() {
   const total = SLIDES.length;
   const slideW = 100 / total;
   const trackW = (total * 100) / visible;
-  const tx = -(index * slideW) * (trackW / 100);
+  const tx = -(index * slideW);
 
   return (
     <div

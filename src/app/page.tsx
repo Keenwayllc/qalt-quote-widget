@@ -45,6 +45,7 @@ export default function LandingPage() {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.history.pushState(null, "", `#${id}`);
     }
   };
 
