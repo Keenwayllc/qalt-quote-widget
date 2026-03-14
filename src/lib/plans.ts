@@ -12,7 +12,7 @@ export interface PlanEntitlements {
 
 export const PLANS: Record<SubscriptionPlan, PlanEntitlements> = {
   STARTER: {
-    maxQuotesPerMonth: 50,
+    maxQuotesPerMonth: 25,
     isWhiteLabelEnabled: false,
     isAdvancedCustomizationEnabled: false,
     isAnalyticsDashboardEnabled: false,

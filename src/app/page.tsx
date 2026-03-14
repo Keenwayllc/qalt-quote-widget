@@ -217,7 +217,7 @@ export default function LandingPage() {
                   Get Started Free
                 </Link>
                 <ul className="space-y-3 mt-auto">
-                  {["1 Quote Widget", "50 Quotes/month", "Basic Customization", "Email Support"].map((item) => (
+                  {["1 Quote Widget", "25 Quotes/month", "Basic Customization", "Email Support"].map((item) => (
                     <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
                       <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
                     </li>

@@ -1,10 +1,12 @@
 import { getCurrentCompany } from "@/lib/session";
+import { getEntitlements } from "@/lib/plans";
 import prisma from "@/lib/prisma";
 import MetricCard from "@/components/dashboard/MetricCard";
-import { 
-  FileText, 
-  DollarSign, 
-  Activity, 
+import QuotaBar from "@/components/dashboard/QuotaBar";
+import {
+  FileText,
+  DollarSign,
+  Activity,
   ChevronRight,
   ArrowUpRight,
   TrendingUp,
@@ -15,21 +17,29 @@ import Link from "next/link";
 export default async function DashboardOverview() {
   const company = await getCurrentCompany();
 
-  // Get recent quotes
+  const now = new Date();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  // Get recent quotes + monthly count
   let recentQuotes: Awaited<ReturnType<typeof prisma.quoteRequest.findMany>> = [];
   let totalQuotes = 0;
+  let monthlyQuotes = 0;
   try {
-    [recentQuotes, totalQuotes] = await Promise.all([
+    [recentQuotes, totalQuotes, monthlyQuotes] = await Promise.all([
       prisma.quoteRequest.findMany({
         where: { companyId: company.id },
         orderBy: { createdAt: "desc" },
         take: 5,
       }),
       prisma.quoteRequest.count({ where: { companyId: company.id } }),
+      prisma.quoteRequest.count({ where: { companyId: company.id, createdAt: { gte: monthStart } } }),
     ]);
   } catch (error) {
     console.error("Dashboard query error:", error instanceof Error ? error.message : String(error));
   }
+
+  const entitlements = getEntitlements(company.subscriptionPlan);
+  const quotaLimit = entitlements.maxQuotesPerMonth;
 
   return (
     <div className="p-4 lg:p-10 space-y-10 max-w-7xl mx-auto">
@@ -85,6 +95,8 @@ export default async function DashboardOverview() {
           variant="indigo"
         />
       </div>
+
+      <QuotaBar used={monthlyQuotes} limit={quotaLimit} plan={company.subscriptionPlan} />
 
       <div className="space-y-4">
         <div className="flex items-center justify-between px-2">

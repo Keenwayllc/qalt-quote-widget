@@ -25,7 +25,8 @@ const PLANS: Plan[] = [
     color: "slate",
     features: [
       "1 Quote Widget",
-      "50 Quotes / month",
+      "25 Quotes / month",
+      "Widget pauses when limit is reached",
       "Basic Customization",
       "Email Support",
       "Qalt Branding enforced"

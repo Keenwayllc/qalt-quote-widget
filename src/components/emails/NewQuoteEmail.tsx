@@ -28,6 +28,9 @@ export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
     backgroundColor: '#f8fafc',
     borderRadius: '8px',
   }}>
+    <div style={{ marginBottom: '24px' }}>
+      <img src="https://qalt.site/images/qalt.png" alt="Qalt Logo" height="40" />
+    </div>
     <h1 style={{ color: '#1e293b', fontSize: '24px', marginBottom: '16px' }}>New Quote Request!</h1>
     
     <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '6px', border: '1px solid #e2e8f0' }}>

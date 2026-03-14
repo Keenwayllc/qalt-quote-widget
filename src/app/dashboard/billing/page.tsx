@@ -1,4 +1,6 @@
 import { getCurrentCompany } from "@/lib/session";
+import { getEntitlements } from "@/lib/plans";
+import prisma from "@/lib/prisma";
 import BillingClient from "./BillingClient";
 import SuccessBanner from "./SuccessBanner";
 
@@ -9,6 +11,16 @@ export default async function BillingPage({
 }) {
   const [company, params] = await Promise.all([getCurrentCompany(), searchParams]);
   const showSuccess = params.success === "1";
+
+  const now = new Date();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const monthlyQuotes = await prisma.quoteRequest.count({
+    where: { companyId: company.id, createdAt: { gte: monthStart } },
+  });
+
+  const entitlements = getEntitlements(company.subscriptionPlan);
+  const limit = entitlements.maxQuotesPerMonth;
+  const isUnlimited = limit === "unlimited";
 
   return (
     <div className="p-8 max-w-6xl mx-auto">
@@ -29,7 +41,14 @@ export default async function BillingPage({
         </div>
         <div className="text-right">
           <p className="text-sm font-medium text-slate-500 uppercase tracking-wider">Quotes This Month</p>
-          <p className="text-2xl font-bold text-slate-900 mt-1">Check Statistics</p>
+          {isUnlimited ? (
+            <p className="text-2xl font-bold text-slate-900 mt-1">{monthlyQuotes} <span className="text-sm text-slate-400 font-medium">· Unlimited</span></p>
+          ) : (
+            <p className="text-2xl font-bold text-slate-900 mt-1">
+              {monthlyQuotes}
+              <span className="text-sm text-slate-400 font-medium"> / {limit}</span>
+            </p>
+          )}
         </div>
       </div>
 

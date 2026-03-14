@@ -30,7 +30,7 @@ const FEATURE_SECTIONS: FeatureSection[] = [
     title: "Quote Widget",
     rows: [
       { name: "Embeddable quote widgets",             starter: "1",      pro: "1",         enterprise: "1"         },
-      { name: "Quotes per month",                     starter: "50",     pro: "Unlimited", enterprise: "Unlimited" },
+      { name: "Quotes per month",                     starter: "25",     pro: "Unlimited", enterprise: "Unlimited" },
       { name: "Multi-step quote form",                starter: true,     pro: true,        enterprise: true        },
       { name: "Instant price calculation",            starter: true,     pro: true,        enterprise: true        },
       { name: "Lead capture & storage",               starter: true,     pro: true,        enterprise: true        },
@@ -191,7 +191,7 @@ export default function PricingPage() {
                 Get Started Free
               </Link>
               <ul className="space-y-3 mt-auto">
-                {["1 Quote Widget", "50 Quotes/month", "Basic Customization", "Email Support"].map((item) => (
+                {["1 Quote Widget", "25 Quotes/month", "Basic Customization", "Email Support"].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
                     <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
                   </li>

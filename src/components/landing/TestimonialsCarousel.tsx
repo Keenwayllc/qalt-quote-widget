@@ -56,7 +56,7 @@ const TESTIMONIALS: Testimonial[] = [
     image: "/testimonials/marcus.png",
     initials: "MT",
     color: "bg-slate-700",
-    video: "/videos/marcus_thorne.mov"
+    video: "/videos/marcus_thorne.mp4"
   },
   {
     id: 5,
