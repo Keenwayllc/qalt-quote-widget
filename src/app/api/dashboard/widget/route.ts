@@ -26,8 +26,8 @@ export async function GET() {
     const widgetSettings = company.widgetSettings ? {
       ...company.widgetSettings,
       backgroundImageUrl: entitlements.isAdvancedCustomizationEnabled ? company.widgetSettings.backgroundImageUrl : null,
-      companyNameText: entitlements.isAdvancedCustomizationEnabled ? company.widgetSettings.companyNameText : null,
-      companyNameFont: entitlements.isAdvancedCustomizationEnabled ? company.widgetSettings.companyNameFont : "Inter",
+      companyNameText: company.widgetSettings.companyNameText,
+      companyNameFont: company.widgetSettings.companyNameFont || "Inter",
     } : null;
 
     return NextResponse.json({ 
@@ -70,8 +70,8 @@ export async function POST(req: Request) {
                           ? data.disclaimerText 
                           : "Estimate only. Final price confirmed after booking.",
       backgroundImageUrl: entitlements.isAdvancedCustomizationEnabled ? (data.backgroundImageUrl ?? null) : null,
-      companyNameText:   entitlements.isAdvancedCustomizationEnabled ? (data.companyNameText    ?? null) : null,
-      companyNameFont:   entitlements.isAdvancedCustomizationEnabled ? (data.companyNameFont    || "Inter") : "Inter",
+      companyNameText:   data.companyNameText ?? null,
+      companyNameFont:   data.companyNameFont || "Inter",
     };
 
     await prisma.widgetSettings.upsert({

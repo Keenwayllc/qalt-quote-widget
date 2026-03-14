@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { getEntitlements } from "@/lib/plans";
 import QaltIcon from "@/components/shared/QaltIcon";
@@ -23,6 +23,7 @@ interface WidgetProps {
       disclaimerText: string;
       backgroundImageUrl?: string | null;
       companyNameText?: string | null;
+      companyNameFont?: string;
     };
   };
 }
@@ -57,9 +58,21 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
     // Strictly override if plan doesn't allow it
     ...(!entitlements.isAdvancedCustomizationEnabled ? { 
       backgroundImageUrl: null,
-      companyNameText: null,
     } : {}),
   };
+
+  useEffect(() => {
+    const font = widgetSettings.companyNameFont || "Inter";
+    if (font === "Inter") return; // Inter is already loaded by default usually
+    const id = `gfont-${font.replace(/\s+/g, "-")}`;
+    if (!document.getElementById(id)) {
+      const link = document.createElement("link");
+      link.id = id;
+      link.rel = "stylesheet";
+      link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(font)}:wght@400;700;800&display=swap`;
+      document.head.appendChild(link);
+    }
+  }, [widgetSettings.companyNameFont]);
 
   const showWhiteLabel = entitlements.isWhiteLabelEnabled;
   const logoUrlToUse = entitlements.isAdvancedCustomizationEnabled ? company.logoUrl : null;
@@ -198,7 +211,14 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
               )}
               <h2 className="text-xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">{widgetSettings.headerText}</h2>
             </div>
-            {!logoUrlToUse && <p className="text-white/70 text-sm font-medium pl-1">{widgetSettings.companyNameText || company.name}</p>}
+            {!logoUrlToUse && (
+              <p 
+                className="text-white/90 text-sm font-medium pl-1"
+                style={{ fontFamily: widgetSettings.companyNameFont || "Inter" }}
+              >
+                {widgetSettings.companyNameText || company.name}
+              </p>
+            )}
           </div>
 
           {/* Step indicator */}

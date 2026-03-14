@@ -48,8 +48,8 @@ export default function WidgetSettingsForm({
   const [previewData, setPreviewData] = useState({
     ...initialData,
     backgroundImageUrl: entitlements.isAdvancedCustomizationEnabled ? initialData.backgroundImageUrl : null,
-    companyNameText: entitlements.isAdvancedCustomizationEnabled ? initialData.companyNameText : null,
-    companyNameFont: entitlements.isAdvancedCustomizationEnabled ? initialData.companyNameFont : "Inter",
+    companyNameText: initialData.companyNameText || null,
+    companyNameFont: initialData.companyNameFont || "Inter",
     disclaimerText: entitlements.isAdvancedCustomizationEnabled ? initialData.disclaimerText : "Estimate only. Final price confirmed after booking.",
   });
   const [logo, setLogo] = useState(entitlements.isAdvancedCustomizationEnabled ? (companyLogoUrl || "") : "");
@@ -160,11 +160,11 @@ export default function WidgetSettingsForm({
                    <Sparkles className="text-amber-600" size={20} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-amber-900 leading-none mb-1">Unlock Premium Customization</h3>
-                  <p className="text-xs text-amber-700 leading-relaxed">
-                    Upgrade to <strong>Pro</strong> to unlock custom logos, background images, custom fonts, and white-labeling.
+                  <h3 className="text-sm font-bold text-amber-900 leading-none mb-1">Unlock Pro Features</h3>
+                  <p className="text-xs text-amber-700 leading-relaxed mb-2">
+                    The Starter plan generates broad estimates based on ZIP code ranges. Upgrade to <strong>Pro</strong> for <strong className="text-amber-900">exact address-to-address pricing</strong> powered by Google Maps routing, plus custom logos, backgrounds, and white-labeling!
                   </p>
-                  <Link href="/dashboard/billing" className="text-xs font-bold text-amber-900 underline mt-2 inline-block">View Plans</Link>
+                  <Link href="/dashboard/billing" className="text-xs font-bold text-amber-900 underline inline-block">View Plans</Link>
                 </div>
               </div>
             )}
@@ -233,17 +233,15 @@ export default function WidgetSettingsForm({
                 <div>
                   <label htmlFor="companyNameText" className="text-sm font-medium text-slate-700 mb-1 flex items-center gap-2">
                     Company Name (Text Branding)
-                    {!entitlements.isAdvancedCustomizationEnabled && <Lock size={12} className="text-amber-500" />}
                   </label>
                   <input
                     id="companyNameText"
                     name="companyNameText"
                     type="text"
-                    disabled={!entitlements.isAdvancedCustomizationEnabled}
-                    placeholder={entitlements.isAdvancedCustomizationEnabled ? "Your Company" : "Locked (Starter Plan)"}
+                    placeholder="Your Company"
                     value={previewData.companyNameText || ""}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm disabled:bg-slate-50 disabled:text-slate-400"
+                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
                     style={{ fontFamily: previewData.companyNameFont || "Inter" }}
                   />
                   <p className="text-xs text-slate-400 mt-1">Shown if no logo is uploaded</p>
@@ -251,15 +249,13 @@ export default function WidgetSettingsForm({
                 <div>
                   <label htmlFor="companyNameFont" className="text-sm font-medium text-slate-700 mb-1 flex items-center gap-2">
                     Branding Font
-                    {!entitlements.isAdvancedCustomizationEnabled && <Lock size={12} className="text-amber-500" />}
                   </label>
                   <select
                     id="companyNameFont"
                     name="companyNameFont"
-                    disabled={!entitlements.isAdvancedCustomizationEnabled}
                     value={previewData.companyNameFont || "Inter"}
                     onChange={(e) => setPreviewData(prev => ({ ...prev, companyNameFont: e.target.value }))}
-                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm disabled:bg-slate-50 disabled:text-slate-400"
+                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
                   >
                     <option value="Inter" style={{ fontFamily: 'Inter, sans-serif' }}>Inter (Sans)</option>
                     <option value="Roboto" style={{ fontFamily: 'Roboto, sans-serif' }}>Roboto (Clean)</option>
