@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { getEntitlements } from "@/lib/plans";
 import QaltIcon from "@/components/shared/QaltIcon";
-import { MapPin, CheckCircle, ArrowRight, User, Mail, Phone, Truck, Sparkles, Weight, Hash, Footprints, Home, Clock, Box } from "lucide-react";
+import { MapPin, CheckCircle, ArrowRight, User, Mail, Phone, Truck, Sparkles, Weight, Hash, Footprints, Home, Clock, Box, Navigation } from "lucide-react";
+import { useJsApiLoader, GoogleMap, DirectionsService, DirectionsRenderer } from "@react-google-maps/api";
+import usePlacesAutocomplete, { getGeocode } from "use-places-autocomplete";
 
 interface WidgetProps {
   company: {
@@ -29,6 +31,8 @@ interface WidgetProps {
 }
 
 interface FormData {
+  pickupAddress: string;
+  dropoffAddress: string;
   pickupZip: string;
   dropoffZip: string;
   hasStairs: boolean;
@@ -42,6 +46,96 @@ interface FormData {
   customerEmail: string;
   customerPhone: string;
 }
+
+const LIBRARIES: ("places" | "geometry" | "drawing" | "visualization")[] = ["places"];
+
+// Sub-component for Google Autocomplete to avoid race conditions
+const AutocompleteInput = ({
+  label,
+  placeholder,
+  value,
+  onAddressSelect,
+  onClear,
+  isLoaded,
+  icon: Icon
+}: {
+  label: string,
+  placeholder: string,
+  value: string,
+  onAddressSelect: (address: string, zip: string) => void,
+  onClear: () => void,
+  isLoaded: boolean,
+  icon: React.ComponentType<{ size?: number; className?: string }>
+}) => {
+  const {
+    ready,
+    value: inputValue,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    requestOptions: { types: ["address"] },
+    debounce: 300,
+    initOnMount: isLoaded
+  });
+
+  // Sync input value with parent state (Crucial for persistence and clearing)
+  useEffect(() => {
+    if (value !== inputValue) {
+      setValue(value, false);
+    }
+  }, [value, setValue, inputValue]);
+
+  return (
+    <div className="relative">
+      <label className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] flex items-center gap-1.5 mb-2 ml-1">
+        <Icon size={11} className="text-slate-400" /> {label}
+      </label>
+      <div className="relative group">
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setValue(e.target.value)}
+          disabled={!ready}
+          placeholder={placeholder}
+          className="w-full px-4 py-3.5 pr-10 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:ring-2 focus:border-transparent outline-none transition-all duration-200"
+        />
+        {inputValue && (
+          <button
+            type="button"
+            onClick={() => {
+              setValue("", false);
+              clearSuggestions();
+              onClear();
+            }}
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center bg-slate-200 hover:bg-slate-300 text-slate-500 rounded-full transition-colors"
+          >
+            <span className="text-xs font-bold">✕</span>
+          </button>
+        )}
+      </div>
+      {status === "OK" && (
+        <div className="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2">
+          {data.map((suggestion) => (
+            <div
+              key={suggestion.place_id}
+              onClick={async () => {
+                setValue(suggestion.description, false);
+                clearSuggestions();
+                const results = await getGeocode({ address: suggestion.description });
+                const zipCode = results[0].address_components.find(c => c.types.includes("postal_code"))?.long_name || "";
+                onAddressSelect(suggestion.description, zipCode);
+              }}
+              className="px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 cursor-pointer border-b border-slate-100 last:border-0"
+            >
+              {suggestion.description}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default function QuoteWidgetForm({ company }: WidgetProps) {
   const entitlements = getEntitlements(company.subscriptionPlan);
@@ -94,9 +188,18 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
   const [loading, setLoading] = useState(false);
   const [estimate, setEstimate] = useState<number | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
+  const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
   const [error, setError] = useState("");
 
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
+    libraries: LIBRARIES
+  });
+
   const [formData, setFormData] = useState<FormData>({
+    pickupAddress: "",
+    dropoffAddress: "",
     pickupZip: "",
     dropoffZip: "",
     hasStairs: false,
@@ -110,6 +213,21 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
     customerEmail: "",
     customerPhone: "",
   });
+
+  /* Address Clear functionality */
+  const clearPickup = () => {
+    setFormData(prev => ({ ...prev, pickupAddress: "", pickupZip: "" }));
+  };
+
+  const clearDropoff = () => {
+    setFormData(prev => ({ ...prev, dropoffAddress: "", dropoffZip: "" }));
+  };
+
+  useEffect(() => {
+    if (isLoaded) {
+      console.log("Google Maps library loaded successfully.");
+    }
+  }, [isLoaded]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -126,6 +244,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
     }));
   };
 
+  // Pricing Calculator Logic
   const getEstimate = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -136,6 +255,8 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          origin: formData.pickupAddress,
+          destination: formData.dropoffAddress,
           pickupZip: formData.pickupZip,
           dropoffZip: formData.dropoffZip,
           extras: {
@@ -157,7 +278,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
         setDistance(data.distance);
         setStep(2);
       } else {
-        setError(data.error || "Could not calculate estimate. Please check your ZIP codes.");
+        setError(data.error || "Could not calculate estimate. Please check your addresses.");
       }
     } catch {
       setError("An unexpected error occurred.");
@@ -273,35 +394,26 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
           {/* Step 1 */}
           {step === 1 && (
             <form onSubmit={getEstimate} className="space-y-5">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] flex items-center gap-1.5 mb-2 ml-1">
-                    <MapPin size={11} className="text-slate-400" /> From
-                  </label>
-                  <input
-                    type="text"
-                    name="pickupZip"
-                    required
-                    placeholder="ZIP Code"
-                    value={formData.pickupZip}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:ring-2 focus:border-transparent outline-none transition-all duration-200"
-                  />
-                </div>
-                <div>
-                  <label className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] flex items-center gap-1.5 mb-2 ml-1">
-                    <MapPin size={11} className="text-slate-400" /> To
-                  </label>
-                  <input
-                    type="text"
-                    name="dropoffZip"
-                    required
-                    placeholder="ZIP Code"
-                    value={formData.dropoffZip}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:ring-2 focus:border-transparent outline-none transition-all duration-200"
-                  />
-                </div>
+              <div className="space-y-4">
+                <AutocompleteInput
+                  label="Pickup Address"
+                  placeholder="Enter pickup address"
+                  value={formData.pickupAddress}
+                  isLoaded={isLoaded}
+                  icon={MapPin}
+                  onAddressSelect={(address, zip) => setFormData(prev => ({ ...prev, pickupAddress: address, pickupZip: zip }))}
+                  onClear={clearPickup}
+                />
+
+                <AutocompleteInput
+                  label="Dropoff Address"
+                  placeholder="Enter dropoff address"
+                  value={formData.dropoffAddress}
+                  isLoaded={isLoaded}
+                  icon={MapPin}
+                  onAddressSelect={(address, zip) => setFormData(prev => ({ ...prev, dropoffAddress: address, dropoffZip: zip }))}
+                  onClear={clearDropoff}
+                />
               </div>
 
               {/* Route connector */}
@@ -491,8 +603,68 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                   <Sparkles size={16} className="text-emerald-400/50" />
                 </div>
                 <p className="text-[10px] uppercase font-extrabold text-emerald-600/80 tracking-[0.2em] mb-2">Your Estimated Rate</p>
-                <p className="text-5xl font-black text-emerald-700 tracking-tight">${estimate?.toFixed(2)}</p>
-                <p className="text-[12px] text-emerald-600/60 mt-2 font-semibold">{distance?.toFixed(1)} miles • Instant estimate</p>
+                <div className="flex flex-col items-center">
+                  <p className="text-5xl font-black text-emerald-700 tracking-tight">${estimate?.toFixed(2)}</p>
+                  <p className="text-[12px] text-emerald-600/60 mt-2 font-semibold flex items-center gap-1.5">
+                    <Navigation size={12} /> {distance?.toFixed(1)} miles calculated route
+                  </p>
+                </div>
+
+                {isLoaded && formData.pickupAddress && formData.dropoffAddress && (
+                  <div className="mt-6 h-32 w-full rounded-2xl overflow-hidden border border-emerald-100 shadow-inner group">
+                    <GoogleMap
+                      mapContainerStyle={{ width: '100%', height: '100%' }}
+                      options={{
+                        disableDefaultUI: true,
+                        zoomControl: false,
+                        scrollwheel: false,
+                        draggable: false,
+                        styles: [
+                          {
+                            featureType: "all",
+                            elementType: "labels.text.fill",
+                            stylers: [{ color: "#6c757d" }]
+                          },
+                          {
+                            featureType: "road",
+                            elementType: "geometry",
+                            stylers: [{ color: "#ffffff" }]
+                          },
+                          {
+                            featureType: "water",
+                            elementType: "geometry",
+                            stylers: [{ color: "#e9ecef" }]
+                          }
+                        ]
+                      }}
+                    >
+                      <DirectionsService
+                        options={{
+                          destination: formData.dropoffAddress,
+                          origin: formData.pickupAddress,
+                          travelMode: google.maps.TravelMode.DRIVING,
+                        }}
+                        callback={(result, status) => {
+                          if (status === 'OK' && result) {
+                            setDirections(result);
+                          }
+                        }}
+                      />
+                      {directions && (
+                        <DirectionsRenderer
+                          directions={directions}
+                          options={{
+                            suppressMarkers: false,
+                            polylineOptions: {
+                              strokeColor: '#10b981',
+                              strokeWeight: 4,
+                            },
+                          }}
+                        />
+                      )}
+                    </GoogleMap>
+                  </div>
+                )}
               </div>
 
               <div className="space-y-4">

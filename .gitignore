@@ -54,3 +54,6 @@ qalt-site-production-firebase-adminsdk-fbsvc-*.json
 
 # uploads (user-generated, not for git)
 /public/uploads/
+
+.vercel
+.env*.local

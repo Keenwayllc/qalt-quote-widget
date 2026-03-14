@@ -2,15 +2,19 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
-import { calculateDistance, estimatePrice } from "@/lib/calculator";
+import { estimatePrice } from "@/lib/calculator";
+import { calculateDrivingDistance } from "@/lib/google-maps";
 
 export async function POST(req: Request, { params }: { params: Promise<{ companyId: string }> }) {
   try {
     const { companyId } = await params;
-    const { pickupZip, dropoffZip, extras } = await req.json();
+    const { origin, destination, pickupZip, dropoffZip, extras } = await req.json();
 
-    if (!pickupZip || !dropoffZip) {
-      return NextResponse.json({ error: "Missing ZIP codes" }, { status: 400 });
+    const startLocation = origin || pickupZip;
+    const endLocation = destination || dropoffZip;
+
+    if (!startLocation || !endLocation) {
+      return NextResponse.json({ error: "Missing location data" }, { status: 400 });
     }
 
     const company = await prisma.company.findUnique({
@@ -22,9 +26,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
 
-    const distance = calculateDistance(pickupZip, dropoffZip);
+    const distance = await calculateDrivingDistance(startLocation, endLocation);
     if (distance === null) {
-      return NextResponse.json({ error: "Invalid ZIP code(s)" }, { status: 400 });
+      return NextResponse.json({ error: "Could not calculate distance. Please check your addresses." }, { status: 400 });
     }
 
     const estimate = estimatePrice(distance, (company.pricingProfile as unknown) as {

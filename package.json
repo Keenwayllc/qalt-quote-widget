@@ -9,8 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@googlemaps/js-api-loader": "^2.0.2",
     "@libsql/client": "^0.17.0",
     "@prisma/client": "^6.19.2",
+    "@react-google-maps/api": "^2.20.8",
     "@sentry/nextjs": "^10.43.0",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
@@ -25,6 +27,7 @@
     "resend": "^6.9.3",
     "stripe": "^20.4.1",
     "tailwind-merge": "^3.5.0",
+    "use-places-autocomplete": "^4.0.1",
     "zipcodes": "^8.0.0"
   },
   "devDependencies": {
