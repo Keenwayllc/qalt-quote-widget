@@ -238,6 +238,36 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
     }));
   };
 
+  // Calculate driving distance client-side using the already-loaded Google Maps JS API
+  const calculateClientDistance = (origin: string, destination: string): Promise<number | null> => {
+    return new Promise((resolve) => {
+      if (!isLoaded || !window.google?.maps) {
+        resolve(null);
+        return;
+      }
+      const service = new google.maps.DistanceMatrixService();
+      service.getDistanceMatrix(
+        {
+          origins: [origin],
+          destinations: [destination],
+          travelMode: google.maps.TravelMode.DRIVING,
+          unitSystem: google.maps.UnitSystem.IMPERIAL,
+        },
+        (response, status) => {
+          if (
+            status === "OK" &&
+            response?.rows[0]?.elements[0]?.status === "OK"
+          ) {
+            const meters = response.rows[0].elements[0].distance.value;
+            resolve(meters * 0.000621371); // meters → miles
+          } else {
+            resolve(null);
+          }
+        }
+      );
+    });
+  };
+
   // Pricing Calculator Logic
   const getEstimate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -245,6 +275,12 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
     setError("");
 
     try {
+      const origin = formData.pickupAddress || formData.pickupZip;
+      const destination = formData.dropoffAddress || formData.dropoffZip;
+
+      // Calculate distance client-side first
+      const clientDistance = await calculateClientDistance(origin, destination);
+
       const res = await fetch(`/api/widget/${company.id}/estimate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -253,6 +289,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
           destination: formData.dropoffAddress,
           pickupZip: formData.pickupZip,
           dropoffZip: formData.dropoffZip,
+          clientDistance: clientDistance,
           extras: {
             hasStairs: formData.hasStairs,
             needsInsideDelivery: formData.needsInsideDelivery,

@@ -8,7 +8,7 @@ import { calculateDrivingDistance } from "@/lib/google-maps";
 export async function POST(req: Request, { params }: { params: Promise<{ companyId: string }> }) {
   try {
     const { companyId } = await params;
-    const { origin, destination, pickupZip, dropoffZip, extras } = await req.json();
+    const { origin, destination, pickupZip, dropoffZip, clientDistance, extras } = await req.json();
 
     const startLocation = origin || pickupZip;
     const endLocation = destination || dropoffZip;
@@ -26,7 +26,11 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
 
-    const distance = await calculateDrivingDistance(startLocation, endLocation);
+    // Try server-side distance first, fall back to client-provided distance
+    let distance = await calculateDrivingDistance(startLocation, endLocation);
+    if (distance === null && typeof clientDistance === "number" && clientDistance > 0) {
+      distance = clientDistance;
+    }
     if (distance === null) {
       return NextResponse.json({ error: "Could not calculate distance. Please check your addresses." }, { status: 400 });
     }
