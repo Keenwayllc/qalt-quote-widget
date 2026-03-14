@@ -86,23 +86,24 @@ export default async function DashboardOverview() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Recent Quotes List */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="flex items-center justify-between px-2">
-            <h2 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-              Recent Requests
-              <span className="flex h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
-            </h2>
-            <Link 
-              href="/dashboard/quotes" 
-              className="text-sm font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1 group"
-            >
-              View all
-              <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-          </div>
+      <div className="space-y-4">
+        <div className="flex items-center justify-between px-2">
+          <h2 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+            Recent Requests
+            <span className="flex h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
+          </h2>
+          <Link
+            href="/dashboard/quotes"
+            className="text-sm font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1 group"
+          >
+            View all
+            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+          </Link>
+        </div>
 
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        {/* Recent Quotes List */}
+        <div className="lg:col-span-2">
           <div className="bg-white rounded-3xl border border-slate-200/60 shadow-xl shadow-slate-200/40 overflow-hidden">
             {recentQuotes.length === 0 ? (
               <div className="p-12 text-center">
@@ -152,7 +153,7 @@ export default async function DashboardOverview() {
         </div>
 
         {/* Quick Tips / Sidebar Card */}
-        <div className="space-y-6">
+        <div>
           <div className="bg-linear-to-br from-blue-600 to-indigo-700 rounded-3xl p-6 text-white shadow-xl shadow-blue-200">
             <TrendingUp size={32} className="mb-4 text-blue-200" />
             <h3 className="text-xl font-black tracking-tight mb-2 leading-tight">Increase Conversion</h3>
@@ -166,6 +167,7 @@ export default async function DashboardOverview() {
               Update Styles
             </Link>
           </div>
+        </div>
         </div>
       </div>
     </div>
