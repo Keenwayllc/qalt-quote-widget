@@ -5,8 +5,9 @@ import Image from "next/image";
 import { getEntitlements } from "@/lib/plans";
 import QaltIcon from "@/components/shared/QaltIcon";
 import { MapPin, CheckCircle, ArrowRight, User, Mail, Phone, Truck, Sparkles, Weight, Hash, Footprints, Home, Clock, Box, Navigation } from "lucide-react";
-import { useJsApiLoader, GoogleMap, DirectionsService, DirectionsRenderer } from "@react-google-maps/api";
+import { useJsApiLoader } from "@react-google-maps/api";
 import usePlacesAutocomplete, { getGeocode } from "use-places-autocomplete";
+import RouteMapDisplay from "./RouteMapDisplay";
 
 interface WidgetProps {
   company: {
@@ -26,6 +27,7 @@ interface WidgetProps {
       backgroundImageUrl?: string | null;
       companyNameText?: string | null;
       companyNameFont?: string;
+      mapLayout?: string;
     };
   };
 }
@@ -143,6 +145,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
       showItemCount: true,
       showExtras: true,
       disclaimerText: "Estimate only. Final price confirmed after booking.",
+      mapLayout: "inline",
     }),
     // Strictly override if plan doesn't allow it
     ...(!entitlements.isAdvancedCustomizationEnabled ? {
@@ -182,7 +185,6 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
   const [loading, setLoading] = useState(false);
   const [estimate, setEstimate] = useState<number | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
-  const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
   const [error, setError] = useState("");
 
   const { isLoaded } = useJsApiLoader({
@@ -217,11 +219,6 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
     setFormData(prev => ({ ...prev, dropoffAddress: "", dropoffZip: "" }));
   };
 
-  useEffect(() => {
-    if (isLoaded) {
-      console.log("Google Maps library loaded successfully.");
-    }
-  }, [isLoaded]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -354,8 +351,8 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
   const primaryColor = (widgetSettings.primaryColor && widgetSettings.primaryColor.length >= 4) ? widgetSettings.primaryColor : "#3B82F6";
 
   return (
-    <div className="w-full max-w-md font-sans" style={{ fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif" }}>
-      <div className="relative rounded-[28px] overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)]">
+    <div className={`w-full max-w-md md:max-w-none font-sans flex flex-col md:flex-row items-start justify-center relative ${step === 2 && widgetSettings.mapLayout === 'side' ? 'md:gap-6' : ''}`} style={{ fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif" }}>
+      <div className="w-full max-w-md transition-all duration-300 relative z-10 rounded-[28px] overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] bg-white shrink-0 mx-auto md:mx-0">
 
         {/* Header */}
         <div
@@ -641,59 +638,14 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                   </p>
                 </div>
 
-                {isLoaded && formData.pickupAddress && formData.dropoffAddress && (
+                {/* Inline map — only for "inline" layout. "side" layout uses the side panel instead (one instance only to avoid double API calls) */}
+                {widgetSettings.mapLayout !== 'side' && isLoaded && formData.pickupAddress && formData.dropoffAddress && (
                   <div className="mt-6 h-32 w-full rounded-2xl overflow-hidden border border-emerald-100 shadow-inner group">
-                    <GoogleMap
-                      mapContainerStyle={{ width: '100%', height: '100%' }}
-                      options={{
-                        disableDefaultUI: true,
-                        zoomControl: false,
-                        scrollwheel: false,
-                        draggable: false,
-                        styles: [
-                          {
-                            featureType: "all",
-                            elementType: "labels.text.fill",
-                            stylers: [{ color: "#6c757d" }]
-                          },
-                          {
-                            featureType: "road",
-                            elementType: "geometry",
-                            stylers: [{ color: "#ffffff" }]
-                          },
-                          {
-                            featureType: "water",
-                            elementType: "geometry",
-                            stylers: [{ color: "#e9ecef" }]
-                          }
-                        ]
-                      }}
-                    >
-                      <DirectionsService
-                        options={{
-                          destination: formData.dropoffAddress,
-                          origin: formData.pickupAddress,
-                          travelMode: google.maps.TravelMode.DRIVING,
-                        }}
-                        callback={(result, status) => {
-                          if (status === 'OK' && result) {
-                            setDirections(result);
-                          }
-                        }}
-                      />
-                      {directions && (
-                        <DirectionsRenderer
-                          directions={directions}
-                          options={{
-                            suppressMarkers: false,
-                            polylineOptions: {
-                              strokeColor: '#10b981',
-                              strokeWeight: 4,
-                            },
-                          }}
-                        />
-                      )}
-                    </GoogleMap>
+                    <RouteMapDisplay
+                      pickupAddress={formData.pickupAddress}
+                      dropoffAddress={formData.dropoffAddress}
+                      isLoaded={isLoaded}
+                    />
                   </div>
                 )}
               </div>
@@ -785,6 +737,24 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
           )}
         </div>
       </div>
+
+      {/* Side Panel Expansion */}
+      {step === 2 && widgetSettings.mapLayout === 'side' && (
+        <div className="hidden md:block w-[360px] h-[400px] bg-white rounded-[28px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] overflow-hidden shrink-0 animate-in slide-in-from-left-8 fade-in duration-500 pt-6 mt-8">
+           <div className="h-full w-full p-4 pt-1">
+              <div className="h-full w-full rounded-2xl overflow-hidden border border-emerald-100 shadow-inner group relative">
+                  <RouteMapDisplay 
+                    pickupAddress={formData.pickupAddress} 
+                    dropoffAddress={formData.dropoffAddress} 
+                    isLoaded={isLoaded} 
+                  />
+                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm border border-emerald-50 text-[10px] uppercase font-bold text-emerald-700 tracking-wider flex items-center gap-1.5 z-10">
+                    <Navigation size={12} className="text-emerald-500" /> Route Overview
+                  </div>
+              </div>
+           </div>
+        </div>
+      )}
     </div>
   );
 }

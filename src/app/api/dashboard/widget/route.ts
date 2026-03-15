@@ -72,6 +72,7 @@ export async function POST(req: Request) {
       backgroundImageUrl: entitlements.isAdvancedCustomizationEnabled ? (data.backgroundImageUrl ?? null) : null,
       companyNameText:   data.companyNameText ?? null,
       companyNameFont:   data.companyNameFont || "Inter",
+      mapLayout:         ["inline", "side"].includes(data.mapLayout) ? data.mapLayout : "inline",
     };
 
     await prisma.widgetSettings.upsert({
