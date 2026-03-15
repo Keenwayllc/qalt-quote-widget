@@ -55,9 +55,10 @@ model WidgetSettings {
   buttonText         String  @default("Get Instant Quote")
   headerText         String  @default("Delivery Quote Calculator")
   disclaimerText     String  @default("Estimate only. Final price confirmed after booking.")
-  companyNameText      String?
-  companyNameFont      String  @default("Inter")
-  backgroundImageUrl   String?
+  companyNameText    String?
+  companyNameFont    String  @default("Inter")
+  backgroundImageUrl String?
+  mapLayout          String  @default("inline")
   company            Company @relation(fields: [companyId], references: [id])
 }
 

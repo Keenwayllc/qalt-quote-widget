@@ -23,6 +23,7 @@ interface WidgetProps {
       backgroundImageUrl?: string | null;
       companyNameText?: string | null;
       companyNameFont?: string;
+      mapLayout?: string;
     };
   };
 }
@@ -51,6 +52,7 @@ export default function WidgetSettingsForm({
     companyNameText: initialData.companyNameText || null,
     companyNameFont: initialData.companyNameFont || "Inter",
     disclaimerText: entitlements.isAdvancedCustomizationEnabled ? initialData.disclaimerText : "Estimate only. Final price confirmed after booking.",
+    mapLayout: initialData.mapLayout || "inline",
   });
   const [logo, setLogo] = useState(entitlements.isAdvancedCustomizationEnabled ? (companyLogoUrl || "") : "");
 
@@ -133,7 +135,7 @@ export default function WidgetSettingsForm({
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     const val = type === "checkbox" ? (e.target as HTMLInputElement).checked : value;
     setPreviewData(prev => ({ ...prev, [name]: val }));
@@ -329,6 +331,20 @@ export default function WidgetSettingsForm({
                 onChange={handleChange}
                 className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
               />
+            </div>
+
+            <div>
+              <label htmlFor="mapLayout" className="block text-sm font-medium text-slate-700 mb-1">Map Output Style</label>
+              <select
+                id="mapLayout"
+                name="mapLayout"
+                value={previewData.mapLayout}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+              >
+                <option value="inline">Inline (Default)</option>
+                <option value="side">Side Panel Slide-out</option>
+              </select>
             </div>
 
             <div>
