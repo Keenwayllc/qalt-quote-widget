@@ -7,9 +7,10 @@ interface RouteMapDisplayProps {
   pickupAddress: string;
   dropoffAddress: string;
   isLoaded: boolean;
+  onRouteInfo?: (info: { distance: string; duration: string; originCity: string; destinationCity: string }) => void;
 }
 
-export default function RouteMapDisplay({ pickupAddress, dropoffAddress, isLoaded }: RouteMapDisplayProps) {
+export default function RouteMapDisplay({ pickupAddress, dropoffAddress, isLoaded, onRouteInfo }: RouteMapDisplayProps) {
   const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
   const [lastRoute, setLastRoute] = useState({ origin: "", destination: "" });
 
@@ -18,9 +19,19 @@ export default function RouteMapDisplay({ pickupAddress, dropoffAddress, isLoade
       if (status === "OK" && result) {
         setDirections(result);
         setLastRoute({ origin: pickupAddress, destination: dropoffAddress });
+
+        const leg = result.routes[0]?.legs[0];
+        if (leg && onRouteInfo) {
+          onRouteInfo({
+            distance: leg.distance?.text || "",
+            duration: leg.duration?.text || "",
+            originCity: leg.start_address.split(',').slice(-3, -2)[0]?.trim() || "",
+            destinationCity: leg.end_address.split(',').slice(-3, -2)[0]?.trim() || "",
+          });
+        }
       }
     },
-    [pickupAddress, dropoffAddress]
+    [pickupAddress, dropoffAddress, onRouteInfo]
   );
 
   const needsNewRoute =

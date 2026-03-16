@@ -185,6 +185,12 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
   const [loading, setLoading] = useState(false);
   const [estimate, setEstimate] = useState<number | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
+  const [routeInfo, setRouteInfo] = useState<{
+    distance: string;
+    duration: string;
+    originCity: string;
+    destinationCity: string;
+  } | null>(null);
   const [error, setError] = useState("");
 
   const { isLoaded } = useJsApiLoader({
@@ -748,6 +754,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                   pickupAddress={formData.pickupAddress} 
                   dropoffAddress={formData.dropoffAddress} 
                   isLoaded={isLoaded} 
+                  onRouteInfo={(info) => setRouteInfo(info)}
                 />
              </div>
              {/* Overlay label */}
@@ -756,17 +763,67 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                 Live Route Overview
              </div>
 
-             {/* Bottom overlay for stats */}
-             <div className="absolute bottom-6 left-6 right-6 flex items-center gap-3 z-10">
-                <div className="bg-slate-900/80 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/10 flex items-center gap-3">
-                   <div className="flex flex-col">
-                      <span className="text-[9px] uppercase font-bold text-white/50 tracking-wider">Distance</span>
-                      <span className="text-xs font-black text-white">{distance?.toFixed(1)} miles</span>
-                   </div>
-                   <div className="w-px h-6 bg-white/10"></div>
-                   <div className="flex flex-col">
-                      <span className="text-[9px] uppercase font-bold text-white/50 tracking-wider">Estimate</span>
-                      <span className="text-xs font-black text-emerald-400">${estimate?.toFixed(0)}</span>
+             {/* Bottom overlay for stats - Enhanced Dashboard */}
+             <div className="absolute bottom-6 left-6 right-6 z-10 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
+                <div className="bg-slate-900/90 backdrop-blur-xl p-5 rounded-[24px] border border-white/10 shadow-2xl overflow-hidden relative group">
+                   {/* Background Decorative Element */}
+                   <div className="absolute -right-4 -top-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all duration-700"></div>
+                   
+                   <div className="relative z-10">
+                      <div className="flex items-center justify-between mb-4">
+                         <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center">
+                               <Navigation size={16} className="text-emerald-400" />
+                            </div>
+                            <h4 className="text-[13px] font-bold text-white uppercase tracking-wider">Shipment Summary</h4>
+                         </div>
+                         <div className="text-[10px] font-bold text-emerald-400/80 uppercase tracking-widest bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+                            Real-time Route
+                         </div>
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-4 mb-5">
+                         <div className="space-y-1">
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight flex items-center gap-1.5">
+                               <Navigation size={10} /> Distance
+                            </span>
+                            <p className="text-sm font-black text-white">{routeInfo?.distance || `${distance?.toFixed(1)} miles`}</p>
+                         </div>
+                         <div className="space-y-1">
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight flex items-center gap-1.5">
+                               <Clock size={10} /> Travel Time
+                            </span>
+                            <p className="text-sm font-black text-white">{routeInfo?.duration || "Calculating..."}</p>
+                         </div>
+                         <div className="space-y-1">
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight flex items-center gap-1.5">
+                               <Box size={10} /> Est. Delivery
+                            </span>
+                            <p className="text-sm font-black text-emerald-400">
+                               {distance ? `${Math.max(1, Math.ceil(distance / 500))}-${Math.max(2, Math.ceil(distance / 500) + 2)} Business Days` : "Calculating..."}
+                            </p>
+                         </div>
+                      </div>
+
+                      <div className="pt-4 border-t border-white/5 flex items-center justify-between gap-4">
+                         <div className="flex items-center gap-3 flex-1">
+                            <div className="flex flex-col flex-1">
+                               <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest leading-none mb-1">Origin</span>
+                               <span className="text-[11px] font-bold text-slate-200 truncate max-w-[120px]">{routeInfo?.originCity || 'Pickup Location'}</span>
+                            </div>
+                            <div className="flex items-center gap-1 px-2">
+                               <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/30"></div>
+                               <div className="w-1 h-px bg-emerald-500/20"></div>
+                               <ArrowRight size={12} className="text-emerald-500/40" />
+                               <div className="w-1 h-px bg-emerald-500/20"></div>
+                               <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/30"></div>
+                            </div>
+                            <div className="flex flex-col flex-1 text-right">
+                               <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest leading-none mb-1">Destination</span>
+                               <span className="text-[11px] font-bold text-slate-200 truncate max-w-[120px]">{routeInfo?.destinationCity || 'Dropoff Location'}</span>
+                            </div>
+                         </div>
+                      </div>
                    </div>
                 </div>
              </div>
