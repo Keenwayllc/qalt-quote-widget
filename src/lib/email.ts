@@ -18,7 +18,7 @@ export const sendEmail = async ({
   try {
     const resend = getResend();
     const data = await resend.emails.send({
-      from: 'Qalt <notifications@qalt.site>',
+      from: process.env.EMAIL_FROM || 'Qalt Notifications <onboarding@resend.dev>',
       to,
       subject,
       react,
