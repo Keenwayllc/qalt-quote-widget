@@ -15,7 +15,8 @@ import {
   CreditCard,
   DollarSign,
   Lock,
-  BarChart3
+  BarChart3,
+  UserCircle
 } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
 
@@ -45,6 +46,7 @@ export default function DashboardClientLayout({
     { name: "Get Embed Code", href: "/dashboard/embed", icon: Code },
     { name: "Quotes", href: "/dashboard/quotes", icon: FileText },
     { name: "Subscription", href: "/dashboard/billing", icon: CreditCard },
+    { name: "Account Settings", href: "/dashboard/settings", icon: UserCircle },
   ];
 
   const handleLogout = async () => {
