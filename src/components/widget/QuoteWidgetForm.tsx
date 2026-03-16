@@ -768,24 +768,24 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
             </div>
 
             {/* Bottom: Info Section */}
-            <div className="bg-white p-5 border-t border-slate-100 relative z-10">
-              {/* Key stats row */}
-              <div className="grid grid-cols-3 gap-4 mb-4">
-                <div className="space-y-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
-                    <Navigation size={10} /> Distance
+            <div className="bg-white p-5 border-t border-slate-100 relative z-10space-y-4">
+              {/* Route stats row */}
+              <div className="grid grid-cols-3 gap-3 pb-4 border-b border-slate-100">
+                <div className="space-y-0.5">
+                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
+                    <Navigation size={9} /> Distance
                   </span>
                   <p className="text-sm font-black text-slate-900 tracking-tight">{routeInfo?.distance || `${distance?.toFixed(1)} mi`}</p>
                 </div>
-                <div className="space-y-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
-                    <Clock size={10} /> Drive Time
+                <div className="space-y-0.5">
+                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
+                    <Clock size={9} /> Drive Time
                   </span>
                   <p className="text-sm font-black text-slate-900 tracking-tight">{routeInfo?.duration || "—"}</p>
                 </div>
-                <div className="space-y-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
-                    <Sparkles size={10} /> Per Mile
+                <div className="space-y-0.5">
+                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
+                    <Sparkles size={9} /> Per Mile
                   </span>
                   <p className="text-sm font-black text-emerald-600 tracking-tight">
                     {distance && estimate ? `$${(estimate / distance).toFixed(2)}` : "—"}
@@ -793,53 +793,93 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                 </div>
               </div>
 
-              {/* Scheduled pickup if set */}
-              {formData.pickupDate && (
-                <div className="mb-3 bg-slate-50 rounded-xl px-4 py-2.5 flex items-center gap-3 border border-slate-100">
-                  <Clock size={13} className="text-slate-400 shrink-0" />
-                  <div>
-                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block">Scheduled Pickup</span>
-                    <span className="text-xs font-extrabold text-slate-700">
-                      {new Date(formData.pickupDate).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}
-                      {formData.pickupTime && ` at ${formData.pickupTime}`}
-                    </span>
+              {/* Shipment Details — all customer inputs */}
+              <div className="pt-3 space-y-2">
+                <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.15em] mb-3">Shipment Details</p>
+
+                {/* Addresses */}
+                <div className="flex items-start gap-2.5">
+                  <div className="mt-0.5 w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+                    <MapPin size={10} className="text-emerald-600" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">From</p>
+                    <p className="text-[11px] font-extrabold text-slate-700 leading-tight">{formData.pickupAddress}</p>
                   </div>
                 </div>
-              )}
+                <div className="ml-[9px] w-px h-3 bg-slate-200"></div>
+                <div className="flex items-start gap-2.5">
+                  <div className="mt-0.5 w-5 h-5 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+                    <MapPin size={10} className="text-red-500" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">To</p>
+                    <p className="text-[11px] font-extrabold text-slate-700 leading-tight">{formData.dropoffAddress}</p>
+                  </div>
+                </div>
 
-              {/* Pickup → Dropoff cities */}
-              <div className="bg-slate-50/80 rounded-2xl p-3.5 flex items-center justify-between gap-3 border border-slate-100">
-                <div className="flex flex-col flex-1 min-w-0">
-                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Pickup</span>
-                  <span className="text-[11px] font-extrabold text-slate-700 truncate">{routeInfo?.originCity || "—"}</span>
-                </div>
-                <div className="flex items-center gap-1.5 px-1 text-slate-300 shrink-0">
-                  <div className="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
-                  <div className="w-6 h-px bg-slate-200"></div>
-                  <ArrowRight size={12} className="opacity-50" />
-                  <div className="w-6 h-px bg-slate-200"></div>
-                  <div className="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
-                </div>
-                <div className="flex flex-col flex-1 text-right min-w-0">
-                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Dropoff</span>
-                  <span className="text-[11px] font-extrabold text-slate-700 truncate">{routeInfo?.destinationCity || "—"}</span>
-                </div>
+                {/* Date & Time */}
+                {formData.pickupDate && (
+                  <div className="flex items-center gap-2.5 pt-1">
+                    <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                      <Clock size={10} className="text-blue-600" />
+                    </div>
+                    <div>
+                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Pickup Date &amp; Time</p>
+                      <p className="text-[11px] font-extrabold text-slate-700">
+                        {new Date(formData.pickupDate).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}
+                        {formData.pickupTime && ` · ${formData.pickupTime}`}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Weight & Item Count */}
+                {(formData.packageWeight || formData.itemCount) && (
+                  <div className="flex items-center gap-3 pt-1">
+                    {formData.packageWeight && (
+                      <div className="flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+                          <Weight size={10} className="text-slate-500" />
+                        </div>
+                        <div>
+                          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Weight</p>
+                          <p className="text-[11px] font-extrabold text-slate-700">{formData.packageWeight} lbs</p>
+                        </div>
+                      </div>
+                    )}
+                    {formData.itemCount && (
+                      <div className="flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+                          <Hash size={10} className="text-slate-500" />
+                        </div>
+                        <div>
+                          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Items</p>
+                          <p className="text-[11px] font-extrabold text-slate-700">{formData.itemCount}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Add-ons & Large Items */}
+                {(formData.hasStairs || formData.needsInsideDelivery || formData.selectedLargeItems.length > 0) && (
+                  <div className="pt-1">
+                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Add-ons</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {formData.hasStairs && (
+                        <span className="text-[10px] font-bold px-2.5 py-1 bg-amber-50 text-amber-700 rounded-lg border border-amber-100">Stairs</span>
+                      )}
+                      {formData.needsInsideDelivery && (
+                        <span className="text-[10px] font-bold px-2.5 py-1 bg-blue-50 text-blue-700 rounded-lg border border-blue-100">Inside Delivery</span>
+                      )}
+                      {formData.selectedLargeItems.map((item) => (
+                        <span key={item} className="text-[10px] font-bold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg border border-slate-200">{item}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-
-              {/* Selected extras summary */}
-              {(formData.hasStairs || formData.needsInsideDelivery || formData.selectedLargeItems.length > 0) && (
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {formData.hasStairs && (
-                    <span className="text-[10px] font-bold px-2.5 py-1 bg-amber-50 text-amber-700 rounded-lg border border-amber-100">Stairs</span>
-                  )}
-                  {formData.needsInsideDelivery && (
-                    <span className="text-[10px] font-bold px-2.5 py-1 bg-blue-50 text-blue-700 rounded-lg border border-blue-100">Inside Delivery</span>
-                  )}
-                  {formData.selectedLargeItems.map((item) => (
-                    <span key={item} className="text-[10px] font-bold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg border border-slate-200">{item}</span>
-                  ))}
-                </div>
-              )}
             </div>
           </div>
         )}
