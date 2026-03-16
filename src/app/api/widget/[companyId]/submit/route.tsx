@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
 import { NewQuoteEmail } from "@/components/emails/NewQuoteEmail";
+import { CustomerQuoteEmail } from "@/components/emails/CustomerQuoteEmail";
 import { PLANS, SubscriptionPlan } from "@/lib/plans";
 
 export const dynamic = "force-dynamic";
@@ -13,7 +14,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
 
     const company = await prisma.company.findUnique({
       where: { id: companyId },
-      select: { subscriptionPlan: true, email: true }
+      select: { subscriptionPlan: true, email: true, name: true }
     });
 
     if (!company) {
@@ -89,7 +90,30 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       });
     } catch (emailError) {
       console.error("Failed to send quote notification email:", emailError);
-      // Don't block the response — quote is already saved
+    }
+
+    // Send confirmation email to the customer (non-blocking)
+    if (data.customerEmail) {
+      try {
+        const serviceType = (data.selectedLargeItems?.length > 0) ? "Large Item Delivery" : "Standard Delivery";
+        await sendEmail({
+          to: data.customerEmail,
+          subject: `Your Quote from ${company.name}`,
+          react: (
+            <CustomerQuoteEmail
+              customerName={data.customerName}
+              pickupZip={data.pickupZip}
+              dropoffZip={data.dropoffZip}
+              distanceMiles={data.distanceMiles}
+              estimatedPrice={data.estimatedPrice}
+              serviceType={serviceType}
+              companyName={company.name}
+            />
+          ),
+        });
+      } catch (emailError) {
+        console.error("Failed to send customer confirmation email:", emailError);
+      }
     }
 
     return NextResponse.json({ success: true, quoteId: quote.id });
