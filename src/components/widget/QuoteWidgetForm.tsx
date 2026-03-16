@@ -770,7 +770,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
             {/* Bottom: Info Section */}
             <div className="bg-white p-5 border-t border-slate-100 relative z-10space-y-4">
               {/* Route stats row */}
-              <div className="grid grid-cols-3 gap-3 pb-4 border-b border-slate-100">
+              <div className="grid grid-cols-2 gap-3 pb-4 border-b border-slate-100">
                 <div className="space-y-0.5">
                   <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
                     <Navigation size={9} /> Distance
@@ -782,14 +782,6 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                     <Clock size={9} /> Drive Time
                   </span>
                   <p className="text-sm font-black text-slate-900 tracking-tight">{routeInfo?.duration || "—"}</p>
-                </div>
-                <div className="space-y-0.5">
-                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
-                    <Sparkles size={9} /> Per Mile
-                  </span>
-                  <p className="text-sm font-black text-emerald-600 tracking-tight">
-                    {distance && estimate ? `$${(estimate / distance).toFixed(2)}` : "—"}
-                  </p>
                 </div>
               </div>
 
