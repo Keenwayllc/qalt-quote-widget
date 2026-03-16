@@ -337,9 +337,9 @@ export default function LandingPage() {
               <p className="text-slate-400 font-medium">© 2024 Qalt SaaS. All rights reserved.</p>
             </div>
             <div className="flex gap-10 text-sm font-bold text-slate-400 uppercase tracking-widest">
-              <Link href="/login" className="hover:text-blue-600 transition-colors">Privacy</Link>
-              <Link href="/login" className="hover:text-blue-600 transition-colors">Terms</Link>
-              <Link href="/login" className="hover:text-blue-600 transition-colors">Support</Link>
+              <Link href="/legal/privacy" className="hover:text-blue-600 transition-colors">Privacy</Link>
+              <Link href="/legal/terms" className="hover:text-blue-600 transition-colors">Terms</Link>
+              <a href="mailto:support@qalt.site" className="hover:text-blue-600 transition-colors">Support</a>
             </div>
           </div>
         </div>

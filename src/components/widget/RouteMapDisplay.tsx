@@ -37,12 +37,12 @@ export default function RouteMapDisplay({ pickupAddress, dropoffAddress, isLoade
         disableDefaultUI: true,
         zoomControl: false,
         scrollwheel: false,
-        draggable: false,
+        draggable: true, // Allow dragging now that it's larger
         styles: [
           {
             featureType: "all",
             elementType: "labels.text.fill",
-            stylers: [{ color: "#6c757d" }],
+            stylers: [{ color: "#94a3b8" }], // slate-400
           },
           {
             featureType: "road",
@@ -52,7 +52,12 @@ export default function RouteMapDisplay({ pickupAddress, dropoffAddress, isLoade
           {
             featureType: "water",
             elementType: "geometry",
-            stylers: [{ color: "#e9ecef" }],
+            stylers: [{ color: "#f1f5f9" }], // slate-100
+          },
+          {
+            featureType: "landscape",
+            elementType: "geometry",
+            stylers: [{ color: "#f8fafc" }], // slate-50
           },
         ],
       }}
@@ -73,9 +78,13 @@ export default function RouteMapDisplay({ pickupAddress, dropoffAddress, isLoade
           options={{
             suppressMarkers: false,
             polylineOptions: {
-              strokeColor: "#10b981",
-              strokeWeight: 4,
+              strokeColor: "#10b981", // emerald-500
+              strokeWeight: 6, // Slightly thicker for larger map
+              strokeOpacity: 0.8,
             },
+            markerOptions: {
+               // Use standard markers but ensure they look good
+            }
           }}
         />
       )}
