@@ -46,9 +46,12 @@ export default function RouteMapDisplay({ pickupAddress, dropoffAddress, isLoade
       mapContainerStyle={{ width: "100%", height: "100%" }}
       options={{
         disableDefaultUI: true,
-        zoomControl: false,
-        scrollwheel: false,
-        draggable: true, // Allow dragging now that it's larger
+        zoomControl: true,
+        zoomControlOptions: {
+          position: typeof google !== "undefined" ? google.maps.ControlPosition.RIGHT_BOTTOM : undefined,
+        },
+        scrollwheel: true,
+        draggable: true,
         styles: [
           {
             featureType: "all",
