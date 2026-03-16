@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { User, Mail, Save, CheckCircle2, AlertCircle } from "lucide-react";
+import { User, Mail, Save, CheckCircle2, AlertCircle, Send } from "lucide-react";
 
 export default function SettingsPage() {
   const [name, setName] = useState("");
@@ -10,6 +10,9 @@ export default function SettingsPage() {
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+
+  const [testStatus, setTestStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [testMsg, setTestMsg] = useState("");
 
   useEffect(() => {
     fetch("/api/dashboard/settings")
@@ -41,6 +44,20 @@ export default function SettingsPage() {
     } else {
       setStatus("error");
       setErrorMsg(data.error ?? "Something went wrong");
+    }
+  };
+
+  const sendTestEmail = async () => {
+    setTestStatus("sending");
+    setTestMsg("");
+    const res = await fetch("/api/dashboard/test-email", { method: "POST" });
+    const data = await res.json();
+    if (data.success) {
+      setTestStatus("sent");
+      setTestMsg(`Test email sent to ${data.sentTo}`);
+    } else {
+      setTestStatus("error");
+      setTestMsg(data.error ?? "Unknown error");
     }
   };
 
@@ -120,6 +137,37 @@ export default function SettingsPage() {
           {saving ? "Saving..." : "Save Changes"}
         </button>
       </form>
+
+      {/* Test Email Section */}
+      <div className="mt-6 bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        <h2 className="text-base font-bold text-slate-900 mb-1">Test Email Notifications</h2>
+        <p className="text-sm text-slate-500 mb-4">
+          Send a test email to your account address to verify notifications are working.
+        </p>
+
+        <button
+          onClick={sendTestEmail}
+          disabled={testStatus === "sending"}
+          className="flex items-center gap-2 px-5 py-2.5 bg-slate-800 text-white text-sm font-semibold rounded-lg hover:bg-slate-900 disabled:opacity-60 transition-colors"
+        >
+          <Send size={15} />
+          {testStatus === "sending" ? "Sending..." : "Send Test Email"}
+        </button>
+
+        {testStatus === "sent" && (
+          <div className="mt-3 flex items-center gap-2 text-sm text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-lg px-3 py-2">
+            <CheckCircle2 size={15} />
+            {testMsg}
+          </div>
+        )}
+
+        {testStatus === "error" && (
+          <div className="mt-3 flex items-start gap-2 text-sm text-rose-600 bg-rose-50 border border-rose-100 rounded-lg px-3 py-2">
+            <AlertCircle size={15} className="mt-0.5 shrink-0" />
+            <span className="font-mono break-all">{testMsg}</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
