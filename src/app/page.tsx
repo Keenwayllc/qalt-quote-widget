@@ -16,6 +16,8 @@ import {
   BarChart3,
   Code2,
   CheckCircle2,
+  Menu,
+  X,
 } from "lucide-react";
 import TestimonialsCarousel from "@/components/landing/TestimonialsCarousel";
 
@@ -27,6 +29,7 @@ const BANNER_IMAGES = [
 export default function LandingPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -42,6 +45,7 @@ export default function LandingPage() {
   }, []);
 
   const scrollTo = (id: string) => {
+    setIsMobileMenuOpen(false);
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -53,9 +57,10 @@ export default function LandingPage() {
     <div className="min-h-screen bg-white text-slate-900 selection:bg-blue-100 selection:text-blue-900">
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
           <QaltLogo size="xl" />
 
+          {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500 uppercase tracking-widest">
             <button onClick={() => scrollTo("features")} className="hover:text-blue-600 transition-colors">Features</button>
             <button onClick={() => scrollTo("how-it-works")} className="hover:text-blue-600 transition-colors">How it Works</button>
@@ -63,15 +68,48 @@ export default function LandingPage() {
             <Link href="/pricing" className="hover:text-blue-600 transition-colors">Pricing</Link>
           </div>
 
-          <div className="flex items-center gap-4">
-            <Link href="/login" className="px-6 py-2.5 text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Link href="/login" className="hidden sm:block px-5 py-2.5 text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors">
               Log in
             </Link>
-            <Link href="/register" className="px-6 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 hover:-translate-y-0.5 transition-all">
+            <Link href="/register" className="px-4 sm:px-6 py-2 sm:py-2.5 bg-blue-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 hover:-translate-y-0.5 transition-all">
               Get Started
             </Link>
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile dropdown menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-white border-t border-slate-100 shadow-lg">
+            <div className="max-w-7xl mx-auto px-4 py-3 space-y-1">
+              <button onClick={() => scrollTo("features")} className="block w-full text-left px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+                Features
+              </button>
+              <button onClick={() => scrollTo("how-it-works")} className="block w-full text-left px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+                How it Works
+              </button>
+              <button onClick={() => scrollTo("testimonials")} className="block w-full text-left px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+                Testimonials
+              </button>
+              <Link href="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+                Pricing
+              </Link>
+              <div className="pt-2 pb-1 border-t border-slate-100">
+                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-xl transition-colors">
+                  Log in
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
 
       <main>
@@ -79,12 +117,12 @@ export default function LandingPage() {
         <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
           {/* Rotating Background Images */}
           {BANNER_IMAGES.map((img, index) => (
-            <div 
+            <div
               key={index}
               className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'}`}
             >
-              <Image 
-                src={img} 
+              <Image
+                src={img}
                 alt={`Qalt Banner ${index + 1}`}
                 fill
                 priority={index === 0}
@@ -93,47 +131,45 @@ export default function LandingPage() {
             </div>
           ))}
 
-
           {/* Content */}
-          <div className="relative z-20 max-w-7xl mx-auto px-6 text-center pt-32 pb-24">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-xs font-black uppercase tracking-widest mb-8 border border-white/20">
+          <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 text-center pt-28 sm:pt-36 pb-20 sm:pb-24">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-xs font-black uppercase tracking-widest mb-6 sm:mb-8 border border-white/20">
               <Zap size={14} className="fill-yellow-400 text-yellow-400" />
               Now in Private Beta
             </div>
-            
-            <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-8 leading-[0.9] text-white drop-shadow-lg">
+
+            <h1 className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tight mb-6 sm:mb-8 leading-[0.9] text-white drop-shadow-lg">
               Instant Quotes.<br />
               <span className="text-blue-400">More Leads.</span><br />
               Zero Friction.
             </h1>
-            
-            <p className="max-w-2xl mx-auto text-xl text-white/80 mb-12 font-medium leading-relaxed">
-              The premium white-label quote widget built specifically for modern logistics and delivery companies. 
+
+            <p className="max-w-2xl mx-auto text-base sm:text-xl text-white/80 mb-10 sm:mb-12 font-medium leading-relaxed px-2">
+              The premium white-label quote widget built specifically for modern logistics and delivery companies.
               Automate your pricing and capture leads while you sleep.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-              <Link href="/register" className="group/btn px-10 py-5 bg-blue-600 text-white rounded-2xl font-bold flex items-center gap-3 hover:bg-blue-500 transition-all hover:scale-[1.02] shadow-xl shadow-blue-900/30">
+              <Link href="/register" className="group/btn w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 bg-blue-600 text-white rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-blue-500 transition-all hover:scale-[1.02] shadow-xl shadow-blue-900/30">
                 Get Started for Free
                 <ArrowRight className="group-hover/btn:translate-x-1 transition-transform" />
               </Link>
-              <button onClick={() => scrollTo("features")} className="px-10 py-5 bg-white/10 backdrop-blur-md border-2 border-white/20 text-white rounded-2xl font-bold hover:bg-white/20 transition-all">
+              <button onClick={() => scrollTo("features")} className="w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 bg-white/10 backdrop-blur-md border-2 border-white/20 text-white rounded-2xl font-bold hover:bg-white/20 transition-all">
                 Explore Features
               </button>
             </div>
-
           </div>
         </section>
 
         {/* Features Grid */}
-        <section id="features" className="py-32 bg-slate-50 relative overflow-hidden scroll-mt-24">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center mb-24">
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">Built for Reliability & Speed</h2>
-              <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium">Everything you need to scale your delivery business without the technical overhead.</p>
+        <section id="features" className="py-20 sm:py-32 bg-slate-50 relative overflow-hidden scroll-mt-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="text-center mb-16 sm:mb-24">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-6">Built for Reliability &amp; Speed</h2>
+              <p className="text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto font-medium">Everything you need to scale your delivery business without the technical overhead.</p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {[
                 {
                   icon: <Calculator className="text-blue-600" />,
@@ -166,8 +202,8 @@ export default function LandingPage() {
                   desc: "Built on top-tier infrastructure for 99.9% uptime and lightning-fast loading."
                 }
               ].map((feature, i) => (
-                <div key={i} className="bg-linear-to-b from-white to-slate-50 p-9 rounded-xl border border-slate-200 hover:shadow-lg hover:shadow-blue-900/5 hover:-translate-y-1 transition-all group">
-                  <div className="w-12 h-12 bg-blue-600/10 border border-blue-100 rounded-lg flex items-center justify-center mb-7 group-hover:bg-blue-600/15 transition-colors">
+                <div key={i} className="bg-linear-to-b from-white to-slate-50 p-7 sm:p-9 rounded-xl border border-slate-200 hover:shadow-lg hover:shadow-blue-900/5 hover:-translate-y-1 transition-all group">
+                  <div className="w-12 h-12 bg-blue-600/10 border border-blue-100 rounded-lg flex items-center justify-center mb-6 sm:mb-7 group-hover:bg-blue-600/15 transition-colors">
                     {feature.icon}
                   </div>
                   <h3 className="text-xl font-black mb-3 text-slate-900">{feature.title}</h3>
@@ -179,17 +215,17 @@ export default function LandingPage() {
         </section>
 
         {/* How It Works */}
-        <section id="how-it-works" className="py-32 bg-white scroll-mt-24">
-          <div className="max-w-5xl mx-auto px-6 text-center">
-            <h2 className="text-4xl md:text-5xl font-black mb-20 tracking-tight text-slate-900">Setting Up Is Instant</h2>
-            <div className="flex flex-col md:flex-row items-center gap-12 relative">
+        <section id="how-it-works" className="py-20 sm:py-32 bg-white scroll-mt-20">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-14 sm:mb-20 tracking-tight text-slate-900">Setting Up Is Instant</h2>
+            <div className="flex flex-col md:flex-row items-stretch gap-6 sm:gap-12 relative">
               <div className="absolute top-1/2 left-0 w-full h-0.5 bg-slate-50 -z-10 hidden md:block"></div>
               {[
                 { step: "01", title: "Create Account", desc: "Sign up in 30 seconds." },
                 { step: "02", title: "Set Rates", desc: "Build your flat or dynamic pricing." },
                 { step: "03", title: "Copy & Paste", desc: "Embed the code on your site." }
               ].map((step, i) => (
-                <div key={i} className="flex-1 bg-linear-to-br from-white to-slate-50 p-8 rounded-xl border border-slate-200 shadow-sm relative z-10 hover:-translate-y-2 transition-transform duration-500 overflow-hidden text-left">
+                <div key={i} className="flex-1 bg-linear-to-br from-white to-slate-50 p-7 sm:p-8 rounded-xl border border-slate-200 shadow-sm relative z-10 hover:-translate-y-2 transition-transform duration-500 overflow-hidden text-left">
                   <span className="text-8xl font-black text-slate-200/30 absolute -bottom-4 -right-2 select-none pointer-events-none leading-none z-0">{step.step}</span>
                   <div className="relative z-10">
                     <h3 className="text-lg font-black mb-2 text-slate-900">{step.title}</h3>
@@ -202,16 +238,16 @@ export default function LandingPage() {
         </section>
 
         {/* Pricing */}
-        <section id="pricing" className="py-32 bg-slate-50">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center mb-20">
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">Simple, Transparent Pricing</h2>
-              <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium">Start free. Upgrade when you&apos;re ready to scale.</p>
+        <section id="pricing" className="py-20 sm:py-32 bg-slate-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="text-center mb-14 sm:mb-20">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-6">Simple, Transparent Pricing</h2>
+              <p className="text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto font-medium">Start free. Upgrade when you&apos;re ready to scale.</p>
             </div>
 
-            <div className="grid md:grid-cols-3 rounded-2xl overflow-hidden shadow-xl max-w-5xl mx-auto border border-slate-200 bg-white">
+            <div className="grid grid-cols-1 md:grid-cols-3 rounded-2xl overflow-hidden shadow-xl max-w-5xl mx-auto border border-slate-200 bg-white">
               {/* Starter */}
-              <div className="bg-white p-10 flex flex-col">
+              <div className="bg-white p-8 sm:p-10 flex flex-col border-b md:border-b-0 md:border-r border-slate-200">
                 <div className="mb-8">
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-2xl font-black tracking-tight text-slate-900">Starter</h3>
@@ -235,7 +271,7 @@ export default function LandingPage() {
               </div>
 
               {/* Pro — premium gradient card */}
-              <div className="bg-linear-to-bl from-[#131526] via-[#1a1636] to-[#2d1b54] p-10 flex flex-col relative">
+              <div className="bg-linear-to-bl from-[#131526] via-[#1a1636] to-[#2d1b54] p-8 sm:p-10 flex flex-col relative border-b md:border-b-0 md:border-r border-slate-800">
                 <div className="mb-8">
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-2xl font-black tracking-tight text-white">Pro</h3>
@@ -261,7 +297,7 @@ export default function LandingPage() {
               </div>
 
               {/* Enterprise */}
-              <div className="bg-white p-10 flex flex-col relative">
+              <div className="bg-white p-8 sm:p-10 flex flex-col relative">
                 <div className="mb-8">
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-2xl font-black tracking-tight text-slate-900">Enterprise</h3>
@@ -295,48 +331,48 @@ export default function LandingPage() {
         </section>
 
         {/* Testimonials */}
-        <section id="testimonials" className="py-32 bg-linear-to-br from-slate-900 via-slate-900 to-blue-950 text-white overflow-hidden relative scroll-mt-24">
+        <section id="testimonials" className="py-20 sm:py-32 bg-linear-to-br from-slate-900 via-slate-900 to-blue-950 text-white overflow-hidden relative scroll-mt-20">
           {/* Background Qalt icon — decorative */}
           <div className="absolute -bottom-40 -right-40 pointer-events-none select-none" aria-hidden="true">
             <QaltIcon size={2000} color="rgba(255,255,255,0.05)" eyeColor="rgba(255,255,255,0.09)" />
           </div>
           <div className="max-w-7xl mx-auto relative z-10">
-            <div className="px-6 mb-16 text-center">
-              <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-tight">
+            <div className="px-4 sm:px-6 mb-12 sm:mb-16 text-center">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 tracking-tight leading-tight">
                 Trusted by Businesses Like Yours
               </h2>
-              <p className="text-xl text-slate-400 max-w-2xl mx-auto font-medium">
+              <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto font-medium">
                 Any industry. Any product. If you quote it, Qalt can automate it.
               </p>
             </div>
-            
+
             <TestimonialsCarousel />
           </div>
         </section>
 
         {/* Final CTA */}
-        <section className="py-40 relative bg-white overflow-hidden">
-          <div className="max-w-4xl mx-auto px-6 text-center">
-            <div className="w-20 h-20 bg-linear-to-br from-blue-500 to-blue-700 rounded-2xl mx-auto mb-10 flex items-center justify-center shadow-2xl shadow-blue-500/25 rotate-6">
-              <Zap size={40} className="text-white fill-white" />
+        <section className="py-24 sm:py-40 relative bg-white overflow-hidden">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-linear-to-br from-blue-500 to-blue-700 rounded-2xl mx-auto mb-8 sm:mb-10 flex items-center justify-center shadow-2xl shadow-blue-500/25 rotate-6">
+              <Zap size={36} className="text-white fill-white" />
             </div>
-            <h2 className="text-5xl md:text-7xl font-black mb-8 tracking-tighter leading-[0.9]">Start Automating<br />Your Quotes Today</h2>
-            <p className="text-xl text-slate-500 mb-12 font-medium">Join companies scaling with our premium embeddable quote widget.</p>
-            <Link href="/register" className="inline-flex px-12 py-5 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-xl font-black text-lg hover:from-blue-700 hover:to-blue-800 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-blue-300">
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black mb-6 sm:mb-8 tracking-tighter leading-[0.9]">Start Automating<br />Your Quotes Today</h2>
+            <p className="text-lg sm:text-xl text-slate-500 mb-10 sm:mb-12 font-medium">Join companies scaling with our premium embeddable quote widget.</p>
+            <Link href="/register" className="inline-flex px-8 sm:px-12 py-4 sm:py-5 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-xl font-black text-base sm:text-lg hover:from-blue-700 hover:to-blue-800 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-blue-300">
               Create Your Account
             </Link>
           </div>
         </section>
       </main>
 
-      <footer className="py-20 border-t border-slate-100 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="flex flex-col items-center md:items-start gap-6">
+      <footer className="py-14 sm:py-20 border-t border-slate-100 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8">
+            <div className="flex flex-col items-center md:items-start gap-4 sm:gap-6">
               <QaltLogo size="xl" />
-              <p className="text-slate-400 font-medium">© 2024 Qalt SaaS. All rights reserved.</p>
+              <p className="text-slate-400 font-medium text-sm">© 2024 Qalt SaaS. All rights reserved.</p>
             </div>
-            <div className="flex gap-10 text-sm font-bold text-slate-400 uppercase tracking-widest">
+            <div className="flex gap-8 sm:gap-10 text-sm font-bold text-slate-400 uppercase tracking-widest">
               <Link href="/legal/privacy" className="hover:text-blue-600 transition-colors">Privacy</Link>
               <Link href="/legal/terms" className="hover:text-blue-600 transition-colors">Terms</Link>
               <a href="mailto:support@qalt.site" className="hover:text-blue-600 transition-colors">Support</a>
@@ -344,10 +380,11 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
+
       {/* Scroll to Top Button */}
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className={`fixed bottom-8 right-8 z-50 w-12 h-12 bg-blue-600 text-white rounded-full shadow-xl shadow-blue-500/25 flex items-center justify-center hover:bg-blue-700 hover:scale-110 transition-all duration-300 ${showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
+        className={`fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 w-11 h-11 sm:w-12 sm:h-12 bg-blue-600 text-white rounded-full shadow-xl shadow-blue-500/25 flex items-center justify-center hover:bg-blue-700 hover:scale-110 transition-all duration-300 ${showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
         aria-label="Scroll to top"
       >
         <ArrowUp size={20} />

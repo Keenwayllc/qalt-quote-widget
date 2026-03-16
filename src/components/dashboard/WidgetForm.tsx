@@ -142,7 +142,7 @@ export default function WidgetSettingsForm({
   };
 
   return (
-    <div className="p-8 max-w-6xl flex flex-col lg:flex-row gap-12">
+    <div className="p-4 sm:p-8 max-w-6xl flex flex-col lg:flex-row gap-8 lg:gap-12">
       <div className="flex-1">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-slate-900">Widget Appearance</h1>

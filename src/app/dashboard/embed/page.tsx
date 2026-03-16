@@ -51,10 +51,10 @@ export default function EmbedCodePage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-8">
-        <header className="mb-10">
-          <h1 className="text-4xl font-black text-slate-900 tracking-tight">Add Qalt to Your Website</h1>
-          <p className="text-slate-500 mt-3 text-lg font-medium">Capture more leads by embedding your smart calculator anywhere.</p>
+    <div className="max-w-4xl mx-auto p-4 sm:p-8">
+        <header className="mb-8 sm:mb-10">
+          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">Add Qalt to Your Website</h1>
+          <p className="text-slate-500 mt-3 text-base sm:text-lg font-medium">Capture more leads by embedding your smart calculator anywhere.</p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
