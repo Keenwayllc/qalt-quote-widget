@@ -1,29 +1,27 @@
 import * as React from 'react';
 
-interface NewQuoteEmailProps {
+interface CustomerQuoteEmailProps {
   customerName: string;
-  customerEmail: string;
-  customerPhone?: string;
   pickupZip: string;
   dropoffZip: string;
   distanceMiles: number;
   estimatedPrice: number;
   serviceType: string;
+  companyName: string;
 }
 
-export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
+export const CustomerQuoteEmail: React.FC<Readonly<CustomerQuoteEmailProps>> = ({
   customerName,
-  customerEmail,
-  customerPhone,
   pickupZip,
   dropoffZip,
   distanceMiles,
   estimatedPrice,
   serviceType,
+  companyName,
 }) => (
   <div style={{ fontFamily: 'system-ui, -apple-system, sans-serif', maxWidth: '600px', margin: '0 auto', backgroundColor: '#f8fafc' }}>
 
-    {/* Header — table layout for email client compatibility */}
+    {/* Header */}
     <div style={{ backgroundColor: '#1e3a5f', borderRadius: '12px 12px 0 0', padding: '22px 32px' }}>
       <table cellPadding="0" cellSpacing="0" border={0}>
         <tbody>
@@ -53,16 +51,16 @@ export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
     {/* Body */}
     <div style={{ padding: '28px 32px 20px' }}>
       <h1 style={{ color: '#0f172a', fontSize: '22px', fontWeight: '700', margin: '0 0 6px' }}>
-        New Quote Request
+        Your Quote is Ready, {customerName}!
       </h1>
       <p style={{ color: '#64748b', fontSize: '14px', margin: '0 0 24px' }}>
-        A customer submitted a quote through your widget.
+        Thanks for reaching out to <strong>{companyName}</strong>. Here&apos;s a summary of your quote. Someone will be in touch with you shortly.
       </p>
 
       {/* Price */}
       <div style={{ backgroundColor: '#1e3a5f', borderRadius: '10px', padding: '20px 24px', marginBottom: '20px', textAlign: 'center' }}>
         <p style={{ margin: '0 0 2px', fontSize: '11px', color: '#93c5fd', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: '700' }}>
-          Estimated Price
+          Your Estimate
         </p>
         <p style={{ margin: '0', fontSize: '42px', fontWeight: '800', color: '#ffffff', lineHeight: '1.1' }}>
           ${estimatedPrice.toFixed(2)}
@@ -70,18 +68,6 @@ export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
         <p style={{ margin: '6px 0 0', fontSize: '13px', color: '#93c5fd' }}>
           {serviceType} &nbsp;·&nbsp; {distanceMiles.toFixed(1)} miles
         </p>
-      </div>
-
-      {/* Customer */}
-      <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', marginBottom: '12px', overflow: 'hidden' }}>
-        <div style={{ padding: '10px 20px', backgroundColor: '#f1f5f9', borderBottom: '1px solid #e2e8f0' }}>
-          <p style={{ margin: '0', fontSize: '10px', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.12em' }}>Customer</p>
-        </div>
-        <div style={{ padding: '16px 20px' }}>
-          <p style={{ margin: '0 0 4px', fontSize: '16px', fontWeight: '700', color: '#0f172a' }}>{customerName}</p>
-          <p style={{ margin: '0 0 2px', fontSize: '14px', color: '#475569' }}>{customerEmail}</p>
-          {customerPhone && <p style={{ margin: '0', fontSize: '14px', color: '#475569' }}>{customerPhone}</p>}
-        </div>
       </div>
 
       {/* Route */}
@@ -97,7 +83,7 @@ export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
                   <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#22c55e' }} />
                 </td>
                 <td style={{ fontSize: '14px', color: '#0f172a', paddingBottom: '6px' }}>
-                  <strong>From:</strong> <span style={{ color: '#475569' }}>{pickupZip}</span>
+                  <strong>Pickup:</strong> <span style={{ color: '#475569' }}>{pickupZip}</span>
                 </td>
               </tr>
               <tr>
@@ -111,19 +97,23 @@ export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
                   <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ef4444' }} />
                 </td>
                 <td style={{ fontSize: '14px', color: '#0f172a', paddingTop: '6px' }}>
-                  <strong>To:</strong> <span style={{ color: '#475569' }}>{dropoffZip}</span>
+                  <strong>Dropoff:</strong> <span style={{ color: '#475569' }}>{dropoffZip}</span>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+
+      <p style={{ color: '#64748b', fontSize: '13px', margin: '20px 0 0', textAlign: 'center' }}>
+        This is an estimate only. Final pricing may vary based on job requirements.
+      </p>
     </div>
 
     {/* Footer */}
     <div style={{ padding: '16px 32px', borderTop: '1px solid #e2e8f0', textAlign: 'center' }}>
       <p style={{ margin: '0', fontSize: '12px', color: '#94a3b8' }}>
-        Sent via Qalt &nbsp;·&nbsp; Real-time Delivery Quotes &nbsp;·&nbsp; qalt.site
+        Powered by Qalt &nbsp;·&nbsp; qalt.site
       </p>
     </div>
   </div>
