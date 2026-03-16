@@ -108,6 +108,16 @@ export const CustomerQuoteEmail: React.FC<Readonly<CustomerQuoteEmailProps>> = (
       <p style={{ color: '#64748b', fontSize: '13px', margin: '20px 0 0', textAlign: 'center' }}>
         This is an estimate only. Final pricing may vary based on job requirements.
       </p>
+
+      {/* Not Spam tip */}
+      <div style={{ marginTop: '20px', backgroundColor: '#fffbeb', border: '1px solid #fde68a', borderRadius: '10px', padding: '14px 18px' }}>
+        <p style={{ margin: '0 0 4px', fontSize: '13px', fontWeight: '700', color: '#92400e' }}>
+          📬 Did this land in your spam folder?
+        </p>
+        <p style={{ margin: '0', fontSize: '13px', color: '#78350f', lineHeight: '1.5' }}>
+          If so, please mark it as <strong>&quot;Not Spam&quot;</strong> or move it to your inbox. This ensures you receive your quote details and any follow-up messages from {companyName} without issue.
+        </p>
+      </div>
     </div>
 
     {/* Footer */}
