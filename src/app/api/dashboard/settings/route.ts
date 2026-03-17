@@ -14,7 +14,7 @@ export async function GET() {
 
     const company = await prisma.company.findUnique({
       where: { id: payload.companyId },
-      select: { name: true, email: true },
+      select: { name: true, email: true, subscriptionPlan: true },
     });
 
     if (!company) return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -35,7 +35,7 @@ export async function PATCH(req: Request) {
     const payload = await verifyToken(token);
     if (!payload) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const { name, email } = await req.json();
+    const { name, email, subscriptionPlan } = await req.json();
 
     if (!name || !email) {
       return NextResponse.json({ error: "Name and email are required" }, { status: 400 });
@@ -45,14 +45,24 @@ export async function PATCH(req: Request) {
     const existing = await prisma.company.findFirst({
       where: { email, NOT: { id: payload.companyId } },
     });
+
+    const currentCompany = await prisma.company.findUnique({ where: { id: payload.companyId } });
+    if (!currentCompany) return NextResponse.json({ error: "Not found" }, { status: 404 });
     if (existing) {
       return NextResponse.json({ error: "Email already in use" }, { status: 400 });
     }
 
+    const updateData: any = { name, email };
+    
+    // Allow creator to change plan for testing
+    if (subscriptionPlan && currentCompany.email.toLowerCase() === "emmanuel@gokeenway.com") {
+      updateData.subscriptionPlan = subscriptionPlan;
+    }
+
     const updated = await prisma.company.update({
       where: { id: payload.companyId },
-      data: { name, email },
-      select: { name: true, email: true },
+      data: updateData,
+      select: { name: true, email: true, subscriptionPlan: true },
     });
 
     return NextResponse.json({ success: true, company: updated });

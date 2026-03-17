@@ -6,6 +6,7 @@ import { User, Mail, Save, CheckCircle2, AlertCircle, Send } from "lucide-react"
 export default function SettingsPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [subscriptionPlan, setSubscriptionPlan] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
@@ -20,6 +21,7 @@ export default function SettingsPage() {
       .then((data) => {
         setName(data.name ?? "");
         setEmail(data.email ?? "");
+        setSubscriptionPlan(data.subscriptionPlan ?? "");
         setLoading(false);
       });
   }, []);
@@ -32,7 +34,7 @@ export default function SettingsPage() {
     const res = await fetch("/api/dashboard/settings", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email }),
+      body: JSON.stringify({ name, email, subscriptionPlan }),
     });
 
     const data = await res.json();
@@ -137,6 +139,37 @@ export default function SettingsPage() {
           {saving ? "Saving..." : "Save Changes"}
         </button>
       </form>
+
+      {/* Admin Panel Selector */}
+      {email.toLowerCase() === "emmanuel@gokeenway.com" && (
+        <div className="mt-6 bg-slate-50 rounded-xl border border-blue-200 shadow-sm p-6 relative overflow-hidden">
+          <div className="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded-bl-lg uppercase tracking-wider">
+            Admin Only
+          </div>
+          <h2 className="text-base font-bold text-slate-900 mb-1">Creator Plan Override</h2>
+          <p className="text-sm text-slate-500 mb-4">
+            Test different subscription tiers below. Select a plan and click "Save Changes" above to apply.
+          </p>
+          <div className="flex gap-3">
+            {["STARTER", "PRO", "ENTERPRISE"].map(plan => (
+              <label 
+                key={plan}
+                className={`flex-1 cursor-pointer rounded-lg border p-3 flex flex-col items-center gap-1 transition-all ${subscriptionPlan === plan ? 'border-blue-600 bg-blue-50 text-blue-700' : 'border-slate-200 bg-white hover:border-blue-300 text-slate-600'}`}
+              >
+                <input 
+                  type="radio" 
+                  name="plan" 
+                  value={plan} 
+                  checked={subscriptionPlan === plan}
+                  onChange={() => setSubscriptionPlan(plan)}
+                  className="sr-only" 
+                />
+                <span className="text-sm font-semibold">{plan}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Test Email Section */}
       <div className="mt-6 bg-white rounded-xl border border-slate-200 shadow-sm p-6">
