@@ -1,6 +1,8 @@
 import { getCurrentCompany } from "@/lib/session";
 import { getEntitlements } from "@/lib/plans";
+import prisma from "@/lib/prisma";
 import Link from "next/link";
+import { subDays, format } from "date-fns";
 import { 
   BarChart3, 
   Lock, 
@@ -8,8 +10,14 @@ import {
   Zap, 
   Target, 
   Users, 
-  TrendingUp 
+  TrendingUp,
+  DollarSign,
+  Activity,
+  Calculator
 } from "lucide-react";
+
+import DashboardCharts from "./DashboardCharts";
+import RecentQuotesTable from "./RecentQuotesTable";
 
 export default async function AnalyticsPage() {
   const company = await getCurrentCompany();
@@ -79,28 +87,94 @@ export default async function AnalyticsPage() {
     );
   }
 
+  // Fetch true analytics data
+  const thirtyDaysAgo = subDays(new Date(), 30);
+  
+  const recentQuotes = await prisma.quoteRequest.findMany({
+    where: { 
+      companyId: company.id,
+      createdAt: { gte: thirtyDaysAgo }
+    },
+    orderBy: { createdAt: 'desc' }
+  });
+
+  // Calculate KPIs
+  const totalQuotes = recentQuotes.length;
+  const pipelineValue = recentQuotes.reduce((sum, q) => sum + (q.estimatedPrice || 0), 0);
+  const avgQuoteValue = totalQuotes > 0 ? pipelineValue / totalQuotes : 0;
+
+  // Group quotes by day for the chart
+  const dailyDataMap = new Map<string, number>();
+  
+  // Initialize last 30 days with 0
+  for (let i = 29; i >= 0; i--) {
+    const day = subDays(new Date(), i);
+    dailyDataMap.set(format(day, 'MMM dd'), 0);
+  }
+
+  // Populate actual data
+  recentQuotes.forEach(q => {
+    const dayKey = format(new Date(q.createdAt), 'MMM dd');
+    if (dailyDataMap.has(dayKey)) {
+      dailyDataMap.set(dayKey, dailyDataMap.get(dayKey)! + 1);
+    }
+  });
+
+  const chartData = Array.from(dailyDataMap.entries()).map(([date, quotes]) => ({
+    date,
+    quotes
+  }));
+
+  // Take top 5 recent quotes for the table
+  const latestQuotes = recentQuotes.slice(0, 5);
+
   return (
-    <div className="p-4 lg:p-10 space-y-10 max-w-7xl mx-auto">
+    <div className="p-4 lg:p-10 space-y-8 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <h1 className="text-4xl font-black text-slate-900 tracking-tight">
             Analytics Overview
           </h1>
           <p className="text-slate-500 font-medium">
-             Track your conversion performance and visitor trends.
+             Track your conversion performance and visitor trends over the last 30 days.
           </p>
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl border border-slate-200/60 shadow-xl shadow-slate-200/40 p-12 text-center h-[500px] flex flex-col items-center justify-center">
-         <div className="inline-flex p-4 bg-blue-50 text-blue-600 rounded-full mb-6">
-            <TrendingUp size={32} />
-         </div>
-         <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-2">Populating Data...</h2>
-         <p className="text-slate-500 font-medium max-w-sm mx-auto">
-           We&apos;re currently collecting data for your widget. Check back in a few hours to see your conversion analytics.
-         </p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <KPICard 
+          title="Total Quotes" 
+          value={totalQuotes.toString()} 
+          icon={<Activity size={24} className="text-blue-600" />} 
+        />
+        <KPICard 
+          title="Pipeline Value" 
+          value={`$${pipelineValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`} 
+          icon={<DollarSign size={24} className="text-emerald-600" />} 
+        />
+        <KPICard 
+          title="Avg. Quote Value" 
+          value={`$${avgQuoteValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`} 
+          icon={<Calculator size={24} className="text-amber-600" />} 
+        />
       </div>
+
+      <DashboardCharts data={chartData} />
+      <RecentQuotesTable quotes={latestQuotes} />
+    </div>
+  );
+}
+
+function KPICard({ title, value, icon }: { title: string, value: string, icon: React.ReactNode }) {
+  return (
+    <div className="bg-white rounded-3xl border border-slate-200/60 shadow-xl shadow-slate-200/40 p-6 flex flex-col justify-center">
+      <div className="flex items-center gap-4 mb-2">
+        <div className="p-3 bg-slate-50 border border-slate-100 rounded-2xl">
+          {icon}
+        </div>
+        <p className="text-sm font-bold text-slate-500 tracking-wide uppercase">{title}</p>
+      </div>
+      <h3 className="text-3xl font-black text-slate-900 tracking-tight pl-1">{value}</h3>
     </div>
   );
 }
