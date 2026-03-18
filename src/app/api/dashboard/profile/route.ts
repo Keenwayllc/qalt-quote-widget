@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     await prisma.company.update({
       where: { id: payload.companyId },
       data: {
-        logoUrl: data.logoUrl,
+        logoUrl: data.logoUrl || null,
       },
     });
 
