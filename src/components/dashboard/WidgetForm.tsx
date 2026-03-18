@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw, ExternalLink, Lock, Sparkles } from "lucide-react";
+import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw, ExternalLink, Lock, Sparkles, Info, Globe } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
 import Link from 'next/link';
 
@@ -24,6 +24,7 @@ interface WidgetProps {
       companyNameText?: string | null;
       companyNameFont?: string;
       mapLayout?: string;
+      websiteUrl?: string | null;
     };
   };
 }
@@ -53,6 +54,7 @@ export default function WidgetSettingsForm({
     companyNameFont: initialData.companyNameFont || "Inter",
     disclaimerText: entitlements.isAdvancedCustomizationEnabled ? initialData.disclaimerText : "Estimate only. Final price confirmed after booking.",
     mapLayout: initialData.mapLayout || "inline",
+    websiteUrl: initialData.websiteUrl || "",
   });
   const [logo, setLogo] = useState(entitlements.isAdvancedCustomizationEnabled ? (companyLogoUrl || "") : "");
 
@@ -345,6 +347,38 @@ export default function WidgetSettingsForm({
                 <option value="inline">Inline (Default)</option>
                 <option value="side">Side Panel Slide-out</option>
               </select>
+            </div>
+
+            {/* Website URL */}
+            <div>
+              <label htmlFor="websiteUrl" className="text-sm font-medium text-slate-700 mb-1 flex items-center gap-2">
+                <Globe size={15} className="text-slate-400" />
+                Your Website URL
+                <div className="relative group">
+                  <Info size={14} className="text-slate-400 cursor-help" />
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 bg-slate-900 text-white text-xs rounded-xl p-3.5 shadow-2xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 leading-relaxed">
+                    <p className="font-bold text-white mb-1.5">Why add your website URL?</p>
+                    <p className="text-slate-300 mb-2">
+                      When a customer finishes submitting a quote, Qalt automatically shows them a <strong className="text-white">&quot;Back to your site&quot;</strong> button — so they&apos;re never left wondering what to do next.
+                    </p>
+                    <p className="text-slate-300 mb-2">
+                      Qalt detects this automatically when your widget is embedded, but adding your URL here acts as a <strong className="text-white">guaranteed fallback</strong> in case the browser blocks automatic detection (e.g. stricter privacy settings).
+                    </p>
+                    <p className="text-slate-400 text-[11px]">Example: https://yourcompany.com</p>
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-slate-900" />
+                  </div>
+                </div>
+              </label>
+              <input
+                id="websiteUrl"
+                name="websiteUrl"
+                type="url"
+                placeholder="https://yourcompany.com"
+                value={previewData.websiteUrl || ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+              />
+              <p className="text-xs text-slate-400 mt-1">Optional but recommended. Customers will see a &quot;Back to [your site]&quot; button after submitting their quote.</p>
             </div>
 
             <div>

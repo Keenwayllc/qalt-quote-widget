@@ -28,6 +28,7 @@ export async function GET() {
       backgroundImageUrl: entitlements.isAdvancedCustomizationEnabled ? company.widgetSettings.backgroundImageUrl : null,
       companyNameText: company.widgetSettings.companyNameText,
       companyNameFont: company.widgetSettings.companyNameFont || "Inter",
+      websiteUrl: company.widgetSettings.websiteUrl ?? null,
     } : null;
 
     return NextResponse.json({ 
@@ -73,6 +74,7 @@ export async function POST(req: Request) {
       companyNameText:   data.companyNameText ?? null,
       companyNameFont:   data.companyNameFont || "Inter",
       mapLayout:         ["inline", "side"].includes(data.mapLayout) ? data.mapLayout : "inline",
+      websiteUrl:        data.websiteUrl ? String(data.websiteUrl).trim() : null,
     };
 
     await prisma.widgetSettings.upsert({

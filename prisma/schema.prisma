@@ -59,6 +59,7 @@ model WidgetSettings {
   companyNameFont    String  @default("Inter")
   backgroundImageUrl String?
   mapLayout          String  @default("inline")
+  websiteUrl         String?
   company            Company @relation(fields: [companyId], references: [id])
 }
 

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { getEntitlements } from "@/lib/plans";
 import QaltIcon from "@/components/shared/QaltIcon";
-import { MapPin, CheckCircle, ArrowRight, User, Mail, Phone, Truck, Sparkles, Weight, Hash, Footprints, Home, Clock, Box, Navigation } from "lucide-react";
+import { MapPin, CheckCircle, ArrowRight, ArrowLeft, User, Mail, Phone, Truck, Sparkles, Weight, Hash, Footprints, Home, Clock, Box, Navigation } from "lucide-react";
 import { useJsApiLoader } from "@react-google-maps/api";
 import usePlacesAutocomplete, { getGeocode } from "use-places-autocomplete";
 import RouteMapDisplay from "./RouteMapDisplay";
@@ -28,6 +28,7 @@ interface WidgetProps {
       companyNameText?: string | null;
       companyNameFont?: string;
       mapLayout?: string;
+      websiteUrl?: string | null;
     };
   };
 }
@@ -146,6 +147,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
       showExtras: true,
       disclaimerText: "Estimate only. Final price confirmed after booking.",
       mapLayout: "inline",
+      websiteUrl: null,
     }),
     // Strictly override if plan doesn't allow it
     ...(!entitlements.isAdvancedCustomizationEnabled ? {
@@ -183,6 +185,21 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [parentUrl, setParentUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      if (document.referrer) {
+        setParentUrl(document.referrer);
+      } else if (widgetSettings.websiteUrl) {
+        setParentUrl(widgetSettings.websiteUrl);
+      }
+    } catch {
+      if (widgetSettings.websiteUrl) {
+        setParentUrl(widgetSettings.websiteUrl);
+      }
+    }
+  }, [widgetSettings.websiteUrl]);
   const [estimate, setEstimate] = useState<number | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
   const [routeInfo, setRouteInfo] = useState<{
@@ -721,12 +738,28 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                     Thanks, <strong className="text-slate-700">{formData.customerName}</strong>. {widgetSettings.companyNameText || company.name} will reach out shortly about your <strong className="text-emerald-600">${estimate?.toFixed(2)}</strong> delivery quote.
                   </p>
                 </div>
-                <button
-                  onClick={() => { setStep(1); setFormData(prev => ({ ...prev, pickupZip: "", dropoffZip: "", customerName: "", customerEmail: "", customerPhone: "", packageWeight: "", itemCount: "" })); }}
-                  className="mt-4 font-bold text-sm flex items-center gap-2 mx-auto px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105"
-                  style={{ color: primaryColor, backgroundColor: `${primaryColor}15` }}>
-                  Start New Quote <ArrowRight size={16} />
-                </button>
+                <div className="space-y-3 pt-2">
+                  {parentUrl && (() => {
+                    let hostname = "";
+                    try { hostname = new URL(parentUrl).hostname.replace(/^www\./, ""); } catch { hostname = ""; }
+                    return hostname ? (
+                      <a
+                        href={parentUrl}
+                        className="w-full py-4 rounded-2xl text-white font-bold text-sm shadow-lg flex items-center justify-center gap-2.5 transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
+                        style={{ backgroundColor: primaryColor, boxShadow: `0 8px 24px -4px ${primaryColor}55` }}
+                      >
+                        <ArrowLeft size={16} />
+                        Back to {hostname}
+                      </a>
+                    ) : null;
+                  })()}
+                  <button
+                    onClick={() => { setStep(1); setFormData(prev => ({ ...prev, pickupZip: "", dropoffZip: "", customerName: "", customerEmail: "", customerPhone: "", packageWeight: "", itemCount: "" })); }}
+                    className="w-full font-bold text-sm flex items-center justify-center gap-2 mx-auto px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105"
+                    style={{ color: primaryColor, backgroundColor: `${primaryColor}15` }}>
+                    Start New Quote <ArrowRight size={16} />
+                  </button>
+                </div>
               </div>
             )}
           </div>
@@ -734,6 +767,19 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
           {/* Footer */}
           <div className="px-8 py-5 bg-slate-50/80 border-t border-slate-100/80">
             <p className="text-[10px] text-slate-400 text-center leading-relaxed font-medium">{widgetSettings.disclaimerText}</p>
+            {parentUrl && step !== 3 && (() => {
+              let hostname = "";
+              try { hostname = new URL(parentUrl).hostname.replace(/^www\./, ""); } catch { hostname = ""; }
+              return hostname ? (
+                <a
+                  href={parentUrl}
+                  className="mt-3 flex items-center justify-center gap-1.5 text-[10px] font-bold text-slate-400 hover:text-slate-600 transition-colors group"
+                >
+                  <ArrowLeft size={11} className="group-hover:-translate-x-0.5 transition-transform" />
+                  Back to {hostname}
+                </a>
+              ) : null;
+            })()}
             {!showWhiteLabel && (
               <a href="https://qalt.site" target="_blank" rel="noopener noreferrer" className="mt-3 flex items-center justify-center gap-2.5 opacity-40 hover:opacity-70 transition-opacity">
                 <span className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em]">Powered by</span>
