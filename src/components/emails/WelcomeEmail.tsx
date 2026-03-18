@@ -14,10 +14,22 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
     margin: '0 auto',
     backgroundColor: '#ffffff',
   }}>
+    <div style={{ 
+      backgroundColor: '#1E40AF', 
+      borderRadius: '24px 24px 0 0', 
+      padding: '32px', 
+      textAlign: 'center',
+      marginBottom: '32px'
+    }}>
+      <img 
+        src="https://qalt.site/images/faceqaltwh.png" 
+        alt="Qalt Logo" 
+        height="40" 
+        style={{ display: 'block', margin: '0 auto' }} 
+      />
+    </div>
+    
     <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-      <div style={{ marginBottom: '24px' }}>
-        <img src="https://qalt.site/images/qalt.png" alt="Qalt Logo" height="48" style={{ display: 'block', margin: '0 auto' }} />
-      </div>
       <h1 style={{ color: '#1e293b', fontSize: '32px', fontWeight: '900', margin: '0', letterSpacing: '-0.04em' }}>
         Welcome to Qalt!
       </h1>

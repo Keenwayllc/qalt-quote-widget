@@ -25,29 +25,12 @@ export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
 
     {/* Header — table layout for email client compatibility */}
     <div style={{ backgroundColor: '#1e3a5f', borderRadius: '12px 12px 0 0', padding: '22px 32px' }}>
-      <table cellPadding="0" cellSpacing="0" border={0}>
-        <tbody>
-          <tr>
-            <td style={{ verticalAlign: 'middle', paddingRight: '12px' }}>
-              <img
-                src="https://qalt.site/images/qalt_face.png"
-                alt=""
-                width="40"
-                height="40"
-                style={{ display: 'block', borderRadius: '8px' }}
-              />
-            </td>
-            <td style={{ verticalAlign: 'middle' }}>
-              <img
-                src="https://qalt.site/images/qalt.png"
-                alt="Qalt"
-                height="32"
-                style={{ display: 'block' }}
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <img
+        src="https://qalt.site/images/faceqaltwh.png"
+        alt="Qalt"
+        height="32"
+        style={{ display: 'block' }}
+      />
     </div>
 
     {/* Body */}
