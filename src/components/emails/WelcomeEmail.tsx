@@ -17,17 +17,17 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
     <div style={{ 
       backgroundColor: '#1E40AF', 
       borderRadius: '24px 24px 0 0', 
-      padding: '32px', 
+      padding: '48px 32px', 
       textAlign: 'center',
       marginBottom: '32px'
     }}>
       <img 
         src="https://qalt.site/images/faceqaltwh.png" 
         alt="Qalt Logo" 
-        height="44" 
-        style={{ display: 'block', margin: '0 auto 12px' }} 
+        height="60" 
+        style={{ display: 'block', margin: '0 auto 16px' }} 
       />
-      <p style={{ margin: '0', color: '#93c5fd', fontSize: '11px', fontWeight: '700', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+      <p style={{ margin: '0', color: '#93c5fd', fontSize: '13px', fontWeight: '800', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
         Your rates. Embedded. Anywhere.
       </p>
     </div>
