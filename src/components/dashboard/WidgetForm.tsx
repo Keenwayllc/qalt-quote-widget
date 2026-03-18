@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw, ExternalLink, Lock, Sparkles, Info, Globe, X } from "lucide-react";
+import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw, ExternalLink, Lock, Sparkles, Info, Globe, Trash2 } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
 import Link from 'next/link';
 
@@ -176,83 +176,98 @@ export default function WidgetSettingsForm({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Image Uploads */}
               <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-white border border-slate-300 rounded-lg shadow-sm">
-                <div>
-                  <label className="text-sm font-medium text-slate-700 mb-2 flex items-center gap-2">
+                {/* Company Logo */}
+                <div className="flex flex-col gap-3">
+                  <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
                     Company Logo
                     {!entitlements.isAdvancedCustomizationEnabled && <Lock size={12} className="text-amber-500" />}
                   </label>
                   <div className="flex items-center gap-3">
-                    {logo ? (
-                      <div className="relative w-12 h-12 shrink-0">
-                        <Image src={logo} alt="Logo" fill className="object-contain bg-white rounded-lg border border-slate-200" unoptimized />
-                      </div>
-                    ) : (
-                      <div className="w-12 h-12 bg-white rounded-lg border border-slate-300 flex items-center justify-center shrink-0">
-                        <ImageIcon size={20} className="text-slate-300" />
-                      </div>
-                    )}
+                    {/* Thumbnail with trash overlay */}
+                    <div className="relative w-14 h-14 shrink-0 group/thumb">
+                      {logo ? (
+                        <>
+                          <Image src={logo} alt="Logo" fill className="object-contain bg-white rounded-xl border border-slate-200" unoptimized />
+                          {entitlements.isAdvancedCustomizationEnabled && (
+                            <button
+                              type="button"
+                              onClick={() => setLogo("")}
+                              title="Remove logo"
+                              className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-xl opacity-0 group-hover/thumb:opacity-100 transition-opacity"
+                            >
+                              <Trash2 size={16} className="text-white" />
+                            </button>
+                          )}
+                        </>
+                      ) : (
+                        <div className="w-14 h-14 bg-slate-50 rounded-xl border border-dashed border-slate-300 flex items-center justify-center">
+                          <ImageIcon size={20} className="text-slate-300" />
+                        </div>
+                      )}
+                    </div>
+                    {/* Upload button */}
                     {!entitlements.isAdvancedCustomizationEnabled ? (
                       <button type="button" disabled className="px-4 py-2 bg-slate-50 border border-slate-200 text-sm font-medium text-slate-400 rounded-lg flex items-center gap-2">
                         <Lock size={14} /> Locked
                       </button>
                     ) : (
-                      <div className="flex items-center gap-2">
-                        <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 text-sm font-medium text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors shadow-sm">
-                          <Upload size={16} />
-                          Upload Logo
-                          <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'logo')} />
-                        </label>
-                        {logo && (
-                          <button
-                            type="button"
-                            onClick={() => setLogo("")}
-                            title="Remove logo"
-                            className="w-8 h-8 flex items-center justify-center rounded-lg border border-red-200 bg-red-50 text-red-500 hover:bg-red-100 transition-colors"
-                          >
-                            <X size={14} />
-                          </button>
-                        )}
-                      </div>
+                      <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 text-sm font-medium text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors shadow-sm">
+                        <Upload size={15} />
+                        {logo ? "Replace" : "Upload Logo"}
+                        <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'logo')} />
+                      </label>
                     )}
                   </div>
+                  {logo && entitlements.isAdvancedCustomizationEnabled && (
+                    <p className="text-[11px] text-slate-400">Hover the thumbnail to remove</p>
+                  )}
                 </div>
-                <div>
-                  <label className="text-sm font-medium text-slate-700 mb-2 flex items-center gap-2">
+
+                {/* Widget Background */}
+                <div className="flex flex-col gap-3">
+                  <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
                     Widget Background
                     {!entitlements.isAdvancedCustomizationEnabled && <Lock size={12} className="text-amber-500" />}
                   </label>
                   <div className="flex items-center gap-3">
-                    {previewData.backgroundImageUrl ? (
-                      <div className="w-24 h-12 rounded-lg border border-slate-200 bg-cover bg-center shrink-0" style={{ backgroundImage: `url(${previewData.backgroundImageUrl})` }} />
-                    ) : (
-                      <div className="w-24 h-12 bg-white rounded-lg border border-slate-300 flex items-center justify-center shrink-0">
-                        <ImageIcon size={20} className="text-slate-300" />
-                      </div>
-                    )}
+                    {/* Thumbnail with trash overlay */}
+                    <div className="relative w-20 h-14 shrink-0 group/thumb">
+                      {previewData.backgroundImageUrl ? (
+                        <>
+                          <div className="w-20 h-14 rounded-xl border border-slate-200 bg-cover bg-center" style={{ backgroundImage: `url(${previewData.backgroundImageUrl})` }} />
+                          {entitlements.isAdvancedCustomizationEnabled && (
+                            <button
+                              type="button"
+                              onClick={() => setPreviewData(prev => ({ ...prev, backgroundImageUrl: null }))}
+                              title="Remove background"
+                              className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-xl opacity-0 group-hover/thumb:opacity-100 transition-opacity"
+                            >
+                              <Trash2 size={16} className="text-white" />
+                            </button>
+                          )}
+                        </>
+                      ) : (
+                        <div className="w-20 h-14 bg-slate-50 rounded-xl border border-dashed border-slate-300 flex items-center justify-center">
+                          <ImageIcon size={20} className="text-slate-300" />
+                        </div>
+                      )}
+                    </div>
+                    {/* Upload button */}
                     {!entitlements.isAdvancedCustomizationEnabled ? (
                       <button type="button" disabled className="px-4 py-2 bg-slate-50 border border-slate-200 text-sm font-medium text-slate-400 rounded-lg flex items-center gap-2">
                         <Lock size={14} /> Locked
                       </button>
                     ) : (
-                      <div className="flex items-center gap-2">
-                        <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 text-sm font-medium text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors shadow-sm">
-                          <Upload size={16} />
-                          Upload Background
-                          <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'background')} />
-                        </label>
-                        {previewData.backgroundImageUrl && (
-                          <button
-                            type="button"
-                            onClick={() => setPreviewData(prev => ({ ...prev, backgroundImageUrl: null }))}
-                            title="Remove background"
-                            className="w-8 h-8 flex items-center justify-center rounded-lg border border-red-200 bg-red-50 text-red-500 hover:bg-red-100 transition-colors"
-                          >
-                            <X size={14} />
-                          </button>
-                        )}
-                      </div>
+                      <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 text-sm font-medium text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors shadow-sm">
+                        <Upload size={15} />
+                        {previewData.backgroundImageUrl ? "Replace" : "Upload Background"}
+                        <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'background')} />
+                      </label>
                     )}
                   </div>
+                  {previewData.backgroundImageUrl && entitlements.isAdvancedCustomizationEnabled && (
+                    <p className="text-[11px] text-slate-400">Hover the thumbnail to remove</p>
+                  )}
                 </div>
               </div>
 
