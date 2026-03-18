@@ -24,13 +24,16 @@ export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
   <div style={{ fontFamily: 'system-ui, -apple-system, sans-serif', maxWidth: '600px', margin: '0 auto', backgroundColor: '#f8fafc' }}>
 
     {/* Header — table layout for email client compatibility */}
-    <div style={{ backgroundColor: '#1e3a5f', borderRadius: '12px 12px 0 0', padding: '22px 32px' }}>
+    <div style={{ backgroundColor: '#1e3a5f', borderRadius: '12px 12px 0 0', padding: '32px', textAlign: 'center' }}>
       <img
         src="https://qalt.site/images/faceqaltwh.png"
         alt="Qalt"
-        height="32"
-        style={{ display: 'block' }}
+        height="44"
+        style={{ display: 'block', margin: '0 auto 12px' }}
       />
+      <p style={{ margin: '0', color: '#93c5fd', fontSize: '11px', fontWeight: '700', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+        Your rates. Embedded. Anywhere.
+      </p>
     </div>
 
     {/* Body */}

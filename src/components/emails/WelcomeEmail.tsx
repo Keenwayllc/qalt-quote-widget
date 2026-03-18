@@ -24,9 +24,12 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
       <img 
         src="https://qalt.site/images/faceqaltwh.png" 
         alt="Qalt Logo" 
-        height="40" 
-        style={{ display: 'block', margin: '0 auto' }} 
+        height="44" 
+        style={{ display: 'block', margin: '0 auto 12px' }} 
       />
+      <p style={{ margin: '0', color: '#93c5fd', fontSize: '11px', fontWeight: '700', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+        Your rates. Embedded. Anywhere.
+      </p>
     </div>
     
     <div style={{ textAlign: 'center', marginBottom: '32px' }}>
