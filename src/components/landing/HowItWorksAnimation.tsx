@@ -9,22 +9,22 @@ import QaltIcon from "@/components/shared/QaltIcon";
 const steps = [
   {
     id: "address",
-    title: "Step 1: Smart Address Entry",
-    description: "Your customers enter their pickup and delivery locations. Qalt validates distances in real-time.",
+    title: "Enter the delivery details",
+    description: "Customers enter pickup and dropoff addresses, item details, and any service extras you require.",
     icon: <MapPin className="text-blue-500" />,
     color: "blue"
   },
   {
     id: "quote",
-    title: "Step 2: Instant Pricing",
-    description: "Our engine calculates the cost based on your custom rates, weights, and service types—instantly.",
+    title: "Show the price instantly",
+    description: "Qalt calculates the quote using your pricing rules, distance, and delivery options.",
     icon: <Calculator className="text-emerald-500" />,
     color: "emerald"
   },
   {
     id: "booked",
-    title: "Step 3: Automated Booking",
-    description: "The lead is captured, a confirmation is sent to the customer, and you get notified immediately.",
+    title: "Capture the request",
+    description: "The customer submits the quote request and your team gets the lead right away.",
     icon: <Send className="text-violet-500" />,
     color: "violet"
   }
@@ -47,15 +47,14 @@ export default function HowItWorksAnimation() {
         <div className="space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-100">
             <Zap size={12} className="fill-blue-600" />
-            Designed for Conversion
+            How it works
           </div>
           <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-slate-900 leading-[1.1]">
-            How Qalt Automates<br />
-            <span className="text-blue-600">Your Sales Funnel.</span>
+            From website visitor to<br />
+            <span className="text-blue-600">delivery lead in 3 steps.</span>
           </h2>
           <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-xl">
-            Forget manual quotes and back-and-forth emails. Qalt gives you a premium, 
-            frictionless quote engine that converts 3x better than traditional contact forms.
+            Qalt gives customers a fast way to price delivery jobs without calling or waiting for a reply.
           </p>
         </div>
 

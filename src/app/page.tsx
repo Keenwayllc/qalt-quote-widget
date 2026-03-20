@@ -19,7 +19,6 @@ import {
   Menu,
   X,
 } from "lucide-react";
-import TestimonialsCarousel from "@/components/landing/TestimonialsCarousel";
 import HowItWorksAnimation from "@/components/landing/HowItWorksAnimation";
 import AnalyticsAnimation from "@/components/landing/AnalyticsAnimation";
 
@@ -66,7 +65,7 @@ export default function LandingPage() {
           <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500 uppercase tracking-widest">
             <button onClick={() => scrollTo("features")} className="hover:text-blue-600 transition-colors">Features</button>
             <button onClick={() => scrollTo("how-it-works")} className="hover:text-blue-600 transition-colors">How it Works</button>
-            <button onClick={() => scrollTo("testimonials")} className="hover:text-blue-600 transition-colors">Testimonials</button>
+            <button onClick={() => scrollTo("use-cases")} className="hover:text-blue-600 transition-colors">Use Cases</button>
             <Link href="/pricing" className="hover:text-blue-600 transition-colors">Pricing</Link>
           </div>
 
@@ -98,8 +97,8 @@ export default function LandingPage() {
               <button onClick={() => scrollTo("how-it-works")} className="block w-full text-left px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
                 How it Works
               </button>
-              <button onClick={() => scrollTo("testimonials")} className="block w-full text-left px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
-                Testimonials
+              <button onClick={() => scrollTo("use-cases")} className="block w-full text-left px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+                Use Cases
               </button>
               <Link href="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
                 Pricing
@@ -137,29 +136,28 @@ export default function LandingPage() {
           <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 text-center pt-28 sm:pt-36 pb-20 sm:pb-24">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-xs font-black uppercase tracking-widest mb-6 sm:mb-8 border border-white/20">
               <Zap size={14} className="fill-yellow-400 text-yellow-400" />
-              Now in Private Beta
+              Start free. No card required.
             </div>
 
             <h1 className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tight mb-6 sm:mb-8 leading-[0.9] text-white drop-shadow-lg">
-              Instant Quotes.<br />
-              <span className="text-blue-400">More Leads.</span><br />
-              Zero Friction.
+              Instant delivery quotes<br />
+              <span className="text-blue-400">on your website.</span>
             </h1>
 
             <p className="max-w-2xl mx-auto text-base sm:text-xl text-white/80 mb-10 sm:mb-12 font-medium leading-relaxed px-2">
-              The premium white-label quote widget built specifically for modern logistics and delivery companies.
-              Automate your pricing and capture leads while you sleep.
+              Qalt gives delivery companies a white-label quote widget that prices jobs fast, captures leads, and cuts down manual quoting.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
               <Link href="/register" className="group/btn w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 bg-blue-600 text-white rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-blue-500 transition-all hover:scale-[1.02] shadow-xl shadow-blue-900/30">
-                Get Started for Free
+                Get Started Free
                 <ArrowRight className="group-hover/btn:translate-x-1 transition-transform" />
               </Link>
-              <button onClick={() => scrollTo("features")} className="w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 bg-white/10 backdrop-blur-md border-2 border-white/20 text-white rounded-2xl font-bold hover:bg-white/20 transition-all">
-                Explore Features
-              </button>
+              <Link href="/pricing" className="w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 bg-white/10 backdrop-blur-md border-2 border-white/20 text-white rounded-2xl font-bold hover:bg-white/20 transition-all text-center">
+                View Pricing
+              </Link>
             </div>
+            <p className="text-sm text-white/50 font-medium">No card required. Set up in minutes.</p>
           </div>
         </section>
 
@@ -167,41 +165,44 @@ export default function LandingPage() {
         <section id="features" className="py-20 sm:py-32 bg-slate-50 relative overflow-hidden scroll-mt-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-16 sm:mb-24">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-6">Built for Reliability &amp; Speed</h2>
-              <p className="text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto font-medium">Everything you need to scale your delivery business without the technical overhead.</p>
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-100 mb-6">
+                Built for delivery companies
+              </div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-6">Set your pricing once. Let your site quote for you.</h2>
+              <p className="text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto font-medium">Qalt helps you price deliveries faster, capture more quote requests, and keep your brand front and center.</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {[
                 {
                   icon: <Calculator className="text-blue-600" />,
-                  title: "Smart Pricing Engine",
-                  desc: "Configure complex rates based on distance, weight, or service type in seconds."
+                  title: "Smart Pricing Rules",
+                  desc: "Set rates by distance, weight, dimensions, service type, and more. Quote accurately without manual back and forth."
                 },
                 {
                   icon: <Code2 className="text-blue-600" />,
-                  title: "Copy-Paste Integration",
-                  desc: "Add your widget to any website—WordPress, Shopify, Webflow—with a single line of code."
+                  title: "Fast Embed",
+                  desc: "Add Qalt to WordPress, Shopify, Webflow, or any site with a simple embed. Go live fast without a custom build."
                 },
                 {
                   icon: <Layout className="text-blue-600" />,
-                  title: "Premium White-Label",
-                  desc: "Full customization to match your brand. It's your widget, your logo, your colors."
+                  title: "Full White-Label",
+                  desc: "Use your logo, colors, and branding across the quote flow. Customers stay in your brand from quote to submission."
                 },
                 {
                   icon: <MousePointerClick className="text-blue-600" />,
-                  title: "High Conversion",
-                  desc: "Designed with a friction-less 3-step flow to turn visitors into confirmed leads."
+                  title: "Built to Capture Leads",
+                  desc: "Guide customers through a simple quote flow that collects the details you need. Turn site traffic into real quote requests."
                 },
                 {
                   icon: <BarChart3 className="text-blue-600" />,
-                  title: "Advanced Analytics",
-                  desc: "Track every quote, see where leads drop off, and optimize your pricing dynamically."
+                  title: "Quote Analytics",
+                  desc: "See quote volume, conversion trends, and where leads drop off. Improve pricing and spot lost opportunities."
                 },
                 {
                   icon: <ShieldCheck className="text-blue-600" />,
-                  title: "Enterprise Reliable",
-                  desc: "Built on top-tier infrastructure for 99.9% uptime and lightning-fast loading."
+                  title: "Flexible for Real Delivery Workflows",
+                  desc: "Handle local delivery, scheduled jobs, special handling, and more. Fits how delivery businesses price in the real world."
                 }
               ].map((feature, i) => (
                 <div key={i} className="bg-linear-to-b from-white to-slate-50 p-7 sm:p-9 rounded-xl border border-slate-200 hover:shadow-lg hover:shadow-blue-900/5 hover:-translate-y-1 transition-all group">
@@ -232,8 +233,8 @@ export default function LandingPage() {
         <section id="pricing" className="py-20 sm:py-32 bg-slate-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-14 sm:mb-20">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-6">Simple, Transparent Pricing</h2>
-              <p className="text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto font-medium">Start free. Upgrade when you&apos;re ready to scale.</p>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-6">Simple pricing for teams of any size</h2>
+              <p className="text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto font-medium">Start free. Upgrade when you need more quote volume, more forms, and more control.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 rounded-2xl overflow-hidden shadow-xl max-w-5xl mx-auto border border-slate-200 bg-white">
@@ -243,7 +244,7 @@ export default function LandingPage() {
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-2xl font-black tracking-tight text-slate-900">Starter</h3>
                   </div>
-                  <p className="text-slate-500 text-sm font-medium leading-relaxed">Perfect for trying Qalt out.</p>
+                  <p className="text-slate-500 text-sm font-medium leading-relaxed">For trying Qalt or launching your first quote widget.</p>
                 </div>
                 <div className="mb-1">
                   <span className="text-5xl font-black text-slate-900">Free</span>
@@ -268,7 +269,7 @@ export default function LandingPage() {
                     <h3 className="text-2xl font-black tracking-tight text-white">Pro</h3>
                     <span className="px-2 py-0.5 bg-white text-slate-900 rounded-full text-[10px] font-black uppercase tracking-widest">Most Popular</span>
                   </div>
-                  <p className="text-slate-300 text-sm font-medium leading-relaxed">For growing delivery companies.</p>
+                  <p className="text-slate-300 text-sm font-medium leading-relaxed">For growing delivery companies that need more forms, more quotes, and stronger branding.</p>
                 </div>
                 <div className="mb-1">
                   <span className="text-5xl font-black text-white">$14</span>
@@ -293,7 +294,7 @@ export default function LandingPage() {
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-2xl font-black tracking-tight text-slate-900">Enterprise</h3>
                   </div>
-                  <p className="text-slate-500 text-sm font-medium leading-relaxed">For high-volume operations.</p>
+                  <p className="text-slate-500 text-sm font-medium leading-relaxed">For high-volume operators, agencies, and teams that need more control.</p>
                 </div>
                 <div className="mb-1">
                   <span className="text-5xl font-black text-slate-900">$29</span>
@@ -321,23 +322,40 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Testimonials */}
-        <section id="testimonials" className="py-20 sm:py-32 bg-linear-to-br from-slate-900 via-slate-900 to-blue-950 text-white overflow-hidden relative scroll-mt-20">
+        {/* Use Cases */}
+        <section id="use-cases" className="py-20 sm:py-32 bg-linear-to-br from-slate-900 via-slate-900 to-blue-950 text-white overflow-hidden relative scroll-mt-20">
           {/* Background Qalt icon — decorative */}
           <div className="absolute -bottom-40 -right-40 pointer-events-none select-none" aria-hidden="true">
             <QaltIcon size={2000} color="rgba(255,255,255,0.05)" eyeColor="rgba(255,255,255,0.09)" />
           </div>
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="px-4 sm:px-6 mb-12 sm:mb-16 text-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+            <div className="mb-12 sm:mb-16 text-center">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 text-white/70 rounded-full text-[10px] font-black uppercase tracking-widest border border-white/10 mb-6">
+                Built for teams that deliver
+              </div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 tracking-tight leading-tight">
-                Trusted by Businesses Like Yours
+                Made for businesses that need fast, accurate delivery quotes
               </h2>
               <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto font-medium">
-                Any industry. Any product. If you quote it, Qalt can automate it.
+                Qalt works well for teams that price deliveries every day and want a faster way to capture quote requests online.
               </p>
             </div>
 
-            <TestimonialsCarousel />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+              {[
+                { title: "Courier companies", desc: "Instant quotes for local and same-day jobs." },
+                { title: "Pharmacies and medical delivery", desc: "Clear pricing for time-sensitive deliveries." },
+                { title: "Furniture and large-item delivery", desc: "Price by distance, size, and service needs." },
+                { title: "Floral, bakery, and local retail", desc: "Add premium delivery without manual quote calls." },
+                { title: "Auto parts and suppliers", desc: "Turn your website into a lead capture tool." },
+                { title: "Agencies and web designers", desc: "Add branded quote tools for client sites." },
+              ].map((useCase) => (
+                <div key={useCase.title} className="p-6 sm:p-8 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-all">
+                  <h3 className="text-lg font-black text-white mb-2">{useCase.title}</h3>
+                  <p className="text-sm text-slate-400 font-medium leading-relaxed">{useCase.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -347,11 +365,17 @@ export default function LandingPage() {
             <div className="w-16 h-16 sm:w-20 sm:h-20 bg-linear-to-br from-blue-500 to-blue-700 rounded-2xl mx-auto mb-8 sm:mb-10 flex items-center justify-center shadow-2xl shadow-blue-500/25 rotate-6">
               <Zap size={36} className="text-white fill-white" />
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black mb-6 sm:mb-8 tracking-tighter leading-[0.9]">Start Automating<br />Your Quotes Today</h2>
-            <p className="text-lg sm:text-xl text-slate-500 mb-10 sm:mb-12 font-medium">Join companies scaling with our premium embeddable quote widget.</p>
-            <Link href="/register" className="inline-flex px-8 sm:px-12 py-4 sm:py-5 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-xl font-black text-base sm:text-lg hover:from-blue-700 hover:to-blue-800 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-blue-300">
-              Create Your Account
-            </Link>
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black mb-6 sm:mb-8 tracking-tighter leading-[0.9]">Put instant delivery quotes<br />on your site</h2>
+            <p className="text-lg sm:text-xl text-slate-500 mb-10 sm:mb-12 font-medium">Start with the free plan and see how Qalt fits your workflow.</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
+              <Link href="/register" className="inline-flex px-8 sm:px-12 py-4 sm:py-5 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-xl font-black text-base sm:text-lg hover:from-blue-700 hover:to-blue-800 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-blue-300">
+                Get Started Free
+              </Link>
+              <Link href="/pricing" className="inline-flex px-8 sm:px-10 py-4 sm:py-5 border-2 border-slate-200 text-slate-700 rounded-xl font-bold text-base sm:text-lg hover:bg-slate-50 transition-all">
+                View Pricing
+              </Link>
+            </div>
+            <p className="text-sm text-slate-400 font-medium">No card required.</p>
           </div>
         </section>
       </main>
@@ -361,7 +385,7 @@ export default function LandingPage() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8">
             <div className="flex flex-col items-center md:items-start gap-4 sm:gap-6">
               <QaltLogo size="xl" />
-              <p className="text-slate-400 font-medium text-sm">© 2024 Qalt SaaS. All rights reserved.</p>
+              <p className="text-slate-400 font-medium text-sm">© 2025 Qalt. All rights reserved.</p>
             </div>
             <div className="flex gap-8 sm:gap-10 text-sm font-bold text-slate-400 uppercase tracking-widest">
               <Link href="/legal/privacy" className="hover:text-blue-600 transition-colors">Privacy</Link>

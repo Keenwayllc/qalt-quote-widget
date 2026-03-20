@@ -22,29 +22,29 @@ export default function AnalyticsAnimation() {
         
         {/* LEFT: Text Content */}
         <div className="space-y-6 lg:order-1 order-2">
-            <motion.div 
+            <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold"
             >
                 <AreaChart size={14} />
-                <span>Powerful Analytics</span>
+                <span>Know what your quotes are doing</span>
             </motion.div>
-            
+
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
-                Turn your quotes into <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-indigo-500">predictable revenue.</span>
+                Track quote activity and spot <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-indigo-500">what drives bookings.</span>
             </h2>
-            
+
             <p className="text-lg text-slate-400 leading-relaxed max-w-xl">
-                Stop guessing. Our immersive merchant dashboard gives you a real-time pulse on your business. Track conversion rates, analyze pricing trends, and view your pipeline value instantly.
+                See quote volume, average order value, lead flow, and dropoff points so you can improve pricing and close more jobs.
             </p>
 
             <ul className="space-y-3 pt-4">
                 {[
-                    { icon: TrendingUp, text: "Monitor quote volume over time" },
-                    { icon: DollarSign, text: "Track average quote values" },
-                    { icon: Activity, text: "Identify peak booking seasons" },
+                    { icon: TrendingUp, text: "Monitor quote volume" },
+                    { icon: DollarSign, text: "Track average quote value" },
+                    { icon: Activity, text: "See where leads drop off" },
                 ].map((item, i) => (
                     <motion.li 
                         key={i}

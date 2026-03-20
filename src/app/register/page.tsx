@@ -9,9 +9,9 @@ import QaltIcon from "@/components/shared/QaltIcon";
 import Image from "next/image";
 
 const features = [
-  { icon: Zap, title: "Instant Quotes", desc: "Embed a real-time calculator in minutes." },
-  { icon: Shield, title: "Plan Enforcement", desc: "Automatic limits, billing, and upgrades built in." },
-  { icon: BarChart3, title: "Lead Tracking", desc: "Every quote request saved and tracked for you." },
+  { icon: Zap, title: "Instant Quotes", desc: "Add a real-time delivery quote widget to your site in minutes." },
+  { icon: Shield, title: "Built-in Plan Controls", desc: "Usage limits, billing, and upgrades are handled for you." },
+  { icon: BarChart3, title: "Lead Tracking", desc: "Every quote request is saved so your team can follow up fast." },
 ];
 
 export default function RegisterPage() {
@@ -71,14 +71,14 @@ export default function RegisterPage() {
           <div className="space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 rounded-full border border-white/20">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/70">Now in Beta</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/70">Start free. No card required.</span>
             </div>
             <h1 className="text-4xl font-black text-white tracking-tight leading-tight">
               Turn visitors into<br />
-              <span className="text-blue-200">booked deliveries.</span>
+              <span className="text-blue-200">quoted delivery requests.</span>
             </h1>
             <p className="text-blue-200/80 font-medium text-sm leading-relaxed max-w-xs">
-              Qalt gives your business an embeddable quote calculator that captures leads and converts them automatically.
+              Qalt gives your business an embeddable quote calculator that prices jobs fast and captures delivery leads automatically.
             </p>
           </div>
 
@@ -107,7 +107,7 @@ export default function RegisterPage() {
         {/* Bottom social proof */}
         <div className="relative z-10">
           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
-            Trusted by delivery companies
+            Built for delivery companies
           </p>
         </div>
       </div>
@@ -233,7 +233,7 @@ export default function RegisterPage() {
 
           {/* Feature checklist */}
           <div className="mt-8 pt-8 border-t border-slate-200 space-y-2.5">
-            {["Free to start — no credit card required", "Widget live on your site in under 10 minutes", "Cancel anytime"].map((text) => (
+            {["Free to start, no credit card required", "Widget live on your site in under 10 minutes", "Cancel anytime"].map((text) => (
               <div key={text} className="flex items-center gap-2.5">
                 <CheckCircle size={14} className="text-emerald-500 shrink-0" />
                 <span className="text-xs font-medium text-slate-500">{text}</span>

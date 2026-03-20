@@ -152,10 +152,10 @@ export default function PricingPage() {
             <span className="text-blue-600">Pricing</span>
           </h1>
           <p className="text-xl text-slate-500 font-medium max-w-xl mx-auto mb-6">
-            Start free. Upgrade as you grow. No hidden fees, no surprises.
+            Start free. Upgrade when you need more quote volume, more forms, and more control. No hidden fees.
           </p>
           <p className="text-sm text-slate-400 font-medium mb-10">
-            ✦ New features & improvements ship regularly — included in every plan, at no extra cost.
+            New features and improvements are included in every plan.
           </p>
 
           {/* Billing Toggle */}
@@ -189,12 +189,12 @@ export default function PricingPage() {
                 <div className="flex items-center gap-3 mb-2">
                   <h3 className="text-2xl font-black tracking-tight text-slate-900">Starter</h3>
                 </div>
-                <p className="text-slate-500 text-sm font-medium leading-relaxed">Perfect for trying Qalt. No credit card needed.</p>
+                <p className="text-slate-500 text-sm font-medium leading-relaxed">For trying Qalt or launching your first quote widget.</p>
               </div>
               <div className="mb-1">
                 <span className="text-5xl font-black text-slate-900">Free</span>
               </div>
-              <p className="text-slate-500 text-sm font-medium mb-8">Forever · No card required</p>
+              <p className="text-slate-500 text-sm font-medium mb-8">Free forever. No card required.</p>
               <Link href="/register" className="block w-full text-center py-3.5 border-2 border-slate-900 text-slate-900 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
                 Get Started Free
               </Link>
@@ -214,7 +214,7 @@ export default function PricingPage() {
                   <h3 className="text-2xl font-black tracking-tight text-white">Pro</h3>
                   <span className="px-2 py-0.5 bg-white text-slate-900 rounded-full text-[10px] font-black uppercase tracking-widest">Most Popular</span>
                 </div>
-                <p className="text-slate-300 text-sm font-medium leading-relaxed">For growing delivery companies that need scale.</p>
+                <p className="text-slate-300 text-sm font-medium leading-relaxed">For growing delivery companies that need more forms, more quotes, and stronger branding.</p>
               </div>
               <div className="mb-1 flex items-end gap-2">
                 <span className="text-5xl font-black text-white">{annual ? "$14" : "$19"}</span>
@@ -241,7 +241,7 @@ export default function PricingPage() {
                 <div className="flex items-center gap-3 mb-2">
                   <h3 className="text-2xl font-black tracking-tight text-slate-900">Enterprise</h3>
                 </div>
-                <p className="text-slate-500 text-sm font-medium leading-relaxed">For high-volume operations, agencies & web designers.</p>
+                <p className="text-slate-500 text-sm font-medium leading-relaxed">For high-volume operators, agencies, and teams that need more control.</p>
               </div>
               <div className="mb-1 flex items-end gap-2">
                 <span className="text-5xl font-black text-slate-900">{annual ? "$29" : "$39"}</span>
@@ -267,7 +267,8 @@ export default function PricingPage() {
 
         {/* Feature Comparison Table */}
         <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-3xl font-black tracking-tight text-center mb-12">Compare All Features</h2>
+          <h2 className="text-3xl font-black tracking-tight text-center mb-4">Compare All Features</h2>
+          <p className="text-center text-slate-500 font-medium mb-12">See what is included at each stage as your quoting workflow grows.</p>
 
           {/* Header row */}
           <div className="grid grid-cols-4 gap-4 pb-4 border-b-2 border-slate-200 mb-1">
@@ -320,19 +321,61 @@ export default function PricingPage() {
 
       </main>
 
+      {/* ROI Section */}
+      <section className="py-20 bg-white border-t border-slate-100">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-6">A single booked job can cover the monthly cost</h2>
+          <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto mb-10">
+            Qalt helps reduce manual quoting, capture leads around the clock, and move customers from pricing to inquiry faster. For many teams, one extra booked delivery more than pays for the plan.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mx-auto">
+            {[
+              "Cut down manual quote calls",
+              "Capture leads 24/7",
+              "Help customers price jobs faster",
+            ].map((item) => (
+              <div key={item} className="flex items-center gap-3 justify-center sm:justify-start">
+                <CheckCircle2 size={16} className="text-blue-600 shrink-0" />
+                <span className="text-sm font-medium text-slate-700">{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section className="py-24 bg-slate-50 border-t border-slate-100">
         <div className="max-w-3xl mx-auto px-6">
           <h2 className="text-3xl font-black tracking-tight text-center mb-12">Common Questions</h2>
           <div className="space-y-3">
             {[
-              { q: "Can I cancel at any time?",                        a: "Yes. No contracts, no lock-ins. Cancel from your dashboard at any time — your plan stays active until the end of the billing period." },
-              { q: "Is there a free trial for Pro?",                   a: "Yes — Pro includes a 14-day free trial. No credit card required to start." },
-              { q: "What happens if I exceed my limit on Starter?",    a: "Your widget will keep loading but new quote submissions will be paused until the next billing cycle or until you upgrade." },
-              { q: "Can I switch plans at any time?",                  a: "Absolutely. Upgrade or downgrade at any time. Upgrades take effect immediately; downgrades apply at next renewal." },
+              { q: "Can I cancel at any time?", a: "Yes. You can change or cancel your plan at any time." },
+              { q: "Is there a free trial for Pro?", a: "Yes. You can start with the free plan and move into Pro when you need more volume and features." },
+              { q: "What happens if I exceed my limit on Starter?", a: "Once you reach the Starter limit, you can upgrade to keep collecting quotes without interruption." },
+              { q: "Can I switch plans at any time?", a: "Yes. You can move between plans as your business needs change." },
+              { q: "Do I need code to use Qalt?", a: "No custom build is required. Qalt is designed to be embedded on your site quickly." },
+              { q: "Can I remove Qalt branding?", a: "Yes. White-label options are included on higher plans." },
             ].map((item, i) => (
               <FAQItem key={i} question={item.q} answer={item.a} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-24 bg-white border-t border-slate-100">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-6">Start free and put Qalt on your site</h2>
+          <p className="text-lg text-slate-500 font-medium mb-10">
+            Launch your first quote widget, test your workflow, and upgrade when you need more.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
+            <Link href="/register" className="px-10 py-4 bg-blue-600 text-white rounded-xl font-bold text-base hover:bg-blue-700 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-blue-200">
+              Get Started Free
+            </Link>
+            <Link href="/register" className="px-10 py-4 border-2 border-slate-900 text-slate-900 rounded-xl font-bold text-base hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all">
+              Contact Sales
+            </Link>
           </div>
         </div>
       </section>
@@ -353,12 +396,12 @@ export default function PricingPage() {
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col items-center md:items-start gap-6">
             <QaltLogo size="sm" />
-            <p className="text-slate-400 font-medium">© 2024 Qalt SaaS. All rights reserved.</p>
+            <p className="text-slate-400 font-medium">© 2025 Qalt. All rights reserved.</p>
           </div>
           <div className="flex gap-10 text-sm font-bold text-slate-400 uppercase tracking-widest">
-            <Link href="/login" className="hover:text-blue-600 transition-colors">Privacy</Link>
-            <Link href="/login" className="hover:text-blue-600 transition-colors">Terms</Link>
-            <Link href="/login" className="hover:text-blue-600 transition-colors">Support</Link>
+            <Link href="/legal/privacy" className="hover:text-blue-600 transition-colors">Privacy</Link>
+            <Link href="/legal/terms" className="hover:text-blue-600 transition-colors">Terms</Link>
+            <a href="mailto:support@qalt.site" className="hover:text-blue-600 transition-colors">Support</a>
           </div>
         </div>
       </footer>
