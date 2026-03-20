@@ -105,6 +105,7 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
   const isOnPaidPlan = currentPlan !== "STARTER";
 
   return (
+    <>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {PLANS.map((plan) => {
         const isCurrentPlan = currentPlan === plan.id;
@@ -205,5 +206,6 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
     <p className="text-center text-sm text-slate-400 font-medium mt-8">
       ✦ We&apos;re constantly shipping new features & improvements to Qalt — if you spot something new, it&apos;s all for you and your customers.
     </p>
+    </>
   );
 }
