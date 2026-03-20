@@ -9,59 +9,63 @@ datasource db {
 }
 
 model Company {
-  id             String          @id @default(cuid())
-  email          String          @unique
-  passwordHash   String
-  name           String
-  logoUrl        String?
-  timezone       String          @default("UTC")
-  subscriptionPlan     String   @default("STARTER")
+  id                   String           @id @default(cuid())
+  email                String           @unique
+  passwordHash         String
+  name                 String
+  logoUrl              String?
+  timezone             String           @default("UTC")
+  subscriptionPlan     String           @default("STARTER")
   stripeCustomerId     String?
   stripeSubscriptionId String?
-  createdAt      DateTime        @default(now())
-  pricingProfile PricingProfile?
-  quoteRequests  QuoteRequest[]
-  widgetSettings WidgetSettings[]
+  createdAt            DateTime         @default(now())
+  pricingProfiles      PricingProfile[]
+  quoteRequests        QuoteRequest[]
+  widgetSettings       WidgetSettings[]
 }
 
 model PricingProfile {
-  id                String  @id @default(cuid())
-  companyId         String  @unique
-  baseRatePerMile   Float   @default(2.50)
-  minimumCharge     Float   @default(35.00)
-  useMinimumCharge  Boolean @default(true)
-  minMilesThreshold Float   @default(0)
-  weightFee         Float   @default(0)
-  itemCountFee      Float   @default(0)
-  stairsFee         Float   @default(0)
-  insideDeliveryFee Float   @default(0)
-  afterHoursFee       Float   @default(0)
-  businessHoursStart  String  @default("08:00")
-  businessHoursEnd    String  @default("18:00")
-  businessDays        String  @default("1,2,3,4,5")
-  largeItemFee        Float   @default(0)
-  largeItemsEnabled   Boolean @default(false)
-  largeItemCategories Json    @default("[]")
-  company             Company @relation(fields: [companyId], references: [id])
+  id                String          @id @default(cuid())
+  companyId         String
+  widgetSettingsId  String?         @unique
+  baseRatePerMile   Float           @default(2.50)
+  minimumCharge     Float           @default(35.00)
+  useMinimumCharge  Boolean         @default(true)
+  minMilesThreshold Float           @default(0)
+  weightFee         Float           @default(0)
+  itemCountFee      Float           @default(0)
+  stairsFee         Float           @default(0)
+  insideDeliveryFee Float           @default(0)
+  afterHoursFee     Float           @default(0)
+  businessHoursStart String         @default("08:00")
+  businessHoursEnd   String         @default("18:00")
+  businessDays       String         @default("1,2,3,4,5")
+  largeItemFee       Float          @default(0)
+  largeItemsEnabled  Boolean        @default(false)
+  largeItemCategories Json          @default("[]")
+  company            Company        @relation(fields: [companyId], references: [id])
+  widgetSettings     WidgetSettings? @relation(fields: [widgetSettingsId], references: [id])
 }
 
 model WidgetSettings {
-  id                 String  @id @default(cuid())
+  id                 String          @id @default(cuid())
   companyId          String
-  name               String  @default("Default Form")
-  showWeight         Boolean @default(false)
-  showItemCount      Boolean @default(true)
-  showExtras         Boolean @default(true)
-  primaryColor       String  @default("#1E40AF")
-  buttonText         String  @default("Get Instant Quote")
-  headerText         String  @default("Delivery Quote Calculator")
-  disclaimerText     String  @default("Estimate only. Final price confirmed after booking.")
+  name               String          @default("Default Form")
+  logoUrl            String?
+  showWeight         Boolean         @default(false)
+  showItemCount      Boolean         @default(true)
+  showExtras         Boolean         @default(true)
+  primaryColor       String          @default("#1E40AF")
+  buttonText         String          @default("Get Instant Quote")
+  headerText         String          @default("Delivery Quote Calculator")
+  disclaimerText     String          @default("Estimate only. Final price confirmed after booking.")
   companyNameText    String?
-  companyNameFont    String  @default("Inter")
+  companyNameFont    String          @default("Inter")
   backgroundImageUrl String?
-  mapLayout          String  @default("inline")
+  mapLayout          String          @default("inline")
   websiteUrl         String?
-  company            Company @relation(fields: [companyId], references: [id])
+  company            Company         @relation(fields: [companyId], references: [id])
+  pricingProfile     PricingProfile?
 }
 
 model QuoteRequest {

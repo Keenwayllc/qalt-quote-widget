@@ -20,7 +20,7 @@ export const getCurrentCompany = cache(async function getCurrentCompany() {
   const company = await prisma.company.findUnique({
     where: { id: payload.companyId },
     include: {
-      pricingProfile: true,
+      pricingProfiles: true,
       widgetSettings: true,
     }
   });
@@ -31,3 +31,8 @@ export const getCurrentCompany = cache(async function getCurrentCompany() {
 
   return company;
 });
+
+/** Returns the company-level default pricing (widgetSettingsId === null) */
+export function getDefaultPricing(company: Awaited<ReturnType<typeof getCurrentCompany>>) {
+  return company.pricingProfiles.find((p) => p.widgetSettingsId === null) ?? null;
+}

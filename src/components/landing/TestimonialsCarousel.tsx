@@ -163,9 +163,16 @@ export default function TestimonialsCarousel() {
     setDragX(0);
   };
 
-  const visible = typeof window !== "undefined"
-    ? window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3
-    : 3;
+  const [visible, setVisible] = useState(3);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setVisible(window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3);
+    };
+    handleResize(); // Set on mount
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const total = SLIDES.length;
   const slideW = 100 / total;
