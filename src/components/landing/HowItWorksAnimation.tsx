@@ -276,18 +276,18 @@ export default function HowItWorksAnimation() {
                 <div className="relative w-full h-full max-w-[300px] max-h-[300px]">
                   
                   {/* Stylized 'Map' shapes in background replaced by actual map texture */}
-                  <div className="absolute inset-0 opacity-40 mix-blend-screen pointer-events-none overflow-hidden rounded-2xl bg-[#0f111a]">
-                    <div className="absolute top-1/2 left-1/2 -translate-x-[45%] -translate-y-[45%] flex flex-wrap w-[1024px] h-[512px] opacity-60">
+                  <div className="absolute inset-0 opacity-80 pointer-events-none overflow-hidden rounded-2xl bg-[#0f111a]">
+                    <div className="absolute top-1/2 left-1/2 -translate-x-[45%] -translate-y-[45%] flex flex-wrap w-[1024px] h-[512px] opacity-100">
                         {/* Row 1 (Y=5) */}
-                        <img src="https://a.basemaps.cartocdn.com/dark_nolabels/4/2/5.png" className="w-[256px] h-[256px]" alt="" />
-                        <img src="https://a.basemaps.cartocdn.com/dark_nolabels/4/3/5.png" className="w-[256px] h-[256px]" alt="" />
-                        <img src="https://a.basemaps.cartocdn.com/dark_nolabels/4/4/5.png" className="w-[256px] h-[256px]" alt="" />
-                        <img src="https://a.basemaps.cartocdn.com/dark_nolabels/4/5/5.png" className="w-[256px] h-[256px]" alt="" />
+                        <img src="https://a.basemaps.cartocdn.com/dark_all/4/2/5.png" className="w-[256px] h-[256px]" alt="" />
+                        <img src="https://a.basemaps.cartocdn.com/dark_all/4/3/5.png" className="w-[256px] h-[256px]" alt="" />
+                        <img src="https://a.basemaps.cartocdn.com/dark_all/4/4/5.png" className="w-[256px] h-[256px]" alt="" />
+                        <img src="https://a.basemaps.cartocdn.com/dark_all/4/5/5.png" className="w-[256px] h-[256px]" alt="" />
                         {/* Row 2 (Y=6) */}
-                        <img src="https://a.basemaps.cartocdn.com/dark_nolabels/4/2/6.png" className="w-[256px] h-[256px]" alt="" />
-                        <img src="https://a.basemaps.cartocdn.com/dark_nolabels/4/3/6.png" className="w-[256px] h-[256px]" alt="" />
-                        <img src="https://a.basemaps.cartocdn.com/dark_nolabels/4/4/6.png" className="w-[256px] h-[256px]" alt="" />
-                        <img src="https://a.basemaps.cartocdn.com/dark_nolabels/4/5/6.png" className="w-[256px] h-[256px]" alt="" />
+                        <img src="https://a.basemaps.cartocdn.com/dark_all/4/2/6.png" className="w-[256px] h-[256px]" alt="" />
+                        <img src="https://a.basemaps.cartocdn.com/dark_all/4/3/6.png" className="w-[256px] h-[256px]" alt="" />
+                        <img src="https://a.basemaps.cartocdn.com/dark_all/4/4/6.png" className="w-[256px] h-[256px]" alt="" />
+                        <img src="https://a.basemaps.cartocdn.com/dark_all/4/5/6.png" className="w-[256px] h-[256px]" alt="" />
                     </div>
                     {/* Gradient overlay to soften the edges */}
                     <div className="absolute inset-0 bg-transparent" style={{ backgroundImage: 'radial-gradient(circle at center, transparent 30%, #0f111a 90%)' }} />
