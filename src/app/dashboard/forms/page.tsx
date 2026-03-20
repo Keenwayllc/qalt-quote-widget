@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Trash2, Copy, Check, ExternalLink, FormInput, Pencil, X } from "lucide-react";
+import Link from "next/link";
+import { Plus, Trash2, Copy, Check, ExternalLink, FormInput, Pencil, X, Settings, DollarSign } from "lucide-react";
 
 interface QuoteForm {
   id: string;
@@ -227,17 +228,31 @@ export default function FormsPage() {
                 {embedCode}
               </div>
 
-              <button
-                onClick={() => copyEmbed(form.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-                  copiedId === form.id
-                    ? "bg-emerald-500 text-white"
-                    : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
-              >
-                {copiedId === form.id ? <Check size={13} /> : <Copy size={13} />}
-                {copiedId === form.id ? "Copied!" : "Copy Embed Code"}
-              </button>
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={() => copyEmbed(form.id)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                    copiedId === form.id
+                      ? "bg-emerald-500 text-white"
+                      : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                  }`}
+                >
+                  {copiedId === form.id ? <Check size={13} /> : <Copy size={13} />}
+                  {copiedId === form.id ? "Copied!" : "Copy Embed Code"}
+                </button>
+                <Link
+                  href={`/dashboard/widget?formId=${form.id}`}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold bg-blue-50 text-blue-700 hover:bg-blue-100 transition-all"
+                >
+                  <Settings size={13} /> Edit Appearance
+                </Link>
+                <Link
+                  href={`/dashboard/pricing?formId=${form.id}`}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold bg-violet-50 text-violet-700 hover:bg-violet-100 transition-all"
+                >
+                  <DollarSign size={13} /> Edit Pricing
+                </Link>
+              </div>
             </div>
           );
         })}

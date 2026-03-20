@@ -71,7 +71,7 @@ function FieldLabel({ label, tooltip }: { label: string; tooltip: string }) {
   );
 }
 
-export default function PricingPage({ initialData }: { initialData: PricingProfile }) {
+export default function PricingPage({ initialData, formId }: { initialData: PricingProfile; formId?: string }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
@@ -138,7 +138,7 @@ export default function PricingPage({ initialData }: { initialData: PricingProfi
       const res = await fetch("/api/dashboard/pricing", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, formId: formId ?? null }),
       });
       if (res.ok) {
         setMessage({ type: "success", text: "Pricing rules updated successfully!" });

@@ -21,6 +21,7 @@ interface WidgetProps {
       showExtras: boolean;
       disclaimerText: string;
       backgroundImageUrl?: string | null;
+      logoUrl?: string | null;
       companyNameText?: string | null;
       companyNameFont?: string;
       mapLayout?: string;
@@ -34,11 +35,13 @@ export default function WidgetSettingsForm({
   companyLogoUrl,
   subscriptionPlan,
   companyId,
+  formId,
 }: {
   initialData: WidgetProps['company']['widgetSettings'];
   companyLogoUrl?: string | null;
   subscriptionPlan: string;
   companyId: string;
+  formId?: string;
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -56,7 +59,12 @@ export default function WidgetSettingsForm({
     mapLayout: initialData.mapLayout || "inline",
     websiteUrl: initialData.websiteUrl || "",
   });
-  const [logo, setLogo] = useState(entitlements.isAdvancedCustomizationEnabled ? (companyLogoUrl || "") : "");
+  // Per-form logo takes priority over company logo
+  const [logo, setLogo] = useState(
+    entitlements.isAdvancedCustomizationEnabled
+      ? (initialData?.logoUrl || companyLogoUrl || "")
+      : ""
+  );
 
   // Dynamically load the selected Google Font so the preview renders correctly
   useEffect(() => {
@@ -109,22 +117,32 @@ export default function WidgetSettingsForm({
     setErrorStatus(null);
 
     try {
-      const [resWidget, resProfile] = await Promise.all([
+      const widgetPayload = { ...previewData, formId: formId ?? null, logoUrl: logo || null };
+
+      const requests: Promise<Response>[] = [
         fetch("/api/dashboard/widget", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(previewData),
+          body: JSON.stringify(widgetPayload),
         }),
-        fetch("/api/dashboard/profile", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ logoUrl: logo }),
-        })
-      ]);
+      ];
+
+      // Only update company logo when not editing a specific form
+      if (!formId) {
+        requests.push(
+          fetch("/api/dashboard/profile", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ logoUrl: logo }),
+          })
+        );
+      }
+
+      const [resWidget, resProfile] = await Promise.all(requests);
 
       const data = await resWidget.json();
 
-      if (resWidget.ok && resProfile.ok) {
+      if (resWidget.ok && (!resProfile || resProfile.ok)) {
         setMessage({ type: "success", text: "Widget settings updated!" });
         router.refresh();
       } else {
