@@ -1,5 +1,6 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { MapPin, Zap, CheckCircle2, ShieldCheck, Calculator, Send } from "lucide-react";
@@ -275,15 +276,21 @@ export default function HowItWorksAnimation() {
                 <div className="relative w-full h-full max-w-[300px] max-h-[300px]">
                   
                   {/* Stylized 'Map' shapes in background replaced by actual map texture */}
-                  <div className="absolute inset-0 opacity-40 mix-blend-screen pointer-events-none overflow-hidden rounded-2xl">
-                    <img
-                      src={`https://maps.googleapis.com/maps/api/staticmap?center=33,-102&zoom=4&size=600x600&maptype=roadmap&style=feature:all|element:labels|visibility:off&style=feature:administrative|element:geometry.stroke|color:0x334155&style=feature:landscape|color:0x0f172a&style=feature:water|color:0x020617&style=feature:road|element:geometry|color:0x1e293b&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`}
-                      alt="Map Background"
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                    {/* Fallback pattern if image fails or key is missing */}
-                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwem0yMCAyMGgyMHYyMEgyMHoiIGZpbGw9IiNmZmZmZmYwNSIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9zdmc+')] opacity-20" />
+                  <div className="absolute inset-0 opacity-40 mix-blend-screen pointer-events-none overflow-hidden rounded-2xl bg-[#0f111a]">
+                    <div className="absolute top-1/2 left-1/2 -translate-x-[45%] -translate-y-[45%] flex flex-wrap w-[1024px] h-[512px] opacity-60">
+                        {/* Row 1 (Y=5) */}
+                        <img src="https://a.basemaps.cartocdn.com/dark_nolabels/4/2/5.png" className="w-[256px] h-[256px]" alt="" />
+                        <img src="https://a.basemaps.cartocdn.com/dark_nolabels/4/3/5.png" className="w-[256px] h-[256px]" alt="" />
+                        <img src="https://a.basemaps.cartocdn.com/dark_nolabels/4/4/5.png" className="w-[256px] h-[256px]" alt="" />
+                        <img src="https://a.basemaps.cartocdn.com/dark_nolabels/4/5/5.png" className="w-[256px] h-[256px]" alt="" />
+                        {/* Row 2 (Y=6) */}
+                        <img src="https://a.basemaps.cartocdn.com/dark_nolabels/4/2/6.png" className="w-[256px] h-[256px]" alt="" />
+                        <img src="https://a.basemaps.cartocdn.com/dark_nolabels/4/3/6.png" className="w-[256px] h-[256px]" alt="" />
+                        <img src="https://a.basemaps.cartocdn.com/dark_nolabels/4/4/6.png" className="w-[256px] h-[256px]" alt="" />
+                        <img src="https://a.basemaps.cartocdn.com/dark_nolabels/4/5/6.png" className="w-[256px] h-[256px]" alt="" />
+                    </div>
+                    {/* Gradient overlay to soften the edges */}
+                    <div className="absolute inset-0 bg-transparent" style={{ backgroundImage: 'radial-gradient(circle at center, transparent 30%, #0f111a 90%)' }} />
                   </div>
 
                   {/* Route SVG */}
