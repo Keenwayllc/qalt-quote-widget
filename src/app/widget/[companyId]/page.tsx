@@ -10,7 +10,7 @@ export default async function PublicWidgetPage({ params }: { params: { companyId
   const company = await prisma.company.findUnique({
     where: { id: companyId },
     include: {
-      pricingProfile: true,
+      pricingProfiles: true,
       widgetSettings: true,
     }
   });
@@ -20,10 +20,11 @@ export default async function PublicWidgetPage({ params }: { params: { companyId
   }
 
   const widgetSettings = company.widgetSettings[0];
+  const defaultPricing = company.pricingProfiles.find((p) => p.widgetSettingsId === null);
 
   return (
     <div className="min-h-screen bg-slate-100 p-4 sm:p-8 flex items-center justify-center">
-      <QuoteWidgetForm company={{ ...company, widgetSettings } as any} />
+      <QuoteWidgetForm company={{ ...company, widgetSettings, pricingProfile: defaultPricing } as any} />
     </div>
   );
 }

@@ -14,8 +14,9 @@ interface WidgetProps {
     id: string;
     name: string;
     logoUrl?: string | null;
+    formId?: string | null;
     subscriptionPlan: string;
-    pricingProfile: Record<string, unknown>;
+    pricingProfile?: Record<string, unknown>;
     widgetSettings: {
       primaryColor: string;
       headerText: string;
@@ -25,6 +26,7 @@ interface WidgetProps {
       showExtras: boolean;
       disclaimerText: string;
       backgroundImageUrl?: string | null;
+      logoUrl?: string | null;
       companyNameText?: string | null;
       companyNameFont?: string;
       mapLayout?: string;
@@ -181,7 +183,10 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
   }, [widgetSettings.companyNameFont]);
 
   const showWhiteLabel = entitlements.isWhiteLabelEnabled;
-  const logoUrlToUse = entitlements.isAdvancedCustomizationEnabled ? company.logoUrl : null;
+  // Per-form logo takes priority over company logo
+  const logoUrlToUse = entitlements.isAdvancedCustomizationEnabled
+    ? (company.widgetSettings.logoUrl || company.logoUrl)
+    : null;
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -310,6 +315,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
           pickupZip: formData.pickupZip,
           dropoffZip: formData.dropoffZip,
           clientDistance: clientDistance,
+          formId: company.formId || null,
           extras: {
             hasStairs: formData.hasStairs,
             needsInsideDelivery: formData.needsInsideDelivery,

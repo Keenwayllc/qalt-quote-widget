@@ -1,4 +1,4 @@
-import { getCurrentCompany } from "@/lib/session";
+import { getCurrentCompany, getDefaultPricing } from "@/lib/session";
 import { getEntitlements } from "@/lib/plans";
 import prisma from "@/lib/prisma";
 import MetricCard from "@/components/dashboard/MetricCard";
@@ -16,6 +16,7 @@ import Link from "next/link";
 
 export default async function DashboardOverview() {
   const company = await getCurrentCompany();
+  const defaultPricing = getDefaultPricing(company);
 
   const now = new Date();
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -81,7 +82,7 @@ export default async function DashboardOverview() {
 
         <MetricCard
           title="Base Rate"
-          value={`$${company.pricingProfile?.baseRatePerMile.toFixed(2) ?? "0.00"}`}
+          value={`$${defaultPricing?.baseRatePerMile.toFixed(2) ?? "0.00"}`}
           description="Current price per mile"
           icon={<DollarSign size={20} />}
           variant="emerald"

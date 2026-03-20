@@ -74,8 +74,8 @@ export async function POST(req: Request) {
 
       await prisma.pricingProfile.upsert({
         where: { widgetSettingsId: formId },
-        update: fields,
-        create: { companyId: payload.companyId, widgetSettingsId: formId, ...fields },
+        update: fields as any,
+        create: { companyId: payload.companyId, widgetSettingsId: formId, ...fields } as any,
       });
     } else {
       // Update company default pricing
@@ -84,10 +84,10 @@ export async function POST(req: Request) {
       });
 
       if (existing) {
-        await prisma.pricingProfile.update({ where: { id: existing.id }, data: fields });
+        await prisma.pricingProfile.update({ where: { id: existing.id }, data: fields as any });
       } else {
         await prisma.pricingProfile.create({
-          data: { companyId: payload.companyId, ...fields },
+          data: { companyId: payload.companyId, ...fields } as any,
         });
       }
     }

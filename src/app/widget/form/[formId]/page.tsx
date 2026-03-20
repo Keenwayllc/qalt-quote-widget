@@ -11,7 +11,7 @@ export default async function PublicWidgetFormPage({ params }: { params: { formI
     where: { id: formId },
     include: {
       company: {
-        include: { pricingProfile: true },
+        include: { pricingProfiles: true },
       },
     },
   });
@@ -24,7 +24,7 @@ export default async function PublicWidgetFormPage({ params }: { params: { formI
 
   return (
     <div className="min-h-screen bg-slate-100 p-4 sm:p-8 flex items-center justify-center">
-      <QuoteWidgetForm company={{ ...company, widgetSettings } as any} />
+      <QuoteWidgetForm company={{ ...company, widgetSettings, formId } as any} />
     </div>
   );
 }

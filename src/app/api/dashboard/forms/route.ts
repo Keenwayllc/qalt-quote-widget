@@ -52,12 +52,29 @@ export async function POST(req: Request) {
 
     const { name } = await req.json();
 
+    // Clone pricing from company default
+    const defaultPricing = await prisma.pricingProfile.findFirst({
+      where: { companyId: payload.companyId, widgetSettingsId: null },
+    });
+
     const form = await prisma.widgetSettings.create({
       data: {
         companyId: payload.companyId,
         name: name?.trim() || "New Form",
       },
     });
+
+    // Create form-specific pricing cloned from default
+    if (defaultPricing) {
+      const { id: _id, companyId: _cid, widgetSettingsId: _wsid, ...pricingFields } = defaultPricing;
+      await prisma.pricingProfile.create({
+        data: { companyId: payload.companyId, widgetSettingsId: form.id, ...pricingFields } as any,
+      });
+    } else {
+      await prisma.pricingProfile.create({
+        data: { companyId: payload.companyId, widgetSettingsId: form.id },
+      });
+    }
 
     return NextResponse.json({ form });
   } catch (error) {

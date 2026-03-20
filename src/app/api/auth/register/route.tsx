@@ -26,7 +26,7 @@ export async function POST(req: Request) {
         email,
         passwordHash,
         name,
-        pricingProfile: {
+        pricingProfiles: {
           create: {
             baseRatePerMile: 2.5,
             minimumCharge: 35.0,
