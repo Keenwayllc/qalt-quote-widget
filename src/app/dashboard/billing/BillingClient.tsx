@@ -42,6 +42,7 @@ const PLANS: Plan[] = [
     color: "blue",
     features: [
       "Unlimited Quotes",
+      "Up to 5 Quote Forms",
       "Custom Logo & Background",
       "Full White-label",
       "Advanced Customization",
@@ -53,11 +54,12 @@ const PLANS: Plan[] = [
     name: "Enterprise",
     price: "$39",
     priceDetail: "/mo · Billed monthly",
-    description: "For high-volume operations.",
+    description: "For high-volume operations, agencies & web designers.",
     icon: ShieldCheck,
     color: "indigo",
     features: [
       "Everything in Pro",
+      "Unlimited Quote Forms",
       "SLA & Uptime Guarantee",
       "Volume Discounts",
       "Custom CSS & Webhooks"
@@ -200,5 +202,8 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
         );
       })}
     </div>
+    <p className="text-center text-sm text-slate-400 font-medium mt-8">
+      ✦ We&apos;re constantly shipping new features & improvements to Qalt — if you spot something new, it&apos;s all for you and your customers.
+    </p>
   );
 }

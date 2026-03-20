@@ -29,7 +29,7 @@ const FEATURE_SECTIONS: FeatureSection[] = [
   {
     title: "Quote Widget",
     rows: [
-      { name: "Embeddable quote widgets",             starter: "1",      pro: "1",         enterprise: "1"         },
+      { name: "Quote Forms (unique embed codes)",       starter: "1",      pro: "5",         enterprise: "Unlimited" },
       { name: "Quotes per month",                     starter: "25",     pro: "Unlimited", enterprise: "Unlimited" },
       { name: "Multi-step quote form",                starter: true,     pro: true,        enterprise: true        },
       { name: "Instant price calculation",            starter: true,     pro: true,        enterprise: true        },
@@ -151,8 +151,11 @@ export default function PricingPage() {
             Simple, Transparent<br />
             <span className="text-blue-600">Pricing</span>
           </h1>
-          <p className="text-xl text-slate-500 font-medium max-w-xl mx-auto mb-10">
+          <p className="text-xl text-slate-500 font-medium max-w-xl mx-auto mb-6">
             Start free. Upgrade as you grow. No hidden fees, no surprises.
+          </p>
+          <p className="text-sm text-slate-400 font-medium mb-10">
+            ✦ New features & improvements ship regularly — included in every plan, at no extra cost.
           </p>
 
           {/* Billing Toggle */}
@@ -238,7 +241,7 @@ export default function PricingPage() {
                 <div className="flex items-center gap-3 mb-2">
                   <h3 className="text-2xl font-black tracking-tight text-slate-900">Enterprise</h3>
                 </div>
-                <p className="text-slate-500 text-sm font-medium leading-relaxed">For high-volume operations with custom needs.</p>
+                <p className="text-slate-500 text-sm font-medium leading-relaxed">For high-volume operations, agencies & web designers.</p>
               </div>
               <div className="mb-1 flex items-end gap-2">
                 <span className="text-5xl font-black text-slate-900">{annual ? "$29" : "$39"}</span>
