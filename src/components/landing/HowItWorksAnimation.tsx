@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { MapPin, ArrowRight, Zap, CheckCircle2, ShieldCheck, Calculator, CreditCard, Send } from "lucide-react";
+import { MapPin, Zap, CheckCircle2, ShieldCheck, Calculator, Send } from "lucide-react";
 import QaltIcon from "@/components/shared/QaltIcon";
 
 const steps = [
@@ -84,187 +84,270 @@ export default function HowItWorksAnimation() {
         </div>
       </div>
 
-      {/* Right: The Animated Mock Widget */}
-      <div className="relative">
+      {/* Right: The Animated Mock Widget with Map */}
+      <div className="relative lg:col-span-1">
         {/* Background glow */}
         <div className="absolute -inset-4 bg-linear-to-tr from-blue-500/10 via-emerald-500/5 to-violet-500/10 rounded-[2.5rem] blur-2xl" />
         
-        <div className="relative bg-slate-900 rounded-[2rem] border border-white/10 shadow-2xl shadow-blue-900/40 overflow-hidden aspect-[4/5] sm:aspect-square lg:aspect-[4/4.5]">
+        <div className="relative bg-slate-900 rounded-[2rem] border border-white/10 shadow-2xl shadow-blue-900/40 overflow-hidden aspect-[4/5] sm:aspect-square lg:aspect-[16/11]">
           {/* Mock Browser Header */}
-          <div className="h-10 border-b border-white/5 bg-white/5 flex items-center px-4 gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
-            <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
-            <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
+          <div className="h-8 sm:h-10 border-b border-white/5 bg-white/5 flex items-center px-4 gap-1.5 shrink-0">
+            <div className="w-2.5 h-2.5 rounded-full bg-slate-600/50" />
+            <div className="w-2.5 h-2.5 rounded-full bg-slate-600/50" />
+            <div className="w-2.5 h-2.5 rounded-full bg-slate-600/50" />
             <div className="mx-auto w-32 h-4 bg-white/5 rounded-full" />
           </div>
 
-          <div className="p-6 sm:p-8 h-full flex flex-col">
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-2">
-                <QaltIcon size={32} color="white" />
-                <div className="h-4 w-12 bg-white/10 rounded" />
+          <div className="h-[calc(100%-2.5rem)] flex flex-col sm:flex-row relative">
+            
+            {/* Left Panel: The Form */}
+            <div className="flex-1 p-5 sm:p-6 flex flex-col z-10 sm:max-w-[320px] bg-slate-900 shadow-2xl sm:shadow-none border-b sm:border-b-0 sm:border-r border-white/5">
+              <div className="flex items-center justify-between mb-6 shrink-0">
+                <div className="flex items-center gap-2">
+                  <QaltIcon size={24} color="white" />
+                  <div className="h-3 w-10 bg-white/10 rounded" />
+                </div>
+                <div className="flex gap-1">
+                  {[0, 1, 2].map((i) => (
+                    <div key={i} className={`h-1 w-4 rounded-full ${i <= currentStep ? 'bg-blue-500' : 'bg-white/10'} transition-colors duration-500`} />
+                  ))}
+                </div>
               </div>
-              <div className="flex gap-1">
-                {[0, 1, 2].map((i) => (
-                  <div key={i} className={`h-1 w-6 rounded-full ${i <= currentStep ? 'bg-blue-500' : 'bg-white/10'} transition-colors duration-500`} />
-                ))}
+
+              <div className="flex-1 relative overflow-hidden flex flex-col justify-center">
+                <AnimatePresence mode="wait">
+                  {currentStep === 0 && (
+                    <motion.div 
+                      key="step-0"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 10 }}
+                      className="space-y-4"
+                    >
+                      <div className="space-y-1.5">
+                          <div className="text-[9px] font-black uppercase tracking-widest text-white/40 ml-1">Pickup Address</div>
+                          <div className="w-full p-3 bg-white/5 border border-white/10 rounded-xl relative">
+                              <motion.span 
+                                  initial={{ width: 0 }}
+                                  animate={{ width: "100%" }}
+                                  transition={{ duration: 1.5, delay: 0.2 }}
+                                  className="block h-4 bg-white/5 whitespace-nowrap overflow-hidden text-white font-bold text-xs"
+                              >
+                                  123 Logistics Way, NY
+                              </motion.span>
+                              <MapPin className="absolute right-3 top-1/2 -translate-y-1/2 text-white/20" size={14} />
+                          </div>
+                      </div>
+                      <div className="space-y-1.5">
+                          <div className="text-[9px] font-black uppercase tracking-widest text-white/40 ml-1">Delivery Address</div>
+                          <div className="w-full p-3 bg-white/5 border border-white/10 rounded-xl relative">
+                              <motion.span 
+                                  initial={{ width: 0 }}
+                                  animate={{ width: "100%" }}
+                                  transition={{ duration: 1.5, delay: 1 }}
+                                  className="block h-4 bg-white/5 whitespace-nowrap overflow-hidden text-white font-bold text-xs"
+                              >
+                                  456 Delivery Ave, CA
+                              </motion.span>
+                              <MapPin className="absolute right-3 top-1/2 -translate-y-1/2 text-white/20" size={14} />
+                          </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                          <div className="p-3 bg-white/5 border border-white/10 rounded-xl">
+                              <div className="text-[7px] font-black uppercase tracking-widest text-white/40 mb-1">Weight</div>
+                              <div className="text-white font-bold text-sm">120 lbs</div>
+                          </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {currentStep === 1 && (
+                    <motion.div 
+                      key="step-1"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 1.05 }}
+                      className="flex flex-col items-center justify-center h-full text-center space-y-4"
+                    >
+                      <div className="space-y-1">
+                          <div className="text-[9px] font-black uppercase tracking-widest text-emerald-400">Calculation Complete</div>
+                          <motion.div 
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: 0.2, type: "spring" }}
+                              className="text-4xl sm:text-5xl font-black text-white tracking-tighter"
+                          >
+                              $1,420<span className="text-white/40 text-xl font-black">.00</span>
+                          </motion.div>
+                          <div className="text-white/40 text-[10px] font-medium">Estimated for 2,450 miles</div>
+                      </div>
+                      <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl w-full">
+                          <div className="flex items-center justify-center gap-2">
+                              <ShieldCheck className="text-emerald-500" size={16} />
+                              <div className="text-left">
+                                  <div className="text-[9px] font-black text-white uppercase tracking-wider">Plan Active</div>
+                              </div>
+                          </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {currentStep === 2 && (
+                    <motion.div 
+                      key="step-2"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="space-y-4"
+                    >
+                      <div className="bg-blue-600/10 border border-blue-500/20 rounded-xl p-4 text-center space-y-3">
+                          <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-blue-500/40">
+                              <CheckCircle2 className="text-white" size={24} />
+                          </div>
+                          <div>
+                              <h4 className="text-base font-black text-white">Booking Requested!</h4>
+                              <p className="text-white/40 text-xs font-medium leading-relaxed mt-1">
+                                  Confirmation sent.
+                              </p>
+                          </div>
+                      </div>
+                      <div className="bg-white/5 border border-white/10 rounded-xl p-3 flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-full bg-linear-to-br from-blue-500 to-violet-500 shrink-0" />
+                          <div className="overflow-hidden">
+                              <div className="text-xs font-black text-white truncate">John Doe Logistics</div>
+                              <div className="text-[9px] text-white/40 font-medium truncate">john@example.com</div>
+                          </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <div className="h-10 w-full bg-linear-to-r from-blue-600 to-blue-700 rounded-xl mt-6 flex items-center justify-center gap-2 shadow-lg shadow-blue-900/40 shrink-0">
+                  <div className="h-2.5 w-16 bg-white/20 rounded-full" />
               </div>
             </div>
 
-            <div className="flex-1 relative overflow-hidden">
-              <AnimatePresence mode="wait">
-                {currentStep === 0 && (
+            {/* Right Panel: The Animated Map Visual */}
+            <div className="flex-1 bg-slate-950 relative overflow-hidden border-l border-white/5 hidden sm:block">
+              {/* Subtle grid background to look like a map base */}
+              <div 
+                className="absolute inset-0 opacity-10"
+                style={{
+                  backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+                  backgroundSize: "24px 24px"
+                }}
+              />
+              
+              {/* Map Layout Elements */}
+              <div className="absolute inset-0 p-8 flex items-center justify-center">
+                <div className="relative w-full h-full max-w-[300px] max-h-[300px]">
+                  
+                  {/* Stylized 'Map' shapes in background */}
+                  <div className="absolute top-[10%] left-[10%] w-[60%] h-[40%] bg-white/[0.02] rounded-3xl -rotate-6" />
+                  <div className="absolute bottom-[20%] right-[10%] w-[50%] h-[30%] bg-white/[0.03] rounded-[2rem] rotate-12" />
+
+                  {/* Route SVG */}
+                  <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <motion.path
+                      d="M 20 20 C 50 20, 40 80, 80 80"
+                      fill="none"
+                      stroke="url(#gradient)"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      animate={{ 
+                        pathLength: currentStep >= 1 ? 1 : 0,
+                        opacity: currentStep >= 1 ? 1 : 0
+                      }}
+                      transition={{ duration: 1.5, ease: "easeInOut" }}
+                    />
+                    <defs>
+                      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#3b82f6" /> {/* blue-500 */}
+                        <stop offset="100%" stopColor="#10b981" /> {/* emerald-500 */}
+                      </linearGradient>
+                    </defs>
+                  </svg>
+
+                  {/* Pickup Pin */}
                   <motion.div 
-                    key="step-0"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    className="space-y-6"
+                    className="absolute top-[20%] left-[20%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ 
+                      scale: currentStep >= 0 ? 1 : 0,
+                      opacity: currentStep >= 0 ? 1 : 0
+                    }}
+                    transition={{ type: "spring", delay: 0.6 }}
                   >
-                    <div className="space-y-2">
-                        <div className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1">Pickup Address</div>
-                        <div className="w-full p-4 bg-white/5 border border-white/10 rounded-xl relative">
-                            <motion.span 
-                                initial={{ width: 0 }}
-                                animate={{ width: "100%" }}
-                                transition={{ duration: 1.5, delay: 0.5 }}
-                                className="block h-4 bg-white/5 whitespace-nowrap overflow-hidden text-white font-bold text-sm"
-                            >
-                                123 Logistics Way, New York, NY
-                            </motion.span>
-                            <MapPin className="absolute right-4 top-1/2 -translate-y-1/2 text-white/20" size={16} />
-                        </div>
+                    <div className="bg-blue-500 text-white text-[8px] font-black px-2 py-0.5 rounded-full mb-1 shadow-lg shadow-blue-500/20">NY</div>
+                    <div className="w-4 h-4 rounded-full bg-blue-500 ring-4 ring-blue-500/20 shadow-lg" />
+                  </motion.div>
+
+                  {/* Delivery Pin */}
+                  <motion.div 
+                    className="absolute bottom-[20%] right-[20%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ 
+                      scale: currentStep >= 0 ? 1 : 0,
+                      opacity: currentStep >= 0 ? 1 : 0
+                    }}
+                    transition={{ type: "spring", delay: 1.4 }}
+                  >
+                    <div className="w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-emerald-500/20 shadow-lg relative z-10" />
+                    <div className="bg-emerald-500 text-white text-[8px] font-black px-2 py-0.5 rounded-full mt-1 shadow-lg shadow-emerald-500/20">CA</div>
+                  </motion.div>
+                  
+                  {/* Map overlay elements for detail */}
+                  <motion.div
+                    className="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur-xs border border-white/10 rounded-lg p-2 flex gap-3"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: currentStep >= 1 ? 0 : 20, opacity: currentStep >= 1 ? 1 : 0 }}
+                    transition={{ delay: 1.5 }}
+                  >
+                    <div>
+                      <div className="text-[7px] font-bold text-white/40 uppercase">Distance</div>
+                      <div className="text-[10px] font-black text-white">2,450 mi</div>
                     </div>
-                    <div className="space-y-2">
-                        <div className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1">Delivery Address</div>
-                        <div className="w-full p-4 bg-white/5 border border-white/10 rounded-xl relative">
-                            <motion.span 
-                                initial={{ width: 0 }}
-                                animate={{ width: "100%" }}
-                                transition={{ duration: 1.5, delay: 1.5 }}
-                                className="block h-4 bg-white/5 whitespace-nowrap overflow-hidden text-white font-bold text-sm"
-                            >
-                                456 Delivery Ave, Los Angeles, CA
-                            </motion.span>
-                            <MapPin className="absolute right-4 top-1/2 -translate-y-1/2 text-white/20" size={16} />
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
-                            <div className="text-[8px] font-black uppercase tracking-widest text-white/40 mb-1">Weight</div>
-                            <div className="text-white font-bold">120 lbs</div>
-                        </div>
-                        <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
-                            <div className="text-[8px] font-black uppercase tracking-widest text-white/40 mb-1">Service</div>
-                            <div className="text-white font-bold">Standard</div>
-                        </div>
+                    <div className="w-px bg-white/10" />
+                    <div>
+                      <div className="text-[7px] font-bold text-white/40 uppercase">Time</div>
+                      <div className="text-[10px] font-black text-white">36 hrs</div>
                     </div>
                   </motion.div>
-                )}
-
-                {currentStep === 1 && (
-                  <motion.div 
-                    key="step-1"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 1.05 }}
-                    className="flex flex-col items-center justify-center h-full text-center space-y-6 pb-12"
-                  >
-                    <div className="space-y-2">
-                        <div className="text-[10px] font-black uppercase tracking-widest text-blue-400">Calculation Complete</div>
-                        <motion.div 
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.5 }}
-                            className="text-6xl sm:text-7xl font-black text-white tracking-tighter"
-                        >
-                            $1,420<span className="text-white/40 text-2xl font-black">.00</span>
-                        </motion.div>
-                        <div className="text-white/40 text-xs font-medium">Estimated for 2,450 miles</div>
-                    </div>
-                    <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl w-full">
-                        <div className="flex items-center gap-3">
-                            <ShieldCheck className="text-emerald-500" size={20} />
-                            <div className="text-left">
-                                <div className="text-[10px] font-black text-white uppercase tracking-wider">Plan Enforcement Active</div>
-                                <div className="text-[10px] text-emerald-500/70 font-medium">Enterprise rate applied</div>
-                            </div>
-                        </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {currentStep === 2 && (
-                  <motion.div 
-                    key="step-2"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    className="space-y-8"
-                  >
-                    <div className="bg-blue-600/10 border border-blue-500/20 rounded-2xl p-6 text-center space-y-4">
-                        <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-blue-500/40">
-                            <CheckCircle2 className="text-white" size={32} />
-                        </div>
-                        <div className="space-y-1">
-                            <h4 className="text-xl font-black text-white">Booking Requested!</h4>
-                            <p className="text-white/40 text-sm font-medium leading-relaxed">
-                                Confirmation email has been sent to the customer and your team.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="space-y-3">
-                        <div className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1">Lead Captured</div>
-                        <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-linear-to-br from-blue-500 to-violet-500" />
-                                <div>
-                                    <div className="text-xs font-black text-white">John Doe Logistics</div>
-                                    <div className="text-[10px] text-white/40 font-medium">john@example.com</div>
-                                </div>
-                            </div>
-                            <div className="px-2 py-1 bg-white/10 rounded text-[8px] font-black text-white uppercase">New Lead</div>
-                        </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                </div>
+              </div>
             </div>
 
-            <div className="h-14 w-full bg-linear-to-r from-blue-600 to-blue-700 rounded-2xl mt-8 flex items-center justify-center gap-3 shadow-xl shadow-blue-900/40 opacity-80">
-                <div className="h-4 w-24 bg-white/20 rounded-full" />
-                <ArrowRight className="text-white/40" size={18} />
-            </div>
           </div>
         </div>
 
-        {/* Floating cards for "Premium" feel */}
+        {/* Floating cards */}
         <motion.div 
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-10 -right-6 h-20 w-40 bg-white shadow-2xl rounded-2xl border border-slate-100 p-4 hidden sm:flex items-center gap-3 z-30"
+            className="absolute -top-6 -right-6 h-16 w-40 bg-white shadow-2xl rounded-2xl border border-slate-100 p-3 hidden lg:flex items-center gap-3 z-30"
         >
-            <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
-                <CreditCard className="text-emerald-600" size={20} />
+            <div className="w-8 h-8 bg-emerald-100 rounded-xl flex items-center justify-center shrink-0">
+                <Calculator className="text-emerald-600" size={16} />
             </div>
             <div>
-                <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Payment Status</div>
-                <div className="text-xs font-black text-slate-900">Success</div>
+                <div className="text-[7px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Calculation</div>
+                <div className="text-[10px] font-black text-slate-900 leading-none">Automated</div>
             </div>
         </motion.div>
 
         <motion.div 
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute -bottom-6 -left-10 h-24 w-48 bg-white shadow-2xl rounded-2xl border border-slate-100 p-4 hidden sm:flex items-center gap-3 z-30"
+            className="absolute -bottom-6 -left-6 h-16 w-40 bg-white shadow-2xl rounded-2xl border border-slate-100 p-3 hidden lg:flex items-center gap-3 z-30"
         >
-            <div className="w-10 h-10 bg-violet-100 rounded-xl flex items-center justify-center">
-                <ShieldCheck className="text-violet-600" size={20} />
+            <div className="w-8 h-8 bg-blue-100 rounded-xl flex items-center justify-center shrink-0">
+                <MapPin className="text-blue-600" size={16} />
             </div>
             <div>
-                <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Company Status</div>
-                <div className="text-xs font-black text-slate-900">Verified & Secure</div>
+                <div className="text-[7px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Route Sync</div>
+                <div className="text-[10px] font-black text-slate-900 leading-none">Google Maps API</div>
             </div>
         </motion.div>
       </div>
