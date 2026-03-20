@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import TestimonialsCarousel from "@/components/landing/TestimonialsCarousel";
 import HowItWorksAnimation from "@/components/landing/HowItWorksAnimation";
+import AnalyticsAnimation from "@/components/landing/AnalyticsAnimation";
 
 const BANNER_IMAGES = [
   "/images/banner-1.jpg",
@@ -223,6 +224,7 @@ export default function LandingPage() {
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <HowItWorksAnimation />
+            <AnalyticsAnimation />
           </div>
         </section>
 

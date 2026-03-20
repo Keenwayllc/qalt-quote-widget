@@ -133,7 +133,7 @@ export default function HowItWorksAnimation() {
                                   transition={{ duration: 1.5, delay: 0.2 }}
                                   className="block h-4 bg-white/5 whitespace-nowrap overflow-hidden text-white font-bold text-xs"
                               >
-                                  123 Logistics Way, NY
+                                  789 Freight Blvd, TX
                               </motion.span>
                               <MapPin className="absolute right-3 top-1/2 -translate-y-1/2 text-white/20" size={14} />
                           </div>
@@ -185,8 +185,8 @@ export default function HowItWorksAnimation() {
                               initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
                               className="flex justify-between items-center text-xs"
                             >
-                              <span className="text-white/60 font-medium tracking-wide">Base Rate (2,450 mi)</span>
-                              <span className="text-white font-bold">$6,125.00</span>
+                              <span className="text-white/60 font-medium tracking-wide">Base Rate (1,550 mi)</span>
+                              <span className="text-white font-bold">$3,875.00</span>
                             </motion.div>
                             <motion.div 
                               initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 }}
@@ -208,7 +208,7 @@ export default function HowItWorksAnimation() {
                               className="pt-3 mt-3 border-t border-white/10 flex justify-between items-end"
                             >
                               <span className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">Total Quote</span>
-                              <span className="text-2xl font-black text-emerald-400">$6,350<span className="text-emerald-400/50 text-base">.00</span></span>
+                              <span className="text-2xl font-black text-emerald-400">$4,100<span className="text-emerald-400/50 text-base">.00</span></span>
                             </motion.div>
                           </div>
                       </div>
@@ -281,7 +281,7 @@ export default function HowItWorksAnimation() {
                   {/* Route SVG */}
                   <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                     <motion.path
-                      d="M 20 20 C 50 20, 40 80, 80 80"
+                      d="M 50 80 C 40 85, 30 75, 20 60"
                       fill="none"
                       stroke="url(#gradient)"
                       strokeWidth="3"
@@ -301,9 +301,9 @@ export default function HowItWorksAnimation() {
                     </defs>
                   </svg>
 
-                  {/* Pickup Pin */}
+                  {/* Pickup Pin (TX) */}
                   <motion.div 
-                    className="absolute top-[20%] left-[20%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
+                    className="absolute top-[80%] left-[50%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ 
                       scale: currentStep >= 0 ? 1 : 0,
@@ -311,13 +311,13 @@ export default function HowItWorksAnimation() {
                     }}
                     transition={{ type: "spring", delay: 0.6 }}
                   >
-                    <div className="bg-blue-500 text-white text-[8px] font-black px-2 py-0.5 rounded-full mb-1 shadow-lg shadow-blue-500/20">NY</div>
+                    <div className="bg-blue-500 text-white text-[8px] font-black px-2 py-0.5 rounded-full mb-1 shadow-lg shadow-blue-500/20">TX</div>
                     <div className="w-4 h-4 rounded-full bg-blue-500 ring-4 ring-blue-500/20 shadow-lg" />
                   </motion.div>
 
-                  {/* Delivery Pin */}
+                  {/* Delivery Pin (CA) */}
                   <motion.div 
-                    className="absolute bottom-[20%] right-[20%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
+                    className="absolute top-[60%] left-[20%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ 
                       scale: currentStep >= 0 ? 1 : 0,
@@ -338,12 +338,12 @@ export default function HowItWorksAnimation() {
                   >
                     <div>
                       <div className="text-[7px] font-bold text-white/40 uppercase">Distance</div>
-                      <div className="text-[10px] font-black text-white">2,450 mi</div>
+                      <div className="text-[10px] font-black text-white">1,550 mi</div>
                     </div>
                     <div className="w-px bg-white/10" />
                     <div>
                       <div className="text-[7px] font-bold text-white/40 uppercase">Time</div>
-                      <div className="text-[10px] font-black text-white">36 hrs</div>
+                      <div className="text-[10px] font-black text-white">22 hrs</div>
                     </div>
                   </motion.div>
                 </div>
