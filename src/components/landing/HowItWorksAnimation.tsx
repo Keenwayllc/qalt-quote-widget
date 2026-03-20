@@ -277,7 +277,7 @@ export default function HowItWorksAnimation() {
                   
                   {/* Stylized 'Map' shapes in background replaced by actual map texture */}
                   <div className="absolute inset-0 opacity-80 pointer-events-none overflow-hidden rounded-2xl bg-[#0f111a]">
-                    <div className="absolute top-1/2 left-1/2 -translate-x-[45%] -translate-y-[45%] flex flex-wrap w-[1024px] h-[512px] opacity-100">
+                    <div className="absolute top-1/2 left-1/2 -translate-x-[28%] -translate-y-[64%] flex flex-wrap w-[1024px] h-[512px] opacity-100">
                         {/* Row 1 (Y=5) */}
                         <img src="https://a.basemaps.cartocdn.com/dark_all/4/2/5.png" className="w-[256px] h-[256px]" alt="" />
                         <img src="https://a.basemaps.cartocdn.com/dark_all/4/3/5.png" className="w-[256px] h-[256px]" alt="" />
@@ -296,7 +296,7 @@ export default function HowItWorksAnimation() {
                   {/* Route SVG */}
                   <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                     <motion.path
-                      d="M 50 80 C 40 85, 30 75, 20 60"
+                      d="M 87 73 C 65 85, 35 65, 11 50"
                       fill="none"
                       stroke="url(#gradient)"
                       strokeWidth="3"
@@ -318,7 +318,7 @@ export default function HowItWorksAnimation() {
 
                   {/* Pickup Pin (TX) */}
                   <motion.div 
-                    className="absolute top-[80%] left-[50%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
+                    className="absolute top-[73%] left-[87%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ 
                       scale: currentStep >= 0 ? 1 : 0,
@@ -332,7 +332,7 @@ export default function HowItWorksAnimation() {
 
                   {/* Delivery Pin (CA) */}
                   <motion.div 
-                    className="absolute top-[60%] left-[20%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
+                    className="absolute top-[50%] left-[11%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ 
                       scale: currentStep >= 0 ? 1 : 0,

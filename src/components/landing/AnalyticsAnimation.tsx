@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { AreaChart, TrendingUp, Users, DollarSign, Activity } from "lucide-react";
+import { AreaChart, TrendingUp, Users, DollarSign, Activity, Calendar, MapPin, ChevronRight } from "lucide-react";
 
 export default function AnalyticsAnimation() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -205,24 +205,43 @@ export default function AnalyticsAnimation() {
                                 </div>
 
                                 {[
-                                    { name: "Sarah L.", route: "TX → CA", amount: "$3,875.00", status: "New" },
-                                    { name: "John D.", route: "FL → NY", amount: "$1,250.00", status: "Contacted" },
-                                    { name: "Emily R.", route: "WA → OR", amount: "$850.00", status: "Won" },
+                                    { name: "Sarah L.", pickup: "78901", dropoff: "90210", amount: "3,875.00", distance: "1,550", date: "Today" },
+                                    { name: "John D.", pickup: "33101", dropoff: "10001", amount: "1,250.00", distance: "850", date: "Yesterday" },
                                 ].map((row, i) => (
                                     <motion.div 
                                         key={i}
                                         initial={{ opacity: 0, x: -20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: i * 0.3, type: "spring" }}
-                                        className="bg-white/5 border border-white/10 rounded-lg p-2.5 flex justify-between items-center"
+                                        className="bg-white/5 rounded-2xl border border-white/10 p-3.5"
                                     >
-                                        <div className="flex flex-col gap-0.5">
-                                            <span className="text-xs font-bold text-white">{row.name}</span>
-                                            <span className="text-[9px] text-white/50 font-mono tracking-widest">{row.route}</span>
+                                        <div className="flex items-start justify-between gap-3 mb-3">
+                                            <div className="flex items-center gap-3">
+                                                <div className="h-8 w-8 rounded-xl bg-white/10 flex items-center justify-center text-white font-black text-xs shrink-0">
+                                                    {row.name.charAt(0)}
+                                                </div>
+                                                <div>
+                                                    <p className="text-xs font-black text-white tracking-tight leading-none mb-1">
+                                                        {row.name}
+                                                    </p>
+                                                    <div className="flex items-center gap-1.5 text-[9px] font-bold text-white/40 uppercase tracking-tighter">
+                                                        <Calendar size={9} />
+                                                        {row.date}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="text-right shrink-0">
+                                                <p className="text-sm font-black text-white tracking-tighter leading-none">${row.amount}</p>
+                                                <p className="text-[8px] font-black text-emerald-400 uppercase tracking-widest mt-0.5">estimated</p>
+                                            </div>
                                         </div>
-                                        <div className="flex flex-col items-end gap-1">
-                                            <span className="text-xs font-bold tracking-tight text-white">{row.amount}</span>
-                                            <span className={`text-[7px] uppercase font-black px-1.5 py-0.5 rounded ${row.status === 'Won' ? 'bg-emerald-500/20 text-emerald-400' : row.status === 'New' ? 'bg-blue-500/20 text-blue-400' : 'bg-slate-500/20 text-slate-300'}`}>{row.status}</span>
+
+                                        <div className="flex items-center gap-2 text-[10px] font-bold text-white/70">
+                                            <MapPin size={10} className="text-indigo-400 shrink-0" />
+                                            <span>{row.pickup}</span>
+                                            <ChevronRight size={10} className="text-white/30" />
+                                            <span>{row.dropoff}</span>
+                                            <span className="ml-auto text-[9px] text-white/40 font-bold">{row.distance} mi</span>
                                         </div>
                                     </motion.div>
                                 ))}
