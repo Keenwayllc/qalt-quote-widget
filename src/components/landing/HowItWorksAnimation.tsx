@@ -89,7 +89,7 @@ export default function HowItWorksAnimation() {
         {/* Background glow */}
         <div className="absolute -inset-4 bg-linear-to-tr from-blue-500/10 via-emerald-500/5 to-violet-500/10 rounded-[2.5rem] blur-2xl" />
         
-        <div className="relative bg-slate-900 rounded-[2rem] border border-white/10 shadow-2xl shadow-blue-900/40 overflow-hidden aspect-[4/5] sm:aspect-square lg:aspect-[16/11]">
+        <div className="relative bg-slate-900 rounded-[2rem] border border-white/10 shadow-2xl shadow-blue-900/40 overflow-hidden aspect-[4/5] sm:aspect-square lg:aspect-16/11">
           {/* Mock Browser Header */}
           <div className="h-8 sm:h-10 border-b border-white/5 bg-white/5 flex items-center px-4 gap-1.5 shrink-0">
             <div className="w-2.5 h-2.5 rounded-full bg-slate-600/50" />
@@ -154,8 +154,15 @@ export default function HowItWorksAnimation() {
                       </div>
                       <div className="grid grid-cols-2 gap-3">
                           <div className="p-3 bg-white/5 border border-white/10 rounded-xl">
-                              <div className="text-[7px] font-black uppercase tracking-widest text-white/40 mb-1">Weight</div>
-                              <div className="text-white font-bold text-sm">120 lbs</div>
+                              <div className="text-[7px] font-black uppercase tracking-widest text-white/40 mb-1">Items</div>
+                              <div className="text-white font-bold text-sm">1x Pallet</div>
+                          </div>
+                          <div className="p-3 bg-white/5 border border-white/10 rounded-xl">
+                              <div className="text-[7px] font-black uppercase tracking-widest text-white/40 mb-1">Extras</div>
+                              <div className="text-white font-bold text-[10px] leading-tight flex flex-col items-start gap-0.5">
+                                <span className="bg-white/10 px-1.5 py-0.5 rounded">Inside Delivery</span>
+                                <span className="bg-white/10 px-1.5 py-0.5 rounded">Stairs</span>
+                              </div>
                           </div>
                       </div>
                     </motion.div>
@@ -167,28 +174,52 @@ export default function HowItWorksAnimation() {
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 1.05 }}
-                      className="flex flex-col items-center justify-center h-full text-center space-y-4"
+                      className="flex flex-col justify-center h-full space-y-4"
                     >
-                      <div className="space-y-1">
-                          <div className="text-[9px] font-black uppercase tracking-widest text-emerald-400">Calculation Complete</div>
-                          <motion.div 
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{ delay: 0.2, type: "spring" }}
-                              className="text-4xl sm:text-5xl font-black text-white tracking-tighter"
-                          >
-                              $1,420<span className="text-white/40 text-xl font-black">.00</span>
-                          </motion.div>
-                          <div className="text-white/40 text-[10px] font-medium">Estimated for 2,450 miles</div>
-                      </div>
-                      <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl w-full">
-                          <div className="flex items-center justify-center gap-2">
-                              <ShieldCheck className="text-emerald-500" size={16} />
-                              <div className="text-left">
-                                  <div className="text-[9px] font-black text-white uppercase tracking-wider">Plan Active</div>
-                              </div>
+                      <div className="space-y-3">
+                          <div className="text-[9px] font-black uppercase tracking-widest text-emerald-400 text-center">Calculation Complete</div>
+                          
+                          {/* Receipt Breakdown */}
+                          <div className="bg-white/5 border border-white/10 rounded-xl p-4 space-y-3">
+                            <motion.div 
+                              initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
+                              className="flex justify-between items-center text-xs"
+                            >
+                              <span className="text-white/60 font-medium tracking-wide">Base Rate (2,450 mi)</span>
+                              <span className="text-white font-bold">$6,125.00</span>
+                            </motion.div>
+                            <motion.div 
+                              initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 }}
+                              className="flex justify-between items-center text-xs"
+                            >
+                              <span className="text-white/60 font-medium tracking-wide">1x Pallet</span>
+                              <span className="text-white font-bold">$150.00</span>
+                            </motion.div>
+                            <motion.div 
+                              initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.0 }}
+                              className="flex justify-between items-center text-xs"
+                            >
+                              <span className="text-white/60 font-medium tracking-wide">Inside Delivery + Stairs</span>
+                              <span className="text-white font-bold">$75.00</span>
+                            </motion.div>
+                            
+                            <motion.div 
+                              initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.8, type: "spring" }}
+                              className="pt-3 mt-3 border-t border-white/10 flex justify-between items-end"
+                            >
+                              <span className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">Total Quote</span>
+                              <span className="text-2xl font-black text-emerald-400">$6,350<span className="text-emerald-400/50 text-base">.00</span></span>
+                            </motion.div>
                           </div>
                       </div>
+
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.2 }}
+                        className="p-2.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg w-full flex items-center justify-center gap-2"
+                      >
+                          <ShieldCheck className="text-emerald-500" size={14} />
+                          <div className="text-[9px] font-black text-emerald-500 uppercase tracking-wider">Plan Active</div>
+                      </motion.div>
                     </motion.div>
                   )}
 
@@ -244,8 +275,8 @@ export default function HowItWorksAnimation() {
                 <div className="relative w-full h-full max-w-[300px] max-h-[300px]">
                   
                   {/* Stylized 'Map' shapes in background */}
-                  <div className="absolute top-[10%] left-[10%] w-[60%] h-[40%] bg-white/[0.02] rounded-3xl -rotate-6" />
-                  <div className="absolute bottom-[20%] right-[10%] w-[50%] h-[30%] bg-white/[0.03] rounded-[2rem] rotate-12" />
+                  <div className="absolute top-[10%] left-[10%] w-[60%] h-[40%] bg-white/2 rounded-3xl -rotate-6" />
+                  <div className="absolute bottom-[20%] right-[10%] w-[50%] h-[30%] bg-white/3 rounded-4xl rotate-12" />
 
                   {/* Route SVG */}
                   <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
