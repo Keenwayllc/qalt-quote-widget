@@ -224,7 +224,7 @@ export default function PricingPage() {
                 Start Free Trial
               </Link>
               <ul className="space-y-3 mt-auto">
-                {["Unlimited Quotes", "Full White-Label", "Advanced Customization", "Analytics Dashboard", "Priority Support"].map((item) => (
+                {["Unlimited Quotes", "Up to 5 Quote Forms", "Full White-Label", "Advanced Customization", "Analytics Dashboard", "Priority Support"].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-300 font-medium text-sm">
                     <CheckCircle2 size={16} className="text-blue-400 shrink-0 mt-0.5" />{item}
                   </li>
@@ -251,7 +251,7 @@ export default function PricingPage() {
                 Contact Sales
               </Link>
               <ul className="space-y-3 mt-auto">
-                {["Everything in Pro", "SLA & Uptime Guarantee", "Volume Discounts", "Custom CSS & Webhooks"].map((item) => (
+                {["Everything in Pro", "Unlimited Quote Forms", "SLA & Uptime Guarantee", "Volume Discounts", "Custom CSS & Webhooks"].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
                     <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
                   </li>

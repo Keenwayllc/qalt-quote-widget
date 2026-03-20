@@ -2,6 +2,7 @@ export type SubscriptionPlan = "STARTER" | "PRO" | "ENTERPRISE";
 
 export interface PlanEntitlements {
   maxQuotesPerMonth: number | "unlimited";
+  maxForms: number | "unlimited";
   isWhiteLabelEnabled: boolean;
   isAdvancedCustomizationEnabled: boolean; // Custom fonts, colors, etc.
   isAnalyticsDashboardEnabled: boolean;
@@ -13,6 +14,7 @@ export interface PlanEntitlements {
 export const PLANS: Record<SubscriptionPlan, PlanEntitlements> = {
   STARTER: {
     maxQuotesPerMonth: 25,
+    maxForms: 1,
     isWhiteLabelEnabled: false,
     isAdvancedCustomizationEnabled: false,
     isAnalyticsDashboardEnabled: false,
@@ -22,6 +24,7 @@ export const PLANS: Record<SubscriptionPlan, PlanEntitlements> = {
   },
   PRO: {
     maxQuotesPerMonth: "unlimited",
+    maxForms: 5,
     isWhiteLabelEnabled: true,
     isAdvancedCustomizationEnabled: true,
     isAnalyticsDashboardEnabled: true,
@@ -31,6 +34,7 @@ export const PLANS: Record<SubscriptionPlan, PlanEntitlements> = {
   },
   ENTERPRISE: {
     maxQuotesPerMonth: "unlimited",
+    maxForms: "unlimited",
     isWhiteLabelEnabled: true,
     isAdvancedCustomizationEnabled: true,
     isAnalyticsDashboardEnabled: true,

@@ -4,22 +4,23 @@ import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
-export default async function PublicWidgetPage({ params }: { params: { companyId: string } }) {
-  const { companyId } = await params;
+export default async function PublicWidgetFormPage({ params }: { params: { formId: string } }) {
+  const { formId } = await params;
 
-  const company = await prisma.company.findUnique({
-    where: { id: companyId },
+  const form = await prisma.widgetSettings.findUnique({
+    where: { id: formId },
     include: {
-      pricingProfile: true,
-      widgetSettings: true,
-    }
+      company: {
+        include: { pricingProfile: true },
+      },
+    },
   });
 
-  if (!company || company.widgetSettings.length === 0) {
+  if (!form) {
     notFound();
   }
 
-  const widgetSettings = company.widgetSettings[0];
+  const { company, ...widgetSettings } = form;
 
   return (
     <div className="min-h-screen bg-slate-100 p-4 sm:p-8 flex items-center justify-center">

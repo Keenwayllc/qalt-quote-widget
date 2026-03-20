@@ -90,7 +90,7 @@ export default function HowItWorksAnimation() {
         {/* Background glow */}
         <div className="absolute -inset-4 bg-linear-to-tr from-blue-500/10 via-emerald-500/5 to-violet-500/10 rounded-[2.5rem] blur-2xl" />
         
-        <div className="relative bg-slate-900 rounded-[2rem] border border-white/10 shadow-2xl shadow-blue-900/40 overflow-hidden aspect-[4/5] sm:aspect-square lg:aspect-16/11">
+        <div className="relative bg-slate-900 rounded-[2rem] border border-white/10 shadow-2xl shadow-blue-900/40 overflow-hidden min-h-[400px] h-auto sm:h-auto aspect-auto sm:aspect-square lg:aspect-16/11">
           {/* Mock Browser Header */}
           <div className="h-8 sm:h-10 border-b border-white/5 bg-white/5 flex items-center px-4 gap-1.5 shrink-0">
             <div className="w-2.5 h-2.5 rounded-full bg-slate-600/50" />
@@ -99,7 +99,7 @@ export default function HowItWorksAnimation() {
             <div className="mx-auto w-32 h-4 bg-white/5 rounded-full" />
           </div>
 
-          <div className="h-[calc(100%-2.5rem)] flex flex-col sm:flex-row relative">
+          <div className="h-auto pb-4 sm:pb-0 sm:h-[calc(100%-2.5rem)] flex flex-col sm:flex-row relative">
             
             {/* Left Panel: The Form */}
             <div className="flex-1 p-5 sm:p-6 flex flex-col z-10 sm:max-w-[320px] bg-slate-900 shadow-2xl sm:shadow-none border-b sm:border-b-0 sm:border-r border-white/5">
@@ -260,109 +260,109 @@ export default function HowItWorksAnimation() {
               </div>
             </div>
 
-            {/* Right Panel: The Animated Map Visual */}
-            <div className="flex-1 bg-slate-950 relative overflow-hidden border-l border-white/5 hidden sm:block">
-              {/* Subtle grid background to look like a map base */}
-              <div 
-                className="absolute inset-0 opacity-10"
-                style={{
-                  backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
-                  backgroundSize: "24px 24px"
-                }}
-              />
-              
-              {/* Map Layout Elements */}
-              <div className="absolute inset-0 p-8 flex items-center justify-center">
-                <div className="relative w-full h-full max-w-[300px] max-h-[300px]">
-                  
-                  {/* Stylized 'Map' shapes in background replaced by actual map texture */}
-                  <div className="absolute inset-0 opacity-80 pointer-events-none overflow-hidden rounded-2xl bg-[#0f111a]">
-                    <div className="absolute top-1/2 left-1/2 -translate-x-[28%] -translate-y-[64%] flex flex-wrap w-[1024px] h-[512px] opacity-100">
-                        {/* Row 1 (Y=5) */}
-                        <img src="https://a.basemaps.cartocdn.com/dark_all/4/2/5.png" className="w-[256px] h-[256px]" alt="" />
-                        <img src="https://a.basemaps.cartocdn.com/dark_all/4/3/5.png" className="w-[256px] h-[256px]" alt="" />
-                        <img src="https://a.basemaps.cartocdn.com/dark_all/4/4/5.png" className="w-[256px] h-[256px]" alt="" />
-                        <img src="https://a.basemaps.cartocdn.com/dark_all/4/5/5.png" className="w-[256px] h-[256px]" alt="" />
-                        {/* Row 2 (Y=6) */}
-                        <img src="https://a.basemaps.cartocdn.com/dark_all/4/2/6.png" className="w-[256px] h-[256px]" alt="" />
-                        <img src="https://a.basemaps.cartocdn.com/dark_all/4/3/6.png" className="w-[256px] h-[256px]" alt="" />
-                        <img src="https://a.basemaps.cartocdn.com/dark_all/4/4/6.png" className="w-[256px] h-[256px]" alt="" />
-                        <img src="https://a.basemaps.cartocdn.com/dark_all/4/5/6.png" className="w-[256px] h-[256px]" alt="" />
-                    </div>
-                    {/* Gradient overlay to soften the edges */}
-                    <div className="absolute inset-0 bg-transparent" style={{ backgroundImage: 'radial-gradient(circle at center, transparent 30%, #0f111a 90%)' }} />
-                  </div>
+            {/* Right Panel: Light Google Maps-style Map */}
+            <div className="flex-1 bg-[#e8eaed] relative overflow-hidden border-l border-slate-200 hidden sm:block">
 
-                  {/* Route SVG */}
-                  <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <motion.path
-                      d="M 87 73 C 65 85, 35 65, 11 50"
-                      fill="none"
-                      stroke="url(#gradient)"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      initial={{ pathLength: 0, opacity: 0 }}
-                      animate={{ 
-                        pathLength: currentStep >= 1 ? 1 : 0,
-                        opacity: currentStep >= 1 ? 1 : 0
-                      }}
-                      transition={{ duration: 1.5, ease: "easeInOut" }}
-                    />
-                    <defs>
-                      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#3b82f6" /> {/* blue-500 */}
-                        <stop offset="100%" stopColor="#10b981" /> {/* emerald-500 */}
-                      </linearGradient>
-                    </defs>
-                  </svg>
-
-                  {/* Pickup Pin (TX) */}
-                  <motion.div 
-                    className="absolute top-[73%] left-[87%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ 
-                      scale: currentStep >= 0 ? 1 : 0,
-                      opacity: currentStep >= 0 ? 1 : 0
-                    }}
-                    transition={{ type: "spring", delay: 0.6 }}
-                  >
-                    <div className="bg-blue-500 text-white text-[8px] font-black px-2 py-0.5 rounded-full mb-1 shadow-lg shadow-blue-500/20">TX</div>
-                    <div className="w-4 h-4 rounded-full bg-blue-500 ring-4 ring-blue-500/20 shadow-lg" />
-                  </motion.div>
-
-                  {/* Delivery Pin (CA) */}
-                  <motion.div 
-                    className="absolute top-[50%] left-[11%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ 
-                      scale: currentStep >= 0 ? 1 : 0,
-                      opacity: currentStep >= 0 ? 1 : 0
-                    }}
-                    transition={{ type: "spring", delay: 1.4 }}
-                  >
-                    <div className="w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-emerald-500/20 shadow-lg relative z-10" />
-                    <div className="bg-emerald-500 text-white text-[8px] font-black px-2 py-0.5 rounded-full mt-1 shadow-lg shadow-emerald-500/20">CA</div>
-                  </motion.div>
-                  
-                  {/* Map overlay elements for detail */}
-                  <motion.div
-                    className="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur-xs border border-white/10 rounded-lg p-2 flex gap-3"
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: currentStep >= 1 ? 0 : 20, opacity: currentStep >= 1 ? 1 : 0 }}
-                    transition={{ delay: 1.5 }}
-                  >
-                    <div>
-                      <div className="text-[7px] font-bold text-white/40 uppercase">Distance</div>
-                      <div className="text-[10px] font-black text-white">1,550 mi</div>
-                    </div>
-                    <div className="w-px bg-white/10" />
-                    <div>
-                      <div className="text-[7px] font-bold text-white/40 uppercase">Time</div>
-                      <div className="text-[10px] font-black text-white">22 hrs</div>
-                    </div>
-                  </motion.div>
+              {/* Light map tiles */}
+              <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute top-1/2 left-1/2 -translate-x-[28%] -translate-y-[64%] flex flex-wrap w-[1024px] h-[512px]">
+                  <img src="https://a.basemaps.cartocdn.com/rastertiles/voyager/4/2/5.png" className="w-[256px] h-[256px]" alt="" />
+                  <img src="https://a.basemaps.cartocdn.com/rastertiles/voyager/4/3/5.png" className="w-[256px] h-[256px]" alt="" />
+                  <img src="https://a.basemaps.cartocdn.com/rastertiles/voyager/4/4/5.png" className="w-[256px] h-[256px]" alt="" />
+                  <img src="https://a.basemaps.cartocdn.com/rastertiles/voyager/4/5/5.png" className="w-[256px] h-[256px]" alt="" />
+                  <img src="https://a.basemaps.cartocdn.com/rastertiles/voyager/4/2/6.png" className="w-[256px] h-[256px]" alt="" />
+                  <img src="https://a.basemaps.cartocdn.com/rastertiles/voyager/4/3/6.png" className="w-[256px] h-[256px]" alt="" />
+                  <img src="https://a.basemaps.cartocdn.com/rastertiles/voyager/4/4/6.png" className="w-[256px] h-[256px]" alt="" />
+                  <img src="https://a.basemaps.cartocdn.com/rastertiles/voyager/4/5/6.png" className="w-[256px] h-[256px]" alt="" />
                 </div>
+                {/* Soft vignette edges */}
+                <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(232,234,237,0.7) 100%)' }} />
               </div>
+
+              {/* Route SVG overlay */}
+              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <defs>
+                  <filter id="routeGlow">
+                    <feGaussianBlur stdDeviation="1" result="blur" />
+                    <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                  </filter>
+                </defs>
+                {/* Route shadow/outline */}
+                <motion.path
+                  d="M 85 72 C 78 78, 68 80, 60 76 C 52 72, 46 68, 38 66 C 30 64, 22 60, 14 52"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: currentStep >= 1 ? 1 : 0, opacity: currentStep >= 1 ? 1 : 0 }}
+                  transition={{ duration: 1.8, ease: "easeInOut" }}
+                />
+                {/* Main green route line */}
+                <motion.path
+                  d="M 85 72 C 78 78, 68 80, 60 76 C 52 72, 46 68, 38 66 C 30 64, 22 60, 14 52"
+                  fill="none"
+                  stroke="#4CAF50"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  filter="url(#routeGlow)"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: currentStep >= 1 ? 1 : 0, opacity: currentStep >= 1 ? 1 : 0 }}
+                  transition={{ duration: 1.8, ease: "easeInOut" }}
+                />
+              </svg>
+
+              {/* Pin A — Pickup (CA, left) */}
+              <motion.div
+                className="absolute flex flex-col items-center z-10"
+                style={{ top: "52%", left: "14%", transform: "translate(-50%, -100%)" }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: currentStep >= 0 ? 1 : 0, opacity: currentStep >= 0 ? 1 : 0 }}
+                transition={{ type: "spring", delay: 0.4 }}
+              >
+                <div className="w-7 h-7 bg-[#EA4335] rounded-full rounded-bl-none rotate-[-45deg] shadow-lg flex items-center justify-center">
+                  <span className="rotate-45 text-white text-[8px] font-black">A</span>
+                </div>
+              </motion.div>
+
+              {/* Pin B — Delivery (TX, right) */}
+              <motion.div
+                className="absolute flex flex-col items-center z-10"
+                style={{ top: "72%", left: "85%", transform: "translate(-50%, -100%)" }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: currentStep >= 0 ? 1 : 0, opacity: currentStep >= 0 ? 1 : 0 }}
+                transition={{ type: "spring", delay: 1.2 }}
+              >
+                <div className="w-7 h-7 bg-[#EA4335] rounded-full rounded-bl-none rotate-[-45deg] shadow-lg flex items-center justify-center">
+                  <span className="rotate-45 text-white text-[8px] font-black">B</span>
+                </div>
+              </motion.div>
+
+              {/* Route Overview label — top */}
+              <div className="absolute top-3 left-3 right-3 flex items-center gap-2 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1.5 shadow-sm border border-slate-200/80 z-10">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                <span className="text-[9px] font-black text-slate-700 uppercase tracking-widest">Route Overview</span>
+              </div>
+
+              {/* Distance & Time card — bottom */}
+              <motion.div
+                className="absolute bottom-3 left-3 right-3 bg-white/90 backdrop-blur-sm rounded-lg p-2.5 shadow-sm border border-slate-200/80 z-10 flex gap-4"
+                initial={{ y: 16, opacity: 0 }}
+                animate={{ y: currentStep >= 1 ? 0 : 16, opacity: currentStep >= 1 ? 1 : 0 }}
+                transition={{ delay: 1.8 }}
+              >
+                <div>
+                  <div className="text-[7px] font-bold text-slate-400 uppercase tracking-wider">Distance</div>
+                  <div className="text-[11px] font-black text-slate-800">1,550 mi</div>
+                </div>
+                <div className="w-px bg-slate-200" />
+                <div>
+                  <div className="text-[7px] font-bold text-slate-400 uppercase tracking-wider">Drive Time</div>
+                  <div className="text-[11px] font-black text-slate-800">22 hrs</div>
+                </div>
+              </motion.div>
             </div>
 
           </div>

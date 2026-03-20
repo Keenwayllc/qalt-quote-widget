@@ -68,7 +68,7 @@ export default function AnalyticsAnimation() {
           {/* Background glow */}
           <div className="absolute -inset-4 bg-linear-to-tr from-blue-500/10 via-indigo-500/5 to-purple-500/10 rounded-[2.5rem] blur-2xl" />
           
-          <div className="relative bg-slate-900 rounded-4xl border border-white/10 shadow-2xl shadow-indigo-900/40 overflow-hidden aspect-4/3">
+          <div className="relative bg-slate-900 rounded-4xl border border-white/10 shadow-2xl shadow-indigo-900/40 overflow-hidden h-[450px] sm:h-[500px] lg:h-auto lg:aspect-4/3">
             {/* Mock Browser Header */}
             <div className="h-8 border-b border-white/5 bg-white/5 flex items-center px-4 gap-1.5 shrink-0">
               <div className="w-2.5 h-2.5 rounded-full bg-slate-600/50" />
@@ -175,10 +175,37 @@ export default function AnalyticsAnimation() {
                                     ))}
                                     {/* Mock Animated Line */}
                                     <svg className="absolute inset-0 h-full w-full" preserveAspectRatio="none" viewBox="0 0 100 100">
-                                        <motion.path 
+                                        <defs>
+                                            <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stopColor="#818cf8" />
+                                                <stop offset="100%" stopColor="#6366f1" />
+                                            </linearGradient>
+                                            <filter id="glow">
+                                                <feGaussianBlur stdDeviation="1.5" result="blur" />
+                                                <feMerge>
+                                                    <feMergeNode in="blur" />
+                                                    <feMergeNode in="SourceGraphic" />
+                                                </feMerge>
+                                            </filter>
+                                        </defs>
+                                        {/* Glow layer */}
+                                        <motion.path
                                             d="M 5 80 Q 15 65, 25 75 T 45 40 T 65 20 T 95 30"
                                             fill="none"
-                                            stroke="#4ADE80"
+                                            stroke="#6366f1"
+                                            strokeWidth="4"
+                                            strokeLinecap="round"
+                                            opacity={0.3}
+                                            filter="url(#glow)"
+                                            initial={{ pathLength: 0 }}
+                                            animate={{ pathLength: 1 }}
+                                            transition={{ duration: 2, ease: "easeInOut" }}
+                                        />
+                                        {/* Main line */}
+                                        <motion.path
+                                            d="M 5 80 Q 15 65, 25 75 T 45 40 T 65 20 T 95 30"
+                                            fill="none"
+                                            stroke="url(#lineGrad)"
                                             strokeWidth="2"
                                             strokeLinecap="round"
                                             initial={{ pathLength: 0 }}

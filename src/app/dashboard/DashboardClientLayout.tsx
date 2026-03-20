@@ -16,7 +16,8 @@ import {
   DollarSign,
   Lock,
   BarChart3,
-  UserCircle
+  UserCircle,
+  FormInput
 } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
 
@@ -42,6 +43,7 @@ export default function DashboardClientLayout({
       isLocked: !entitlements.isAnalyticsDashboardEnabled
     },
     { name: "Pricing Settings", href: "/dashboard/pricing", icon: DollarSign },
+    { name: "My Forms", href: "/dashboard/forms", icon: FormInput },
     { name: "Widget Appearance", href: "/dashboard/widget", icon: Settings },
     { name: "Get Embed Code", href: "/dashboard/embed", icon: Code },
     { name: "Quotes", href: "/dashboard/quotes", icon: FileText },

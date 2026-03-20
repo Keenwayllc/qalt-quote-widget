@@ -21,7 +21,7 @@ model Company {
   createdAt      DateTime        @default(now())
   pricingProfile PricingProfile?
   quoteRequests  QuoteRequest[]
-  widgetSettings WidgetSettings?
+  widgetSettings WidgetSettings[]
 }
 
 model PricingProfile {
@@ -47,7 +47,8 @@ model PricingProfile {
 
 model WidgetSettings {
   id                 String  @id @default(cuid())
-  companyId          String  @unique
+  companyId          String
+  name               String  @default("Default Form")
   showWeight         Boolean @default(false)
   showItemCount      Boolean @default(true)
   showExtras         Boolean @default(true)

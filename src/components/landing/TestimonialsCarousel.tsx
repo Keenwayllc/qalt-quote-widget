@@ -231,7 +231,7 @@ export default function TestimonialsCarousel() {
                       loop
                       playsInline
                       preload="auto"
-                      className="absolute inset-0 w-full h-full object-cover z-0 opacity-30 group-hover/card:opacity-50 transition-opacity duration-700"
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full w-auto h-auto object-cover z-0 opacity-30 group-hover/card:opacity-50 transition-opacity duration-700 block bg-black"
                     >
                       <source src={t.video} type="video/mp4" />
                     </video>
