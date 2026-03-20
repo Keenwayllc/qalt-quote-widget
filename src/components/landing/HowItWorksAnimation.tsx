@@ -289,7 +289,7 @@ export default function HowItWorksAnimation() {
                 </defs>
                 {/* Route shadow/outline */}
                 <motion.path
-                  d="M 85 72 C 78 78, 68 80, 60 76 C 52 72, 46 68, 38 66 C 30 64, 22 60, 14 52"
+                  d="M 14 52 C 26 44, 38 40, 50 42 C 62 44, 74 50, 85 72"
                   fill="none"
                   stroke="white"
                   strokeWidth="6"
@@ -301,7 +301,7 @@ export default function HowItWorksAnimation() {
                 />
                 {/* Main green route line */}
                 <motion.path
-                  d="M 85 72 C 78 78, 68 80, 60 76 C 52 72, 46 68, 38 66 C 30 64, 22 60, 14 52"
+                  d="M 14 52 C 26 44, 38 40, 50 42 C 62 44, 74 50, 85 72"
                   fill="none"
                   stroke="#4CAF50"
                   strokeWidth="3"
