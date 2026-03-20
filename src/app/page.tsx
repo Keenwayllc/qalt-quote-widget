@@ -20,6 +20,7 @@ import {
   X,
 } from "lucide-react";
 import TestimonialsCarousel from "@/components/landing/TestimonialsCarousel";
+import HowItWorksAnimation from "@/components/landing/HowItWorksAnimation";
 
 const BANNER_IMAGES = [
   "/images/banner-1.jpg",
@@ -214,26 +215,14 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* How It Works */}
-        <section id="how-it-works" className="py-20 sm:py-32 bg-white scroll-mt-20">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-14 sm:mb-20 tracking-tight text-slate-900">Setting Up Is Instant</h2>
-            <div className="flex flex-col md:flex-row items-stretch gap-6 sm:gap-12 relative">
-              <div className="absolute top-1/2 left-0 w-full h-0.5 bg-slate-50 -z-10 hidden md:block"></div>
-              {[
-                { step: "01", title: "Create Account", desc: "Sign up in 30 seconds." },
-                { step: "02", title: "Set Rates", desc: "Build your flat or dynamic pricing." },
-                { step: "03", title: "Copy & Paste", desc: "Embed the code on your site." }
-              ].map((step, i) => (
-                <div key={i} className="flex-1 bg-linear-to-br from-white to-slate-50 p-7 sm:p-8 rounded-xl border border-slate-200 shadow-sm relative z-10 hover:-translate-y-2 transition-transform duration-500 overflow-hidden text-left">
-                  <span className="text-8xl font-black text-slate-200/30 absolute -bottom-4 -right-2 select-none pointer-events-none leading-none z-0">{step.step}</span>
-                  <div className="relative z-10">
-                    <h3 className="text-lg font-black mb-2 text-slate-900">{step.title}</h3>
-                    <p className="text-slate-500 font-medium text-sm">{step.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+        {/* How It Works — Animated Section */}
+        <section id="how-it-works" className="py-24 sm:py-40 bg-white relative overflow-hidden scroll-mt-20">
+          {/* Decorative background gradients */}
+          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-50/50 rounded-full blur-[120px] -z-10" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-emerald-50/50 rounded-full blur-[100px] -z-10" />
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <HowItWorksAnimation />
           </div>
         </section>
 
