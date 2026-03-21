@@ -122,9 +122,6 @@ export default function DashboardClientLayout({
                   {isLocked && (
                     <Lock size={12} className="text-amber-500 ml-2" />
                   )}
-                  {isActive && (
-                    <div className="absolute left-0 w-1 h-6 bg-white rounded-r-full" />
-                  )}
                 </Link>
               );
             })}
