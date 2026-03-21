@@ -12,13 +12,24 @@ export async function GET() {
     const payload = await verifyToken(token);
     if (!payload) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
+    const company = await prisma.company.findUnique({
+      where: { id: payload.companyId },
+      select: { subscriptionPlan: true },
+    });
+
     const forms = await prisma.widgetSettings.findMany({
       where: { companyId: payload.companyId },
       orderBy: { id: "asc" },
       select: { id: true, name: true },
     });
 
-    return NextResponse.json({ forms });
+    const entitlements = getEntitlements(company?.subscriptionPlan);
+
+    return NextResponse.json({
+      forms,
+      plan: company?.subscriptionPlan || "STARTER",
+      maxForms: entitlements.maxForms,
+    });
   } catch (error) {
     console.error("Forms fetch error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

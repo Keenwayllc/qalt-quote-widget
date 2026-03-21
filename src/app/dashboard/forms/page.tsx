@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Plus, Trash2, Copy, Check, ExternalLink, FormInput, Pencil, X, Settings, DollarSign } from "lucide-react";
+import { Plus, Trash2, Copy, Check, ExternalLink, FormInput, Pencil, X, Settings, DollarSign, Lock } from "lucide-react";
 
 interface QuoteForm {
   id: string;
@@ -19,16 +19,22 @@ export default function FormsPage() {
   const [renamingId, setRenamingId] = useState<string | null>(null);
   const [renameValue, setRenameValue] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [plan, setPlan] = useState<string>("STARTER");
+  const [maxForms, setMaxForms] = useState<number | "unlimited">(1);
 
   useEffect(() => {
     fetchForms();
   }, []);
+
+  const atLimit = maxForms !== "unlimited" && forms.length >= maxForms;
 
   async function fetchForms() {
     try {
       const res = await fetch("/api/dashboard/forms");
       const data = await res.json();
       if (data.forms) setForms(data.forms);
+      if (data.plan) setPlan(data.plan);
+      if (data.maxForms !== undefined) setMaxForms(data.maxForms);
     } catch {
       setError("Failed to load forms.");
     } finally {
@@ -117,13 +123,27 @@ export default function FormsPage() {
           <p className="text-slate-500 mt-2 text-base font-medium">
             Each form has its own embed code and settings.
           </p>
+          <p className="text-xs font-bold text-slate-400 mt-1">
+            {maxForms === "unlimited"
+              ? `${forms.length} form${forms.length !== 1 ? "s" : ""} · Unlimited on ${plan}`
+              : `${forms.length} of ${maxForms} form${maxForms !== 1 ? "s" : ""} used · ${plan} plan`}
+          </p>
         </div>
-        <button
-          onClick={() => setShowNewInput(true)}
-          className="flex items-center gap-2 px-5 py-3 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-slate-700 transition-all shrink-0"
-        >
-          <Plus size={16} /> New Form
-        </button>
+        {atLimit ? (
+          <Link
+            href="/dashboard/billing"
+            className="flex items-center gap-2 px-5 py-3 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-all shrink-0"
+          >
+            <Lock size={14} /> Upgrade to Add More
+          </Link>
+        ) : (
+          <button
+            onClick={() => setShowNewInput(true)}
+            className="flex items-center gap-2 px-5 py-3 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-slate-700 transition-all shrink-0"
+          >
+            <Plus size={16} /> New Form
+          </button>
+        )}
       </header>
 
       {error && (
@@ -158,14 +178,21 @@ export default function FormsPage() {
       )}
 
       <div className="space-y-4">
-        {forms.map((form) => {
+        {forms.map((form, index) => {
           const embedCode = getEmbedCode(form.id);
           const widgetUrl = typeof window !== "undefined"
             ? `${window.location.origin}/widget/form/${form.id}`
             : `/widget/form/${form.id}`;
+          const isLocked = maxForms !== "unlimited" && index >= maxForms;
 
           return (
-            <div key={form.id} className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+            <div key={form.id} className={`bg-white rounded-2xl border shadow-sm p-6 relative ${isLocked ? "border-amber-200 opacity-60" : "border-slate-100"}`}>
+              {isLocked && (
+                <div className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1 bg-amber-50 border border-amber-200 rounded-full">
+                  <Lock size={11} className="text-amber-600" />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-amber-700">Upgrade to unlock</span>
+                </div>
+              )}
               <div className="flex items-center justify-between mb-4">
                 {renamingId === form.id ? (
                   <div className="flex items-center gap-2 flex-1 mr-4">
@@ -224,35 +251,49 @@ export default function FormsPage() {
                 </div>
               </div>
 
-              <div className="bg-slate-900 rounded-xl p-4 text-xs font-mono text-blue-300 leading-relaxed overflow-x-auto mb-3">
-                {embedCode}
-              </div>
+              {isLocked ? (
+                <div className="mt-2 p-4 bg-amber-50/50 border border-amber-100 rounded-xl text-center">
+                  <p className="text-sm font-medium text-amber-800 mb-2">This form is inactive on your current plan.</p>
+                  <Link
+                    href="/dashboard/billing"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700 transition-all"
+                  >
+                    Upgrade Plan
+                  </Link>
+                </div>
+              ) : (
+                <>
+                  <div className="bg-slate-900 rounded-xl p-4 text-xs font-mono text-blue-300 leading-relaxed overflow-x-auto mb-3">
+                    {embedCode}
+                  </div>
 
-              <div className="flex items-center gap-2 flex-wrap">
-                <button
-                  onClick={() => copyEmbed(form.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-                    copiedId === form.id
-                      ? "bg-emerald-500 text-white"
-                      : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                  }`}
-                >
-                  {copiedId === form.id ? <Check size={13} /> : <Copy size={13} />}
-                  {copiedId === form.id ? "Copied!" : "Copy Embed Code"}
-                </button>
-                <Link
-                  href={`/dashboard/widget?formId=${form.id}`}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold bg-blue-50 text-blue-700 hover:bg-blue-100 transition-all"
-                >
-                  <Settings size={13} /> Edit Appearance
-                </Link>
-                <Link
-                  href={`/dashboard/pricing?formId=${form.id}`}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold bg-violet-50 text-violet-700 hover:bg-violet-100 transition-all"
-                >
-                  <DollarSign size={13} /> Edit Pricing
-                </Link>
-              </div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <button
+                      onClick={() => copyEmbed(form.id)}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                        copiedId === form.id
+                          ? "bg-emerald-500 text-white"
+                          : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                      }`}
+                    >
+                      {copiedId === form.id ? <Check size={13} /> : <Copy size={13} />}
+                      {copiedId === form.id ? "Copied!" : "Copy Embed Code"}
+                    </button>
+                    <Link
+                      href={`/dashboard/widget?formId=${form.id}`}
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold bg-blue-50 text-blue-700 hover:bg-blue-100 transition-all"
+                    >
+                      <Settings size={13} /> Edit Appearance
+                    </Link>
+                    <Link
+                      href={`/dashboard/pricing?formId=${form.id}`}
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold bg-violet-50 text-violet-700 hover:bg-violet-100 transition-all"
+                    >
+                      <DollarSign size={13} /> Edit Pricing
+                    </Link>
+                  </div>
+                </>
+              )}
             </div>
           );
         })}
