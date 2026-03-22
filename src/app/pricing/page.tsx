@@ -356,7 +356,7 @@ export default function PricingPage() {
           <div className="space-y-3">
             {[
               { q: "Can I cancel at any time?", a: "Yes. You can change or cancel your plan at any time." },
-              { q: "Is there a free trial for Pro?", a: "Qalt is free to start. You can use the Starter plan to test your workflow and upgrade to Pro whenever you need more volume and advanced features." },
+              { q: "Can I try Pro features before upgrading?", a: "Qalt is free to start on our Starter plan. You can test your workflow and upgrade to Pro whenever you need more volume and advanced features." },
               { q: "What happens if I exceed my limit on Starter?", a: "Once you reach the Starter limit, you can upgrade to keep collecting quotes without interruption." },
               { q: "Can I switch plans at any time?", a: "Yes. You can move between plans as your business needs change." },
               { q: "Do I need code to use Qalt?", a: "No custom build is required. Qalt is designed to be embedded on your site quickly." },
@@ -379,7 +379,7 @@ export default function PricingPage() {
             <Link href="/register" className="px-10 py-4 bg-blue-600 text-white rounded-xl font-bold text-base hover:bg-blue-700 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-blue-200">
               Get Started Free
             </Link>
-            <Link href="/register" className="px-10 py-4 border-2 border-slate-900 text-slate-900 rounded-xl font-bold text-base hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all">
+            <Link href="/register" className="px-10 py-4 bg-slate-900 text-white rounded-xl font-bold text-base hover:opacity-90 active:scale-[0.98] transition-all shadow-xl shadow-slate-200">
               Upgrade to Enterprise
             </Link>
           </div>
