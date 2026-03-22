@@ -240,7 +240,7 @@ export default function LandingPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 rounded-2xl overflow-hidden shadow-xl max-w-5xl mx-auto border border-slate-200 bg-white">
               {/* Starter */}
               <div className="bg-white p-8 sm:p-10 flex flex-col border-2 border-slate-900 rounded-2xl relative">
-              <div className="min-h-[140px] sm:min-h-[200px]">
+              <div className="min-h-[140px] sm:min-h-[220px]">
                 <div className="mb-8 p-0">
                   <h3 className="text-2xl font-black mb-2">Starter</h3>
                   <p className="text-slate-500 text-sm font-medium">Perfect for launching your first quote widget.</p>
@@ -263,8 +263,8 @@ export default function LandingPage() {
               </div>
 
               {/* Pro — premium gradient card */}
-              <div className="bg-slate-900 p-8 sm:p-10 flex flex-col rounded-2xl relative sm:scale-105 shadow-2xl z-10">
-              <div className="min-h-[140px] sm:min-h-[200px]">
+              <div className="bg-slate-900 p-8 sm:p-10 flex flex-col rounded-2xl relative shadow-2xl z-10">
+              <div className="min-h-[140px] sm:min-h-[220px]">
                 <div className="mb-8 p-0">
                   <h3 className="text-2xl font-black text-white mb-2">Pro</h3>
                   <p className="text-slate-400 text-sm font-medium">For growing delivery companies that need more volume.</p>
@@ -289,7 +289,7 @@ export default function LandingPage() {
 
               {/* Enterprise */}
               <div className="bg-white p-8 sm:p-10 flex flex-col border-2 border-slate-900 rounded-2xl relative">
-              <div className="min-h-[140px] sm:min-h-[200px]">
+              <div className="min-h-[140px] sm:min-h-[220px]">
                 <div className="mb-8 p-0">
                   <h3 className="text-2xl font-black mb-2">Enterprise</h3>
                   <p className="text-slate-500 text-sm font-medium">For high-volume operators that need more control.</p>
