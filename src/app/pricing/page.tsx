@@ -185,17 +185,19 @@ export default function PricingPage() {
           <div className="grid md:grid-cols-3 rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white">
             {/* Starter */}
             <div className="bg-white p-10 flex flex-col">
-              <div className="mb-8 p-0">
-                <div className="flex items-center gap-3 mb-2">
-                  <h3 className="text-2xl font-black tracking-tight text-slate-900">Starter</h3>
+              <div className="min-h-[220px]">
+                <div className="mb-8 p-0">
+                  <div className="flex items-center gap-3 mb-2">
+                    <h3 className="text-2xl font-black tracking-tight text-slate-900">Starter</h3>
+                  </div>
+                  <p className="text-slate-500 text-sm font-medium leading-relaxed">For trying Qalt or launching your first quote widget.</p>
                 </div>
-                <p className="text-slate-500 text-sm font-medium leading-relaxed">For trying Qalt or launching your first quote widget.</p>
+                <div className="mb-1">
+                  <span className="text-5xl font-black text-slate-900">Free</span>
+                </div>
+                <p className="text-slate-500 text-sm font-medium mb-8">Free forever. No card required.</p>
               </div>
-              <div className="mb-1">
-                <span className="text-5xl font-black text-slate-900">Free</span>
-              </div>
-              <p className="text-slate-500 text-sm font-medium mb-8">Free forever. No card required.</p>
-              <Link href="/register" className="block w-full text-center py-3.5 border-2 border-slate-900 text-slate-900 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
+              <Link href="/register" className="block w-full text-center py-4 border-2 border-slate-900 text-slate-900 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
                 Get Started Free
               </Link>
               <ul className="space-y-3 mt-auto">
@@ -209,21 +211,23 @@ export default function PricingPage() {
 
             {/* Pro */}
             <div className="bg-linear-to-bl from-[#131526] via-[#1a1636] to-[#2d1b54] p-10 flex flex-col relative">
-              <div className="mb-8 p-0">
-                <div className="flex items-center gap-3 mb-2">
-                  <h3 className="text-2xl font-black tracking-tight text-white">Pro</h3>
-                  <span className="px-2 py-0.5 bg-white text-slate-900 rounded-full text-[10px] font-black uppercase tracking-widest">Most Popular</span>
+              <div className="min-h-[220px]">
+                <div className="mb-8 p-0">
+                  <div className="flex items-center gap-3 mb-2">
+                    <h3 className="text-2xl font-black tracking-tight text-white">Pro</h3>
+                    <span className="px-2 py-0.5 bg-white text-slate-900 rounded-full text-[10px] font-black uppercase tracking-widest">Most Popular</span>
+                  </div>
+                  <p className="text-slate-300 text-sm font-medium leading-relaxed">For growing delivery companies that need more forms, more quotes, and stronger branding.</p>
                 </div>
-                <p className="text-slate-300 text-sm font-medium leading-relaxed">For growing delivery companies that need more forms, more quotes, and stronger branding.</p>
+                <div className="mb-1 flex items-end gap-2">
+                  <span className="text-5xl font-black text-white">{annual ? "$14" : "$19"}</span>
+                  <span className="text-slate-300 font-medium text-lg mb-1">/mo</span>
+                </div>
+                <p className="text-slate-400 text-sm font-medium mb-8">
+                  {annual ? "Billed $168 annually · save $60" : "Switch to annual & save $60/yr"}
+                </p>
               </div>
-              <div className="mb-1 flex items-end gap-2">
-                <span className="text-5xl font-black text-white">{annual ? "$14" : "$19"}</span>
-                <span className="text-slate-300 font-medium text-lg mb-1">/mo</span>
-              </div>
-              <p className="text-slate-400 text-sm font-medium mb-8">
-                {annual ? "Billed $168 annually · save $60" : "Switch to annual & save $60/yr"}
-              </p>
-              <Link href="/register" className="block w-full text-center py-3.5 bg-violet-600 text-white rounded-xl font-bold text-sm hover:bg-violet-500 active:scale-[0.98] transition-all mb-8 shadow-lg shadow-violet-900/40">
+              <Link href="/register" className="block w-full text-center py-4 bg-violet-600 text-white rounded-xl font-bold text-sm hover:bg-violet-500 active:scale-[0.98] transition-all mb-8 shadow-lg shadow-violet-900/40">
                 Upgrade to Pro
               </Link>
               <ul className="space-y-3 mt-auto">
@@ -237,21 +241,23 @@ export default function PricingPage() {
 
             {/* Enterprise */}
             <div className="bg-white p-10 flex flex-col relative">
-              <div className="mb-8 p-0">
-                <div className="flex items-center gap-3 mb-2">
-                  <h3 className="text-2xl font-black tracking-tight text-slate-900">Enterprise</h3>
+              <div className="min-h-[220px]">
+                <div className="mb-8 p-0">
+                  <div className="flex items-center gap-3 mb-2">
+                    <h3 className="text-2xl font-black tracking-tight text-slate-900">Enterprise</h3>
+                  </div>
+                  <p className="text-slate-500 text-sm font-medium leading-relaxed">For high-volume operators, agencies, and teams that need more control.</p>
                 </div>
-                <p className="text-slate-500 text-sm font-medium leading-relaxed">For high-volume operators, agencies, and teams that need more control.</p>
+                <div className="mb-1 flex items-end gap-2">
+                  <span className="text-5xl font-black text-slate-900">{annual ? "$29" : "$39"}</span>
+                  <span className="text-slate-400 font-medium text-lg mb-1">/mo</span>
+                </div>
+                <p className="text-slate-500 text-sm font-medium mb-8">
+                  {annual ? "Billed $348 annually · save $120" : "Billed monthly"}
+                </p>
               </div>
-              <div className="mb-1 flex items-end gap-2">
-                <span className="text-5xl font-black text-slate-900">{annual ? "$29" : "$39"}</span>
-                <span className="text-slate-400 font-medium text-lg mb-1">/mo</span>
-              </div>
-              <p className="text-slate-500 text-sm font-medium mb-8">
-                {annual ? "Billed $348 annually · save $120" : "Billed monthly"}
-              </p>
-              <Link href="/register" className="block w-full text-center py-3.5 border-2 border-slate-900 text-slate-900 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
-                Contact Sales
+              <Link href="/register" className="block w-full text-center py-4 border-2 border-slate-900 text-slate-900 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
+                Upgrade to Enterprise
               </Link>
               <ul className="space-y-3 mt-auto">
                 {["Everything in Pro", "Unlimited Quote Forms", "SLA & Uptime Guarantee", "Volume Discounts", "Custom CSS & Webhooks"].map((item) => (
@@ -307,14 +313,14 @@ export default function PricingPage() {
           {/* CTA row */}
           <div className="grid grid-cols-4 gap-4 mt-8 pt-8 border-t border-slate-200">
             <div />
-            <Link href="/register" className="text-center py-3 bg-slate-100 border border-slate-200 text-slate-700 rounded-lg font-bold text-sm hover:bg-slate-200 active:scale-[0.98] transition-all">
+            <Link href="/register" className="text-center py-4 bg-slate-100 border border-slate-200 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-200 active:scale-[0.98] transition-all">
               Get Started
             </Link>
-            <Link href="/register" className="text-center py-3 bg-blue-600 text-white rounded-lg font-bold text-sm hover:bg-blue-700 active:scale-[0.98] transition-all shadow-md shadow-blue-200">
+            <Link href="/register" className="text-center py-4 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 active:scale-[0.98] transition-all shadow-md shadow-blue-200">
               Upgrade to Pro
             </Link>
-            <Link href="/register" className="text-center py-3 bg-slate-900 text-white rounded-lg font-bold text-sm hover:bg-slate-800 active:scale-[0.98] transition-all">
-              Contact Sales
+            <Link href="/register" className="text-center py-4 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-800 active:scale-[0.98] transition-all">
+              Upgrade to Enterprise
             </Link>
           </div>
         </div>
@@ -374,7 +380,7 @@ export default function PricingPage() {
               Get Started Free
             </Link>
             <Link href="/register" className="px-10 py-4 border-2 border-slate-900 text-slate-900 rounded-xl font-bold text-base hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all">
-              Contact Sales
+              Upgrade to Enterprise
             </Link>
           </div>
         </div>

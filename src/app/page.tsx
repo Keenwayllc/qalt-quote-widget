@@ -239,20 +239,20 @@ export default function LandingPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 rounded-2xl overflow-hidden shadow-xl max-w-5xl mx-auto border border-slate-200 bg-white">
               {/* Starter */}
-              <div className="bg-white p-8 sm:p-10 flex flex-col border-b md:border-b-0 md:border-r border-slate-200">
-                <div className="mb-8">
-                  <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-2xl font-black tracking-tight text-slate-900">Starter</h3>
-                  </div>
-                  <p className="text-slate-500 text-sm font-medium leading-relaxed">For trying Qalt or launching your first quote widget.</p>
+              <div className="bg-white p-8 sm:p-10 flex flex-col border-2 border-slate-900 rounded-2xl relative">
+              <div className="min-h-[140px] sm:min-h-[200px]">
+                <div className="mb-8 p-0">
+                  <h3 className="text-2xl font-black mb-2">Starter</h3>
+                  <p className="text-slate-500 text-sm font-medium">Perfect for launching your first quote widget.</p>
                 </div>
-                <div className="mb-1">
-                  <span className="text-5xl font-black text-slate-900">Free</span>
+                <div className="mb-0 flex items-end gap-1">
+                  <span className="text-5xl font-black">Free</span>
                 </div>
-                <p className="text-slate-500 text-sm font-medium mb-8">Forever · No card required</p>
-                <Link href="/register" className="block w-full text-center py-3.5 border-2 border-slate-900 text-slate-900 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
-                  Get Started Free
-                </Link>
+                <p className="text-slate-400 text-sm font-medium mb-8">Free forever</p>
+              </div>
+              <Link href="/register" className="block w-full text-center py-4 border-2 border-slate-900 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white transition-all mb-8">
+                Get Started Free
+              </Link>
                 <ul className="space-y-3 mt-auto">
                   {["1 Quote Widget", "25 Quotes/month", "Basic Customization", "Email Support"].map((item) => (
                     <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
@@ -263,22 +263,21 @@ export default function LandingPage() {
               </div>
 
               {/* Pro — premium gradient card */}
-              <div className="bg-linear-to-bl from-[#131526] via-[#1a1636] to-[#2d1b54] p-8 sm:p-10 flex flex-col relative border-b md:border-b-0 md:border-r border-slate-800">
-                <div className="mb-8">
-                  <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-2xl font-black tracking-tight text-white">Pro</h3>
-                    <span className="px-2 py-0.5 bg-white text-slate-900 rounded-full text-[10px] font-black uppercase tracking-widest">Most Popular</span>
-                  </div>
-                  <p className="text-slate-300 text-sm font-medium leading-relaxed">For growing delivery companies that need more forms, more quotes, and stronger branding.</p>
+              <div className="bg-slate-900 p-8 sm:p-10 flex flex-col rounded-2xl relative sm:scale-105 shadow-2xl z-10">
+              <div className="min-h-[140px] sm:min-h-[200px]">
+                <div className="mb-8 p-0">
+                  <h3 className="text-2xl font-black text-white mb-2">Pro</h3>
+                  <p className="text-slate-400 text-sm font-medium">For growing delivery companies that need more volume.</p>
                 </div>
-                <div className="mb-1">
+                <div className="mb-0 flex items-end gap-1">
                   <span className="text-5xl font-black text-white">$14</span>
-                  <span className="text-slate-300 font-medium text-lg ml-1">/mo</span>
+                  <span className="text-slate-400 font-medium text-lg mb-1">/mo</span>
                 </div>
-                <p className="text-slate-400 text-sm font-medium mb-8">Billed $168 annually · Save $60</p>
-                <Link href="/register" className="block w-full text-center py-3.5 bg-violet-600 text-white rounded-xl font-bold text-sm hover:bg-violet-500 active:scale-[0.98] transition-all mb-8 shadow-lg shadow-violet-900/40">
-                  Upgrade to Pro
-                </Link>
+                <p className="text-slate-500 text-sm font-medium mb-8">Billed annually</p>
+              </div>
+              <Link href="/register" className="block w-full text-center py-4 bg-violet-600 text-white rounded-xl font-bold text-sm hover:bg-violet-500 transition-all mb-8 shadow-lg shadow-violet-900/20">
+                Upgrade to Pro
+              </Link>
                 <ul className="space-y-3 mt-auto">
                   {["Unlimited Quotes", "Full White-Label", "Advanced Customization", "Analytics Dashboard", "Priority Support"].map((item) => (
                     <li key={item} className="flex items-start gap-3 text-slate-300 font-medium text-sm">
@@ -289,21 +288,21 @@ export default function LandingPage() {
               </div>
 
               {/* Enterprise */}
-              <div className="bg-white p-8 sm:p-10 flex flex-col relative">
-                <div className="mb-8">
-                  <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-2xl font-black tracking-tight text-slate-900">Enterprise</h3>
-                  </div>
-                  <p className="text-slate-500 text-sm font-medium leading-relaxed">For high-volume operators, agencies, and teams that need more control.</p>
+              <div className="bg-white p-8 sm:p-10 flex flex-col border-2 border-slate-900 rounded-2xl relative">
+              <div className="min-h-[140px] sm:min-h-[200px]">
+                <div className="mb-8 p-0">
+                  <h3 className="text-2xl font-black mb-2">Enterprise</h3>
+                  <p className="text-slate-500 text-sm font-medium">For high-volume operators that need more control.</p>
                 </div>
-                <div className="mb-1">
-                  <span className="text-5xl font-black text-slate-900">$29</span>
-                  <span className="text-slate-400 font-medium text-lg ml-1">/mo</span>
+                <div className="mb-0 flex items-end gap-1">
+                  <span className="text-5xl font-black">$29</span>
+                  <span className="text-slate-400 font-medium text-lg mb-1">/mo</span>
                 </div>
-                <p className="text-slate-500 text-sm font-medium mb-8">Billed $348 annually · Save $120</p>
-                <Link href="/register" className="block w-full text-center py-3.5 border-2 border-slate-900 text-slate-900 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
-                  Contact Sales
-                </Link>
+                <p className="text-slate-400 text-sm font-medium mb-8">Billed annually</p>
+              </div>
+              <Link href="/register" className="block w-full text-center py-4 border-2 border-slate-900 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white transition-all mb-8">
+                Upgrade to Enterprise
+              </Link>
                 <ul className="space-y-3 mt-auto">
                   {["Everything in Pro", "Dedicated Account Manager", "SLA & Uptime Guarantee", "Volume Discounts", "Onboarding Call"].map((item) => (
                     <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
