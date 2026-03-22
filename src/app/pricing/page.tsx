@@ -260,7 +260,7 @@ export default function PricingPage() {
                 Upgrade to Enterprise
               </Link>
               <ul className="space-y-3 mt-auto">
-                {["Everything in Pro", "Unlimited Quote Forms", "SLA & Uptime Guarantee", "Volume Discounts", "Custom CSS & Webhooks"].map((item) => (
+                {["Everything in Pro", "Unlimited Quote Forms", "SLA & Uptime Guarantee", "Custom CSS & Webhooks"].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
                     <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
                   </li>

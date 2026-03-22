@@ -304,7 +304,7 @@ export default function LandingPage() {
                 Upgrade to Enterprise
               </Link>
                 <ul className="space-y-3 mt-auto">
-                  {["Everything in Pro", "Dedicated Account Manager", "SLA & Uptime Guarantee", "Volume Discounts", "Onboarding Call"].map((item) => (
+                  {["Everything in Pro", "Dedicated Account Manager", "SLA & Uptime Guarantee", "Onboarding Call"].map((item) => (
                     <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
                       <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
                     </li>

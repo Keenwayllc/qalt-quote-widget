@@ -61,7 +61,6 @@ const PLANS: Plan[] = [
       "Everything in Pro",
       "Unlimited Quote Forms",
       "SLA & Uptime Guarantee",
-      "Volume Discounts",
       "Custom CSS & Webhooks"
     ]
   }
