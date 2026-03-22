@@ -185,7 +185,7 @@ export default function PricingPage() {
           <div className="grid md:grid-cols-3 rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white">
             {/* Starter */}
             <div className="bg-white p-10 flex flex-col">
-              <div className="min-h-[220px]">
+              <div className="h-[280px]">
                 <div className="mb-8 p-0">
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-2xl font-black tracking-tight text-slate-900">Starter</h3>
@@ -197,7 +197,7 @@ export default function PricingPage() {
                 </div>
                 <p className="text-slate-500 text-sm font-medium mb-8">Free forever. No card required.</p>
               </div>
-              <Link href="/register" className="block w-full text-center py-4 border-2 border-slate-900 text-slate-900 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
+              <Link href="/register" className="block w-full text-center py-4 bg-slate-900 text-white rounded-xl font-bold text-sm hover:opacity-90 active:scale-[0.98] transition-all mb-8">
                 Get Started Free
               </Link>
               <ul className="space-y-3 mt-auto">
@@ -211,7 +211,7 @@ export default function PricingPage() {
 
             {/* Pro */}
             <div className="bg-linear-to-bl from-[#131526] via-[#1a1636] to-[#2d1b54] p-10 flex flex-col relative">
-              <div className="min-h-[220px]">
+              <div className="h-[280px]">
                 <div className="mb-8 p-0">
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-2xl font-black tracking-tight text-white">Pro</h3>
@@ -241,7 +241,7 @@ export default function PricingPage() {
 
             {/* Enterprise */}
             <div className="bg-white p-10 flex flex-col relative">
-              <div className="min-h-[220px]">
+              <div className="h-[280px]">
                 <div className="mb-8 p-0">
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-2xl font-black tracking-tight text-slate-900">Enterprise</h3>
@@ -256,7 +256,7 @@ export default function PricingPage() {
                   {annual ? "Billed $348 annually · save $120" : "Billed monthly"}
                 </p>
               </div>
-              <Link href="/register" className="block w-full text-center py-4 border-2 border-slate-900 text-slate-900 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white active:scale-[0.98] transition-all mb-8">
+              <Link href="/register" className="block w-full text-center py-4 bg-slate-900 text-white rounded-xl font-bold text-sm hover:opacity-90 active:scale-[0.98] transition-all mb-8">
                 Upgrade to Enterprise
               </Link>
               <ul className="space-y-3 mt-auto">
