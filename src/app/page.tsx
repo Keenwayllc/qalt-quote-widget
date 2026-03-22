@@ -277,7 +277,7 @@ export default function LandingPage() {
                 </div>
                 <p className="text-slate-400 text-sm font-medium mb-8">Billed $168 annually · Save $60</p>
                 <Link href="/register" className="block w-full text-center py-3.5 bg-violet-600 text-white rounded-xl font-bold text-sm hover:bg-violet-500 active:scale-[0.98] transition-all mb-8 shadow-lg shadow-violet-900/40">
-                  Start Free Trial
+                  Upgrade to Pro
                 </Link>
                 <ul className="space-y-3 mt-auto">
                   {["Unlimited Quotes", "Full White-Label", "Advanced Customization", "Analytics Dashboard", "Priority Support"].map((item) => (

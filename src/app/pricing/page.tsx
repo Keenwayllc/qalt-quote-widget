@@ -224,7 +224,7 @@ export default function PricingPage() {
                 {annual ? "Billed $168 annually · save $60" : "Switch to annual & save $60/yr"}
               </p>
               <Link href="/register" className="block w-full text-center py-3.5 bg-violet-600 text-white rounded-xl font-bold text-sm hover:bg-violet-500 active:scale-[0.98] transition-all mb-8 shadow-lg shadow-violet-900/40">
-                Start Free Trial
+                Upgrade to Pro
               </Link>
               <ul className="space-y-3 mt-auto">
                 {["Unlimited Quotes", "Up to 5 Quote Forms", "Full White-Label", "Advanced Customization", "Analytics Dashboard", "Priority Support"].map((item) => (
@@ -311,7 +311,7 @@ export default function PricingPage() {
               Get Started
             </Link>
             <Link href="/register" className="text-center py-3 bg-blue-600 text-white rounded-lg font-bold text-sm hover:bg-blue-700 active:scale-[0.98] transition-all shadow-md shadow-blue-200">
-              Start Free Trial
+              Upgrade to Pro
             </Link>
             <Link href="/register" className="text-center py-3 bg-slate-900 text-white rounded-lg font-bold text-sm hover:bg-slate-800 active:scale-[0.98] transition-all">
               Contact Sales
@@ -350,7 +350,7 @@ export default function PricingPage() {
           <div className="space-y-3">
             {[
               { q: "Can I cancel at any time?", a: "Yes. You can change or cancel your plan at any time." },
-              { q: "Is there a free trial for Pro?", a: "Yes. You can start with the free plan and move into Pro when you need more volume and features." },
+              { q: "Is there a free trial for Pro?", a: "Qalt is free to start. You can use the Starter plan to test your workflow and upgrade to Pro whenever you need more volume and advanced features." },
               { q: "What happens if I exceed my limit on Starter?", a: "Once you reach the Starter limit, you can upgrade to keep collecting quotes without interruption." },
               { q: "Can I switch plans at any time?", a: "Yes. You can move between plans as your business needs change." },
               { q: "Do I need code to use Qalt?", a: "No custom build is required. Qalt is designed to be embedded on your site quickly." },

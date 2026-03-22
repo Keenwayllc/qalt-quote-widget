@@ -787,11 +787,17 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
               ) : null;
             })()}
             {!showWhiteLabel && (
-              <a href="https://qalt.site" target="_blank" rel="noopener noreferrer" className="mt-3 flex items-center justify-center gap-2.5 opacity-40 hover:opacity-70 transition-opacity">
+              <a href="https://qalt.site" target="_blank" rel="noopener noreferrer" className="mt-3 flex items-center justify-center gap-1.5 opacity-50 hover:opacity-80 transition-opacity">
                 <span className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em]">Powered by</span>
-                <div className="flex items-center gap-1.5 scale-75 opacity-70 transform origin-right">
-                  <QaltIcon size={20} />
-                  <Image src="/images/qalt.png" alt="Qalt Logo" width={80} height={24} className="h-6 w-auto object-contain" />
+                <div className="flex items-center gap-1.5 scale-90 transform origin-left">
+                  <QaltIcon size={22} />
+                  <Image 
+                    src="/images/qalt.png" 
+                    alt="Qalt Logo" 
+                    width={90} 
+                    height={28} 
+                    className="h-7 w-auto object-contain translate-y-[0.5mm] -ml-[2mm]" 
+                  />
                 </div>
               </a>
             )}
