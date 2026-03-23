@@ -60,8 +60,9 @@ const PLANS: Plan[] = [
     features: [
       "Everything in Pro",
       "Unlimited Quote Forms",
-      "SLA & Uptime Guarantee",
-      "Custom CSS & Webhooks"
+      "Team Management (Multi-user)",
+      "Advanced Webhooks & API",
+      "Success Manager & SLA"
     ]
   }
 ];
