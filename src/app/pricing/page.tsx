@@ -40,6 +40,15 @@ const FEATURE_SECTIONS: FeatureSection[] = [
     ],
   },
   {
+    title: "Team & Collaboration",
+    rows: [
+      { name: "Team members",            starter: "1",      pro: "1",         enterprise: "Unlimited" },
+      { name: "Role-based permissions", starter: false,    pro: false,       enterprise: true        },
+      { name: "Activity audit logs",    starter: false,    pro: false,       enterprise: true        },
+      { name: "Multi-branch support",   starter: false,    pro: false,       enterprise: true        },
+    ],
+  },
+  {
     title: "Branding & Customization",
     rows: [
       { name: "White-label (no Qalt branding)", starter: false, pro: true,  enterprise: true  },
@@ -65,10 +74,11 @@ const FEATURE_SECTIONS: FeatureSection[] = [
     title: "Integrations & Support",
     rows: [
       { name: "Email notifications",       starter: true,  pro: true,  enterprise: true  },
-      { name: "Webhook on new quote",      starter: false, pro: true,  enterprise: true  },
+      { name: "Advanced Webhooks",         starter: false, pro: false, enterprise: true  },
+      { name: "Full Developer API",        starter: false, pro: false, enterprise: "Coming Soon" },
       { name: "Email support",             starter: true,  pro: true,  enterprise: true  },
       { name: "Priority support",          starter: false, pro: true,  enterprise: true  },
-      { name: "SLA & uptime guarantee",    starter: false, pro: false, enterprise: true  },
+      { name: "Success Manager & SLA",     starter: false, pro: false, enterprise: true  },
     ],
   },
 ];
@@ -260,7 +270,7 @@ export default function PricingPage() {
                 Upgrade to Enterprise
               </Link>
               <ul className="space-y-3 mt-auto">
-                {["Everything in Pro", "Unlimited Quote Forms", "SLA & Uptime Guarantee", "Custom CSS & Webhooks"].map((item) => (
+                {["Everything in Pro", "Unlimited Quote Forms", "Team Management (Multi-user)", "Advanced Webhooks & API", "Success Manager & SLA"].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
                     <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
                   </li>
