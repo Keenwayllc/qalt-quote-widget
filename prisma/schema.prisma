@@ -18,6 +18,7 @@ model Company {
   subscriptionPlan     String           @default("STARTER")
   stripeCustomerId     String?
   stripeSubscriptionId String?
+  stripeConnectAccountId String?
   createdAt            DateTime         @default(now())
   pricingProfiles      PricingProfile[]
   quoteRequests        QuoteRequest[]
@@ -64,25 +65,29 @@ model WidgetSettings {
   backgroundImageUrl String?
   mapLayout          String          @default("inline")
   websiteUrl         String?
+  paymentsEnabled    Boolean         @default(false) // Enterprise only
   company            Company         @relation(fields: [companyId], references: [id])
   pricingProfile     PricingProfile?
 }
 
 model QuoteRequest {
-  id             String   @id @default(cuid())
-  companyId      String
-  customerName   String
-  customerEmail  String
-  customerPhone  String?
-  pickupZip      String
-  dropoffZip     String
-  distanceMiles  Float
-  serviceType    String
-  packageSize    String?
-  packageWeight  String?
-  selectedExtras String?
-  status         String   @default("PENDING")
-  estimatedPrice Float
-  createdAt      DateTime @default(now())
-  company        Company  @relation(fields: [companyId], references: [id])
+  id                    String    @id @default(cuid())
+  companyId             String
+  customerName          String
+  customerEmail         String
+  customerPhone         String?
+  pickupZip             String
+  dropoffZip            String
+  distanceMiles         Float
+  serviceType           String
+  packageSize           String?
+  packageWeight         String?
+  selectedExtras        String?
+  status                String    @default("PENDING")
+  estimatedPrice        Float
+  paymentStatus         String?   // "PENDING" | "PAID" | "FAILED" | null (null = no payment required)
+  stripePaymentIntentId String?
+  paidAt                DateTime?
+  createdAt             DateTime  @default(now())
+  company               Company   @relation(fields: [companyId], references: [id])
 }

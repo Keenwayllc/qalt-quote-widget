@@ -18,6 +18,7 @@ interface WidgetProps {
     subscriptionPlan: string;
     pricingProfile?: Record<string, unknown>;
     widgetSettings: {
+      id: string;
       primaryColor: string;
       headerText: string;
       buttonText: string;
@@ -31,6 +32,7 @@ interface WidgetProps {
       companyNameFont?: string;
       mapLayout?: string;
       websiteUrl?: string | null;
+      paymentsEnabled?: boolean;
     };
   };
 }
@@ -361,11 +363,21 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
             ? `${formData.pickupDate}T${formData.pickupTime}`
             : undefined,
           selectedLargeItems: formData.selectedLargeItems,
+          widgetSettingsId: widgetSettings.id,
         }),
       });
 
       if (res.ok) {
-        setStep(3);
+        const data = await res.json();
+        if (data.paymentRequired && data.quoteId) {
+          // Launch Stripe payment flow
+          setLoading(false);
+          setError("");
+          setStep(4); // payment step
+          await initiatePayment(data.quoteId);
+        } else {
+          setStep(3); // success step
+        }
       } else {
         const data = await res.json();
         setError(data.error || "Failed to submit request.");
@@ -376,6 +388,31 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
       setLoading(false);
     }
   };
+
+  const initiatePayment = async (quoteId: string) => {
+    try {
+      const res = await fetch("/api/stripe/quote-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ quoteId }),
+      });
+      const data = await res.json();
+      if (res.ok && data.checkoutUrl) {
+        if (window.top) {
+          window.top.location.href = data.checkoutUrl;
+        } else {
+          window.location.href = data.checkoutUrl;
+        }
+      } else {
+        setError(data.error || "Could not initiate payment. Please try again.");
+        setStep(2); // go back to info step
+      }
+    } catch {
+      setError("Payment setup failed. Please try again.");
+      setStep(2);
+    }
+  };
+
 
   const primaryColor = (widgetSettings.primaryColor && widgetSettings.primaryColor.length >= 4) ? widgetSettings.primaryColor : "#3B82F6";
 
@@ -719,8 +756,10 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                     <span className="relative flex items-center gap-2">
                       {loading ? (
                         <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>Submitting...</>
+                      ) : widgetSettings.paymentsEnabled ? (
+                        <>Pay &amp; Book <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>
                       ) : (
-                        <>Book Shipment<ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>
+                        <>Book Shipment <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>
                       )}
                     </span>
                   </button>
@@ -732,7 +771,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
               </form>
             )}
 
-            {/* Step 3 */}
+            {/* Step 3 — Success */}
             {step === 3 && (
               <div className="py-8 text-center space-y-5">
                 <div className="w-20 h-20 bg-linear-to-br from-emerald-100 to-teal-100 text-emerald-600 rounded-[20px] flex items-center justify-center mx-auto shadow-lg shadow-emerald-100">
@@ -766,6 +805,33 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                     Start New Quote <ArrowRight size={16} />
                   </button>
                 </div>
+              </div>
+            )}
+
+            {/* Step 4 — Payment Processing */}
+            {step === 4 && (
+              <div className="py-10 text-center space-y-6">
+                <div className="w-20 h-20 rounded-[20px] flex items-center justify-center mx-auto shadow-lg" style={{ backgroundColor: `${primaryColor}15` }}>
+                  <div className="w-10 h-10 border-4 rounded-full animate-spin" style={{ borderColor: `${primaryColor}33`, borderTopColor: primaryColor }} />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-black text-slate-900 tracking-tight">Redirecting to Payment</h3>
+                  <p className="text-sm text-slate-500 mt-2 leading-relaxed px-4 font-medium">
+                    Secure checkout via Stripe. Please don&apos;t close this window.
+                  </p>
+                  <p className="text-xs text-slate-400 mt-3">
+                    Quote total: <strong className="text-slate-600">${estimate?.toFixed(2)}</strong>
+                  </p>
+                </div>
+                {error && (
+                  <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2">
+                    <span className="shrink-0">⚠️</span>
+                    <div>
+                      <p>{error}</p>
+                      <button onClick={() => setStep(2)} className="mt-2 underline text-red-700">Go back and try again</button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

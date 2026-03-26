@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw, ExternalLink, Lock, Sparkles, Info, Globe, Trash2 } from "lucide-react";
+import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw, ExternalLink, Lock, Sparkles, Info, Globe, Trash2, CheckCircle, XCircle } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
 import Link from 'next/link';
 
@@ -26,6 +26,7 @@ interface WidgetProps {
       companyNameFont?: string;
       mapLayout?: string;
       websiteUrl?: string | null;
+      paymentsEnabled?: boolean;
     };
   };
 }
@@ -36,18 +37,30 @@ export default function WidgetSettingsForm({
   subscriptionPlan,
   companyId,
   formId,
+  stripeConnectAccountId,
 }: {
   initialData: WidgetProps['company']['widgetSettings'];
   companyLogoUrl?: string | null;
   subscriptionPlan: string;
   companyId: string;
   formId?: string;
+  stripeConnectAccountId?: string | null;
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
   const [errorStatus, setErrorStatus] = useState<string | null>(null);
   
+  // Check for connect success/error from URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("connect") === "success") {
+      setMessage({ type: "success", text: "Stripe account connected successfully!" });
+    } else if (urlParams.get("connect") === "error") {
+      setMessage({ type: "error", text: "Failed to connect Stripe account." });
+    }
+  }, []);
+
   const entitlements = getEntitlements(subscriptionPlan);
   
   const [previewData, setPreviewData] = useState({
@@ -58,6 +71,7 @@ export default function WidgetSettingsForm({
     disclaimerText: entitlements.isAdvancedCustomizationEnabled ? initialData.disclaimerText : "Estimate only. Final price confirmed after booking.",
     mapLayout: initialData.mapLayout || "inline",
     websiteUrl: initialData.websiteUrl || "",
+    paymentsEnabled: initialData.paymentsEnabled ?? false,
   });
   // Per-form logo takes priority over company logo
   const [logo, setLogo] = useState(
@@ -479,6 +493,110 @@ export default function WidgetSettingsForm({
                  <span className="text-sm font-medium text-slate-700">Display Extras (Stairs, etc.)</span>
                </label>
             </div>
+          </div>
+
+          {/* Payments Toggle — Enterprise Only */}
+          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-4">
+            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <span className="text-xl">💳</span>
+              Accept Payments
+              {!entitlements.isPaymentsEnabled && (
+                <span className="ml-2 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-violet-100 text-violet-700 rounded-full">Enterprise</span>
+              )}
+            </h2>
+
+            {entitlements.isPaymentsEnabled ? (
+              <div className="flex flex-col gap-6">
+                <p className="text-sm text-slate-500 leading-relaxed">
+                  When enabled, your widget will show a <strong className="text-slate-700">&ldquo;Pay &amp; Book&rdquo;</strong> button after the estimate — your customers pay the quoted amount directly via Stripe before the booking is confirmed.
+                </p>
+
+                {/* Stripe Connect Status */}
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${stripeConnectAccountId ? 'bg-emerald-100 text-emerald-600' : 'bg-amber-100 text-amber-600'}`}>
+                        {stripeConnectAccountId ? <CheckCircle size={20} /> : <XCircle size={20} />}
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-slate-900">Stripe Connection</h4>
+                        <p className="text-xs text-slate-500">
+                          {stripeConnectAccountId 
+                            ? `Connected (ID: ${stripeConnectAccountId.substring(0, 12)}...)` 
+                            : "No Stripe account linked."}
+                        </p>
+                      </div>
+                    </div>
+                    {stripeConnectAccountId ? (
+                      <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase tracking-wider rounded-full border border-emerald-100 italic">
+                        <Sparkles size={10} /> Connected
+                      </span>
+                    ) : (
+                      <span className="px-3 py-1 bg-amber-50 text-amber-700 text-[10px] font-black uppercase tracking-wider rounded-full border border-amber-100">
+                        Disconnected
+                      </span>
+                    )}
+                  </div>
+
+                  {!stripeConnectAccountId ? (
+                    <button
+                      type="button"
+                      onClick={() => router.push(`/api/stripe/connect?companyId=${companyId}`)}
+                      className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-bold transition-all shadow-md active:scale-[0.98] flex items-center justify-center gap-2"
+                    >
+                      <ExternalLink size={16} /> Link Your Stripe Account
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => router.push(`/api/stripe/connect?companyId=${companyId}`)}
+                      className="text-xs text-indigo-600 font-semibold hover:underline"
+                    >
+                      Reconnect or change account
+                    </button>
+                  )}
+                </div>
+
+                <label className={`flex items-center gap-4 p-4 rounded-xl border transition-colors ${!stripeConnectAccountId ? 'bg-slate-50/50 border-slate-100 cursor-not-allowed opacity-60' : 'bg-slate-50 border-slate-200 cursor-pointer hover:bg-slate-100'}`}>
+                  <div className="relative">
+                    <input
+                      name="paymentsEnabled"
+                      type="checkbox"
+                      className="sr-only peer"
+                      checked={previewData.paymentsEnabled}
+                      disabled={!stripeConnectAccountId}
+                      onChange={(e) => setPreviewData({ ...previewData, paymentsEnabled: e.target.checked })}
+                    />
+                    <div className="w-11 h-6 bg-slate-300 peer-checked:bg-emerald-500 rounded-full transition-colors" />
+                    <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform peer-checked:translate-x-5" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-slate-800">Enable Pay &amp; Book</p>
+                    <p className="text-xs text-slate-500 mt-0.5">Customers must pay before their booking is confirmed</p>
+                  </div>
+                  {!stripeConnectAccountId && (
+                    <span className="text-[10px] text-amber-600 ml-auto flex items-center gap-1">
+                      <Info size={10} /> Link Stripe first
+                    </span>
+                  )}
+                </label>
+                {previewData.paymentsEnabled && (
+                  <div className="flex items-start gap-2 p-3 bg-emerald-50 border border-emerald-100 rounded-lg text-xs text-emerald-800">
+                    <span>✅</span>
+                    <span>Payments are <strong>active</strong>. Stripe will process customer payments and you&apos;ll receive a webhook confirmation on each successful booking.</span>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex items-start gap-3 p-4 bg-violet-50 border border-violet-100 rounded-xl">
+                <Lock className="text-violet-500 shrink-0 mt-0.5" size={18} />
+                <div>
+                  <p className="text-sm font-bold text-violet-900">Upgrade to Enterprise</p>
+                  <p className="text-xs text-violet-700 mt-0.5 leading-relaxed">Allow your customers to pay for deliveries directly from the widget — no back-and-forth needed.</p>
+                  <Link href="/dashboard/billing" className="inline-block mt-2 text-xs font-bold text-violet-900 underline">View Plans →</Link>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-4">

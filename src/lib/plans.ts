@@ -8,6 +8,7 @@ export interface PlanEntitlements {
   isAnalyticsDashboardEnabled: boolean;
   isCustomCSSEnabled: boolean;
   isWebhookEnabled: boolean;
+  isPaymentsEnabled: boolean; // Enterprise only: accept payments via widget
   supportTier: "email" | "priority" | "dedicated";
 }
 
@@ -20,6 +21,7 @@ export const PLANS: Record<SubscriptionPlan, PlanEntitlements> = {
     isAnalyticsDashboardEnabled: false,
     isCustomCSSEnabled: false,
     isWebhookEnabled: false,
+    isPaymentsEnabled: false,
     supportTier: "email",
   },
   PRO: {
@@ -30,6 +32,7 @@ export const PLANS: Record<SubscriptionPlan, PlanEntitlements> = {
     isAnalyticsDashboardEnabled: true,
     isCustomCSSEnabled: false,
     isWebhookEnabled: true,
+    isPaymentsEnabled: false,
     supportTier: "priority",
   },
   ENTERPRISE: {
@@ -40,6 +43,7 @@ export const PLANS: Record<SubscriptionPlan, PlanEntitlements> = {
     isAnalyticsDashboardEnabled: true,
     isCustomCSSEnabled: true,
     isWebhookEnabled: true,
+    isPaymentsEnabled: true,
     supportTier: "dedicated",
   },
 };

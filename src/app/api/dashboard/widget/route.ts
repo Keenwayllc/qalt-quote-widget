@@ -86,6 +86,8 @@ export async function POST(req: Request) {
       companyNameFont: data.companyNameFont || "Inter",
       mapLayout:     ["inline", "side"].includes(data.mapLayout) ? data.mapLayout : "inline",
       websiteUrl:    data.websiteUrl ? String(data.websiteUrl).trim() : null,
+      // Enterprise only: allow customers to pay directly via widget
+      paymentsEnabled: entitlements.isPaymentsEnabled ? Boolean(data.paymentsEnabled) : false,
     };
 
     if (formId) {

@@ -38,7 +38,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
 
       if (quoteCount >= entitlements.maxQuotesPerMonth) {
         return NextResponse.json(
-          { 
+          {
             error: "Monthly quote limit reached for this plan.",
             limit: entitlements.maxQuotesPerMonth,
             current: quoteCount
@@ -46,6 +46,16 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
           { status: 403 }
         );
       }
+    }
+
+    // Determine if this widget has payments enabled (Enterprise feature)
+    let paymentsEnabled = false;
+    if (data.widgetSettingsId && entitlements.isPaymentsEnabled) {
+      const widgetSettings = await prisma.widgetSettings.findUnique({
+        where: { id: data.widgetSettingsId },
+        select: { paymentsEnabled: true },
+      });
+      paymentsEnabled = widgetSettings?.paymentsEnabled ?? false;
     }
 
     const quote = await prisma.quoteRequest.create({
@@ -66,7 +76,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
           needsInsideDelivery: data.needsInsideDelivery,
           pickupDateTime: data.pickupDateTime || null,
           selectedLargeItems: data.selectedLargeItems || [],
-        })
+        }),
+        // If payments are enabled, track payment status from the start
+        paymentStatus: paymentsEnabled ? "PENDING" : null,
       },
     });
 
@@ -116,7 +128,11 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       }
     }
 
-    return NextResponse.json({ success: true, quoteId: quote.id });
+    return NextResponse.json({
+      success: true,
+      quoteId: quote.id,
+      paymentRequired: paymentsEnabled,
+    });
   } catch (error) {
     console.error("Quote submission error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

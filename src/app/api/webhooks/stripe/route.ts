@@ -20,11 +20,27 @@ export async function POST(req: Request) {
   }
 
   const stripe = getStripe();
-  let event: Stripe.Event;
-  try {
-    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!);
-  } catch (error: unknown) {
-    console.error("Webhook signature error:", error instanceof Error ? error.message : String(error));
+  let event: Stripe.Event | undefined;
+
+  // Try both webhook secrets: platform account and connected accounts
+  const secrets = [
+    process.env.STRIPE_WEBHOOK_SECRET!,
+    process.env.STRIPE_CONNECT_WEBHOOK_SECRET!,
+  ].filter(Boolean);
+
+  let verified = false;
+  for (const secret of secrets) {
+    try {
+      event = stripe.webhooks.constructEvent(body, sig, secret);
+      verified = true;
+      break;
+    } catch {
+      // Try next secret
+    }
+  }
+
+  if (!verified || !event) {
+    console.error("Webhook signature verification failed with all secrets.");
     return NextResponse.json({ error: "Webhook signature failed." }, { status: 400 });
   }
 
@@ -87,6 +103,39 @@ export async function POST(req: Request) {
         });
         break;
       }
+
+      // Quote payment: mark QuoteRequest as PAID
+      case "payment_intent.succeeded": {
+        const intent = event.data.object as Stripe.PaymentIntent;
+        const quoteId = intent.metadata?.quoteId;
+        if (!quoteId) break; // Not a quote payment — ignore
+
+        await prisma.quoteRequest.update({
+          where: { id: quoteId },
+          data: {
+            paymentStatus: "PAID",
+            stripePaymentIntentId: intent.id,
+            paidAt: new Date(),
+            status: "CONFIRMED", // Elevate quote status to confirmed
+          },
+        });
+        console.log(`[Webhook] Quote ${quoteId} marked as PAID via payment intent ${intent.id}`);
+        break;
+      }
+
+      case "payment_intent.payment_failed": {
+        const intent = event.data.object as Stripe.PaymentIntent;
+        const quoteId = intent.metadata?.quoteId;
+        if (!quoteId) break;
+
+        await prisma.quoteRequest.update({
+          where: { id: quoteId },
+          data: { paymentStatus: "FAILED" },
+        });
+        console.log(`[Webhook] Quote ${quoteId} payment FAILED: ${intent.last_payment_error?.message}`);
+        break;
+      }
+
     }
   } catch (error: unknown) {
     console.error("Webhook handler error:", error instanceof Error ? error.message : String(error));

@@ -22,6 +22,7 @@ export default async function WidgetSettingsPage({
       subscriptionPlan={company.subscriptionPlan}
       companyId={company.id}
       formId={formId}
+      stripeConnectAccountId={company.stripeConnectAccountId}
     />
   );
 }
