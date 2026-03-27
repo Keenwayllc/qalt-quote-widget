@@ -225,6 +225,14 @@ export default function LandingPage() {
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <HowItWorksAnimation />
+          </div>
+        </section>
+
+        {/* Analytics Section — dark background */}
+        <section className="py-24 sm:py-40 bg-slate-950 relative overflow-hidden">
+          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-indigo-900/20 rounded-full blur-[120px] -z-10" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-900/20 rounded-full blur-[100px] -z-10" />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <AnalyticsAnimation />
           </div>
         </section>
