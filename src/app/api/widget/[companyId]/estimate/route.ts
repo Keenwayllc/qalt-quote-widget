@@ -26,7 +26,7 @@ type PricingProfileShape = {
 export async function POST(req: Request, { params }: { params: Promise<{ companyId: string }> }) {
   try {
     const { companyId } = await params;
-    const { origin, destination, pickupZip, dropoffZip, clientDistance, extras, formId } = await req.json();
+    const { origin, destination, pickupZip, dropoffZip, clientDistance, extras, formId, vehicleCount } = await req.json();
 
     const startLocation = origin || pickupZip;
     const endLocation = destination || dropoffZip;
@@ -65,7 +65,15 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       return NextResponse.json({ error: "Could not calculate distance. Please check your addresses." }, { status: 400 });
     }
 
-    const estimate = estimatePrice(distance, pricingProfile, extras);
+    let estimate = estimatePrice(distance, pricingProfile, extras);
+
+    // Add vehicle fee if applicable
+    if (vehicleCount && vehicleCount > 0 && formId) {
+      const widgetSettings = await prisma.widgetSettings.findUnique({ where: { id: formId } });
+      if (widgetSettings?.showVehicles && widgetSettings.pricePerVehicle > 0) {
+        estimate += widgetSettings.pricePerVehicle * vehicleCount;
+      }
+    }
 
     return NextResponse.json({ estimate, distance });
   } catch (error) {

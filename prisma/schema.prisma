@@ -66,6 +66,9 @@ model WidgetSettings {
   mapLayout          String          @default("inline")
   websiteUrl         String?
   paymentsEnabled    Boolean         @default(false) // Enterprise only
+  showVehicles       Boolean         @default(false)
+  pricePerVehicle    Float           @default(0)
+  showAwb            Boolean         @default(false)
   company            Company         @relation(fields: [companyId], references: [id])
   pricingProfile     PricingProfile?
 }
@@ -85,6 +88,8 @@ model QuoteRequest {
   selectedExtras        String?
   status                String    @default("PENDING")
   estimatedPrice        Float
+  vehicleCount          Int?
+  awbNumber             String?
   paymentStatus         String?   // "PENDING" | "PAID" | "FAILED" | null (null = no payment required)
   stripePaymentIntentId String?
   paidAt                DateTime?

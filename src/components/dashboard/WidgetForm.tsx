@@ -19,6 +19,9 @@ interface WidgetProps {
       buttonText: string;
       showWeight: boolean;
       showExtras: boolean;
+      showVehicles: boolean;
+      pricePerVehicle: number;
+      showAwb: boolean;
       disclaimerText: string;
       backgroundImageUrl?: string | null;
       logoUrl?: string | null;
@@ -72,6 +75,9 @@ export default function WidgetSettingsForm({
     mapLayout: initialData.mapLayout || "inline",
     websiteUrl: initialData.websiteUrl || "",
     paymentsEnabled: initialData.paymentsEnabled ?? false,
+    showVehicles: initialData.showVehicles ?? false,
+    pricePerVehicle: initialData.pricePerVehicle ?? 0,
+    showAwb: initialData.showAwb ?? false,
   });
   // Per-form logo takes priority over company logo
   const [logo, setLogo] = useState(
@@ -492,7 +498,45 @@ export default function WidgetSettingsForm({
                  />
                  <span className="text-sm font-medium text-slate-700">Display Extras (Stairs, etc.)</span>
                </label>
+               <label className="flex items-center gap-3 cursor-pointer">
+                 <input
+                   name="showVehicles"
+                   type="checkbox"
+                   checked={previewData.showVehicles}
+                   onChange={handleChange}
+                   className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                 />
+                 <span className="text-sm font-medium text-slate-700">Number of Vehicles</span>
+               </label>
+               <label className="flex items-center gap-3 cursor-pointer">
+                 <input
+                   name="showAwb"
+                   type="checkbox"
+                   checked={previewData.showAwb}
+                   onChange={handleChange}
+                   className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                 />
+                 <span className="text-sm font-medium text-slate-700">AWB (Airport Pickup)</span>
+               </label>
             </div>
+
+            {/* Vehicle pricing — shown when showVehicles is enabled */}
+            {previewData.showVehicles && (
+              <div className="mt-4">
+                <label className="block text-sm font-semibold text-slate-700 mb-1">Price Per Vehicle ($)</label>
+                <input
+                  name="pricePerVehicle"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={previewData.pricePerVehicle}
+                  onChange={handleChange}
+                  placeholder="e.g. 50.00"
+                  className="w-40 px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+                />
+                <p className="text-xs text-slate-500 mt-1">Added to the estimate per vehicle the customer selects.</p>
+              </div>
+            )}
           </div>
 
           {/* Payments Toggle — Enterprise Only */}

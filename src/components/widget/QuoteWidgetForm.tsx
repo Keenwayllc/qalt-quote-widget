@@ -33,6 +33,9 @@ interface WidgetProps {
       mapLayout?: string;
       websiteUrl?: string | null;
       paymentsEnabled?: boolean;
+      showVehicles?: boolean;
+      pricePerVehicle?: number;
+      showAwb?: boolean;
     };
   };
 }
@@ -49,6 +52,8 @@ interface FormData {
   selectedLargeItems: string[];
   packageWeight: string;
   itemCount: string;
+  vehicleCount: string;
+  awbNumber: string;
   customerName: string;
   customerEmail: string;
   customerPhone: string;
@@ -235,6 +240,8 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
     selectedLargeItems: [] as string[],
     packageWeight: "",
     itemCount: "",
+    vehicleCount: "",
+    awbNumber: "",
     customerName: "",
     customerEmail: "",
     customerPhone: "",
@@ -328,6 +335,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
             packageWeight: parseFloat(formData.packageWeight) || 0,
             itemCount: parseInt(formData.itemCount) || 0,
           },
+          vehicleCount: parseInt(formData.vehicleCount) || 0,
         }),
       });
 
@@ -581,7 +589,40 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                       />
                     </div>
                   )}
+                  {widgetSettings.showVehicles && (
+                    <div>
+                      <label className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] flex items-center gap-1.5 mb-2 ml-1">
+                        <Hash size={11} /> Vehicles
+                      </label>
+                      <input
+                        type="number"
+                        name="vehicleCount"
+                        placeholder="1"
+                        min="1"
+                        value={formData.vehicleCount}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:ring-2 focus:border-transparent outline-none transition-all"
+                      />
+                    </div>
+                  )}
                 </div>
+
+                {/* AWB field — full width below the grid */}
+                {widgetSettings.showAwb && (
+                  <div>
+                    <label className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] flex items-center gap-1.5 mb-2 ml-1">
+                      ✈ AWB Number <span className="normal-case font-medium text-slate-400">(Airport Pickup)</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="awbNumber"
+                      placeholder="e.g. 123-45678901"
+                      value={formData.awbNumber}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:ring-2 focus:border-transparent outline-none transition-all"
+                    />
+                  </div>
+                )}
 
                 {widgetSettings.showExtras && (
                   <div className="space-y-3">
@@ -799,7 +840,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                     ) : null;
                   })()}
                   <button
-                    onClick={() => { setStep(1); setFormData(prev => ({ ...prev, pickupZip: "", dropoffZip: "", customerName: "", customerEmail: "", customerPhone: "", packageWeight: "", itemCount: "" })); }}
+                    onClick={() => { setStep(1); setFormData(prev => ({ ...prev, pickupZip: "", dropoffZip: "", customerName: "", customerEmail: "", customerPhone: "", packageWeight: "", itemCount: "", vehicleCount: "", awbNumber: "" })); }}
                     className="w-full font-bold text-sm flex items-center justify-center gap-2 mx-auto px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105"
                     style={{ color: primaryColor, backgroundColor: `${primaryColor}15` }}>
                     Start New Quote <ArrowRight size={16} />

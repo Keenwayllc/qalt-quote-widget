@@ -73,8 +73,11 @@ export async function POST(req: Request) {
 
     const settingsData = {
       name:          data.name || "Default Form",
-      showWeight:    Boolean(data.showWeight),
-      showExtras:    Boolean(data.showExtras),
+      showWeight:       Boolean(data.showWeight),
+      showExtras:       Boolean(data.showExtras),
+      showVehicles:     Boolean(data.showVehicles),
+      pricePerVehicle:  parseFloat(data.pricePerVehicle) || 0,
+      showAwb:          Boolean(data.showAwb),
       primaryColor:  data.primaryColor   || "#3B82F6",
       buttonText:    data.buttonText     || "Get Instant Quote",
       headerText:    data.headerText     || "Delivery Quote Calculator",

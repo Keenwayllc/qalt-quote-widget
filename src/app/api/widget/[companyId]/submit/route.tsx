@@ -71,6 +71,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
         serviceType: (data.selectedLargeItems?.length > 0) ? "Large Item Delivery" : "Standard Delivery",
         status: "PENDING",
         packageWeight: data.packageWeight ? String(data.packageWeight) : null,
+        vehicleCount: data.vehicleCount ? parseInt(data.vehicleCount) : null,
+        awbNumber: data.awbNumber ? String(data.awbNumber).trim() : null,
         selectedExtras: JSON.stringify({
           hasStairs: data.hasStairs,
           needsInsideDelivery: data.needsInsideDelivery,
