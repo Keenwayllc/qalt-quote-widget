@@ -9,6 +9,7 @@ export interface PlanEntitlements {
   isCustomCSSEnabled: boolean;
   isWebhookEnabled: boolean;
   isPaymentsEnabled: boolean; // Enterprise only: accept payments via widget
+  isVehicleQuotingEnabled: boolean; // Enterprise only: number of vehicles + price per vehicle
   supportTier: "email" | "priority" | "dedicated";
 }
 
@@ -22,6 +23,7 @@ export const PLANS: Record<SubscriptionPlan, PlanEntitlements> = {
     isCustomCSSEnabled: false,
     isWebhookEnabled: false,
     isPaymentsEnabled: false,
+    isVehicleQuotingEnabled: false,
     supportTier: "email",
   },
   PRO: {
@@ -33,6 +35,7 @@ export const PLANS: Record<SubscriptionPlan, PlanEntitlements> = {
     isCustomCSSEnabled: false,
     isWebhookEnabled: true,
     isPaymentsEnabled: false,
+    isVehicleQuotingEnabled: false,
     supportTier: "priority",
   },
   ENTERPRISE: {
@@ -44,6 +47,7 @@ export const PLANS: Record<SubscriptionPlan, PlanEntitlements> = {
     isCustomCSSEnabled: true,
     isWebhookEnabled: true,
     isPaymentsEnabled: true,
+    isVehicleQuotingEnabled: true,
     supportTier: "dedicated",
   },
 };

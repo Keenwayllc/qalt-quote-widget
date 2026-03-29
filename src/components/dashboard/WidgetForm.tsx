@@ -498,30 +498,43 @@ export default function WidgetSettingsForm({
                  />
                  <span className="text-sm font-medium text-slate-700">Display Extras (Stairs, etc.)</span>
                </label>
-               <label className="flex items-center gap-3 cursor-pointer">
+               {/* Vehicle Quoting — Enterprise only */}
+               <label className={`flex items-center gap-3 ${entitlements.isVehicleQuotingEnabled ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}>
                  <input
                    name="showVehicles"
                    type="checkbox"
                    checked={previewData.showVehicles}
                    onChange={handleChange}
-                   className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                   disabled={!entitlements.isVehicleQuotingEnabled}
+                   className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 disabled:opacity-50"
                  />
-                 <span className="text-sm font-medium text-slate-700">Number of Vehicles</span>
+                 <span className="text-sm font-medium text-slate-700">
+                   Number of Vehicles
+                   {!entitlements.isVehicleQuotingEnabled && (
+                     <span className="ml-2 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest bg-violet-100 text-violet-700 rounded-full">Enterprise</span>
+                   )}
+                 </span>
                </label>
-               <label className="flex items-center gap-3 cursor-pointer">
+               <label className={`flex items-center gap-3 ${entitlements.isVehicleQuotingEnabled ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}>
                  <input
                    name="showAwb"
                    type="checkbox"
                    checked={previewData.showAwb}
                    onChange={handleChange}
-                   className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                   disabled={!entitlements.isVehicleQuotingEnabled}
+                   className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 disabled:opacity-50"
                  />
-                 <span className="text-sm font-medium text-slate-700">AWB (Airport Pickup)</span>
+                 <span className="text-sm font-medium text-slate-700">
+                   AWB (Airport Pickup)
+                   {!entitlements.isVehicleQuotingEnabled && (
+                     <span className="ml-2 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest bg-violet-100 text-violet-700 rounded-full">Enterprise</span>
+                   )}
+                 </span>
                </label>
             </div>
 
             {/* Vehicle pricing — shown when showVehicles is enabled */}
-            {previewData.showVehicles && (
+            {previewData.showVehicles && entitlements.isVehicleQuotingEnabled && (
               <div className="mt-4">
                 <label className="block text-sm font-semibold text-slate-700 mb-1">Price Per Vehicle ($)</label>
                 <input

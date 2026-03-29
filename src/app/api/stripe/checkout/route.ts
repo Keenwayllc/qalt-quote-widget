@@ -45,6 +45,8 @@ export async function POST(req: Request) {
       metadata: { companyId: company.id },
       subscription_data: {
         metadata: { companyId: company.id },
+        // 7-day free trial for Pro — card required upfront, charged after trial
+        ...(plan === "PRO" ? { trial_period_days: 7 } : {}),
       },
     });
 
