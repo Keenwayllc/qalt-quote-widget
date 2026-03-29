@@ -67,9 +67,15 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
 
     let estimate = estimatePrice(distance, pricingProfile, extras);
 
-    // Add vehicle fee if applicable
-    if (vehicleCount && vehicleCount > 0 && formId) {
-      const widgetSettings = await prisma.widgetSettings.findUnique({ where: { id: formId } });
+    // Add vehicle fee if applicable — resolve widget settings same way as pricing profile
+    if (vehicleCount && vehicleCount > 0) {
+      let widgetSettings = null;
+      if (formId) {
+        widgetSettings = await prisma.widgetSettings.findUnique({ where: { id: formId } });
+      }
+      if (!widgetSettings) {
+        widgetSettings = await prisma.widgetSettings.findFirst({ where: { companyId } });
+      }
       if (widgetSettings?.showVehicles && widgetSettings.pricePerVehicle > 0) {
         estimate += widgetSettings.pricePerVehicle * vehicleCount;
       }
