@@ -116,7 +116,9 @@ export default function PricingPage({
   const [showWeight, setShowWeight] = useState(widgetSettings?.showWeight ?? false);
   const [showExtras, setShowExtras] = useState(widgetSettings?.showExtras ?? true);
   const [showVehicles, setShowVehicles] = useState(widgetSettings?.showVehicles ?? false);
-  const [pricePerVehicle, setPricePerVehicle] = useState(widgetSettings?.pricePerVehicle ?? 0);
+  const [pricePerVehicle, setPricePerVehicle] = useState<string>(
+    widgetSettings?.pricePerVehicle ? String(widgetSettings.pricePerVehicle) : ""
+  );
   const [showAwb, setShowAwb] = useState(widgetSettings?.showAwb ?? false);
   const vehicleEnabled = entitlements?.isVehicleQuotingEnabled ?? false;
 
@@ -178,7 +180,7 @@ export default function PricingPage({
                 showWeight,
                 showExtras,
                 showVehicles: vehicleEnabled ? showVehicles : false,
-                pricePerVehicle: vehicleEnabled ? pricePerVehicle : 0,
+                pricePerVehicle: vehicleEnabled ? (parseFloat(pricePerVehicle) || 0) : 0,
                 showAwb: vehicleEnabled ? showAwb : false,
               }),
             })
@@ -442,7 +444,7 @@ export default function PricingPage({
               <input
                 type="number" min="0" step="0.01"
                 value={pricePerVehicle}
-                onChange={(e) => setPricePerVehicle(parseFloat(e.target.value) || 0)}
+                onChange={(e) => setPricePerVehicle(e.target.value)}
                 placeholder="e.g. 50.00"
                 className="w-40 px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
               />
