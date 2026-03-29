@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { DollarSign, Save, Weight, HelpCircle, Clock, Box, Plus, Trash2 } from "lucide-react";
+import { DollarSign, Save, Weight, HelpCircle, Clock, Box, Plus, Trash2, SlidersHorizontal } from "lucide-react";
+import type { PlanEntitlements } from "@/lib/plans";
 
 interface LargeItemCategory {
   name: string;
@@ -71,7 +72,26 @@ function FieldLabel({ label, tooltip }: { label: string; tooltip: string }) {
   );
 }
 
-export default function PricingPage({ initialData, formId }: { initialData: PricingProfile; formId?: string }) {
+interface WidgetSettingsSnapshot {
+  id: string;
+  showWeight: boolean;
+  showExtras: boolean;
+  showVehicles: boolean;
+  pricePerVehicle: number;
+  showAwb: boolean;
+}
+
+export default function PricingPage({
+  initialData,
+  formId,
+  widgetSettings,
+  entitlements,
+}: {
+  initialData: PricingProfile;
+  formId?: string;
+  widgetSettings?: WidgetSettingsSnapshot | null;
+  entitlements?: PlanEntitlements;
+}) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
@@ -91,6 +111,14 @@ export default function PricingPage({ initialData, formId }: { initialData: Pric
   const [largeItemCategories, setLargeItemCategories] = useState<LargeItemCategory[]>(
     Array.isArray(initialData?.largeItemCategories) ? initialData.largeItemCategories : []
   );
+
+  // Widget field toggles (saved to widget settings)
+  const [showWeight, setShowWeight] = useState(widgetSettings?.showWeight ?? false);
+  const [showExtras, setShowExtras] = useState(widgetSettings?.showExtras ?? true);
+  const [showVehicles, setShowVehicles] = useState(widgetSettings?.showVehicles ?? false);
+  const [pricePerVehicle, setPricePerVehicle] = useState(widgetSettings?.pricePerVehicle ?? 0);
+  const [showAwb, setShowAwb] = useState(widgetSettings?.showAwb ?? false);
+  const vehicleEnabled = entitlements?.isVehicleQuotingEnabled ?? false;
 
   const toggleDay = (day: string) =>
     setBusinessDays((prev) =>
@@ -135,16 +163,33 @@ export default function PricingPage({ initialData, formId }: { initialData: Pric
       largeItemCategories: largeItemCategories.filter((c) => c.name.trim()),
     };
     try {
-      const res = await fetch("/api/dashboard/pricing", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, formId: formId ?? null }),
-      });
-      if (res.ok) {
-        setMessage({ type: "success", text: "Pricing rules updated successfully!" });
+      const [pricingRes, widgetRes] = await Promise.all([
+        fetch("/api/dashboard/pricing", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...data, formId: formId ?? null }),
+        }),
+        widgetSettings?.id
+          ? fetch("/api/dashboard/widget", {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                formId: widgetSettings.id,
+                showWeight,
+                showExtras,
+                showVehicles: vehicleEnabled ? showVehicles : false,
+                pricePerVehicle: vehicleEnabled ? pricePerVehicle : 0,
+                showAwb: vehicleEnabled ? showAwb : false,
+              }),
+            })
+          : Promise.resolve({ ok: true }),
+      ]);
+
+      if (pricingRes.ok && (widgetRes as Response).ok) {
+        setMessage({ type: "success", text: "Pricing & form settings saved!" });
         router.refresh();
       } else {
-        setMessage({ type: "error", text: "Failed to update pricing rules." });
+        setMessage({ type: "error", text: "Failed to save. Please try again." });
       }
     } catch {
       setMessage({ type: "error", text: "An error occurred." });
@@ -345,6 +390,63 @@ export default function PricingPage({ initialData, formId }: { initialData: Pric
             <div className="flex items-center gap-3 py-3 px-4 bg-slate-50 rounded-lg border border-slate-100">
               <Box size={16} className="text-slate-300" />
               <p className="text-sm text-slate-400">Toggle Enable above to configure large item types for your widget.</p>
+            </div>
+          )}
+        </div>
+
+        {/* Form Field Toggles */}
+        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+          <h2 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+            <SlidersHorizontal className="text-blue-600" size={20} />
+            Form Fields
+          </h2>
+          <p className="text-sm text-slate-500 mb-6">Choose which extra fields appear in your quote form. Each field adds more data to the quote and affects pricing where applicable.</p>
+
+          <div className="flex flex-wrap gap-x-8 gap-y-4">
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" checked={showWeight} onChange={(e) => setShowWeight(e.target.checked)}
+                className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+              <span className="text-sm font-medium text-slate-700">Show Package Weight field</span>
+            </label>
+
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" checked={showExtras} onChange={(e) => setShowExtras(e.target.checked)}
+                className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+              <span className="text-sm font-medium text-slate-700">Display Extras (Stairs, Inside Delivery)</span>
+            </label>
+
+            <label className={`flex items-center gap-3 ${vehicleEnabled ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}>
+              <input type="checkbox" checked={showVehicles} onChange={(e) => setShowVehicles(e.target.checked)}
+                disabled={!vehicleEnabled}
+                className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 disabled:opacity-50" />
+              <span className="text-sm font-medium text-slate-700">
+                Number of Vehicles
+                {!vehicleEnabled && <span className="ml-2 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest bg-violet-100 text-violet-700 rounded-full">Enterprise</span>}
+              </span>
+            </label>
+
+            <label className={`flex items-center gap-3 ${vehicleEnabled ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}>
+              <input type="checkbox" checked={showAwb} onChange={(e) => setShowAwb(e.target.checked)}
+                disabled={!vehicleEnabled}
+                className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 disabled:opacity-50" />
+              <span className="text-sm font-medium text-slate-700">
+                AWB Number (Airport Pickup)
+                {!vehicleEnabled && <span className="ml-2 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest bg-violet-100 text-violet-700 rounded-full">Enterprise</span>}
+              </span>
+            </label>
+          </div>
+
+          {showVehicles && vehicleEnabled && (
+            <div className="mt-5 pt-5 border-t border-slate-100">
+              <label className="block text-sm font-semibold text-slate-700 mb-1">Price Per Vehicle ($)</label>
+              <input
+                type="number" min="0" step="0.01"
+                value={pricePerVehicle}
+                onChange={(e) => setPricePerVehicle(parseFloat(e.target.value) || 0)}
+                placeholder="e.g. 50.00"
+                className="w-40 px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+              />
+              <p className="text-xs text-slate-500 mt-1">Flat fee added per vehicle the customer selects in the widget.</p>
             </div>
           )}
         </div>

@@ -123,3 +123,46 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
+
+// PATCH — partial update, only touches the fields sent (used by Pricing page for field toggles)
+export async function PATCH(req: Request) {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("qalt_token")?.value;
+    if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const payload = await verifyToken(token);
+    if (!payload) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+    const company = await prisma.company.findUnique({
+      where: { id: payload.companyId },
+      include: { widgetSettings: true },
+    });
+    if (!company) return NextResponse.json({ error: "Company not found" }, { status: 404 });
+
+    const entitlements = getEntitlements(company.subscriptionPlan);
+    const data = await req.json();
+    const formId: string | undefined = data.formId;
+
+    const patch: Record<string, unknown> = {};
+    if ("showWeight" in data)   patch.showWeight = Boolean(data.showWeight);
+    if ("showExtras" in data)   patch.showExtras = Boolean(data.showExtras);
+    if (entitlements.isVehicleQuotingEnabled) {
+      if ("showVehicles" in data)    patch.showVehicles = Boolean(data.showVehicles);
+      if ("pricePerVehicle" in data) patch.pricePerVehicle = parseFloat(data.pricePerVehicle) || 0;
+      if ("showAwb" in data)         patch.showAwb = Boolean(data.showAwb);
+    }
+
+    const target = formId
+      ? company.widgetSettings.find((f) => f.id === formId)
+      : company.widgetSettings[0];
+
+    if (!target) return NextResponse.json({ error: "Widget settings not found" }, { status: 404 });
+
+    await prisma.widgetSettings.update({ where: { id: target.id }, data: patch });
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error("Widget PATCH error:", msg);
+    return NextResponse.json({ error: msg }, { status: 500 });
+  }
+}
