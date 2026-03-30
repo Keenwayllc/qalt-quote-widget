@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import HowItWorksAnimation from "@/components/landing/HowItWorksAnimation";
 import AnalyticsAnimation from "@/components/landing/AnalyticsAnimation";
+import SupportModal from "@/components/shared/SupportModal";
 
 const BANNER_IMAGES = [
   "/images/banner-1.jpg",
@@ -31,6 +32,7 @@ export default function LandingPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -397,11 +399,13 @@ export default function LandingPage() {
             <div className="flex gap-8 sm:gap-10 text-sm font-bold text-slate-400 uppercase tracking-widest">
               <Link href="/legal/privacy" className="hover:text-blue-600 transition-colors">Privacy</Link>
               <Link href="/legal/terms" className="hover:text-blue-600 transition-colors">Terms</Link>
-              <a href="mailto:support@qalt.site" className="hover:text-blue-600 transition-colors">Support</a>
+              <button onClick={() => setIsSupportModalOpen(true)} className="hover:text-blue-600 transition-colors">Support</button>
             </div>
           </div>
         </div>
       </footer>
+
+      <SupportModal isOpen={isSupportModalOpen} onClose={() => setIsSupportModalOpen(false)} />
 
       {/* Scroll to Top Button */}
       <button
