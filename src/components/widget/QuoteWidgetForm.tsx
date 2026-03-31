@@ -200,11 +200,31 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
   const [parentUrl, setParentUrl] = useState<string | null>(null);
 
   useEffect(() => {
+    // Domains that should NEVER be used as a "Back to" destination.
+    // These are payment processors, internal Qalt pages, or other non-merchant URLs.
+    const BLOCKED_DOMAINS = [
+      "stripe.com",
+      "checkout.stripe.com",
+      "qalt.site",
+      "localhost",
+    ];
+
+    const isBlockedUrl = (url: string): boolean => {
+      try {
+        const hostname = new URL(url).hostname.toLowerCase();
+        return BLOCKED_DOMAINS.some((blocked) => hostname === blocked || hostname.endsWith("." + blocked));
+      } catch {
+        return true; // if URL is malformed, block it
+      }
+    };
+
     try {
-      if (document.referrer) {
-        setParentUrl(document.referrer);
-      } else if (widgetSettings.websiteUrl) {
+      // Always prefer the merchant's explicitly configured website URL first
+      if (widgetSettings.websiteUrl) {
         setParentUrl(widgetSettings.websiteUrl);
+      } else if (document.referrer && !isBlockedUrl(document.referrer)) {
+        // Only use referrer if it's not a blocked domain (e.g. not Stripe)
+        setParentUrl(document.referrer);
       }
     } catch {
       if (widgetSettings.websiteUrl) {
