@@ -38,7 +38,7 @@ export default async function AnalyticsPage() {
               </div>
             </div>
 
-            <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-4 bg-linear-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-black tracking-tight mb-4 bg-linear-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">
               Analytics is a Pro Feature
             </h1>
             <p className="text-slate-600 font-medium leading-relaxed mb-10 text-lg">
