@@ -147,8 +147,8 @@ function buildRecommendations(data: InsightsData) {
       icon: <BarChart2 size={18} className="text-amber-400" />,
       priority: "high",
       title: "Quote volume is low",
-      desc: `Only ${data.totalLast30} quotes in the last 30 days. Make sure your widget is embedded on a high-traffic page — ideally your homepage or a dedicated "Get a Quote" page.`,
-      action: "Get Embed Code",
+      desc: `Only ${data.totalLast30} quotes in the last 30 days. Copy your embed code and paste it on a high-traffic page — ideally your homepage or a dedicated "Get a Quote" page. More visibility = more quotes.`,
+      action: "Copy Embed Code",
       href: "/dashboard/embed",
     });
   }
@@ -181,7 +181,7 @@ function buildRecommendations(data: InsightsData) {
       priority: "quick",
       title: "No quotes this week",
       desc: "You haven't received any quotes this week. Check that your widget is still live on your site and that the embed code hasn't been removed.",
-      action: "Check Embed Code",
+      action: "Check Your Embed Code",
       href: "/dashboard/embed",
     });
   }
