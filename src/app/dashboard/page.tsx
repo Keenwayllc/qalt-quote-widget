@@ -44,11 +44,35 @@ export default async function DashboardOverview() {
   const quotaLimit = entitlements.maxQuotesPerMonth;
 
   // Onboarding checklist — detect completion from real data
-  const widget = await prisma.widgetSettings.findFirst({ where: { companyId: company.id } });
-  const pricing = await prisma.pricingProfile.findFirst({ where: { companyId: company.id } });
-  const hasBranding = !!(widget?.logoUrl || widget?.backgroundImageUrl);
-  const hasCustomPricing = !!(pricing && pricing.baseRatePerMile !== 2.5);
+  const [widgets, pricingProfiles] = await Promise.all([
+    prisma.widgetSettings.findMany({ where: { companyId: company.id } }),
+    prisma.pricingProfile.findMany({ where: { companyId: company.id } }),
+  ]);
+
+  const hasBranding = widgets.some(
+    (w) =>
+      w.logoUrl ||
+      w.backgroundImageUrl ||
+      w.primaryColor !== "#1E40AF" ||
+      w.buttonText !== "Get Instant Quote"
+  );
+
+  const hasCustomPricing = pricingProfiles.some(
+    (p) =>
+      p.baseRatePerMile !== 2.5 ||
+      p.minimumCharge !== 35.0 ||
+      p.useMinimumCharge !== true ||
+      p.minMilesThreshold !== 0 ||
+      p.weightFee !== 0 ||
+      p.itemCountFee !== 0 ||
+      p.stairsFee !== 0 ||
+      p.insideDeliveryFee !== 0 ||
+      p.afterHoursFee !== 0 ||
+      p.largeItemFee !== 0
+  );
+
   const hasQuotes = totalQuotes > 0;
+  const hasEmbedded = hasQuotes;
 
   const onboardingSteps = [
     {
@@ -73,7 +97,7 @@ export default async function DashboardOverview() {
       description: "Copy your embed code and paste it into your website to start receiving quote requests.",
       href: "/dashboard/embed",
       cta: "Get Embed Code",
-      done: false, // can't detect this without tracking — always show
+      done: hasEmbedded,
     },
     {
       id: "quote",
