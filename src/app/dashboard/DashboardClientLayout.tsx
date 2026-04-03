@@ -17,7 +17,8 @@ import {
   Lock,
   BarChart3,
   UserCircle,
-  FormInput
+  FormInput,
+  Eye
 } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
 
@@ -25,10 +26,12 @@ export default function DashboardClientLayout({
   children,
   subscriptionPlan,
   pendingCount = 0,
+  companyId,
 }: {
   children: React.ReactNode;
   subscriptionPlan: string;
   pendingCount?: number;
+  companyId?: string;
 }) {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -161,7 +164,19 @@ export default function DashboardClientLayout({
             })}
           </nav>
 
-          <div className="p-4 mt-auto border-t border-slate-100/60">
+          <div className="p-4 mt-auto border-t border-slate-100/60 space-y-1">
+            {companyId && (
+              <a
+                href={`/widget/${companyId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={closeSidebar}
+                className="flex w-full items-center px-4 py-3 text-sm font-bold text-blue-600 rounded-xl hover:bg-blue-50 transition-all group"
+              >
+                <Eye className="mr-3 h-5 w-5 text-blue-400 group-hover:text-blue-600 transition-colors" />
+                Preview Widget
+              </a>
+            )}
             <button
               onClick={handleLogout}
               disabled={isLoggingOut}

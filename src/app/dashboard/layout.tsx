@@ -17,9 +17,10 @@ export default async function DashboardLayout({
   });
 
   return (
-    <DashboardClientLayout 
-      subscriptionPlan={company.subscriptionPlan} 
+    <DashboardClientLayout
+      subscriptionPlan={company.subscriptionPlan}
       pendingCount={pendingCount}
+      companyId={company.id}
     >
       {children}
     </DashboardClientLayout>
