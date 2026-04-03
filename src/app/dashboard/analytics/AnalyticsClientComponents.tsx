@@ -12,10 +12,16 @@ import {
   MapPin,
   Mail,
   Clock,
-  User
+  User,
+  X,
+  Target,
+  BarChart2,
+  ArrowUpRight,
+  Lightbulb,
+  AlertCircle,
 } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { formatDistanceToNow } from "date-fns";
 
 export function KPICard({ title, value, subtitle, trend, icon, color, delay }: {
@@ -122,8 +128,86 @@ interface InsightsData {
   totalLast30: number;
 }
 
+function buildRecommendations(data: InsightsData) {
+  const tips: { icon: React.ReactNode; priority: "high" | "medium" | "quick"; title: string; desc: string; action: string; href: string }[] = [];
+
+  if (data.conversionRate < 5) {
+    tips.push({
+      icon: <Target size={18} className="text-red-400" />,
+      priority: "high",
+      title: "Low conversion rate detected",
+      desc: `Your conversion rate is ${data.conversionRate.toFixed(1)}%. Most businesses see 10–20%. Review your pricing — quotes may be coming in too high or your widget isn't collecting enough context to price accurately.`,
+      action: "Review Pricing Settings",
+      href: "/dashboard/settings",
+    });
+  }
+
+  if (data.totalLast30 < 10) {
+    tips.push({
+      icon: <BarChart2 size={18} className="text-amber-400" />,
+      priority: "high",
+      title: "Quote volume is low",
+      desc: `Only ${data.totalLast30} quotes in the last 30 days. Make sure your widget is embedded on a high-traffic page — ideally your homepage or a dedicated "Get a Quote" page.`,
+      action: "Get Embed Code",
+      href: "/dashboard/widget",
+    });
+  }
+
+  if (data.avgQuoteValue > 0 && data.avgQuoteValue < 50) {
+    tips.push({
+      icon: <DollarSign size={18} className="text-emerald-400" />,
+      priority: "medium",
+      title: "Average quote value is low",
+      desc: `Your average quote is $${data.avgQuoteValue.toFixed(0)}. Consider adding extras like after-hours, special handling, or rush delivery options to increase order value.`,
+      action: "Add Pricing Extras",
+      href: "/dashboard/settings",
+    });
+  }
+
+  if (data.avgDistance > 80) {
+    tips.push({
+      icon: <MapPin size={18} className="text-blue-400" />,
+      priority: "medium",
+      title: "Long-distance jobs are common",
+      desc: `Average distance is ${data.avgDistance.toFixed(0)} miles. Make sure your per-mile rate is profitable at this range. Consider a tiered rate for jobs over 50 miles.`,
+      action: "Update Pricing Rules",
+      href: "/dashboard/settings",
+    });
+  }
+
+  if (data.thisWeekCount === 0) {
+    tips.push({
+      icon: <AlertCircle size={18} className="text-orange-400" />,
+      priority: "quick",
+      title: "No quotes this week",
+      desc: "You haven't received any quotes this week. Check that your widget is still live on your site and that the embed code hasn't been removed.",
+      action: "Check Embed Code",
+      href: "/dashboard/widget",
+    });
+  }
+
+  // Always include a general best-practice tip
+  tips.push({
+    icon: <Lightbulb size={18} className="text-yellow-400" />,
+    priority: "quick",
+    title: "Your busiest time is " + data.busiestTime,
+    desc: `Schedule promotions or social posts just before your peak time to drive more traffic when conversion is highest. Even a small boost in traffic during peak hours compounds quickly.`,
+    action: "View Widget Appearance",
+    href: "/dashboard/widget",
+  });
+
+  return tips;
+}
+
+const priorityLabel: Record<string, { label: string; cls: string }> = {
+  high:   { label: "High Impact",   cls: "bg-red-500/20 text-red-300 border-red-500/20" },
+  medium: { label: "Medium Impact", cls: "bg-amber-500/20 text-amber-300 border-amber-500/20" },
+  quick:  { label: "Quick Win",     cls: "bg-emerald-500/20 text-emerald-300 border-emerald-500/20" },
+};
+
 export function InsightsCard() {
   const [data, setData] = useState<InsightsData | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     fetch("/api/dashboard/insights")
@@ -131,6 +215,14 @@ export function InsightsCard() {
       .then((d) => setData(d))
       .catch(() => {});
   }, []);
+
+  // Close on Escape
+  useEffect(() => {
+    if (!modalOpen) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setModalOpen(false); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [modalOpen]);
 
   const items = data
     ? [
@@ -144,47 +236,157 @@ export function InsightsCard() {
         { label: "Conv. Rate", value: "Loading…", color: "text-purple-400" },
       ];
 
+  const recommendations = data ? buildRecommendations(data) : [];
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.8 }}
-      className="bg-linear-to-br from-slate-900 to-slate-800 rounded-[32px] p-8 text-white h-full relative overflow-hidden"
-    >
-      <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500 rounded-full blur-[80px] opacity-20 translate-x-10 -translate-y-10" />
-      <div className="relative z-10 flex flex-col h-full">
-        <div className="mb-8">
-          <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-6 border border-white/10">
-            <Zap size={22} className="text-blue-400" />
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8 }}
+        className="bg-linear-to-br from-slate-900 to-slate-800 rounded-[32px] p-8 text-white h-full relative overflow-hidden"
+      >
+        <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500 rounded-full blur-[80px] opacity-20 translate-x-10 -translate-y-10" />
+        <div className="relative z-10 flex flex-col h-full">
+          <div className="mb-8">
+            <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-6 border border-white/10">
+              <Zap size={22} className="text-blue-400" />
+            </div>
+            <h3 className="text-2xl font-black tracking-tight mb-2">Qalt Insights</h3>
+            <p className="text-slate-400 font-medium leading-relaxed font-['Outfit']">Live metrics from your last 90 days of quote activity.</p>
           </div>
-          <h3 className="text-2xl font-black tracking-tight mb-2">Qalt Insights</h3>
-          <p className="text-slate-400 font-medium leading-relaxed font-['Outfit']">Live metrics from your last 90 days of quote activity.</p>
-        </div>
-        <div className="space-y-4 flex-1">
-          {items.map((item, i) => (
-            <div key={i} className="bg-white/5 border border-white/5 rounded-2xl p-4">
-              <p className="text-[10px] uppercase font-black text-slate-500 tracking-widest mb-1">{item.label}</p>
-              <p className={`text-sm font-bold ${item.color}`}>{item.value}</p>
-            </div>
-          ))}
-        </div>
-        {data && (
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            <div className="bg-white/5 border border-white/5 rounded-2xl p-3">
-              <p className="text-[10px] uppercase font-black text-slate-500 tracking-widest mb-1">Avg Value</p>
-              <p className="text-sm font-bold text-amber-400">${data.avgQuoteValue.toFixed(0)}</p>
-            </div>
-            <div className="bg-white/5 border border-white/5 rounded-2xl p-3">
-              <p className="text-[10px] uppercase font-black text-slate-500 tracking-widest mb-1">This Week</p>
-              <p className="text-sm font-bold text-sky-400">{data.thisWeekCount} quotes</p>
-            </div>
+          <div className="space-y-4 flex-1">
+            {items.map((item, i) => (
+              <div key={i} className="bg-white/5 border border-white/5 rounded-2xl p-4">
+                <p className="text-[10px] uppercase font-black text-slate-500 tracking-widest mb-1">{item.label}</p>
+                <p className={`text-sm font-bold ${item.color}`}>{item.value}</p>
+              </div>
+            ))}
           </div>
+          {data && (
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              <div className="bg-white/5 border border-white/5 rounded-2xl p-3">
+                <p className="text-[10px] uppercase font-black text-slate-500 tracking-widest mb-1">Avg Value</p>
+                <p className="text-sm font-bold text-amber-400">${data.avgQuoteValue.toFixed(0)}</p>
+              </div>
+              <div className="bg-white/5 border border-white/5 rounded-2xl p-3">
+                <p className="text-[10px] uppercase font-black text-slate-500 tracking-widest mb-1">This Week</p>
+                <p className="text-sm font-bold text-sky-400">{data.thisWeekCount} quotes</p>
+              </div>
+            </div>
+          )}
+          <button
+            onClick={() => setModalOpen(true)}
+            className="mt-6 group flex items-center justify-between w-full p-4 bg-white/10 hover:bg-white/20 active:scale-95 rounded-2xl border border-white/10 transition-all font-bold text-sm"
+          >
+            Optimize Conversion <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+          </button>
+        </div>
+      </motion.div>
+
+      {/* Optimize Conversion Modal */}
+      <AnimatePresence>
+        {modalOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setModalOpen(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+            />
+
+            {/* Panel */}
+            <motion.div
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{ type: "spring", damping: 28, stiffness: 260 }}
+              className="fixed top-0 right-0 h-full w-full max-w-lg bg-slate-950 z-50 overflow-y-auto shadow-2xl"
+            >
+              {/* Header */}
+              <div className="sticky top-0 bg-slate-950/95 backdrop-blur-md border-b border-white/10 px-6 py-5 flex items-center justify-between z-10">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center">
+                    <ArrowUpRight size={18} className="text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-white font-black text-lg tracking-tight">Optimize Conversion</h2>
+                    <p className="text-slate-500 text-xs font-medium">Based on your last 90 days of data</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setModalOpen(false)}
+                  className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all active:scale-90"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Summary strip */}
+              {data && (
+                <div className="px-6 py-4 grid grid-cols-3 gap-3 border-b border-white/5">
+                  {[
+                    { label: "Conv. Rate", value: `${data.conversionRate.toFixed(1)}%`, color: "text-purple-400" },
+                    { label: "Avg Value",  value: `$${data.avgQuoteValue.toFixed(0)}`,   color: "text-amber-400" },
+                    { label: "This Week",  value: `${data.thisWeekCount} quotes`,         color: "text-sky-400" },
+                  ].map((s) => (
+                    <div key={s.label} className="bg-white/5 rounded-2xl p-3 text-center">
+                      <p className="text-[9px] uppercase font-black text-slate-500 tracking-widest mb-1">{s.label}</p>
+                      <p className={`text-sm font-black ${s.color}`}>{s.value}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Recommendations */}
+              <div className="px-6 py-6 space-y-4">
+                <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-2">
+                  {recommendations.length} recommendation{recommendations.length !== 1 ? "s" : ""} for your account
+                </p>
+                {recommendations.length === 0 && (
+                  <div className="text-center py-12 text-slate-500 font-medium">
+                    Loading recommendations…
+                  </div>
+                )}
+                {recommendations.map((tip, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.07 }}
+                    className="bg-white/5 border border-white/5 rounded-2xl p-5"
+                  >
+                    <div className="flex items-start gap-3 mb-3">
+                      <div className="w-8 h-8 bg-white/5 rounded-xl flex items-center justify-center shrink-0 mt-0.5">
+                        {tip.icon}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap mb-1">
+                          <span className="text-white font-black text-sm">{tip.title}</span>
+                          <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border ${priorityLabel[tip.priority].cls}`}>
+                            {priorityLabel[tip.priority].label}
+                          </span>
+                        </div>
+                        <p className="text-slate-400 text-xs leading-relaxed font-medium">{tip.desc}</p>
+                      </div>
+                    </div>
+                    <a
+                      href={tip.href}
+                      className="flex items-center gap-1.5 text-xs font-black text-blue-400 hover:text-blue-300 transition-colors mt-2 group/link"
+                    >
+                      {tip.action}
+                      <ArrowUpRight size={13} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                    </a>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </>
         )}
-        <button className="mt-6 group flex items-center justify-between w-full p-4 bg-white/10 hover:bg-white/20 rounded-2xl border border-white/10 transition-all font-bold text-sm">
-          Optimize Conversion <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
-        </button>
-      </div>
-    </motion.div>
+      </AnimatePresence>
+    </>
   );
 }
 
