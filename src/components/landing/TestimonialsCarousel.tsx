@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState, useCallback, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -103,8 +105,17 @@ export default function TestimonialsCarousel() {
   const [paused, setPaused] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [dragX, setDragX] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const startRef = useRef(0);
   const trackRef = useRef<HTMLDivElement>(null);
+
+  // Detect mobile once on mount
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Seamless wrap: after transition ends, silently jump to the middle copy
   const handleTransitionEnd = useCallback(() => {
@@ -120,7 +131,6 @@ export default function TestimonialsCarousel() {
   // Re-enable animation after a silent jump
   useEffect(() => {
     if (!animate) {
-      // Force a layout read then re-enable in next frame
       requestAnimationFrame(() => {
         requestAnimationFrame(() => setAnimate(true));
       });
@@ -169,7 +179,7 @@ export default function TestimonialsCarousel() {
     const handleResize = () => {
       setVisible(window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3);
     };
-    handleResize(); // Set on mount
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -178,6 +188,14 @@ export default function TestimonialsCarousel() {
   const slideW = 100 / total;
   const trackW = (total * 100) / visible;
   const tx = -(index * slideW);
+
+  // Only render video for slides near the current viewport (±1 slide)
+  // This prevents 21 simultaneous <video> elements from crashing mobile GPUs
+  const isSlideNearViewport = (slideIdx: number) => {
+    if (isMobile) return false; // No videos on mobile at all — prevents GPU crash
+    const distance = Math.abs(slideIdx - index);
+    return distance <= visible; // Only load videos for visible slides + 1 buffer
+  };
 
   return (
     <div
@@ -223,52 +241,62 @@ export default function TestimonialsCarousel() {
             willChange: "transform",
           }}
         >
-          {SLIDES.map((t, idx) => (
-            <div
-              key={`${t.id}-${idx}`}
-              className="flex-none px-4"
-              style={{ width: `${slideW}%` }}
-            >
-              <div className="h-[380px] relative overflow-hidden p-8 bg-[#0a0f1e] border border-white/5 rounded-[28px] hover:border-white/20 transition-all duration-500 flex flex-col justify-between group/card select-none shadow-2xl">
-                {t.video && (
-                  <>
-                    <video
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="auto"
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full w-auto h-auto object-cover z-0 opacity-30 group-hover/card:opacity-50 transition-opacity duration-700 block bg-black"
-                    >
-                      <source src={t.video} type="video/mp4" />
-                    </video>
-                    <div className="absolute inset-0 bg-linear-to-b from-slate-950/20 via-slate-950/60 to-slate-950/90 z-10" />
-                  </>
-                )}
+          {SLIDES.map((t, idx) => {
+            const shouldShowVideo = t.video && isSlideNearViewport(idx);
 
-                <div className="relative z-20">
-                  <div className="mb-6">
-                    <span className="px-3 py-1.5 bg-blue-500/10 text-blue-400 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border border-blue-500/20 backdrop-blur-sm">
-                      {t.industry}
-                    </span>
-                  </div>
-                  <p className="text-lg md:text-xl font-medium text-white/95 mb-6 italic leading-relaxed tracking-tight text-shadow-md">
-                    &quot;{t.quote}&quot;
-                  </p>
-                </div>
+            return (
+              <div
+                key={`${t.id}-${idx}`}
+                className="flex-none px-4"
+                style={{ width: `${slideW}%` }}
+              >
+                <div className="h-[380px] relative overflow-hidden p-8 bg-[#0a0f1e] border border-white/5 rounded-[28px] hover:border-white/20 transition-all duration-500 flex flex-col justify-between group/card select-none shadow-2xl">
+                  {/* Video background — only rendered for nearby slides on desktop */}
+                  {shouldShowVideo && (
+                    <>
+                      <video
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="none"
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full w-auto h-auto object-cover z-0 opacity-30 group-hover/card:opacity-50 transition-opacity duration-700 block bg-black"
+                      >
+                        <source src={t.video} type="video/mp4" />
+                      </video>
+                      <div className="absolute inset-0 bg-linear-to-b from-slate-950/20 via-slate-950/60 to-slate-950/90 z-10" />
+                    </>
+                  )}
 
-                <div className="relative z-20 flex items-center gap-4 pt-6 border-t border-white/5">
-                  <div className={`w-12 h-12 ${t.color} rounded-xl flex items-center justify-center shadow-lg group-hover/card:scale-110 transition-transform duration-500 ring-1 ring-white/10`}>
-                    <span className="text-white font-black text-base">{t.initials}</span>
+                  {/* Static gradient overlay for slides without video (including all mobile) */}
+                  {!shouldShowVideo && (
+                    <div className="absolute inset-0 bg-linear-to-b from-slate-900/0 via-slate-900/20 to-slate-900/60 z-10" />
+                  )}
+
+                  <div className="relative z-20">
+                    <div className="mb-6">
+                      <span className="px-3 py-1.5 bg-blue-500/10 text-blue-400 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border border-blue-500/20 backdrop-blur-sm">
+                        {t.industry}
+                      </span>
+                    </div>
+                    <p className="text-lg md:text-xl font-medium text-white/95 mb-6 italic leading-relaxed tracking-tight text-shadow-md">
+                      &quot;{t.quote}&quot;
+                    </p>
                   </div>
-                  <div>
-                    <div className="font-bold text-white text-base tracking-tight">{t.name}</div>
-                    <div className="text-blue-400 text-[9px] font-black uppercase tracking-[0.15em] mt-1 opacity-80">{t.role}</div>
+
+                  <div className="relative z-20 flex items-center gap-4 pt-6 border-t border-white/5">
+                    <div className={`w-12 h-12 ${t.color} rounded-xl flex items-center justify-center shadow-lg group-hover/card:scale-110 transition-transform duration-500 ring-1 ring-white/10`}>
+                      <span className="text-white font-black text-base">{t.initials}</span>
+                    </div>
+                    <div>
+                      <div className="font-bold text-white text-base tracking-tight">{t.name}</div>
+                      <div className="text-blue-400 text-[9px] font-black uppercase tracking-[0.15em] mt-1 opacity-80">{t.role}</div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

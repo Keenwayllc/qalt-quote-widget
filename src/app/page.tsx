@@ -358,8 +358,8 @@ export default function LandingPage() {
 
         {/* How It Works — Animated Section */}
         <section id="how-it-works" className="py-24 sm:py-40 bg-white relative overflow-hidden scroll-mt-20">
-          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-50/50 rounded-full blur-[120px] -z-10" />
-          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-emerald-50/50 rounded-full blur-[100px] -z-10" />
+          <div className="hidden md:block absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-50/50 rounded-full blur-[120px] -z-10" />
+          <div className="hidden md:block absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-emerald-50/50 rounded-full blur-[100px] -z-10" />
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -373,8 +373,8 @@ export default function LandingPage() {
 
         {/* Analytics Section — dark background */}
         <section className="py-24 sm:py-40 bg-slate-950 relative overflow-hidden">
-          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-indigo-900/20 rounded-full blur-[120px] -z-10" />
-          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-900/20 rounded-full blur-[100px] -z-10" />
+          <div className="hidden md:block absolute top-0 left-1/4 w-[600px] h-[600px] bg-indigo-900/20 rounded-full blur-[120px] -z-10" />
+          <div className="hidden md:block absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-900/20 rounded-full blur-[100px] -z-10" />
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -534,7 +534,7 @@ export default function LandingPage() {
 
         {/* Testimonials */}
         <section className="py-20 sm:py-32 bg-slate-950 overflow-hidden relative">
-          <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-blue-900/20 rounded-full blur-[120px] -z-10" />
+          <div className="hidden md:block absolute top-0 left-1/3 w-[500px] h-[500px] bg-blue-900/20 rounded-full blur-[120px] -z-10" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <motion.div
               initial="hidden"
@@ -567,7 +567,7 @@ export default function LandingPage() {
         {/* Use Cases */}
         <section id="use-cases" className="py-20 sm:py-32 bg-linear-to-br from-slate-900 via-slate-900 to-blue-950 text-white overflow-hidden relative scroll-mt-20">
           <div className="absolute -bottom-40 -right-40 pointer-events-none select-none" aria-hidden="true">
-            <QaltIcon size={2000} color="rgba(255,255,255,0.05)" eyeColor="rgba(255,255,255,0.09)" />
+            <QaltIcon size={400} color="rgba(255,255,255,0.05)" eyeColor="rgba(255,255,255,0.09)" />
           </div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
             <motion.div
