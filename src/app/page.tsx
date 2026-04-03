@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import HowItWorksAnimation from "@/components/landing/HowItWorksAnimation";
 import AnalyticsAnimation from "@/components/landing/AnalyticsAnimation";
+import TestimonialsCarousel from "@/components/landing/TestimonialsCarousel";
 import SupportModal from "@/components/shared/SupportModal";
 
 const BANNER_IMAGES = [
@@ -271,6 +272,20 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* Trust Bar */}
+        <section className="py-5 bg-white border-b border-slate-100">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6">
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm font-bold text-slate-400 uppercase tracking-widest">
+              {["No card required", "Cancel anytime", "5-minute setup", "Free plan forever", "White-label ready"].map((item, i) => (
+                <span key={i} className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-blue-500 shrink-0" />
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Features Grid */}
         <section id="features" className="py-20 sm:py-32 bg-slate-50 relative overflow-hidden scroll-mt-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -369,6 +384,40 @@ export default function LandingPage() {
           >
             <AnalyticsAnimation />
           </motion.div>
+        </section>
+
+        {/* ROI Callout Strip */}
+        <section className="py-16 sm:py-24 bg-white">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={fadeUp}
+              className="rounded-3xl bg-linear-to-br from-blue-600 to-blue-700 p-10 sm:p-16 text-center relative overflow-hidden"
+            >
+              <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+              <div className="relative z-10">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/15 text-white/90 rounded-full text-[10px] font-black uppercase tracking-widest border border-white/20 mb-6">
+                  Real ROI
+                </div>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight mb-6 leading-tight">
+                  One booked job pays for<br className="hidden sm:block" /> a full month.
+                </h2>
+                <p className="text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto font-medium mb-10">
+                  The Pro plan is $14/mo. A single delivery booking worth $50–$200 covers it entirely. Every lead after that is pure profit — no manual quoting required.
+                </p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <Link href="/register" className="px-8 py-4 bg-white text-blue-700 rounded-xl font-black text-sm hover:bg-blue-50 hover:scale-[1.03] active:scale-[0.98] transition-all shadow-xl">
+                    Start Free Today
+                  </Link>
+                  <Link href="/pricing" className="px-8 py-4 border-2 border-white/30 text-white rounded-xl font-bold text-sm hover:bg-white/10 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                    See Pricing →
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </section>
 
         {/* Pricing */}
@@ -483,6 +532,38 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* Testimonials */}
+        <section className="py-20 sm:py-32 bg-slate-950 overflow-hidden relative">
+          <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-blue-900/20 rounded-full blur-[120px] -z-10" />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={fadeUp}
+              className="text-center mb-4"
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 text-white/70 rounded-full text-[10px] font-black uppercase tracking-widest border border-white/10 mb-6">
+                What merchants say
+              </div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-4">
+                Delivery businesses love Qalt
+              </h2>
+              <p className="text-lg text-slate-400 max-w-xl mx-auto font-medium">
+                From solo couriers to multi-vehicle fleets — here's what they're saying.
+              </p>
+            </motion.div>
+          </div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            variants={fadeIn}
+          >
+            <TestimonialsCarousel />
+          </motion.div>
+        </section>
+
         {/* Use Cases */}
         <section id="use-cases" className="py-20 sm:py-32 bg-linear-to-br from-slate-900 via-slate-900 to-blue-950 text-white overflow-hidden relative scroll-mt-20">
           <div className="absolute -bottom-40 -right-40 pointer-events-none select-none" aria-hidden="true">
@@ -595,16 +676,45 @@ export default function LandingPage() {
 
       <footer className="py-14 sm:py-20 border-t border-slate-100 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8">
-            <div className="flex flex-col items-center md:items-start gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+            {/* Brand */}
+            <div className="col-span-2 md:col-span-1">
               <QaltLogo size="xl" />
-              <p className="text-slate-400 font-medium text-sm">© 2025 Qalt. All rights reserved.</p>
+              <p className="text-slate-400 font-medium text-sm mt-4 max-w-[220px] leading-relaxed">
+                Instant delivery quotes for your website. No manual quoting required.
+              </p>
             </div>
-            <div className="flex gap-8 sm:gap-10 text-sm font-bold text-slate-400 uppercase tracking-widest">
-              <Link href="/legal/privacy" className="hover:text-blue-600 transition-colors">Privacy</Link>
-              <Link href="/legal/terms" className="hover:text-blue-600 transition-colors">Terms</Link>
-              <button onClick={() => setIsSupportModalOpen(true)} className="hover:text-blue-600 transition-colors">Support</button>
+            {/* Product */}
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Product</p>
+              <ul className="space-y-3 text-sm font-medium text-slate-500">
+                <li><button onClick={() => scrollTo("features")} className="hover:text-blue-600 transition-colors">Features</button></li>
+                <li><Link href="/pricing" className="hover:text-blue-600 transition-colors">Pricing</Link></li>
+                <li><button onClick={() => scrollTo("how-it-works")} className="hover:text-blue-600 transition-colors">How it Works</button></li>
+                <li><button onClick={() => scrollTo("use-cases")} className="hover:text-blue-600 transition-colors">Use Cases</button></li>
+              </ul>
             </div>
+            {/* Account */}
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Account</p>
+              <ul className="space-y-3 text-sm font-medium text-slate-500">
+                <li><Link href="/register" className="hover:text-blue-600 transition-colors">Get Started Free</Link></li>
+                <li><Link href="/login" className="hover:text-blue-600 transition-colors">Log In</Link></li>
+                <li><Link href="/dashboard" className="hover:text-blue-600 transition-colors">Dashboard</Link></li>
+              </ul>
+            </div>
+            {/* Legal */}
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Legal</p>
+              <ul className="space-y-3 text-sm font-medium text-slate-500">
+                <li><Link href="/legal/privacy" className="hover:text-blue-600 transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/legal/terms" className="hover:text-blue-600 transition-colors">Terms of Service</Link></li>
+                <li><button onClick={() => setIsSupportModalOpen(true)} className="hover:text-blue-600 transition-colors">Support</button></li>
+              </ul>
+            </div>
+          </div>
+          <div className="pt-8 border-t border-slate-100">
+            <p className="text-slate-400 font-medium text-sm text-center md:text-left">© 2026 Qalt. All rights reserved.</p>
           </div>
         </div>
       </footer>
