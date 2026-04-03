@@ -434,7 +434,6 @@ export default function PricingPage() {
               <ul className="space-y-3 text-sm font-medium text-slate-500">
                 <li><Link href="/register" className="hover:text-blue-600 transition-colors">Get Started Free</Link></li>
                 <li><Link href="/login" className="hover:text-blue-600 transition-colors">Log In</Link></li>
-                <li><Link href="/dashboard" className="hover:text-blue-600 transition-colors">Dashboard</Link></li>
               </ul>
             </div>
             {/* Legal */}
