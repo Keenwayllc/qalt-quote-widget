@@ -36,7 +36,7 @@ const BANNER_IMAGES = [
     sub: "Set your pricing rules once and let your site handle the rest — no more back-and-forth quotes over the phone.",
   },
   {
-    src: "/images/company owner.jpeg",
+    src: "/images/company-owner.jpeg",
     headline: <>Built for businesses<br /><span className="text-emerald-400">small and large.</span></>,
     sub: "From solo couriers to enterprise fleets — Qalt scales with your operation so you can focus on delivering, not quoting.",
   },
@@ -189,8 +189,8 @@ export default function LandingPage() {
             ))}
           </motion.div>
 
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-black/50 z-10" />
+          {/* Dark overlay — lighter on portrait slide (index 2) */}
+          <div className={`absolute inset-0 z-10 transition-all duration-1000 ${currentImageIndex === 2 ? 'bg-black/60' : 'bg-black/50'}`} />
 
           {/* Slide indicator dots */}
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
