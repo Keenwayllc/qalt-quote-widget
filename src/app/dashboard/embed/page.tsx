@@ -254,31 +254,7 @@ export default function EmbedCodePage() {
 
           {/* Right sidebar */}
           <div className="space-y-6">
-            {/* Live Preview */}
-            <div className="bg-white rounded-[32px] p-6 shadow-sm border border-slate-100 flex flex-col h-[750px]">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-black text-slate-900">Live Preview</h3>
-                <span className="flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-                </span>
-              </div>
-              <div className="flex-1 bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden relative">
-                {companyId ? (
-                   <iframe
-                     src={widgetUrl}
-                     className="w-full h-full border-0"
-                     title="Widget Preview"
-                   />
-                ) : (
-                   <div className="w-full h-full flex items-center justify-center text-slate-400 text-sm font-medium">
-                     Loading preview...
-                   </div>
-                )}
-              </div>
-            </div>
-
-            <div className="bg-white rounded-[32px] p-8 shadow-sm border border-slate-100">
+<div className="bg-white rounded-[32px] p-8 shadow-sm border border-slate-100">
               <h3 className="text-lg font-bold text-slate-900 mb-4">Need help?</h3>
               <p className="text-sm text-slate-500 leading-relaxed mb-8">Not sure where to paste the code? Our engineering team can help you get it installed in minutes.</p>
               <button
