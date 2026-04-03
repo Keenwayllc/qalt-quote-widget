@@ -25,8 +25,21 @@ import AnalyticsAnimation from "@/components/landing/AnalyticsAnimation";
 import SupportModal from "@/components/shared/SupportModal";
 
 const BANNER_IMAGES = [
-  "/images/banner-1.jpg",
-  "/images/banner-2.jpg",
+  {
+    src: "/images/banner-1.jpg",
+    headline: <>Instant delivery quotes<br /><span className="text-blue-400">on your website.</span></>,
+    sub: "Qalt gives delivery companies a white-label quote widget that prices jobs fast, captures leads, and cuts down manual quoting.",
+  },
+  {
+    src: "/images/banner-2.jpg",
+    headline: <>Your brand. Your prices.<br /><span className="text-blue-400">On autopilot.</span></>,
+    sub: "Set your pricing rules once and let your site handle the rest — no more back-and-forth quotes over the phone.",
+  },
+  {
+    src: "/images/company owner.jpeg",
+    headline: <>Built for businesses<br /><span className="text-emerald-400">small and large.</span></>,
+    sub: "From solo couriers to enterprise fleets — Qalt scales with your operation so you can focus on delivering, not quoting.",
+  },
 ];
 
 // Reusable fade-up animation for scroll-triggered sections
@@ -160,27 +173,43 @@ export default function LandingPage() {
             style={{ y: heroParallax }}
             className="absolute inset-0 scale-110"
           >
-            {BANNER_IMAGES.map((img, index) => (
+            {BANNER_IMAGES.map((banner, index) => (
               <div
                 key={index}
                 className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'}`}
               >
                 <Image
-                  src={img}
+                  src={banner.src}
                   alt={`Qalt Banner ${index + 1}`}
                   fill
                   priority={index === 0}
-                  className="object-cover"
+                  className="object-cover object-top"
                 />
               </div>
             ))}
           </motion.div>
 
           {/* Dark overlay */}
-          <div className="absolute inset-0 bg-black/40 z-10" />
+          <div className="absolute inset-0 bg-black/50 z-10" />
 
-          {/* Content */}
-          <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 text-center pt-28 sm:pt-36 pb-20 sm:pb-24">
+          {/* Slide indicator dots */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+            {BANNER_IMAGES.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentImageIndex(index)}
+                aria-label={`Go to slide ${index + 1}`}
+                className={`rounded-full transition-all duration-500 ${
+                  index === currentImageIndex
+                    ? "w-6 h-2 bg-white"
+                    : "w-2 h-2 bg-white/40 hover:bg-white/70"
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* Content — per-slide text crossfades */}
+          <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 text-center pt-28 sm:pt-36 pb-28 sm:pb-32">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -191,24 +220,31 @@ export default function LandingPage() {
               Start free. No card required.
             </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-              className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tight mb-6 sm:mb-8 leading-[0.9] text-white drop-shadow-lg"
-            >
-              Instant delivery quotes<br />
-              <span className="text-blue-400">on your website.</span>
-            </motion.h1>
+            <AnimatePresence mode="wait">
+              <motion.h1
+                key={`headline-${currentImageIndex}`}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.55, ease: "easeOut" }}
+                className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tight mb-6 sm:mb-8 leading-[0.9] text-white drop-shadow-lg"
+              >
+                {BANNER_IMAGES[currentImageIndex].headline}
+              </motion.h1>
+            </AnimatePresence>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.35 }}
-              className="max-w-2xl mx-auto text-base sm:text-xl text-white/80 mb-10 sm:mb-12 font-medium leading-relaxed px-2"
-            >
-              Qalt gives delivery companies a white-label quote widget that prices jobs fast, captures leads, and cuts down manual quoting.
-            </motion.p>
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={`sub-${currentImageIndex}`}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
+                className="max-w-2xl mx-auto text-base sm:text-xl text-white/80 mb-10 sm:mb-12 font-medium leading-relaxed px-2"
+              >
+                {BANNER_IMAGES[currentImageIndex].sub}
+              </motion.p>
+            </AnimatePresence>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
