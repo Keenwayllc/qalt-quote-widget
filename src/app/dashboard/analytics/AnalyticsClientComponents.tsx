@@ -138,7 +138,7 @@ function buildRecommendations(data: InsightsData) {
       title: "Low conversion rate detected",
       desc: `Your conversion rate is ${data.conversionRate.toFixed(1)}%. Most businesses see 10–20%. Review your pricing — quotes may be coming in too high or your widget isn't collecting enough context to price accurately.`,
       action: "Review Pricing Settings",
-      href: "/dashboard/settings",
+      href: "/dashboard/pricing",
     });
   }
 
@@ -149,7 +149,7 @@ function buildRecommendations(data: InsightsData) {
       title: "Quote volume is low",
       desc: `Only ${data.totalLast30} quotes in the last 30 days. Make sure your widget is embedded on a high-traffic page — ideally your homepage or a dedicated "Get a Quote" page.`,
       action: "Get Embed Code",
-      href: "/dashboard/widget",
+      href: "/dashboard/embed",
     });
   }
 
@@ -160,7 +160,7 @@ function buildRecommendations(data: InsightsData) {
       title: "Average quote value is low",
       desc: `Your average quote is $${data.avgQuoteValue.toFixed(0)}. Consider adding extras like after-hours, special handling, or rush delivery options to increase order value.`,
       action: "Add Pricing Extras",
-      href: "/dashboard/settings",
+      href: "/dashboard/pricing",
     });
   }
 
@@ -171,7 +171,7 @@ function buildRecommendations(data: InsightsData) {
       title: "Long-distance jobs are common",
       desc: `Average distance is ${data.avgDistance.toFixed(0)} miles. Make sure your per-mile rate is profitable at this range. Consider a tiered rate for jobs over 50 miles.`,
       action: "Update Pricing Rules",
-      href: "/dashboard/settings",
+      href: "/dashboard/pricing",
     });
   }
 
@@ -182,7 +182,7 @@ function buildRecommendations(data: InsightsData) {
       title: "No quotes this week",
       desc: "You haven't received any quotes this week. Check that your widget is still live on your site and that the embed code hasn't been removed.",
       action: "Check Embed Code",
-      href: "/dashboard/widget",
+      href: "/dashboard/embed",
     });
   }
 
