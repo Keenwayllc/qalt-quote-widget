@@ -3,6 +3,7 @@ import { getEntitlements } from "@/lib/plans";
 import prisma from "@/lib/prisma";
 import MetricCard from "@/components/dashboard/MetricCard";
 import QuotaBar from "@/components/dashboard/QuotaBar";
+import OnboardingChecklist from "@/components/dashboard/OnboardingChecklist";
 import {
   FileText,
   DollarSign,
@@ -41,6 +42,52 @@ export default async function DashboardOverview() {
 
   const entitlements = getEntitlements(company.subscriptionPlan);
   const quotaLimit = entitlements.maxQuotesPerMonth;
+
+  // Onboarding checklist — detect completion from real data
+  const widget = await prisma.widgetSettings.findFirst({ where: { companyId: company.id } });
+  const pricing = await prisma.pricingProfile.findFirst({ where: { companyId: company.id } });
+  const hasBranding = !!(widget?.logoUrl || widget?.backgroundImageUrl);
+  const hasCustomPricing = !!(pricing && pricing.baseRatePerMile !== 2.5);
+  const hasQuotes = totalQuotes > 0;
+
+  const onboardingSteps = [
+    {
+      id: "pricing",
+      label: "Set your pricing",
+      description: "Configure your base rate, minimum charge, and any service extras so your widget quotes accurately.",
+      href: "/dashboard/pricing",
+      cta: "Set Pricing",
+      done: hasCustomPricing,
+    },
+    {
+      id: "branding",
+      label: "Customize your widget",
+      description: "Upload your logo or a background image so the widget matches your brand.",
+      href: "/dashboard/widget",
+      cta: "Customize",
+      done: hasBranding,
+    },
+    {
+      id: "embed",
+      label: "Embed the widget on your site",
+      description: "Copy your embed code and paste it into your website to start receiving quote requests.",
+      href: "/dashboard/embed",
+      cta: "Get Embed Code",
+      done: false, // can't detect this without tracking — always show
+    },
+    {
+      id: "quote",
+      label: "Receive your first quote",
+      description: "Once your widget is live, customers can request quotes directly from your site.",
+      href: "/dashboard/quotes",
+      cta: "View Quotes",
+      done: hasQuotes,
+    },
+  ];
+
+  // Hide checklist once merchant has 3+ steps done (essentially onboarded)
+  const doneCount = onboardingSteps.filter((s) => s.done).length;
+  const showChecklist = doneCount < 3;
 
   return (
     <div className="p-4 lg:p-10 space-y-10 max-w-7xl mx-auto">
@@ -98,6 +145,9 @@ export default async function DashboardOverview() {
       </div>
 
       <QuotaBar used={monthlyQuotes} limit={quotaLimit} plan={company.subscriptionPlan} />
+
+      {/* Onboarding checklist — shown until merchant completes 3 of 4 steps */}
+      {showChecklist && <OnboardingChecklist steps={onboardingSteps} />}
 
       <div className="space-y-4">
         <div className="flex items-center justify-between px-2">
