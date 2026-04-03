@@ -408,16 +408,47 @@ export default function PricingPage() {
       )}
 
       {/* Footer */}
-      <footer className="py-20 border-t border-slate-100 bg-white">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex flex-col items-center md:items-start gap-6">
-            <QaltLogo size="sm" />
-            <p className="text-slate-400 font-medium">© 2025 Qalt. All rights reserved.</p>
+      <footer className="py-14 sm:py-20 border-t border-slate-100 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+            {/* Brand */}
+            <div className="col-span-2 md:col-span-1">
+              <QaltLogo size="xl" />
+              <p className="text-slate-400 font-medium text-sm mt-4 max-w-[220px] leading-relaxed">
+                Instant delivery quotes for your website. No manual quoting required.
+              </p>
+            </div>
+            {/* Product */}
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Product</p>
+              <ul className="space-y-3 text-sm font-medium text-slate-500">
+                <li><Link href="/#features" className="hover:text-blue-600 transition-colors">Features</Link></li>
+                <li><Link href="/pricing" className="hover:text-blue-600 transition-colors">Pricing</Link></li>
+                <li><Link href="/#how-it-works" className="hover:text-blue-600 transition-colors">How it Works</Link></li>
+                <li><Link href="/#use-cases" className="hover:text-blue-600 transition-colors">Use Cases</Link></li>
+              </ul>
+            </div>
+            {/* Account */}
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Account</p>
+              <ul className="space-y-3 text-sm font-medium text-slate-500">
+                <li><Link href="/register" className="hover:text-blue-600 transition-colors">Get Started Free</Link></li>
+                <li><Link href="/login" className="hover:text-blue-600 transition-colors">Log In</Link></li>
+                <li><Link href="/dashboard" className="hover:text-blue-600 transition-colors">Dashboard</Link></li>
+              </ul>
+            </div>
+            {/* Legal */}
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Legal</p>
+              <ul className="space-y-3 text-sm font-medium text-slate-500">
+                <li><Link href="/legal/privacy" className="hover:text-blue-600 transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/legal/terms" className="hover:text-blue-600 transition-colors">Terms of Service</Link></li>
+                <li><a href="mailto:support@qalt.site" className="hover:text-blue-600 transition-colors">Support</a></li>
+              </ul>
+            </div>
           </div>
-          <div className="flex gap-10 text-sm font-bold text-slate-400 uppercase tracking-widest">
-            <Link href="/legal/privacy" className="hover:text-blue-600 transition-colors">Privacy</Link>
-            <Link href="/legal/terms" className="hover:text-blue-600 transition-colors">Terms</Link>
-            <a href="mailto:support@qalt.site" className="hover:text-blue-600 transition-colors">Support</a>
+          <div className="pt-8 border-t border-slate-100">
+            <p className="text-slate-400 font-medium text-sm text-center md:text-left">© 2026 Qalt. All rights reserved.</p>
           </div>
         </div>
       </footer>

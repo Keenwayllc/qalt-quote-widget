@@ -247,16 +247,41 @@ export default function QuotesClient({ quotes }: { quotes: Quote[] }) {
   return (
     <>
       {quotes.length === 0 ? (
-        <div className="bg-white rounded-4xl border border-slate-200/60 shadow-2xl shadow-slate-200/50 overflow-hidden p-12 text-center">
-          <div className="flex flex-col items-center">
-            <div className="p-6 bg-slate-50 rounded-full text-slate-300 mb-4">
-              <FileText size={48} />
+        <div className="bg-white rounded-4xl border border-dashed border-slate-200 shadow-sm overflow-hidden p-12 sm:p-16 text-center">
+          <div className="flex flex-col items-center max-w-sm mx-auto">
+            <div className="w-16 h-16 bg-blue-50 border border-blue-100 rounded-2xl flex items-center justify-center mb-6">
+              <FileText size={28} className="text-blue-500" />
             </div>
-            <p className="text-slate-900 font-black text-xl mb-1">No leads found</p>
-            <p className="text-slate-400 font-medium mb-6">Your quote history will appear here once customers interact with your widget.</p>
-            <Link href="/dashboard/embed" className="px-6 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-100">
-              Setup Widget &rarr;
-            </Link>
+            <h3 className="text-xl font-black text-slate-900 mb-2">No quote requests yet</h3>
+            <p className="text-slate-500 font-medium text-sm mb-8 leading-relaxed">
+              Once customers use your embedded widget, their quote requests will appear here. Embed your widget to start capturing leads.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center gap-3 w-full justify-center">
+              <Link
+                href="/dashboard/embed"
+                className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition-all shadow-lg shadow-blue-100"
+              >
+                Get Embed Code &rarr;
+              </Link>
+              <Link
+                href="/dashboard/pricing"
+                className="flex items-center gap-2 px-6 py-3 bg-slate-100 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-200 transition-all"
+              >
+                Set Pricing First
+              </Link>
+            </div>
+            <div className="mt-10 grid grid-cols-3 gap-4 w-full border-t border-slate-100 pt-8">
+              {[
+                { step: "1", label: "Set pricing rules" },
+                { step: "2", label: "Customize widget" },
+                { step: "3", label: "Embed on your site" },
+              ].map((item) => (
+                <div key={item.step} className="text-center">
+                  <div className="w-7 h-7 bg-slate-900 text-white rounded-lg text-xs font-black flex items-center justify-center mx-auto mb-2">{item.step}</div>
+                  <p className="text-xs font-bold text-slate-500">{item.label}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       ) : (
