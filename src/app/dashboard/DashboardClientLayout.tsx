@@ -24,9 +24,11 @@ import { getEntitlements } from "@/lib/plans";
 export default function DashboardClientLayout({
   children,
   subscriptionPlan,
+  pendingCount = 0,
 }: {
   children: React.ReactNode;
   subscriptionPlan: string;
+  pendingCount?: number;
 }) {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -149,6 +151,7 @@ export default function DashboardClientLayout({
                       {quoteCount! > 99 ? "99+" : quoteCount}
                     </span>
                   )}
+
 
                   {isLocked && (
                     <Lock size={12} className="text-amber-500 ml-2" />

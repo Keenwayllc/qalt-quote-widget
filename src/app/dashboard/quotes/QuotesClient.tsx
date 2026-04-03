@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   FileText, MapPin, Mail, Phone, Calendar, ChevronRight,
   X, Package, Truck, Hash, CreditCard, Clock, CheckCircle2,
-  AlertCircle, Copy, Check,
+  AlertCircle, Copy, Check, Settings, Code
 } from "lucide-react";
 import Link from "next/link";
 
@@ -22,6 +22,7 @@ interface Quote {
   packageWeight: string | null;
   selectedExtras: string | null;
   status: string;
+  internalNotes: string | null;
   estimatedPrice: number;
   vehicleCount: number | null;
   awbNumber: string | null;
@@ -33,6 +34,8 @@ interface Quote {
 const statusConfig: Record<string, { label: string; cls: string }> = {
   PENDING:   { label: "Pending",   cls: "bg-amber-50 text-amber-700 border-amber-100" },
   CONFIRMED: { label: "Confirmed", cls: "bg-blue-50 text-blue-700 border-blue-100" },
+  WON:       { label: "Won",       cls: "bg-emerald-50 text-emerald-700 border-emerald-100" },
+  LOST:      { label: "Lost",      cls: "bg-rose-50 text-rose-700 border-rose-100" },
   PAID:      { label: "Paid",      cls: "bg-emerald-50 text-emerald-700 border-emerald-100" },
   CANCELLED: { label: "Cancelled", cls: "bg-red-50 text-red-700 border-red-100" },
 };
@@ -60,7 +63,27 @@ function CopyButton({ text }: { text: string }) {
   );
 }
 
-function QuoteDrawer({ quote, onClose }: { quote: Quote; onClose: () => void }) {
+function QuoteDrawer({ quote, onClose, onUpdate }: { quote: Quote; onClose: () => void; onUpdate: (q: Quote) => void }) {
+  const [notes, setNotes] = useState(quote.internalNotes || "");
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  const updateQuote = async (data: Partial<Quote>) => {
+    setIsUpdating(true);
+    try {
+      const res = await fetch(`/api/dashboard/quotes/${quote.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        onUpdate(updated);
+      }
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
   const extras = quote.selectedExtras
     ? (JSON.parse(quote.selectedExtras) as string[])
     : [];
@@ -215,6 +238,37 @@ function QuoteDrawer({ quote, onClose }: { quote: Quote; onClose: () => void }) 
               </div>
             </div>
 
+            {/* CRM Status & Notes */}
+            <div className="bg-slate-50 rounded-2xl p-5 mt-5">
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Internal Status</p>
+              <div className="grid grid-cols-3 gap-2 mb-4">
+                <button
+                  disabled={isUpdating}
+                  onClick={() => updateQuote({ status: "CONFIRMED" })}
+                  className={`py-2 rounded-xl text-xs font-bold transition-all ${quote.status === "CONFIRMED" ? "bg-blue-600 text-white" : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-100"}`}
+                >Confirmed</button>
+                <button
+                  disabled={isUpdating}
+                  onClick={() => updateQuote({ status: "WON" })}
+                  className={`py-2 rounded-xl text-xs font-bold transition-all ${quote.status === "WON" ? "bg-emerald-600 text-white" : "bg-white border border-slate-200 text-slate-600 hover:bg-emerald-50 hover:text-emerald-700"}`}
+                >Won</button>
+                <button
+                  disabled={isUpdating}
+                  onClick={() => updateQuote({ status: "LOST" })}
+                  className={`py-2 rounded-xl text-xs font-bold transition-all ${quote.status === "LOST" ? "bg-rose-600 text-white" : "bg-white border border-slate-200 text-slate-600 hover:bg-rose-50 hover:text-rose-700"}`}
+                >Lost</button>
+              </div>
+
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Private Notes</p>
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                onBlur={() => { if (notes !== (quote.internalNotes || "")) updateQuote({ internalNotes: notes }) }}
+                placeholder="Add private notes about this quote..."
+                className="w-full h-24 p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white resize-none"
+              />
+            </div>
+
             {/* Quick actions */}
             <div className="grid grid-cols-2 gap-3">
               <a
@@ -241,46 +295,41 @@ function QuoteDrawer({ quote, onClose }: { quote: Quote; onClose: () => void }) 
   );
 }
 
-export default function QuotesClient({ quotes }: { quotes: Quote[] }) {
+export default function QuotesClient({ quotes: initialQuotes }: { quotes: Quote[] }) {
+  const [quotes, setQuotes] = useState<Quote[]>(initialQuotes);
   const [selected, setSelected] = useState<Quote | null>(null);
+
+  const handleUpdate = (updated: Quote) => {
+    setQuotes((prev) => prev.map((q) => q.id === updated.id ? updated : q));
+    setSelected(updated);
+  };
 
   return (
     <>
       {quotes.length === 0 ? (
-        <div className="bg-white rounded-4xl border border-dashed border-slate-200 shadow-sm overflow-hidden p-12 sm:p-16 text-center">
-          <div className="flex flex-col items-center max-w-sm mx-auto">
-            <div className="w-16 h-16 bg-blue-50 border border-blue-100 rounded-2xl flex items-center justify-center mb-6">
-              <FileText size={28} className="text-blue-500" />
+        <div className="bg-white rounded-[32px] border border-slate-200/60 shadow-xl shadow-slate-200/40 overflow-hidden text-center relative isolate mb-12">
+          {/* Subtle Background Glows */}
+          <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[50%] bg-blue-400/10 blur-[120px] rounded-full pointer-events-none" />
+          <div className="absolute bottom-[-20%] left-[-10%] w-[40%] h-[40%] bg-indigo-400/10 blur-[100px] rounded-full pointer-events-none" />
+
+          <div className="px-6 py-24 flex flex-col items-center">
+            <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl border border-blue-100/50 shadow-inner text-blue-500 mb-8 relative">
+              <div className="absolute inset-0 bg-white/20 rounded-3xl backdrop-blur-md" />
+              <div className="relative">
+                <Settings size={48} strokeWidth={1.5} className="text-blue-600" />
+              </div>
             </div>
-            <h3 className="text-xl font-black text-slate-900 mb-2">No quote requests yet</h3>
-            <p className="text-slate-500 font-medium text-sm mb-8 leading-relaxed">
-              Once customers use your embedded widget, their quote requests will appear here. Embed your widget to start capturing leads.
+            <h2 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">You&apos;re almost there!</h2>
+            <p className="text-slate-500 font-medium text-lg mb-10 max-w-md mx-auto leading-relaxed">
+              Your dashboard is ready, but your customers need a way to reach you. Customize your widget and embed it on your site to start receiving leads.
             </p>
-            <div className="flex flex-col sm:flex-row items-center gap-3 w-full justify-center">
-              <Link
-                href="/dashboard/embed"
-                className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition-all shadow-lg shadow-blue-100"
-              >
-                Get Embed Code &rarr;
+            <div className="flex flex-col sm:flex-row gap-4 items-center">
+              <Link href="/dashboard/widget" className="px-8 py-3.5 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 active:scale-95 transition-all shadow-lg shadow-slate-200 flex items-center gap-2">
+                <Settings size={18} /> Customize Widget
               </Link>
-              <Link
-                href="/dashboard/pricing"
-                className="flex items-center gap-2 px-6 py-3 bg-slate-100 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-200 transition-all"
-              >
-                Set Pricing First
+              <Link href="/dashboard/embed" className="px-8 py-3.5 bg-white border border-slate-200 text-slate-700 rounded-xl font-bold hover:bg-slate-50 active:scale-95 transition-all flex items-center gap-2">
+                <Code size={18} /> Get Embed Code
               </Link>
-            </div>
-            <div className="mt-10 grid grid-cols-3 gap-4 w-full border-t border-slate-100 pt-8">
-              {[
-                { step: "1", label: "Set pricing rules" },
-                { step: "2", label: "Customize widget" },
-                { step: "3", label: "Embed on your site" },
-              ].map((item) => (
-                <div key={item.step} className="text-center">
-                  <div className="w-7 h-7 bg-slate-900 text-white rounded-lg text-xs font-black flex items-center justify-center mx-auto mb-2">{item.step}</div>
-                  <p className="text-xs font-bold text-slate-500">{item.label}</p>
-                </div>
-              ))}
             </div>
           </div>
         </div>
@@ -422,7 +471,7 @@ export default function QuotesClient({ quotes }: { quotes: Quote[] }) {
 
       {/* Detail Drawer */}
       <AnimatePresence>
-        {selected && <QuoteDrawer quote={selected} onClose={() => setSelected(null)} />}
+        {selected && <QuoteDrawer quote={selected} onClose={() => setSelected(null)} onUpdate={handleUpdate} />}
       </AnimatePresence>
     </>
   );

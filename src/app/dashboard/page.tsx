@@ -109,9 +109,9 @@ export default async function DashboardOverview() {
     },
   ];
 
-  // Hide checklist once merchant has 3+ steps done (essentially onboarded)
+  // Hide checklist only when all steps are done
   const doneCount = onboardingSteps.filter((s) => s.done).length;
-  const showChecklist = doneCount < 3;
+  const showChecklist = doneCount < onboardingSteps.length;
 
   return (
     <div className="p-4 lg:p-10 space-y-10 max-w-7xl mx-auto">
