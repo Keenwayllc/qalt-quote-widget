@@ -52,7 +52,7 @@ export default function QaltAnimatedLogo({
   return (
     <motion.svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="100 1300 3700 1150"
+      viewBox="80 1260 3820 1200"
       className={className}
       initial={initial}
       animate="visible"

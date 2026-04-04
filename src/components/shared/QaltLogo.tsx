@@ -10,11 +10,16 @@ interface QaltLogoProps {
   noAnimate?: boolean;
 }
 
+/**
+ * Responsive height classes per size token.
+ * Each maps to a mobile-first height that scales up on sm/md breakpoints
+ * so the logo always feels well-proportioned for the viewport.
+ */
 const SIZES = {
-  sm: { h: "h-10" },
-  md: { h: "h-14" },
-  lg: { h: "h-16" },
-  xl: { h: "h-20" },
+  sm: { h: "h-7 sm:h-8" },
+  md: { h: "h-8 sm:h-10 md:h-11" },
+  lg: { h: "h-9 sm:h-11 md:h-14" },
+  xl: { h: "h-9 sm:h-12 md:h-14" },
 } as const;
 
 export default function QaltLogo({
