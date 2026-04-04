@@ -222,7 +222,7 @@ export default function EmbedCodePage() {
             {/* Installation Guide */}
             <div className="bg-blue-50 rounded-[32px] p-10 border border-blue-100 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none scale-150">
-                <img src="/images/Q-lines-logo-400x400.jpg" alt="" width={120} height={120} className="w-[120px] h-[120px] object-contain" />
+                <img src="/images/qalt-icon-400.jpg" alt="" width={120} height={120} className="w-[120px] h-[120px] object-contain" />
               </div>
               <h3 className="text-xl font-black text-blue-900 mb-6">Installation Guide</h3>
               <ul className="space-y-6">

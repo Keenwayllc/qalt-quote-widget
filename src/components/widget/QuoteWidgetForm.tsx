@@ -917,7 +917,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                 <span className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em]">Powered by</span>
                 <div className="flex items-center gap-1.5 scale-90 transform origin-left">
                   <Image
-                    src="/images/Q-lines-logo-[Converted].png"
+                    src="/images/qalt-logo-main-2026.png"
                     alt="Qalt Logo"
                     width={1080}
                     height={1080}

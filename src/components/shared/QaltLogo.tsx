@@ -27,7 +27,7 @@ export default function QaltLogo({
   const inner = (
     <span className={`flex items-center ${className}`}>
       <Image
-        src="/images/Q-lines-logo-[Converted].png"
+        src="/images/qalt-logo-main-2026.png"
         alt="Qalt"
         width={1080}
         height={1080}
