@@ -3,6 +3,21 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, delay: i * 0.1, ease: "easeOut" as const },
+  }),
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.7 } },
+};
 import QaltLogo from "@/components/shared/QaltLogo";
 import {
   ArrowRight,
@@ -147,7 +162,12 @@ export default function PartnersPage() {
 
       <main className="pt-32 sm:pt-40 pb-24 sm:pb-32">
         {/* Hero */}
-        <div className="text-center mb-16 sm:mb-24 px-4 sm:px-6">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}
+          className="text-center mb-16 sm:mb-24 px-4 sm:px-6"
+        >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-100 mb-6 sm:mb-8">
             <Handshake size={14} />
             Qalt Partner Ecosystem
@@ -162,17 +182,22 @@ export default function PartnersPage() {
           <p className="text-sm text-slate-400 font-medium">
             Trusted partners, hand-picked for courier and logistics companies.
           </p>
-        </div>
+        </motion.div>
 
         {/* Partner Cards */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 mb-24 sm:mb-32">
           {PARTNERS.map((partner, i) => (
-            <div
+            <motion.div
               key={i}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              custom={i}
+              variants={fadeUp}
               className="bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow"
             >
               {/* Card Header */}
-              <div className="bg-gradient-to-br from-slate-50 to-white p-8 sm:p-12 border-b border-slate-100">
+              <div className="bg-linear-to-br from-slate-50 to-white p-8 sm:p-12 border-b border-slate-100">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8">
                   <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center p-3 shrink-0">
                     <Image
@@ -207,15 +232,12 @@ export default function PartnersPage() {
               {/* Card Body */}
               <div className="p-8 sm:p-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
-                  {/* Left: Description */}
                   <div>
                     <h3 className="text-lg font-black mb-4 text-slate-900">About {partner.name}</h3>
                     <p className="text-slate-500 font-medium leading-relaxed text-sm sm:text-base">
                       {partner.longDescription}
                     </p>
                   </div>
-
-                  {/* Right: Benefits */}
                   <div>
                     <h3 className="text-lg font-black mb-4 text-slate-900">Why This Partner</h3>
                     <ul className="space-y-3">
@@ -230,8 +252,6 @@ export default function PartnersPage() {
                     </ul>
                   </div>
                 </div>
-
-                {/* Mobile CTA */}
                 <a
                   href={partner.url}
                   target="_blank"
@@ -242,44 +262,59 @@ export default function PartnersPage() {
                   <ExternalLink size={14} />
                 </a>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* Why Partner With Qalt */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 mb-24 sm:mb-32">
-          <div className="text-center mb-12 sm:mb-16">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={fadeUp}
+            className="text-center mb-12 sm:mb-16"
+          >
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4">Why Partner With Qalt?</h2>
             <p className="text-lg text-slate-500 font-medium max-w-xl mx-auto">
               We are building the go-to platform for delivery businesses. Our partners are part of that mission.
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
             {WHY_PARTNER.map((item, i) => (
-              <div
+              <motion.div
                 key={i}
-                className="bg-gradient-to-b from-white to-slate-50 p-7 sm:p-9 rounded-xl border border-slate-200 hover:shadow-lg hover:shadow-blue-900/5 hover:-translate-y-1 transition-all group"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-40px" }}
+                custom={i}
+                variants={fadeUp}
+                className="bg-linear-to-b from-white to-slate-50 p-7 sm:p-9 rounded-xl border border-slate-200 hover:shadow-lg hover:shadow-blue-900/5 hover:-translate-y-1 transition-all group"
               >
                 <div className="w-12 h-12 bg-blue-600/10 border border-blue-100 rounded-lg flex items-center justify-center mb-6 sm:mb-7 group-hover:bg-blue-600/15 transition-colors">
                   {item.icon}
                 </div>
                 <h3 className="text-xl font-black mb-3 text-slate-900">{item.title}</h3>
                 <p className="text-slate-500 font-medium leading-relaxed text-sm sm:text-base">{item.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
 
         {/* Become a Partner CTA */}
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <div className="bg-gradient-to-br from-[#131526] via-[#1a1636] to-[#2d1b54] rounded-2xl p-10 sm:p-16 text-center relative overflow-hidden">
-            {/* Background decoration */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeIn}
+          className="max-w-4xl mx-auto px-4 sm:px-6"
+        >
+          <div className="bg-linear-to-br from-[#131526] via-[#1a1636] to-[#2d1b54] rounded-2xl p-10 sm:p-16 text-center relative overflow-hidden">
             <div className="absolute inset-0 opacity-10">
               <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full blur-3xl" />
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-violet-500 rounded-full blur-3xl" />
             </div>
-
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-[10px] font-black uppercase tracking-widest mb-6 border border-white/20">
                 <Handshake size={14} />
@@ -301,7 +336,7 @@ export default function PartnersPage() {
               <p className="text-sm text-slate-400 font-medium mt-4">business@qalt.site</p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </main>
 
       {/* Footer */}

@@ -2,8 +2,23 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import QaltLogo from "@/components/shared/QaltLogo";
 import { CheckCircle2, Minus, ChevronDown, ChevronUp, ArrowUp } from "lucide-react";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, delay: i * 0.1, ease: "easeOut" as const },
+  }),
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.7 } },
+};
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -23,29 +38,27 @@ interface FeatureSection {
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-
-
 const FEATURE_SECTIONS: FeatureSection[] = [
   {
     title: "Quote Widget",
     rows: [
       { name: "Quote Forms (unique embed codes)",       starter: "1",      pro: "5",         enterprise: "Unlimited" },
-      { name: "Quotes per month",                     starter: "25",     pro: "Unlimited", enterprise: "Unlimited" },
-      { name: "Multi-step quote form",                starter: true,     pro: true,        enterprise: true        },
-      { name: "Instant price calculation",            starter: true,     pro: true,        enterprise: true        },
-      { name: "Lead capture & storage",               starter: true,     pro: true,        enterprise: true        },
-      { name: "Custom pricing rules",                 starter: false,    pro: true,        enterprise: true        },
-      { name: "Distance-based pricing (Google Maps)", starter: false,    pro: true,        enterprise: true        },
-      { name: "Weight & dimension pricing",           starter: false,    pro: true,        enterprise: true        },
+      { name: "Quotes per month",                      starter: "25",     pro: "Unlimited", enterprise: "Unlimited" },
+      { name: "Multi-step quote form",                 starter: true,     pro: true,        enterprise: true        },
+      { name: "Instant price calculation",             starter: true,     pro: true,        enterprise: true        },
+      { name: "Lead capture & storage",                starter: true,     pro: true,        enterprise: true        },
+      { name: "Custom pricing rules",                  starter: false,    pro: true,        enterprise: true        },
+      { name: "Distance-based pricing (Google Maps)",  starter: false,    pro: true,        enterprise: true        },
+      { name: "Weight & dimension pricing",            starter: false,    pro: true,        enterprise: true        },
     ],
   },
   {
     title: "Team & Collaboration",
     rows: [
-      { name: "Team members",            starter: "1",      pro: "1",         enterprise: "Unlimited" },
-      { name: "Role-based permissions", starter: false,    pro: false,       enterprise: true        },
-      { name: "Activity audit logs",    starter: false,    pro: false,       enterprise: true        },
-      { name: "Multi-branch support",   starter: false,    pro: false,       enterprise: true        },
+      { name: "Team members",            starter: "1",   pro: "1",   enterprise: "Unlimited" },
+      { name: "Role-based permissions",  starter: false, pro: false, enterprise: true        },
+      { name: "Activity audit logs",     starter: false, pro: false, enterprise: true        },
+      { name: "Multi-branch support",    starter: false, pro: false, enterprise: true        },
     ],
   },
   {
@@ -73,12 +86,12 @@ const FEATURE_SECTIONS: FeatureSection[] = [
   {
     title: "Integrations & Support",
     rows: [
-      { name: "Email notifications",       starter: true,  pro: true,  enterprise: true  },
-      { name: "Advanced Webhooks",         starter: false, pro: false, enterprise: true  },
-      { name: "Full Developer API",        starter: false, pro: false, enterprise: "Coming Soon" },
-      { name: "Email support",             starter: true,  pro: true,  enterprise: true  },
-      { name: "Priority support",          starter: false, pro: true,  enterprise: true  },
-      { name: "Success Manager & SLA",     starter: false, pro: false, enterprise: true  },
+      { name: "Email notifications",   starter: true,  pro: true,  enterprise: true             },
+      { name: "Advanced Webhooks",     starter: false, pro: false, enterprise: true             },
+      { name: "Full Developer API",    starter: false, pro: false, enterprise: "Coming Soon"    },
+      { name: "Email support",         starter: true,  pro: true,  enterprise: true             },
+      { name: "Priority support",      starter: false, pro: true,  enterprise: true             },
+      { name: "Success Manager & SLA", starter: false, pro: false, enterprise: true             },
     ],
   },
 ];
@@ -159,7 +172,12 @@ export default function PricingPage() {
       <main className="pt-40 pb-32">
 
         {/* Header */}
-        <div className="text-center mb-16 px-6">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}
+          className="text-center mb-16 px-6"
+        >
           <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-5">
             Simple, Transparent<br />
             <span className="text-blue-600">Pricing</span>
@@ -191,10 +209,17 @@ export default function PricingPage() {
               </span>
             </button>
           </div>
-        </div>
+        </motion.div>
 
         {/* Tier Cards */}
-        <div className="max-w-5xl mx-auto px-6 mb-24">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={fadeUp}
+          custom={1}
+          className="max-w-5xl mx-auto px-6 mb-24"
+        >
           <div className="grid md:grid-cols-3 rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white">
             {/* Starter */}
             <div className="bg-white p-10 flex flex-col">
@@ -280,12 +305,17 @@ export default function PricingPage() {
                 ))}
               </ul>
             </div>
-
           </div>
-        </div>
+        </motion.div>
 
         {/* Feature Comparison Table */}
-        <div className="max-w-5xl mx-auto px-6">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={fadeIn}
+          className="max-w-5xl mx-auto px-6"
+        >
           <h2 className="text-3xl font-black tracking-tight text-center mb-4">Compare All Features</h2>
           <p className="text-center text-slate-500 font-medium mb-12">See what is included at each stage as your quoting workflow grows.</p>
 
@@ -336,12 +366,18 @@ export default function PricingPage() {
               Upgrade to Enterprise
             </Link>
           </div>
-        </div>
+        </motion.div>
 
       </main>
 
       {/* ROI Section */}
-      <section className="py-20 bg-white border-t border-slate-100">
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={fadeUp}
+        className="py-20 bg-white border-t border-slate-100"
+      >
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-6">A single booked job can cover the monthly cost</h2>
           <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto mb-10">
@@ -360,10 +396,16 @@ export default function PricingPage() {
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* FAQ */}
-      <section className="py-24 bg-slate-50 border-t border-slate-100">
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={fadeUp}
+        className="py-24 bg-slate-50 border-t border-slate-100"
+      >
         <div className="max-w-3xl mx-auto px-6">
           <h2 className="text-3xl font-black tracking-tight text-center mb-12">Common Questions</h2>
           <div className="space-y-3">
@@ -379,10 +421,16 @@ export default function PricingPage() {
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Final CTA */}
-      <section className="py-24 bg-white border-t border-slate-100">
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={fadeUp}
+        className="py-24 bg-white border-t border-slate-100"
+      >
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-6">Start free and put Qalt on your site</h2>
           <p className="text-lg text-slate-500 font-medium mb-10">
@@ -397,7 +445,7 @@ export default function PricingPage() {
             </Link>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Scroll to top */}
       {showScroll && (
@@ -417,7 +465,8 @@ export default function PricingPage() {
             {/* Brand */}
             <div className="col-span-2 md:col-span-1">
               <QaltLogo size="xl" />
-              <p className="text-slate-400 font-medium text-sm mt-4 max-w-[220px] leading-relaxed">
+              <p className="text-blue-600 font-black text-sm mt-3">Your rates. Embedded. Anywhere.</p>
+              <p className="text-slate-400 font-medium text-sm mt-2 max-w-[220px] leading-relaxed">
                 Instant delivery quotes for your website. No manual quoting required.
               </p>
             </div>
