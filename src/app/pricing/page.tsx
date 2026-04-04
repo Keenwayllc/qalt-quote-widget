@@ -138,8 +138,10 @@ export default function PricingPage() {
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
           <QaltLogo size="md" />
-          <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500 uppercase tracking-widest">
+          <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500">
             <Link href="/#features" className="hover:text-blue-600 transition-colors">Features</Link>
+            <Link href="/#how-it-works" className="hover:text-blue-600 transition-colors">How it Works</Link>
+            <Link href="/#use-cases" className="hover:text-blue-600 transition-colors">Use Cases</Link>
             <Link href="/pricing" className="text-blue-600">Pricing</Link>
           </div>
           <div className="flex items-center gap-4">

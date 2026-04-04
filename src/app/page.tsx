@@ -34,12 +34,12 @@ const BANNER_IMAGES = [
   {
     src: "/images/banner-2.jpg",
     headline: <>Your brand. Your prices.<br /><span className="text-blue-400">On autopilot.</span></>,
-    sub: "Set your pricing rules once and let your site handle the rest — no more back-and-forth quotes over the phone.",
+    sub: "Set your pricing rules once and let your site handle the rest. No more back-and-forth quotes over the phone.",
   },
   {
     src: "/images/company-owner-opt.jpeg",
     headline: <>Built for businesses<br /><span className="text-emerald-400">small and large.</span></>,
-    sub: "From solo couriers to enterprise fleets — Qalt scales with your operation so you can focus on delivering, not quoting.",
+    sub: "From solo couriers to enterprise fleets. Qalt scales with your operation so you can focus on delivering, not quoting.",
   },
 ];
 
@@ -101,7 +101,7 @@ export default function LandingPage() {
           <QaltLogo size="xl" />
 
           {/* Desktop nav links */}
-          <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500 uppercase tracking-widest">
+          <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500">
             <button onClick={() => scrollTo("features")} className="hover:text-blue-600 transition-colors">Features</button>
             <button onClick={() => scrollTo("how-it-works")} className="hover:text-blue-600 transition-colors">How it Works</button>
             <button onClick={() => scrollTo("use-cases")} className="hover:text-blue-600 transition-colors">Use Cases</button>
@@ -275,7 +275,7 @@ export default function LandingPage() {
         {/* Trust Bar */}
         <section className="py-5 bg-white border-b border-slate-100">
           <div className="max-w-5xl mx-auto px-4 sm:px-6">
-            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm font-bold text-slate-400 uppercase tracking-widest">
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm font-bold text-slate-400 tracking-wide">
               {["No card required", "Cancel anytime", "5-minute setup", "Free plan forever", "White-label ready"].map((item, i) => (
                 <span key={i} className="flex items-center gap-2">
                   <CheckCircle2 size={14} className="text-blue-500 shrink-0" />
@@ -296,7 +296,7 @@ export default function LandingPage() {
               variants={fadeUp}
               className="text-center mb-16 sm:mb-24"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-100 mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black tracking-wide border border-blue-100 mb-6">
                 Built for delivery companies
               </div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-6">Set your pricing once. Let your site quote for you.</h2>
@@ -398,14 +398,14 @@ export default function LandingPage() {
             >
               <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
               <div className="relative z-10">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/15 text-white/90 rounded-full text-[10px] font-black uppercase tracking-widest border border-white/20 mb-6">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/15 text-white/90 rounded-full text-[10px] font-black tracking-wide border border-white/20 mb-6">
                   Real ROI
                 </div>
                 <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight mb-6 leading-tight">
                   One booked job pays for<br className="hidden sm:block" /> a full month.
                 </h2>
                 <p className="text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto font-medium mb-10">
-                  The Pro plan is $14/mo. A single delivery booking worth $50–$200 covers it entirely. Every lead after that is pure profit — no manual quoting required.
+                  The Pro plan is $14/mo. A single delivery booking worth $50–$200 covers it entirely. Every lead after that is pure profit. No manual quoting required.
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                   <Link href="/register" className="px-8 py-4 bg-white text-blue-700 rounded-xl font-black text-sm hover:bg-blue-50 hover:scale-[1.03] active:scale-[0.98] transition-all shadow-xl">
@@ -543,14 +543,14 @@ export default function LandingPage() {
               variants={fadeUp}
               className="text-center mb-4"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 text-white/70 rounded-full text-[10px] font-black uppercase tracking-widest border border-white/10 mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 text-white/70 rounded-full text-[10px] font-black tracking-wide border border-white/10 mb-6">
                 What merchants say
               </div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-4">
                 Delivery businesses love Qalt
               </h2>
               <p className="text-lg text-slate-400 max-w-xl mx-auto font-medium">
-                From solo couriers to multi-vehicle fleets — here's what they're saying.
+                From solo couriers to multi-vehicle fleets. Here's what they're saying.
               </p>
             </motion.div>
           </div>
@@ -577,7 +577,7 @@ export default function LandingPage() {
               variants={fadeUp}
               className="mb-12 sm:mb-16 text-center"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 text-white/70 rounded-full text-[10px] font-black uppercase tracking-widest border border-white/10 mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 text-white/70 rounded-full text-[10px] font-black tracking-wide border border-white/10 mb-6">
                 Built for teams that deliver
               </div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 tracking-tight leading-tight">
