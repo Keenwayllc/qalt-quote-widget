@@ -68,9 +68,9 @@ export default function LoginPage() {
             </div>
             <h1 className="text-4xl font-black text-white tracking-tight leading-tight">
               Welcome back to<br />
-              <span className="text-blue-200">your dashboard.</span>
+              <span className="text-red-200">your dashboard.</span>
             </h1>
-            <p className="text-blue-200/80 font-medium text-sm leading-relaxed max-w-xs">
+            <p className="text-red-200/80 font-medium text-sm leading-relaxed max-w-xs">
               Manage your widget, track quote requests, and grow your delivery business — all in one place.
             </p>
           </div>
@@ -85,11 +85,11 @@ export default function LoginPage() {
                 className="flex items-start gap-4"
               >
                 <div className="p-2 bg-white/10 rounded-xl border border-white/15 shrink-0">
-                  <f.icon size={16} className="text-blue-200" />
+                  <f.icon size={16} className="text-red-200" />
                 </div>
                 <div>
                   <p className="text-sm font-black text-white">{f.title}</p>
-                  <p className="text-xs text-blue-200/70 font-medium mt-0.5">{f.desc}</p>
+                  <p className="text-xs text-red-200/70 font-medium mt-0.5">{f.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -121,7 +121,7 @@ export default function LoginPage() {
             </h2>
             <p className="mt-2 text-sm font-medium text-slate-500">
               Don&apos;t have an account?{" "}
-              <Link href="/register" className="text-[#1E40AF] font-bold hover:text-blue-800 transition-colors">
+              <Link href="/register" className="text-red-600 font-bold hover:text-red-700 transition-colors">
                 Create one free
               </Link>
             </p>
@@ -141,7 +141,7 @@ export default function LoginPage() {
                   autoComplete="email"
                   required
                   placeholder="hello@company.com"
-                  className="w-full pl-14 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-[#1E40AF] transition-all font-semibold text-slate-900 text-sm placeholder:text-slate-400 shadow-sm"
+                  className="w-full pl-14 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#1E40AF] transition-all font-semibold text-slate-900 text-sm placeholder:text-slate-400 shadow-sm"
                 />
               </div>
             </div>
@@ -159,7 +159,7 @@ export default function LoginPage() {
                   autoComplete="current-password"
                   required
                   placeholder="••••••••"
-                  className="w-full pl-14 pr-14 py-4 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-[#1E40AF] transition-all font-semibold text-slate-900 text-sm placeholder:text-slate-400 shadow-sm"
+                  className="w-full pl-14 pr-14 py-4 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#1E40AF] transition-all font-semibold text-slate-900 text-sm placeholder:text-slate-400 shadow-sm"
                 />
                 <button
                   type="button"
@@ -186,7 +186,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2.5 py-4 bg-[#1E40AF] hover:bg-blue-800 text-white font-black text-sm uppercase tracking-[0.15em] rounded-2xl transition-all shadow-lg shadow-blue-900/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+              className="w-full flex items-center justify-center gap-2.5 py-4 bg-red-600 hover:bg-red-700 text-white font-black text-sm uppercase tracking-[0.15em] rounded-2xl transition-all shadow-lg shadow-red-900/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed mt-2"
             >
               {loading ? (
                 <><Loader2 className="w-4 h-4 animate-spin" /> Signing in...</>

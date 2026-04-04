@@ -26,13 +26,13 @@ export default async function AnalyticsPage() {
     return (
       <div className="p-4 lg:p-10 max-w-7xl mx-auto">
         <div className="bg-white rounded-[40px] border border-slate-200/60 shadow-2xl shadow-slate-200/40 overflow-hidden relative min-h-[650px] flex flex-col items-center justify-center text-center px-6">
-          <div className="absolute top-0 inset-x-0 h-1.5 bg-linear-to-r from-blue-500 via-indigo-500 to-purple-600" />
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-60" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-50 rounded-full blur-3xl opacity-60" />
+          <div className="absolute top-0 inset-x-0 h-1.5 bg-linear-to-r from-red-500 via-[#4f515b] to-rose-600" />
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-red-50 rounded-full blur-3xl opacity-60" />
+          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-red-50 rounded-full blur-3xl opacity-60" />
 
           <div className="relative z-10 max-w-lg">
-            <div className="inline-flex p-8 bg-linear-to-br from-blue-50 to-indigo-50 rounded-[32px] mb-8 relative border border-blue-100/50 shadow-inner">
-              <BarChart3 size={56} className="text-blue-600" />
+            <div className="inline-flex p-8 bg-linear-to-br from-red-50 to-slate-100 rounded-[32px] mb-8 relative border border-red-100/50 shadow-inner">
+              <BarChart3 size={56} className="text-red-600" />
               <div className="absolute -top-2 -right-2 bg-white p-2 rounded-full shadow-lg border border-slate-100">
                 <Lock size={22} className="text-slate-900 fill-slate-900" />
               </div>
@@ -49,8 +49,8 @@ export default async function AnalyticsPage() {
               {[
                 { icon: Zap, text: "Real-time tracking", color: "text-amber-500", bg: "bg-amber-50" },
                 { icon: Target, text: "Conversion optimization", color: "text-emerald-500", bg: "bg-emerald-50" },
-                { icon: Users, text: "Visitor demographics", color: "text-blue-500", bg: "bg-blue-50" },
-                { icon: TrendingUp, text: "Revenue forecasting", color: "text-purple-500", bg: "bg-purple-50" },
+                { icon: Users, text: "Visitor demographics", color: "text-red-500", bg: "bg-red-50" },
+                { icon: TrendingUp, text: "Revenue forecasting", color: "text-rose-500", bg: "bg-rose-50" },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:border-slate-200 transition-colors group">
                   <div className={`p-2 ${item.bg} rounded-xl group-hover:scale-110 transition-transform`}>
@@ -63,7 +63,7 @@ export default async function AnalyticsPage() {
 
             <Link
               href="/dashboard/billing"
-              className="inline-flex items-center justify-center px-10 py-5 bg-blue-600 text-white font-black rounded-2xl hover:bg-blue-700 hover:scale-[1.03] active:scale-[0.98] transition-all shadow-2xl shadow-blue-200 group relative overflow-hidden"
+              className="inline-flex items-center justify-center px-10 py-5 bg-red-600 text-white font-black rounded-2xl hover:bg-red-700 hover:scale-[1.03] active:scale-[0.98] transition-all shadow-2xl shadow-red-200 group relative overflow-hidden"
             >
               <span className="relative z-10 flex items-center">
                 Upgrade to Pro
@@ -120,14 +120,14 @@ export default async function AnalyticsPage() {
     <div className="p-4 lg:p-10 space-y-10 max-w-7xl mx-auto pb-20">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest mb-3 border border-blue-100/50 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-50 text-red-600 rounded-full text-[10px] font-black uppercase tracking-widest mb-3 border border-red-100/50 shadow-sm">
             <Activity size={12} /> Qalt • Smart Quotes
           </div>
           <h1 className="text-5xl font-black text-slate-900 tracking-tight">
             Analytics Overview
           </h1>
           <p className="text-slate-500 font-medium text-lg mt-2 font-['Outfit']">
-            Instant insights for your logistics pipeline. <span className="text-blue-600 font-bold italic">Your rates. Embedded. Anywhere.</span>
+            Instant insights for your logistics pipeline. <span className="text-red-600 font-bold italic">Your rates. Embedded. Anywhere.</span>
           </p>
         </div>
 
@@ -148,7 +148,7 @@ export default async function AnalyticsPage() {
           value={totalQuotes.toString()}
           subtitle={`${todayQuotesCount} today`}
           trend={todayQuotesCount > 0 ? "up" : "neutral"}
-          icon={<Users size={24} className="text-blue-600" />}
+          icon={<Users size={24} className="text-red-600" />}
           color="blue"
           delay={0.4}
         />
@@ -166,7 +166,7 @@ export default async function AnalyticsPage() {
           value={`$${avgQuoteValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
           subtitle="Lifetime average"
           trend="neutral"
-          icon={<Calculator size={24} className="text-purple-600" />}
+          icon={<Calculator size={24} className="text-rose-600" />}
           color="purple"
           delay={0.6}
         />

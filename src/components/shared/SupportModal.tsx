@@ -132,14 +132,14 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
                 <h3 className="text-xl font-black text-slate-900 mb-2">Message Sent!</h3>
                 <p className="text-slate-500 font-medium text-sm leading-relaxed">
                   Your support request has been sent to{" "}
-                  <span className="text-blue-600 font-bold">support@qalt.site</span>.
+                  <span className="text-red-600 font-bold">support@qalt.site</span>.
                   <br />
                   We&apos;ll be in touch shortly.
                 </p>
               </div>
               <button
                 onClick={handleClose}
-                className="mt-2 px-6 py-2.5 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition-colors"
+                className="mt-2 px-6 py-2.5 bg-red-600 text-white rounded-xl font-bold text-sm hover:bg-red-700 transition-colors"
               >
                 Close
               </button>
@@ -162,7 +162,7 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
                     onChange={(e) => setName(e.target.value)}
                     required
                     placeholder="Your name"
-                    className="w-full px-4 py-2.5 text-sm font-medium text-slate-900 bg-slate-50 border border-slate-200 rounded-xl placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                    className="w-full px-4 py-2.5 text-sm font-medium text-slate-900 bg-slate-50 border border-slate-200 rounded-xl placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
                   />
                 </div>
                 <div>
@@ -179,7 +179,7 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     placeholder="you@example.com"
-                    className="w-full px-4 py-2.5 text-sm font-medium text-slate-900 bg-slate-50 border border-slate-200 rounded-xl placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                    className="w-full px-4 py-2.5 text-sm font-medium text-slate-900 bg-slate-50 border border-slate-200 rounded-xl placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
                   />
                 </div>
               </div>
@@ -198,7 +198,7 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
                   onChange={(e) => setSubject(e.target.value)}
                   required
                   placeholder="Brief description of your issue"
-                  className="w-full px-4 py-2.5 text-sm font-medium text-slate-900 bg-slate-50 border border-slate-200 rounded-xl placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                  className="w-full px-4 py-2.5 text-sm font-medium text-slate-900 bg-slate-50 border border-slate-200 rounded-xl placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
                 />
               </div>
 
@@ -216,7 +216,7 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
                   required
                   rows={5}
                   placeholder="Describe your issue in detail…"
-                  className="w-full px-4 py-2.5 text-sm font-medium text-slate-900 bg-slate-50 border border-slate-200 rounded-xl placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"
+                  className="w-full px-4 py-2.5 text-sm font-medium text-slate-900 bg-slate-50 border border-slate-200 rounded-xl placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition resize-none"
                 />
               </div>
 
@@ -235,7 +235,7 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
                 <button
                   type="submit"
                   disabled={formState === "submitting"}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed transition-colors shadow-lg shadow-blue-200"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-red-600 text-white rounded-xl font-bold text-sm hover:bg-red-700 disabled:opacity-60 disabled:cursor-not-allowed transition-colors shadow-lg shadow-red-200"
                 >
                   {formState === "submitting" ? (
                     <>

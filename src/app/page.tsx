@@ -27,12 +27,12 @@ import SupportModal from "@/components/shared/SupportModal";
 const BANNER_IMAGES = [
   {
     src: "/images/banner-1.jpg",
-    headline: <>Instant delivery quotes<br /><span className="text-blue-400">on your website.</span></>,
+    headline: <>Instant delivery quotes<br /><span className="text-red-400">on your website.</span></>,
     sub: "Qalt gives delivery companies a white-label quote widget that prices jobs fast, captures leads, and cuts down manual quoting.",
   },
   {
     src: "/images/banner-2.jpg",
-    headline: <>Your brand. Your prices.<br /><span className="text-blue-400">On autopilot.</span></>,
+    headline: <>Your brand. Your prices.<br /><span className="text-red-400">On autopilot.</span></>,
     sub: "Set your pricing rules once and let your site handle the rest. No more back-and-forth quotes over the phone.",
   },
   {
@@ -90,7 +90,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 selection:bg-blue-100 selection:text-blue-900">
+    <div className="min-h-screen bg-white text-slate-900 selection:bg-red-100 selection:text-red-900">
       {/* Navigation */}
       <motion.nav
         style={{ backgroundColor: navBg }}
@@ -101,11 +101,11 @@ export default function LandingPage() {
 
           {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500">
-            <button onClick={() => scrollTo("features")} className="hover:text-blue-600 transition-colors">Features</button>
-            <button onClick={() => scrollTo("how-it-works")} className="hover:text-blue-600 transition-colors">How it Works</button>
-            <button onClick={() => scrollTo("use-cases")} className="hover:text-blue-600 transition-colors">Use Cases</button>
-            <Link href="/pricing" className="hover:text-blue-600 transition-colors">Pricing</Link>
-            <Link href="/partners" className="hover:text-blue-600 transition-colors">Partners</Link>
+            <button onClick={() => scrollTo("features")} className="hover:text-red-600 transition-colors">Features</button>
+            <button onClick={() => scrollTo("how-it-works")} className="hover:text-red-600 transition-colors">How it Works</button>
+            <button onClick={() => scrollTo("use-cases")} className="hover:text-red-600 transition-colors">Use Cases</button>
+            <Link href="/pricing" className="hover:text-red-600 transition-colors">Pricing</Link>
+            <Link href="/partners" className="hover:text-red-600 transition-colors">Partners</Link>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
@@ -117,7 +117,7 @@ export default function LandingPage() {
             </Link>
             <Link
               href="/register"
-              className="px-4 sm:px-6 py-2 sm:py-2.5 bg-blue-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 hover:-translate-y-0.5 active:scale-95 transition-all"
+              className="px-4 sm:px-6 py-2 sm:py-2.5 bg-red-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-red-200 hover:bg-red-700 hover:-translate-y-0.5 active:scale-95 transition-all"
             >
               Get Started
             </Link>
@@ -143,19 +143,19 @@ export default function LandingPage() {
               className="md:hidden bg-white border-t border-slate-100 shadow-lg overflow-hidden"
             >
               <div className="max-w-7xl mx-auto px-4 py-3 space-y-1">
-                <button onClick={() => scrollTo("features")} className="block w-full text-left px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+                <button onClick={() => scrollTo("features")} className="block w-full text-left px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                   Features
                 </button>
-                <button onClick={() => scrollTo("how-it-works")} className="block w-full text-left px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+                <button onClick={() => scrollTo("how-it-works")} className="block w-full text-left px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                   How it Works
                 </button>
-                <button onClick={() => scrollTo("use-cases")} className="block w-full text-left px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+                <button onClick={() => scrollTo("use-cases")} className="block w-full text-left px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                   Use Cases
                 </button>
-                <Link href="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+                <Link href="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                   Pricing
                 </Link>
-                <Link href="/partners" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+                <Link href="/partners" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                   Partners
                 </Link>
                 <div className="pt-2 pb-1 border-t border-slate-100">
@@ -256,7 +256,7 @@ export default function LandingPage() {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8"
             >
-              <Link href="/register" className="group/btn w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 bg-blue-600 text-white rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-blue-500 transition-all hover:scale-[1.03] active:scale-[0.98] shadow-xl shadow-blue-900/30">
+              <Link href="/register" className="group/btn w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 bg-red-600 text-white rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-red-500 transition-all hover:scale-[1.03] active:scale-[0.98] shadow-xl shadow-red-900/30">
                 Get Started Free
                 <ArrowRight className="group-hover/btn:translate-x-1.5 transition-transform" />
               </Link>
@@ -281,7 +281,7 @@ export default function LandingPage() {
             <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm font-bold text-slate-400 tracking-wide">
               {["No card required", "Cancel anytime", "5-minute setup", "Free plan forever", "White-label ready"].map((item, i) => (
                 <span key={i} className="flex items-center gap-2">
-                  <CheckCircle2 size={14} className="text-blue-500 shrink-0" />
+                  <CheckCircle2 size={14} className="text-red-500 shrink-0" />
                   {item}
                 </span>
               ))}
@@ -299,7 +299,7 @@ export default function LandingPage() {
               variants={fadeUp}
               className="text-center mb-16 sm:mb-24"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black tracking-wide border border-blue-100 mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-50 text-red-600 rounded-full text-[10px] font-black tracking-wide border border-red-100 mb-6">
                 Built for delivery companies
               </div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-6">Set your pricing once. Let your site quote for you.</h2>
@@ -309,32 +309,32 @@ export default function LandingPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {[
                 {
-                  icon: <Calculator className="text-blue-600" />,
+                  icon: <Calculator className="text-red-600" />,
                   title: "Smart Pricing Rules",
                   desc: "Set rates by distance, weight, dimensions, service type, and more. Quote accurately without manual back and forth."
                 },
                 {
-                  icon: <Code2 className="text-blue-600" />,
+                  icon: <Code2 className="text-red-600" />,
                   title: "Fast Embed",
                   desc: "Add Qalt to WordPress, Shopify, Webflow, or any site with a simple embed. Go live fast without a custom build."
                 },
                 {
-                  icon: <Layout className="text-blue-600" />,
+                  icon: <Layout className="text-red-600" />,
                   title: "Full White-Label",
                   desc: "Use your logo, colors, and branding across the quote flow. Customers stay in your brand from quote to submission."
                 },
                 {
-                  icon: <MousePointerClick className="text-blue-600" />,
+                  icon: <MousePointerClick className="text-red-600" />,
                   title: "Built to Capture Leads",
                   desc: "Guide customers through a simple quote flow that collects the details you need. Turn site traffic into real quote requests."
                 },
                 {
-                  icon: <BarChart3 className="text-blue-600" />,
+                  icon: <BarChart3 className="text-red-600" />,
                   title: "Quote Analytics",
                   desc: "See quote volume, conversion trends, and where leads drop off. Improve pricing and spot lost opportunities."
                 },
                 {
-                  icon: <ShieldCheck className="text-blue-600" />,
+                  icon: <ShieldCheck className="text-red-600" />,
                   title: "Flexible for Real Delivery Workflows",
                   desc: "Handle local delivery, scheduled jobs, special handling, and more. Fits how delivery businesses price in the real world."
                 }
@@ -346,9 +346,9 @@ export default function LandingPage() {
                   viewport={{ once: true, margin: "-60px" }}
                   custom={i}
                   variants={fadeUp}
-                  className="bg-linear-to-b from-white to-slate-50 p-7 sm:p-9 rounded-xl border border-slate-200 hover:shadow-lg hover:shadow-blue-900/5 hover:-translate-y-1.5 transition-all duration-300 group"
+                  className="bg-linear-to-b from-white to-slate-50 p-7 sm:p-9 rounded-xl border border-slate-200 hover:shadow-lg hover:shadow-red-900/5 hover:-translate-y-1.5 transition-all duration-300 group"
                 >
-                  <div className="w-12 h-12 bg-blue-600/10 border border-blue-100 rounded-lg flex items-center justify-center mb-6 sm:mb-7 group-hover:bg-blue-600/15 group-hover:scale-110 transition-all duration-300">
+                  <div className="w-12 h-12 bg-red-600/10 border border-red-100 rounded-lg flex items-center justify-center mb-6 sm:mb-7 group-hover:bg-red-600/15 group-hover:scale-110 transition-all duration-300">
                     {feature.icon}
                   </div>
                   <h3 className="text-xl font-black mb-3 text-slate-900">{feature.title}</h3>
@@ -361,7 +361,7 @@ export default function LandingPage() {
 
         {/* How It Works — Animated Section */}
         <section id="how-it-works" className="py-24 sm:py-40 bg-white relative overflow-hidden scroll-mt-20">
-          <div className="hidden md:block absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-50/50 rounded-full blur-[120px] -z-10" />
+          <div className="hidden md:block absolute top-0 left-1/4 w-[600px] h-[600px] bg-red-50/50 rounded-full blur-[120px] -z-10" />
           <div className="hidden md:block absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-emerald-50/50 rounded-full blur-[100px] -z-10" />
           <motion.div
             initial="hidden"
@@ -376,8 +376,8 @@ export default function LandingPage() {
 
         {/* Analytics Section — dark background */}
         <section className="py-24 sm:py-40 bg-slate-950 relative overflow-hidden">
-          <div className="hidden md:block absolute top-0 left-1/4 w-[600px] h-[600px] bg-indigo-900/20 rounded-full blur-[120px] -z-10" />
-          <div className="hidden md:block absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-900/20 rounded-full blur-[100px] -z-10" />
+          <div className="hidden md:block absolute top-0 left-1/4 w-[600px] h-[600px] bg-red-900/10 rounded-full blur-[120px] -z-10" />
+          <div className="hidden md:block absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-red-900/20 rounded-full blur-[100px] -z-10" />
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -397,7 +397,7 @@ export default function LandingPage() {
               whileInView="visible"
               viewport={{ once: true, margin: "-80px" }}
               variants={fadeUp}
-              className="rounded-3xl bg-linear-to-br from-blue-600 to-blue-700 p-10 sm:p-16 text-center relative overflow-hidden"
+              className="rounded-3xl bg-linear-to-br from-red-700 via-red-600 to-[#4f515b] p-10 sm:p-16 text-center relative overflow-hidden"
             >
               <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
               <div className="relative z-10">
@@ -407,11 +407,11 @@ export default function LandingPage() {
                 <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight mb-6 leading-tight">
                   One booked job pays for<br className="hidden sm:block" /> a full month.
                 </h2>
-                <p className="text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto font-medium mb-10">
+                <p className="text-lg sm:text-xl text-red-100 max-w-2xl mx-auto font-medium mb-10">
                   The Pro plan is $14/mo. A single delivery booking worth $50–$200 covers it entirely. Every lead after that is pure profit. No manual quoting required.
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <Link href="/register" className="px-8 py-4 bg-white text-blue-700 rounded-xl font-black text-sm hover:bg-blue-50 hover:scale-[1.03] active:scale-[0.98] transition-all shadow-xl">
+                  <Link href="/register" className="px-8 py-4 bg-white text-red-700 rounded-xl font-black text-sm hover:bg-red-50 hover:scale-[1.03] active:scale-[0.98] transition-all shadow-xl">
                     Start Free Today
                   </Link>
                   <Link href="/pricing" className="px-8 py-4 border-2 border-white/30 text-white rounded-xl font-bold text-sm hover:bg-white/10 hover:scale-[1.02] active:scale-[0.98] transition-all">
@@ -482,13 +482,13 @@ export default function LandingPage() {
                   </div>
                   <p className="text-slate-500 text-sm font-medium">Billed annually</p>
                 </div>
-                <Link href="/register" className="block w-full text-center py-4 bg-violet-600 text-white rounded-xl font-bold text-sm hover:bg-violet-500 hover:-translate-y-0.5 active:scale-95 transition-all mb-8 shadow-lg shadow-violet-900/20">
+                <Link href="/register" className="block w-full text-center py-4 bg-red-600 text-white rounded-xl font-bold text-sm hover:bg-red-700 hover:-translate-y-0.5 active:scale-95 transition-all mb-8 shadow-lg shadow-red-900/20">
                   Upgrade to Pro
                 </Link>
                 <ul className="space-y-3 mt-auto">
                   {["Unlimited Quotes", "Full White-Label", "Advanced Customization", "Analytics Dashboard", "Priority Support"].map((item) => (
                     <li key={item} className="flex items-start gap-3 text-slate-300 font-medium text-sm">
-                      <CheckCircle2 size={16} className="text-blue-400 shrink-0 mt-0.5" />{item}
+                      <CheckCircle2 size={16} className="text-red-400 shrink-0 mt-0.5" />{item}
                     </li>
                   ))}
                 </ul>
@@ -528,7 +528,7 @@ export default function LandingPage() {
               custom={2}
               className="text-center mt-10"
             >
-              <Link href="/pricing" className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors">
+              <Link href="/pricing" className="inline-flex items-center gap-2 text-sm font-bold text-red-600 hover:text-red-700 transition-colors">
                 View full feature comparison →
               </Link>
             </motion.div>
@@ -537,7 +537,7 @@ export default function LandingPage() {
 
         {/* Testimonials */}
         <section className="py-20 sm:py-32 bg-slate-950 overflow-hidden relative">
-          <div className="hidden md:block absolute top-0 left-1/3 w-[500px] h-[500px] bg-blue-900/20 rounded-full blur-[120px] -z-10" />
+          <div className="hidden md:block absolute top-0 left-1/3 w-[500px] h-[500px] bg-red-900/20 rounded-full blur-[120px] -z-10" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <motion.div
               initial="hidden"
@@ -568,7 +568,7 @@ export default function LandingPage() {
         </section>
 
         {/* Use Cases */}
-        <section id="use-cases" className="py-20 sm:py-32 bg-linear-to-br from-slate-900 via-slate-900 to-blue-950 text-white overflow-hidden relative scroll-mt-20">
+        <section id="use-cases" className="py-20 sm:py-32 bg-linear-to-br from-slate-900 via-slate-900 to-slate-900 text-white overflow-hidden relative scroll-mt-20">
           <div className="absolute -bottom-40 -right-40 pointer-events-none select-none opacity-5" aria-hidden="true">
             <img src="/images/qalt-icon.svg" alt="" width={400} height={400} className="w-[400px] h-[400px] object-contain brightness-0 invert" />
           </div>
@@ -625,7 +625,7 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, rotate: 6, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: "easeOut" }}
-              className="w-16 h-16 sm:w-20 sm:h-20 bg-linear-to-br from-blue-500 to-blue-700 rounded-2xl mx-auto mb-8 sm:mb-10 flex items-center justify-center shadow-2xl shadow-blue-500/25"
+              className="w-16 h-16 sm:w-20 sm:h-20 bg-linear-to-br from-red-600 to-[#4f515b] rounded-2xl mx-auto mb-8 sm:mb-10 flex items-center justify-center shadow-2xl shadow-red-500/25"
             >
               <Zap size={36} className="text-white fill-white" />
             </motion.div>
@@ -656,7 +656,7 @@ export default function LandingPage() {
               variants={fadeUp}
               className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4"
             >
-              <Link href="/register" className="inline-flex px-8 sm:px-12 py-4 sm:py-5 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-xl font-black text-base sm:text-lg hover:from-blue-700 hover:to-blue-800 hover:scale-[1.03] active:scale-[0.98] transition-all shadow-xl shadow-blue-300">
+              <Link href="/register" className="inline-flex px-8 sm:px-12 py-4 sm:py-5 bg-red-600 text-white rounded-xl font-black text-base sm:text-lg hover:bg-red-700 hover:scale-[1.03] active:scale-[0.98] transition-all shadow-xl shadow-red-300">
                 Get Started Free
               </Link>
               <Link href="/pricing" className="inline-flex px-8 sm:px-10 py-4 sm:py-5 border-2 border-slate-200 text-slate-700 rounded-xl font-bold text-base sm:text-lg hover:bg-slate-50 hover:scale-[1.02] active:scale-[0.98] transition-all">
@@ -683,7 +683,7 @@ export default function LandingPage() {
             {/* Brand */}
             <div className="col-span-2 md:col-span-1">
               <QaltLogo size="md" />
-              <p className="text-blue-600 font-black text-sm mt-3">Your rates. Embedded. Anywhere.</p>
+              <p className="text-red-600 font-black text-sm mt-3">Your rates. Embedded. Anywhere.</p>
               <p className="text-slate-400 font-medium text-sm mt-2 max-w-[220px] leading-relaxed">
                 Instant delivery quotes for your website. No manual quoting required.
               </p>
@@ -692,27 +692,27 @@ export default function LandingPage() {
             <div>
               <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Product</p>
               <ul className="space-y-3 text-sm font-medium text-slate-500">
-                <li><button onClick={() => scrollTo("features")} className="hover:text-blue-600 transition-colors">Features</button></li>
-                <li><Link href="/pricing" className="hover:text-blue-600 transition-colors">Pricing</Link></li>
-                <li><button onClick={() => scrollTo("how-it-works")} className="hover:text-blue-600 transition-colors">How it Works</button></li>
-                <li><button onClick={() => scrollTo("use-cases")} className="hover:text-blue-600 transition-colors">Use Cases</button></li>
+                <li><button onClick={() => scrollTo("features")} className="hover:text-red-600 transition-colors">Features</button></li>
+                <li><Link href="/pricing" className="hover:text-red-600 transition-colors">Pricing</Link></li>
+                <li><button onClick={() => scrollTo("how-it-works")} className="hover:text-red-600 transition-colors">How it Works</button></li>
+                <li><button onClick={() => scrollTo("use-cases")} className="hover:text-red-600 transition-colors">Use Cases</button></li>
               </ul>
             </div>
             {/* Account */}
             <div>
               <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Account</p>
               <ul className="space-y-3 text-sm font-medium text-slate-500">
-                <li><Link href="/register" className="hover:text-blue-600 transition-colors">Get Started Free</Link></li>
-                <li><Link href="/login" className="hover:text-blue-600 transition-colors">Log In</Link></li>
+                <li><Link href="/register" className="hover:text-red-600 transition-colors">Get Started Free</Link></li>
+                <li><Link href="/login" className="hover:text-red-600 transition-colors">Log In</Link></li>
               </ul>
             </div>
             {/* Legal */}
             <div>
               <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Legal</p>
               <ul className="space-y-3 text-sm font-medium text-slate-500">
-                <li><Link href="/legal/privacy" className="hover:text-blue-600 transition-colors">Privacy Policy</Link></li>
-                <li><Link href="/legal/terms" className="hover:text-blue-600 transition-colors">Terms of Service</Link></li>
-                <li><button onClick={() => setIsSupportModalOpen(true)} className="hover:text-blue-600 transition-colors">Support</button></li>
+                <li><Link href="/legal/privacy" className="hover:text-red-600 transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/legal/terms" className="hover:text-red-600 transition-colors">Terms of Service</Link></li>
+                <li><button onClick={() => setIsSupportModalOpen(true)} className="hover:text-red-600 transition-colors">Support</button></li>
               </ul>
             </div>
           </div>
@@ -733,7 +733,7 @@ export default function LandingPage() {
             exit={{ opacity: 0, y: 16 }}
             transition={{ duration: 0.25 }}
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 w-11 h-11 sm:w-12 sm:h-12 bg-blue-600 text-white rounded-full shadow-xl shadow-blue-500/25 flex items-center justify-center hover:bg-blue-700 hover:scale-110 active:scale-95 transition-all duration-200"
+            className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 w-11 h-11 sm:w-12 sm:h-12 bg-red-600 text-white rounded-full shadow-xl shadow-red-500/25 flex items-center justify-center hover:bg-red-700 hover:scale-110 active:scale-95 transition-all duration-200"
             aria-label="Scroll to top"
           >
             <ArrowUp size={20} />

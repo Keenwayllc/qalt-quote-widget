@@ -41,7 +41,7 @@ export default function OnboardingChecklist({ steps }: Props) {
         className="w-full flex items-center justify-between px-6 py-5 hover:bg-slate-50/60 transition-colors group"
       >
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-200 shrink-0">
+          <div className="w-10 h-10 rounded-2xl bg-red-600 flex items-center justify-center shadow-lg shadow-red-200 shrink-0">
             <Rocket size={18} className="text-white" />
           </div>
           <div className="text-left">
@@ -57,7 +57,7 @@ export default function OnboardingChecklist({ steps }: Props) {
           {/* Progress bar */}
           <div className="hidden sm:block w-32 h-2 bg-slate-100 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-blue-600 rounded-full"
+              className="h-full bg-red-600 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${pct}%` }}
               transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
@@ -89,7 +89,7 @@ export default function OnboardingChecklist({ steps }: Props) {
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: i * 0.06 }}
-                  className={`flex items-center gap-4 px-6 py-4 transition-colors ${step.done ? "bg-slate-50/40" : "hover:bg-blue-50/30"}`}
+                  className={`flex items-center gap-4 px-6 py-4 transition-colors ${step.done ? "bg-slate-50/40" : "hover:bg-red-50/30"}`}
                 >
                   {/* Icon */}
                   <div className="shrink-0">
@@ -116,7 +116,7 @@ export default function OnboardingChecklist({ steps }: Props) {
                   {!step.done && (
                     <Link
                       href={step.href}
-                      className="shrink-0 px-4 py-2 bg-blue-600 text-white text-xs font-bold rounded-xl hover:bg-blue-700 hover:scale-[1.03] active:scale-[0.97] transition-all shadow-sm shadow-blue-200 whitespace-nowrap"
+                      className="shrink-0 px-4 py-2 bg-red-600 text-white text-xs font-bold rounded-xl hover:bg-red-700 hover:scale-[1.03] active:scale-[0.97] transition-all shadow-sm shadow-red-200 whitespace-nowrap"
                     >
                       {step.cta}
                     </Link>

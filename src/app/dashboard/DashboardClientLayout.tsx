@@ -82,7 +82,7 @@ export default function DashboardClientLayout({
   const closeSidebar = () => setIsSidebarOpen(false);
 
   return (
-    <div className="flex h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
+    <div className="flex h-screen bg-slate-50 font-sans selection:bg-red-100 selection:text-red-900">
 
       {/* Mobile backdrop overlay — closes sidebar on tap outside */}
       {isSidebarOpen && (
@@ -129,7 +129,7 @@ export default function DashboardClientLayout({
                   className={`
                      flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all group relative
                     ${isActive
-                      ? "bg-blue-600 text-white shadow-lg shadow-blue-200 scale-[1.02]"
+                      ? "bg-red-600 text-white shadow-lg shadow-red-200 scale-[1.02]"
                       : isLocked
                         ? "text-slate-400 cursor-not-allowed opacity-70"
                         : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"}
@@ -148,7 +148,7 @@ export default function DashboardClientLayout({
                     <span
                       className={`
                         ml-2 min-w-[20px] h-5 px-1.5 rounded-full text-[10px] font-black flex items-center justify-center
-                        ${isActive ? "bg-white/20 text-white" : "bg-blue-600 text-white"}
+                        ${isActive ? "bg-white/20 text-white" : "bg-red-600 text-white"}
                       `}
                     >
                       {quoteCount! > 99 ? "99+" : quoteCount}
@@ -171,9 +171,9 @@ export default function DashboardClientLayout({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={closeSidebar}
-                className="flex w-full items-center px-4 py-3 text-sm font-bold text-blue-600 rounded-xl hover:bg-blue-50 transition-all group"
+                className="flex w-full items-center px-4 py-3 text-sm font-bold text-red-600 rounded-xl hover:bg-red-50 transition-all group"
               >
-                <Eye className="mr-3 h-5 w-5 text-blue-400 group-hover:text-blue-600 transition-colors" />
+                <Eye className="mr-3 h-5 w-5 text-red-400 group-hover:text-red-600 transition-colors" />
                 Preview Widget
               </a>
             )}
@@ -192,8 +192,8 @@ export default function DashboardClientLayout({
       {/* Main content */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         {/* Subtle Background Glows */}
-        <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-400/5 blur-[120px] rounded-full pointer-events-none" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[30%] h-[30%] bg-indigo-400/5 blur-[100px] rounded-full pointer-events-none" />
+        <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-red-400/5 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[30%] h-[30%] bg-red-400/5 blur-[100px] rounded-full pointer-events-none" />
 
         {/* Mobile header with hamburger */}
         <header className="lg:hidden bg-white/80 backdrop-blur-md border-b border-slate-200 h-16 flex items-center justify-between px-4 sm:px-6 shrink-0 relative z-10">

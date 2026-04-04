@@ -46,7 +46,7 @@ const TESTIMONIALS: Testimonial[] = [
     quote: "We deliver high-end servers. Precision and reliability are key. Qalt's pricing engine handles our weight-based variables perfectly. It's transformed our B2B game.",
     image: "/testimonials/david.png",
     initials: "DC",
-    color: "bg-blue-600",
+    color: "bg-red-600",
     video: "/videos/david_chen.mp4"
   },
   {
@@ -68,7 +68,7 @@ const TESTIMONIALS: Testimonial[] = [
     quote: "Delivery and assembly quotes used to be a bottleneck. Now, it's a 30-second process for our clients. Qalt's white-labeling matches our luxury aesthetic perfectly.",
     image: "/testimonials/elena.png",
     initials: "EV",
-    color: "bg-indigo-600",
+    color: "bg-red-600",
     video: "/videos/elena_vance.mp4"
   },
   {
@@ -275,7 +275,7 @@ export default function TestimonialsCarousel() {
 
                   <div className="relative z-20">
                     <div className="mb-6">
-                      <span className="px-3 py-1.5 bg-blue-500/10 text-blue-400 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border border-blue-500/20 backdrop-blur-sm">
+                      <span className="px-3 py-1.5 bg-red-500/10 text-red-400 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border border-red-500/20 backdrop-blur-sm">
                         {t.industry}
                       </span>
                     </div>
@@ -290,7 +290,7 @@ export default function TestimonialsCarousel() {
                     </div>
                     <div>
                       <div className="font-bold text-white text-base tracking-tight">{t.name}</div>
-                      <div className="text-blue-400 text-[9px] font-black uppercase tracking-[0.15em] mt-1 opacity-80">{t.role}</div>
+                      <div className="text-red-400 text-[9px] font-black uppercase tracking-[0.15em] mt-1 opacity-80">{t.role}</div>
                     </div>
                   </div>
                 </div>

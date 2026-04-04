@@ -70,17 +70,17 @@ const PARTNERS: Partner[] = [
 
 const WHY_PARTNER = [
   {
-    icon: <Rocket className="text-blue-600" size={24} />,
+    icon: <Rocket className="text-red-600" size={24} />,
     title: "Grow Together",
     desc: "We refer our merchants to partners that help them succeed. When they grow, we all grow.",
   },
   {
-    icon: <Users className="text-blue-600" size={24} />,
+    icon: <Users className="text-red-600" size={24} />,
     title: "Shared Audience",
     desc: "Delivery and courier companies need more than a quote widget. They need websites, insurance, fleet tools, and more.",
   },
   {
-    icon: <Globe className="text-blue-600" size={24} />,
+    icon: <Globe className="text-red-600" size={24} />,
     title: "Public Visibility",
     desc: "Partners are featured on this page, inside our merchant dashboard, and across our marketing channels.",
   },
@@ -108,18 +108,18 @@ export default function PartnersPage() {
           </Link>
 
           <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500">
-            <Link href="/#features" className="hover:text-blue-600 transition-colors">Features</Link>
-            <Link href="/#how-it-works" className="hover:text-blue-600 transition-colors">How it Works</Link>
-            <Link href="/#use-cases" className="hover:text-blue-600 transition-colors">Use Cases</Link>
-            <Link href="/pricing" className="hover:text-blue-600 transition-colors">Pricing</Link>
-            <Link href="/partners" className="text-blue-600">Partners</Link>
+            <Link href="/#features" className="hover:text-red-600 transition-colors">Features</Link>
+            <Link href="/#how-it-works" className="hover:text-red-600 transition-colors">How it Works</Link>
+            <Link href="/#use-cases" className="hover:text-red-600 transition-colors">Use Cases</Link>
+            <Link href="/pricing" className="hover:text-red-600 transition-colors">Pricing</Link>
+            <Link href="/partners" className="text-red-600">Partners</Link>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
             <Link href="/login" className="hidden sm:block px-5 py-2.5 text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors">
               Log in
             </Link>
-            <Link href="/register" className="px-4 sm:px-6 py-2 sm:py-2.5 bg-blue-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 hover:-translate-y-0.5 transition-all">
+            <Link href="/register" className="px-4 sm:px-6 py-2 sm:py-2.5 bg-red-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-red-200 hover:bg-red-700 hover:-translate-y-0.5 transition-all">
               Get Started
             </Link>
             <button
@@ -135,19 +135,19 @@ export default function PartnersPage() {
         {isMobileMenuOpen && (
           <div className="md:hidden bg-white border-t border-slate-100 shadow-lg">
             <div className="max-w-7xl mx-auto px-4 py-3 space-y-1">
-              <Link href="/#features" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+              <Link href="/#features" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                 Features
               </Link>
-              <Link href="/#how-it-works" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+              <Link href="/#how-it-works" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                 How it Works
               </Link>
-              <Link href="/#use-cases" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+              <Link href="/#use-cases" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                 Use Cases
               </Link>
-              <Link href="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+              <Link href="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                 Pricing
               </Link>
-              <Link href="/partners" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+              <Link href="/partners" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                 Partners
               </Link>
               <div className="pt-2 pb-1 border-t border-slate-100">
@@ -168,13 +168,13 @@ export default function PartnersPage() {
           variants={fadeUp}
           className="text-center mb-16 sm:mb-24 px-4 sm:px-6"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-100 mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-red-100 mb-6 sm:mb-8">
             <Handshake size={14} />
             Qalt Partner Ecosystem
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight mb-5 sm:mb-6">
             Tools That Help Your<br />
-            <span className="text-blue-600">Delivery Business Grow</span>
+            <span className="text-red-600">Delivery Business Grow</span>
           </h1>
           <p className="text-lg sm:text-xl text-slate-500 font-medium max-w-2xl mx-auto mb-4">
             We partner with the best tools and services so you can run your delivery business with everything you need in one place.
@@ -211,7 +211,7 @@ export default function PartnersPage() {
                   <div className="flex-1">
                     <div className="flex flex-wrap items-center gap-3 mb-2">
                       <h2 className="text-2xl sm:text-3xl font-black tracking-tight">{partner.name}</h2>
-                      <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-100">
+                      <span className="px-3 py-1 bg-red-50 text-red-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-red-100">
                         {partner.category}
                       </span>
                     </div>
@@ -221,7 +221,7 @@ export default function PartnersPage() {
                     href={partner.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hidden sm:flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm shadow-lg shadow-blue-200 hover:bg-blue-700 hover:-translate-y-0.5 transition-all shrink-0"
+                    className="hidden sm:flex items-center gap-2 px-6 py-3 bg-red-600 text-white rounded-xl font-bold text-sm shadow-lg shadow-red-200 hover:bg-red-700 hover:-translate-y-0.5 transition-all shrink-0"
                   >
                     {partner.cta}
                     <ExternalLink size={14} />
@@ -243,8 +243,8 @@ export default function PartnersPage() {
                     <ul className="space-y-3">
                       {partner.benefits.map((benefit, j) => (
                         <li key={j} className="flex items-start gap-3 text-slate-600 font-medium text-sm sm:text-base">
-                          <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center shrink-0 mt-0.5">
-                            <ArrowRight size={10} className="text-blue-600" />
+                          <div className="w-5 h-5 bg-red-100 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                            <ArrowRight size={10} className="text-red-600" />
                           </div>
                           {benefit}
                         </li>
@@ -256,7 +256,7 @@ export default function PartnersPage() {
                   href={partner.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="sm:hidden flex items-center justify-center gap-2 mt-8 px-6 py-4 bg-blue-600 text-white rounded-xl font-bold text-sm shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all w-full"
+                  className="sm:hidden flex items-center justify-center gap-2 mt-8 px-6 py-4 bg-red-600 text-white rounded-xl font-bold text-sm shadow-lg shadow-red-200 hover:bg-red-700 transition-all w-full"
                 >
                   {partner.cta}
                   <ExternalLink size={14} />
@@ -290,9 +290,9 @@ export default function PartnersPage() {
                 viewport={{ once: true, margin: "-40px" }}
                 custom={i}
                 variants={fadeUp}
-                className="bg-linear-to-b from-white to-slate-50 p-7 sm:p-9 rounded-xl border border-slate-200 hover:shadow-lg hover:shadow-blue-900/5 hover:-translate-y-1 transition-all group"
+                className="bg-linear-to-b from-white to-slate-50 p-7 sm:p-9 rounded-xl border border-slate-200 hover:shadow-lg hover:shadow-red-900/5 hover:-translate-y-1 transition-all group"
               >
-                <div className="w-12 h-12 bg-blue-600/10 border border-blue-100 rounded-lg flex items-center justify-center mb-6 sm:mb-7 group-hover:bg-blue-600/15 transition-colors">
+                <div className="w-12 h-12 bg-red-600/10 border border-red-100 rounded-lg flex items-center justify-center mb-6 sm:mb-7 group-hover:bg-red-600/15 transition-colors">
                   {item.icon}
                 </div>
                 <h3 className="text-xl font-black mb-3 text-slate-900">{item.title}</h3>
@@ -310,10 +310,10 @@ export default function PartnersPage() {
           variants={fadeIn}
           className="max-w-4xl mx-auto px-4 sm:px-6"
         >
-          <div className="bg-linear-to-br from-[#131526] via-[#1a1636] to-[#2d1b54] rounded-2xl p-10 sm:p-16 text-center relative overflow-hidden">
+          <div className="bg-linear-to-br from-[#150f0f] via-[#1c0f0f] to-[#2d1215] rounded-2xl p-10 sm:p-16 text-center relative overflow-hidden">
             <div className="absolute inset-0 opacity-10">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full blur-3xl" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-violet-500 rounded-full blur-3xl" />
+              <div className="absolute top-0 right-0 w-64 h-64 bg-red-500 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-rose-600 rounded-full blur-3xl" />
             </div>
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-[10px] font-black uppercase tracking-widest mb-6 border border-white/20">
@@ -328,7 +328,7 @@ export default function PartnersPage() {
               </p>
               <a
                 href="mailto:business@qalt.site?subject=Qalt%20Partnership%20Inquiry"
-                className="inline-flex items-center gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-500 transition-all hover:scale-[1.02] shadow-xl shadow-blue-900/30"
+                className="inline-flex items-center gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-red-600 text-white rounded-2xl font-bold hover:bg-red-500 transition-all hover:scale-[1.02] shadow-xl shadow-red-900/30"
               >
                 <Mail size={18} />
                 Get in Touch
@@ -346,7 +346,7 @@ export default function PartnersPage() {
             {/* Brand */}
             <div className="col-span-2 md:col-span-1">
               <QaltLogo size="md" />
-              <p className="text-blue-600 font-black text-sm mt-3">Your rates. Embedded. Anywhere.</p>
+              <p className="text-red-600 font-black text-sm mt-3">Your rates. Embedded. Anywhere.</p>
               <p className="text-slate-400 font-medium text-sm mt-2 max-w-[220px] leading-relaxed">
                 Instant delivery quotes for your website. No manual quoting required.
               </p>
@@ -355,27 +355,27 @@ export default function PartnersPage() {
             <div>
               <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Product</p>
               <ul className="space-y-3 text-sm font-medium text-slate-500">
-                <li><Link href="/#features" className="hover:text-blue-600 transition-colors">Features</Link></li>
-                <li><Link href="/pricing" className="hover:text-blue-600 transition-colors">Pricing</Link></li>
-                <li><Link href="/#how-it-works" className="hover:text-blue-600 transition-colors">How it Works</Link></li>
-                <li><Link href="/#use-cases" className="hover:text-blue-600 transition-colors">Use Cases</Link></li>
-                <li><Link href="/partners" className="hover:text-blue-600 transition-colors">Partners</Link></li>
+                <li><Link href="/#features" className="hover:text-red-600 transition-colors">Features</Link></li>
+                <li><Link href="/pricing" className="hover:text-red-600 transition-colors">Pricing</Link></li>
+                <li><Link href="/#how-it-works" className="hover:text-red-600 transition-colors">How it Works</Link></li>
+                <li><Link href="/#use-cases" className="hover:text-red-600 transition-colors">Use Cases</Link></li>
+                <li><Link href="/partners" className="hover:text-red-600 transition-colors">Partners</Link></li>
               </ul>
             </div>
             {/* Account */}
             <div>
               <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Account</p>
               <ul className="space-y-3 text-sm font-medium text-slate-500">
-                <li><Link href="/register" className="hover:text-blue-600 transition-colors">Get Started Free</Link></li>
-                <li><Link href="/login" className="hover:text-blue-600 transition-colors">Log In</Link></li>
+                <li><Link href="/register" className="hover:text-red-600 transition-colors">Get Started Free</Link></li>
+                <li><Link href="/login" className="hover:text-red-600 transition-colors">Log In</Link></li>
               </ul>
             </div>
             {/* Legal */}
             <div>
               <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Legal</p>
               <ul className="space-y-3 text-sm font-medium text-slate-500">
-                <li><Link href="/legal/privacy" className="hover:text-blue-600 transition-colors">Privacy Policy</Link></li>
-                <li><Link href="/legal/terms" className="hover:text-blue-600 transition-colors">Terms of Service</Link></li>
+                <li><Link href="/legal/privacy" className="hover:text-red-600 transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/legal/terms" className="hover:text-red-600 transition-colors">Terms of Service</Link></li>
               </ul>
             </div>
           </div>
@@ -389,7 +389,7 @@ export default function PartnersPage() {
       {showScroll && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-6 right-6 w-12 h-12 bg-blue-600 text-white rounded-full shadow-lg shadow-blue-200 flex items-center justify-center hover:bg-blue-700 transition-all z-50"
+          className="fixed bottom-6 right-6 w-12 h-12 bg-red-600 text-white rounded-full shadow-lg shadow-red-200 flex items-center justify-center hover:bg-red-700 transition-all z-50"
           aria-label="Scroll to top"
         >
           <ArrowUp size={20} />

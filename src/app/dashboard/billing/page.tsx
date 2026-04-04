@@ -35,7 +35,7 @@ export default async function BillingPage({
 
       {/* ── 7-Day Pro Trial Banner (Starter only) ─────────────────────────── */}
       {isStarter && (
-        <div className="mb-6 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl shadow-blue-200">
+        <div className="mb-6 bg-linear-to-r from-red-700 to-[#4f515b] rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl shadow-red-200">
           <div className="flex items-start gap-4">
             <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center shrink-0">
               <Zap size={20} className="text-white fill-white" />
@@ -48,14 +48,14 @@ export default async function BillingPage({
                   Limited offer
                 </span>
               </div>
-              <p className="text-blue-100 text-sm font-medium">
+              <p className="text-red-100 text-sm font-medium">
                 Unlock unlimited quotes, full white-label, analytics, and priority support — no charge for 7 days. Cancel before your trial ends and you will never be charged. You can upgrade, downgrade, or cancel anytime from your billing settings.
               </p>
             </div>
           </div>
           <a
             href="#pro"
-            className="shrink-0 px-6 py-3 bg-white text-blue-700 rounded-xl font-black text-sm hover:bg-blue-50 transition-all shadow-lg whitespace-nowrap"
+            className="shrink-0 px-6 py-3 bg-white text-red-700 rounded-xl font-black text-sm hover:bg-red-50 transition-all shadow-lg whitespace-nowrap"
           >
             Start Free Trial →
           </a>
@@ -68,7 +68,7 @@ export default async function BillingPage({
           <p className="text-sm font-medium text-slate-500 uppercase tracking-wider">Current Plan</p>
           <div className="flex items-center gap-3 mt-1">
             <h2 className="text-2xl font-bold text-slate-900">{company.subscriptionPlan}</h2>
-            <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-bold rounded-full border border-blue-200 uppercase tracking-wide">Active</span>
+            <span className="px-2 py-0.5 bg-red-100 text-red-700 text-xs font-bold rounded-full border border-red-200 uppercase tracking-wide">Active</span>
           </div>
         </div>
         <div className="text-right">

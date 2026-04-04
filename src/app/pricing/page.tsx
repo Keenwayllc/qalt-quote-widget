@@ -103,7 +103,7 @@ function FeatureCell({ value }: { value: FeatureValue }) {
     return <span className="text-sm font-bold text-slate-700">{value}</span>;
   }
   if (value === true) {
-    return <CheckCircle2 size={18} className="text-blue-600 mx-auto" />;
+    return <CheckCircle2 size={18} className="text-red-600 mx-auto" />;
   }
   return <Minus size={16} className="text-slate-300 mx-auto" />;
 }
@@ -152,17 +152,17 @@ export default function PricingPage() {
         <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
           <QaltLogo size="md" />
           <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500">
-            <Link href="/#features" className="hover:text-blue-600 transition-colors">Features</Link>
-            <Link href="/#how-it-works" className="hover:text-blue-600 transition-colors">How it Works</Link>
-            <Link href="/#use-cases" className="hover:text-blue-600 transition-colors">Use Cases</Link>
-            <Link href="/pricing" className="text-blue-600">Pricing</Link>
-            <Link href="/partners" className="hover:text-blue-600 transition-colors">Partners</Link>
+            <Link href="/#features" className="hover:text-red-600 transition-colors">Features</Link>
+            <Link href="/#how-it-works" className="hover:text-red-600 transition-colors">How it Works</Link>
+            <Link href="/#use-cases" className="hover:text-red-600 transition-colors">Use Cases</Link>
+            <Link href="/pricing" className="text-red-600">Pricing</Link>
+            <Link href="/partners" className="hover:text-red-600 transition-colors">Partners</Link>
           </div>
           <div className="flex items-center gap-4">
             <Link href="/login" className="px-6 py-2.5 text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors">
               Log in
             </Link>
-            <Link href="/register" className="px-5 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 hover:-translate-y-0.5 transition-all">
+            <Link href="/register" className="px-5 py-2.5 bg-red-600 text-white rounded-lg text-sm font-bold shadow-lg shadow-red-200 hover:bg-red-700 hover:-translate-y-0.5 transition-all">
               Get Started
             </Link>
           </div>
@@ -180,7 +180,7 @@ export default function PricingPage() {
         >
           <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-5">
             Simple, Transparent<br />
-            <span className="text-blue-600">Pricing</span>
+            <span className="text-red-600">Pricing</span>
           </h1>
           <p className="text-xl text-slate-500 font-medium max-w-xl mx-auto mb-6">
             Start free. Upgrade when you need more quote volume, more forms, and more control. No hidden fees.
@@ -248,7 +248,7 @@ export default function PricingPage() {
             </div>
 
             {/* Pro */}
-            <div className="bg-linear-to-bl from-[#131526] via-[#1a1636] to-[#2d1b54] p-10 flex flex-col relative">
+            <div className="bg-linear-to-bl from-[#150f0f] via-[#1c0f0f] to-[#2d1215] p-10 flex flex-col relative">
               <div className="h-[280px]">
                 <div className="mb-8 p-0">
                   <div className="flex items-center gap-3 mb-2">
@@ -265,13 +265,13 @@ export default function PricingPage() {
                   {annual ? "Billed $168 annually · save $60" : "Switch to annual & save $60/yr"}
                 </p>
               </div>
-              <Link href="/register" className="block w-full text-center py-4 bg-violet-600 text-white rounded-xl font-bold text-sm hover:bg-violet-500 active:scale-[0.98] transition-all mb-8 shadow-lg shadow-violet-900/40">
+              <Link href="/register" className="block w-full text-center py-4 bg-red-600 text-white rounded-xl font-bold text-sm hover:bg-red-700 active:scale-[0.98] transition-all mb-8 shadow-lg shadow-red-900/20">
                 Upgrade to Pro
               </Link>
               <ul className="space-y-3 mt-auto">
                 {["Unlimited Quotes", "Up to 5 Quote Forms", "Full White-Label", "Advanced Customization", "Analytics Dashboard", "Priority Support"].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-300 font-medium text-sm">
-                    <CheckCircle2 size={16} className="text-blue-400 shrink-0 mt-0.5" />{item}
+                    <CheckCircle2 size={16} className="text-red-400 shrink-0 mt-0.5" />{item}
                   </li>
                 ))}
               </ul>
@@ -324,7 +324,7 @@ export default function PricingPage() {
             <div />
             {(["Starter", "Pro", "Enterprise"] as const).map((label, i) => (
               <div key={label} className="text-center">
-                <span className={`text-[11px] font-black uppercase tracking-widest ${i === 1 ? "text-blue-600" : i === 2 ? "text-slate-600" : "text-slate-400"}`}>
+                <span className={`text-[11px] font-black uppercase tracking-widest ${i === 1 ? "text-red-600" : i === 2 ? "text-slate-600" : "text-slate-400"}`}>
                   {label}
                 </span>
               </div>
@@ -359,7 +359,7 @@ export default function PricingPage() {
             <Link href="/register" className="text-center py-4 bg-slate-100 border border-slate-200 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-200 active:scale-[0.98] transition-all">
               Get Started
             </Link>
-            <Link href="/register" className="text-center py-4 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 active:scale-[0.98] transition-all shadow-md shadow-blue-200">
+            <Link href="/register" className="text-center py-4 bg-red-600 text-white rounded-xl font-bold text-sm hover:bg-red-700 active:scale-[0.98] transition-all shadow-md shadow-red-200">
               Upgrade to Pro
             </Link>
             <Link href="/register" className="text-center py-4 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-800 active:scale-[0.98] transition-all">
@@ -390,7 +390,7 @@ export default function PricingPage() {
               "Help customers price jobs faster",
             ].map((item) => (
               <div key={item} className="flex items-center gap-3 justify-center sm:justify-start">
-                <CheckCircle2 size={16} className="text-blue-600 shrink-0" />
+                <CheckCircle2 size={16} className="text-red-600 shrink-0" />
                 <span className="text-sm font-medium text-slate-700">{item}</span>
               </div>
             ))}
@@ -437,7 +437,7 @@ export default function PricingPage() {
             Launch your first quote widget, test your workflow, and upgrade when you need more.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
-            <Link href="/register" className="px-10 py-4 bg-blue-600 text-white rounded-xl font-bold text-base hover:bg-blue-700 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-blue-200">
+            <Link href="/register" className="px-10 py-4 bg-red-600 text-white rounded-xl font-bold text-base hover:bg-red-700 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-red-200">
               Get Started Free
             </Link>
             <Link href="/register" className="px-10 py-4 bg-slate-900 text-white rounded-xl font-bold text-base hover:opacity-90 active:scale-[0.98] transition-all shadow-xl shadow-slate-200">
@@ -451,7 +451,7 @@ export default function PricingPage() {
       {showScroll && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-8 right-8 z-50 w-11 h-11 bg-slate-900 text-white rounded-full shadow-xl flex items-center justify-center hover:bg-blue-600 transition-all hover:-translate-y-0.5 active:scale-95"
+          className="fixed bottom-8 right-8 z-50 w-11 h-11 bg-slate-900 text-white rounded-full shadow-xl flex items-center justify-center hover:bg-red-600 transition-all hover:-translate-y-0.5 active:scale-95"
           aria-label="Scroll to top"
         >
           <ArrowUp size={18} />
@@ -465,7 +465,7 @@ export default function PricingPage() {
             {/* Brand */}
             <div className="col-span-2 md:col-span-1">
               <QaltLogo size="md" />
-              <p className="text-blue-600 font-black text-sm mt-3">Your rates. Embedded. Anywhere.</p>
+              <p className="text-red-600 font-black text-sm mt-3">Your rates. Embedded. Anywhere.</p>
               <p className="text-slate-400 font-medium text-sm mt-2 max-w-[220px] leading-relaxed">
                 Instant delivery quotes for your website. No manual quoting required.
               </p>
@@ -474,28 +474,28 @@ export default function PricingPage() {
             <div>
               <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Product</p>
               <ul className="space-y-3 text-sm font-medium text-slate-500">
-                <li><Link href="/#features" className="hover:text-blue-600 transition-colors">Features</Link></li>
-                <li><Link href="/pricing" className="hover:text-blue-600 transition-colors">Pricing</Link></li>
-                <li><Link href="/#how-it-works" className="hover:text-blue-600 transition-colors">How it Works</Link></li>
-                <li><Link href="/#use-cases" className="hover:text-blue-600 transition-colors">Use Cases</Link></li>
-                <li><Link href="/partners" className="hover:text-blue-600 transition-colors">Partners</Link></li>
+                <li><Link href="/#features" className="hover:text-red-600 transition-colors">Features</Link></li>
+                <li><Link href="/pricing" className="hover:text-red-600 transition-colors">Pricing</Link></li>
+                <li><Link href="/#how-it-works" className="hover:text-red-600 transition-colors">How it Works</Link></li>
+                <li><Link href="/#use-cases" className="hover:text-red-600 transition-colors">Use Cases</Link></li>
+                <li><Link href="/partners" className="hover:text-red-600 transition-colors">Partners</Link></li>
               </ul>
             </div>
             {/* Account */}
             <div>
               <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Account</p>
               <ul className="space-y-3 text-sm font-medium text-slate-500">
-                <li><Link href="/register" className="hover:text-blue-600 transition-colors">Get Started Free</Link></li>
-                <li><Link href="/login" className="hover:text-blue-600 transition-colors">Log In</Link></li>
+                <li><Link href="/register" className="hover:text-red-600 transition-colors">Get Started Free</Link></li>
+                <li><Link href="/login" className="hover:text-red-600 transition-colors">Log In</Link></li>
               </ul>
             </div>
             {/* Legal */}
             <div>
               <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Legal</p>
               <ul className="space-y-3 text-sm font-medium text-slate-500">
-                <li><Link href="/legal/privacy" className="hover:text-blue-600 transition-colors">Privacy Policy</Link></li>
-                <li><Link href="/legal/terms" className="hover:text-blue-600 transition-colors">Terms of Service</Link></li>
-                <li><a href="mailto:support@qalt.site" className="hover:text-blue-600 transition-colors">Support</a></li>
+                <li><Link href="/legal/privacy" className="hover:text-red-600 transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/legal/terms" className="hover:text-red-600 transition-colors">Terms of Service</Link></li>
+                <li><a href="mailto:support@qalt.site" className="hover:text-red-600 transition-colors">Support</a></li>
               </ul>
             </div>
           </div>

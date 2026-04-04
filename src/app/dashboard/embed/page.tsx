@@ -52,7 +52,7 @@ export default function EmbedCodePage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
       </div>
     );
   }
@@ -86,7 +86,7 @@ export default function EmbedCodePage() {
 
               <div className="relative group">
                 <pre className="bg-slate-900 text-slate-300 p-8 rounded-xl overflow-x-auto text-sm font-mono leading-relaxed ring-1 ring-slate-800 shadow-2xl">
-                  <code className="text-blue-400">
+                  <code className="text-red-400">
                     {embedCode}
                   </code>
                 </pre>
@@ -95,7 +95,7 @@ export default function EmbedCodePage() {
               {widgetUrl && (
                 <div className="mt-8 flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
+                    <div className="p-2 bg-red-100 rounded-lg text-red-600">
                       <ExternalLink size={16} />
                     </div>
                     <div>
@@ -121,7 +121,7 @@ export default function EmbedCodePage() {
                 {/* Preview header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
+                    <div className="p-2 bg-red-50 rounded-lg text-red-600">
                       <Eye size={16} />
                     </div>
                     <div>
@@ -211,7 +211,7 @@ export default function EmbedCodePage() {
                   Changes to your widget appearance will reflect here after saving.{" "}
                   <button
                     onClick={() => setPreviewKey((k) => k + 1)}
-                    className="text-blue-600 hover:text-blue-700 font-bold transition-colors"
+                    className="text-red-600 hover:text-red-700 font-bold transition-colors"
                   >
                     Refresh preview →
                   </button>
@@ -220,31 +220,31 @@ export default function EmbedCodePage() {
             )}
 
             {/* Installation Guide */}
-            <div className="bg-blue-50 rounded-[32px] p-10 border border-blue-100 relative overflow-hidden">
+            <div className="bg-red-50 rounded-[32px] p-10 border border-red-100 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none scale-150">
                 <img src="/images/qalt-icon-400.jpg" alt="" width={120} height={120} className="w-[120px] h-[120px] object-contain" />
               </div>
-              <h3 className="text-xl font-black text-blue-900 mb-6">Installation Guide</h3>
+              <h3 className="text-xl font-black text-red-900 mb-6">Installation Guide</h3>
               <ul className="space-y-6">
                 <li className="flex gap-6">
-                  <span className="shrink-0 w-8 h-8 bg-blue-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">1</span>
+                  <span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">1</span>
                   <div>
-                    <p className="font-bold text-blue-900">Copy the snippet</p>
-                    <p className="text-sm text-blue-800/60 mt-1">Use the black copy button above to grab your unique widget code.</p>
+                    <p className="font-bold text-red-900">Copy the snippet</p>
+                    <p className="text-sm text-slate-700/60 mt-1">Use the black copy button above to grab your unique widget code.</p>
                   </div>
                 </li>
                 <li className="flex gap-6">
-                  <span className="shrink-0 w-8 h-8 bg-blue-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">2</span>
+                  <span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">2</span>
                   <div>
-                    <p className="font-bold text-blue-900">Paste in your editor</p>
-                    <p className="text-sm text-blue-800/60 mt-1">Navigate to your website builder (WordPress, Webflow, Shopify) and add an HTML element.</p>
+                    <p className="font-bold text-red-900">Paste in your editor</p>
+                    <p className="text-sm text-slate-700/60 mt-1">Navigate to your website builder (WordPress, Webflow, Shopify) and add an HTML element.</p>
                   </div>
                 </li>
                 <li className="flex gap-6">
-                  <span className="shrink-0 w-8 h-8 bg-blue-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">3</span>
+                  <span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">3</span>
                   <div>
-                    <p className="font-bold text-blue-900">Publish &amp; Go Live</p>
-                    <p className="text-sm text-blue-800/60 mt-1">Save your changes. Your Qalt calculator is now ready to capture leads!</p>
+                    <p className="font-bold text-red-900">Publish &amp; Go Live</p>
+                    <p className="text-sm text-slate-700/60 mt-1">Save your changes. Your Qalt calculator is now ready to capture leads!</p>
                   </div>
                 </li>
               </ul>
@@ -265,9 +265,9 @@ export default function EmbedCodePage() {
             </div>
 
             {/* Quick tip card */}
-            <div className="bg-blue-600 rounded-[32px] p-7 text-white shadow-xl shadow-blue-200">
-              <p className="text-xs font-black uppercase tracking-widest text-blue-200 mb-3">Pro tip</p>
-              <p className="text-sm font-medium text-blue-100 leading-relaxed">
+            <div className="bg-red-600 rounded-[32px] p-7 text-white shadow-xl shadow-red-200">
+              <p className="text-xs font-black uppercase tracking-widest text-red-200 mb-3">Pro tip</p>
+              <p className="text-sm font-medium text-red-100 leading-relaxed">
                 Use the <strong className="text-white">Desktop / Mobile</strong> toggle in the preview to make sure your widget looks great on all screen sizes before embedding.
               </p>
             </div>

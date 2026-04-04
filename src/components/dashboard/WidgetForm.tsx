@@ -192,7 +192,7 @@ export default function WidgetSettingsForm({
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-6">
             <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <Settings className="text-blue-600" size={20} />
+              <Settings className="text-red-600" size={20} />
               Appearance & Branding
             </h2>
 
@@ -322,7 +322,7 @@ export default function WidgetSettingsForm({
                     placeholder="Your Company"
                     value={previewData.companyNameText || ""}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm"
                     style={{ fontFamily: previewData.companyNameFont || "Inter" }}
                   />
                   <p className="text-xs text-slate-400 mt-1">Shown if no logo is uploaded</p>
@@ -336,7 +336,7 @@ export default function WidgetSettingsForm({
                     name="companyNameFont"
                     value={previewData.companyNameFont || "Inter"}
                     onChange={(e) => setPreviewData(prev => ({ ...prev, companyNameFont: e.target.value }))}
-                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm"
                   >
                     <option value="Inter" style={{ fontFamily: 'Inter, sans-serif' }}>Inter (Sans)</option>
                     <option value="Roboto" style={{ fontFamily: 'Roboto, sans-serif' }}>Roboto (Clean)</option>
@@ -372,7 +372,7 @@ export default function WidgetSettingsForm({
                     placeholder="#3B82F6"
                     value={previewData.primaryColor}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm uppercase transition-all shadow-sm"
+                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 font-mono text-sm uppercase transition-all shadow-sm"
                     style={{ '--tw-ring-color': previewData.primaryColor } as React.CSSProperties}
                   />
                   <button
@@ -394,7 +394,7 @@ export default function WidgetSettingsForm({
                   required
                   value={previewData.buttonText}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                  className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm"
                 />
               </div>
             </div>
@@ -408,7 +408,7 @@ export default function WidgetSettingsForm({
                 required
                 value={previewData.headerText}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm"
               />
             </div>
 
@@ -419,7 +419,7 @@ export default function WidgetSettingsForm({
                 name="mapLayout"
                 value={previewData.mapLayout}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm"
               >
                 <option value="inline">Inline (Default)</option>
                 <option value="side">Side Panel Slide-out</option>
@@ -453,7 +453,7 @@ export default function WidgetSettingsForm({
                 placeholder="https://yourcompany.com"
                 value={previewData.websiteUrl || ""}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm"
               />
               <p className="text-xs text-slate-400 mt-1">Optional but recommended. Customers will see a &quot;Back to [your site]&quot; button after submitting their quote.</p>
             </div>
@@ -470,7 +470,7 @@ export default function WidgetSettingsForm({
                 disabled={!entitlements.isAdvancedCustomizationEnabled}
                 value={previewData.disclaimerText}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm disabled:bg-slate-50 disabled:text-slate-400"
+                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm disabled:bg-slate-50 disabled:text-slate-400"
               />
               {!entitlements.isAdvancedCustomizationEnabled && (
                 <p className="text-[10px] text-amber-600 bg-amber-50 px-2 py-1 rounded w-max mt-2 font-semibold">Custom disclaimers are a Pro feature.</p>
@@ -485,7 +485,7 @@ export default function WidgetSettingsForm({
               <span className="text-xl">💳</span>
               Accept Payments
               {!entitlements.isPaymentsEnabled && (
-                <span className="ml-2 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-violet-100 text-violet-700 rounded-full">Enterprise</span>
+                <span className="ml-2 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-red-100 text-red-700 rounded-full">Enterprise</span>
               )}
             </h2>
 
@@ -526,7 +526,7 @@ export default function WidgetSettingsForm({
                     <button
                       type="button"
                       onClick={() => router.push(`/api/stripe/connect?companyId=${companyId}`)}
-                      className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-bold transition-all shadow-md active:scale-[0.98] flex items-center justify-center gap-2"
+                      className="w-full py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-bold transition-all shadow-md active:scale-[0.98] flex items-center justify-center gap-2"
                     >
                       <ExternalLink size={16} /> Link Your Stripe Account
                     </button>
@@ -534,7 +534,7 @@ export default function WidgetSettingsForm({
                     <button
                       type="button"
                       onClick={() => router.push(`/api/stripe/connect?companyId=${companyId}`)}
-                      className="text-xs text-indigo-600 font-semibold hover:underline"
+                      className="text-xs text-red-600 font-semibold hover:underline"
                     >
                       Reconnect or change account
                     </button>
@@ -572,12 +572,12 @@ export default function WidgetSettingsForm({
                 )}
               </div>
             ) : (
-              <div className="flex items-start gap-3 p-4 bg-violet-50 border border-violet-100 rounded-xl">
-                <Lock className="text-violet-500 shrink-0 mt-0.5" size={18} />
+              <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-100 rounded-xl">
+                <Lock className="text-rose-500 shrink-0 mt-0.5" size={18} />
                 <div>
-                  <p className="text-sm font-bold text-violet-900">Upgrade to Enterprise</p>
-                  <p className="text-xs text-violet-700 mt-0.5 leading-relaxed">Allow your customers to pay for deliveries directly from the widget — no back-and-forth needed.</p>
-                  <Link href="/dashboard/billing" className="inline-block mt-2 text-xs font-bold text-violet-900 underline">View Plans →</Link>
+                  <p className="text-sm font-bold text-red-900">Upgrade to Enterprise</p>
+                  <p className="text-xs text-red-700 mt-0.5 leading-relaxed">Allow your customers to pay for deliveries directly from the widget — no back-and-forth needed.</p>
+                  <Link href="/dashboard/billing" className="inline-block mt-2 text-xs font-bold text-red-900 underline">View Plans →</Link>
                 </div>
               </div>
             )}
@@ -587,7 +587,7 @@ export default function WidgetSettingsForm({
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all disabled:opacity-50"
+              className="flex items-center gap-2 px-8 py-3 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition-all disabled:opacity-50"
             >
               <Save size={20} />
               {loading ? "Saving..." : "Save Settings"}

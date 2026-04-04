@@ -119,7 +119,7 @@ export default async function DashboardOverview() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-black uppercase tracking-wider rounded-md">
+            <span className="px-2 py-0.5 bg-red-100 text-red-700 text-[10px] font-black uppercase tracking-wider rounded-md">
               {company.subscriptionPlan} Plan
             </span>
           </div>
@@ -164,7 +164,7 @@ export default async function DashboardOverview() {
           value="Online"
           description="Widget is initialized on your site"
           icon={<Activity size={20} />}
-          variant="indigo"
+          variant="rose"
         />
       </div>
 
@@ -177,11 +177,11 @@ export default async function DashboardOverview() {
         <div className="flex items-center justify-between px-2">
           <h2 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
             Recent Requests
-            <span className="flex h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
+            <span className="flex h-2 w-2 rounded-full bg-red-500 animate-pulse" />
           </h2>
           <Link
             href="/dashboard/quotes"
-            className="text-sm font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1 group"
+            className="text-sm font-bold text-red-600 hover:text-red-700 flex items-center gap-1 group"
           >
             View all
             <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
@@ -203,7 +203,7 @@ export default async function DashboardOverview() {
                 </p>
                 <Link 
                   href="/dashboard/embed" 
-                  className="mt-6 inline-block text-blue-600 font-bold text-sm hover:underline"
+                  className="mt-6 inline-block text-red-600 font-bold text-sm hover:underline"
                 >
                   Get Embed Code &rarr;
                 </Link>
@@ -213,7 +213,7 @@ export default async function DashboardOverview() {
                 {recentQuotes.map((quote) => (
                   <div key={quote.id} className="group px-6 py-5 flex items-center justify-between hover:bg-slate-50/50 transition-colors">
                     <div className="flex items-center gap-4">
-                      <div className="h-12 w-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 font-black text-xs transition-colors group-hover:border-blue-100 group-hover:bg-blue-50 group-hover:text-blue-500">
+                      <div className="h-12 w-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 font-black text-xs transition-colors group-hover:border-red-100 group-hover:bg-red-50 group-hover:text-red-500">
                         {quote.customerName.charAt(0).toUpperCase()}
                       </div>
                       <div>
@@ -241,10 +241,10 @@ export default async function DashboardOverview() {
 
         {/* Quick Tips / Sidebar Card */}
         <div>
-          <div className="bg-linear-to-br from-blue-600 to-indigo-700 rounded-3xl p-6 text-white shadow-xl shadow-blue-200">
-            <TrendingUp size={32} className="mb-4 text-blue-200" />
+          <div className="bg-linear-to-br from-red-700 to-[#4f515b] rounded-3xl p-6 text-white shadow-xl shadow-red-200">
+            <TrendingUp size={32} className="mb-4 text-red-200" />
             <h3 className="text-xl font-black tracking-tight mb-2 leading-tight">Increase Conversion</h3>
-            <p className="text-blue-100 text-sm font-medium leading-relaxed mb-6">
+            <p className="text-red-100 text-sm font-medium leading-relaxed mb-6">
               Add a specialized background image to your widget to build trust with your customers.
             </p>
             <Link 

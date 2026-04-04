@@ -34,9 +34,9 @@ export function KPICard({ title, value, subtitle, trend, icon, color, delay }: {
   delay: number;
 }) {
   const colorMap: Record<string, string> = {
-    blue: "from-blue-500/10 to-indigo-500/5 border-blue-100/50",
+    blue: "from-red-500/10 to-slate-500/5 border-red-100/50",
     emerald: "from-emerald-500/10 to-teal-500/5 border-emerald-100/50",
-    purple: "from-purple-500/10 to-fuchsia-500/5 border-purple-100/50"
+    purple: "from-rose-500/10 to-fuchsia-500/5 border-rose-100/50"
   };
 
   return (
@@ -84,7 +84,7 @@ export function PremiumChart({ data }: { data: { date: string; quotes: number }[
           <p className="text-sm text-slate-500 font-medium font-['Outfit']">Quote volume distribution over the last 30 days.</p>
         </div>
         <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-2xl border border-slate-100">
-          <div className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+          <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
           <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Real-time Data</span>
         </div>
       </div>
@@ -166,7 +166,7 @@ function buildRecommendations(data: InsightsData) {
 
   if (data.avgDistance > 80) {
     tips.push({
-      icon: <MapPin size={18} className="text-blue-400" />,
+      icon: <MapPin size={18} className="text-red-400" />,
       priority: "medium",
       title: "Long-distance jobs are common",
       desc: `Average distance is ${data.avgDistance.toFixed(0)} miles. Make sure your per-mile rate is profitable at this range. Consider a tiered rate for jobs over 50 miles.`,
@@ -226,14 +226,14 @@ export function InsightsCard() {
 
   const items = data
     ? [
-        { label: "Busiest Time", value: data.busiestTime, color: "text-blue-400" },
+        { label: "Busiest Time", value: data.busiestTime, color: "text-red-400" },
         { label: "Top Region", value: data.topRegion, color: "text-emerald-400" },
-        { label: "Conv. Rate", value: `${data.conversionRate.toFixed(1)}%`, color: "text-purple-400" },
+        { label: "Conv. Rate", value: `${data.conversionRate.toFixed(1)}%`, color: "text-rose-400" },
       ]
     : [
-        { label: "Busiest Time", value: "Loading…", color: "text-blue-400" },
+        { label: "Busiest Time", value: "Loading…", color: "text-red-400" },
         { label: "Top Region", value: "Loading…", color: "text-emerald-400" },
-        { label: "Conv. Rate", value: "Loading…", color: "text-purple-400" },
+        { label: "Conv. Rate", value: "Loading…", color: "text-rose-400" },
       ];
 
   const recommendations = data ? buildRecommendations(data) : [];
@@ -246,11 +246,11 @@ export function InsightsCard() {
         transition={{ delay: 0.8 }}
         className="bg-linear-to-br from-slate-900 to-slate-800 rounded-[32px] p-8 text-white h-full relative overflow-hidden"
       >
-        <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500 rounded-full blur-[80px] opacity-20 translate-x-10 -translate-y-10" />
+        <div className="absolute top-0 right-0 w-40 h-40 bg-red-500 rounded-full blur-[80px] opacity-20 translate-x-10 -translate-y-10" />
         <div className="relative z-10 flex flex-col h-full">
           <div className="mb-8">
             <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-6 border border-white/10">
-              <Zap size={22} className="text-blue-400" />
+              <Zap size={22} className="text-red-400" />
             </div>
             <h3 className="text-2xl font-black tracking-tight mb-2">Qalt Insights</h3>
             <p className="text-slate-400 font-medium leading-relaxed font-['Outfit']">Live metrics from your last 90 days of quote activity.</p>
@@ -308,7 +308,7 @@ export function InsightsCard() {
               {/* Header */}
               <div className="sticky top-0 bg-slate-950/95 backdrop-blur-md border-b border-white/10 px-6 py-5 flex items-center justify-between z-10">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center">
+                  <div className="w-9 h-9 bg-red-600 rounded-xl flex items-center justify-center">
                     <ArrowUpRight size={18} className="text-white" />
                   </div>
                   <div>
@@ -328,7 +328,7 @@ export function InsightsCard() {
               {data && (
                 <div className="px-6 py-4 grid grid-cols-3 gap-3 border-b border-white/5">
                   {[
-                    { label: "Conv. Rate", value: `${data.conversionRate.toFixed(1)}%`, color: "text-purple-400" },
+                    { label: "Conv. Rate", value: `${data.conversionRate.toFixed(1)}%`, color: "text-rose-400" },
                     { label: "Avg Value",  value: `$${data.avgQuoteValue.toFixed(0)}`,   color: "text-amber-400" },
                     { label: "This Week",  value: `${data.thisWeekCount} quotes`,         color: "text-sky-400" },
                   ].map((s) => (
@@ -374,7 +374,7 @@ export function InsightsCard() {
                     </div>
                     <a
                       href={tip.href}
-                      className="flex items-center gap-1.5 text-xs font-black text-blue-400 hover:text-blue-300 transition-colors mt-2 group/link"
+                      className="flex items-center gap-1.5 text-xs font-black text-red-600 hover:text-red-700 transition-colors mt-2 group/link"
                     >
                       {tip.action}
                       <ArrowUpRight size={13} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
@@ -417,14 +417,14 @@ export function PremiumTable({ quotes }: { quotes: {
       </div>
       <div className="grid grid-cols-1 gap-4">
         {quotes.map((quote) => (
-          <div key={quote.id} className="group bg-white rounded-[32px] border border-slate-200/60 shadow-lg p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-blue-200 transition-all duration-300">
+          <div key={quote.id} className="group bg-white rounded-[32px] border border-slate-200/60 shadow-lg p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-red-200 transition-all duration-300">
             <div className="flex items-center gap-5">
-              <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0 group-hover:bg-blue-50 transition-colors">
-                <User size={24} className="text-slate-400 group-hover:text-blue-600" />
+              <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0 group-hover:bg-red-50 transition-colors">
+                <User size={24} className="text-slate-400 group-hover:text-red-600" />
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 text-lg">{quote.customerName}</h3>
-                <div className="flex items-center gap-3 mt-1 underline-offset-4 decoration-blue-500/30">
+                <div className="flex items-center gap-3 mt-1 underline-offset-4 decoration-red-500/30">
                   <span className="text-xs font-bold text-slate-500 flex items-center gap-1"><Mail size={12} /> {quote.customerEmail}</span>
                 </div>
               </div>
@@ -436,7 +436,7 @@ export function PremiumTable({ quotes }: { quotes: {
                     <span className="text-[10px] font-black text-slate-400">{quote.pickupZip}</span>
                   </div>
                   <div className="flex flex-col items-center gap-1">
-                    <div className="w-20 h-0.5 bg-slate-100 group-hover:bg-blue-200 transition-colors" />
+                    <div className="w-20 h-0.5 bg-slate-100 group-hover:bg-red-200 transition-colors" />
                     <span className="text-[8px] font-bold text-slate-300 uppercase">{quote.distanceMiles?.toFixed(1)} miles</span>
                   </div>
                   <div className="text-center">

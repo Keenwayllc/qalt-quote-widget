@@ -996,8 +996,8 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                 {/* Date & Time */}
                 {formData.pickupDate && (
                   <div className="flex items-center gap-2.5 pt-1">
-                    <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                      <Clock size={10} className="text-blue-600" />
+                    <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+                      <Clock size={10} className="text-red-600" />
                     </div>
                     <div>
                       <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Pickup Date &amp; Time</p>
@@ -1046,7 +1046,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                         <span className="text-[10px] font-bold px-2.5 py-1 bg-amber-50 text-amber-700 rounded-lg border border-amber-100">Stairs</span>
                       )}
                       {formData.needsInsideDelivery && (
-                        <span className="text-[10px] font-bold px-2.5 py-1 bg-blue-50 text-blue-700 rounded-lg border border-blue-100">Inside Delivery</span>
+                        <span className="text-[10px] font-bold px-2.5 py-1 bg-red-50 text-red-700 rounded-lg border border-red-100">Inside Delivery</span>
                       )}
                       {formData.selectedLargeItems.map((item) => (
                         <span key={item} className="text-[10px] font-bold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg border border-slate-200">{item}</span>

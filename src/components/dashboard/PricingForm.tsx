@@ -48,7 +48,7 @@ function Tooltip({ text }: { text: string }) {
         onMouseLeave={() => setShow(false)}
         onFocus={() => setShow(true)}
         onBlur={() => setShow(false)}
-        className="text-slate-400 hover:text-blue-500 transition-colors focus:outline-none"
+        className="text-slate-400 hover:text-red-500 transition-colors focus:outline-none"
         aria-label="More info"
       >
         <HelpCircle size={14} />
@@ -201,7 +201,7 @@ export default function PricingPage({
   };
 
   const inputClass =
-    "w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400 transition-all shadow-sm";
+    "w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-900 placeholder:text-slate-400 transition-all shadow-sm";
 
   return (
     <div className="p-8 max-w-4xl">
@@ -214,7 +214,7 @@ export default function PricingPage({
         {/* Core Pricing */}
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
           <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-            <DollarSign className="text-blue-600" size={20} />
+            <DollarSign className="text-red-600" size={20} />
             Core Rates
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -233,7 +233,7 @@ export default function PricingPage({
             <div className="flex items-start gap-3 pt-6">
               <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" name="useMinimumCharge" defaultChecked={initialData?.useMinimumCharge ?? true} className="sr-only peer" />
-                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
                 <span className="ml-3 text-sm font-medium text-slate-700">Apply Minimum Charge</span>
               </label>
               <Tooltip text="When ON, no quote will go below your minimum. Turn OFF for pure distance-based pricing with no floor." />
@@ -244,7 +244,7 @@ export default function PricingPage({
         {/* Per-Unit Fees */}
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
           <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-            <Weight className="text-blue-600" size={20} />
+            <Weight className="text-red-600" size={20} />
             Per-Unit Fees
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -262,7 +262,7 @@ export default function PricingPage({
         {/* Optional Flat Fees */}
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
           <h2 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
-            <DollarSign className="text-blue-600" size={20} />
+            <DollarSign className="text-red-600" size={20} />
             Optional Flat Fees
           </h2>
           <p className="text-sm text-slate-500 mb-6">Flat fees added when a customer selects the matching option in your widget. Set to 0 to not charge for that option.</p>
@@ -281,7 +281,7 @@ export default function PricingPage({
         {/* After-Hours Delivery */}
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
           <h2 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
-            <Clock className="text-blue-600" size={20} />
+            <Clock className="text-red-600" size={20} />
             After-Hours Delivery
           </h2>
           <p className="text-sm text-slate-500 mb-6">
@@ -321,7 +321,7 @@ export default function PricingPage({
                     onClick={() => toggleDay(day.value)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                       businessDays.includes(day.value)
-                        ? "bg-blue-600 text-white shadow-sm"
+                        ? "bg-red-600 text-white shadow-sm"
                         : "bg-slate-100 text-slate-500 hover:bg-slate-200"
                     }`}
                   >
@@ -337,12 +337,12 @@ export default function PricingPage({
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
           <div className="flex items-start justify-between mb-2">
             <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <Box className="text-blue-600" size={20} />
+              <Box className="text-red-600" size={20} />
               Large Item Categories
             </h2>
             <label className="relative inline-flex items-center cursor-pointer shrink-0 ml-4">
               <input type="checkbox" className="sr-only peer" checked={largeItemsEnabled} onChange={(e) => setLargeItemsEnabled(e.target.checked)} />
-              <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+              <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
               <span className="ml-3 text-sm font-medium text-slate-700">Enable</span>
               <Tooltip text="When enabled, customers can select specific item types in your widget. Each selected item adds its fee to the quote. Disable to hide this section from your widget." />
             </label>
@@ -363,7 +363,7 @@ export default function PricingPage({
                       placeholder="Item name (e.g. Pallet, Furniture)"
                       value={cat.name}
                       onChange={(e) => updateCategory(index, "name", e.target.value)}
-                      className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+                      className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-900 placeholder:text-slate-400"
                     />
                   </div>
                   <div className="w-32 relative">
@@ -375,7 +375,7 @@ export default function PricingPage({
                       placeholder="0.00"
                       value={cat.price === 0 ? "" : cat.price}
                       onChange={(e) => updateCategory(index, "price", e.target.value)}
-                      className="w-full pl-6 pr-3 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder:text-slate-400"
+                      className="w-full pl-6 pr-3 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-900 placeholder:text-slate-400"
                     />
                   </div>
                   <button type="button" onClick={() => removeCategory(index)} className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors" aria-label="Remove item">
@@ -383,7 +383,7 @@ export default function PricingPage({
                   </button>
                 </div>
               ))}
-              <button type="button" onClick={addCategory} className="mt-2 flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors">
+              <button type="button" onClick={addCategory} className="mt-2 flex items-center gap-2 text-sm font-semibold text-red-600 hover:text-red-700 transition-colors">
                 <Plus size={16} />
                 Add Item Type
               </button>
@@ -399,7 +399,7 @@ export default function PricingPage({
         {/* Form Field Toggles */}
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
           <h2 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
-            <SlidersHorizontal className="text-blue-600" size={20} />
+            <SlidersHorizontal className="text-red-600" size={20} />
             Form Fields
           </h2>
           <p className="text-sm text-slate-500 mb-6">Choose which extra fields appear in your quote form. Each field adds more data to the quote and affects pricing where applicable.</p>
@@ -407,33 +407,33 @@ export default function PricingPage({
           <div className="flex flex-wrap gap-x-8 gap-y-4">
             <label className="flex items-center gap-3 cursor-pointer">
               <input type="checkbox" checked={showWeight} onChange={(e) => setShowWeight(e.target.checked)}
-                className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+                className="w-5 h-5 rounded border-slate-300 text-red-600 focus:ring-red-500" />
               <span className="text-sm font-medium text-slate-700">Show Package Weight field</span>
             </label>
 
             <label className="flex items-center gap-3 cursor-pointer">
               <input type="checkbox" checked={showExtras} onChange={(e) => setShowExtras(e.target.checked)}
-                className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+                className="w-5 h-5 rounded border-slate-300 text-red-600 focus:ring-red-500" />
               <span className="text-sm font-medium text-slate-700">Display Extras (Stairs, Inside Delivery)</span>
             </label>
 
             <label className={`flex items-center gap-3 ${vehicleEnabled ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}>
               <input type="checkbox" checked={showVehicles} onChange={(e) => setShowVehicles(e.target.checked)}
                 disabled={!vehicleEnabled}
-                className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 disabled:opacity-50" />
+                className="w-5 h-5 rounded border-slate-300 text-red-600 focus:ring-red-500 disabled:opacity-50" />
               <span className="text-sm font-medium text-slate-700">
                 Number of Vehicles
-                {!vehicleEnabled && <span className="ml-2 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest bg-violet-100 text-violet-700 rounded-full">Enterprise</span>}
+                {!vehicleEnabled && <span className="ml-2 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest bg-red-100 text-red-700 rounded-full">Enterprise</span>}
               </span>
             </label>
 
             <label className={`flex items-center gap-3 ${vehicleEnabled ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}>
               <input type="checkbox" checked={showAwb} onChange={(e) => setShowAwb(e.target.checked)}
                 disabled={!vehicleEnabled}
-                className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 disabled:opacity-50" />
+                className="w-5 h-5 rounded border-slate-300 text-red-600 focus:ring-red-500 disabled:opacity-50" />
               <span className="text-sm font-medium text-slate-700">
                 AWB Number (Airport Pickup)
-                {!vehicleEnabled && <span className="ml-2 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest bg-violet-100 text-violet-700 rounded-full">Enterprise</span>}
+                {!vehicleEnabled && <span className="ml-2 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest bg-red-100 text-red-700 rounded-full">Enterprise</span>}
               </span>
             </label>
           </div>
@@ -446,7 +446,7 @@ export default function PricingPage({
                 value={pricePerVehicle}
                 onChange={(e) => setPricePerVehicle(e.target.value)}
                 placeholder="e.g. 50.00"
-                className="w-40 px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+                className="w-40 px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-red-500 shadow-sm"
               />
               <p className="text-xs text-slate-500 mt-1">Flat fee added per vehicle the customer selects in the widget.</p>
             </div>
@@ -454,7 +454,7 @@ export default function PricingPage({
         </div>
 
         <div className="flex items-center gap-4">
-          <button type="submit" disabled={loading} className="flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all disabled:opacity-50">
+          <button type="submit" disabled={loading} className="flex items-center gap-2 px-8 py-3 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition-all disabled:opacity-50">
             <Save size={20} />
             {loading ? "Saving..." : "Save Changes"}
           </button>

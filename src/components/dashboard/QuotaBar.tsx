@@ -34,7 +34,7 @@ export default function QuotaBar({ used, limit, plan }: QuotaBarProps) {
     ? "bg-red-500"
     : isWarning
     ? "bg-amber-400"
-    : "bg-blue-500";
+    : "bg-red-500";
 
   const bgColor = isExhausted
     ? "border-red-200 bg-red-50"
@@ -47,11 +47,11 @@ export default function QuotaBar({ used, limit, plan }: QuotaBarProps) {
       <div className="flex items-start justify-between gap-4 mb-3">
         <div className="flex items-center gap-3">
           <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${
-            isExhausted ? "bg-red-100" : isWarning ? "bg-amber-100" : "bg-blue-50"
+            isExhausted ? "bg-red-100" : isWarning ? "bg-amber-100" : "bg-red-50"
           }`}>
             {isExhausted || isWarning
               ? <AlertTriangle size={18} className={isExhausted ? "text-red-600" : "text-amber-600"} />
-              : <Zap size={18} className="text-blue-600" />}
+              : <Zap size={18} className="text-red-600" />}
           </div>
           <div>
             <p className="text-sm font-bold text-slate-900">

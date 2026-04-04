@@ -33,7 +33,7 @@ interface Quote {
 
 const statusConfig: Record<string, { label: string; cls: string }> = {
   PENDING:   { label: "Pending",   cls: "bg-amber-50 text-amber-700 border-amber-100" },
-  CONFIRMED: { label: "Confirmed", cls: "bg-blue-50 text-blue-700 border-blue-100" },
+  CONFIRMED: { label: "Confirmed", cls: "bg-red-50 text-red-700 border-red-100" },
   WON:       { label: "Won",       cls: "bg-emerald-50 text-emerald-700 border-emerald-100" },
   LOST:      { label: "Lost",      cls: "bg-rose-50 text-rose-700 border-rose-100" },
   PAID:      { label: "Paid",      cls: "bg-emerald-50 text-emerald-700 border-emerald-100" },
@@ -57,7 +57,7 @@ function CopyButton({ text }: { text: string }) {
     setTimeout(() => setCopied(false), 1800);
   };
   return (
-    <button onClick={copy} className="ml-1 text-slate-300 hover:text-blue-500 transition-colors">
+    <button onClick={copy} className="ml-1 text-slate-300 hover:text-red-500 transition-colors">
       {copied ? <Check size={12} className="text-emerald-500" /> : <Copy size={12} />}
     </button>
   );
@@ -159,7 +159,7 @@ function QuoteDrawer({ quote, onClose, onUpdate }: { quote: Quote; onClose: () =
             <div className="bg-slate-50 rounded-2xl p-5">
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Route</p>
               <div className="flex items-center gap-3 text-slate-700 font-black text-lg mb-2">
-                <MapPin size={16} className="text-blue-500 shrink-0" />
+                <MapPin size={16} className="text-red-500 shrink-0" />
                 <span>{quote.pickupZip}</span>
                 <ChevronRight size={14} className="text-slate-300" />
                 <span>{quote.dropoffZip}</span>
@@ -193,7 +193,7 @@ function QuoteDrawer({ quote, onClose, onUpdate }: { quote: Quote; onClose: () =
                       <p className="text-xs text-slate-400 font-bold mb-1.5">Extras</p>
                       <div className="flex flex-wrap gap-1.5">
                         {extras.map((e) => (
-                          <span key={e} className="px-2.5 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-lg text-xs font-bold">{e}</span>
+                          <span key={e} className="px-2.5 py-1 bg-red-50 text-red-700 border border-red-100 rounded-lg text-xs font-bold">{e}</span>
                         ))}
                       </div>
                     </div>
@@ -255,7 +255,7 @@ function QuoteDrawer({ quote, onClose, onUpdate }: { quote: Quote; onClose: () =
                   <button
                     disabled={isUpdating}
                     onClick={() => updateQuote({ status: "CONFIRMED" })}
-                    className={`w-full py-2 rounded-xl text-xs font-bold transition-all ${quote.status === "CONFIRMED" ? "bg-blue-600 text-white" : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-100"}`}
+                    className={`w-full py-2 rounded-xl text-xs font-bold transition-all ${quote.status === "CONFIRMED" ? "bg-red-600 text-white" : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-100"}`}
                   >Confirmed</button>
                   <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-44 bg-slate-900 text-white text-[11px] font-medium rounded-xl px-3 py-2 opacity-0 group-hover/confirmed:opacity-100 transition-opacity z-50 shadow-xl">
                     You&apos;ve spoken to the customer and confirmed the job is happening.
@@ -301,7 +301,7 @@ function QuoteDrawer({ quote, onClose, onUpdate }: { quote: Quote; onClose: () =
                 onChange={(e) => setNotes(e.target.value)}
                 onBlur={() => { if (notes !== (quote.internalNotes || "")) updateQuote({ internalNotes: notes }) }}
                 placeholder="Add private notes about this quote..."
-                className="w-full h-24 p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white resize-none"
+                className="w-full h-24 p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white resize-none"
               />
             </div>
 
@@ -317,7 +317,7 @@ function QuoteDrawer({ quote, onClose, onUpdate }: { quote: Quote; onClose: () =
               {quote.customerPhone && (
                 <a
                   href={`tel:${quote.customerPhone}`}
-                  className="flex items-center justify-center gap-2 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 active:scale-95 transition-all"
+                  className="flex items-center justify-center gap-2 py-3 bg-red-600 text-white rounded-xl font-bold text-sm hover:bg-red-700 active:scale-95 transition-all"
                 >
                   <Phone size={15} />
                   Call Customer
@@ -345,14 +345,14 @@ export default function QuotesClient({ quotes: initialQuotes }: { quotes: Quote[
       {quotes.length === 0 ? (
         <div className="bg-white rounded-[32px] border border-slate-200/60 shadow-xl shadow-slate-200/40 overflow-hidden text-center relative isolate mb-12">
           {/* Subtle Background Glows */}
-          <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[50%] bg-blue-400/10 blur-[120px] rounded-full pointer-events-none" />
-          <div className="absolute bottom-[-20%] left-[-10%] w-[40%] h-[40%] bg-indigo-400/10 blur-[100px] rounded-full pointer-events-none" />
+          <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[50%] bg-red-400/10 blur-[120px] rounded-full pointer-events-none" />
+          <div className="absolute bottom-[-20%] left-[-10%] w-[40%] h-[40%] bg-slate-400/10 blur-[100px] rounded-full pointer-events-none" />
 
           <div className="px-6 py-24 flex flex-col items-center">
-            <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl border border-blue-100/50 shadow-inner text-blue-500 mb-8 relative">
+            <div className="p-6 bg-linear-to-br from-red-50 to-slate-100 rounded-3xl border border-red-100/50 shadow-inner text-red-500 mb-8 relative">
               <div className="absolute inset-0 bg-white/20 rounded-3xl backdrop-blur-md" />
               <div className="relative">
-                <Settings size={48} strokeWidth={1.5} className="text-blue-600" />
+                <Settings size={48} strokeWidth={1.5} className="text-red-600" />
               </div>
             </div>
             <h2 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">You&apos;re almost there!</h2>
@@ -393,7 +393,7 @@ export default function QuotesClient({ quotes: initialQuotes }: { quotes: Quote[
                             {quote.customerName.charAt(0).toUpperCase()}
                           </div>
                           <div>
-                            <p className="text-sm font-black text-slate-900 tracking-tight leading-none mb-1.5 group-hover:text-blue-600 transition-colors">
+                            <p className="text-sm font-black text-slate-900 tracking-tight leading-none mb-1.5 group-hover:text-red-600 transition-colors">
                               {quote.customerName}
                             </p>
                             <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-tighter">
@@ -406,7 +406,7 @@ export default function QuotesClient({ quotes: initialQuotes }: { quotes: Quote[
                       <td className="px-8 py-6">
                         <div className="space-y-2">
                           <div className="flex items-center gap-2 text-sm font-bold text-slate-700">
-                            <MapPin size={12} className="text-blue-500" />
+                            <MapPin size={12} className="text-red-500" />
                             <span>{quote.pickupZip}</span>
                             <ChevronRight size={10} className="text-slate-300" />
                             <span>{quote.dropoffZip}</span>
@@ -478,7 +478,7 @@ export default function QuotesClient({ quotes: initialQuotes }: { quotes: Quote[
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm font-bold text-slate-700 mb-2">
-                  <MapPin size={12} className="text-blue-500 shrink-0" />
+                  <MapPin size={12} className="text-red-500 shrink-0" />
                   <span>{quote.pickupZip}</span>
                   <ChevronRight size={10} className="text-slate-300" />
                   <span>{quote.dropoffZip}</span>
@@ -497,7 +497,7 @@ export default function QuotesClient({ quotes: initialQuotes }: { quotes: Quote[
                   )}
                 </div>
                 <div className="mt-3 text-right">
-                  <span className="text-xs font-black text-blue-600">Tap to view details →</span>
+                  <span className="text-xs font-black text-red-600">Tap to view details →</span>
                 </div>
               </div>
             ))}

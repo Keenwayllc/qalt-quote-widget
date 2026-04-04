@@ -66,7 +66,7 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <div className="p-8 flex items-center justify-center min-h-[200px]">
-        <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -92,7 +92,7 @@ export default function SettingsPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full pl-9 pr-4 py-2.5 border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-9 pr-4 py-2.5 border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
             />
           </div>
         </div>
@@ -108,7 +108,7 @@ export default function SettingsPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full pl-9 pr-4 py-2.5 border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-9 pr-4 py-2.5 border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
             />
           </div>
           <p className="mt-1.5 text-xs text-slate-400">
@@ -133,7 +133,7 @@ export default function SettingsPage() {
         <button
           type="submit"
           disabled={saving}
-          className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 disabled:opacity-60 transition-colors"
+          className="flex items-center gap-2 px-5 py-2.5 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-700 disabled:opacity-60 transition-colors"
         >
           <Save size={15} />
           {saving ? "Saving..." : "Save Changes"}
@@ -142,8 +142,8 @@ export default function SettingsPage() {
 
       {/* Admin Panel Selector */}
       {email.toLowerCase() === "emmanuel@gokeenway.com" && (
-        <div className="mt-6 bg-slate-50 rounded-xl border border-blue-200 shadow-sm p-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded-bl-lg uppercase tracking-wider">
+        <div className="mt-6 bg-slate-50 rounded-xl border border-red-200 shadow-sm p-6 relative overflow-hidden">
+          <div className="absolute top-0 right-0 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-bl-lg uppercase tracking-wider">
             Admin Only
           </div>
           <h2 className="text-base font-bold text-slate-900 mb-1">Creator Plan Override</h2>
@@ -154,7 +154,7 @@ export default function SettingsPage() {
             {["STARTER", "PRO", "ENTERPRISE"].map(plan => (
               <label 
                 key={plan}
-                className={`flex-1 cursor-pointer rounded-lg border p-3 flex flex-col items-center gap-1 transition-all ${subscriptionPlan === plan ? 'border-blue-600 bg-blue-50 text-blue-700' : 'border-slate-200 bg-white hover:border-blue-300 text-slate-600'}`}
+                className={`flex-1 cursor-pointer rounded-lg border p-3 flex flex-col items-center gap-1 transition-all ${subscriptionPlan === plan ? 'border-red-600 bg-red-50 text-red-700' : 'border-slate-200 bg-white hover:border-red-300 text-slate-600'}`}
               >
                 <input 
                   type="radio" 

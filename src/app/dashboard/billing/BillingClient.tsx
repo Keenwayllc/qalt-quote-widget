@@ -144,12 +144,12 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
             className={`
               relative flex flex-col p-8 rounded-3xl border-2 transition-all duration-300
               ${isCurrentPlan
-                ? 'bg-white border-blue-500 shadow-xl scale-[1.02] z-10'
+                ? 'bg-white border-red-500 shadow-xl scale-[1.02] z-10'
                 : 'bg-white border-slate-100 hover:border-slate-200 hover:shadow-lg hover:-translate-y-1'}
             `}
           >
             {isCurrentPlan && (
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-blue-600 text-white text-xs font-bold rounded-full uppercase tracking-widest shadow-lg">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-red-600 text-white text-xs font-bold rounded-full uppercase tracking-widest shadow-lg">
                 Current Plan
               </div>
             )}
@@ -157,7 +157,7 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
             <div className="mb-6">
               <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 ${
                 plan.id === "STARTER" ? "bg-slate-100 text-slate-600" :
-                plan.id === "PRO" ? "bg-blue-100 text-blue-600" : "bg-indigo-100 text-indigo-600"
+                plan.id === "PRO" ? "bg-red-100 text-red-600" : "bg-red-100 text-red-600"
               }`}>
                 <plan.icon size={24} />
               </div>

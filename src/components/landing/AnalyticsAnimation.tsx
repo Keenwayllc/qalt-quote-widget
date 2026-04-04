@@ -26,14 +26,14 @@ export default function AnalyticsAnimation() {
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold"
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold"
             >
                 <AreaChart size={14} />
                 <span>Know what your quotes are doing</span>
             </motion.div>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
-                Track quote activity and spot <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-indigo-500">what drives bookings.</span>
+                Track quote activity and spot <span className="text-transparent bg-clip-text bg-linear-to-r from-red-400 to-rose-500">what drives bookings.</span>
             </h2>
 
             <p className="text-lg text-slate-400 leading-relaxed max-w-xl">
@@ -54,7 +54,7 @@ export default function AnalyticsAnimation() {
                         transition={{ delay: i * 0.1 }}
                         className="flex items-center gap-3 text-slate-300 font-medium"
                     >
-                        <div className="p-1.5 rounded bg-blue-500/10 text-blue-400">
+                        <div className="p-1.5 rounded bg-red-500/10 text-red-400">
                             <item.icon size={16} />
                         </div>
                         {item.text}
@@ -66,9 +66,9 @@ export default function AnalyticsAnimation() {
         {/* RIGHT: Mock Dashboard Animation */}
         <div className="relative pl-0 lg:pl-10 lg:order-2 order-1">
           {/* Background glow */}
-          <div className="absolute -inset-4 bg-linear-to-tr from-blue-500/10 via-indigo-500/5 to-purple-500/10 rounded-[2.5rem] blur-2xl" />
+          <div className="absolute -inset-4 bg-linear-to-tr from-red-500/10 via-rose-500/5 to-rose-500/10 rounded-[2.5rem] blur-2xl" />
           
-          <div className="relative bg-slate-900 rounded-4xl border border-white/10 shadow-2xl shadow-indigo-900/40 overflow-hidden h-[450px] sm:h-[500px] lg:h-auto lg:aspect-4/3">
+          <div className="relative bg-slate-900 rounded-4xl border border-white/10 shadow-2xl shadow-red-900/30 overflow-hidden h-[450px] sm:h-[500px] lg:h-auto lg:aspect-4/3">
             {/* Mock Browser Header */}
             <div className="h-8 border-b border-white/5 bg-white/5 flex items-center px-4 gap-1.5 shrink-0">
               <div className="w-2.5 h-2.5 rounded-full bg-slate-600/50" />
@@ -85,7 +85,7 @@ export default function AnalyticsAnimation() {
                     {[0, 1, 2].map(step => (
                         <div key={step} className="h-1 flex-1 bg-white/5 overflow-hidden rounded-full">
                             <motion.div 
-                                className="h-full bg-indigo-500"
+                                className="h-full bg-red-600"
                                 initial={{ width: "0%" }}
                                 animate={{ width: currentStep === step ? "100%" : currentStep > step ? "100%" : "0%" }}
                                 transition={{ duration: currentStep === step ? 4.5 : 0.2, ease: "linear" }}
@@ -106,11 +106,11 @@ export default function AnalyticsAnimation() {
                                 exit={{ opacity: 0, y: -10 }}
                                 className="h-full flex flex-col justify-center space-y-4"
                             >
-                                <div className="text-[10px] uppercase font-black tracking-widest text-indigo-400 mb-2">Key Metrics</div>
+                                <div className="text-[10px] uppercase font-black tracking-widest text-slate-400 mb-2">Key Metrics</div>
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="p-3 bg-white/5 border border-white/10 rounded-xl relative overflow-hidden group">
-                                        <div className="absolute inset-0 bg-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                        <Users className="text-blue-400 mb-2" size={16} />
+                                        <div className="absolute inset-0 bg-red-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                        <Users className="text-red-400 mb-2" size={16} />
                                         <div className="text-[10px] text-white/50 font-medium">Total Quotes</div>
                                         <motion.div 
                                             initial={{ opacity: 0, scale: 0.5 }}
@@ -136,8 +136,8 @@ export default function AnalyticsAnimation() {
                                     </div>
                                 </div>
                                 <div className="p-3 bg-white/5 border border-white/10 rounded-xl relative overflow-hidden group">
-                                    <div className="absolute inset-0 bg-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                    <DollarSign className="text-purple-400 mb-2" size={16} />
+                                    <div className="absolute inset-0 bg-rose-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    <DollarSign className="text-rose-400 mb-2" size={16} />
                                     <div className="text-[10px] text-white/50 font-medium">Pipeline Value</div>
                                     <motion.div 
                                         initial={{ opacity: 0, scale: 0.5 }}
@@ -160,7 +160,7 @@ export default function AnalyticsAnimation() {
                                 exit={{ opacity: 0, y: -10 }}
                                 className="h-full flex flex-col justify-center"
                             >
-                                <div className="text-[10px] uppercase font-black tracking-widest text-indigo-400 mb-4">Volume Trends (30 Days)</div>
+                                <div className="text-[10px] uppercase font-black tracking-widest text-slate-400 mb-4">Volume Trends (30 Days)</div>
                                 <div className="relative h-40 w-full border-l border-b border-white/10 flex items-end justify-between px-2 pt-4">
                                     {/* Mock Bars */}
                                     {[20, 35, 25, 60, 40, 80, 50, 70].map((height, i) => (
@@ -169,7 +169,7 @@ export default function AnalyticsAnimation() {
                                                 initial={{ height: 0 }}
                                                 animate={{ height: `${height}%` }}
                                                 transition={{ duration: 0.8, delay: i * 0.1, ease: "easeOut" }}
-                                                className="w-4 bg-indigo-500/50 border border-indigo-400/50 rounded-t-sm group-hover:bg-indigo-400 transition-colors"
+                                                className="w-4 bg-red-600/50 border border-slate-400/50 rounded-t-sm group-hover:bg-slate-400 transition-colors"
                                             />
                                         </div>
                                     ))}
@@ -227,7 +227,7 @@ export default function AnalyticsAnimation() {
                                 className="h-full flex flex-col justify-center gap-3"
                             >
                                 <div className="flex justify-between items-center mb-1">
-                                    <div className="text-[10px] uppercase font-black tracking-widest text-indigo-400">Recent Quotes</div>
+                                    <div className="text-[10px] uppercase font-black tracking-widest text-slate-400">Recent Quotes</div>
                                     <div className="text-[8px] font-bold text-white/40 bg-white/5 px-2 py-0.5 rounded">LIVE</div>
                                 </div>
 
@@ -264,7 +264,7 @@ export default function AnalyticsAnimation() {
                                         </div>
 
                                         <div className="flex items-center gap-2 text-[10px] font-bold text-white/70">
-                                            <MapPin size={10} className="text-indigo-400 shrink-0" />
+                                            <MapPin size={10} className="text-slate-400 shrink-0" />
                                             <span>{row.pickup}</span>
                                             <ChevronRight size={10} className="text-white/30" />
                                             <span>{row.dropoff}</span>

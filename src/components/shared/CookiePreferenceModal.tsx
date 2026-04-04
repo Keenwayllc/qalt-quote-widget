@@ -121,7 +121,7 @@ export default function CookiePreferenceModal({ isOpen, onClose, onAcceptAll, on
                   <br/><br/>
                   Because we respect your right to privacy, you can choose not to allow some types of cookies. Click on the different category headings to find out more and change our default settings. However, blocking some types of cookies may impact your experience of the site and the services we are able to offer.
                   <br/><br/>
-                  <a href="#" className="text-indigo-600 hover:underline">More information</a>
+                  <a href="#" className="text-red-600 hover:underline">More information</a>
                 </p>
               </div>
             )}
@@ -133,7 +133,7 @@ export default function CookiePreferenceModal({ isOpen, onClose, onAcceptAll, on
                     <h3 className="text-lg font-bold text-slate-800">{cat.label}</h3>
                     
                     {cat.type === "always" ? (
-                      <span className="text-sm font-medium text-indigo-700">Always Active</span>
+                      <span className="text-sm font-medium text-red-700">Always Active</span>
                     ) : (
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input 
@@ -142,7 +142,7 @@ export default function CookiePreferenceModal({ isOpen, onClose, onAcceptAll, on
                           checked={preferences[cat.id as keyof typeof preferences]}
                           onChange={() => handleToggle(cat.id)}
                         />
-                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
                       </label>
                     )}
                   </div>
@@ -163,13 +163,13 @@ export default function CookiePreferenceModal({ isOpen, onClose, onAcceptAll, on
         <div className="px-6 py-5 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row items-center justify-center sm:justify-end gap-3 rounded-b-lg">
           <button
             onClick={handleConfirmChoices}
-            className="w-full sm:w-auto px-6 py-2.5 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-semibold rounded-md shadow-sm transition-colors"
+            className="w-full sm:w-auto px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-md shadow-sm transition-colors"
           >
             Confirm My Choices
           </button>
           <button
             onClick={onAcceptAll}
-            className="w-full sm:w-auto px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-md shadow-sm transition-colors"
+            className="w-full sm:w-auto px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-md shadow-sm transition-colors"
           >
             Allow All
           </button>

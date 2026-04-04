@@ -11,7 +11,7 @@ interface MetricCardProps {
     value: number;
     isPositive: boolean;
   };
-  variant?: "blue" | "emerald" | "amber" | "indigo";
+  variant?: "blue" | "emerald" | "amber" | "rose";
 }
 
 export default function MetricCard({
@@ -23,17 +23,17 @@ export default function MetricCard({
   variant = "blue",
 }: MetricCardProps) {
   const variants = {
-    blue: "from-blue-500/10 to-blue-600/5 text-blue-700 border-blue-100",
+    blue:    "from-red-500/10 to-red-600/5 text-red-700 border-red-100",
     emerald: "from-emerald-500/10 to-emerald-600/5 text-emerald-700 border-emerald-100",
-    amber: "from-amber-500/10 to-amber-600/5 text-amber-700 border-amber-100",
-    indigo: "from-indigo-500/10 to-indigo-600/5 text-indigo-700 border-indigo-100",
+    amber:   "from-amber-500/10 to-amber-600/5 text-amber-700 border-amber-100",
+    rose:    "from-rose-500/10 to-red-600/5 text-red-700 border-red-100",
   };
 
   const iconVariants = {
-    blue: "bg-blue-100 text-blue-600",
+    blue:    "bg-red-100 text-red-600",
     emerald: "bg-emerald-100 text-emerald-600",
-    amber: "bg-amber-100 text-amber-600",
-    indigo: "bg-indigo-100 text-indigo-600",
+    amber:   "bg-amber-100 text-amber-600",
+    rose:    "bg-red-100 text-red-600",
   };
 
   return (

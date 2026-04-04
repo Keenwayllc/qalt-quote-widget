@@ -10,7 +10,7 @@ const steps = [
     id: "address",
     title: "Enter the delivery details",
     description: "Customers enter pickup and dropoff addresses, item details, and any service extras you require.",
-    icon: <MapPin className="text-blue-500" />,
+    icon: <MapPin className="text-red-500" />,
     color: "blue"
   },
   {
@@ -24,7 +24,7 @@ const steps = [
     id: "booked",
     title: "Capture the request",
     description: "The customer submits the quote request and your team gets the lead right away.",
-    icon: <Send className="text-violet-500" />,
+    icon: <Send className="text-rose-500" />,
     color: "violet"
   }
 ];
@@ -44,13 +44,13 @@ export default function HowItWorksAnimation() {
       {/* Left: Info Blurb & Steps */}
       <div className="space-y-8">
         <div className="space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-100">
-            <Zap size={12} className="fill-blue-600" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-50 text-red-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-red-100">
+            <Zap size={12} className="fill-red-600" />
             How it works
           </div>
           <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-slate-900 leading-[1.1]">
             From website visitor to<br />
-            <span className="text-blue-600">delivery lead in 3 steps.</span>
+            <span className="text-red-600">delivery lead in 3 steps.</span>
           </h2>
           <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-xl">
             Qalt gives customers a fast way to price delivery jobs without calling or waiting for a reply.
@@ -86,9 +86,9 @@ export default function HowItWorksAnimation() {
       {/* Right: The Animated Mock Widget with Map */}
       <div className="relative lg:col-span-1">
         {/* Background glow */}
-        <div className="absolute -inset-4 bg-linear-to-tr from-blue-500/10 via-emerald-500/5 to-violet-500/10 rounded-[2.5rem] blur-2xl" />
+        <div className="absolute -inset-4 bg-linear-to-tr from-red-500/10 via-emerald-500/5 to-rose-600/10 rounded-[2.5rem] blur-2xl" />
         
-        <div className="relative bg-slate-900 rounded-[2rem] border border-white/10 shadow-2xl shadow-blue-900/40 overflow-hidden min-h-[400px] h-auto sm:h-auto aspect-auto sm:aspect-square lg:aspect-16/11">
+        <div className="relative bg-slate-900 rounded-[2rem] border border-white/10 shadow-2xl shadow-red-900/30 overflow-hidden min-h-[400px] h-auto sm:h-auto aspect-auto sm:aspect-square lg:aspect-16/11">
           {/* Mock Browser Header */}
           <div className="h-8 sm:h-10 border-b border-white/5 bg-white/5 flex items-center px-4 gap-1.5 shrink-0">
             <div className="w-2.5 h-2.5 rounded-full bg-slate-600/50" />
@@ -108,7 +108,7 @@ export default function HowItWorksAnimation() {
                 </div>
                 <div className="flex gap-1">
                   {[0, 1, 2].map((i) => (
-                    <div key={i} className={`h-1 w-4 rounded-full ${i <= currentStep ? 'bg-blue-500' : 'bg-white/10'} transition-colors duration-500`} />
+                    <div key={i} className={`h-1 w-4 rounded-full ${i <= currentStep ? 'bg-red-500' : 'bg-white/10'} transition-colors duration-500`} />
                   ))}
                 </div>
               </div>
@@ -230,8 +230,8 @@ export default function HowItWorksAnimation() {
                       exit={{ opacity: 0, y: -10 }}
                       className="space-y-4"
                     >
-                      <div className="bg-blue-600/10 border border-blue-500/20 rounded-xl p-4 text-center space-y-3">
-                          <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-blue-500/40">
+                      <div className="bg-red-600/10 border border-red-500/20 rounded-xl p-4 text-center space-y-3">
+                          <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-red-500/40">
                               <CheckCircle2 className="text-white" size={24} />
                           </div>
                           <div>
@@ -242,7 +242,7 @@ export default function HowItWorksAnimation() {
                           </div>
                       </div>
                       <div className="bg-white/5 border border-white/10 rounded-xl p-3 flex items-center gap-2">
-                          <div className="w-6 h-6 rounded-full bg-linear-to-br from-blue-500 to-violet-500 shrink-0" />
+                          <div className="w-6 h-6 rounded-full bg-linear-to-br from-red-500 to-rose-600 shrink-0" />
                           <div className="overflow-hidden">
                               <div className="text-xs font-black text-white truncate">John Doe Logistics</div>
                               <div className="text-[9px] text-white/40 font-medium truncate">john@example.com</div>
@@ -253,7 +253,7 @@ export default function HowItWorksAnimation() {
                 </AnimatePresence>
               </div>
 
-              <div className="h-10 w-full bg-linear-to-r from-blue-600 to-blue-700 rounded-xl mt-6 flex items-center justify-center gap-2 shadow-lg shadow-blue-900/40 shrink-0">
+              <div className="h-10 w-full bg-linear-to-r from-red-600 to-[#4f515b] rounded-xl mt-6 flex items-center justify-center gap-2 shadow-lg shadow-red-900/30 shrink-0">
                   <div className="h-2.5 w-16 bg-white/20 rounded-full" />
               </div>
             </div>
@@ -386,8 +386,8 @@ export default function HowItWorksAnimation() {
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             className="absolute -bottom-6 -left-6 h-16 w-40 bg-white shadow-2xl rounded-2xl border border-slate-100 p-3 hidden lg:flex items-center gap-3 z-30"
         >
-            <div className="w-8 h-8 bg-blue-100 rounded-xl flex items-center justify-center shrink-0">
-                <MapPin className="text-blue-600" size={16} />
+            <div className="w-8 h-8 bg-red-100 rounded-xl flex items-center justify-center shrink-0">
+                <MapPin className="text-red-600" size={16} />
             </div>
             <div>
                 <div className="text-[7px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Route Sync</div>

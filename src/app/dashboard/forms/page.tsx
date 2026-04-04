@@ -110,7 +110,7 @@ export default function FormsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" />
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600" />
       </div>
     );
   }
@@ -132,7 +132,7 @@ export default function FormsPage() {
         {atLimit ? (
           <Link
             href="/dashboard/billing"
-            className="flex items-center gap-2 px-5 py-3 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-all shrink-0"
+            className="flex items-center gap-2 px-5 py-3 bg-red-600 text-white rounded-xl text-sm font-bold hover:bg-red-700 transition-all shrink-0"
           >
             <Lock size={14} /> Upgrade to Add More
           </Link>
@@ -154,7 +154,7 @@ export default function FormsPage() {
 
       {showNewInput && (
         <div className="mb-6 bg-white rounded-2xl border border-slate-200 p-6 flex items-center gap-3">
-          <FormInput size={18} className="text-blue-500 shrink-0" />
+          <FormInput size={18} className="text-red-500 shrink-0" />
           <input
             autoFocus
             type="text"
@@ -167,7 +167,7 @@ export default function FormsPage() {
           <button
             onClick={createForm}
             disabled={creating || !newFormName.trim()}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-bold disabled:opacity-50 hover:bg-blue-500 transition-all"
+            className="px-4 py-2 bg-red-600 text-white rounded-lg text-xs font-bold disabled:opacity-50 hover:bg-red-500 transition-all"
           >
             {creating ? "Creating…" : "Create"}
           </button>
@@ -205,11 +205,11 @@ export default function FormsPage() {
                         if (e.key === "Enter") renameForm(form.id);
                         if (e.key === "Escape") setRenamingId(null);
                       }}
-                      className="flex-1 text-base font-bold text-slate-900 border-b border-blue-400 outline-none pb-0.5"
+                      className="flex-1 text-base font-bold text-slate-900 border-b border-red-400 outline-none pb-0.5"
                     />
                     <button
                       onClick={() => renameForm(form.id)}
-                      className="px-3 py-1 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-500"
+                      className="px-3 py-1 bg-red-600 text-white rounded-lg text-xs font-bold hover:bg-red-500"
                     >
                       Save
                     </button>
@@ -219,7 +219,7 @@ export default function FormsPage() {
                   </div>
                 ) : (
                   <div className="flex items-center gap-2">
-                    <FormInput size={16} className="text-blue-500" />
+                    <FormInput size={16} className="text-red-500" />
                     <span className="font-bold text-slate-900">{form.name}</span>
                     <button
                       onClick={() => { setRenamingId(form.id); setRenameValue(form.name); }}
@@ -234,7 +234,7 @@ export default function FormsPage() {
                     href={widgetUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 text-slate-400 hover:text-blue-600 transition-colors"
+                    className="p-2 text-slate-400 hover:text-red-600 transition-colors"
                     title="Preview"
                   >
                     <ExternalLink size={15} />
@@ -256,14 +256,14 @@ export default function FormsPage() {
                   <p className="text-sm font-medium text-amber-800 mb-2">This form is inactive on your current plan.</p>
                   <Link
                     href="/dashboard/billing"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700 transition-all"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg text-xs font-bold hover:bg-red-700 transition-all"
                   >
                     Upgrade Plan
                   </Link>
                 </div>
               ) : (
                 <>
-                  <div className="bg-slate-900 rounded-xl p-4 text-xs font-mono text-blue-300 leading-relaxed overflow-x-auto mb-3">
+                  <div className="bg-slate-900 rounded-xl p-4 text-xs font-mono text-red-300 leading-relaxed overflow-x-auto mb-3">
                     {embedCode}
                   </div>
 
@@ -281,13 +281,13 @@ export default function FormsPage() {
                     </button>
                     <Link
                       href={`/dashboard/widget?formId=${form.id}`}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold bg-blue-50 text-blue-700 hover:bg-blue-100 transition-all"
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold bg-red-50 text-red-700 hover:bg-red-100 transition-all"
                     >
                       <Settings size={13} /> Edit Appearance
                     </Link>
                     <Link
                       href={`/dashboard/pricing?formId=${form.id}`}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold bg-violet-50 text-violet-700 hover:bg-violet-100 transition-all"
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold bg-red-50 text-red-700 hover:bg-red-100 transition-all"
                     >
                       <DollarSign size={13} /> Edit Pricing
                     </Link>
@@ -300,8 +300,8 @@ export default function FormsPage() {
 
         {forms.length === 0 && !showNewInput && (
           <div className="bg-white border border-dashed border-slate-200 rounded-2xl p-12 sm:p-16 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-50 border border-blue-100 rounded-2xl mb-6">
-              <FormInput size={28} className="text-blue-500" />
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-red-50 border border-red-100 rounded-2xl mb-6">
+              <FormInput size={28} className="text-red-500" />
             </div>
             <h3 className="text-xl font-black text-slate-900 mb-2">No forms yet</h3>
             <p className="text-slate-500 font-medium text-sm max-w-sm mx-auto mb-8">
@@ -310,7 +310,7 @@ export default function FormsPage() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <button
                 onClick={() => setShowNewInput(true)}
-                className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-100"
+                className="flex items-center gap-2 px-6 py-3 bg-red-600 text-white rounded-xl text-sm font-bold hover:bg-red-700 transition-all shadow-lg shadow-red-100"
               >
                 <Plus size={16} /> Create Your First Form
               </button>
