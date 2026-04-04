@@ -10,10 +10,10 @@ interface QaltLogoProps {
 }
 
 const SIZES = {
-  sm: { h: "h-7",  w: 280, wh: 280 },
-  md: { h: "h-9",  w: 280, wh: 280 },
-  lg: { h: "h-11", w: 280, wh: 280 },
-  xl: { h: "h-14", w: 280, wh: 280 },
+  sm: { h: "h-14" },
+  md: { h: "h-20" },
+  lg: { h: "h-24" },
+  xl: { h: "h-28" },
 } as const;
 
 export default function QaltLogo({
