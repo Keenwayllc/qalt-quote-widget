@@ -106,6 +106,7 @@ export default function LandingPage() {
             <button onClick={() => scrollTo("how-it-works")} className="hover:text-blue-600 transition-colors">How it Works</button>
             <button onClick={() => scrollTo("use-cases")} className="hover:text-blue-600 transition-colors">Use Cases</button>
             <Link href="/pricing" className="hover:text-blue-600 transition-colors">Pricing</Link>
+            <Link href="/partners" className="hover:text-blue-600 transition-colors">Partners</Link>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
@@ -154,6 +155,9 @@ export default function LandingPage() {
                 </button>
                 <Link href="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
                   Pricing
+                </Link>
+                <Link href="/partners" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+                  Partners
                 </Link>
                 <div className="pt-2 pb-1 border-t border-slate-100">
                   <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-xl transition-colors">
