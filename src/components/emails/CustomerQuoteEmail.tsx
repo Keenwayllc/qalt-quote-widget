@@ -24,7 +24,7 @@ export const CustomerQuoteEmail: React.FC<Readonly<CustomerQuoteEmailProps>> = (
     {/* Header */}
     <div style={{ backgroundColor: '#1e3a5f', borderRadius: '12px 12px 0 0', padding: '48px 32px', textAlign: 'center' }}>
       <img
-        src="https://qalt.site/images/Q-lines-logo-[Converted].png"
+        src="https://qalt.site/images/qalt-logo-main-2026.png"
         alt="Qalt"
         height="44"
         style={{ display: 'block', margin: '0 auto 16px', borderRadius: '8px', padding: '6px 16px', backgroundColor: '#ffffff' }}
