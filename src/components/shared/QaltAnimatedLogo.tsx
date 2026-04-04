@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 interface QaltAnimatedLogoProps {
   className?: string;
   white?: boolean;
-  /** Disable entrance animation */
   noAnimate?: boolean;
 }
 
@@ -18,27 +17,26 @@ const lineVariants = {
     opacity: 1,
     pathLength: 1,
     transition: {
-      pathLength: { duration: 0.7, delay: i * 0.12, ease: "easeInOut" as const },
-      opacity: { duration: 0.15, delay: i * 0.12 },
+      pathLength: { duration: 0.65, delay: i * 0.13, ease: "easeInOut" as const },
+      opacity: { duration: 0.1, delay: i * 0.13 },
     },
   }),
 };
 
 const segmentVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
+  hidden: { opacity: 0 },
   visible: (i: number) => ({
     opacity: 1,
-    scale: 1,
-    transition: { duration: 0.5, delay: 0.5 + i * 0.12, ease: "easeOut" as const },
+    transition: { duration: 0.5, delay: 0.45 + i * 0.12, ease: "easeOut" as const },
   }),
 };
 
 const textVariants = {
-  hidden: { opacity: 0, x: -40 },
+  hidden: { opacity: 0, x: -50 },
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.5, delay: 0.85, ease: "easeOut" as const },
+    transition: { duration: 0.55, delay: 0.8, ease: "easeOut" as const },
   },
 };
 
@@ -49,17 +47,21 @@ export default function QaltAnimatedLogo({
 }: QaltAnimatedLogoProps) {
   const red = white ? "#ffffff" : RED;
   const grey = white ? "#ffffff" : GREY;
-  const state = noAnimate ? "visible" : "hidden";
+  const initial = noAnimate ? "visible" : "hidden";
 
   return (
     <motion.svg
-      viewBox="200 400 7600 3200"
-      className={className}
       xmlns="http://www.w3.org/2000/svg"
-      initial={state}
+      viewBox="400 400 8000 3200"
+      className={className}
+      initial={initial}
       animate="visible"
       aria-label="Qalt Logo"
     >
+      <defs>
+        <style>{`@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap');`}</style>
+      </defs>
+
       {/* Grey circle segments */}
       <motion.path
         d="M3305.59,1978.35c.05-706.8-507.38-1295.07-1177.84-1420.42l1096.63,1899.37c52.6-149.85,81.26-311.07,81.21-478.95h0Z"
@@ -76,7 +78,7 @@ export default function QaltAnimatedLogo({
         custom={1}
       />
 
-      {/* Red diagonal lines */}
+      {/* Red diagonal lines — staggered sweep */}
       <motion.path
         d="M1239.86,673.03c-69.75,33.18-136.35,71.83-199.36,115.31,506.54,877.45,1013.14,1754.84,1519.74,2632.23h265.91c-528.73-915.84-1057.51-1831.7-1586.3-2747.54h0Z"
         fill={red}
@@ -85,14 +87,14 @@ export default function QaltAnimatedLogo({
         custom={0}
       />
       <motion.path
-        d="M1772.57,535.92c-84.9,5.09-167.88,17.52-248.2,36.71,548.1,949.31,1096.21,1898.63,1644.32,2847.94h269.38c-555.17-961.51-1110.35-1923.08-1665.49-2884.65h0Z"
+        d="M655.24,1180.82c431.11,746.68,862.18,1493.35,1293.26,2240.04,269.24-.29,184.37-.29,269.24-.29-468.8-811.93-937.62-1623.97-1406.42-2435.91-57.45,60.64-109.72,126.28-156.08,196.16h0Z"
         fill={red}
         fillRule="evenodd"
         variants={lineVariants}
         custom={1}
       />
       <motion.path
-        d="M655.24,1180.82c431.11,746.68,862.18,1493.35,1293.26,2240.04,269.24-.29,184.37-.29,269.24-.29-468.8-811.93-937.62-1623.97-1406.42-2435.91-57.45,60.64-109.72,126.28-156.08,196.16h0Z"
+        d="M1772.57,535.92c-84.9,5.09-167.88,17.52-248.2,36.71,548.1,949.31,1096.21,1898.63,1644.32,2847.94h269.38c-555.17-961.51-1110.35-1923.08-1665.49-2884.65h0Z"
         fill={red}
         fillRule="evenodd"
         variants={lineVariants}
@@ -101,17 +103,17 @@ export default function QaltAnimatedLogo({
 
       {/* QALT text */}
       <motion.text
-        x="3800"
-        y="2500"
-        fill={grey}
-        fontFamily="'Futura PT', 'Futura', system-ui, -apple-system, sans-serif"
-        fontSize="1400"
-        fontWeight="800"
-        letterSpacing="60"
-        dominantBaseline="central"
+        style={{
+          fontFamily: "'Montserrat', 'Futura PT', sans-serif",
+          fontSize: "944.82px",
+          fontWeight: 800,
+          letterSpacing: "-20px",
+          fill: grey,
+        }}
+        transform="translate(4080.84 1968.39)"
         variants={textVariants}
       >
-        QALT
+        <tspan x="0" y="0">QALT</tspan>
       </motion.text>
     </motion.svg>
   );
