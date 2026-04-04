@@ -97,7 +97,7 @@ export default function LandingPage() {
         className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-slate-100"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-          <QaltLogo size="xl" />
+          <QaltLogo size="lg" />
 
           {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500">
@@ -682,7 +682,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
             {/* Brand */}
             <div className="col-span-2 md:col-span-1">
-              <QaltLogo size="xl" />
+              <QaltLogo size="md" />
               <p className="text-blue-600 font-black text-sm mt-3">Your rates. Embedded. Anywhere.</p>
               <p className="text-slate-400 font-medium text-sm mt-2 max-w-[220px] leading-relaxed">
                 Instant delivery quotes for your website. No manual quoting required.

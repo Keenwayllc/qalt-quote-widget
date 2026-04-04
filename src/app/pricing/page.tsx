@@ -464,7 +464,7 @@ export default function PricingPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
             {/* Brand */}
             <div className="col-span-2 md:col-span-1">
-              <QaltLogo size="xl" />
+              <QaltLogo size="md" />
               <p className="text-blue-600 font-black text-sm mt-3">Your rates. Embedded. Anywhere.</p>
               <p className="text-slate-400 font-medium text-sm mt-2 max-w-[220px] leading-relaxed">
                 Instant delivery quotes for your website. No manual quoting required.

@@ -101,7 +101,7 @@ export default function DashboardClientLayout({
           {/* Sidebar logo row — includes close button on mobile */}
           <div className="p-6 sm:p-8 flex items-center justify-between">
             <Link href="/dashboard" className="transition-opacity hover:opacity-80" onClick={closeSidebar}>
-              <QaltLogo size="xl" />
+              <QaltLogo size="lg" />
             </Link>
             <button
               onClick={closeSidebar}
@@ -197,7 +197,7 @@ export default function DashboardClientLayout({
 
         {/* Mobile header with hamburger */}
         <header className="lg:hidden bg-white/80 backdrop-blur-md border-b border-slate-200 h-16 flex items-center justify-between px-4 sm:px-6 shrink-0 relative z-10">
-          <QaltLogo size="xl" />
+          <QaltLogo size="md" />
           <button
             onClick={() => setIsSidebarOpen(true)}
             className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors"
