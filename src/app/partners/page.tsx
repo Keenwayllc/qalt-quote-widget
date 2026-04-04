@@ -92,8 +92,10 @@ export default function PartnersPage() {
             <QaltLogo size="xl" />
           </Link>
 
-          <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500 uppercase tracking-widest">
+          <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500">
             <Link href="/#features" className="hover:text-blue-600 transition-colors">Features</Link>
+            <Link href="/#how-it-works" className="hover:text-blue-600 transition-colors">How it Works</Link>
+            <Link href="/#use-cases" className="hover:text-blue-600 transition-colors">Use Cases</Link>
             <Link href="/pricing" className="hover:text-blue-600 transition-colors">Pricing</Link>
             <Link href="/partners" className="text-blue-600">Partners</Link>
           </div>
@@ -120,6 +122,12 @@ export default function PartnersPage() {
             <div className="max-w-7xl mx-auto px-4 py-3 space-y-1">
               <Link href="/#features" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
                 Features
+              </Link>
+              <Link href="/#how-it-works" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+                How it Works
+              </Link>
+              <Link href="/#use-cases" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+                Use Cases
               </Link>
               <Link href="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
                 Pricing
@@ -297,18 +305,47 @@ export default function PartnersPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-100 py-12 sm:py-16">
+      <footer className="py-14 sm:py-20 border-t border-slate-100 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-            <QaltLogo size="md" />
-            <div className="flex items-center gap-6 sm:gap-8 text-sm font-bold text-slate-400">
-              <Link href="/" className="hover:text-slate-600 transition-colors">Home</Link>
-              <Link href="/pricing" className="hover:text-slate-600 transition-colors">Pricing</Link>
-              <Link href="/partners" className="hover:text-slate-600 transition-colors">Partners</Link>
-              <Link href="/legal/privacy" className="hover:text-slate-600 transition-colors">Privacy</Link>
-              <Link href="/legal/terms" className="hover:text-slate-600 transition-colors">Terms</Link>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+            {/* Brand */}
+            <div className="col-span-2 md:col-span-1">
+              <QaltLogo size="xl" />
+              <p className="text-blue-600 font-black text-sm mt-3">Your rates. Embedded. Anywhere.</p>
+              <p className="text-slate-400 font-medium text-sm mt-2 max-w-[220px] leading-relaxed">
+                Instant delivery quotes for your website. No manual quoting required.
+              </p>
             </div>
-            <p className="text-sm text-slate-400 font-medium">&copy; {new Date().getFullYear()} Qalt. All rights reserved.</p>
+            {/* Product */}
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Product</p>
+              <ul className="space-y-3 text-sm font-medium text-slate-500">
+                <li><Link href="/#features" className="hover:text-blue-600 transition-colors">Features</Link></li>
+                <li><Link href="/pricing" className="hover:text-blue-600 transition-colors">Pricing</Link></li>
+                <li><Link href="/#how-it-works" className="hover:text-blue-600 transition-colors">How it Works</Link></li>
+                <li><Link href="/#use-cases" className="hover:text-blue-600 transition-colors">Use Cases</Link></li>
+                <li><Link href="/partners" className="hover:text-blue-600 transition-colors">Partners</Link></li>
+              </ul>
+            </div>
+            {/* Account */}
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Account</p>
+              <ul className="space-y-3 text-sm font-medium text-slate-500">
+                <li><Link href="/register" className="hover:text-blue-600 transition-colors">Get Started Free</Link></li>
+                <li><Link href="/login" className="hover:text-blue-600 transition-colors">Log In</Link></li>
+              </ul>
+            </div>
+            {/* Legal */}
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Legal</p>
+              <ul className="space-y-3 text-sm font-medium text-slate-500">
+                <li><Link href="/legal/privacy" className="hover:text-blue-600 transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/legal/terms" className="hover:text-blue-600 transition-colors">Terms of Service</Link></li>
+              </ul>
+            </div>
+          </div>
+          <div className="pt-8 border-t border-slate-100">
+            <p className="text-slate-400 font-medium text-sm text-center md:text-left">&copy; {new Date().getFullYear()} Qalt. All rights reserved.</p>
           </div>
         </div>
       </footer>
