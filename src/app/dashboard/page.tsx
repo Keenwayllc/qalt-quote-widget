@@ -3,6 +3,7 @@ import { getEntitlements } from "@/lib/plans";
 import prisma from "@/lib/prisma";
 import MetricCard from "@/components/dashboard/MetricCard";
 import QuotaBar from "@/components/dashboard/QuotaBar";
+import OnboardingChecklist from "@/components/dashboard/OnboardingChecklist";
 import {
   FileText,
   DollarSign,
@@ -41,6 +42,76 @@ export default async function DashboardOverview() {
 
   const entitlements = getEntitlements(company.subscriptionPlan);
   const quotaLimit = entitlements.maxQuotesPerMonth;
+
+  // Onboarding checklist — detect completion from real data
+  const [widgets, pricingProfiles] = await Promise.all([
+    prisma.widgetSettings.findMany({ where: { companyId: company.id } }),
+    prisma.pricingProfile.findMany({ where: { companyId: company.id } }),
+  ]);
+
+  const hasBranding = widgets.some(
+    (w) =>
+      w.logoUrl ||
+      w.backgroundImageUrl ||
+      w.primaryColor !== "#1E40AF" ||
+      w.buttonText !== "Get Instant Quote"
+  );
+
+  const hasCustomPricing = pricingProfiles.some(
+    (p) =>
+      p.baseRatePerMile !== 2.5 ||
+      p.minimumCharge !== 35.0 ||
+      p.useMinimumCharge !== true ||
+      p.minMilesThreshold !== 0 ||
+      p.weightFee !== 0 ||
+      p.itemCountFee !== 0 ||
+      p.stairsFee !== 0 ||
+      p.insideDeliveryFee !== 0 ||
+      p.afterHoursFee !== 0 ||
+      p.largeItemFee !== 0
+  );
+
+  const hasQuotes = totalQuotes > 0;
+  const hasEmbedded = hasQuotes;
+
+  const onboardingSteps = [
+    {
+      id: "pricing",
+      label: "Set your pricing",
+      description: "Configure your base rate, minimum charge, and any service extras so your widget quotes accurately.",
+      href: "/dashboard/pricing",
+      cta: "Set Pricing",
+      done: hasCustomPricing,
+    },
+    {
+      id: "branding",
+      label: "Customize your widget",
+      description: "Upload your logo or a background image so the widget matches your brand.",
+      href: "/dashboard/widget",
+      cta: "Customize",
+      done: hasBranding,
+    },
+    {
+      id: "embed",
+      label: "Embed the widget on your site",
+      description: "Copy your embed code and paste it into your website to start receiving quote requests.",
+      href: "/dashboard/embed",
+      cta: "Get Embed Code",
+      done: hasEmbedded,
+    },
+    {
+      id: "quote",
+      label: "Receive your first quote",
+      description: "Once your widget is live, customers can request quotes directly from your site.",
+      href: "/dashboard/quotes",
+      cta: "View Quotes",
+      done: hasQuotes,
+    },
+  ];
+
+  // Hide checklist only when all steps are done
+  const doneCount = onboardingSteps.filter((s) => s.done).length;
+  const showChecklist = doneCount < onboardingSteps.length;
 
   return (
     <div className="p-4 lg:p-10 space-y-10 max-w-7xl mx-auto">
@@ -98,6 +169,9 @@ export default async function DashboardOverview() {
       </div>
 
       <QuotaBar used={monthlyQuotes} limit={quotaLimit} plan={company.subscriptionPlan} />
+
+      {/* Onboarding checklist — shown until merchant completes 3 of 4 steps */}
+      {showChecklist && <OnboardingChecklist steps={onboardingSteps} />}
 
       <div className="space-y-4">
         <div className="flex items-center justify-between px-2">

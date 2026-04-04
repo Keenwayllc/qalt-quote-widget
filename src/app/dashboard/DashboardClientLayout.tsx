@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import QaltLogo from "@/components/shared/QaltLogo";
@@ -17,22 +17,44 @@ import {
   Lock,
   BarChart3,
   UserCircle,
-  FormInput
+  FormInput,
+  Eye
 } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
 
 export default function DashboardClientLayout({
   children,
   subscriptionPlan,
+  pendingCount = 0,
+  companyId,
 }: {
   children: React.ReactNode;
   subscriptionPlan: string;
+  pendingCount?: number;
+  companyId?: string;
 }) {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [quoteCount, setQuoteCount] = useState<number | null>(null);
 
   const entitlements = getEntitlements(subscriptionPlan);
+
+  // Fetch total quote count for the sidebar badge
+  useEffect(() => {
+    async function fetchCount() {
+      try {
+        const res = await fetch("/api/dashboard/quote-count");
+        if (res.ok) {
+          const data = await res.json();
+          setQuoteCount(data.count ?? null);
+        }
+      } catch {
+        // silently ignore — badge is non-critical
+      }
+    }
+    fetchCount();
+  }, []);
 
   const navItems = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
@@ -46,7 +68,7 @@ export default function DashboardClientLayout({
     { name: "My Forms", href: "/dashboard/forms", icon: FormInput },
     { name: "Widget Appearance", href: "/dashboard/widget", icon: Settings },
     { name: "Get Embed Code", href: "/dashboard/embed", icon: Code },
-    { name: "Quotes", href: "/dashboard/quotes", icon: FileText },
+    { name: "Quotes", href: "/dashboard/quotes", icon: FileText, showBadge: true },
     { name: "Subscription", href: "/dashboard/billing", icon: CreditCard },
     { name: "Account Settings", href: "/dashboard/settings", icon: UserCircle },
   ];
@@ -97,6 +119,7 @@ export default function DashboardClientLayout({
             {navItems.map((item) => {
               const isActive = pathname === item.href;
               const isLocked = item.isLocked;
+              const showBadge = (item as { showBadge?: boolean }).showBadge && quoteCount !== null && quoteCount > 0;
 
               return (
                 <Link
@@ -119,6 +142,20 @@ export default function DashboardClientLayout({
                     `}
                   />
                   <span className="flex-1">{item.name}</span>
+
+                  {/* Quote count badge */}
+                  {showBadge && !isLocked && (
+                    <span
+                      className={`
+                        ml-2 min-w-[20px] h-5 px-1.5 rounded-full text-[10px] font-black flex items-center justify-center
+                        ${isActive ? "bg-white/20 text-white" : "bg-blue-600 text-white"}
+                      `}
+                    >
+                      {quoteCount! > 99 ? "99+" : quoteCount}
+                    </span>
+                  )}
+
+
                   {isLocked && (
                     <Lock size={12} className="text-amber-500 ml-2" />
                   )}
@@ -127,7 +164,19 @@ export default function DashboardClientLayout({
             })}
           </nav>
 
-          <div className="p-4 mt-auto border-t border-slate-100/60">
+          <div className="p-4 mt-auto border-t border-slate-100/60 space-y-1">
+            {companyId && (
+              <a
+                href={`/widget/${companyId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={closeSidebar}
+                className="flex w-full items-center px-4 py-3 text-sm font-bold text-blue-600 rounded-xl hover:bg-blue-50 transition-all group"
+              >
+                <Eye className="mr-3 h-5 w-5 text-blue-400 group-hover:text-blue-600 transition-colors" />
+                Preview Widget
+              </a>
+            )}
             <button
               onClick={handleLogout}
               disabled={isLoggingOut}

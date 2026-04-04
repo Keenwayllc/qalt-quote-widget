@@ -92,6 +92,7 @@ model QuoteRequest {
   awbNumber             String?
   paymentStatus         String?   // "PENDING" | "PAID" | "FAILED" | null (null = no payment required)
   stripePaymentIntentId String?
+  internalNotes         String?   @db.Text
   paidAt                DateTime?
   createdAt             DateTime  @default(now())
   company               Company   @relation(fields: [companyId], references: [id])

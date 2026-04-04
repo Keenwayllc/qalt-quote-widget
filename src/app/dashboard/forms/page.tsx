@@ -299,9 +299,31 @@ export default function FormsPage() {
         })}
 
         {forms.length === 0 && !showNewInput && (
-          <div className="text-center py-16 text-slate-400">
-            <FormInput size={40} className="mx-auto mb-4 opacity-30" />
-            <p className="font-medium">No forms yet. Create your first one.</p>
+          <div className="bg-white border border-dashed border-slate-200 rounded-2xl p-12 sm:p-16 text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-50 border border-blue-100 rounded-2xl mb-6">
+              <FormInput size={28} className="text-blue-500" />
+            </div>
+            <h3 className="text-xl font-black text-slate-900 mb-2">No forms yet</h3>
+            <p className="text-slate-500 font-medium text-sm max-w-sm mx-auto mb-8">
+              Create your first quote form and embed it on your website to start capturing delivery leads automatically.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <button
+                onClick={() => setShowNewInput(true)}
+                className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-100"
+              >
+                <Plus size={16} /> Create Your First Form
+              </button>
+              <Link
+                href="/dashboard/embed"
+                className="flex items-center gap-2 px-6 py-3 bg-slate-100 text-slate-700 rounded-xl text-sm font-bold hover:bg-slate-200 transition-all"
+              >
+                <ExternalLink size={14} /> View Embed Guide
+              </Link>
+            </div>
+            <p className="mt-6 text-xs text-slate-400 font-medium">
+              Each form gets its own embed code and pricing rules.
+            </p>
           </div>
         )}
       </div>
