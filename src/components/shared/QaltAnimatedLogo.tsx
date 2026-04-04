@@ -17,8 +17,8 @@ const lineVariants = {
     opacity: 1,
     pathLength: 1,
     transition: {
-      pathLength: { duration: 0.65, delay: i * 0.13, ease: "easeInOut" as const },
-      opacity: { duration: 0.1, delay: i * 0.13 },
+      pathLength: { duration: 1.1, delay: 0.1 + i * 0.18, ease: [0.4, 0, 0.2, 1] as [number,number,number,number] },
+      opacity: { duration: 0.3, delay: 0.1 + i * 0.18 },
     },
   }),
 };
@@ -27,16 +27,16 @@ const segmentVariants = {
   hidden: { opacity: 0 },
   visible: (i: number) => ({
     opacity: 1,
-    transition: { duration: 0.45, delay: 0.4 + i * 0.1, ease: "easeOut" as const },
+    transition: { duration: 0.8, delay: 0.6 + i * 0.2, ease: "easeOut" as const },
   }),
 };
 
 const letterVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 14 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.45, delay: 0.75 + i * 0.07, ease: "easeOut" as const },
+    transition: { duration: 0.7, delay: 1.1 + i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] as [number,number,number,number] },
   }),
 };
 
