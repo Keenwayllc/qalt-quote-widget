@@ -27,17 +27,17 @@ const segmentVariants = {
   hidden: { opacity: 0 },
   visible: (i: number) => ({
     opacity: 1,
-    transition: { duration: 0.5, delay: 0.45 + i * 0.12, ease: "easeOut" as const },
+    transition: { duration: 0.45, delay: 0.4 + i * 0.1, ease: "easeOut" as const },
   }),
 };
 
-const textVariants = {
-  hidden: { opacity: 0, x: -50 },
-  visible: {
+const letterVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
     opacity: 1,
-    x: 0,
-    transition: { duration: 0.55, delay: 0.8, ease: "easeOut" as const },
-  },
+    y: 0,
+    transition: { duration: 0.45, delay: 0.75 + i * 0.07, ease: "easeOut" as const },
+  }),
 };
 
 export default function QaltAnimatedLogo({
@@ -52,69 +52,75 @@ export default function QaltAnimatedLogo({
   return (
     <motion.svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="400 400 8000 3200"
+      viewBox="100 1300 3700 1150"
       className={className}
       initial={initial}
       animate="visible"
       aria-label="Qalt Logo"
     >
-      <defs>
-        <style>{`@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap');`}</style>
-      </defs>
-
-      {/* Grey circle segments */}
+      {/* ── Grey circle segments ── */}
       <motion.path
-        d="M3305.59,1978.35c.05-706.8-507.38-1295.07-1177.84-1420.42l1096.63,1899.37c52.6-149.85,81.26-311.07,81.21-478.95h0Z"
+        d="M1139.38,1859.75c.02-251.94-180.86-461.64-419.85-506.32l390.9,677.05c18.75-53.42,28.97-110.88,28.95-170.73h0Z"
         fill={grey}
-        fillRule="evenodd"
         variants={segmentVariants}
         custom={0}
       />
       <motion.path
-        d="M1593.32,3398.76L496.69,1499.39c-52.64,149.89-81.26,311.07-81.26,478.96,0,706.83,507.43,1295.14,1177.89,1420.41h0Z"
+        d="M529.03,2366.06l-390.9-677.05c-18.76,53.43-28.97,110.88-28.97,170.73,0,251.96,180.88,461.66,419.87,506.32h0Z"
         fill={grey}
-        fillRule="evenodd"
         variants={segmentVariants}
         custom={1}
       />
 
-      {/* Red diagonal lines — staggered sweep */}
+      {/* ── Red diagonal lines — staggered sweep ── */}
       <motion.path
-        d="M1239.86,673.03c-69.75,33.18-136.35,71.83-199.36,115.31,506.54,877.45,1013.14,1754.84,1519.74,2632.23h265.91c-528.73-915.84-1057.51-1831.7-1586.3-2747.54h0Z"
+        d="M403.04,1394.45c-24.86,11.83-48.6,25.6-71.06,41.1,180.56,312.77,361.14,625.53,541.72,938.28h94.79c-188.47-326.46-376.96-652.92-565.45-979.38h0Z"
         fill={red}
-        fillRule="evenodd"
         variants={lineVariants}
         custom={0}
       />
       <motion.path
-        d="M655.24,1180.82c431.11,746.68,862.18,1493.35,1293.26,2240.04,269.24-.29,184.37-.29,269.24-.29-468.8-811.93-937.62-1623.97-1406.42-2435.91-57.45,60.64-109.72,126.28-156.08,196.16h0Z"
+        d="M194.64,1575.46c153.67,266.16,307.33,532.32,460.99,798.48,95.97-.1,65.72-.1,95.97-.1-167.11-289.42-334.22-578.88-501.33-868.3-20.48,21.62-39.11,45.01-55.64,69.92h0Z"
         fill={red}
-        fillRule="evenodd"
         variants={lineVariants}
         custom={1}
       />
       <motion.path
-        d="M1772.57,535.92c-84.9,5.09-167.88,17.52-248.2,36.71,548.1,949.31,1096.21,1898.63,1644.32,2847.94h269.38c-555.17-961.51-1110.35-1923.08-1665.49-2884.65h0Z"
+        d="M592.92,1345.58c-30.26,1.81-59.84,6.25-88.47,13.09,195.37,338.39,390.75,676.78,586.13,1015.17h96.02c-197.89-342.74-395.79-685.5-593.68-1028.26h0Z"
         fill={red}
-        fillRule="evenodd"
         variants={lineVariants}
         custom={2}
       />
 
-      {/* QALT text */}
-      <motion.text
-        style={{
-          fontFamily: "'Montserrat', 'Futura PT', sans-serif",
-          fontSize: "944.82px",
-          fontWeight: 800,
-          letterSpacing: "-20px",
-          fill: grey,
-        }}
-        transform="translate(4080.84 1968.39)"
-        variants={textVariants}
-      >
-        <tspan x="0" y="0">QALT</tspan>
-      </motion.text>
+      {/* ── QALT outlined letter paths ── */}
+      {/* Q */}
+      <motion.path
+        d="M1856.27,2234.92c-35.15,25.56-90.53,55.38-199.17,55.38s-191.72-33.02-260.95-101.18c-82.01-80.95-111.83-181.07-111.83-270.53,0-106.51,45.8-202.37,107.57-264.14s155.5-106.51,277.99-106.51c109.7,0,207.69,39.41,274.79,102.25,64.97,60.71,110.77,153.37,110.77,270.53,0,53.25-11.72,96.92-29.82,137.4-18.11,41.54-41.54,71.36-69.23,95.86l123.55,134.2-154.44,19.17-69.23-72.43ZM1845.62,2046.4c26.63-36.21,41.54-74.56,41.54-127.81,0-75.62-30.89-126.75-60.71-156.57-40.47-41.54-97.99-62.84-156.57-62.84-66.04,0-121.42,27.69-155.5,62.84-40.47,41.54-61.78,104.38-61.78,159.76s20.24,112.9,59.65,154.44c35.15,36.21,84.14,62.84,153.37,62.84,29.82,0,57.52-5.33,85.21-18.11l-127.81-125.68,158.7-17.04,63.91,68.17Z"
+        fill={grey}
+        variants={letterVariants}
+        custom={0}
+      />
+      {/* A */}
+      <motion.path
+        d="M2611.41,2140.12h-268.4l-54.32,134.2h-170.42l286.51-710.42h150.18l280.12,710.42h-170.42l-53.25-134.2ZM2566.67,2014.44l-87.34-238.58-88.4,238.58h175.74Z"
+        fill={grey}
+        variants={letterVariants}
+        custom={1}
+      />
+      {/* L */}
+      <motion.path
+        d="M3078.97,1563.91v571.96h220.47v138.46h-384.5v-710.42h164.02Z"
+        fill={grey}
+        variants={letterVariants}
+        custom={2}
+      />
+      {/* T */}
+      <motion.path
+        d="M3622.18,1702.37v571.96h-164.02v-571.96h-154.44v-138.46h472.9v138.46h-154.44Z"
+        fill={grey}
+        variants={letterVariants}
+        custom={3}
+      />
     </motion.svg>
   );
 }
