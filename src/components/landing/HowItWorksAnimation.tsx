@@ -4,6 +4,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { MapPin, Zap, CheckCircle2, ShieldCheck, Calculator, Send } from "lucide-react";
+import QaltAnimatedLogo from "@/components/shared/QaltAnimatedLogo";
 
 const steps = [
   {
@@ -103,7 +104,7 @@ export default function HowItWorksAnimation() {
             <div className="flex-1 p-5 sm:p-6 flex flex-col z-10 sm:max-w-[320px] bg-slate-900 shadow-2xl sm:shadow-none border-b sm:border-b-0 sm:border-r border-white/5">
               <div className="flex items-center justify-between mb-6 shrink-0">
                 <div className="flex items-center gap-2">
-                  <img src="/images/qalt-icon-400.jpg" alt="Qalt" width={24} height={24} className="w-6 h-6 object-contain brightness-0 invert" />
+                  <QaltAnimatedLogo white iconOnly noAnimate className="w-6 h-6 object-contain" />
                   <div className="h-3 w-10 bg-white/10 rounded" />
                 </div>
                 <div className="flex gap-1">
