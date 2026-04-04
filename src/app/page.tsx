@@ -553,7 +553,7 @@ export default function LandingPage() {
                 Delivery businesses love Qalt
               </h2>
               <p className="text-lg text-slate-400 max-w-xl mx-auto font-medium">
-                From solo couriers to multi-vehicle fleets. Here's what they're saying.
+                From solo couriers to multi-vehicle fleets. Here&apos;s what they&apos;re saying.
               </p>
             </motion.div>
           </div>
@@ -570,7 +570,7 @@ export default function LandingPage() {
         {/* Use Cases */}
         <section id="use-cases" className="py-20 sm:py-32 bg-linear-to-br from-slate-900 via-slate-900 to-blue-950 text-white overflow-hidden relative scroll-mt-20">
           <div className="absolute -bottom-40 -right-40 pointer-events-none select-none opacity-5" aria-hidden="true">
-            <img src="/images/qalt-icon-400.jpg" alt="" width={400} height={400} className="w-[400px] h-[400px] object-contain brightness-0 invert" />
+            <img src="/images/qalt-icon.svg" alt="" width={400} height={400} className="w-[400px] h-[400px] object-contain brightness-0 invert" />
           </div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
             <motion.div
