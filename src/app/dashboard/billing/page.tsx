@@ -49,7 +49,7 @@ export default async function BillingPage({
                 </span>
               </div>
               <p className="text-blue-100 text-sm font-medium">
-                Unlock unlimited quotes, full white-label, analytics, and priority support — no charge for 7 days. Cancel anytime.
+                Unlock unlimited quotes, full white-label, analytics, and priority support — no charge for 7 days. Cancel before your trial ends and you will never be charged. You can upgrade, downgrade, or cancel anytime from your billing settings.
               </p>
             </div>
           </div>
