@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, ArrowLeft, Loader2, Zap, Shield, BarChart3 } from "lucide-react";
@@ -57,7 +58,7 @@ export default function LoginPage() {
 
         <Link href="/" className="relative z-10 flex items-center gap-3 w-fit group">
           <ArrowLeft size={16} className="text-white/40 group-hover:text-white/70 group-hover:-translate-x-0.5 transition-all shrink-0" />
-          <QaltLogo size="xl" linked={false} white />
+          <Image src="/images/qalt-logo-main-2026.png" alt="Qalt" width={1080} height={1080} className="h-20 w-auto object-contain brightness-0 invert" priority />
         </Link>
 
         <div className="relative z-10 space-y-10">
