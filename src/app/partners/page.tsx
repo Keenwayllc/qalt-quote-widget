@@ -1,0 +1,328 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import QaltLogo from "@/components/shared/QaltLogo";
+import {
+  ArrowRight,
+  ArrowUp,
+  Globe,
+  Handshake,
+  Rocket,
+  Users,
+  ExternalLink,
+  Menu,
+  X,
+  Mail,
+} from "lucide-react";
+
+/* ─── Partner Data ────────────────────────────────────────────────────────── */
+
+interface Partner {
+  name: string;
+  logo: string;
+  category: string;
+  description: string;
+  longDescription: string;
+  benefits: string[];
+  url: string;
+  cta: string;
+}
+
+const PARTNERS: Partner[] = [
+  {
+    name: "UENI",
+    logo: "/images/ueni-logo.png",
+    category: "Website Builder",
+    description:
+      "Professional websites for small businesses, built and managed for you.",
+    longDescription:
+      "UENI builds professional, mobile-ready websites for small businesses in days, not weeks. They handle design, hosting, domain, and ongoing updates so you can focus on running your delivery business. If you do not have a website yet, UENI is the fastest way to get one and start embedding your Qalt quote widget.",
+    benefits: [
+      "Professional website built for you in days",
+      "Mobile-optimized and SEO-ready out of the box",
+      "Hosting, domain, and SSL included",
+      "Perfect for embedding your Qalt quote widget",
+      "Affordable plans for small businesses",
+    ],
+    url: "https://ueni.com",
+    cta: "Visit UENI",
+  },
+];
+
+/* ─── Why Partner Section Data ────────────────────────────────────────────── */
+
+const WHY_PARTNER = [
+  {
+    icon: <Rocket className="text-blue-600" size={24} />,
+    title: "Grow Together",
+    desc: "We refer our merchants to partners that help them succeed. When they grow, we all grow.",
+  },
+  {
+    icon: <Users className="text-blue-600" size={24} />,
+    title: "Shared Audience",
+    desc: "Delivery and courier companies need more than a quote widget. They need websites, insurance, fleet tools, and more.",
+  },
+  {
+    icon: <Globe className="text-blue-600" size={24} />,
+    title: "Public Visibility",
+    desc: "Partners are featured on this page, inside our merchant dashboard, and across our marketing channels.",
+  },
+];
+
+/* ─── Main Page ───────────────────────────────────────────────────────────── */
+
+export default function PartnersPage() {
+  const [showScroll, setShowScroll] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShowScroll(window.scrollY > 400);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-white text-slate-900">
+      {/* Nav */}
+      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+          <Link href="/">
+            <QaltLogo size="xl" />
+          </Link>
+
+          <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500 uppercase tracking-widest">
+            <Link href="/#features" className="hover:text-blue-600 transition-colors">Features</Link>
+            <Link href="/pricing" className="hover:text-blue-600 transition-colors">Pricing</Link>
+            <Link href="/partners" className="text-blue-600">Partners</Link>
+          </div>
+
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Link href="/login" className="hidden sm:block px-5 py-2.5 text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors">
+              Log in
+            </Link>
+            <Link href="/register" className="px-4 sm:px-6 py-2 sm:py-2.5 bg-blue-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 hover:-translate-y-0.5 transition-all">
+              Get Started
+            </Link>
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
+        </div>
+
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-white border-t border-slate-100 shadow-lg">
+            <div className="max-w-7xl mx-auto px-4 py-3 space-y-1">
+              <Link href="/#features" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+                Features
+              </Link>
+              <Link href="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+                Pricing
+              </Link>
+              <Link href="/partners" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+                Partners
+              </Link>
+              <div className="pt-2 pb-1 border-t border-slate-100">
+                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-xl transition-colors">
+                  Log in
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      <main className="pt-32 sm:pt-40 pb-24 sm:pb-32">
+        {/* Hero */}
+        <div className="text-center mb-16 sm:mb-24 px-4 sm:px-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-100 mb-6 sm:mb-8">
+            <Handshake size={14} />
+            Qalt Partner Ecosystem
+          </div>
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight mb-5 sm:mb-6">
+            Tools That Help Your<br />
+            <span className="text-blue-600">Delivery Business Grow</span>
+          </h1>
+          <p className="text-lg sm:text-xl text-slate-500 font-medium max-w-2xl mx-auto mb-4">
+            We partner with the best tools and services so you can run your delivery business with everything you need in one place.
+          </p>
+          <p className="text-sm text-slate-400 font-medium">
+            Trusted partners, hand-picked for courier and logistics companies.
+          </p>
+        </div>
+
+        {/* Partner Cards */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 mb-24 sm:mb-32">
+          {PARTNERS.map((partner, i) => (
+            <div
+              key={i}
+              className="bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow"
+            >
+              {/* Card Header */}
+              <div className="bg-gradient-to-br from-slate-50 to-white p-8 sm:p-12 border-b border-slate-100">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center p-3 shrink-0">
+                    <Image
+                      src={partner.logo}
+                      alt={`${partner.name} logo`}
+                      width={80}
+                      height={80}
+                      className="object-contain"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex flex-wrap items-center gap-3 mb-2">
+                      <h2 className="text-2xl sm:text-3xl font-black tracking-tight">{partner.name}</h2>
+                      <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-100">
+                        {partner.category}
+                      </span>
+                    </div>
+                    <p className="text-slate-500 font-medium text-base sm:text-lg">{partner.description}</p>
+                  </div>
+                  <a
+                    href={partner.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hidden sm:flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm shadow-lg shadow-blue-200 hover:bg-blue-700 hover:-translate-y-0.5 transition-all shrink-0"
+                  >
+                    {partner.cta}
+                    <ExternalLink size={14} />
+                  </a>
+                </div>
+              </div>
+
+              {/* Card Body */}
+              <div className="p-8 sm:p-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
+                  {/* Left: Description */}
+                  <div>
+                    <h3 className="text-lg font-black mb-4 text-slate-900">About {partner.name}</h3>
+                    <p className="text-slate-500 font-medium leading-relaxed text-sm sm:text-base">
+                      {partner.longDescription}
+                    </p>
+                  </div>
+
+                  {/* Right: Benefits */}
+                  <div>
+                    <h3 className="text-lg font-black mb-4 text-slate-900">Why This Partner</h3>
+                    <ul className="space-y-3">
+                      {partner.benefits.map((benefit, j) => (
+                        <li key={j} className="flex items-start gap-3 text-slate-600 font-medium text-sm sm:text-base">
+                          <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                            <ArrowRight size={10} className="text-blue-600" />
+                          </div>
+                          {benefit}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Mobile CTA */}
+                <a
+                  href={partner.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="sm:hidden flex items-center justify-center gap-2 mt-8 px-6 py-4 bg-blue-600 text-white rounded-xl font-bold text-sm shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all w-full"
+                >
+                  {partner.cta}
+                  <ExternalLink size={14} />
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Why Partner With Qalt */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 mb-24 sm:mb-32">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4">Why Partner With Qalt?</h2>
+            <p className="text-lg text-slate-500 font-medium max-w-xl mx-auto">
+              We are building the go-to platform for delivery businesses. Our partners are part of that mission.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+            {WHY_PARTNER.map((item, i) => (
+              <div
+                key={i}
+                className="bg-gradient-to-b from-white to-slate-50 p-7 sm:p-9 rounded-xl border border-slate-200 hover:shadow-lg hover:shadow-blue-900/5 hover:-translate-y-1 transition-all group"
+              >
+                <div className="w-12 h-12 bg-blue-600/10 border border-blue-100 rounded-lg flex items-center justify-center mb-6 sm:mb-7 group-hover:bg-blue-600/15 transition-colors">
+                  {item.icon}
+                </div>
+                <h3 className="text-xl font-black mb-3 text-slate-900">{item.title}</h3>
+                <p className="text-slate-500 font-medium leading-relaxed text-sm sm:text-base">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Become a Partner CTA */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="bg-gradient-to-br from-[#131526] via-[#1a1636] to-[#2d1b54] rounded-2xl p-10 sm:p-16 text-center relative overflow-hidden">
+            {/* Background decoration */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-violet-500 rounded-full blur-3xl" />
+            </div>
+
+            <div className="relative z-10">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-[10px] font-black uppercase tracking-widest mb-6 border border-white/20">
+                <Handshake size={14} />
+                Partner Program
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-black text-white mb-4 tracking-tight">
+                Want to Become a Partner?
+              </h2>
+              <p className="text-slate-300 font-medium text-base sm:text-lg max-w-xl mx-auto mb-8 leading-relaxed">
+                If your product or service helps delivery and courier companies grow, we want to hear from you. Let us build something great together.
+              </p>
+              <a
+                href="mailto:business@qalt.site?subject=Qalt%20Partnership%20Inquiry"
+                className="inline-flex items-center gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-500 transition-all hover:scale-[1.02] shadow-xl shadow-blue-900/30"
+              >
+                <Mail size={18} />
+                Get in Touch
+              </a>
+              <p className="text-sm text-slate-400 font-medium mt-4">business@qalt.site</p>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t border-slate-100 py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <QaltLogo size="md" />
+            <div className="flex items-center gap-6 sm:gap-8 text-sm font-bold text-slate-400">
+              <Link href="/" className="hover:text-slate-600 transition-colors">Home</Link>
+              <Link href="/pricing" className="hover:text-slate-600 transition-colors">Pricing</Link>
+              <Link href="/partners" className="hover:text-slate-600 transition-colors">Partners</Link>
+              <Link href="/legal/privacy" className="hover:text-slate-600 transition-colors">Privacy</Link>
+              <Link href="/legal/terms" className="hover:text-slate-600 transition-colors">Terms</Link>
+            </div>
+            <p className="text-sm text-slate-400 font-medium">&copy; {new Date().getFullYear()} Qalt. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+
+      {/* Scroll to top */}
+      {showScroll && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="fixed bottom-6 right-6 w-12 h-12 bg-blue-600 text-white rounded-full shadow-lg shadow-blue-200 flex items-center justify-center hover:bg-blue-700 transition-all z-50"
+          aria-label="Scroll to top"
+        >
+          <ArrowUp size={20} />
+        </button>
+      )}
+    </div>
+  );
+}
