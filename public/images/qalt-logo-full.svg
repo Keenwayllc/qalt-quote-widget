@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="400 400 8000 3200">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="400 400 11500 3200">
   <defs>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&amp;display=swap');
@@ -8,7 +8,7 @@
       .st1 { fill: #e9001a; }
       .st2 {
         font-family: 'Montserrat', FuturaPT-Heavy, 'Futura PT', sans-serif;
-        font-size: 944.82px;
+        font-size: 2400px;
         font-weight: 800;
         letter-spacing: -20px;
         fill: #4f515b;
@@ -20,5 +20,5 @@
   <path class="st0" d="M3305.59,1978.35c.05-706.8-507.38-1295.07-1177.84-1420.42l1096.63,1899.37c52.6-149.85,81.26-311.07,81.21-478.95h0Z"/>
   <path class="st0" d="M1593.32,3398.76L496.69,1499.39c-52.64,149.89-81.26,311.07-81.26,478.96,0,706.83,507.43,1295.14,1177.89,1420.41h0Z"/>
   <path class="st1" d="M655.24,1180.82c431.11,746.68,862.18,1493.35,1293.26,2240.04,269.24-.29,184.37-.29,269.24-.29-468.8-811.93-937.62-1623.97-1406.42-2435.91-57.45,60.64-109.72,126.28-156.08,196.16h0Z"/>
-  <text class="st2" transform="translate(4080.84 1968.39)"><tspan x="0" y="0">QALT</tspan></text>
+  <text class="st2" transform="translate(3850 2800)"><tspan x="0" y="0">QALT</tspan></text>
 </svg>
