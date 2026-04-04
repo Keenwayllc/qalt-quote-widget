@@ -5,8 +5,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, ArrowLeft, Loader2, Zap, Shield, BarChart3 } from "lucide-react";
 import QaltLogo from "@/components/shared/QaltLogo";
-import QaltIcon from "@/components/shared/QaltIcon";
-import Image from "next/image";
 
 const features = [
   { icon: Zap, title: "Instant Quotes", desc: "Embed a real-time calculator in minutes." },
@@ -59,8 +57,7 @@ export default function LoginPage() {
 
         <Link href="/" className="relative z-10 flex items-center gap-3 w-fit group">
           <ArrowLeft size={16} className="text-white/40 group-hover:text-white/70 group-hover:-translate-x-0.5 transition-all shrink-0" />
-          <QaltIcon size={56} color="white" eyeColor="white" />
-          <Image src="/images/qalt.png" alt="Qalt" width={280} height={169} className="h-[62px] w-auto -ml-2 object-contain brightness-0 invert -translate-x-[10px] translate-y-[4px]" priority />
+          <QaltLogo size="xl" linked={false} white />
         </Link>
 
         <div className="relative z-10 space-y-10">

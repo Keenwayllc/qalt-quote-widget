@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { getEntitlements } from "@/lib/plans";
-import QaltIcon from "@/components/shared/QaltIcon";
 import { MapPin, CheckCircle, ArrowRight, ArrowLeft, User, Mail, Phone, Truck, Sparkles, Weight, Hash, Footprints, Home, Clock, Box, Navigation } from "lucide-react";
 import { useJsApiLoader } from "@react-google-maps/api";
 import usePlacesAutocomplete, { getGeocode } from "use-places-autocomplete";
@@ -917,13 +916,12 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
               <a href="https://qalt.site" target="_blank" rel="noopener noreferrer" className="mt-3 flex items-center justify-center gap-1.5 opacity-50 hover:opacity-80 transition-opacity">
                 <span className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em]">Powered by</span>
                 <div className="flex items-center gap-1.5 scale-90 transform origin-left">
-                  <QaltIcon size={22} />
-                  <Image 
-                    src="/images/qalt.png" 
-                    alt="Qalt Logo" 
-                    width={90} 
-                    height={28} 
-                    className="h-7 w-auto object-contain translate-y-[0.5mm] -ml-[2mm]" 
+                  <Image
+                    src="/images/Q-lines-logo-[Converted].png"
+                    alt="Qalt Logo"
+                    width={1080}
+                    height={1080}
+                    className="h-7 w-auto object-contain"
                   />
                 </div>
               </a>

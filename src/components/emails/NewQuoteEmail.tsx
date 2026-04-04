@@ -26,10 +26,10 @@ export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
     {/* Header — table layout for email client compatibility */}
     <div style={{ backgroundColor: '#1e3a5f', borderRadius: '12px 12px 0 0', padding: '48px 32px', textAlign: 'center' }}>
       <img
-        src="https://qalt.site/images/faceqaltwh.png"
+        src="https://qalt.site/images/Q-lines-logo-[Converted].png"
         alt="Qalt"
-        height="60"
-        style={{ display: 'block', margin: '0 auto 16px' }}
+        height="44"
+        style={{ display: 'block', margin: '0 auto 16px', borderRadius: '8px', padding: '6px 16px', backgroundColor: '#ffffff' }}
       />
       <p style={{ margin: '0', color: '#93c5fd', fontSize: '13px', fontWeight: '800', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
         Your rates. Embedded. Anywhere.

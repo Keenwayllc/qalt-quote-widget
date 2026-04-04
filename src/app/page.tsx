@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import QaltLogo from "@/components/shared/QaltLogo";
-import QaltIcon from "@/components/shared/QaltIcon";
 import {
   Calculator,
   ArrowRight,
@@ -570,8 +569,8 @@ export default function LandingPage() {
 
         {/* Use Cases */}
         <section id="use-cases" className="py-20 sm:py-32 bg-linear-to-br from-slate-900 via-slate-900 to-blue-950 text-white overflow-hidden relative scroll-mt-20">
-          <div className="absolute -bottom-40 -right-40 pointer-events-none select-none" aria-hidden="true">
-            <QaltIcon size={400} color="rgba(255,255,255,0.05)" eyeColor="rgba(255,255,255,0.09)" />
+          <div className="absolute -bottom-40 -right-40 pointer-events-none select-none opacity-5" aria-hidden="true">
+            <img src="/images/Q-lines-logo-400x400.jpg" alt="" width={400} height={400} className="w-[400px] h-[400px] object-contain brightness-0 invert" />
           </div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
             <motion.div

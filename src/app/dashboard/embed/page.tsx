@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import QaltIcon from "@/components/shared/QaltIcon";
 import SupportModal from "@/components/shared/SupportModal";
 import { Copy, Check, ExternalLink, Eye, RefreshCw, Monitor, Smartphone } from "lucide-react";
 
@@ -223,7 +222,7 @@ export default function EmbedCodePage() {
             {/* Installation Guide */}
             <div className="bg-blue-50 rounded-[32px] p-10 border border-blue-100 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none scale-150">
-                <QaltIcon size={120} />
+                <img src="/images/Q-lines-logo-400x400.jpg" alt="" width={120} height={120} className="w-[120px] h-[120px] object-contain" />
               </div>
               <h3 className="text-xl font-black text-blue-900 mb-6">Installation Guide</h3>
               <ul className="space-y-6">

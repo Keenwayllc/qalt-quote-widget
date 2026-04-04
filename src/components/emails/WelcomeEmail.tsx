@@ -22,10 +22,10 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
       marginBottom: '32px'
     }}>
       <img 
-        src="https://qalt.site/images/faceqaltwh.png" 
-        alt="Qalt Logo" 
-        height="60" 
-        style={{ display: 'block', margin: '0 auto 16px' }} 
+        src="https://qalt.site/images/Q-lines-logo-[Converted].png"
+        alt="Qalt Logo"
+        height="44"
+        style={{ display: 'block', margin: '0 auto 16px', borderRadius: '8px', padding: '6px 16px', backgroundColor: '#ffffff' }} 
       />
       <p style={{ margin: '0', color: '#93c5fd', fontSize: '13px', fontWeight: '800', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
         Your rates. Embedded. Anywhere.
