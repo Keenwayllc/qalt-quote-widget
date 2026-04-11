@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import SupportModal from "@/components/shared/SupportModal";
-import { Copy, Check, ExternalLink, Eye, RefreshCw, Monitor, Smartphone } from "lucide-react";
+import { Copy, Check, ExternalLink, Eye, RefreshCw, Monitor, Smartphone, Activity, AlertCircle } from "lucide-react";
 
 type PreviewMode = "desktop" | "mobile";
 
@@ -13,15 +13,20 @@ export default function EmbedCodePage() {
   const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
   const [previewMode, setPreviewMode] = useState<PreviewMode>("desktop");
   const [previewKey, setPreviewKey] = useState(0); // used to force iframe refresh
+  const [quoteCount, setQuoteCount] = useState<number>(0);
+  const [activeTab, setActiveTab] = useState<"generic" | "wordpress" | "webflow" | "shopify">("generic");
 
   useEffect(() => {
     async function fetchCompany() {
       try {
-        const res = await fetch("/api/dashboard/widget");
-        const data = await res.json();
-        if (data.id) {
-          setCompanyId(data.id);
-        }
+        const [widgetRes, countRes] = await Promise.all([
+          fetch("/api/dashboard/widget"),
+          fetch("/api/dashboard/quote-count"),
+        ]);
+        const widgetData = await widgetRes.json();
+        const countData = await countRes.json();
+        if (widgetData.id) setCompanyId(widgetData.id);
+        if (typeof countData.count === "number") setQuoteCount(countData.count);
       } catch (err) {
         console.error("Failed to fetch company", err);
       } finally {
@@ -219,48 +224,102 @@ export default function EmbedCodePage() {
               </div>
             )}
 
-            {/* Installation Guide */}
-            <div className="bg-red-50 rounded-[32px] p-10 border border-red-100 relative overflow-hidden">
+            {/* Installation Guide with platform tabs */}
+            <div className="bg-red-50 rounded-[32px] p-8 border border-red-100 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none scale-150">
                 <img src="/images/qalt-icon-400.jpg" alt="" width={120} height={120} className="w-[120px] h-[120px] object-contain" />
               </div>
-              <h3 className="text-xl font-black text-red-900 mb-6">Installation Guide</h3>
-              <ul className="space-y-6">
-                <li className="flex gap-6">
-                  <span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">1</span>
-                  <div>
-                    <p className="font-bold text-red-900">Copy the snippet</p>
-                    <p className="text-sm text-slate-700/60 mt-1">Use the black copy button above to grab your unique widget code.</p>
-                  </div>
-                </li>
-                <li className="flex gap-6">
-                  <span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">2</span>
-                  <div>
-                    <p className="font-bold text-red-900">Paste in your editor</p>
-                    <p className="text-sm text-slate-700/60 mt-1">Navigate to your website builder (WordPress, Webflow, Shopify) and add an HTML element.</p>
-                  </div>
-                </li>
-                <li className="flex gap-6">
-                  <span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">3</span>
-                  <div>
-                    <p className="font-bold text-red-900">Publish &amp; Go Live</p>
-                    <p className="text-sm text-slate-700/60 mt-1">Save your changes. Your Qalt calculator is now ready to capture leads!</p>
-                  </div>
-                </li>
-              </ul>
+              <h3 className="text-xl font-black text-red-900 mb-5">Installation Guide</h3>
+
+              {/* Platform tabs */}
+              <div className="flex flex-wrap gap-2 mb-6">
+                {(["generic", "wordpress", "webflow", "shopify"] as const).map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold capitalize transition-all ${
+                      activeTab === tab
+                        ? "bg-red-600 text-white shadow-md"
+                        : "bg-white text-slate-600 border border-slate-200 hover:border-red-300"
+                    }`}
+                  >
+                    {tab === "generic" ? "Any Site" : tab.charAt(0).toUpperCase() + tab.slice(1)}
+                  </button>
+                ))}
+              </div>
+
+              {activeTab === "generic" && (
+                <ul className="space-y-5">
+                  <li className="flex gap-5"><span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">1</span><div><p className="font-bold text-red-900">Copy the snippet</p><p className="text-sm text-slate-700/60 mt-0.5">Click the Copy button above to grab your unique embed code.</p></div></li>
+                  <li className="flex gap-5"><span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">2</span><div><p className="font-bold text-red-900">Paste in your HTML</p><p className="text-sm text-slate-700/60 mt-0.5">Add an HTML block or custom code element wherever you want the widget to appear.</p></div></li>
+                  <li className="flex gap-5"><span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">3</span><div><p className="font-bold text-red-900">Publish &amp; go live</p><p className="text-sm text-slate-700/60 mt-0.5">Save and publish. Your widget starts capturing quote requests immediately.</p></div></li>
+                </ul>
+              )}
+
+              {activeTab === "wordpress" && (
+                <ul className="space-y-5">
+                  <li className="flex gap-5"><span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">1</span><div><p className="font-bold text-red-900">Open the page editor</p><p className="text-sm text-slate-700/60 mt-0.5">In WordPress admin, go to Pages → Edit the page where you want the widget.</p></div></li>
+                  <li className="flex gap-5"><span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">2</span><div><p className="font-bold text-red-900">Add a Custom HTML block</p><p className="text-sm text-slate-700/60 mt-0.5">Click + → search "Custom HTML" → paste your embed code inside the block.</p></div></li>
+                  <li className="flex gap-5"><span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">3</span><div><p className="font-bold text-red-900">Update &amp; preview</p><p className="text-sm text-slate-700/60 mt-0.5">Click Update, then Preview. The widget should appear exactly where you placed the block.</p></div></li>
+                </ul>
+              )}
+
+              {activeTab === "webflow" && (
+                <ul className="space-y-5">
+                  <li className="flex gap-5"><span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">1</span><div><p className="font-bold text-red-900">Add an Embed element</p><p className="text-sm text-slate-700/60 mt-0.5">In the Webflow Designer, drag an Embed element from the Add panel onto your page.</p></div></li>
+                  <li className="flex gap-5"><span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">2</span><div><p className="font-bold text-red-900">Paste your embed code</p><p className="text-sm text-slate-700/60 mt-0.5">Double-click the Embed element, paste your widget code, then click Save &amp; Close.</p></div></li>
+                  <li className="flex gap-5"><span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">3</span><div><p className="font-bold text-red-900">Publish your site</p><p className="text-sm text-slate-700/60 mt-0.5">Click Publish → Publish to Selected Domains. Your widget is now live.</p></div></li>
+                </ul>
+              )}
+
+              {activeTab === "shopify" && (
+                <ul className="space-y-5">
+                  <li className="flex gap-5"><span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">1</span><div><p className="font-bold text-red-900">Go to Online Store → Pages</p><p className="text-sm text-slate-700/60 mt-0.5">In Shopify admin, navigate to Online Store → Pages and open or create a page.</p></div></li>
+                  <li className="flex gap-5"><span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">2</span><div><p className="font-bold text-red-900">Switch to HTML view</p><p className="text-sm text-slate-700/60 mt-0.5">Click the {"<>"} icon in the editor toolbar to switch to HTML mode, then paste your embed code.</p></div></li>
+                  <li className="flex gap-5"><span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-xl flex items-center justify-center shadow-lg shadow-red-200">3</span><div><p className="font-bold text-red-900">Save &amp; view page</p><p className="text-sm text-slate-700/60 mt-0.5">Click Save, then View Page to confirm the widget is rendering correctly.</p></div></li>
+                </ul>
+              )}
             </div>
           </div>
 
           {/* Right sidebar */}
           <div className="space-y-6">
-<div className="bg-white rounded-[32px] p-8 shadow-sm border border-slate-100">
+
+            {/* Widget Health Check */}
+            <div className="bg-white rounded-[32px] p-6 shadow-sm border border-slate-100">
+              <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-4">Widget Status</h3>
+              {quoteCount > 0 ? (
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
+                    <Activity size={18} className="text-emerald-600" />
+                  </div>
+                  <div>
+                    <p className="font-black text-slate-900 text-sm">Active</p>
+                    <p className="text-xs text-slate-400 font-medium mt-0.5">{quoteCount} quote{quoteCount !== 1 ? "s" : ""} received — widget is live</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
+                    <AlertCircle size={18} className="text-amber-500" />
+                  </div>
+                  <div>
+                    <p className="font-black text-slate-900 text-sm">Not detected yet</p>
+                    <p className="text-xs text-slate-400 font-medium mt-0.5">Embed the code below and submit a test quote to verify</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Need help card */}
+            <div className="bg-white rounded-[32px] p-8 shadow-sm border border-slate-100">
               <h3 className="text-lg font-bold text-slate-900 mb-4">Need help?</h3>
-              <p className="text-sm text-slate-500 leading-relaxed mb-8">Not sure where to paste the code? Our engineering team can help you get it installed in minutes.</p>
+              <p className="text-sm text-slate-500 leading-relaxed mb-8">Not sure where to paste the code? Our team can help you get it installed in minutes.</p>
               <button
                 onClick={() => setIsSupportModalOpen(true)}
                 className="w-full py-4 bg-slate-900 text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl shadow-slate-200"
               >
-                Contact Technical Support
+                Contact Support
               </button>
             </div>
 

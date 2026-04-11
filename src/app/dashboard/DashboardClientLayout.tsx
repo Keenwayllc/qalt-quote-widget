@@ -18,7 +18,8 @@ import {
   BarChart3,
   UserCircle,
   FormInput,
-  Eye
+  Eye,
+  HelpCircle,
 } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
 
@@ -73,6 +74,7 @@ export default function DashboardClientLayout({
     { name: "Quotes", href: "/dashboard/quotes", icon: FileText, showBadge: true },
     { name: "Subscription", href: "/dashboard/billing", icon: CreditCard },
     { name: "Account Settings", href: "/dashboard/settings", icon: UserCircle },
+    { name: "Help & FAQ", href: "/dashboard/support", icon: HelpCircle },
   ];
 
   const handleLogout = async () => {
