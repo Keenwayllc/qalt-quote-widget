@@ -78,7 +78,6 @@ export default function LandingPage() {
   }, []);
 
   const scrollTo = (id: string) => {
-    setIsMobileMenuOpen(false);
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
