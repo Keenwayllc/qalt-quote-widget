@@ -31,6 +31,7 @@ export const PartnerInquiryEmail: React.FC<Readonly<PartnerInquiryEmailProps>> =
       textAlign: 'center',
       marginBottom: '32px',
     }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="https://qalt.site/images/qalt-logo-main-2026.png"
         alt="Qalt Logo"

@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 1. Save to database
-    const inquiry = await prisma.partnerInquiry.create({
+    await prisma.partnerInquiry.create({
       data: {
         companyName,
         website,

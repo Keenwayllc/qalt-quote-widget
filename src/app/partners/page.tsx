@@ -27,7 +27,6 @@ import {
   Rocket,
   Users,
   ExternalLink,
-  Mail,
   Loader2,
   CheckCircle2,
   AlertCircle
