@@ -136,6 +136,7 @@ export default function PartnersPage() {
             <Link href="/#use-cases" className="hover:text-red-600 transition-colors">Use Cases</Link>
             <Link href="/pricing" className="hover:text-red-600 transition-colors">Pricing</Link>
             <Link href="/partners" className="text-red-600">Partners</Link>
+            <Link href="/blog" className="hover:text-red-600 transition-colors">Blog</Link>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
@@ -172,6 +173,9 @@ export default function PartnersPage() {
               </Link>
               <Link href="/partners" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                 Partners
+              </Link>
+              <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
+                Blog
               </Link>
               <div className="pt-2 pb-1 border-t border-slate-100">
                 <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-xl transition-colors">
@@ -421,6 +425,7 @@ export default function PartnersPage() {
                 <li><Link href="/#how-it-works" className="hover:text-red-600 transition-colors">How it Works</Link></li>
                 <li><Link href="/#use-cases" className="hover:text-red-600 transition-colors">Use Cases</Link></li>
                 <li><Link href="/partners" className="hover:text-red-600 transition-colors">Partners</Link></li>
+                <li><Link href="/blog" className="hover:text-red-600 transition-colors">Blog</Link></li>
               </ul>
             </div>
             {/* Account */}

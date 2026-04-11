@@ -157,6 +157,7 @@ export default function PricingPage() {
             <Link href="/#use-cases" className="hover:text-red-600 transition-colors">Use Cases</Link>
             <Link href="/pricing" className="text-red-600">Pricing</Link>
             <Link href="/partners" className="hover:text-red-600 transition-colors">Partners</Link>
+            <Link href="/blog" className="hover:text-red-600 transition-colors">Blog</Link>
           </div>
           <div className="flex items-center gap-4">
             <Link href="/login" className="px-6 py-2.5 text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors">
@@ -479,6 +480,7 @@ export default function PricingPage() {
                 <li><Link href="/#how-it-works" className="hover:text-red-600 transition-colors">How it Works</Link></li>
                 <li><Link href="/#use-cases" className="hover:text-red-600 transition-colors">Use Cases</Link></li>
                 <li><Link href="/partners" className="hover:text-red-600 transition-colors">Partners</Link></li>
+                <li><Link href="/blog" className="hover:text-red-600 transition-colors">Blog</Link></li>
               </ul>
             </div>
             {/* Account */}

@@ -159,6 +159,9 @@ export default function LandingPage() {
                 <Link href="/partners" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                   Partners
                 </Link>
+                <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
+                  Blog
+                </Link>
                 <div className="pt-2 pb-1 border-t border-slate-100">
                   <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-xl transition-colors">
                     Log in
@@ -697,6 +700,8 @@ export default function LandingPage() {
                 <li><Link href="/pricing" className="hover:text-red-600 transition-colors">Pricing</Link></li>
                 <li><button onClick={() => scrollTo("how-it-works")} className="hover:text-red-600 transition-colors">How it Works</button></li>
                 <li><button onClick={() => scrollTo("use-cases")} className="hover:text-red-600 transition-colors">Use Cases</button></li>
+                <li><Link href="/partners" className="hover:text-red-600 transition-colors">Partners</Link></li>
+                <li><Link href="/blog" className="hover:text-red-600 transition-colors">Blog</Link></li>
               </ul>
             </div>
             {/* Account */}
