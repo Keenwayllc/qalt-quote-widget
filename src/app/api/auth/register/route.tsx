@@ -21,11 +21,15 @@ export async function POST(req: Request) {
     const passwordHash = await hashPassword(password);
 
     // Create Company and initialize their default profiles and widget settings
+    const trialEndsAt = new Date();
+    trialEndsAt.setDate(trialEndsAt.getDate() + 14);
+
     const company = await prisma.company.create({
       data: {
         email,
         passwordHash,
         name,
+        trialEndsAt,
         pricingProfiles: {
           create: {
             baseRatePerMile: 2.5,

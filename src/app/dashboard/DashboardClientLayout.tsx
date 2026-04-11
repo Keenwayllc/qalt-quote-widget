@@ -27,11 +27,13 @@ export default function DashboardClientLayout({
   subscriptionPlan,
   pendingCount = 0,
   companyId,
+  trialDaysLeft,
 }: {
   children: React.ReactNode;
   subscriptionPlan: string;
   pendingCount?: number;
   companyId?: string;
+  trialDaysLeft?: number | null;
 }) {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -111,6 +113,32 @@ export default function DashboardClientLayout({
               <X size={20} />
             </button>
           </div>
+
+          {/* Trial countdown banner */}
+          {trialDaysLeft !== null && trialDaysLeft !== undefined && (
+            <div className={`mx-4 mb-2 rounded-xl px-4 py-3 text-sm font-bold ${
+              trialDaysLeft <= 3
+                ? "bg-red-600 text-white"
+                : "bg-amber-50 text-amber-800 border border-amber-200"
+            }`}>
+              <div className="flex items-center gap-2 mb-1">
+                <span>{trialDaysLeft <= 3 ? "⚠️" : "🕐"}</span>
+                <span className="font-black">
+                  {trialDaysLeft === 0
+                    ? "Trial expires today"
+                    : `${trialDaysLeft} day${trialDaysLeft === 1 ? "" : "s"} left in trial`}
+                </span>
+              </div>
+              <Link
+                href="/dashboard/billing"
+                className={`text-xs underline underline-offset-2 font-black ${
+                  trialDaysLeft <= 3 ? "text-white/90 hover:text-white" : "text-amber-700 hover:text-amber-900"
+                }`}
+              >
+                Upgrade now →
+              </Link>
+            </div>
+          )}
 
           <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto custom-scrollbar">
             <div className="mb-6 px-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">

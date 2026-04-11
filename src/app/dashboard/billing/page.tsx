@@ -8,10 +8,11 @@ import { Zap, Clock } from "lucide-react";
 export default async function BillingPage({
   searchParams,
 }: {
-  searchParams: Promise<{ success?: string }>;
+  searchParams: Promise<{ success?: string; expired?: string }>;
 }) {
   const [company, params] = await Promise.all([getCurrentCompany(), searchParams]);
   const showSuccess = params.success === "1";
+  const trialExpired = params.expired === "1";
 
   const now = new Date();
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -32,6 +33,29 @@ export default async function BillingPage({
       </div>
 
       {showSuccess && <SuccessBanner plan={company.subscriptionPlan} />}
+
+      {/* ── Trial Expired Hard Paywall ─────────────────────────────────────── */}
+      {trialExpired && (
+        <div className="mb-8 bg-slate-900 rounded-2xl p-8 border border-red-500/30 shadow-2xl shadow-red-900/20">
+          <div className="flex items-start gap-5">
+            <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center shrink-0">
+              <Clock size={22} className="text-white" />
+            </div>
+            <div className="flex-1">
+              <h2 className="text-white font-black text-xl mb-1">Your free trial has ended</h2>
+              <p className="text-slate-400 text-sm font-medium mb-4">
+                Your 14-day trial is over. Upgrade below to keep your widget live and continue receiving quote requests. Your settings and data are safe.
+              </p>
+              <a
+                href="#pro"
+                className="inline-flex items-center px-6 py-3 bg-red-600 text-white rounded-xl font-black text-sm hover:bg-red-500 transition-all shadow-lg shadow-red-900/30"
+              >
+                Choose a plan →
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── 7-Day Pro Trial Banner (Starter only) ─────────────────────────── */}
       {isStarter && (

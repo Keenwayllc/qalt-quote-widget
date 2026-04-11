@@ -19,6 +19,7 @@ model Company {
   stripeCustomerId     String?
   stripeSubscriptionId String?
   stripeConnectAccountId String?
+  trialEndsAt          DateTime?
   createdAt            DateTime         @default(now())
   pricingProfiles      PricingProfile[]
   quoteRequests        QuoteRequest[]
