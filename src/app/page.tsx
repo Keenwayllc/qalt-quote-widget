@@ -16,9 +16,8 @@ import {
   BarChart3,
   Code2,
   CheckCircle2,
-  Menu,
-  X,
 } from "lucide-react";
+import PublicNav from "@/components/shared/PublicNav";
 import HowItWorksAnimation from "@/components/landing/HowItWorksAnimation";
 import AnalyticsAnimation from "@/components/landing/AnalyticsAnimation";
 import TestimonialsCarousel from "@/components/landing/TestimonialsCarousel";
@@ -60,12 +59,10 @@ const fadeIn = {
 export default function LandingPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
 
   const { scrollY } = useScroll();
   const heroParallax = useTransform(scrollY, [0, 500], [0, 80]);
-  const navBg = useTransform(scrollY, [0, 80], ["rgba(255,255,255,0.8)", "rgba(255,255,255,0.97)"]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -92,86 +89,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-red-100 selection:text-red-900">
       {/* Navigation */}
-      <motion.nav
-        style={{ backgroundColor: navBg }}
-        className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-slate-100"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-          <QaltLogo size="lg" />
-
-          {/* Desktop nav links */}
-          <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500">
-            <button onClick={() => scrollTo("features")} className="hover:text-red-600 transition-colors">Features</button>
-            <button onClick={() => scrollTo("how-it-works")} className="hover:text-red-600 transition-colors">How it Works</button>
-            <button onClick={() => scrollTo("use-cases")} className="hover:text-red-600 transition-colors">Use Cases</button>
-            <Link href="/pricing" className="hover:text-red-600 transition-colors">Pricing</Link>
-            <Link href="/blog" className="hover:text-red-600 transition-colors">Blog</Link>
-            <Link href="/partners" className="hover:text-red-600 transition-colors">Partners</Link>
-          </div>
-
-          <div className="flex items-center gap-2 sm:gap-3">
-            <Link
-              href="/login"
-              className="hidden sm:block px-5 py-2.5 text-sm font-bold text-slate-600 hover:text-slate-900 transition-all hover:bg-slate-50 rounded-xl"
-            >
-              Log in
-            </Link>
-            <Link
-              href="/register"
-              className="px-4 sm:px-6 py-2 sm:py-2.5 bg-red-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-red-200 hover:bg-red-700 hover:-translate-y-0.5 active:scale-95 transition-all"
-            >
-              Get Started
-            </Link>
-            {/* Mobile hamburger */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile dropdown menu */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25, ease: "easeInOut" }}
-              className="md:hidden bg-white border-t border-slate-100 shadow-lg overflow-hidden"
-            >
-              <div className="max-w-7xl mx-auto px-4 py-3 space-y-1">
-                <button onClick={() => scrollTo("features")} className="block w-full text-left px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
-                  Features
-                </button>
-                <button onClick={() => scrollTo("how-it-works")} className="block w-full text-left px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
-                  How it Works
-                </button>
-                <button onClick={() => scrollTo("use-cases")} className="block w-full text-left px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
-                  Use Cases
-                </button>
-                <Link href="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
-                  Pricing
-                </Link>
-                <Link href="/partners" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
-                  Partners
-                </Link>
-                <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
-                  Blog
-                </Link>
-                <div className="pt-2 pb-1 border-t border-slate-100">
-                  <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-xl transition-colors">
-                    Log in
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.nav>
+      <PublicNav />
 
       <main>
         {/* Hero Section */}

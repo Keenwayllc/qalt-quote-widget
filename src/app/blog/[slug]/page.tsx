@@ -1,7 +1,7 @@
 import { getPostBySlug, getAllPosts } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import QaltLogo from "@/components/shared/QaltLogo";
+import PublicNav from "@/components/shared/PublicNav";
 import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 
@@ -48,27 +48,9 @@ export default async function BlogPost({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Nav */}
-      <header className="bg-white border-b border-slate-200">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link href="/">
-            <QaltLogo size="md" />
-          </Link>
-          <div className="flex items-center gap-6 text-sm font-bold text-slate-500">
-            <Link href="/blog" className="hover:text-red-600 transition-colors">Blog</Link>
-            <Link href="/pricing" className="hover:text-slate-900 transition-colors">Pricing</Link>
-            <Link href="/login" className="hover:text-slate-900 transition-colors">Log in</Link>
-            <Link
-              href="/register"
-              className="px-4 py-2 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-colors"
-            >
-              Get Started
-            </Link>
-          </div>
-        </div>
-      </header>
+      <PublicNav />
 
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-12">
         {/* Back */}
         <Link
           href="/blog"

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import PublicNav from "@/components/shared/PublicNav";
 import { motion } from "framer-motion";
 import QaltLogo from "@/components/shared/QaltLogo";
 import { CheckCircle2, Minus, ChevronDown, ChevronUp, ArrowUp } from "lucide-react";
@@ -147,30 +148,9 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-white text-slate-900">
 
-      {/* Nav */}
-      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-          <QaltLogo size="md" />
-          <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-500">
-            <Link href="/#features" className="hover:text-red-600 transition-colors">Features</Link>
-            <Link href="/#how-it-works" className="hover:text-red-600 transition-colors">How it Works</Link>
-            <Link href="/#use-cases" className="hover:text-red-600 transition-colors">Use Cases</Link>
-            <Link href="/pricing" className="text-red-600">Pricing</Link>
-            <Link href="/partners" className="hover:text-red-600 transition-colors">Partners</Link>
-            <Link href="/blog" className="hover:text-red-600 transition-colors">Blog</Link>
-          </div>
-          <div className="flex items-center gap-4">
-            <Link href="/login" className="px-6 py-2.5 text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors">
-              Log in
-            </Link>
-            <Link href="/register" className="px-5 py-2.5 bg-red-600 text-white rounded-lg text-sm font-bold shadow-lg shadow-red-200 hover:bg-red-700 hover:-translate-y-0.5 transition-all">
-              Get Started
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <PublicNav />
 
-      <main className="pt-40 pb-32">
+      <main className="pt-28 sm:pt-32 pb-32">
 
         {/* Header */}
         <motion.div

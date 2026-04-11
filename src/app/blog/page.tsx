@@ -1,6 +1,6 @@
 import { getAllPosts } from "@/lib/blog";
 import Link from "next/link";
-import QaltLogo from "@/components/shared/QaltLogo";
+import PublicNav from "@/components/shared/PublicNav";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -22,27 +22,9 @@ export default function BlogIndex() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Nav */}
-      <header className="bg-white border-b border-slate-200">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link href="/">
-            <QaltLogo size="md" />
-          </Link>
-          <div className="flex items-center gap-6 text-sm font-bold text-slate-500">
-            <Link href="/pricing" className="hover:text-red-600 transition-colors">Pricing</Link>
-            <Link href="/blog" className="text-red-600">Blog</Link>
-            <Link href="/login" className="hover:text-slate-900 transition-colors">Log in</Link>
-            <Link
-              href="/register"
-              className="px-4 py-2 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-colors"
-            >
-              Get Started
-            </Link>
-          </div>
-        </div>
-      </header>
+      <PublicNav />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-14">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-14">
         <div className="mb-12">
           <p className="text-xs font-black text-red-600 uppercase tracking-widest mb-2">Qalt Blog</p>
           <h1 className="text-4xl font-black text-slate-900 tracking-tight">
