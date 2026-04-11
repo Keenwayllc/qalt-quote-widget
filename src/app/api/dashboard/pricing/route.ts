@@ -3,17 +3,22 @@ import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
+const safeNum = (val: unknown, fallback: number) => {
+  const n = Number(val);
+  return isNaN(n) ? fallback : n;
+};
+
 const pricingFields = (data: Record<string, unknown>) => ({
-  baseRatePerMile:    Number(data.baseRatePerMile)    || 2.5,
-  minimumCharge:      Number(data.minimumCharge)      || 35,
+  baseRatePerMile:    safeNum(data.baseRatePerMile,   2.5),
+  minimumCharge:      safeNum(data.minimumCharge,     35),
   useMinimumCharge:   Boolean(data.useMinimumCharge),
-  minMilesThreshold:  Number(data.minMilesThreshold)  || 0,
-  weightFee:          Number(data.weightFee)           || 0,
-  itemCountFee:       Number(data.itemCountFee)        || 0,
-  stairsFee:          Number(data.stairsFee)           || 0,
-  insideDeliveryFee:  Number(data.insideDeliveryFee)   || 0,
-  afterHoursFee:      Number(data.afterHoursFee)       || 0,
-  largeItemFee:       Number(data.largeItemFee)        || 0,
+  minMilesThreshold:  safeNum(data.minMilesThreshold, 0),
+  weightFee:          safeNum(data.weightFee,          0),
+  itemCountFee:       safeNum(data.itemCountFee,       0),
+  stairsFee:          safeNum(data.stairsFee,          0),
+  insideDeliveryFee:  safeNum(data.insideDeliveryFee,  0),
+  afterHoursFee:      safeNum(data.afterHoursFee,      0),
+  largeItemFee:       safeNum(data.largeItemFee,       0),
   businessHoursStart: String(data.businessHoursStart  || "08:00"),
   businessHoursEnd:   String(data.businessHoursEnd    || "18:00"),
   businessDays:       String(data.businessDays        || "1,2,3,4,5"),

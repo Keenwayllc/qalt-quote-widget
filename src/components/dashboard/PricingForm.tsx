@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { DollarSign, Save, Weight, HelpCircle, Clock, Box, Plus, Trash2, SlidersHorizontal } from "lucide-react";
 import type { PlanEntitlements } from "@/lib/plans";
 
@@ -92,7 +91,6 @@ export default function PricingPage({
   widgetSettings?: WidgetSettingsSnapshot | null;
   entitlements?: PlanEntitlements;
 }) {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
 
@@ -165,34 +163,37 @@ export default function PricingPage({
       largeItemCategories: largeItemCategories.filter((c) => c.name.trim()),
     };
     try {
-      const [pricingRes, widgetRes] = await Promise.all([
-        fetch("/api/dashboard/pricing", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...data, formId: formId ?? null }),
-        }),
-        widgetSettings?.id
-          ? fetch("/api/dashboard/widget", {
-              method: "PATCH",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                formId: widgetSettings.id,
-                showWeight,
-                showExtras,
-                showVehicles: vehicleEnabled ? showVehicles : false,
-                pricePerVehicle: vehicleEnabled ? (parseFloat(pricePerVehicle) || 0) : 0,
-                showAwb: vehicleEnabled ? showAwb : false,
-              }),
-            })
-          : Promise.resolve({ ok: true }),
-      ]);
+      const pricingRes = await fetch("/api/dashboard/pricing", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...data, formId: formId ?? null }),
+      });
 
-      if (pricingRes.ok && (widgetRes as Response).ok) {
-        setMessage({ type: "success", text: "Pricing & form settings saved!" });
-        router.refresh();
-      } else {
-        setMessage({ type: "error", text: "Failed to save. Please try again." });
+      if (!pricingRes.ok) {
+        setMessage({ type: "error", text: "Failed to save pricing. Please try again." });
+        setLoading(false);
+        return;
       }
+
+      // Save widget field toggles (best-effort — don't block on failure)
+      if (widgetSettings?.id) {
+        await fetch("/api/dashboard/widget", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            formId: widgetSettings.id,
+            showWeight,
+            showExtras,
+            showVehicles: vehicleEnabled ? showVehicles : false,
+            pricePerVehicle: vehicleEnabled ? (parseFloat(pricePerVehicle) || 0) : 0,
+            showAwb: vehicleEnabled ? showAwb : false,
+          }),
+        });
+      }
+
+      setMessage({ type: "success", text: "Pricing & form settings saved!" });
+      // Force a full reload so uncontrolled inputs reflect the newly saved values
+      window.location.reload();
     } catch {
       setMessage({ type: "error", text: "An error occurred." });
     } finally {
