@@ -4,8 +4,8 @@ import QaltLogo from "@/components/shared/QaltLogo";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blog — Qalt",
-  description: "Guides and insights for courier and delivery companies — from pricing and lead generation to website tools and operations.",
+  title: "Blog | Qalt",
+  description: "Guides and insights for courier and delivery companies, from pricing and lead generation to website tools and operations.",
 };
 
 const CATEGORY_COLORS: Record<string, string> = {

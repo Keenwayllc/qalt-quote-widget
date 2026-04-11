@@ -9,8 +9,8 @@ const faqs = [
     category: "Installation",
     items: [
       {
-        q: "My widget isn't showing on my site — what should I check?",
-        a: "First, confirm the embed code is pasted inside an HTML block (not a text/paragraph block). Most builders (WordPress, Webflow, Shopify) have a dedicated 'Custom HTML' or 'Embed' element — use that. Also check your browser console for any Content Security Policy (CSP) errors, which may block iframes from external domains.",
+        q: "My widget isn't showing on my site,what should I check?",
+        a: "First, confirm the embed code is pasted inside an HTML block (not a text/paragraph block). Most builders (WordPress, Webflow, Shopify) have a dedicated 'Custom HTML' or 'Embed' element,use that. Also check your browser console for any Content Security Policy (CSP) errors, which may block iframes from external domains.",
       },
       {
         q: "The widget loads but looks cut off or too small.",
@@ -18,7 +18,7 @@ const faqs = [
       },
       {
         q: "How do I update my embed code after making changes?",
-        a: "You don't need to — your embed code never changes. Any updates you make to your widget appearance, pricing, or settings in the dashboard automatically apply to the embedded widget. Just save your changes and refresh the page where it's embedded.",
+        a: "You don't need to,your embed code never changes. Any updates you make to your widget appearance, pricing, or settings in the dashboard automatically apply to the embedded widget. Just save your changes and refresh the page where it's embedded.",
       },
     ],
   },
@@ -27,11 +27,11 @@ const faqs = [
     items: [
       {
         q: "The widget style is conflicting with my website's CSS.",
-        a: "The Qalt widget runs inside an iframe which isolates it from your site's CSS — so true style conflicts are rare. If you're seeing layout issues, it's most likely a container width or height problem. Wrap the iframe in a div and set width: 100%; overflow: hidden; on that wrapper.",
+        a: "The Qalt widget runs inside an iframe which isolates it from your site's CSS,so true style conflicts are rare. If you're seeing layout issues, it's most likely a container width or height problem. Wrap the iframe in a div and set width: 100%; overflow: hidden; on that wrapper.",
       },
       {
         q: "Can I change the widget colors to match my brand?",
-        a: "Yes — go to Dashboard → Widget Appearance. You can set a primary color, upload a logo, add a background image, and customize the header and button text. Changes take effect immediately on your live widget.",
+        a: "Yes,go to Dashboard → Widget Appearance. You can set a primary color, upload a logo, add a background image, and customize the header and button text. Changes take effect immediately on your live widget.",
       },
       {
         q: "The widget looks different on mobile than desktop.",
@@ -52,7 +52,7 @@ const faqs = [
       },
       {
         q: "Can I see who submitted a quote and respond to them?",
-        a: "Yes — go to Dashboard → Quotes to see all submitted quote requests with customer name, email, pickup/dropoff location, and estimated price. You can add internal notes to each quote. Direct email reply to the customer from the dashboard is on our roadmap.",
+        a: "Yes,go to Dashboard → Quotes to see all submitted quote requests with customer name, email, pickup/dropoff location, and estimated price. You can add internal notes to each quote. Direct email reply to the customer from the dashboard is on our roadmap.",
       },
     ],
   },
@@ -69,7 +69,7 @@ const faqs = [
       },
       {
         q: "Can I use Qalt on multiple websites?",
-        a: "Your embed code works on any number of websites — there's no domain restriction. Pro plan users can create up to 5 separate widget forms with different branding and pricing. Enterprise users get unlimited forms.",
+        a: "Your embed code works on any number of websites,there's no domain restriction. Pro plan users can create up to 5 separate widget forms with different branding and pricing. Enterprise users get unlimited forms.",
       },
     ],
   },

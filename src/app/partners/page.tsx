@@ -37,15 +37,38 @@ import {
 interface Partner {
   name: string;
   logo: string;
+  logoWhite?: string;
   category: string;
   description: string;
   longDescription: string;
   benefits: string[];
   url: string;
   cta: string;
+  bgImage?: string;
 }
 
 const PARTNERS: Partner[] = [
+  {
+    name: "Keenway",
+    logo: "/images/keenway-logo.png",
+    logoWhite: "/images/keenway-logo.png",
+    bgImage: "/images/keenway-hero.jpg",
+    category: "Delivery Management",
+    description:
+      "A full delivery operations platform for couriers, dispatchers, and fleet owners.",
+    longDescription:
+      "Keenway is a delivery management platform built for courier and logistics companies that need more than just a quote tool. It covers the full operations loop: driver dispatch, real-time tracking, proof of delivery with photo capture, customer portal access, and admin dashboards. If you are ready to move beyond spreadsheets and text messages, Keenway is the next step.",
+    benefits: [
+      "Driver dispatch and job assignment in one place",
+      "Proof of delivery with photo and signature capture",
+      "Real-time driver tracking for admins and customers",
+      "Customer-facing portal for tracking deliveries",
+      "Bill of Lading and delivery documentation built in",
+      "Works alongside your Qalt quote widget seamlessly",
+    ],
+    url: "https://www.gokeenway.com/",
+    cta: "Visit Keenway",
+  },
   {
     name: "UENI",
     logo: "/images/ueni-logo.png",
@@ -197,37 +220,75 @@ export default function PartnersPage() {
               className="bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow"
             >
               {/* Card Header */}
-              <div className="bg-linear-to-br from-slate-50 to-white p-8 sm:p-12 border-b border-slate-100">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8">
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center p-3 shrink-0">
-                    <Image
-                      src={partner.logo}
-                      alt={`${partner.name} logo`}
-                      width={80}
-                      height={80}
-                      className="object-contain"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex flex-wrap items-center gap-3 mb-2">
-                      <h2 className="text-2xl sm:text-3xl font-black tracking-tight">{partner.name}</h2>
-                      <span className="px-3 py-1 bg-red-50 text-red-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-red-100">
-                        {partner.category}
-                      </span>
+              {partner.bgImage ? (
+                <div
+                  className="relative p-8 sm:p-12 border-b border-slate-100 overflow-hidden"
+                  style={{ backgroundImage: `url(${partner.bgImage})`, backgroundSize: "cover", backgroundPosition: "center" }}
+                >
+                  <div className="absolute inset-0 bg-black/60" />
+                  <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8">
+                    <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 shadow-sm flex items-center justify-center p-3 shrink-0">
+                      <Image
+                        src={partner.logo}
+                        alt={`${partner.name} logo`}
+                        width={80}
+                        height={80}
+                        className="object-contain brightness-0 invert"
+                      />
                     </div>
-                    <p className="text-slate-500 font-medium text-base sm:text-lg">{partner.description}</p>
+                    <div className="flex-1">
+                      <div className="flex flex-wrap items-center gap-3 mb-2">
+                        <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">{partner.name}</h2>
+                        <span className="px-3 py-1 bg-white/15 text-white rounded-full text-[10px] font-black uppercase tracking-widest border border-white/25">
+                          {partner.category}
+                        </span>
+                      </div>
+                      <p className="text-white/75 font-medium text-base sm:text-lg">{partner.description}</p>
+                    </div>
+                    <a
+                      href={partner.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hidden sm:flex items-center gap-2 px-6 py-3 bg-red-600 text-white rounded-xl font-bold text-sm shadow-lg hover:bg-red-500 hover:-translate-y-0.5 transition-all shrink-0"
+                    >
+                      {partner.cta}
+                      <ExternalLink size={14} />
+                    </a>
                   </div>
-                  <a
-                    href={partner.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hidden sm:flex items-center gap-2 px-6 py-3 bg-red-600 text-white rounded-xl font-bold text-sm shadow-lg shadow-red-200 hover:bg-red-700 hover:-translate-y-0.5 transition-all shrink-0"
-                  >
-                    {partner.cta}
-                    <ExternalLink size={14} />
-                  </a>
                 </div>
-              </div>
+              ) : (
+                <div className="bg-linear-to-br from-slate-50 to-white p-8 sm:p-12 border-b border-slate-100">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8">
+                    <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center p-3 shrink-0">
+                      <Image
+                        src={partner.logo}
+                        alt={`${partner.name} logo`}
+                        width={80}
+                        height={80}
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex flex-wrap items-center gap-3 mb-2">
+                        <h2 className="text-2xl sm:text-3xl font-black tracking-tight">{partner.name}</h2>
+                        <span className="px-3 py-1 bg-red-50 text-red-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-red-100">
+                          {partner.category}
+                        </span>
+                      </div>
+                      <p className="text-slate-500 font-medium text-base sm:text-lg">{partner.description}</p>
+                    </div>
+                    <a
+                      href={partner.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hidden sm:flex items-center gap-2 px-6 py-3 bg-red-600 text-white rounded-xl font-bold text-sm shadow-lg shadow-red-200 hover:bg-red-700 hover:-translate-y-0.5 transition-all shrink-0"
+                    >
+                      {partner.cta}
+                      <ExternalLink size={14} />
+                    </a>
+                  </div>
+                </div>
+              )}
 
               {/* Card Body */}
               <div className="p-8 sm:p-12">
@@ -256,7 +317,7 @@ export default function PartnersPage() {
                   href={partner.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="sm:hidden flex items-center justify-center gap-2 mt-8 px-6 py-4 bg-red-600 text-white rounded-xl font-bold text-sm shadow-lg shadow-red-200 hover:bg-red-700 transition-all w-full"
+                  className="sm:hidden flex items-center justify-center gap-2 mt-8 px-6 py-4 bg-red-600 text-white rounded-xl font-bold text-sm shadow-lg hover:bg-red-700 transition-all w-full"
                 >
                   {partner.cta}
                   <ExternalLink size={14} />
