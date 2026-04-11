@@ -105,6 +105,7 @@ export default function LandingPage() {
             <button onClick={() => scrollTo("how-it-works")} className="hover:text-red-600 transition-colors">How it Works</button>
             <button onClick={() => scrollTo("use-cases")} className="hover:text-red-600 transition-colors">Use Cases</button>
             <Link href="/pricing" className="hover:text-red-600 transition-colors">Pricing</Link>
+            <Link href="/blog" className="hover:text-red-600 transition-colors">Blog</Link>
             <Link href="/partners" className="hover:text-red-600 transition-colors">Partners</Link>
           </div>
 
