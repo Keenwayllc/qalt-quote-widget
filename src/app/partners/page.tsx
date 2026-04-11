@@ -28,8 +28,12 @@ import {
   Users,
   ExternalLink,
   Mail,
+  Loader2,
+  CheckCircle2,
+  AlertCircle
 } from "lucide-react";
 import PublicNav from "@/components/shared/PublicNav";
+import { AnimatePresence } from "framer-motion";
 
 /* ─── Partner Data ────────────────────────────────────────────────────────── */
 
@@ -112,12 +116,56 @@ const WHY_PARTNER = [
 
 export default function PartnersPage() {
   const [showScroll, setShowScroll] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [formData, setFormData] = useState({
+    companyName: "",
+    website: "",
+    contactName: "",
+    email: "",
+    partnershipType: "Technology",
+    message: "",
+  });
 
   useEffect(() => {
     const onScroll = () => setShowScroll(window.scrollY > 400);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    try {
+      const res = await fetch("/api/partners", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error("Failed to submit");
+      
+      setSubmitStatus("success");
+      setFormData({
+        companyName: "",
+        website: "",
+        contactName: "",
+        email: "",
+        partnershipType: "Technology",
+        message: "",
+      });
+      // Optionally close form after a delay
+      setTimeout(() => setIsFormOpen(false), 3000);
+    } catch (err) {
+      console.error(err);
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white text-slate-900">
@@ -303,7 +351,6 @@ export default function PartnersPage() {
           </div>
         </div>
 
-        {/* Become a Partner CTA */}
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -311,31 +358,180 @@ export default function PartnersPage() {
           variants={fadeIn}
           className="max-w-4xl mx-auto px-4 sm:px-6"
         >
-          <div className="bg-linear-to-br from-[#150f0f] via-[#1c0f0f] to-[#2d1215] rounded-2xl p-10 sm:p-16 text-center relative overflow-hidden">
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-red-500 rounded-full blur-3xl" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-rose-600 rounded-full blur-3xl" />
+          <div className="bg-linear-to-br from-[#150f0f] via-[#1c0f0f] to-[#2d1215] rounded-3xl p-8 sm:p-16 text-center relative overflow-hidden border border-white/5 shadow-2xl">
+            <div className="absolute inset-0 opacity-20">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-red-600 rounded-full blur-[120px] -mr-48 -mt-48" />
+              <div className="absolute bottom-0 left-0 w-96 h-96 bg-rose-700 rounded-full blur-[120px] -ml-48 -mb-48" />
             </div>
-            <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-[10px] font-black uppercase tracking-widest mb-6 border border-white/20">
-                <Handshake size={14} />
-                Partner Program
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-white mb-4 tracking-tight">
-                Want to Become a Partner?
-              </h2>
-              <p className="text-slate-300 font-medium text-base sm:text-lg max-w-xl mx-auto mb-8 leading-relaxed">
-                If your product or service helps delivery and courier companies grow, we want to hear from you. Let us build something great together.
-              </p>
-              <a
-                href="mailto:business@qalt.site?subject=Qalt%20Partnership%20Inquiry"
-                className="inline-flex items-center gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-red-600 text-white rounded-2xl font-bold hover:bg-red-500 transition-all hover:scale-[1.02] shadow-xl shadow-red-900/30"
-              >
-                <Mail size={18} />
-                Get in Touch
-              </a>
-              <p className="text-sm text-slate-400 font-medium mt-4">business@qalt.site</p>
-            </div>
+            
+            <AnimatePresence mode="wait">
+              {!isFormOpen ? (
+                <motion.div
+                  key="cta"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.05 }}
+                  transition={{ duration: 0.4 }}
+                  className="relative z-10"
+                >
+                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-[10px] font-black uppercase tracking-widest mb-6 border border-white/20">
+                    <Handshake size={14} />
+                    Partner Program
+                  </div>
+                  <h2 className="text-3xl sm:text-5xl font-black text-white mb-6 tracking-tight">
+                    Scale With Qalt<br />
+                    <span className="text-red-600">Let&apos;s Build Together.</span>
+                  </h2>
+                  <p className="text-slate-300 font-medium text-lg sm:text-xl max-w-xl mx-auto mb-10 leading-relaxed">
+                    Does your product help delivery companies thrive? Joins us in building the most powerful ecosystem in logistics.
+                  </p>
+                  <button
+                    onClick={() => setIsFormOpen(true)}
+                    className="inline-flex items-center gap-3 px-10 py-5 bg-red-600 text-white rounded-2xl font-bold hover:bg-red-500 transition-all hover:scale-[1.02] shadow-xl shadow-red-900/40 text-lg"
+                  >
+                    <Handshake size={20} />
+                    Become a Partner
+                  </button>
+                  <p className="text-sm text-slate-500 font-medium mt-6">Apply in less than 60 seconds</p>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="form"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.4 }}
+                  className="relative z-10 text-left max-w-2xl mx-auto"
+                >
+                  <div className="flex items-center justify-between mb-8">
+                    <div>
+                      <h2 className="text-2xl font-black text-white">Partner Registry</h2>
+                      <p className="text-slate-400 text-sm font-medium">Tell us about your business</p>
+                    </div>
+                    <button 
+                      onClick={() => setIsFormOpen(false)}
+                      className="text-slate-500 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest px-3 py-1 border border-white/10 rounded-lg"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+
+                  {submitStatus === "success" ? (
+                    <div className="bg-green-500/10 border border-green-500/20 rounded-2xl p-8 text-center animate-in fade-in zoom-in duration-500">
+                      <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <CheckCircle2 size={32} className="text-white" />
+                      </div>
+                      <h3 className="text-2xl font-black text-white mb-2">Application Received!</h3>
+                      <p className="text-slate-300 font-medium">Our partnership team will review your profile and reach out to you within 48 hours.</p>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Company Name</label>
+                          <input
+                            required
+                            type="text"
+                            placeholder="e.g. FleetFlow Express"
+                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-600 focus:outline-hidden focus:border-red-600 transition-colors font-medium"
+                            value={formData.companyName}
+                            onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Website URL</label>
+                          <input
+                            type="text"
+                            placeholder="fleetflow.com"
+                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-600 focus:outline-hidden focus:border-red-600 transition-colors font-medium"
+                            value={formData.website}
+                            onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Contact Name</label>
+                          <input
+                            required
+                            type="text"
+                            placeholder="Your name"
+                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-600 focus:outline-hidden focus:border-red-600 transition-colors font-medium"
+                            value={formData.contactName}
+                            onChange={(e) => setFormData({ ...formData, contactName: e.target.value })}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Work Email</label>
+                          <input
+                            required
+                            type="email"
+                            placeholder="you@company.com"
+                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-600 focus:outline-hidden focus:border-red-600 transition-colors font-medium"
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Partnership Type</label>
+                        <select
+                          required
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white appearance-none focus:outline-hidden focus:border-red-600 transition-colors font-medium"
+                          value={formData.partnershipType}
+                          onChange={(e) => setFormData({ ...formData, partnershipType: e.target.value })}
+                        >
+                          <option value="Technology" className="bg-[#1c0f0f]">Technology / Software Integration</option>
+                          <option value="Referral" className="bg-[#1c0f0f]">Referral / Agency Partner</option>
+                          <option value="Logistics" className="bg-[#1c0f0f]">Logistics / Fleet Provider</option>
+                          <option value="Insurance" className="bg-[#1c0f0f]">Insurance / Compliance</option>
+                          <option value="Other" className="bg-[#1c0f0f]">Other</option>
+                        </select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Message</label>
+                        <textarea
+                          required
+                          rows={3}
+                          placeholder="How can we help delivery companies grow together?"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-600 focus:outline-hidden focus:border-red-600 transition-colors font-medium resize-none"
+                          value={formData.message}
+                          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        />
+                      </div>
+
+                      {submitStatus === "error" && (
+                        <div className="flex items-center gap-2 text-red-500 text-xs font-bold bg-red-500/10 p-3 rounded-lg border border-red-500/20">
+                          <AlertCircle size={14} />
+                          Something went wrong. Please try again.
+                        </div>
+                      )}
+
+                      <button
+                        disabled={isSubmitting}
+                        type="submit"
+                        className="w-full flex items-center justify-center gap-2 px-8 py-5 bg-red-600 text-white rounded-2xl font-black shadow-xl shadow-red-900/30 hover:bg-red-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="animate-spin" size={20} />
+                            Processing...
+                          </>
+                        ) : (
+                          <>
+                            Submit Registry
+                            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                          </>
+                        )}
+                      </button>
+                    </form>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </motion.div>
       </main>

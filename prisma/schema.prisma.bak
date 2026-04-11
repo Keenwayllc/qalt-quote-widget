@@ -98,16 +98,3 @@ model QuoteRequest {
   createdAt             DateTime  @default(now())
   company               Company   @relation(fields: [companyId], references: [id])
 }
-
-model PartnerInquiry {
-  id              String   @id @default(cuid())
-  companyName     String
-  website         String?
-  contactName     String
-  email           String
-  partnershipType String   // "Technology", "Referral", "Logistics", "Other"
-  message         String   @db.Text
-  status          String   @default("NEW") // "NEW", "CONTACTED", "PARTNERED", "REJECTED"
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-}
