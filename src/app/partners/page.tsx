@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import SupportModal from "@/components/shared/SupportModal";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -116,6 +117,7 @@ const WHY_PARTNER = [
 export default function PartnersPage() {
   const [showScroll, setShowScroll] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const [formData, setFormData] = useState({
@@ -573,6 +575,7 @@ export default function PartnersPage() {
               <ul className="space-y-3 text-sm font-medium text-slate-500">
                 <li><Link href="/legal/privacy" className="hover:text-red-600 transition-colors">Privacy Policy</Link></li>
                 <li><Link href="/legal/terms" className="hover:text-red-600 transition-colors">Terms of Service</Link></li>
+                <li><button onClick={() => setIsSupportModalOpen(true)} className="hover:text-red-600 transition-colors">Support</button></li>
               </ul>
             </div>
           </div>
@@ -581,6 +584,9 @@ export default function PartnersPage() {
           </div>
         </div>
       </footer>
+
+      {/* Support Modal */}
+      <SupportModal isOpen={isSupportModalOpen} onClose={() => setIsSupportModalOpen(false)} />
 
       {/* Scroll to top */}
       {showScroll && (

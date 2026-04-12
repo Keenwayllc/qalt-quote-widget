@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import PublicNav from "@/components/shared/PublicNav";
+import SupportModal from "@/components/shared/SupportModal";
 import { motion } from "framer-motion";
 import QaltLogo from "@/components/shared/QaltLogo";
 import { CheckCircle2, Minus, ChevronDown, ChevronUp, ArrowUp } from "lucide-react";
@@ -138,6 +139,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 export default function PricingPage() {
   const [annual, setAnnual] = useState(true);
   const [showScroll, setShowScroll] = useState(false);
+  const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setShowScroll(window.scrollY > 400);
@@ -477,7 +479,7 @@ export default function PricingPage() {
               <ul className="space-y-3 text-sm font-medium text-slate-500">
                 <li><Link href="/legal/privacy" className="hover:text-red-600 transition-colors">Privacy Policy</Link></li>
                 <li><Link href="/legal/terms" className="hover:text-red-600 transition-colors">Terms of Service</Link></li>
-                <li><a href="mailto:support@qalt.site" className="hover:text-red-600 transition-colors">Support</a></li>
+                <li><button onClick={() => setIsSupportModalOpen(true)} className="hover:text-red-600 transition-colors">Support</button></li>
               </ul>
             </div>
           </div>
@@ -486,6 +488,9 @@ export default function PricingPage() {
           </div>
         </div>
       </footer>
+
+      {/* Support Modal */}
+      <SupportModal isOpen={isSupportModalOpen} onClose={() => setIsSupportModalOpen(false)} />
     </div>
   );
 }
