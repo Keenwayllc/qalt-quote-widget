@@ -24,6 +24,7 @@ model Company {
   pricingProfiles      PricingProfile[]
   quoteRequests        QuoteRequest[]
   widgetSettings       WidgetSettings[]
+  webhooks             Webhook[]
 }
 
 model PricingProfile {
@@ -97,6 +98,17 @@ model QuoteRequest {
   paidAt                DateTime?
   createdAt             DateTime  @default(now())
   company               Company   @relation(fields: [companyId], references: [id])
+}
+
+model Webhook {
+  id        String   @id @default(cuid())
+  companyId String
+  url       String
+  secret    String
+  events    String[]
+  enabled   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  company   Company  @relation(fields: [companyId], references: [id])
 }
 
 model PartnerInquiry {

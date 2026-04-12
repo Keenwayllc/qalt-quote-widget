@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getCurrentCompany } from "@/lib/session";
 import prisma from "@/lib/prisma";
+import { fireWebhooks } from "@/lib/webhooks";
 
 export async function PATCH(
   request: Request,
@@ -40,6 +41,13 @@ export async function PATCH(
       where: { id: resolvedParams.id },
       data: updateData,
     });
+
+    // Fire webhook if status changed (non-blocking)
+    if (status !== undefined && status !== existingQuote.status) {
+      fireWebhooks(company.id, "quote.status_changed", {
+        quote: { ...updatedQuote, previousStatus: existingQuote.status },
+      });
+    }
 
     return NextResponse.json(updatedQuote);
   } catch (error: unknown) {

@@ -4,6 +4,7 @@ import { sendEmail } from "@/lib/email";
 import { NewQuoteEmail } from "@/components/emails/NewQuoteEmail";
 import { CustomerQuoteEmail } from "@/components/emails/CustomerQuoteEmail";
 import { PLANS, SubscriptionPlan } from "@/lib/plans";
+import { fireWebhooks } from "@/lib/webhooks";
 
 export const dynamic = "force-dynamic";
 
@@ -83,6 +84,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
         paymentStatus: paymentsEnabled ? "PENDING" : null,
       },
     });
+
+    // Fire webhooks (non-blocking)
+    fireWebhooks(companyId, "quote.created", { quote });
 
     // Send email notification to the company owner (non-blocking)
     try {

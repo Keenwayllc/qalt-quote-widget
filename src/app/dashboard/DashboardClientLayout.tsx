@@ -20,6 +20,7 @@ import {
   FormInput,
   Eye,
   HelpCircle,
+  Webhook,
 } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
 
@@ -69,6 +70,12 @@ export default function DashboardClientLayout({
     },
     { name: "Pricing Settings", href: "/dashboard/pricing", icon: DollarSign },
     { name: "My Forms", href: "/dashboard/forms", icon: FormInput },
+    {
+      name: "Webhooks",
+      href: "/dashboard/webhooks",
+      icon: Webhook,
+      isLocked: !entitlements.isWebhookEnabled,
+    },
     { name: "Widget Appearance", href: "/dashboard/widget", icon: Settings },
     { name: "Get Embed Code", href: "/dashboard/embed", icon: Code },
     { name: "Quotes", href: "/dashboard/quotes", icon: FileText, showBadge: true },
