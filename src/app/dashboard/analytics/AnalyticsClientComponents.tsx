@@ -20,7 +20,7 @@ import {
   Lightbulb,
   AlertCircle,
 } from "lucide-react";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
 import { motion, AnimatePresence } from "framer-motion";
 import { formatDistanceToNow } from "date-fns";
 
@@ -90,23 +90,50 @@ export function PremiumChart({ data }: { data: { date: string; quotes: number }[
       </div>
       <div className="h-[280px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data}>
+          <AreaChart data={data} margin={{ top: 4, right: 4, left: -16, bottom: 0 }}>
             <defs>
               <linearGradient id="colorQuotes" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#2563eb" stopOpacity={0.4}/>
-                <stop offset="95%" stopColor="#2563eb" stopOpacity={0}/>
+                <stop offset="0%"   stopColor="#2563eb" stopOpacity={0.18}/>
+                <stop offset="100%" stopColor="#2563eb" stopOpacity={0}/>
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="6 6" vertical={false} stroke="#f1f5f9" />
-            <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#94a3b8', fontWeight: 600 }} dy={15} />
-            <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#94a3b8', fontWeight: 600 }} />
-            <Tooltip
-              cursor={{ stroke: '#e2e8f0', strokeWidth: 2 }}
-              contentStyle={{ borderRadius: '24px', border: 'none', boxShadow: '0 20px 50px -12px rgb(0 0 0 / 0.15)', padding: '16px 20px', backgroundColor: '#ffffff' }}
-              itemStyle={{ color: '#0f172a', fontWeight: 800, fontSize: '16px' }}
-              labelStyle={{ color: '#94a3b8', fontWeight: 700, fontSize: '11px', textTransform: 'uppercase', marginBottom: '4px' }}
+            <CartesianGrid strokeDasharray="2 4" vertical={false} stroke="#e2e8f0" strokeOpacity={0.7} />
+            <XAxis
+              dataKey="date"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 700, letterSpacing: '0.04em' }}
+              dy={12}
             />
-            <Area type="monotone" dataKey="quotes" stroke="#2563eb" strokeWidth={4} fill="url(#colorQuotes)" animationDuration={2000} activeDot={{ r: 8, fill: "#2563eb", stroke: "#fff", strokeWidth: 3 }} />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 700 }}
+              allowDecimals={false}
+              width={28}
+            />
+            <Tooltip
+              cursor={{ stroke: '#cbd5e1', strokeWidth: 1, strokeDasharray: '4 3' }}
+              contentStyle={{
+                borderRadius: '16px',
+                border: '1px solid #e2e8f0',
+                boxShadow: '0 8px 32px -8px rgb(0 0 0 / 0.12)',
+                padding: '10px 16px',
+                backgroundColor: '#ffffff',
+              }}
+              itemStyle={{ color: '#0f172a', fontWeight: 800, fontSize: '15px' }}
+              labelStyle={{ color: '#64748b', fontWeight: 700, fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '2px' }}
+            />
+            <Area
+              type="linear"
+              dataKey="quotes"
+              stroke="#2563eb"
+              strokeWidth={2}
+              fill="url(#colorQuotes)"
+              animationDuration={1200}
+              dot={false}
+              activeDot={{ r: 5, fill: "#2563eb", stroke: "#fff", strokeWidth: 2 }}
+            />
           </AreaChart>
         </ResponsiveContainer>
       </div>
