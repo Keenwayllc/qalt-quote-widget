@@ -1,7 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { DollarSign, Save, Weight, HelpCircle, Clock, Box, Plus, Trash2, SlidersHorizontal, Check } from "lucide-react";
+import {
+  DollarSign,
+  Weight,
+  HelpCircle,
+  Clock,
+  Box,
+  Plus,
+  Trash2,
+  SlidersHorizontal,
+  Check,
+  Save,
+} from "lucide-react";
 import type { PlanEntitlements } from "@/lib/plans";
 
 interface LargeItemCategory {
@@ -27,6 +38,15 @@ interface PricingProfile {
   largeItemCategories?: LargeItemCategory[];
 }
 
+interface WidgetSettingsSnapshot {
+  id: string;
+  showWeight: boolean;
+  showExtras: boolean;
+  showVehicles: boolean;
+  pricePerVehicle: number;
+  showAwb: boolean;
+}
+
 const DAYS = [
   { label: "Sun", value: "0" },
   { label: "Mon", value: "1" },
@@ -36,6 +56,11 @@ const DAYS = [
   { label: "Fri", value: "5" },
   { label: "Sat", value: "6" },
 ];
+
+const inputClass =
+  "w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-900 placeholder:text-slate-400 transition-all shadow-sm";
+
+// ── Tooltip ──────────────────────────────────────────────────────────────────
 
 function Tooltip({ text }: { text: string }) {
   const [show, setShow] = useState(false);
@@ -71,61 +96,43 @@ function FieldLabel({ label, tooltip }: { label: string; tooltip: string }) {
   );
 }
 
-interface SectionStatus {
-  loading: boolean;
-  saved: boolean;
-  error: string;
-}
+// ── Per-section save status ───────────────────────────────────────────────────
 
-const initStatus = (): SectionStatus => ({ loading: false, saved: false, error: "" });
+type SectionStatus = "idle" | "saving" | "success" | "error";
 
-function SectionSaveButton({
-  status,
-  onSave,
-}: {
-  status: SectionStatus;
-  onSave: () => void;
-}) {
+function UpdateButton({ status }: { status: SectionStatus }) {
   return (
-    <div className="flex items-center gap-3 mt-6 pt-4 border-t border-slate-100">
-      <button
-        type="button"
-        onClick={onSave}
-        disabled={status.loading}
-        className="flex items-center gap-2 px-5 py-2 bg-red-600 text-white text-sm font-bold rounded-lg hover:bg-red-700 transition-all disabled:opacity-50 shadow-sm"
-      >
-        {status.loading ? (
-          <span>Saving...</span>
-        ) : status.saved ? (
-          <>
-            <Check size={15} />
-            Saved
-          </>
-        ) : (
-          <>
-            <Save size={15} />
-            Update
-          </>
-        )}
-      </button>
-      {status.error && (
-        <p className="text-sm font-semibold text-red-600">{status.error}</p>
+    <button
+      type="submit"
+      disabled={status === "saving"}
+      className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all disabled:opacity-60 ${
+        status === "success"
+          ? "bg-emerald-600 text-white shadow"
+          : status === "error"
+          ? "bg-red-50 text-red-600 border border-red-300"
+          : "bg-red-600 text-white hover:bg-red-700 shadow-sm"
+      }`}
+    >
+      {status === "saving" ? (
+        "Saving…"
+      ) : status === "success" ? (
+        <>
+          <Check size={15} />
+          Saved
+        </>
+      ) : status === "error" ? (
+        "Failed — retry"
+      ) : (
+        <>
+          <Save size={15} />
+          Update
+        </>
       )}
-      {status.saved && !status.error && (
-        <p className="text-sm font-semibold text-emerald-600">Changes saved!</p>
-      )}
-    </div>
+    </button>
   );
 }
 
-interface WidgetSettingsSnapshot {
-  id: string;
-  showWeight: boolean;
-  showExtras: boolean;
-  showVehicles: boolean;
-  pricePerVehicle: number;
-  showAwb: boolean;
-}
+// ── Main component ────────────────────────────────────────────────────────────
 
 export default function PricingPage({
   initialData,
@@ -133,38 +140,47 @@ export default function PricingPage({
   widgetSettings,
   entitlements,
 }: {
-  initialData: PricingProfile;
+  initialData: PricingProfile | null;
   formId?: string;
   widgetSettings?: WidgetSettingsSnapshot | null;
   entitlements?: PlanEntitlements;
 }) {
-  // ── Core Rates ──────────────────────────────────────────────
-  const [baseRatePerMile, setBaseRatePerMile] = useState(
+  const vehicleEnabled = entitlements?.isVehicleQuotingEnabled ?? false;
+
+  // ── Core Rates state ─────────────────────────────────────────────────────
+  const [baseRate, setBaseRate] = useState(
     String(initialData?.baseRatePerMile ?? 2.5)
   );
-  const [minimumCharge, setMinimumCharge] = useState(
+  const [minCharge, setMinCharge] = useState(
     String(initialData?.minimumCharge ?? 35)
   );
-  const [useMinimumCharge, setUseMinimumCharge] = useState(
+  const [useMinCharge, setUseMinCharge] = useState(
     initialData?.useMinimumCharge ?? true
   );
-  const [minMilesThreshold, setMinMilesThreshold] = useState(
+  const [minMiles, setMinMiles] = useState(
     String(initialData?.minMilesThreshold ?? 0)
   );
+  const [coreStatus, setCoreStatus] = useState<SectionStatus>("idle");
 
-  // ── Per-Unit Fees ────────────────────────────────────────────
-  const [weightFee, setWeightFee] = useState(String(initialData?.weightFee ?? 0));
+  // ── Per-Unit Fees state ──────────────────────────────────────────────────
+  const [weightFee, setWeightFee] = useState(
+    String(initialData?.weightFee ?? 0)
+  );
   const [itemCountFee, setItemCountFee] = useState(
     String(initialData?.itemCountFee ?? 0)
   );
+  const [perUnitStatus, setPerUnitStatus] = useState<SectionStatus>("idle");
 
-  // ── Optional Flat Fees ───────────────────────────────────────
-  const [stairsFee, setStairsFee] = useState(String(initialData?.stairsFee ?? 0));
+  // ── Optional Flat Fees state ─────────────────────────────────────────────
+  const [stairsFee, setStairsFee] = useState(
+    String(initialData?.stairsFee ?? 0)
+  );
   const [insideDeliveryFee, setInsideDeliveryFee] = useState(
     String(initialData?.insideDeliveryFee ?? 0)
   );
+  const [flatFeesStatus, setFlatFeesStatus] = useState<SectionStatus>("idle");
 
-  // ── After-Hours ──────────────────────────────────────────────
+  // ── After-Hours state ────────────────────────────────────────────────────
   const [afterHoursFee, setAfterHoursFee] = useState(
     String(initialData?.afterHoursFee ?? 0)
   );
@@ -177,32 +193,94 @@ export default function PricingPage({
   const [businessDays, setBusinessDays] = useState<string[]>(
     (initialData?.businessDays ?? "1,2,3,4,5").split(",").filter(Boolean)
   );
+  const [afterHoursStatus, setAfterHoursStatus] =
+    useState<SectionStatus>("idle");
 
-  // ── Large Item Categories ────────────────────────────────────
+  // ── Large Items state ────────────────────────────────────────────────────
   const [largeItemsEnabled, setLargeItemsEnabled] = useState(
     initialData?.largeItemsEnabled ?? false
   );
-  const [largeItemCategories, setLargeItemCategories] = useState<LargeItemCategory[]>(
-    Array.isArray(initialData?.largeItemCategories) ? initialData.largeItemCategories : []
+  const [largeItemCategories, setLargeItemCategories] = useState<
+    LargeItemCategory[]
+  >(
+    Array.isArray(initialData?.largeItemCategories)
+      ? (initialData!.largeItemCategories as LargeItemCategory[])
+      : []
   );
+  const [largeItemsStatus, setLargeItemsStatus] =
+    useState<SectionStatus>("idle");
 
-  // ── Widget Field Toggles ─────────────────────────────────────
-  const [showWeight, setShowWeight] = useState(widgetSettings?.showWeight ?? false);
-  const [showExtras, setShowExtras] = useState(widgetSettings?.showExtras ?? true);
-  const [showVehicles, setShowVehicles] = useState(widgetSettings?.showVehicles ?? false);
-  const [pricePerVehicle, setPricePerVehicle] = useState<string>(
+  // ── Form Fields state (widget settings) ─────────────────────────────────
+  const [showWeight, setShowWeight] = useState(
+    widgetSettings?.showWeight ?? false
+  );
+  const [showExtras, setShowExtras] = useState(
+    widgetSettings?.showExtras ?? true
+  );
+  const [showVehicles, setShowVehicles] = useState(
+    widgetSettings?.showVehicles ?? false
+  );
+  const [pricePerVehicle, setPricePerVehicle] = useState(
     widgetSettings?.pricePerVehicle ? String(widgetSettings.pricePerVehicle) : ""
   );
   const [showAwb, setShowAwb] = useState(widgetSettings?.showAwb ?? false);
-  const vehicleEnabled = entitlements?.isVehicleQuotingEnabled ?? false;
+  const [formFieldsStatus, setFormFieldsStatus] =
+    useState<SectionStatus>("idle");
 
-  // ── Section save statuses ────────────────────────────────────
-  const [coreStatus, setCoreStatus] = useState<SectionStatus>(initStatus());
-  const [perUnitStatus, setPerUnitStatus] = useState<SectionStatus>(initStatus());
-  const [flatFeesStatus, setFlatFeesStatus] = useState<SectionStatus>(initStatus());
-  const [afterHoursStatus, setAfterHoursStatus] = useState<SectionStatus>(initStatus());
-  const [largeItemsStatus, setLargeItemsStatus] = useState<SectionStatus>(initStatus());
-  const [formFieldsStatus, setFormFieldsStatus] = useState<SectionStatus>(initStatus());
+  // ── Shared helpers ───────────────────────────────────────────────────────
+
+  const patchPricing = async (
+    fields: Record<string, unknown>,
+    setStatus: (s: SectionStatus) => void
+  ) => {
+    setStatus("saving");
+    try {
+      const res = await fetch("/api/dashboard/pricing", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...fields, formId: formId ?? null }),
+      });
+      if (res.ok) {
+        setStatus("success");
+        setTimeout(() => setStatus("idle"), 3000);
+      } else {
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 4000);
+      }
+    } catch {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 4000);
+    }
+  };
+
+  const patchWidget = async (
+    fields: Record<string, unknown>,
+    setStatus: (s: SectionStatus) => void
+  ) => {
+    if (!widgetSettings?.id) {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 4000);
+      return;
+    }
+    setStatus("saving");
+    try {
+      const res = await fetch("/api/dashboard/widget", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ formId: widgetSettings.id, ...fields }),
+      });
+      if (res.ok) {
+        setStatus("success");
+        setTimeout(() => setStatus("idle"), 3000);
+      } else {
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 4000);
+      }
+    } catch {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 4000);
+    }
+  };
 
   const toggleDay = (day: string) =>
     setBusinessDays((prev) =>
@@ -215,114 +293,70 @@ export default function PricingPage({
   const removeCategory = (index: number) =>
     setLargeItemCategories((prev) => prev.filter((_, i) => i !== index));
 
-  const updateCategory = (index: number, field: "name" | "price", value: string) =>
+  const updateCategory = (
+    index: number,
+    field: "name" | "price",
+    value: string
+  ) =>
     setLargeItemCategories((prev) =>
       prev.map((cat, i) =>
         i === index
-          ? { ...cat, [field]: field === "price" ? parseFloat(value) || 0 : value }
+          ? {
+              ...cat,
+              [field]: field === "price" ? parseFloat(value) || 0 : value,
+            }
           : cat
       )
     );
 
-  // Builds the full pricing payload from current state
-  const buildPricingPayload = () => ({
-    baseRatePerMile: parseFloat(baseRatePerMile) || 0,
-    minimumCharge: parseFloat(minimumCharge) || 0,
-    useMinimumCharge,
-    minMilesThreshold: parseFloat(minMilesThreshold) || 0,
-    weightFee: parseFloat(weightFee) || 0,
-    itemCountFee: parseFloat(itemCountFee) || 0,
-    stairsFee: parseFloat(stairsFee) || 0,
-    insideDeliveryFee: parseFloat(insideDeliveryFee) || 0,
-    afterHoursFee: parseFloat(afterHoursFee) || 0,
-    businessHoursStart,
-    businessHoursEnd,
-    businessDays: [...businessDays].sort().join(","),
-    largeItemFee: 0,
-    largeItemsEnabled,
-    largeItemCategories: largeItemCategories.filter((c) => c.name.trim()),
-    formId: formId ?? null,
-  });
-
-  const savePricing = async (setStatus: (s: SectionStatus) => void) => {
-    setStatus({ loading: true, saved: false, error: "" });
-    try {
-      const res = await fetch("/api/dashboard/pricing", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(buildPricingPayload()),
-      });
-      if (!res.ok) {
-        setStatus({ loading: false, saved: false, error: "Failed to save. Please try again." });
-        return;
-      }
-      setStatus({ loading: false, saved: true, error: "" });
-      setTimeout(() => setStatus(initStatus()), 3000);
-    } catch {
-      setStatus({ loading: false, saved: false, error: "An error occurred." });
-    }
-  };
-
-  const saveWidgetFields = async () => {
-    setFormFieldsStatus({ loading: true, saved: false, error: "" });
-    try {
-      if (widgetSettings?.id) {
-        const res = await fetch("/api/dashboard/widget", {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            formId: widgetSettings.id,
-            showWeight,
-            showExtras,
-            showVehicles: vehicleEnabled ? showVehicles : false,
-            pricePerVehicle: vehicleEnabled ? parseFloat(pricePerVehicle) || 0 : 0,
-            showAwb: vehicleEnabled ? showAwb : false,
-          }),
-        });
-        if (!res.ok) {
-          setFormFieldsStatus({ loading: false, saved: false, error: "Failed to save. Please try again." });
-          return;
-        }
-      }
-      setFormFieldsStatus({ loading: false, saved: true, error: "" });
-      setTimeout(() => setFormFieldsStatus(initStatus()), 3000);
-    } catch {
-      setFormFieldsStatus({ loading: false, saved: false, error: "An error occurred." });
-    }
-  };
-
-  const inputClass =
-    "w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-900 placeholder:text-slate-400 transition-all shadow-sm";
+  // ── Render ───────────────────────────────────────────────────────────────
 
   return (
     <div className="p-8 max-w-4xl">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-slate-900">Pricing Configuration</h1>
+        <h1 className="text-2xl font-bold text-slate-900">
+          Pricing Configuration
+        </h1>
         <p className="text-slate-500">
           Define your delivery rates and extra charges. Use the{" "}
-          <span className="font-semibold text-slate-700">Update</span> button on each section to save changes.
+          <strong>Update</strong> button on each section to save changes.
         </p>
       </div>
 
       <div className="space-y-8">
-
-        {/* Core Pricing */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        {/* ── Core Rates ─────────────────────────────────────────────────── */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            patchPricing(
+              {
+                baseRatePerMile: parseFloat(baseRate) || 0,
+                minimumCharge: parseFloat(minCharge) || 0,
+                useMinimumCharge: useMinCharge,
+                minMilesThreshold: parseFloat(minMiles) || 0,
+              },
+              setCoreStatus
+            );
+          }}
+          className="bg-white rounded-xl border border-slate-200 shadow-sm p-6"
+        >
           <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
             <DollarSign className="text-red-600" size={20} />
             Core Rates
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
               <FieldLabel
                 label="Base Rate per Mile ($)"
-                tooltip="The price you charge per mile of travel. Multiplied by the trip distance to calculate the base quote. Example: $2.50/mi x 10 miles = $25."
+                tooltip="The price you charge per mile of travel. Multiplied by the trip distance to calculate the base quote. Example: $2.50/mi × 10 miles = $25."
               />
               <input
                 type="number"
                 step="0.01"
-                value={baseRatePerMile}
-                onChange={(e) => setBaseRatePerMile(e.target.value)}
+                min="0"
+                required
+                value={baseRate}
+                onChange={(e) => setBaseRate(e.target.value)}
                 className={inputClass}
               />
             </div>
@@ -334,8 +368,10 @@ export default function PricingPage({
               <input
                 type="number"
                 step="0.1"
-                value={minMilesThreshold}
-                onChange={(e) => setMinMilesThreshold(e.target.value)}
+                min="0"
+                required
+                value={minMiles}
+                onChange={(e) => setMinMiles(e.target.value)}
                 className={inputClass}
               />
             </div>
@@ -347,8 +383,10 @@ export default function PricingPage({
               <input
                 type="number"
                 step="0.01"
-                value={minimumCharge}
-                onChange={(e) => setMinimumCharge(e.target.value)}
+                min="0"
+                required
+                value={minCharge}
+                onChange={(e) => setMinCharge(e.target.value)}
                 className={inputClass}
               />
             </div>
@@ -356,34 +394,51 @@ export default function PricingPage({
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={useMinimumCharge}
-                  onChange={(e) => setUseMinimumCharge(e.target.checked)}
+                  checked={useMinCharge}
+                  onChange={(e) => setUseMinCharge(e.target.checked)}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
-                <span className="ml-3 text-sm font-medium text-slate-700">Apply Minimum Charge</span>
+                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600" />
+                <span className="ml-3 text-sm font-medium text-slate-700">
+                  Apply Minimum Charge
+                </span>
               </label>
               <Tooltip text="When ON, no quote will go below your minimum. Turn OFF for pure distance-based pricing with no floor." />
             </div>
           </div>
-          <SectionSaveButton status={coreStatus} onSave={() => savePricing(setCoreStatus)} />
-        </div>
+          <div className="flex justify-end pt-4 border-t border-slate-100">
+            <UpdateButton status={coreStatus} />
+          </div>
+        </form>
 
-        {/* Per-Unit Fees */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        {/* ── Per-Unit Fees ───────────────────────────────────────────────── */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            patchPricing(
+              {
+                weightFee: parseFloat(weightFee) || 0,
+                itemCountFee: parseFloat(itemCountFee) || 0,
+              },
+              setPerUnitStatus
+            );
+          }}
+          className="bg-white rounded-xl border border-slate-200 shadow-sm p-6"
+        >
           <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
             <Weight className="text-red-600" size={20} />
             Per-Unit Fees
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
               <FieldLabel
                 label="Weight Fee ($ per lb)"
-                tooltip="Extra charge per pound. Multiplied by the weight the customer enters. Example: $0.10/lb x 50 lbs = $5 added to the quote."
+                tooltip="Extra charge per pound. Multiplied by the weight the customer enters. Example: $0.10/lb × 50 lbs = $5 added to the quote."
               />
               <input
                 type="number"
                 step="0.01"
+                min="0"
                 value={weightFee}
                 onChange={(e) => setWeightFee(e.target.value)}
                 className={inputClass}
@@ -392,30 +447,46 @@ export default function PricingPage({
             <div>
               <FieldLabel
                 label="Item Count Fee ($ per item)"
-                tooltip="Extra charge per item in the shipment. Example: $2/item x 3 items = $6 added to the quote. Set to 0 to ignore item count."
+                tooltip="Extra charge per item in the shipment. Example: $2/item × 3 items = $6 added to the quote. Set to 0 to ignore item count."
               />
               <input
                 type="number"
                 step="0.01"
+                min="0"
                 value={itemCountFee}
                 onChange={(e) => setItemCountFee(e.target.value)}
                 className={inputClass}
               />
             </div>
           </div>
-          <SectionSaveButton status={perUnitStatus} onSave={() => savePricing(setPerUnitStatus)} />
-        </div>
+          <div className="flex justify-end pt-4 border-t border-slate-100">
+            <UpdateButton status={perUnitStatus} />
+          </div>
+        </form>
 
-        {/* Optional Flat Fees */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        {/* ── Optional Flat Fees ──────────────────────────────────────────── */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            patchPricing(
+              {
+                stairsFee: parseFloat(stairsFee) || 0,
+                insideDeliveryFee: parseFloat(insideDeliveryFee) || 0,
+              },
+              setFlatFeesStatus
+            );
+          }}
+          className="bg-white rounded-xl border border-slate-200 shadow-sm p-6"
+        >
           <h2 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
             <DollarSign className="text-red-600" size={20} />
             Optional Flat Fees
           </h2>
           <p className="text-sm text-slate-500 mb-6">
-            Flat fees added when a customer selects the matching option in your widget. Set to 0 to not charge for that option.
+            Flat fees added when a customer selects the matching option in your
+            widget. Set to 0 to not charge for that option.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
               <FieldLabel
                 label="Stairs Fee (Flat $)"
@@ -424,6 +495,7 @@ export default function PricingPage({
               <input
                 type="number"
                 step="0.01"
+                min="0"
                 value={stairsFee}
                 onChange={(e) => setStairsFee(e.target.value)}
                 className={inputClass}
@@ -437,23 +509,42 @@ export default function PricingPage({
               <input
                 type="number"
                 step="0.01"
+                min="0"
                 value={insideDeliveryFee}
                 onChange={(e) => setInsideDeliveryFee(e.target.value)}
                 className={inputClass}
               />
             </div>
           </div>
-          <SectionSaveButton status={flatFeesStatus} onSave={() => savePricing(setFlatFeesStatus)} />
-        </div>
+          <div className="flex justify-end pt-4 border-t border-slate-100">
+            <UpdateButton status={flatFeesStatus} />
+          </div>
+        </form>
 
-        {/* After-Hours Delivery */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        {/* ── After-Hours Delivery ────────────────────────────────────────── */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            patchPricing(
+              {
+                afterHoursFee: parseFloat(afterHoursFee) || 0,
+                businessHoursStart,
+                businessHoursEnd,
+                businessDays: [...businessDays].sort().join(","),
+              },
+              setAfterHoursStatus
+            );
+          }}
+          className="bg-white rounded-xl border border-slate-200 shadow-sm p-6"
+        >
           <h2 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
             <Clock className="text-red-600" size={20} />
             After-Hours Delivery
           </h2>
           <p className="text-sm text-slate-500 mb-6">
-            Customers select a pickup date and time in your widget. The after-hours fee is applied automatically when their chosen time falls outside your business hours.
+            Customers select a pickup date and time in your widget. The
+            after-hours fee is applied automatically when their chosen time falls
+            outside your business hours.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
@@ -464,13 +555,14 @@ export default function PricingPage({
               <input
                 type="number"
                 step="0.01"
+                min="0"
                 value={afterHoursFee}
                 onChange={(e) => setAfterHoursFee(e.target.value)}
                 className={inputClass}
               />
             </div>
           </div>
-          <div className="border-t border-slate-100 pt-6">
+          <div className="border-t border-slate-100 pt-6 mb-6">
             <p className="text-sm font-semibold text-slate-700 mb-4 flex items-center">
               Your Business Hours
               <Tooltip text="Define your normal operating hours. Any pickup time outside this window will automatically trigger the after-hours fee." />
@@ -522,11 +614,27 @@ export default function PricingPage({
               </div>
             </div>
           </div>
-          <SectionSaveButton status={afterHoursStatus} onSave={() => savePricing(setAfterHoursStatus)} />
-        </div>
+          <div className="flex justify-end pt-4 border-t border-slate-100">
+            <UpdateButton status={afterHoursStatus} />
+          </div>
+        </form>
 
-        {/* Large Item Categories */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        {/* ── Large Item Categories ───────────────────────────────────────── */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            patchPricing(
+              {
+                largeItemsEnabled,
+                largeItemCategories: largeItemCategories.filter((c) =>
+                  c.name.trim()
+                ),
+              },
+              setLargeItemsStatus
+            );
+          }}
+          className="bg-white rounded-xl border border-slate-200 shadow-sm p-6"
+        >
           <div className="flex items-start justify-between mb-2">
             <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
               <Box className="text-red-600" size={20} />
@@ -539,16 +647,20 @@ export default function PricingPage({
                 checked={largeItemsEnabled}
                 onChange={(e) => setLargeItemsEnabled(e.target.checked)}
               />
-              <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
-              <span className="ml-3 text-sm font-medium text-slate-700">Enable</span>
+              <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600" />
+              <span className="ml-3 text-sm font-medium text-slate-700">
+                Enable
+              </span>
               <Tooltip text="When enabled, customers can select specific item types in your widget. Each selected item adds its fee to the quote. Disable to hide this section from your widget." />
             </label>
           </div>
           <p className="text-sm text-slate-500 mb-6">
-            Define item types and their flat fees (e.g. Pallet, Furniture, Appliance). Customers can select one or more and each adds its fee to the quote.
+            Define item types and their flat fees (e.g. Pallet, Furniture,
+            Appliance). Customers can select one or more and each adds its fee
+            to the quote.
           </p>
           {largeItemsEnabled ? (
-            <div className="space-y-3">
+            <div className="space-y-3 mb-6">
               {largeItemCategories.length === 0 && (
                 <p className="text-sm text-slate-400 italic py-2">
                   No item types added yet. Click Add Item Type to get started.
@@ -561,7 +673,9 @@ export default function PricingPage({
                       type="text"
                       placeholder="Item name (e.g. Pallet, Furniture)"
                       value={cat.name}
-                      onChange={(e) => updateCategory(index, "name", e.target.value)}
+                      onChange={(e) =>
+                        updateCategory(index, "name", e.target.value)
+                      }
                       className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-900 placeholder:text-slate-400"
                     />
                   </div>
@@ -575,7 +689,9 @@ export default function PricingPage({
                       min="0"
                       placeholder="0.00"
                       value={cat.price === 0 ? "" : cat.price}
-                      onChange={(e) => updateCategory(index, "price", e.target.value)}
+                      onChange={(e) =>
+                        updateCategory(index, "price", e.target.value)
+                      }
                       className="w-full pl-6 pr-3 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-900 placeholder:text-slate-400"
                     />
                   </div>
@@ -599,27 +715,47 @@ export default function PricingPage({
               </button>
             </div>
           ) : (
-            <div className="flex items-center gap-3 py-3 px-4 bg-slate-50 rounded-lg border border-slate-100">
+            <div className="flex items-center gap-3 py-3 px-4 bg-slate-50 rounded-lg border border-slate-100 mb-6">
               <Box size={16} className="text-slate-300" />
               <p className="text-sm text-slate-400">
-                Toggle Enable above to configure large item types for your widget.
+                Toggle Enable above to configure large item types for your
+                widget.
               </p>
             </div>
           )}
-          <SectionSaveButton status={largeItemsStatus} onSave={() => savePricing(setLargeItemsStatus)} />
-        </div>
+          <div className="flex justify-end pt-4 border-t border-slate-100">
+            <UpdateButton status={largeItemsStatus} />
+          </div>
+        </form>
 
-        {/* Form Field Toggles */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        {/* ── Form Fields ─────────────────────────────────────────────────── */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            patchWidget(
+              {
+                showWeight,
+                showExtras,
+                showVehicles: vehicleEnabled ? showVehicles : false,
+                pricePerVehicle: vehicleEnabled
+                  ? parseFloat(pricePerVehicle) || 0
+                  : 0,
+                showAwb: vehicleEnabled ? showAwb : false,
+              },
+              setFormFieldsStatus
+            );
+          }}
+          className="bg-white rounded-xl border border-slate-200 shadow-sm p-6"
+        >
           <h2 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
             <SlidersHorizontal className="text-red-600" size={20} />
             Form Fields
           </h2>
           <p className="text-sm text-slate-500 mb-6">
-            Choose which extra fields appear in your quote form. Each field adds more data to the quote and affects pricing where applicable.
+            Choose which extra fields appear in your quote form. Each field adds
+            more data to the quote and affects pricing where applicable.
           </p>
-
-          <div className="flex flex-wrap gap-x-8 gap-y-4">
+          <div className="flex flex-wrap gap-x-8 gap-y-4 mb-6">
             <label className="flex items-center gap-3 cursor-pointer">
               <input
                 type="checkbox"
@@ -627,9 +763,10 @@ export default function PricingPage({
                 onChange={(e) => setShowWeight(e.target.checked)}
                 className="w-5 h-5 rounded border-slate-300 text-red-600 focus:ring-red-500"
               />
-              <span className="text-sm font-medium text-slate-700">Show Package Weight field</span>
+              <span className="text-sm font-medium text-slate-700">
+                Show Package Weight field
+              </span>
             </label>
-
             <label className="flex items-center gap-3 cursor-pointer">
               <input
                 type="checkbox"
@@ -641,9 +778,12 @@ export default function PricingPage({
                 Display Extras (Stairs, Inside Delivery)
               </span>
             </label>
-
             <label
-              className={`flex items-center gap-3 ${vehicleEnabled ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+              className={`flex items-center gap-3 ${
+                vehicleEnabled
+                  ? "cursor-pointer"
+                  : "cursor-not-allowed opacity-50"
+              }`}
             >
               <input
                 type="checkbox"
@@ -661,9 +801,12 @@ export default function PricingPage({
                 )}
               </span>
             </label>
-
             <label
-              className={`flex items-center gap-3 ${vehicleEnabled ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+              className={`flex items-center gap-3 ${
+                vehicleEnabled
+                  ? "cursor-pointer"
+                  : "cursor-not-allowed opacity-50"
+              }`}
             >
               <input
                 type="checkbox"
@@ -682,9 +825,8 @@ export default function PricingPage({
               </span>
             </label>
           </div>
-
           {showVehicles && vehicleEnabled && (
-            <div className="mt-5 pt-5 border-t border-slate-100">
+            <div className="mb-6 pt-5 border-t border-slate-100">
               <label className="block text-sm font-semibold text-slate-700 mb-1">
                 Price Per Vehicle ($)
               </label>
@@ -702,9 +844,10 @@ export default function PricingPage({
               </p>
             </div>
           )}
-          <SectionSaveButton status={formFieldsStatus} onSave={saveWidgetFields} />
-        </div>
-
+          <div className="flex justify-end pt-4 border-t border-slate-100">
+            <UpdateButton status={formFieldsStatus} />
+          </div>
+        </form>
       </div>
     </div>
   );

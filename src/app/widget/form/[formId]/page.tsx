@@ -10,6 +10,7 @@ export default async function PublicWidgetFormPage({ params }: { params: { formI
   const form = await prisma.widgetSettings.findUnique({
     where: { id: formId },
     include: {
+      pricingProfile: true,
       company: {
         include: { pricingProfiles: true },
       },
@@ -20,11 +21,20 @@ export default async function PublicWidgetFormPage({ params }: { params: { formI
     notFound();
   }
 
-  const { company, ...widgetSettings } = form;
+  const { company, pricingProfile: formPricing, ...widgetSettings } = form;
+
+  // Use the form-specific pricing profile if it exists,
+  // otherwise fall back to the company-level default (widgetSettingsId === null).
+  const pricingProfile =
+    formPricing ??
+    company.pricingProfiles.find((p) => p.widgetSettingsId === null) ??
+    null;
 
   return (
     <div className="min-h-screen bg-slate-100 p-4 sm:p-8 flex items-center justify-center">
-      <QuoteWidgetForm company={{ ...company, widgetSettings, formId } as any} />
+      <QuoteWidgetForm
+        company={{ ...company, widgetSettings, formId, pricingProfile } as any}
+      />
     </div>
   );
 }
