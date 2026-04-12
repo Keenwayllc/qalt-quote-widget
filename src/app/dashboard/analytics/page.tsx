@@ -127,7 +127,7 @@ export default async function AnalyticsPage() {
             Analytics Overview
           </h1>
           <p className="text-slate-500 font-medium text-lg mt-2 font-['Outfit']">
-            Instant insights for your logistics pipeline. <span className="text-red-600 font-bold italic">Your rates. Embedded. Anywhere.</span>
+            Instant insights for your logistics pipeline. <span className="text-slate-700 font-semibold">Your rates. Embedded. Anywhere.</span>
           </p>
         </div>
 
