@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import QaltLogo from "@/components/shared/QaltLogo";
 import {
   Calculator,
@@ -16,6 +16,8 @@ import {
   BarChart3,
   Code2,
   CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import PublicNav from "@/components/shared/PublicNav";
 import HowItWorksAnimation from "@/components/landing/HowItWorksAnimation";
@@ -56,20 +58,61 @@ const fadeIn = {
   visible: { opacity: 1, transition: { duration: 0.7 } },
 };
 
+const SLIDE_DURATION = 8000;
+
 export default function LandingPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const heroRef = useRef<HTMLElement>(null);
 
   const { scrollY } = useScroll();
   const heroParallax = useTransform(scrollY, [0, 500], [0, 80]);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
+  // Mouse parallax
+  const rawMouseX = useMotionValue(0);
+  const rawMouseY = useMotionValue(0);
+  const mouseX = useSpring(rawMouseX, { stiffness: 60, damping: 20 });
+  const mouseY = useSpring(rawMouseY, { stiffness: 60, damping: 20 });
+  const bgX = useTransform(mouseX, [-1, 1], [-18, 18]);
+  const bgY = useTransform(mouseY, [-1, 1], [-10, 10]);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const rect = heroRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    rawMouseX.set(((e.clientX - rect.left) / rect.width) * 2 - 1);
+    rawMouseY.set(((e.clientY - rect.top) / rect.height) * 2 - 1);
+  }, [rawMouseX, rawMouseY]);
+
+  const startSlideTimer = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    if (progressRef.current) clearInterval(progressRef.current);
+    setProgress(0);
+    const step = 100 / (SLIDE_DURATION / 50);
+    progressRef.current = setInterval(() => {
+      setProgress((p) => Math.min(p + step, 100));
+    }, 50);
+    timerRef.current = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % BANNER_IMAGES.length);
-    }, 8000);
-    return () => clearInterval(timer);
+      setProgress(0);
+    }, SLIDE_DURATION);
   }, []);
+
+  useEffect(() => {
+    startSlideTimer();
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+      if (progressRef.current) clearInterval(progressRef.current);
+    };
+  }, [startSlideTimer]);
+
+  const goToSlide = (index: number) => {
+    setCurrentImageIndex(index);
+    startSlideTimer();
+  };
 
   useEffect(() => {
     const handleScroll = () => setShowScrollTop(window.scrollY > 400);
@@ -92,37 +135,96 @@ export default function LandingPage() {
 
       <main>
         {/* Hero Section */}
-        <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-          {/* Rotating Background Images with parallax */}
+        <section
+          ref={heroRef}
+          onMouseMove={handleMouseMove}
+          className="relative min-h-[90vh] flex items-center justify-center overflow-hidden"
+        >
+          {/* Rotating Background Images — mouse parallax + scroll parallax */}
           <motion.div
-            style={{ y: heroParallax }}
+            style={{ y: heroParallax, x: bgX, translateY: bgY }}
             className="absolute inset-0 scale-110"
           >
             {BANNER_IMAGES.map((banner, index) => (
-              <div
+              <motion.div
                 key={index}
                 className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'}`}
               >
-                <Image
-                  src={banner.src}
-                  alt={`Qalt Banner ${index + 1}`}
-                  fill
-                  priority={index === 0}
-                  className="object-cover object-top"
-                />
-              </div>
+                <motion.div
+                  className="absolute inset-0"
+                  animate={index === currentImageIndex ? { scale: 1.06 } : { scale: 1 }}
+                  transition={{ duration: SLIDE_DURATION / 1000, ease: "linear" }}
+                >
+                  <Image
+                    src={banner.src}
+                    alt={`Qalt Banner ${index + 1}`}
+                    fill
+                    priority={index === 0}
+                    className="object-cover object-top"
+                  />
+                </motion.div>
+              </motion.div>
             ))}
           </motion.div>
 
-          {/* Dark overlay — very light on portrait slide so person is visible */}
+          {/* Ambient floating orbs */}
+          <div className="absolute inset-0 z-5 pointer-events-none overflow-hidden">
+            <motion.div
+              animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
+              transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full bg-red-500/10 blur-3xl"
+            />
+            <motion.div
+              animate={{ x: [0, -20, 0], y: [0, 25, 0] }}
+              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+              className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-blue-500/8 blur-3xl"
+            />
+            <motion.div
+              animate={{ x: [0, 15, 0], y: [0, -15, 0] }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+              className="absolute bottom-1/4 left-1/2 w-64 h-64 rounded-full bg-white/5 blur-2xl"
+            />
+          </div>
+
+          {/* Dark overlay */}
           <div className={`absolute inset-0 z-10 transition-all duration-1000 ${currentImageIndex === 2 ? 'bg-black/20' : 'bg-black/50'}`} />
+
+          {/* Bottom gradient fade */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 z-10 bg-linear-to-t from-black/60 to-transparent pointer-events-none" />
+
+          {/* Auto-progress bar */}
+          <div className="absolute top-0 left-0 right-0 z-30 h-[3px] bg-white/10">
+            <motion.div
+              className="h-full bg-red-500"
+              style={{ width: `${progress}%` }}
+              transition={{ ease: "linear" }}
+            />
+          </div>
+
+          {/* Left arrow */}
+          <button
+            onClick={() => goToSlide((currentImageIndex - 1 + BANNER_IMAGES.length) % BANNER_IMAGES.length)}
+            aria-label="Previous slide"
+            className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 active:scale-95 transition-all opacity-60 hover:opacity-100"
+          >
+            <ChevronLeft size={18} />
+          </button>
+
+          {/* Right arrow */}
+          <button
+            onClick={() => goToSlide((currentImageIndex + 1) % BANNER_IMAGES.length)}
+            aria-label="Next slide"
+            className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 active:scale-95 transition-all opacity-60 hover:opacity-100"
+          >
+            <ChevronRight size={18} />
+          </button>
 
           {/* Slide indicator dots */}
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
             {BANNER_IMAGES.map((_, index) => (
               <button
                 key={index}
-                onClick={() => setCurrentImageIndex(index)}
+                onClick={() => goToSlide(index)}
                 aria-label={`Go to slide ${index + 1}`}
                 className={`rounded-full transition-all duration-500 ${
                   index === currentImageIndex
@@ -141,7 +243,12 @@ export default function LandingPage() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-xs font-black uppercase tracking-widest mb-6 sm:mb-8 border border-white/20"
             >
-              <Zap size={14} className="fill-yellow-400 text-yellow-400" />
+              <motion.span
+                animate={{ rotate: [0, 15, -15, 0] }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+              >
+                <Zap size={14} className="fill-yellow-400 text-yellow-400" />
+              </motion.span>
               Start free. No card required.
             </motion.div>
 
