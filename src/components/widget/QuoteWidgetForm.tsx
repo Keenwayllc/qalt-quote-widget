@@ -233,6 +233,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
   }, [widgetSettings.websiteUrl]);
   const [estimate, setEstimate] = useState<number | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
+  const [durationMinutes, setDurationMinutes] = useState<number | null>(null);
   const [routeInfo, setRouteInfo] = useState<{
     distance: string;
     duration: string;
@@ -362,6 +363,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
       if (res.ok) {
         setEstimate(data.estimate);
         setDistance(data.distance);
+        if (typeof data.durationMinutes === "number") setDurationMinutes(data.durationMinutes);
         setStep(2);
       } else {
         setError(data.error || "Could not calculate estimate. Please check your addresses.");
@@ -762,7 +764,10 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                   <div className="flex flex-col items-center">
                     <p className="text-5xl font-black text-emerald-700 tracking-tight">${estimate?.toFixed(2)}</p>
                     <p className="text-[12px] text-emerald-600/60 mt-2 font-semibold flex items-center gap-1.5">
-                      <Navigation size={12} /> {distance?.toFixed(1)} miles calculated route
+                      <Navigation size={12} /> {distance?.toFixed(1)} miles
+                      {durationMinutes !== null && (
+                        <span className="text-emerald-600/50">· Est. {durationMinutes} min drive</span>
+                      )}
                     </p>
                   </div>
 

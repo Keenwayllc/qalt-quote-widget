@@ -57,11 +57,15 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
     }
 
     // Try server-side distance first, fall back to client-provided distance
-    let distance = await calculateDrivingDistance(startLocation, endLocation);
-    if (distance === null && typeof clientDistance === "number" && clientDistance > 0) {
+    const distanceResult = await calculateDrivingDistance(startLocation, endLocation);
+    let distance: number;
+    let durationMinutes: number | null = null;
+    if (distanceResult !== null) {
+      distance = distanceResult.distanceMiles;
+      durationMinutes = distanceResult.durationMinutes;
+    } else if (typeof clientDistance === "number" && clientDistance > 0) {
       distance = clientDistance;
-    }
-    if (distance === null) {
+    } else {
       return NextResponse.json({ error: "Could not calculate distance. Please check your addresses." }, { status: 400 });
     }
 
@@ -81,7 +85,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       }
     }
 
-    return NextResponse.json({ estimate, distance });
+    return NextResponse.json({ estimate, distance, durationMinutes });
   } catch (error) {
     console.error("Estimate error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
