@@ -16,7 +16,17 @@ export async function GET() {
     const lastWeekStart = subDays(thisWeekStart, 7);
     const lastWeekEnd = subDays(thisWeekStart, 1);
 
-    const allQuotes = await prisma.quoteRequest.findMany({
+    type QuoteRow = {
+      id: string;
+      createdAt: Date;
+      pickupZip: string;
+      dropoffZip: string;
+      serviceType: string;
+      estimatedPrice: number;
+      distanceMiles: number;
+      status: string;
+    };
+    const allQuotes: QuoteRow[] = await prisma.quoteRequest.findMany({
       where: { companyId: company.id, createdAt: { gte: ninetyDaysAgo } },
       select: {
         id: true,
