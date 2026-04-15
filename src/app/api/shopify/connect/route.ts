@@ -1,12 +1,27 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getCurrentCompany } from "@/lib/session";
+import { cookies } from "next/headers";
+import { verifyToken } from "@/lib/auth";
 
 // POST /api/shopify/connect — links a Shopify install to the logged-in Qalt company
 // and injects the widget script tag into the Shopify store
+async function getCompanyFromCookie() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("qalt_token")?.value;
+  if (!token) return null;
+  try {
+    return await verifyToken(token);
+  } catch {
+    return null;
+  }
+}
+
 export async function POST(req: Request) {
   try {
-    const company = await getCurrentCompany();
+    const company = await getCompanyFromCookie();
+    if (!company) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     const { shop } = await req.json();
 
     if (!shop) {
@@ -19,7 +34,7 @@ export async function POST(req: Request) {
     }
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL!;
-    const scriptSrc = `${appUrl}/shopify-widget.js?companyId=${company.id}`;
+    const scriptSrc = `${appUrl}/api/shopify/widget-js?companyId=${company.companyId}`;
 
     // Remove old script tag if exists
     if (install.scriptTagId) {
@@ -56,7 +71,7 @@ export async function POST(req: Request) {
     // Link company to install
     await prisma.shopifyInstall.update({
       where: { shop },
-      data: { companyId: company.id, scriptTagId },
+      data: { companyId: company.companyId, scriptTagId },
     });
 
     return NextResponse.json({ ok: true });
@@ -69,11 +84,14 @@ export async function POST(req: Request) {
 // DELETE /api/shopify/connect — unlinks and removes script tag
 export async function DELETE(req: Request) {
   try {
-    const company = await getCurrentCompany();
+    const company = await getCompanyFromCookie();
+    if (!company) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     const { shop } = await req.json();
 
     const install = await prisma.shopifyInstall.findUnique({ where: { shop } });
-    if (!install || install.companyId !== company.id) {
+    if (!install || install.companyId !== company.companyId) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 
