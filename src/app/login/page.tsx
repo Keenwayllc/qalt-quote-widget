@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, ArrowLeft, Loader2, Zap, Shield, BarChart3 } from "lucide-react";
@@ -12,7 +13,10 @@ const features = [
   { icon: BarChart3, title: "Lead Tracking", desc: "Every quote request saved and tracked for you." },
 ];
 
-export default function LoginPage() {
+function LoginForm() {
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/dashboard";
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -34,7 +38,7 @@ export default function LoginPage() {
       });
 
       if (res.ok) {
-        window.location.href = "/dashboard";
+        window.location.href = redirectTo;
       } else {
         const data = await res.json();
         setError(data.error || "Invalid login credentials");
@@ -205,5 +209,13 @@ export default function LoginPage() {
         </motion.div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginForm />
+    </Suspense>
   );
 }
