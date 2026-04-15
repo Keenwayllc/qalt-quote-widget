@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import QaltLogo from "@/components/shared/QaltLogo";
 import { CheckCircle2, ShoppingBag, Loader2, ArrowRight } from "lucide-react";
 
-export default function ShopifyConnectPage() {
+function ShopifyConnectInner() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const shop = searchParams.get("shop") ?? "";
@@ -141,5 +141,13 @@ export default function ShopifyConnectPage() {
         </Link>
       </p>
     </div>
+  );
+}
+
+export default function ShopifyConnectPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-slate-50 flex items-center justify-center"><Loader2 className="animate-spin text-red-500" size={32} /></div>}>
+      <ShopifyConnectInner />
+    </Suspense>
   );
 }
