@@ -42,6 +42,9 @@ yarn-error.log*
 !tsconfig.json
 !next.config.json
 
+# design reference (local only)
+.awesome-design-md/
+
 # temp files
 *.txt
 tsconfig.tsbuildinfo

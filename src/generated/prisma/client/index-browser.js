@@ -213,6 +213,16 @@ exports.Prisma.WebhookScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ShopifyInstallScalarFieldEnum = {
+  id: 'id',
+  shop: 'shop',
+  accessToken: 'accessToken',
+  companyId: 'companyId',
+  scriptTagId: 'scriptTagId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.PartnerInquiryScalarFieldEnum = {
   id: 'id',
   companyName: 'companyName',
@@ -258,6 +268,7 @@ exports.Prisma.ModelName = {
   WidgetSettings: 'WidgetSettings',
   QuoteRequest: 'QuoteRequest',
   Webhook: 'Webhook',
+  ShopifyInstall: 'ShopifyInstall',
   PartnerInquiry: 'PartnerInquiry'
 };
 

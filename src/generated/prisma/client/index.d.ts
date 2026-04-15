@@ -39,6 +39,11 @@ export type QuoteRequest = $Result.DefaultSelection<Prisma.$QuoteRequestPayload>
  */
 export type Webhook = $Result.DefaultSelection<Prisma.$WebhookPayload>
 /**
+ * Model ShopifyInstall
+ * 
+ */
+export type ShopifyInstall = $Result.DefaultSelection<Prisma.$ShopifyInstallPayload>
+/**
  * Model PartnerInquiry
  * 
  */
@@ -214,6 +219,16 @@ export class PrismaClient<
     * ```
     */
   get webhook(): Prisma.WebhookDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.shopifyInstall`: Exposes CRUD operations for the **ShopifyInstall** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ShopifyInstalls
+    * const shopifyInstalls = await prisma.shopifyInstall.findMany()
+    * ```
+    */
+  get shopifyInstall(): Prisma.ShopifyInstallDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.partnerInquiry`: Exposes CRUD operations for the **PartnerInquiry** model.
@@ -663,6 +678,7 @@ export namespace Prisma {
     WidgetSettings: 'WidgetSettings',
     QuoteRequest: 'QuoteRequest',
     Webhook: 'Webhook',
+    ShopifyInstall: 'ShopifyInstall',
     PartnerInquiry: 'PartnerInquiry'
   };
 
@@ -679,7 +695,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "pricingProfile" | "widgetSettings" | "quoteRequest" | "webhook" | "partnerInquiry"
+      modelProps: "company" | "pricingProfile" | "widgetSettings" | "quoteRequest" | "webhook" | "shopifyInstall" | "partnerInquiry"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1053,6 +1069,80 @@ export namespace Prisma {
           }
         }
       }
+      ShopifyInstall: {
+        payload: Prisma.$ShopifyInstallPayload<ExtArgs>
+        fields: Prisma.ShopifyInstallFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShopifyInstallFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyInstallPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShopifyInstallFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyInstallPayload>
+          }
+          findFirst: {
+            args: Prisma.ShopifyInstallFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyInstallPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShopifyInstallFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyInstallPayload>
+          }
+          findMany: {
+            args: Prisma.ShopifyInstallFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyInstallPayload>[]
+          }
+          create: {
+            args: Prisma.ShopifyInstallCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyInstallPayload>
+          }
+          createMany: {
+            args: Prisma.ShopifyInstallCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShopifyInstallCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyInstallPayload>[]
+          }
+          delete: {
+            args: Prisma.ShopifyInstallDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyInstallPayload>
+          }
+          update: {
+            args: Prisma.ShopifyInstallUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyInstallPayload>
+          }
+          deleteMany: {
+            args: Prisma.ShopifyInstallDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShopifyInstallUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ShopifyInstallUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyInstallPayload>[]
+          }
+          upsert: {
+            args: Prisma.ShopifyInstallUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopifyInstallPayload>
+          }
+          aggregate: {
+            args: Prisma.ShopifyInstallAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShopifyInstall>
+          }
+          groupBy: {
+            args: Prisma.ShopifyInstallGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShopifyInstallGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShopifyInstallCountArgs<ExtArgs>
+            result: $Utils.Optional<ShopifyInstallCountAggregateOutputType> | number
+          }
+        }
+      }
       PartnerInquiry: {
         payload: Prisma.$PartnerInquiryPayload<ExtArgs>
         fields: Prisma.PartnerInquiryFieldRefs
@@ -1240,6 +1330,7 @@ export namespace Prisma {
     widgetSettings?: WidgetSettingsOmit
     quoteRequest?: QuoteRequestOmit
     webhook?: WebhookOmit
+    shopifyInstall?: ShopifyInstallOmit
     partnerInquiry?: PartnerInquiryOmit
   }
 
@@ -1325,6 +1416,7 @@ export namespace Prisma {
     quoteRequests: number
     widgetSettings: number
     webhooks: number
+    shopifyInstalls: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1332,6 +1424,7 @@ export namespace Prisma {
     quoteRequests?: boolean | CompanyCountOutputTypeCountQuoteRequestsArgs
     widgetSettings?: boolean | CompanyCountOutputTypeCountWidgetSettingsArgs
     webhooks?: boolean | CompanyCountOutputTypeCountWebhooksArgs
+    shopifyInstalls?: boolean | CompanyCountOutputTypeCountShopifyInstallsArgs
   }
 
   // Custom InputTypes
@@ -1371,6 +1464,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountWebhooksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WebhookWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountShopifyInstallsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShopifyInstallWhereInput
   }
 
 
@@ -1602,6 +1702,7 @@ export namespace Prisma {
     quoteRequests?: boolean | Company$quoteRequestsArgs<ExtArgs>
     widgetSettings?: boolean | Company$widgetSettingsArgs<ExtArgs>
     webhooks?: boolean | Company$webhooksArgs<ExtArgs>
+    shopifyInstalls?: boolean | Company$shopifyInstallsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -1656,6 +1757,7 @@ export namespace Prisma {
     quoteRequests?: boolean | Company$quoteRequestsArgs<ExtArgs>
     widgetSettings?: boolean | Company$widgetSettingsArgs<ExtArgs>
     webhooks?: boolean | Company$webhooksArgs<ExtArgs>
+    shopifyInstalls?: boolean | Company$shopifyInstallsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1668,6 +1770,7 @@ export namespace Prisma {
       quoteRequests: Prisma.$QuoteRequestPayload<ExtArgs>[]
       widgetSettings: Prisma.$WidgetSettingsPayload<ExtArgs>[]
       webhooks: Prisma.$WebhookPayload<ExtArgs>[]
+      shopifyInstalls: Prisma.$ShopifyInstallPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2080,6 +2183,7 @@ export namespace Prisma {
     quoteRequests<T extends Company$quoteRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Company$quoteRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuoteRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     widgetSettings<T extends Company$widgetSettingsArgs<ExtArgs> = {}>(args?: Subset<T, Company$widgetSettingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WidgetSettingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     webhooks<T extends Company$webhooksArgs<ExtArgs> = {}>(args?: Subset<T, Company$webhooksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    shopifyInstalls<T extends Company$shopifyInstallsArgs<ExtArgs> = {}>(args?: Subset<T, Company$shopifyInstallsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyInstallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2607,6 +2711,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: WebhookScalarFieldEnum | WebhookScalarFieldEnum[]
+  }
+
+  /**
+   * Company.shopifyInstalls
+   */
+  export type Company$shopifyInstallsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyInstall
+     */
+    select?: ShopifyInstallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyInstall
+     */
+    omit?: ShopifyInstallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyInstallInclude<ExtArgs> | null
+    where?: ShopifyInstallWhereInput
+    orderBy?: ShopifyInstallOrderByWithRelationInput | ShopifyInstallOrderByWithRelationInput[]
+    cursor?: ShopifyInstallWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShopifyInstallScalarFieldEnum | ShopifyInstallScalarFieldEnum[]
   }
 
   /**
@@ -7663,6 +7791,1114 @@ export namespace Prisma {
 
 
   /**
+   * Model ShopifyInstall
+   */
+
+  export type AggregateShopifyInstall = {
+    _count: ShopifyInstallCountAggregateOutputType | null
+    _min: ShopifyInstallMinAggregateOutputType | null
+    _max: ShopifyInstallMaxAggregateOutputType | null
+  }
+
+  export type ShopifyInstallMinAggregateOutputType = {
+    id: string | null
+    shop: string | null
+    accessToken: string | null
+    companyId: string | null
+    scriptTagId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ShopifyInstallMaxAggregateOutputType = {
+    id: string | null
+    shop: string | null
+    accessToken: string | null
+    companyId: string | null
+    scriptTagId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ShopifyInstallCountAggregateOutputType = {
+    id: number
+    shop: number
+    accessToken: number
+    companyId: number
+    scriptTagId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ShopifyInstallMinAggregateInputType = {
+    id?: true
+    shop?: true
+    accessToken?: true
+    companyId?: true
+    scriptTagId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ShopifyInstallMaxAggregateInputType = {
+    id?: true
+    shop?: true
+    accessToken?: true
+    companyId?: true
+    scriptTagId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ShopifyInstallCountAggregateInputType = {
+    id?: true
+    shop?: true
+    accessToken?: true
+    companyId?: true
+    scriptTagId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ShopifyInstallAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShopifyInstall to aggregate.
+     */
+    where?: ShopifyInstallWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopifyInstalls to fetch.
+     */
+    orderBy?: ShopifyInstallOrderByWithRelationInput | ShopifyInstallOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShopifyInstallWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopifyInstalls from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopifyInstalls.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ShopifyInstalls
+    **/
+    _count?: true | ShopifyInstallCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShopifyInstallMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShopifyInstallMaxAggregateInputType
+  }
+
+  export type GetShopifyInstallAggregateType<T extends ShopifyInstallAggregateArgs> = {
+        [P in keyof T & keyof AggregateShopifyInstall]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShopifyInstall[P]>
+      : GetScalarType<T[P], AggregateShopifyInstall[P]>
+  }
+
+
+
+
+  export type ShopifyInstallGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShopifyInstallWhereInput
+    orderBy?: ShopifyInstallOrderByWithAggregationInput | ShopifyInstallOrderByWithAggregationInput[]
+    by: ShopifyInstallScalarFieldEnum[] | ShopifyInstallScalarFieldEnum
+    having?: ShopifyInstallScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShopifyInstallCountAggregateInputType | true
+    _min?: ShopifyInstallMinAggregateInputType
+    _max?: ShopifyInstallMaxAggregateInputType
+  }
+
+  export type ShopifyInstallGroupByOutputType = {
+    id: string
+    shop: string
+    accessToken: string
+    companyId: string | null
+    scriptTagId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ShopifyInstallCountAggregateOutputType | null
+    _min: ShopifyInstallMinAggregateOutputType | null
+    _max: ShopifyInstallMaxAggregateOutputType | null
+  }
+
+  type GetShopifyInstallGroupByPayload<T extends ShopifyInstallGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShopifyInstallGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShopifyInstallGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShopifyInstallGroupByOutputType[P]>
+            : GetScalarType<T[P], ShopifyInstallGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShopifyInstallSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shop?: boolean
+    accessToken?: boolean
+    companyId?: boolean
+    scriptTagId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | ShopifyInstall$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["shopifyInstall"]>
+
+  export type ShopifyInstallSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shop?: boolean
+    accessToken?: boolean
+    companyId?: boolean
+    scriptTagId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | ShopifyInstall$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["shopifyInstall"]>
+
+  export type ShopifyInstallSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shop?: boolean
+    accessToken?: boolean
+    companyId?: boolean
+    scriptTagId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | ShopifyInstall$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["shopifyInstall"]>
+
+  export type ShopifyInstallSelectScalar = {
+    id?: boolean
+    shop?: boolean
+    accessToken?: boolean
+    companyId?: boolean
+    scriptTagId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ShopifyInstallOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shop" | "accessToken" | "companyId" | "scriptTagId" | "createdAt" | "updatedAt", ExtArgs["result"]["shopifyInstall"]>
+  export type ShopifyInstallInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | ShopifyInstall$companyArgs<ExtArgs>
+  }
+  export type ShopifyInstallIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | ShopifyInstall$companyArgs<ExtArgs>
+  }
+  export type ShopifyInstallIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | ShopifyInstall$companyArgs<ExtArgs>
+  }
+
+  export type $ShopifyInstallPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ShopifyInstall"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      shop: string
+      accessToken: string
+      companyId: string | null
+      scriptTagId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["shopifyInstall"]>
+    composites: {}
+  }
+
+  type ShopifyInstallGetPayload<S extends boolean | null | undefined | ShopifyInstallDefaultArgs> = $Result.GetResult<Prisma.$ShopifyInstallPayload, S>
+
+  type ShopifyInstallCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ShopifyInstallFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ShopifyInstallCountAggregateInputType | true
+    }
+
+  export interface ShopifyInstallDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShopifyInstall'], meta: { name: 'ShopifyInstall' } }
+    /**
+     * Find zero or one ShopifyInstall that matches the filter.
+     * @param {ShopifyInstallFindUniqueArgs} args - Arguments to find a ShopifyInstall
+     * @example
+     * // Get one ShopifyInstall
+     * const shopifyInstall = await prisma.shopifyInstall.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShopifyInstallFindUniqueArgs>(args: SelectSubset<T, ShopifyInstallFindUniqueArgs<ExtArgs>>): Prisma__ShopifyInstallClient<$Result.GetResult<Prisma.$ShopifyInstallPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ShopifyInstall that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ShopifyInstallFindUniqueOrThrowArgs} args - Arguments to find a ShopifyInstall
+     * @example
+     * // Get one ShopifyInstall
+     * const shopifyInstall = await prisma.shopifyInstall.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShopifyInstallFindUniqueOrThrowArgs>(args: SelectSubset<T, ShopifyInstallFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShopifyInstallClient<$Result.GetResult<Prisma.$ShopifyInstallPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShopifyInstall that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyInstallFindFirstArgs} args - Arguments to find a ShopifyInstall
+     * @example
+     * // Get one ShopifyInstall
+     * const shopifyInstall = await prisma.shopifyInstall.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShopifyInstallFindFirstArgs>(args?: SelectSubset<T, ShopifyInstallFindFirstArgs<ExtArgs>>): Prisma__ShopifyInstallClient<$Result.GetResult<Prisma.$ShopifyInstallPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShopifyInstall that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyInstallFindFirstOrThrowArgs} args - Arguments to find a ShopifyInstall
+     * @example
+     * // Get one ShopifyInstall
+     * const shopifyInstall = await prisma.shopifyInstall.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShopifyInstallFindFirstOrThrowArgs>(args?: SelectSubset<T, ShopifyInstallFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShopifyInstallClient<$Result.GetResult<Prisma.$ShopifyInstallPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ShopifyInstalls that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyInstallFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ShopifyInstalls
+     * const shopifyInstalls = await prisma.shopifyInstall.findMany()
+     * 
+     * // Get first 10 ShopifyInstalls
+     * const shopifyInstalls = await prisma.shopifyInstall.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shopifyInstallWithIdOnly = await prisma.shopifyInstall.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShopifyInstallFindManyArgs>(args?: SelectSubset<T, ShopifyInstallFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyInstallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ShopifyInstall.
+     * @param {ShopifyInstallCreateArgs} args - Arguments to create a ShopifyInstall.
+     * @example
+     * // Create one ShopifyInstall
+     * const ShopifyInstall = await prisma.shopifyInstall.create({
+     *   data: {
+     *     // ... data to create a ShopifyInstall
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShopifyInstallCreateArgs>(args: SelectSubset<T, ShopifyInstallCreateArgs<ExtArgs>>): Prisma__ShopifyInstallClient<$Result.GetResult<Prisma.$ShopifyInstallPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ShopifyInstalls.
+     * @param {ShopifyInstallCreateManyArgs} args - Arguments to create many ShopifyInstalls.
+     * @example
+     * // Create many ShopifyInstalls
+     * const shopifyInstall = await prisma.shopifyInstall.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShopifyInstallCreateManyArgs>(args?: SelectSubset<T, ShopifyInstallCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ShopifyInstalls and returns the data saved in the database.
+     * @param {ShopifyInstallCreateManyAndReturnArgs} args - Arguments to create many ShopifyInstalls.
+     * @example
+     * // Create many ShopifyInstalls
+     * const shopifyInstall = await prisma.shopifyInstall.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ShopifyInstalls and only return the `id`
+     * const shopifyInstallWithIdOnly = await prisma.shopifyInstall.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShopifyInstallCreateManyAndReturnArgs>(args?: SelectSubset<T, ShopifyInstallCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyInstallPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ShopifyInstall.
+     * @param {ShopifyInstallDeleteArgs} args - Arguments to delete one ShopifyInstall.
+     * @example
+     * // Delete one ShopifyInstall
+     * const ShopifyInstall = await prisma.shopifyInstall.delete({
+     *   where: {
+     *     // ... filter to delete one ShopifyInstall
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShopifyInstallDeleteArgs>(args: SelectSubset<T, ShopifyInstallDeleteArgs<ExtArgs>>): Prisma__ShopifyInstallClient<$Result.GetResult<Prisma.$ShopifyInstallPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ShopifyInstall.
+     * @param {ShopifyInstallUpdateArgs} args - Arguments to update one ShopifyInstall.
+     * @example
+     * // Update one ShopifyInstall
+     * const shopifyInstall = await prisma.shopifyInstall.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShopifyInstallUpdateArgs>(args: SelectSubset<T, ShopifyInstallUpdateArgs<ExtArgs>>): Prisma__ShopifyInstallClient<$Result.GetResult<Prisma.$ShopifyInstallPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ShopifyInstalls.
+     * @param {ShopifyInstallDeleteManyArgs} args - Arguments to filter ShopifyInstalls to delete.
+     * @example
+     * // Delete a few ShopifyInstalls
+     * const { count } = await prisma.shopifyInstall.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShopifyInstallDeleteManyArgs>(args?: SelectSubset<T, ShopifyInstallDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShopifyInstalls.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyInstallUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ShopifyInstalls
+     * const shopifyInstall = await prisma.shopifyInstall.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShopifyInstallUpdateManyArgs>(args: SelectSubset<T, ShopifyInstallUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShopifyInstalls and returns the data updated in the database.
+     * @param {ShopifyInstallUpdateManyAndReturnArgs} args - Arguments to update many ShopifyInstalls.
+     * @example
+     * // Update many ShopifyInstalls
+     * const shopifyInstall = await prisma.shopifyInstall.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ShopifyInstalls and only return the `id`
+     * const shopifyInstallWithIdOnly = await prisma.shopifyInstall.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ShopifyInstallUpdateManyAndReturnArgs>(args: SelectSubset<T, ShopifyInstallUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyInstallPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ShopifyInstall.
+     * @param {ShopifyInstallUpsertArgs} args - Arguments to update or create a ShopifyInstall.
+     * @example
+     * // Update or create a ShopifyInstall
+     * const shopifyInstall = await prisma.shopifyInstall.upsert({
+     *   create: {
+     *     // ... data to create a ShopifyInstall
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ShopifyInstall we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShopifyInstallUpsertArgs>(args: SelectSubset<T, ShopifyInstallUpsertArgs<ExtArgs>>): Prisma__ShopifyInstallClient<$Result.GetResult<Prisma.$ShopifyInstallPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ShopifyInstalls.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyInstallCountArgs} args - Arguments to filter ShopifyInstalls to count.
+     * @example
+     * // Count the number of ShopifyInstalls
+     * const count = await prisma.shopifyInstall.count({
+     *   where: {
+     *     // ... the filter for the ShopifyInstalls we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShopifyInstallCountArgs>(
+      args?: Subset<T, ShopifyInstallCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShopifyInstallCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ShopifyInstall.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyInstallAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShopifyInstallAggregateArgs>(args: Subset<T, ShopifyInstallAggregateArgs>): Prisma.PrismaPromise<GetShopifyInstallAggregateType<T>>
+
+    /**
+     * Group by ShopifyInstall.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopifyInstallGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShopifyInstallGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShopifyInstallGroupByArgs['orderBy'] }
+        : { orderBy?: ShopifyInstallGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShopifyInstallGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShopifyInstallGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ShopifyInstall model
+   */
+  readonly fields: ShopifyInstallFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ShopifyInstall.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShopifyInstallClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends ShopifyInstall$companyArgs<ExtArgs> = {}>(args?: Subset<T, ShopifyInstall$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ShopifyInstall model
+   */
+  interface ShopifyInstallFieldRefs {
+    readonly id: FieldRef<"ShopifyInstall", 'String'>
+    readonly shop: FieldRef<"ShopifyInstall", 'String'>
+    readonly accessToken: FieldRef<"ShopifyInstall", 'String'>
+    readonly companyId: FieldRef<"ShopifyInstall", 'String'>
+    readonly scriptTagId: FieldRef<"ShopifyInstall", 'String'>
+    readonly createdAt: FieldRef<"ShopifyInstall", 'DateTime'>
+    readonly updatedAt: FieldRef<"ShopifyInstall", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ShopifyInstall findUnique
+   */
+  export type ShopifyInstallFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyInstall
+     */
+    select?: ShopifyInstallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyInstall
+     */
+    omit?: ShopifyInstallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyInstallInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyInstall to fetch.
+     */
+    where: ShopifyInstallWhereUniqueInput
+  }
+
+  /**
+   * ShopifyInstall findUniqueOrThrow
+   */
+  export type ShopifyInstallFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyInstall
+     */
+    select?: ShopifyInstallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyInstall
+     */
+    omit?: ShopifyInstallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyInstallInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyInstall to fetch.
+     */
+    where: ShopifyInstallWhereUniqueInput
+  }
+
+  /**
+   * ShopifyInstall findFirst
+   */
+  export type ShopifyInstallFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyInstall
+     */
+    select?: ShopifyInstallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyInstall
+     */
+    omit?: ShopifyInstallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyInstallInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyInstall to fetch.
+     */
+    where?: ShopifyInstallWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopifyInstalls to fetch.
+     */
+    orderBy?: ShopifyInstallOrderByWithRelationInput | ShopifyInstallOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShopifyInstalls.
+     */
+    cursor?: ShopifyInstallWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopifyInstalls from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopifyInstalls.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShopifyInstalls.
+     */
+    distinct?: ShopifyInstallScalarFieldEnum | ShopifyInstallScalarFieldEnum[]
+  }
+
+  /**
+   * ShopifyInstall findFirstOrThrow
+   */
+  export type ShopifyInstallFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyInstall
+     */
+    select?: ShopifyInstallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyInstall
+     */
+    omit?: ShopifyInstallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyInstallInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyInstall to fetch.
+     */
+    where?: ShopifyInstallWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopifyInstalls to fetch.
+     */
+    orderBy?: ShopifyInstallOrderByWithRelationInput | ShopifyInstallOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShopifyInstalls.
+     */
+    cursor?: ShopifyInstallWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopifyInstalls from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopifyInstalls.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShopifyInstalls.
+     */
+    distinct?: ShopifyInstallScalarFieldEnum | ShopifyInstallScalarFieldEnum[]
+  }
+
+  /**
+   * ShopifyInstall findMany
+   */
+  export type ShopifyInstallFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyInstall
+     */
+    select?: ShopifyInstallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyInstall
+     */
+    omit?: ShopifyInstallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyInstallInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopifyInstalls to fetch.
+     */
+    where?: ShopifyInstallWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopifyInstalls to fetch.
+     */
+    orderBy?: ShopifyInstallOrderByWithRelationInput | ShopifyInstallOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ShopifyInstalls.
+     */
+    cursor?: ShopifyInstallWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopifyInstalls from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopifyInstalls.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShopifyInstalls.
+     */
+    distinct?: ShopifyInstallScalarFieldEnum | ShopifyInstallScalarFieldEnum[]
+  }
+
+  /**
+   * ShopifyInstall create
+   */
+  export type ShopifyInstallCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyInstall
+     */
+    select?: ShopifyInstallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyInstall
+     */
+    omit?: ShopifyInstallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyInstallInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ShopifyInstall.
+     */
+    data: XOR<ShopifyInstallCreateInput, ShopifyInstallUncheckedCreateInput>
+  }
+
+  /**
+   * ShopifyInstall createMany
+   */
+  export type ShopifyInstallCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ShopifyInstalls.
+     */
+    data: ShopifyInstallCreateManyInput | ShopifyInstallCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShopifyInstall createManyAndReturn
+   */
+  export type ShopifyInstallCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyInstall
+     */
+    select?: ShopifyInstallSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyInstall
+     */
+    omit?: ShopifyInstallOmit<ExtArgs> | null
+    /**
+     * The data used to create many ShopifyInstalls.
+     */
+    data: ShopifyInstallCreateManyInput | ShopifyInstallCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyInstallIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShopifyInstall update
+   */
+  export type ShopifyInstallUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyInstall
+     */
+    select?: ShopifyInstallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyInstall
+     */
+    omit?: ShopifyInstallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyInstallInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ShopifyInstall.
+     */
+    data: XOR<ShopifyInstallUpdateInput, ShopifyInstallUncheckedUpdateInput>
+    /**
+     * Choose, which ShopifyInstall to update.
+     */
+    where: ShopifyInstallWhereUniqueInput
+  }
+
+  /**
+   * ShopifyInstall updateMany
+   */
+  export type ShopifyInstallUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ShopifyInstalls.
+     */
+    data: XOR<ShopifyInstallUpdateManyMutationInput, ShopifyInstallUncheckedUpdateManyInput>
+    /**
+     * Filter which ShopifyInstalls to update
+     */
+    where?: ShopifyInstallWhereInput
+    /**
+     * Limit how many ShopifyInstalls to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShopifyInstall updateManyAndReturn
+   */
+  export type ShopifyInstallUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyInstall
+     */
+    select?: ShopifyInstallSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyInstall
+     */
+    omit?: ShopifyInstallOmit<ExtArgs> | null
+    /**
+     * The data used to update ShopifyInstalls.
+     */
+    data: XOR<ShopifyInstallUpdateManyMutationInput, ShopifyInstallUncheckedUpdateManyInput>
+    /**
+     * Filter which ShopifyInstalls to update
+     */
+    where?: ShopifyInstallWhereInput
+    /**
+     * Limit how many ShopifyInstalls to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyInstallIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShopifyInstall upsert
+   */
+  export type ShopifyInstallUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyInstall
+     */
+    select?: ShopifyInstallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyInstall
+     */
+    omit?: ShopifyInstallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyInstallInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ShopifyInstall to update in case it exists.
+     */
+    where: ShopifyInstallWhereUniqueInput
+    /**
+     * In case the ShopifyInstall found by the `where` argument doesn't exist, create a new ShopifyInstall with this data.
+     */
+    create: XOR<ShopifyInstallCreateInput, ShopifyInstallUncheckedCreateInput>
+    /**
+     * In case the ShopifyInstall was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShopifyInstallUpdateInput, ShopifyInstallUncheckedUpdateInput>
+  }
+
+  /**
+   * ShopifyInstall delete
+   */
+  export type ShopifyInstallDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyInstall
+     */
+    select?: ShopifyInstallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyInstall
+     */
+    omit?: ShopifyInstallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyInstallInclude<ExtArgs> | null
+    /**
+     * Filter which ShopifyInstall to delete.
+     */
+    where: ShopifyInstallWhereUniqueInput
+  }
+
+  /**
+   * ShopifyInstall deleteMany
+   */
+  export type ShopifyInstallDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShopifyInstalls to delete
+     */
+    where?: ShopifyInstallWhereInput
+    /**
+     * Limit how many ShopifyInstalls to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShopifyInstall.company
+   */
+  export type ShopifyInstall$companyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Company
+     */
+    omit?: CompanyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
+  }
+
+  /**
+   * ShopifyInstall without action
+   */
+  export type ShopifyInstallDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopifyInstall
+     */
+    select?: ShopifyInstallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopifyInstall
+     */
+    omit?: ShopifyInstallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopifyInstallInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model PartnerInquiry
    */
 
@@ -8849,6 +10085,19 @@ export namespace Prisma {
   export type WebhookScalarFieldEnum = (typeof WebhookScalarFieldEnum)[keyof typeof WebhookScalarFieldEnum]
 
 
+  export const ShopifyInstallScalarFieldEnum: {
+    id: 'id',
+    shop: 'shop',
+    accessToken: 'accessToken',
+    companyId: 'companyId',
+    scriptTagId: 'scriptTagId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ShopifyInstallScalarFieldEnum = (typeof ShopifyInstallScalarFieldEnum)[keyof typeof ShopifyInstallScalarFieldEnum]
+
+
   export const PartnerInquiryScalarFieldEnum: {
     id: 'id',
     companyName: 'companyName',
@@ -9010,6 +10259,7 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestListRelationFilter
     widgetSettings?: WidgetSettingsListRelationFilter
     webhooks?: WebhookListRelationFilter
+    shopifyInstalls?: ShopifyInstallListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -9029,6 +10279,7 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestOrderByRelationAggregateInput
     widgetSettings?: WidgetSettingsOrderByRelationAggregateInput
     webhooks?: WebhookOrderByRelationAggregateInput
+    shopifyInstalls?: ShopifyInstallOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -9051,6 +10302,7 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestListRelationFilter
     widgetSettings?: WidgetSettingsListRelationFilter
     webhooks?: WebhookListRelationFilter
+    shopifyInstalls?: ShopifyInstallListRelationFilter
   }, "id" | "email">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -9551,6 +10803,71 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Webhook"> | Date | string
   }
 
+  export type ShopifyInstallWhereInput = {
+    AND?: ShopifyInstallWhereInput | ShopifyInstallWhereInput[]
+    OR?: ShopifyInstallWhereInput[]
+    NOT?: ShopifyInstallWhereInput | ShopifyInstallWhereInput[]
+    id?: StringFilter<"ShopifyInstall"> | string
+    shop?: StringFilter<"ShopifyInstall"> | string
+    accessToken?: StringFilter<"ShopifyInstall"> | string
+    companyId?: StringNullableFilter<"ShopifyInstall"> | string | null
+    scriptTagId?: StringNullableFilter<"ShopifyInstall"> | string | null
+    createdAt?: DateTimeFilter<"ShopifyInstall"> | Date | string
+    updatedAt?: DateTimeFilter<"ShopifyInstall"> | Date | string
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+  }
+
+  export type ShopifyInstallOrderByWithRelationInput = {
+    id?: SortOrder
+    shop?: SortOrder
+    accessToken?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    scriptTagId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type ShopifyInstallWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    shop?: string
+    AND?: ShopifyInstallWhereInput | ShopifyInstallWhereInput[]
+    OR?: ShopifyInstallWhereInput[]
+    NOT?: ShopifyInstallWhereInput | ShopifyInstallWhereInput[]
+    accessToken?: StringFilter<"ShopifyInstall"> | string
+    companyId?: StringNullableFilter<"ShopifyInstall"> | string | null
+    scriptTagId?: StringNullableFilter<"ShopifyInstall"> | string | null
+    createdAt?: DateTimeFilter<"ShopifyInstall"> | Date | string
+    updatedAt?: DateTimeFilter<"ShopifyInstall"> | Date | string
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+  }, "id" | "shop">
+
+  export type ShopifyInstallOrderByWithAggregationInput = {
+    id?: SortOrder
+    shop?: SortOrder
+    accessToken?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    scriptTagId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ShopifyInstallCountOrderByAggregateInput
+    _max?: ShopifyInstallMaxOrderByAggregateInput
+    _min?: ShopifyInstallMinOrderByAggregateInput
+  }
+
+  export type ShopifyInstallScalarWhereWithAggregatesInput = {
+    AND?: ShopifyInstallScalarWhereWithAggregatesInput | ShopifyInstallScalarWhereWithAggregatesInput[]
+    OR?: ShopifyInstallScalarWhereWithAggregatesInput[]
+    NOT?: ShopifyInstallScalarWhereWithAggregatesInput | ShopifyInstallScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ShopifyInstall"> | string
+    shop?: StringWithAggregatesFilter<"ShopifyInstall"> | string
+    accessToken?: StringWithAggregatesFilter<"ShopifyInstall"> | string
+    companyId?: StringNullableWithAggregatesFilter<"ShopifyInstall"> | string | null
+    scriptTagId?: StringNullableWithAggregatesFilter<"ShopifyInstall"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ShopifyInstall"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ShopifyInstall"> | Date | string
+  }
+
   export type PartnerInquiryWhereInput = {
     AND?: PartnerInquiryWhereInput | PartnerInquiryWhereInput[]
     OR?: PartnerInquiryWhereInput[]
@@ -9645,6 +10962,7 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -9664,6 +10982,7 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -9683,6 +11002,7 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -9702,6 +11022,7 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -10294,6 +11615,75 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ShopifyInstallCreateInput = {
+    id?: string
+    shop: string
+    accessToken: string
+    scriptTagId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company?: CompanyCreateNestedOneWithoutShopifyInstallsInput
+  }
+
+  export type ShopifyInstallUncheckedCreateInput = {
+    id?: string
+    shop: string
+    accessToken: string
+    companyId?: string | null
+    scriptTagId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShopifyInstallUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shop?: StringFieldUpdateOperationsInput | string
+    accessToken?: StringFieldUpdateOperationsInput | string
+    scriptTagId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneWithoutShopifyInstallsNestedInput
+  }
+
+  export type ShopifyInstallUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shop?: StringFieldUpdateOperationsInput | string
+    accessToken?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    scriptTagId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopifyInstallCreateManyInput = {
+    id?: string
+    shop: string
+    accessToken: string
+    companyId?: string | null
+    scriptTagId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShopifyInstallUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shop?: StringFieldUpdateOperationsInput | string
+    accessToken?: StringFieldUpdateOperationsInput | string
+    scriptTagId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopifyInstallUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shop?: StringFieldUpdateOperationsInput | string
+    accessToken?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    scriptTagId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PartnerInquiryCreateInput = {
     id?: string
     companyName: string
@@ -10461,6 +11851,12 @@ export namespace Prisma {
     none?: WebhookWhereInput
   }
 
+  export type ShopifyInstallListRelationFilter = {
+    every?: ShopifyInstallWhereInput
+    some?: ShopifyInstallWhereInput
+    none?: ShopifyInstallWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -10479,6 +11875,10 @@ export namespace Prisma {
   }
 
   export type WebhookOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ShopifyInstallOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11004,6 +12404,41 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type CompanyNullableScalarRelationFilter = {
+    is?: CompanyWhereInput | null
+    isNot?: CompanyWhereInput | null
+  }
+
+  export type ShopifyInstallCountOrderByAggregateInput = {
+    id?: SortOrder
+    shop?: SortOrder
+    accessToken?: SortOrder
+    companyId?: SortOrder
+    scriptTagId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShopifyInstallMaxOrderByAggregateInput = {
+    id?: SortOrder
+    shop?: SortOrder
+    accessToken?: SortOrder
+    companyId?: SortOrder
+    scriptTagId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShopifyInstallMinOrderByAggregateInput = {
+    id?: SortOrder
+    shop?: SortOrder
+    accessToken?: SortOrder
+    companyId?: SortOrder
+    scriptTagId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type PartnerInquiryCountOrderByAggregateInput = {
     id?: SortOrder
     companyName?: SortOrder
@@ -11071,6 +12506,13 @@ export namespace Prisma {
     connect?: WebhookWhereUniqueInput | WebhookWhereUniqueInput[]
   }
 
+  export type ShopifyInstallCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<ShopifyInstallCreateWithoutCompanyInput, ShopifyInstallUncheckedCreateWithoutCompanyInput> | ShopifyInstallCreateWithoutCompanyInput[] | ShopifyInstallUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ShopifyInstallCreateOrConnectWithoutCompanyInput | ShopifyInstallCreateOrConnectWithoutCompanyInput[]
+    createMany?: ShopifyInstallCreateManyCompanyInputEnvelope
+    connect?: ShopifyInstallWhereUniqueInput | ShopifyInstallWhereUniqueInput[]
+  }
+
   export type PricingProfileUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<PricingProfileCreateWithoutCompanyInput, PricingProfileUncheckedCreateWithoutCompanyInput> | PricingProfileCreateWithoutCompanyInput[] | PricingProfileUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: PricingProfileCreateOrConnectWithoutCompanyInput | PricingProfileCreateOrConnectWithoutCompanyInput[]
@@ -11097,6 +12539,13 @@ export namespace Prisma {
     connectOrCreate?: WebhookCreateOrConnectWithoutCompanyInput | WebhookCreateOrConnectWithoutCompanyInput[]
     createMany?: WebhookCreateManyCompanyInputEnvelope
     connect?: WebhookWhereUniqueInput | WebhookWhereUniqueInput[]
+  }
+
+  export type ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<ShopifyInstallCreateWithoutCompanyInput, ShopifyInstallUncheckedCreateWithoutCompanyInput> | ShopifyInstallCreateWithoutCompanyInput[] | ShopifyInstallUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ShopifyInstallCreateOrConnectWithoutCompanyInput | ShopifyInstallCreateOrConnectWithoutCompanyInput[]
+    createMany?: ShopifyInstallCreateManyCompanyInputEnvelope
+    connect?: ShopifyInstallWhereUniqueInput | ShopifyInstallWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -11171,6 +12620,20 @@ export namespace Prisma {
     deleteMany?: WebhookScalarWhereInput | WebhookScalarWhereInput[]
   }
 
+  export type ShopifyInstallUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<ShopifyInstallCreateWithoutCompanyInput, ShopifyInstallUncheckedCreateWithoutCompanyInput> | ShopifyInstallCreateWithoutCompanyInput[] | ShopifyInstallUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ShopifyInstallCreateOrConnectWithoutCompanyInput | ShopifyInstallCreateOrConnectWithoutCompanyInput[]
+    upsert?: ShopifyInstallUpsertWithWhereUniqueWithoutCompanyInput | ShopifyInstallUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: ShopifyInstallCreateManyCompanyInputEnvelope
+    set?: ShopifyInstallWhereUniqueInput | ShopifyInstallWhereUniqueInput[]
+    disconnect?: ShopifyInstallWhereUniqueInput | ShopifyInstallWhereUniqueInput[]
+    delete?: ShopifyInstallWhereUniqueInput | ShopifyInstallWhereUniqueInput[]
+    connect?: ShopifyInstallWhereUniqueInput | ShopifyInstallWhereUniqueInput[]
+    update?: ShopifyInstallUpdateWithWhereUniqueWithoutCompanyInput | ShopifyInstallUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: ShopifyInstallUpdateManyWithWhereWithoutCompanyInput | ShopifyInstallUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: ShopifyInstallScalarWhereInput | ShopifyInstallScalarWhereInput[]
+  }
+
   export type PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<PricingProfileCreateWithoutCompanyInput, PricingProfileUncheckedCreateWithoutCompanyInput> | PricingProfileCreateWithoutCompanyInput[] | PricingProfileUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: PricingProfileCreateOrConnectWithoutCompanyInput | PricingProfileCreateOrConnectWithoutCompanyInput[]
@@ -11225,6 +12688,20 @@ export namespace Prisma {
     update?: WebhookUpdateWithWhereUniqueWithoutCompanyInput | WebhookUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: WebhookUpdateManyWithWhereWithoutCompanyInput | WebhookUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: WebhookScalarWhereInput | WebhookScalarWhereInput[]
+  }
+
+  export type ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<ShopifyInstallCreateWithoutCompanyInput, ShopifyInstallUncheckedCreateWithoutCompanyInput> | ShopifyInstallCreateWithoutCompanyInput[] | ShopifyInstallUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ShopifyInstallCreateOrConnectWithoutCompanyInput | ShopifyInstallCreateOrConnectWithoutCompanyInput[]
+    upsert?: ShopifyInstallUpsertWithWhereUniqueWithoutCompanyInput | ShopifyInstallUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: ShopifyInstallCreateManyCompanyInputEnvelope
+    set?: ShopifyInstallWhereUniqueInput | ShopifyInstallWhereUniqueInput[]
+    disconnect?: ShopifyInstallWhereUniqueInput | ShopifyInstallWhereUniqueInput[]
+    delete?: ShopifyInstallWhereUniqueInput | ShopifyInstallWhereUniqueInput[]
+    connect?: ShopifyInstallWhereUniqueInput | ShopifyInstallWhereUniqueInput[]
+    update?: ShopifyInstallUpdateWithWhereUniqueWithoutCompanyInput | ShopifyInstallUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: ShopifyInstallUpdateManyWithWhereWithoutCompanyInput | ShopifyInstallUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: ShopifyInstallScalarWhereInput | ShopifyInstallScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutPricingProfilesInput = {
@@ -11358,6 +12835,22 @@ export namespace Prisma {
     upsert?: CompanyUpsertWithoutWebhooksInput
     connect?: CompanyWhereUniqueInput
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutWebhooksInput, CompanyUpdateWithoutWebhooksInput>, CompanyUncheckedUpdateWithoutWebhooksInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutShopifyInstallsInput = {
+    create?: XOR<CompanyCreateWithoutShopifyInstallsInput, CompanyUncheckedCreateWithoutShopifyInstallsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutShopifyInstallsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneWithoutShopifyInstallsNestedInput = {
+    create?: XOR<CompanyCreateWithoutShopifyInstallsInput, CompanyUncheckedCreateWithoutShopifyInstallsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutShopifyInstallsInput
+    upsert?: CompanyUpsertWithoutShopifyInstallsInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutShopifyInstallsInput, CompanyUpdateWithoutShopifyInstallsInput>, CompanyUncheckedUpdateWithoutShopifyInstallsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -11774,6 +13267,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ShopifyInstallCreateWithoutCompanyInput = {
+    id?: string
+    shop: string
+    accessToken: string
+    scriptTagId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShopifyInstallUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    shop: string
+    accessToken: string
+    scriptTagId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShopifyInstallCreateOrConnectWithoutCompanyInput = {
+    where: ShopifyInstallWhereUniqueInput
+    create: XOR<ShopifyInstallCreateWithoutCompanyInput, ShopifyInstallUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type ShopifyInstallCreateManyCompanyInputEnvelope = {
+    data: ShopifyInstallCreateManyCompanyInput | ShopifyInstallCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PricingProfileUpsertWithWhereUniqueWithoutCompanyInput = {
     where: PricingProfileWhereUniqueInput
     update: XOR<PricingProfileUpdateWithoutCompanyInput, PricingProfileUncheckedUpdateWithoutCompanyInput>
@@ -11928,6 +13449,35 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Webhook"> | Date | string
   }
 
+  export type ShopifyInstallUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: ShopifyInstallWhereUniqueInput
+    update: XOR<ShopifyInstallUpdateWithoutCompanyInput, ShopifyInstallUncheckedUpdateWithoutCompanyInput>
+    create: XOR<ShopifyInstallCreateWithoutCompanyInput, ShopifyInstallUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type ShopifyInstallUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: ShopifyInstallWhereUniqueInput
+    data: XOR<ShopifyInstallUpdateWithoutCompanyInput, ShopifyInstallUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type ShopifyInstallUpdateManyWithWhereWithoutCompanyInput = {
+    where: ShopifyInstallScalarWhereInput
+    data: XOR<ShopifyInstallUpdateManyMutationInput, ShopifyInstallUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type ShopifyInstallScalarWhereInput = {
+    AND?: ShopifyInstallScalarWhereInput | ShopifyInstallScalarWhereInput[]
+    OR?: ShopifyInstallScalarWhereInput[]
+    NOT?: ShopifyInstallScalarWhereInput | ShopifyInstallScalarWhereInput[]
+    id?: StringFilter<"ShopifyInstall"> | string
+    shop?: StringFilter<"ShopifyInstall"> | string
+    accessToken?: StringFilter<"ShopifyInstall"> | string
+    companyId?: StringNullableFilter<"ShopifyInstall"> | string | null
+    scriptTagId?: StringNullableFilter<"ShopifyInstall"> | string | null
+    createdAt?: DateTimeFilter<"ShopifyInstall"> | Date | string
+    updatedAt?: DateTimeFilter<"ShopifyInstall"> | Date | string
+  }
+
   export type CompanyCreateWithoutPricingProfilesInput = {
     id?: string
     email: string
@@ -11944,6 +13494,7 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPricingProfilesInput = {
@@ -11962,6 +13513,7 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPricingProfilesInput = {
@@ -12047,6 +13599,7 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPricingProfilesInput = {
@@ -12065,6 +13618,7 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WidgetSettingsUpsertWithoutPricingProfileInput = {
@@ -12140,6 +13694,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWidgetSettingsInput = {
@@ -12158,6 +13713,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWidgetSettingsInput = {
@@ -12237,6 +13793,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWidgetSettingsInput = {
@@ -12255,6 +13812,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type PricingProfileUpsertWithoutWidgetSettingsInput = {
@@ -12324,6 +13882,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutQuoteRequestsInput = {
@@ -12342,6 +13901,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutQuoteRequestsInput = {
@@ -12376,6 +13936,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutQuoteRequestsInput = {
@@ -12394,6 +13955,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutWebhooksInput = {
@@ -12412,6 +13974,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWebhooksInput = {
@@ -12430,6 +13993,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWebhooksInput = {
@@ -12464,6 +14028,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWebhooksInput = {
@@ -12482,6 +14047,99 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutShopifyInstallsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name: string
+    logoUrl?: string | null
+    timezone?: string
+    subscriptionPlan?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripeConnectAccountId?: string | null
+    trialEndsAt?: Date | string | null
+    createdAt?: Date | string
+    pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
+    quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
+    widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
+    webhooks?: WebhookCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutShopifyInstallsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name: string
+    logoUrl?: string | null
+    timezone?: string
+    subscriptionPlan?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripeConnectAccountId?: string | null
+    trialEndsAt?: Date | string | null
+    createdAt?: Date | string
+    pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
+    quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
+    widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutShopifyInstallsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutShopifyInstallsInput, CompanyUncheckedCreateWithoutShopifyInstallsInput>
+  }
+
+  export type CompanyUpsertWithoutShopifyInstallsInput = {
+    update: XOR<CompanyUpdateWithoutShopifyInstallsInput, CompanyUncheckedUpdateWithoutShopifyInstallsInput>
+    create: XOR<CompanyCreateWithoutShopifyInstallsInput, CompanyUncheckedCreateWithoutShopifyInstallsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutShopifyInstallsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutShopifyInstallsInput, CompanyUncheckedUpdateWithoutShopifyInstallsInput>
+  }
+
+  export type CompanyUpdateWithoutShopifyInstallsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
+    quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
+    widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
+    webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutShopifyInstallsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
+    quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type PricingProfileCreateManyCompanyInput = {
@@ -12556,6 +14214,15 @@ export namespace Prisma {
     events?: WebhookCreateeventsInput | string[]
     enabled?: boolean
     createdAt?: Date | string
+  }
+
+  export type ShopifyInstallCreateManyCompanyInput = {
+    id?: string
+    shop: string
+    accessToken: string
+    scriptTagId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PricingProfileUpdateWithoutCompanyInput = {
@@ -12780,6 +14447,33 @@ export namespace Prisma {
     events?: WebhookUpdateeventsInput | string[]
     enabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopifyInstallUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shop?: StringFieldUpdateOperationsInput | string
+    accessToken?: StringFieldUpdateOperationsInput | string
+    scriptTagId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopifyInstallUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shop?: StringFieldUpdateOperationsInput | string
+    accessToken?: StringFieldUpdateOperationsInput | string
+    scriptTagId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopifyInstallUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shop?: StringFieldUpdateOperationsInput | string
+    accessToken?: StringFieldUpdateOperationsInput | string
+    scriptTagId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

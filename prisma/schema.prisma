@@ -24,6 +24,7 @@ model Company {
   quoteRequests        QuoteRequest[]
   widgetSettings       WidgetSettings[]
   webhooks             Webhook[]
+  shopifyInstalls      ShopifyInstall[]
 }
 
 model PricingProfile {
@@ -108,6 +109,17 @@ model Webhook {
   enabled   Boolean  @default(true)
   createdAt DateTime @default(now())
   company   Company  @relation(fields: [companyId], references: [id])
+}
+
+model ShopifyInstall {
+  id            String   @id @default(cuid())
+  shop          String   @unique
+  accessToken   String
+  companyId     String?
+  scriptTagId   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  company       Company? @relation(fields: [companyId], references: [id])
 }
 
 model PartnerInquiry {
