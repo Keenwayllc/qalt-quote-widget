@@ -84,7 +84,7 @@ export default function QuotaBar({ used, limit, plan }: QuotaBarProps) {
       {isExhausted && (
         <div className="mt-3 flex items-center justify-between">
           <p className="text-xs font-semibold text-red-700">
-            Your widget has paused — customers can&apos;t request quotes until your quota resets or you upgrade.
+            Your widget has paused. Customers can&apos;t request quotes until your quota resets or you upgrade.
           </p>
           <Link
             href="/dashboard/billing"

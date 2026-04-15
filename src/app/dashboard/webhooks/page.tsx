@@ -153,7 +153,7 @@ export default function WebhooksPage() {
       });
       const data = await res.json();
       if (data.success) {
-        setTestResult((prev) => ({ ...prev, [hook.id]: { ok: true, msg: `Delivered — HTTP ${data.httpStatus}` } }));
+        setTestResult((prev) => ({ ...prev, [hook.id]: { ok: true, msg: `Delivered (HTTP ${data.httpStatus})` } }));
       } else {
         setTestResult((prev) => ({ ...prev, [hook.id]: { ok: false, msg: data.error ?? `HTTP ${data.httpStatus}` } }));
       }
@@ -186,9 +186,9 @@ export default function WebhooksPage() {
           <div className="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <Lock size={28} className="text-amber-500" />
           </div>
-          <h2 className="text-2xl font-black text-slate-900 mb-2 tracking-tight">Webhooks — Pro & Enterprise</h2>
+          <h2 className="text-2xl font-black text-slate-900 mb-2 tracking-tight">Webhooks: Pro & Enterprise</h2>
           <p className="text-slate-500 font-medium mb-8">
-            Webhooks let you push quote events to any endpoint — Zapier, Onfleet, Shipday, or your own server. Upgrade to Pro or Enterprise to unlock.
+            Webhooks let you push quote events to any endpoint (Zapier, Onfleet, Shipday, or your own server). Upgrade to Pro or Enterprise to unlock.
           </p>
           <a
             href="/dashboard/billing"

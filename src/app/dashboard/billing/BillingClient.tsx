@@ -204,7 +204,7 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
       })}
     </div>
     <p className="text-center text-sm text-slate-400 font-medium mt-8">
-      ✦ We&apos;re constantly shipping new features & improvements to Qalt — if you spot something new, it&apos;s all for you and your customers.
+      ✦ We&apos;re constantly shipping new features & improvements to Qalt. If you spot something new, it&apos;s all for you and your customers.
     </p>
     </>
   );

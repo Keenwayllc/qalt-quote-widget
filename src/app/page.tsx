@@ -29,17 +29,17 @@ const BANNER_IMAGES = [
   {
     src: "/images/banner-1.jpg",
     headline: <>Quote, book, and get paid<br /><span className="text-red-400">right on your site.</span></>,
-    sub: "Qalt is a white-label tool for delivery companies. Embed it on your site so customers can get an instant price, book their delivery, and pay — without you lifting a finger.",
+    sub: "Qalt is a white-label tool for delivery companies. Embed it on your site so customers can get an instant price, book their delivery, and pay. No lifting a finger required.",
   },
   {
     src: "/images/banner-2.jpg",
     headline: <>Your rates. Your brand.<br /><span className="text-red-400">Zero phone tag.</span></>,
-    sub: "Set your pricing rules once and Qalt handles the rest — instant quotes, online booking, and payment collection for your delivery business.",
+    sub: "Set your pricing rules once and Qalt handles the rest: instant quotes, online booking, and payment collection for your delivery business.",
   },
   {
     src: "/images/company-owner-opt.jpeg",
     headline: <>Built for delivery companies<br /><span className="text-emerald-400">big and small.</span></>,
-    sub: "From solo couriers to multi-vehicle fleets — Qalt gives your business a professional quote and booking widget so you can focus on delivering, not quoting.",
+    sub: "From solo couriers to multi-vehicle fleets, Qalt gives your business a professional quote and booking widget so you can focus on delivering, not quoting.",
   },
 ];
 
@@ -331,7 +331,7 @@ export default function LandingPage() {
                 Built for delivery companies
               </div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-6">Set your pricing once. Let your site quote, book, and collect payment.</h2>
-              <p className="text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto font-medium">Qalt is a widget you embed on your delivery company&apos;s website. Your customers get an instant price, book the job, and pay online — all without you doing a thing manually.</p>
+              <p className="text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto font-medium">Qalt is a widget you embed on your delivery company&apos;s website. Your customers get an instant price, book the job, and pay online. No manual work on your end.</p>
             </motion.div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
@@ -354,7 +354,7 @@ export default function LandingPage() {
                 {
                   icon: <MousePointerClick className="text-red-600" />,
                   title: "Quote, Book & Collect Payment",
-                  desc: "Customers get an instant price, book the delivery, and pay online. Your business gets a confirmed job — no phone calls, no emails."
+                  desc: "Customers get an instant price, book the delivery, and pay online. Your business gets a confirmed job with no phone calls or emails."
                 },
                 {
                   icon: <BarChart3 className="text-red-600" />,
@@ -615,7 +615,7 @@ export default function LandingPage() {
                 The quote &amp; booking widget for your delivery business
               </h2>
               <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto font-medium">
-                Qalt is not a delivery service — it&apos;s the tool your delivery company embeds on your own website so customers can price, book, and pay for your services instantly.
+                Qalt is not a delivery service. It&apos;s the tool your delivery company embeds on your own website so customers can price, book, and pay for your services instantly.
               </p>
             </motion.div>
 

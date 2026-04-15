@@ -121,7 +121,7 @@ function UpdateButton({ status }: { status: SectionStatus }) {
           Saved
         </>
       ) : status === "error" ? (
-        "Failed — retry"
+        "Failed. Retry"
       ) : (
         <>
           <Save size={15} />

@@ -969,7 +969,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                   <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
                     <Clock size={9} /> Drive Time
                   </span>
-                  <p className="text-sm font-black text-slate-900 tracking-tight">{routeInfo?.duration || "—"}</p>
+                  <p className="text-sm font-black text-slate-900 tracking-tight">{routeInfo?.duration || "N/A"}</p>
                 </div>
               </div>
 

@@ -71,7 +71,7 @@ export default function LoginPage() {
               <span className="text-red-200">your dashboard.</span>
             </h1>
             <p className="text-red-200/80 font-medium text-sm leading-relaxed max-w-xs">
-              Manage your widget, track quote requests, and grow your delivery business — all in one place.
+              Manage your widget, track quote requests, and grow your delivery business. All in one place.
             </p>
           </div>
 

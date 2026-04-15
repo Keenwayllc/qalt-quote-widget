@@ -436,7 +436,7 @@ export default function WidgetSettingsForm({
                   <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 bg-slate-900 text-white text-xs rounded-xl p-3.5 shadow-2xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 leading-relaxed">
                     <p className="font-bold text-white mb-1.5">Why add your website URL?</p>
                     <p className="text-slate-300 mb-2">
-                      When a customer finishes submitting a quote, Qalt automatically shows them a <strong className="text-white">&quot;Back to your site&quot;</strong> button — so they&apos;re never left wondering what to do next.
+                      When a customer finishes submitting a quote, Qalt automatically shows them a <strong className="text-white">&quot;Back to your site&quot;</strong> button so they&apos;re never left wondering what to do next.
                     </p>
                     <p className="text-slate-300 mb-2">
                       Qalt detects this automatically when your widget is embedded, but adding your URL here acts as a <strong className="text-white">guaranteed fallback</strong> in case the browser blocks automatic detection (e.g. stricter privacy settings).
@@ -492,7 +492,7 @@ export default function WidgetSettingsForm({
             {entitlements.isPaymentsEnabled ? (
               <div className="flex flex-col gap-6">
                 <p className="text-sm text-slate-500 leading-relaxed">
-                  When enabled, your widget will show a <strong className="text-slate-700">&ldquo;Pay &amp; Book&rdquo;</strong> button after the estimate — your customers pay the quoted amount directly via Stripe before the booking is confirmed.
+                  When enabled, your widget will show a <strong className="text-slate-700">&ldquo;Pay &amp; Book&rdquo;</strong> button after the estimate. Your customers pay the quoted amount directly via Stripe before the booking is confirmed.
                 </p>
 
                 {/* Stripe Connect Status */}
@@ -576,7 +576,7 @@ export default function WidgetSettingsForm({
                 <Lock className="text-rose-500 shrink-0 mt-0.5" size={18} />
                 <div>
                   <p className="text-sm font-bold text-red-900">Upgrade to Enterprise</p>
-                  <p className="text-xs text-red-700 mt-0.5 leading-relaxed">Allow your customers to pay for deliveries directly from the widget — no back-and-forth needed.</p>
+                  <p className="text-xs text-red-700 mt-0.5 leading-relaxed">Allow your customers to pay for deliveries directly from the widget. No back-and-forth needed.</p>
                   <Link href="/dashboard/billing" className="inline-block mt-2 text-xs font-bold text-red-900 underline">View Plans →</Link>
                 </div>
               </div>

@@ -295,7 +295,7 @@ export default function EmbedCodePage() {
                   </div>
                   <div>
                     <p className="font-black text-slate-900 text-sm">Active</p>
-                    <p className="text-xs text-slate-400 font-medium mt-0.5">{quoteCount} quote{quoteCount !== 1 ? "s" : ""} received — widget is live</p>
+                    <p className="text-xs text-slate-400 font-medium mt-0.5">{quoteCount} quote{quoteCount !== 1 ? "s" : ""} received. Widget is live.</p>
                   </div>
                 </div>
               ) : (

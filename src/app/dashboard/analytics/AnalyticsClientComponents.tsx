@@ -163,7 +163,7 @@ function buildRecommendations(data: InsightsData) {
       icon: <Target size={18} className="text-red-400" />,
       priority: "high",
       title: "Low conversion rate detected",
-      desc: `Your conversion rate is ${data.conversionRate.toFixed(1)}%. Most businesses see 10–20%. Review your pricing — quotes may be coming in too high or your widget isn't collecting enough context to price accurately.`,
+      desc: `Your conversion rate is ${data.conversionRate.toFixed(1)}%. Most businesses see 10-20%. Review your pricing. Quotes may be coming in too high or your widget isn't collecting enough context to price accurately.`,
       action: "Review Pricing Settings",
       href: "/dashboard/pricing",
     });
@@ -174,7 +174,7 @@ function buildRecommendations(data: InsightsData) {
       icon: <BarChart2 size={18} className="text-amber-400" />,
       priority: "high",
       title: "Quote volume is low",
-      desc: `Only ${data.totalLast30} quotes in the last 30 days. Copy your embed code and paste it on a high-traffic page — ideally your homepage or a dedicated "Get a Quote" page. More visibility = more quotes.`,
+      desc: `Only ${data.totalLast30} quotes in the last 30 days. Copy your embed code and paste it on a high-traffic page, ideally your homepage or a dedicated "Get a Quote" page. More visibility = more quotes.`,
       action: "Copy Embed Code",
       href: "/dashboard/embed",
     });
