@@ -5,9 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   FileText, MapPin, Mail, Phone, Calendar, ChevronRight,
   X, Package, Truck, Hash, CreditCard, Clock, CheckCircle2,
-  AlertCircle, Copy, Check, Settings, Code
+  AlertCircle, Copy, Check, Settings, Code, LayoutList, Kanban,
 } from "lucide-react";
 import Link from "next/link";
+import KanbanBoard from "./KanbanBoard";
 
 interface Quote {
   id: string;
@@ -334,6 +335,7 @@ function QuoteDrawer({ quote, onClose, onUpdate }: { quote: Quote; onClose: () =
 export default function QuotesClient({ quotes: initialQuotes }: { quotes: Quote[] }) {
   const [quotes, setQuotes] = useState<Quote[]>(initialQuotes);
   const [selected, setSelected] = useState<Quote | null>(null);
+  const [view, setView] = useState<"list" | "kanban">("list");
 
   const handleUpdate = (updated: Quote) => {
     setQuotes((prev) => prev.map((q) => q.id === updated.id ? updated : q));
@@ -371,6 +373,32 @@ export default function QuotesClient({ quotes: initialQuotes }: { quotes: Quote[
         </div>
       ) : (
         <>
+          {/* View Toggle */}
+          <div className="flex items-center justify-end gap-2 mb-4">
+            <button
+              onClick={() => setView("list")}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-black transition-all ${view === "list" ? "bg-slate-900 text-white shadow" : "bg-white border border-slate-200 text-slate-500 hover:bg-slate-50"}`}
+            >
+              <LayoutList size={14} />
+              List
+            </button>
+            <button
+              onClick={() => setView("kanban")}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-black transition-all ${view === "kanban" ? "bg-slate-900 text-white shadow" : "bg-white border border-slate-200 text-slate-500 hover:bg-slate-50"}`}
+            >
+              <Kanban size={14} />
+              Kanban
+            </button>
+          </div>
+
+          {/* Kanban View */}
+          {view === "kanban" && (
+            <KanbanBoard quotes={quotes} onSelectQuote={setSelected} />
+          )}
+
+          {/* List View */}
+          {view === "list" && <>
+
           {/* Desktop Table */}
           <div className="hidden md:block bg-white rounded-4xl border border-slate-200/60 shadow-2xl shadow-slate-200/50 overflow-hidden">
             <div className="overflow-x-auto">
@@ -502,6 +530,8 @@ export default function QuotesClient({ quotes: initialQuotes }: { quotes: Quote[
               </div>
             ))}
           </div>
+          </>}
+
         </>
       )}
 
