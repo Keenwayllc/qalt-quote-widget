@@ -167,22 +167,22 @@ export default function LandingPage() {
             ))}
           </motion.div>
 
-          {/* Ambient floating orbs */}
-          <div className="absolute inset-0 z-5 pointer-events-none overflow-hidden">
+          {/* Ambient floating orbs — z-15 puts them above dark overlay (z-10) but below content (z-20) */}
+          <div className="absolute inset-0 z-[15] pointer-events-none overflow-hidden">
             <motion.div
               animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
               transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full bg-red-500/10 blur-3xl"
+              className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full bg-red-500/20 blur-3xl"
             />
             <motion.div
               animate={{ x: [0, -20, 0], y: [0, 25, 0] }}
               transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-              className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-blue-500/8 blur-3xl"
+              className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-violet-500/10 blur-3xl"
             />
             <motion.div
               animate={{ x: [0, 15, 0], y: [0, -15, 0] }}
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-              className="absolute bottom-1/4 left-1/2 w-64 h-64 rounded-full bg-white/5 blur-2xl"
+              className="absolute bottom-1/4 left-1/2 w-64 h-64 rounded-full bg-white/10 blur-2xl"
             />
           </div>
 
@@ -236,7 +236,7 @@ export default function LandingPage() {
           </div>
 
           {/* Content — per-slide text crossfades */}
-          <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 text-center pt-28 sm:pt-36 pb-28 sm:pb-32">
+          <div className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 text-center pt-28 sm:pt-36 pb-28 sm:pb-32">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
