@@ -2,6 +2,7 @@ import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { CheckCircle, Calendar, MapPin, ArrowRight, Truck } from "lucide-react";
 import { notFound } from "next/navigation";
+import ConfettiBurst from "@/components/widget/ConfettiBurst";
 
 export const dynamic = "force-dynamic";
 
@@ -37,6 +38,7 @@ export default async function PaymentSuccessPage({
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 sm:p-8 font-sans">
+      <ConfettiBurst />
       <div className="max-w-md w-full bg-white rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden animate-in fade-in zoom-in duration-500">
         {/* Success Header */}
         <div className="bg-emerald-500 p-10 text-center relative overflow-hidden">
