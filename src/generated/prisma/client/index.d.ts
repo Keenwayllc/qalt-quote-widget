@@ -1500,6 +1500,8 @@ export namespace Prisma {
     stripeSubscriptionId: string | null
     stripeConnectAccountId: string | null
     trialEndsAt: Date | null
+    emailVerified: boolean | null
+    emailVerificationToken: string | null
     createdAt: Date | null
   }
 
@@ -1515,6 +1517,8 @@ export namespace Prisma {
     stripeSubscriptionId: string | null
     stripeConnectAccountId: string | null
     trialEndsAt: Date | null
+    emailVerified: boolean | null
+    emailVerificationToken: string | null
     createdAt: Date | null
   }
 
@@ -1530,6 +1534,8 @@ export namespace Prisma {
     stripeSubscriptionId: number
     stripeConnectAccountId: number
     trialEndsAt: number
+    emailVerified: number
+    emailVerificationToken: number
     createdAt: number
     _all: number
   }
@@ -1547,6 +1553,8 @@ export namespace Prisma {
     stripeSubscriptionId?: true
     stripeConnectAccountId?: true
     trialEndsAt?: true
+    emailVerified?: true
+    emailVerificationToken?: true
     createdAt?: true
   }
 
@@ -1562,6 +1570,8 @@ export namespace Prisma {
     stripeSubscriptionId?: true
     stripeConnectAccountId?: true
     trialEndsAt?: true
+    emailVerified?: true
+    emailVerificationToken?: true
     createdAt?: true
   }
 
@@ -1577,6 +1587,8 @@ export namespace Prisma {
     stripeSubscriptionId?: true
     stripeConnectAccountId?: true
     trialEndsAt?: true
+    emailVerified?: true
+    emailVerificationToken?: true
     createdAt?: true
     _all?: true
   }
@@ -1665,6 +1677,8 @@ export namespace Prisma {
     stripeSubscriptionId: string | null
     stripeConnectAccountId: string | null
     trialEndsAt: Date | null
+    emailVerified: boolean
+    emailVerificationToken: string | null
     createdAt: Date
     _count: CompanyCountAggregateOutputType | null
     _min: CompanyMinAggregateOutputType | null
@@ -1697,6 +1711,8 @@ export namespace Prisma {
     stripeSubscriptionId?: boolean
     stripeConnectAccountId?: boolean
     trialEndsAt?: boolean
+    emailVerified?: boolean
+    emailVerificationToken?: boolean
     createdAt?: boolean
     pricingProfiles?: boolean | Company$pricingProfilesArgs<ExtArgs>
     quoteRequests?: boolean | Company$quoteRequestsArgs<ExtArgs>
@@ -1718,6 +1734,8 @@ export namespace Prisma {
     stripeSubscriptionId?: boolean
     stripeConnectAccountId?: boolean
     trialEndsAt?: boolean
+    emailVerified?: boolean
+    emailVerificationToken?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["company"]>
 
@@ -1733,6 +1751,8 @@ export namespace Prisma {
     stripeSubscriptionId?: boolean
     stripeConnectAccountId?: boolean
     trialEndsAt?: boolean
+    emailVerified?: boolean
+    emailVerificationToken?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["company"]>
 
@@ -1748,10 +1768,12 @@ export namespace Prisma {
     stripeSubscriptionId?: boolean
     stripeConnectAccountId?: boolean
     trialEndsAt?: boolean
+    emailVerified?: boolean
+    emailVerificationToken?: boolean
     createdAt?: boolean
   }
 
-  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "logoUrl" | "timezone" | "subscriptionPlan" | "stripeCustomerId" | "stripeSubscriptionId" | "stripeConnectAccountId" | "trialEndsAt" | "createdAt", ExtArgs["result"]["company"]>
+  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "logoUrl" | "timezone" | "subscriptionPlan" | "stripeCustomerId" | "stripeSubscriptionId" | "stripeConnectAccountId" | "trialEndsAt" | "emailVerified" | "emailVerificationToken" | "createdAt", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     pricingProfiles?: boolean | Company$pricingProfilesArgs<ExtArgs>
     quoteRequests?: boolean | Company$quoteRequestsArgs<ExtArgs>
@@ -1784,6 +1806,8 @@ export namespace Prisma {
       stripeSubscriptionId: string | null
       stripeConnectAccountId: string | null
       trialEndsAt: Date | null
+      emailVerified: boolean
+      emailVerificationToken: string | null
       createdAt: Date
     }, ExtArgs["result"]["company"]>
     composites: {}
@@ -2224,6 +2248,8 @@ export namespace Prisma {
     readonly stripeSubscriptionId: FieldRef<"Company", 'String'>
     readonly stripeConnectAccountId: FieldRef<"Company", 'String'>
     readonly trialEndsAt: FieldRef<"Company", 'DateTime'>
+    readonly emailVerified: FieldRef<"Company", 'Boolean'>
+    readonly emailVerificationToken: FieldRef<"Company", 'String'>
     readonly createdAt: FieldRef<"Company", 'DateTime'>
   }
     
@@ -9989,6 +10015,8 @@ export namespace Prisma {
     stripeSubscriptionId: 'stripeSubscriptionId',
     stripeConnectAccountId: 'stripeConnectAccountId',
     trialEndsAt: 'trialEndsAt',
+    emailVerified: 'emailVerified',
+    emailVerificationToken: 'emailVerificationToken',
     createdAt: 'createdAt'
   };
 
@@ -10188,6 +10216,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -10198,13 +10233,6 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -10254,6 +10282,8 @@ export namespace Prisma {
     stripeSubscriptionId?: StringNullableFilter<"Company"> | string | null
     stripeConnectAccountId?: StringNullableFilter<"Company"> | string | null
     trialEndsAt?: DateTimeNullableFilter<"Company"> | Date | string | null
+    emailVerified?: BoolFilter<"Company"> | boolean
+    emailVerificationToken?: StringNullableFilter<"Company"> | string | null
     createdAt?: DateTimeFilter<"Company"> | Date | string
     pricingProfiles?: PricingProfileListRelationFilter
     quoteRequests?: QuoteRequestListRelationFilter
@@ -10274,6 +10304,8 @@ export namespace Prisma {
     stripeSubscriptionId?: SortOrderInput | SortOrder
     stripeConnectAccountId?: SortOrderInput | SortOrder
     trialEndsAt?: SortOrderInput | SortOrder
+    emailVerified?: SortOrder
+    emailVerificationToken?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     pricingProfiles?: PricingProfileOrderByRelationAggregateInput
     quoteRequests?: QuoteRequestOrderByRelationAggregateInput
@@ -10285,6 +10317,7 @@ export namespace Prisma {
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     email?: string
+    emailVerificationToken?: string
     AND?: CompanyWhereInput | CompanyWhereInput[]
     OR?: CompanyWhereInput[]
     NOT?: CompanyWhereInput | CompanyWhereInput[]
@@ -10297,13 +10330,14 @@ export namespace Prisma {
     stripeSubscriptionId?: StringNullableFilter<"Company"> | string | null
     stripeConnectAccountId?: StringNullableFilter<"Company"> | string | null
     trialEndsAt?: DateTimeNullableFilter<"Company"> | Date | string | null
+    emailVerified?: BoolFilter<"Company"> | boolean
     createdAt?: DateTimeFilter<"Company"> | Date | string
     pricingProfiles?: PricingProfileListRelationFilter
     quoteRequests?: QuoteRequestListRelationFilter
     widgetSettings?: WidgetSettingsListRelationFilter
     webhooks?: WebhookListRelationFilter
     shopifyInstalls?: ShopifyInstallListRelationFilter
-  }, "id" | "email">
+  }, "id" | "email" | "emailVerificationToken">
 
   export type CompanyOrderByWithAggregationInput = {
     id?: SortOrder
@@ -10317,6 +10351,8 @@ export namespace Prisma {
     stripeSubscriptionId?: SortOrderInput | SortOrder
     stripeConnectAccountId?: SortOrderInput | SortOrder
     trialEndsAt?: SortOrderInput | SortOrder
+    emailVerified?: SortOrder
+    emailVerificationToken?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: CompanyCountOrderByAggregateInput
     _max?: CompanyMaxOrderByAggregateInput
@@ -10338,6 +10374,8 @@ export namespace Prisma {
     stripeSubscriptionId?: StringNullableWithAggregatesFilter<"Company"> | string | null
     stripeConnectAccountId?: StringNullableWithAggregatesFilter<"Company"> | string | null
     trialEndsAt?: DateTimeNullableWithAggregatesFilter<"Company"> | Date | string | null
+    emailVerified?: BoolWithAggregatesFilter<"Company"> | boolean
+    emailVerificationToken?: StringNullableWithAggregatesFilter<"Company"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
   }
 
@@ -10957,6 +10995,8 @@ export namespace Prisma {
     stripeSubscriptionId?: string | null
     stripeConnectAccountId?: string | null
     trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -10977,6 +11017,8 @@ export namespace Prisma {
     stripeSubscriptionId?: string | null
     stripeConnectAccountId?: string | null
     trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -10997,6 +11039,8 @@ export namespace Prisma {
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -11017,6 +11061,8 @@ export namespace Prisma {
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -11037,6 +11083,8 @@ export namespace Prisma {
     stripeSubscriptionId?: string | null
     stripeConnectAccountId?: string | null
     trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
     createdAt?: Date | string
   }
 
@@ -11052,6 +11100,8 @@ export namespace Prisma {
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -11067,6 +11117,8 @@ export namespace Prisma {
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -11816,6 +11868,11 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -11894,6 +11951,8 @@ export namespace Prisma {
     stripeSubscriptionId?: SortOrder
     stripeConnectAccountId?: SortOrder
     trialEndsAt?: SortOrder
+    emailVerified?: SortOrder
+    emailVerificationToken?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -11909,6 +11968,8 @@ export namespace Prisma {
     stripeSubscriptionId?: SortOrder
     stripeConnectAccountId?: SortOrder
     trialEndsAt?: SortOrder
+    emailVerified?: SortOrder
+    emailVerificationToken?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -11924,6 +11985,8 @@ export namespace Prisma {
     stripeSubscriptionId?: SortOrder
     stripeConnectAccountId?: SortOrder
     trialEndsAt?: SortOrder
+    emailVerified?: SortOrder
+    emailVerificationToken?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -11977,6 +12040,14 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -12000,11 +12071,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
   export type JsonFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -12139,14 +12205,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
   export type JsonWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -12560,6 +12618,10 @@ export namespace Prisma {
     set?: Date | string | null
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
@@ -12722,10 +12784,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type CompanyUpdateOneRequiredWithoutPricingProfilesNestedInput = {
@@ -12892,6 +12950,11 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -12973,6 +13036,14 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -12998,11 +13069,6 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -13017,14 +13083,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -13490,6 +13548,8 @@ export namespace Prisma {
     stripeSubscriptionId?: string | null
     stripeConnectAccountId?: string | null
     trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
     createdAt?: Date | string
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
@@ -13509,6 +13569,8 @@ export namespace Prisma {
     stripeSubscriptionId?: string | null
     stripeConnectAccountId?: string | null
     trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
     createdAt?: Date | string
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
@@ -13595,6 +13657,8 @@ export namespace Prisma {
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
@@ -13614,6 +13678,8 @@ export namespace Prisma {
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
@@ -13690,6 +13756,8 @@ export namespace Prisma {
     stripeSubscriptionId?: string | null
     stripeConnectAccountId?: string | null
     trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -13709,6 +13777,8 @@ export namespace Prisma {
     stripeSubscriptionId?: string | null
     stripeConnectAccountId?: string | null
     trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -13789,6 +13859,8 @@ export namespace Prisma {
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -13808,6 +13880,8 @@ export namespace Prisma {
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -13878,6 +13952,8 @@ export namespace Prisma {
     stripeSubscriptionId?: string | null
     stripeConnectAccountId?: string | null
     trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
@@ -13897,6 +13973,8 @@ export namespace Prisma {
     stripeSubscriptionId?: string | null
     stripeConnectAccountId?: string | null
     trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
@@ -13932,6 +14010,8 @@ export namespace Prisma {
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
@@ -13951,6 +14031,8 @@ export namespace Prisma {
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
@@ -13970,6 +14052,8 @@ export namespace Prisma {
     stripeSubscriptionId?: string | null
     stripeConnectAccountId?: string | null
     trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -13989,6 +14073,8 @@ export namespace Prisma {
     stripeSubscriptionId?: string | null
     stripeConnectAccountId?: string | null
     trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -14024,6 +14110,8 @@ export namespace Prisma {
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -14043,6 +14131,8 @@ export namespace Prisma {
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -14062,6 +14152,8 @@ export namespace Prisma {
     stripeSubscriptionId?: string | null
     stripeConnectAccountId?: string | null
     trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -14081,6 +14173,8 @@ export namespace Prisma {
     stripeSubscriptionId?: string | null
     stripeConnectAccountId?: string | null
     trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -14116,6 +14210,8 @@ export namespace Prisma {
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -14135,6 +14231,8 @@ export namespace Prisma {
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput

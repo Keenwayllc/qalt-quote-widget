@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { hashPassword, signToken } from "@/lib/auth";
+import { hashPassword } from "@/lib/auth";
 import { sendEmail } from "@/lib/email";
-import { WelcomeEmail } from "@/components/emails/WelcomeEmail";
-import React from 'react';
+import { VerifyEmail } from "@/components/emails/VerifyEmail";
+import crypto from "crypto";
+import React from "react";
 
 export async function POST(req: Request) {
   try {
@@ -19,17 +20,19 @@ export async function POST(req: Request) {
     }
 
     const passwordHash = await hashPassword(password);
+    const emailVerificationToken = crypto.randomBytes(32).toString("hex");
 
-    // Create Company and initialize their default profiles and widget settings
     const trialEndsAt = new Date();
     trialEndsAt.setDate(trialEndsAt.getDate() + 14);
 
-    const company = await prisma.company.create({
+    await prisma.company.create({
       data: {
         email,
         passwordHash,
         name,
         trialEndsAt,
+        emailVerified: false,
+        emailVerificationToken,
         pricingProfiles: {
           create: {
             baseRatePerMile: 2.5,
@@ -45,33 +48,20 @@ export async function POST(req: Request) {
       },
     });
 
-    // Create session token
-    const token = await signToken({ companyId: company.id, email: company.email });
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL!;
+    const verifyUrl = `${appUrl}/api/auth/verify-email?token=${emailVerificationToken}`;
 
-    // Send welcome email — React.createElement avoids JSX-in-try/catch lint
     try {
       await sendEmail({
-        to: company.email,
-        subject: "Welcome to Qalt!",
-        react: React.createElement(WelcomeEmail, { companyName: company.name }),
+        to: email,
+        subject: "Confirm your Qalt account",
+        react: React.createElement(VerifyEmail, { companyName: name, verifyUrl }),
       });
     } catch (emailError) {
-      console.error("Failed to send welcome email:", emailError);
-      // We don't block registration if welcome email fails
+      console.error("Failed to send verification email:", emailError);
     }
 
-    const response = NextResponse.json({ success: true, companyId: company.id });
-    
-    response.cookies.set({
-      name: "qalt_token",
-      value: token,
-      httpOnly: true,
-      path: "/",
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24 * 7, // 1 week
-    });
-
-    return response;
+    return NextResponse.json({ success: true, requiresVerification: true });
   } catch (error) {
     console.error("Registration error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

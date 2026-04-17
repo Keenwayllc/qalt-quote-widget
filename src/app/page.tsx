@@ -168,7 +168,7 @@ export default function LandingPage() {
           </motion.div>
 
           {/* Ambient floating orbs — z-15 puts them above dark overlay (z-10) but below content (z-20) */}
-          <div className="absolute inset-0 z-[15] pointer-events-none overflow-hidden">
+          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
             <motion.div
               animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
               transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}

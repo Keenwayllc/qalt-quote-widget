@@ -22,6 +22,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }
 
+    if (!company.emailVerified) {
+      return NextResponse.json(
+        { error: "Please verify your email before logging in. Check your inbox for the confirmation link." },
+        { status: 403 }
+      );
+    }
+
     // Create session token
     const token = await signToken({ companyId: company.id, email: company.email });
 

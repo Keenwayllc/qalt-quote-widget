@@ -19,6 +19,8 @@ model Company {
   stripeSubscriptionId String?
   stripeConnectAccountId String?
   trialEndsAt          DateTime?
+  emailVerified        Boolean          @default(false)
+  emailVerificationToken String?        @unique
   createdAt            DateTime         @default(now())
   pricingProfiles      PricingProfile[]
   quoteRequests        QuoteRequest[]

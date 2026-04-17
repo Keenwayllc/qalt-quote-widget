@@ -132,6 +132,8 @@ exports.Prisma.CompanyScalarFieldEnum = {
   stripeSubscriptionId: 'stripeSubscriptionId',
   stripeConnectAccountId: 'stripeConnectAccountId',
   trialEndsAt: 'trialEndsAt',
+  emailVerified: 'emailVerified',
+  emailVerificationToken: 'emailVerificationToken',
   createdAt: 'createdAt'
 };
 

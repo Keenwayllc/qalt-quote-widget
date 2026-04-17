@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Building2, Mail, Lock, Eye, EyeOff, ArrowRight, ArrowLeft, Loader2, CheckCircle, Zap, Shield, BarChart3 } from "lucide-react";
+import { Building2, Mail, Lock, Eye, EyeOff, ArrowRight, ArrowLeft, Loader2, CheckCircle, Zap, Shield, BarChart3, MailCheck } from "lucide-react";
 import QaltLogo from "@/components/shared/QaltLogo";
 
 const features = [
@@ -16,6 +16,8 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [registered, setRegistered] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,7 +37,8 @@ export default function RegisterPage() {
       });
 
       if (res.ok) {
-        window.location.href = "/dashboard";
+        setRegisteredEmail(String(email));
+        setRegistered(true);
       } else {
         const data = await res.json();
         setError(data.error || "Failed to register");
@@ -46,6 +49,43 @@ export default function RegisterPage() {
       setLoading(false);
     }
   };
+
+  if (registered) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="w-full max-w-md bg-white rounded-[32px] shadow-xl border border-slate-100 overflow-hidden"
+        >
+          <div className="bg-red-600 px-8 py-10 text-center">
+            <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg">
+              <MailCheck size={36} className="text-red-600" />
+            </div>
+            <h1 className="text-2xl font-black text-white tracking-tight">Check your inbox</h1>
+            <p className="text-red-200 text-sm font-medium mt-2">One more step to activate your account</p>
+          </div>
+          <div className="px-8 py-8 text-center space-y-4">
+            <p className="text-slate-600 text-sm leading-relaxed font-medium">
+              We sent a confirmation link to{" "}
+              <span className="font-black text-slate-900">{registeredEmail}</span>.
+              <br />Click it to confirm your email and get started.
+            </p>
+            <p className="text-slate-400 text-xs font-medium">
+              The link expires in 24 hours. Check your spam folder if you don&apos;t see it.
+            </p>
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 mt-4 px-6 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-800 transition-all"
+            >
+              Back to Login <ArrowRight size={14} />
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex">
