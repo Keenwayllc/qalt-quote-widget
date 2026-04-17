@@ -75,7 +75,7 @@ export default async function BillingPage({
               </div>
               <p className="text-red-100 text-sm font-medium">
                 Unlock unlimited quotes, full white-label, analytics, and priority support. No charge for 7 days. Cancel before your trial ends and you will never be charged. You can upgrade, downgrade, or cancel anytime from your{" "}
-                <Link href="/dashboard/billing" className="underline underline-offset-2 hover:text-white transition-colors">billing settings</Link>.
+                <Link href="/dashboard/billing#account-management" className="underline underline-offset-2 hover:text-white transition-colors">billing settings</Link>.
               </p>
             </div>
           </div>
@@ -114,7 +114,9 @@ export default async function BillingPage({
         <BillingClient currentPlan={company.subscriptionPlan} />
       </div>
 
-      <AccountDangerZone hasPaidPlan={!isStarter} />
+      <div id="account-management">
+        <AccountDangerZone hasPaidPlan={!isStarter} />
+      </div>
     </div>
   );
 }
