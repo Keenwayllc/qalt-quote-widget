@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import QaltLogo from "@/components/shared/QaltLogo";
 import {
   LayoutDashboard,
@@ -84,6 +84,26 @@ export default function DashboardClientLayout({
     { name: "Help & FAQ", href: "/dashboard/support", icon: HelpCircle },
   ];
 
+  const router = useRouter();
+  const logoRef = useRef<HTMLButtonElement>(null);
+
+  const handleLogoClick = () => {
+    const el = logoRef.current;
+    if (el) {
+      el.animate(
+        [
+          { transform: "scale(1) rotate(0deg)", opacity: "1" },
+          { transform: "scale(1.18) rotate(-6deg)", opacity: "0.85" },
+          { transform: "scale(0.92) rotate(3deg)", opacity: "0.95" },
+          { transform: "scale(1) rotate(0deg)", opacity: "1" },
+        ],
+        { duration: 420, easing: "cubic-bezier(0.34, 1.56, 0.64, 1)" }
+      );
+    }
+    closeSidebar();
+    router.push("/dashboard");
+  };
+
   const handleLogout = async () => {
     setIsLoggingOut(true);
     await fetch("/api/auth/logout", { method: "POST" });
@@ -111,9 +131,14 @@ export default function DashboardClientLayout({
         <div className="flex flex-col h-full">
           {/* Sidebar logo row — includes close button on mobile */}
           <div className="p-6 sm:p-8 flex items-center justify-between">
-            <Link href="/dashboard" className="transition-opacity hover:opacity-80" onClick={closeSidebar}>
+            <button
+              ref={logoRef}
+              onClick={handleLogoClick}
+              className="focus:outline-none will-change-transform transition-transform duration-200 hover:scale-105 hover:-rotate-2 active:scale-95"
+              aria-label="Go to dashboard home"
+            >
               <QaltLogo size="lg" />
-            </Link>
+            </button>
             <button
               onClick={closeSidebar}
               className="lg:hidden p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
