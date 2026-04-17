@@ -5,7 +5,6 @@ import {
   User, Mail, Save, CheckCircle2, AlertCircle, Send,
   Phone, Globe, MapPin, Building2, Camera, Upload,
 } from "lucide-react";
-import Image from "next/image";
 
 type ProfileData = {
   name: string;
@@ -80,7 +79,8 @@ function ImageUploader({
           }`}
         >
           {value ? (
-            <Image src={value} alt={label} width={80} height={80} className="w-full h-full object-cover" />
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={value} alt={label} className="w-full h-full object-cover" />
           ) : (
             <Camera size={22} className="text-slate-400" />
           )}
