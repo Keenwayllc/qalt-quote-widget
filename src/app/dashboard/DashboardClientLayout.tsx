@@ -30,12 +30,14 @@ export default function DashboardClientLayout({
   pendingCount = 0,
   companyId,
   trialDaysLeft,
+  incompleteHrefs = [],
 }: {
   children: React.ReactNode;
   subscriptionPlan: string;
   pendingCount?: number;
   companyId?: string;
   trialDaysLeft?: number | null;
+  incompleteHrefs?: string[];
 }) {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -182,6 +184,7 @@ export default function DashboardClientLayout({
               const isActive = pathname === item.href;
               const isLocked = item.isLocked;
               const showBadge = (item as { showBadge?: boolean }).showBadge && quoteCount !== null && quoteCount > 0;
+              const needsAttention = !isActive && !isLocked && incompleteHrefs.includes(item.href);
 
               return (
                 <Link
@@ -220,6 +223,12 @@ export default function DashboardClientLayout({
 
                   {isLocked && (
                     <Lock size={12} className="text-amber-500 ml-2" />
+                  )}
+                  {needsAttention && (
+                    <span className="ml-2 relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
+                    </span>
                   )}
                 </Link>
               );

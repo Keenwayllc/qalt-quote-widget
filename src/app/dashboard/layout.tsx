@@ -21,12 +21,18 @@ export default async function DashboardLayout({
     }
   }
 
-  const pendingCount = await prisma.quoteRequest.count({
-    where: {
-      companyId: company.id,
-      status: "PENDING",
-    }
-  });
+  const [pendingCount, pricingCount, widgetCount, quoteCount] = await Promise.all([
+    prisma.quoteRequest.count({ where: { companyId: company.id, status: "PENDING" } }),
+    prisma.pricingProfile.count({ where: { companyId: company.id } }),
+    prisma.widgetSettings.count({ where: { companyId: company.id } }),
+    prisma.quoteRequest.count({ where: { companyId: company.id } }),
+  ]);
+
+  // Which nav hrefs still need attention (for sidebar pulsing dots)
+  const incompleteHrefs: string[] = [];
+  if (pricingCount === 0) incompleteHrefs.push("/dashboard/pricing");
+  if (widgetCount === 0) incompleteHrefs.push("/dashboard/widget");
+  if (quoteCount === 0) incompleteHrefs.push("/dashboard/embed");
 
   const daysLeft = trialDaysRemaining(company);
 
@@ -36,6 +42,7 @@ export default async function DashboardLayout({
       pendingCount={pendingCount}
       companyId={company.id}
       trialDaysLeft={daysLeft}
+      incompleteHrefs={incompleteHrefs}
     >
       {children}
     </DashboardClientLayout>
