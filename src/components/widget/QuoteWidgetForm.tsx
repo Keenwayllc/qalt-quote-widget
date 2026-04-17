@@ -824,7 +824,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                       ) : widgetSettings.paymentsEnabled ? (
                         <>Pay &amp; Book <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>
                       ) : (
-                        <>Book Shipment <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>
+                        <>Submit Quote <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>
                       )}
                     </span>
                   </button>
