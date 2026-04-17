@@ -111,6 +111,44 @@ export default async function BillingPage({
       <div id="pro">
         <BillingClient currentPlan={company.subscriptionPlan} />
       </div>
+
+      <AccountDangerZone hasPaidPlan={!isStarter} />
     </div>
   );
 }
+
+function AccountDangerZone({ hasPaidPlan }: { hasPaidPlan: boolean }) {
+  return (
+    <div className="mt-16 border border-red-200 rounded-2xl overflow-hidden">
+      <div className="bg-red-50 px-6 py-4 border-b border-red-200">
+        <h2 className="text-sm font-black text-red-700 uppercase tracking-widest">Account Management</h2>
+      </div>
+      <div className="bg-white divide-y divide-slate-100">
+        {hasPaidPlan && (
+          <div className="flex items-start justify-between gap-6 px-6 py-5">
+            <div>
+              <p className="font-bold text-slate-900 text-sm">Cancel Subscription</p>
+              <p className="text-slate-500 text-xs mt-0.5 leading-relaxed">
+                Downgrade to the free plan. Your widget stays active with up to 25 quotes per month. Your data is kept.
+              </p>
+            </div>
+            <CancelSubscriptionButton />
+          </div>
+        )}
+        <div className="flex items-start justify-between gap-6 px-6 py-5">
+          <div>
+            <p className="font-bold text-red-700 text-sm">Close Account</p>
+            <p className="text-slate-500 text-xs mt-0.5 leading-relaxed">
+              Permanently delete your account, all quotes, widget settings, and cancel any active subscription. This cannot be undone.
+            </p>
+          </div>
+          <DeleteAccountButton />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// These must be client components — import them
+import CancelSubscriptionButton from "./CancelSubscriptionButton";
+import DeleteAccountButton from "./DeleteAccountButton";
