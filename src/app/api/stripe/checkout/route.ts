@@ -6,13 +6,20 @@ import prisma from "@/lib/prisma";
 export async function POST(req: Request) {
   try {
     const company = await getCurrentCompany();
-    const { plan } = await req.json();
+    const { plan, interval } = await req.json();
 
-    const priceIds: Record<string, string | undefined> = {
-      PRO: process.env.STRIPE_PRO_PRICE_ID,
-      ENTERPRISE: process.env.STRIPE_ENTERPRISE_PRICE_ID,
+    const priceIds: Record<string, Record<string, string | undefined>> = {
+      PRO: {
+        monthly: process.env.STRIPE_PRO_PRICE_ID,
+        annual: process.env.STRIPE_PRO_ANNUAL_PRICE_ID,
+      },
+      ENTERPRISE: {
+        monthly: process.env.STRIPE_ENTERPRISE_PRICE_ID,
+        annual: process.env.STRIPE_ENTERPRISE_ANNUAL_PRICE_ID,
+      },
     };
-    const priceId = priceIds[plan];
+    const billing = interval === "annual" ? "annual" : "monthly";
+    const priceId = priceIds[plan]?.[billing];
     if (!priceId) {
       return NextResponse.json({ error: "Invalid plan." }, { status: 400 });
     }
