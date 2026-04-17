@@ -13,6 +13,14 @@ model Company {
   passwordHash           String
   name                   String
   logoUrl                String?
+  profilePicUrl          String?
+  phone                  String?
+  website                String?
+  address                String?
+  city                   String?
+  state                  String?
+  zip                    String?
+  contactName            String?
   timezone               String           @default("UTC")
   subscriptionPlan       String           @default("STARTER")
   stripeCustomerId       String?

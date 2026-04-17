@@ -1494,6 +1494,14 @@ export namespace Prisma {
     passwordHash: string | null
     name: string | null
     logoUrl: string | null
+    profilePicUrl: string | null
+    phone: string | null
+    website: string | null
+    address: string | null
+    city: string | null
+    state: string | null
+    zip: string | null
+    contactName: string | null
     timezone: string | null
     subscriptionPlan: string | null
     stripeCustomerId: string | null
@@ -1511,6 +1519,14 @@ export namespace Prisma {
     passwordHash: string | null
     name: string | null
     logoUrl: string | null
+    profilePicUrl: string | null
+    phone: string | null
+    website: string | null
+    address: string | null
+    city: string | null
+    state: string | null
+    zip: string | null
+    contactName: string | null
     timezone: string | null
     subscriptionPlan: string | null
     stripeCustomerId: string | null
@@ -1528,6 +1544,14 @@ export namespace Prisma {
     passwordHash: number
     name: number
     logoUrl: number
+    profilePicUrl: number
+    phone: number
+    website: number
+    address: number
+    city: number
+    state: number
+    zip: number
+    contactName: number
     timezone: number
     subscriptionPlan: number
     stripeCustomerId: number
@@ -1547,6 +1571,14 @@ export namespace Prisma {
     passwordHash?: true
     name?: true
     logoUrl?: true
+    profilePicUrl?: true
+    phone?: true
+    website?: true
+    address?: true
+    city?: true
+    state?: true
+    zip?: true
+    contactName?: true
     timezone?: true
     subscriptionPlan?: true
     stripeCustomerId?: true
@@ -1564,6 +1596,14 @@ export namespace Prisma {
     passwordHash?: true
     name?: true
     logoUrl?: true
+    profilePicUrl?: true
+    phone?: true
+    website?: true
+    address?: true
+    city?: true
+    state?: true
+    zip?: true
+    contactName?: true
     timezone?: true
     subscriptionPlan?: true
     stripeCustomerId?: true
@@ -1581,6 +1621,14 @@ export namespace Prisma {
     passwordHash?: true
     name?: true
     logoUrl?: true
+    profilePicUrl?: true
+    phone?: true
+    website?: true
+    address?: true
+    city?: true
+    state?: true
+    zip?: true
+    contactName?: true
     timezone?: true
     subscriptionPlan?: true
     stripeCustomerId?: true
@@ -1671,6 +1719,14 @@ export namespace Prisma {
     passwordHash: string
     name: string
     logoUrl: string | null
+    profilePicUrl: string | null
+    phone: string | null
+    website: string | null
+    address: string | null
+    city: string | null
+    state: string | null
+    zip: string | null
+    contactName: string | null
     timezone: string
     subscriptionPlan: string
     stripeCustomerId: string | null
@@ -1705,6 +1761,14 @@ export namespace Prisma {
     passwordHash?: boolean
     name?: boolean
     logoUrl?: boolean
+    profilePicUrl?: boolean
+    phone?: boolean
+    website?: boolean
+    address?: boolean
+    city?: boolean
+    state?: boolean
+    zip?: boolean
+    contactName?: boolean
     timezone?: boolean
     subscriptionPlan?: boolean
     stripeCustomerId?: boolean
@@ -1728,6 +1792,14 @@ export namespace Prisma {
     passwordHash?: boolean
     name?: boolean
     logoUrl?: boolean
+    profilePicUrl?: boolean
+    phone?: boolean
+    website?: boolean
+    address?: boolean
+    city?: boolean
+    state?: boolean
+    zip?: boolean
+    contactName?: boolean
     timezone?: boolean
     subscriptionPlan?: boolean
     stripeCustomerId?: boolean
@@ -1745,6 +1817,14 @@ export namespace Prisma {
     passwordHash?: boolean
     name?: boolean
     logoUrl?: boolean
+    profilePicUrl?: boolean
+    phone?: boolean
+    website?: boolean
+    address?: boolean
+    city?: boolean
+    state?: boolean
+    zip?: boolean
+    contactName?: boolean
     timezone?: boolean
     subscriptionPlan?: boolean
     stripeCustomerId?: boolean
@@ -1762,6 +1842,14 @@ export namespace Prisma {
     passwordHash?: boolean
     name?: boolean
     logoUrl?: boolean
+    profilePicUrl?: boolean
+    phone?: boolean
+    website?: boolean
+    address?: boolean
+    city?: boolean
+    state?: boolean
+    zip?: boolean
+    contactName?: boolean
     timezone?: boolean
     subscriptionPlan?: boolean
     stripeCustomerId?: boolean
@@ -1773,7 +1861,7 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "logoUrl" | "timezone" | "subscriptionPlan" | "stripeCustomerId" | "stripeSubscriptionId" | "stripeConnectAccountId" | "trialEndsAt" | "emailVerified" | "emailVerificationToken" | "createdAt", ExtArgs["result"]["company"]>
+  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "logoUrl" | "profilePicUrl" | "phone" | "website" | "address" | "city" | "state" | "zip" | "contactName" | "timezone" | "subscriptionPlan" | "stripeCustomerId" | "stripeSubscriptionId" | "stripeConnectAccountId" | "trialEndsAt" | "emailVerified" | "emailVerificationToken" | "createdAt", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     pricingProfiles?: boolean | Company$pricingProfilesArgs<ExtArgs>
     quoteRequests?: boolean | Company$quoteRequestsArgs<ExtArgs>
@@ -1800,6 +1888,14 @@ export namespace Prisma {
       passwordHash: string
       name: string
       logoUrl: string | null
+      profilePicUrl: string | null
+      phone: string | null
+      website: string | null
+      address: string | null
+      city: string | null
+      state: string | null
+      zip: string | null
+      contactName: string | null
       timezone: string
       subscriptionPlan: string
       stripeCustomerId: string | null
@@ -2242,6 +2338,14 @@ export namespace Prisma {
     readonly passwordHash: FieldRef<"Company", 'String'>
     readonly name: FieldRef<"Company", 'String'>
     readonly logoUrl: FieldRef<"Company", 'String'>
+    readonly profilePicUrl: FieldRef<"Company", 'String'>
+    readonly phone: FieldRef<"Company", 'String'>
+    readonly website: FieldRef<"Company", 'String'>
+    readonly address: FieldRef<"Company", 'String'>
+    readonly city: FieldRef<"Company", 'String'>
+    readonly state: FieldRef<"Company", 'String'>
+    readonly zip: FieldRef<"Company", 'String'>
+    readonly contactName: FieldRef<"Company", 'String'>
     readonly timezone: FieldRef<"Company", 'String'>
     readonly subscriptionPlan: FieldRef<"Company", 'String'>
     readonly stripeCustomerId: FieldRef<"Company", 'String'>
@@ -10009,6 +10113,14 @@ export namespace Prisma {
     passwordHash: 'passwordHash',
     name: 'name',
     logoUrl: 'logoUrl',
+    profilePicUrl: 'profilePicUrl',
+    phone: 'phone',
+    website: 'website',
+    address: 'address',
+    city: 'city',
+    state: 'state',
+    zip: 'zip',
+    contactName: 'contactName',
     timezone: 'timezone',
     subscriptionPlan: 'subscriptionPlan',
     stripeCustomerId: 'stripeCustomerId',
@@ -10276,6 +10388,14 @@ export namespace Prisma {
     passwordHash?: StringFilter<"Company"> | string
     name?: StringFilter<"Company"> | string
     logoUrl?: StringNullableFilter<"Company"> | string | null
+    profilePicUrl?: StringNullableFilter<"Company"> | string | null
+    phone?: StringNullableFilter<"Company"> | string | null
+    website?: StringNullableFilter<"Company"> | string | null
+    address?: StringNullableFilter<"Company"> | string | null
+    city?: StringNullableFilter<"Company"> | string | null
+    state?: StringNullableFilter<"Company"> | string | null
+    zip?: StringNullableFilter<"Company"> | string | null
+    contactName?: StringNullableFilter<"Company"> | string | null
     timezone?: StringFilter<"Company"> | string
     subscriptionPlan?: StringFilter<"Company"> | string
     stripeCustomerId?: StringNullableFilter<"Company"> | string | null
@@ -10298,6 +10418,14 @@ export namespace Prisma {
     passwordHash?: SortOrder
     name?: SortOrder
     logoUrl?: SortOrderInput | SortOrder
+    profilePicUrl?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    state?: SortOrderInput | SortOrder
+    zip?: SortOrderInput | SortOrder
+    contactName?: SortOrderInput | SortOrder
     timezone?: SortOrder
     subscriptionPlan?: SortOrder
     stripeCustomerId?: SortOrderInput | SortOrder
@@ -10324,6 +10452,14 @@ export namespace Prisma {
     passwordHash?: StringFilter<"Company"> | string
     name?: StringFilter<"Company"> | string
     logoUrl?: StringNullableFilter<"Company"> | string | null
+    profilePicUrl?: StringNullableFilter<"Company"> | string | null
+    phone?: StringNullableFilter<"Company"> | string | null
+    website?: StringNullableFilter<"Company"> | string | null
+    address?: StringNullableFilter<"Company"> | string | null
+    city?: StringNullableFilter<"Company"> | string | null
+    state?: StringNullableFilter<"Company"> | string | null
+    zip?: StringNullableFilter<"Company"> | string | null
+    contactName?: StringNullableFilter<"Company"> | string | null
     timezone?: StringFilter<"Company"> | string
     subscriptionPlan?: StringFilter<"Company"> | string
     stripeCustomerId?: StringNullableFilter<"Company"> | string | null
@@ -10345,6 +10481,14 @@ export namespace Prisma {
     passwordHash?: SortOrder
     name?: SortOrder
     logoUrl?: SortOrderInput | SortOrder
+    profilePicUrl?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    state?: SortOrderInput | SortOrder
+    zip?: SortOrderInput | SortOrder
+    contactName?: SortOrderInput | SortOrder
     timezone?: SortOrder
     subscriptionPlan?: SortOrder
     stripeCustomerId?: SortOrderInput | SortOrder
@@ -10368,6 +10512,14 @@ export namespace Prisma {
     passwordHash?: StringWithAggregatesFilter<"Company"> | string
     name?: StringWithAggregatesFilter<"Company"> | string
     logoUrl?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    profilePicUrl?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    phone?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    website?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    address?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    city?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    state?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    zip?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    contactName?: StringNullableWithAggregatesFilter<"Company"> | string | null
     timezone?: StringWithAggregatesFilter<"Company"> | string
     subscriptionPlan?: StringWithAggregatesFilter<"Company"> | string
     stripeCustomerId?: StringNullableWithAggregatesFilter<"Company"> | string | null
@@ -10989,6 +11141,14 @@ export namespace Prisma {
     passwordHash: string
     name: string
     logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
     timezone?: string
     subscriptionPlan?: string
     stripeCustomerId?: string | null
@@ -11011,6 +11171,14 @@ export namespace Prisma {
     passwordHash: string
     name: string
     logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
     timezone?: string
     subscriptionPlan?: string
     stripeCustomerId?: string | null
@@ -11033,6 +11201,14 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11055,6 +11231,14 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11077,6 +11261,14 @@ export namespace Prisma {
     passwordHash: string
     name: string
     logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
     timezone?: string
     subscriptionPlan?: string
     stripeCustomerId?: string | null
@@ -11094,6 +11286,14 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11111,6 +11311,14 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11945,6 +12153,14 @@ export namespace Prisma {
     passwordHash?: SortOrder
     name?: SortOrder
     logoUrl?: SortOrder
+    profilePicUrl?: SortOrder
+    phone?: SortOrder
+    website?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    zip?: SortOrder
+    contactName?: SortOrder
     timezone?: SortOrder
     subscriptionPlan?: SortOrder
     stripeCustomerId?: SortOrder
@@ -11962,6 +12178,14 @@ export namespace Prisma {
     passwordHash?: SortOrder
     name?: SortOrder
     logoUrl?: SortOrder
+    profilePicUrl?: SortOrder
+    phone?: SortOrder
+    website?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    zip?: SortOrder
+    contactName?: SortOrder
     timezone?: SortOrder
     subscriptionPlan?: SortOrder
     stripeCustomerId?: SortOrder
@@ -11979,6 +12203,14 @@ export namespace Prisma {
     passwordHash?: SortOrder
     name?: SortOrder
     logoUrl?: SortOrder
+    profilePicUrl?: SortOrder
+    phone?: SortOrder
+    website?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    zip?: SortOrder
+    contactName?: SortOrder
     timezone?: SortOrder
     subscriptionPlan?: SortOrder
     stripeCustomerId?: SortOrder
@@ -13542,6 +13774,14 @@ export namespace Prisma {
     passwordHash: string
     name: string
     logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
     timezone?: string
     subscriptionPlan?: string
     stripeCustomerId?: string | null
@@ -13563,6 +13803,14 @@ export namespace Prisma {
     passwordHash: string
     name: string
     logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
     timezone?: string
     subscriptionPlan?: string
     stripeCustomerId?: string | null
@@ -13651,6 +13899,14 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13672,6 +13928,14 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13750,6 +14014,14 @@ export namespace Prisma {
     passwordHash: string
     name: string
     logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
     timezone?: string
     subscriptionPlan?: string
     stripeCustomerId?: string | null
@@ -13771,6 +14043,14 @@ export namespace Prisma {
     passwordHash: string
     name: string
     logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
     timezone?: string
     subscriptionPlan?: string
     stripeCustomerId?: string | null
@@ -13853,6 +14133,14 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13874,6 +14162,14 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13946,6 +14242,14 @@ export namespace Prisma {
     passwordHash: string
     name: string
     logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
     timezone?: string
     subscriptionPlan?: string
     stripeCustomerId?: string | null
@@ -13967,6 +14271,14 @@ export namespace Prisma {
     passwordHash: string
     name: string
     logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
     timezone?: string
     subscriptionPlan?: string
     stripeCustomerId?: string | null
@@ -14004,6 +14316,14 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14025,6 +14345,14 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14046,6 +14374,14 @@ export namespace Prisma {
     passwordHash: string
     name: string
     logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
     timezone?: string
     subscriptionPlan?: string
     stripeCustomerId?: string | null
@@ -14067,6 +14403,14 @@ export namespace Prisma {
     passwordHash: string
     name: string
     logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
     timezone?: string
     subscriptionPlan?: string
     stripeCustomerId?: string | null
@@ -14104,6 +14448,14 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14125,6 +14477,14 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14146,6 +14506,14 @@ export namespace Prisma {
     passwordHash: string
     name: string
     logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
     timezone?: string
     subscriptionPlan?: string
     stripeCustomerId?: string | null
@@ -14167,6 +14535,14 @@ export namespace Prisma {
     passwordHash: string
     name: string
     logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
     timezone?: string
     subscriptionPlan?: string
     stripeCustomerId?: string | null
@@ -14204,6 +14580,14 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14225,6 +14609,14 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null

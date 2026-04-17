@@ -4,6 +4,10 @@ import { verifyToken } from "@/lib/auth";
 import { getAdminStorage } from "@/lib/firebase-admin";
 import path from "path";
 
+export const config = {
+  api: { bodyParser: { sizeLimit: "100mb" } },
+};
+
 export async function POST(req: Request) {
   try {
     // 1. Verify Authentication
