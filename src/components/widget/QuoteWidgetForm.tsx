@@ -918,15 +918,15 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
               ) : null;
             })()}
             {!showWhiteLabel && (
-              <a href="https://qalt.site" target="_blank" rel="noopener noreferrer" className="mt-3 flex items-center justify-center gap-1.5 opacity-50 hover:opacity-80 transition-opacity">
-                <span className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em]">Powered by</span>
-                <div className="flex items-center gap-1.5 scale-90 transform origin-left">
+              <a href="https://qalt.site" target="_blank" rel="noopener noreferrer" className="mt-4 flex items-center justify-center gap-2 opacity-80 hover:opacity-100 transition-opacity">
+                <span className="text-[11px] text-slate-500 font-bold uppercase tracking-[0.2em]">Powered by</span>
+                <div className="flex items-center gap-2 transform origin-left">
                   <Image
                     src="/images/qalt-logo-main-2026.png"
                     alt="Qalt Logo"
                     width={1080}
                     height={1080}
-                    className="h-7 w-auto object-contain"
+                    className="h-10 w-auto object-contain"
                   />
                 </div>
               </a>
