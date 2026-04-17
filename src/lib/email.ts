@@ -25,7 +25,9 @@ export const sendEmail = async ({
     });
     return { success: true, data };
   } catch (error) {
-    console.error('Error sending email:', error);
+    const msg = error instanceof Error ? error.message : JSON.stringify(error);
+    console.error('[email] FULL ERROR:', msg);
+    console.error('[email] Stack:', error instanceof Error ? error.stack : 'no stack');
     return { success: false, error };
   }
 };
