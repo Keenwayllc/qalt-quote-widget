@@ -42,6 +42,7 @@ export function getDefaultPricing(company: Awaited<ReturnType<typeof getCurrentC
  * Existing users with no trialEndsAt are grandfathered (not blocked).
  */
 export function isTrialExpired(company: Awaited<ReturnType<typeof getCurrentCompany>>): boolean {
+  if (company.subscriptionPlan === "STARTER") return false; // Free Forever
   const isPaid = company.subscriptionPlan !== "STARTER";
   if (isPaid) return false;
   if (!company.trialEndsAt) return false; // grandfathered user
@@ -53,6 +54,7 @@ export function isTrialExpired(company: Awaited<ReturnType<typeof getCurrentComp
  * Returns 0 if trial ended today or in the past.
  */
 export function trialDaysRemaining(company: Awaited<ReturnType<typeof getCurrentCompany>>): number | null {
+  if (company.subscriptionPlan === "STARTER") return null; // No trial countdown for Free plan
   const isPaid = company.subscriptionPlan !== "STARTER";
   if (isPaid || !company.trialEndsAt) return null;
   const diff = company.trialEndsAt.getTime() - Date.now();
