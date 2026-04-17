@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import CookiePreferenceModal from "./CookiePreferenceModal";
+import QaltLogo from "@/components/shared/QaltLogo";
 
 export default function CookieBanner() {
   const [isVisible, setIsVisible] = useState(false);
@@ -46,7 +47,10 @@ export default function CookieBanner() {
     <>
       <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] font-sans" style={{ fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif" }}>
         <div className="max-w-7xl mx-auto px-4 py-4 md:py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="flex-1 pr-4 md:pr-8">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-5 flex-1 pr-4 md:pr-8">
+            <div className="shrink-0">
+              <QaltLogo size="sm" linked={false} noAnimate />
+            </div>
             <p className="text-xs text-slate-500 leading-relaxed font-medium">
               We use cookies to track visitors, measure ads, ad campaign effectiveness and analyze site traffic. We may also share information about your use of our site with 3rd parties. For more info, see, our <a href="/legal/privacy" className="text-red-600 font-semibold hover:underline">Cookie Policy</a> and our <a href="/legal/privacy" className="text-red-600 font-semibold hover:underline">Privacy Policy</a>. By clicking on &quot;<button onClick={() => setIsModalOpen(true)} className="text-red-600 font-semibold hover:underline">Cookie Preference Manager</button>&quot; you can choose to enable or disable them. By clicking &quot;Accept all&quot; you agree to the storing of all cookies on your device.
             </p>
