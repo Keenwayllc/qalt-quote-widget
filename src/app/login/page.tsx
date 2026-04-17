@@ -20,6 +20,10 @@ function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [lastEmail, setLastEmail] = useState("");
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendSent, setResendSent] = useState(false);
+  const isVerificationError = error.toLowerCase().includes("verify your email");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,8 +31,9 @@ function LoginForm() {
     setError("");
 
     const formData = new FormData(e.currentTarget);
-    const email = formData.get("email");
+    const email = formData.get("email") as string;
     const password = formData.get("password");
+    setLastEmail(email);
 
     try {
       const res = await fetch("/api/auth/login", {
@@ -180,10 +185,31 @@ function LoginForm() {
               <motion.div
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex items-center gap-3 p-4 bg-rose-50 border border-rose-100 rounded-2xl"
+                className="flex flex-col gap-3 p-4 bg-rose-50 border border-rose-100 rounded-2xl"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
-                <p className="text-sm font-semibold text-rose-700">{error}</p>
+                <div className="flex items-center gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
+                  <p className="text-sm font-semibold text-rose-700">{error}</p>
+                </div>
+                {isVerificationError && (
+                  <button
+                    type="button"
+                    disabled={resendLoading || resendSent}
+                    onClick={async () => {
+                      setResendLoading(true);
+                      await fetch("/api/auth/resend-verification", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email: lastEmail }),
+                      });
+                      setResendLoading(false);
+                      setResendSent(true);
+                    }}
+                    className="ml-4 text-xs font-bold text-red-600 hover:text-red-700 underline disabled:opacity-50 text-left"
+                  >
+                    {resendSent ? "Confirmation email sent!" : resendLoading ? "Sending..." : "Resend confirmation email"}
+                  </button>
+                )}
               </motion.div>
             )}
 
