@@ -3,6 +3,7 @@ import { getEntitlements } from "@/lib/plans";
 import prisma from "@/lib/prisma";
 import BillingClient from "./BillingClient";
 import SuccessBanner from "./SuccessBanner";
+import Link from "next/link";
 import { Zap, Clock } from "lucide-react";
 
 export default async function BillingPage({
@@ -73,7 +74,8 @@ export default async function BillingPage({
                 </span>
               </div>
               <p className="text-red-100 text-sm font-medium">
-                Unlock unlimited quotes, full white-label, analytics, and priority support. No charge for 7 days. Cancel before your trial ends and you will never be charged. You can upgrade, downgrade, or cancel anytime from your billing settings.
+                Unlock unlimited quotes, full white-label, analytics, and priority support. No charge for 7 days. Cancel before your trial ends and you will never be charged. You can upgrade, downgrade, or cancel anytime from your{" "}
+                <Link href="/dashboard/billing" className="underline underline-offset-2 hover:text-white transition-colors">billing settings</Link>.
               </p>
             </div>
           </div>
