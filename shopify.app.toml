@@ -1,0 +1,24 @@
+name = "Qalt"
+client_id = "ce52b57c28dbc30e142570d28973c5a3"
+application_url = "https://www.qalt.site/api/shopify/install"
+embedded = false
+
+[auth]
+redirect_urls = [
+  "https://www.qalt.site/api/shopify/callback",
+  "https://qalt.site/api/shopify/callback"
+]
+
+[access.scope]
+scopes = "read_script_tags,write_script_tags"
+
+[webhooks]
+api_version = "2026-04"
+
+  [[webhooks.subscriptions]]
+  compliance_topics = ["customers/data_request", "customers/redact", "shop/redact"]
+  uri = "https://www.qalt.site/api/shopify/webhooks"
+
+[build]
+automatically_update_urls_on_dev = false
+dev_store_url = ""
