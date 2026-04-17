@@ -12,6 +12,7 @@ async function getCompany() {
   if (!token) return null;
   try {
     const payload = await verifyToken(token);
+    if (!payload) return null;
     return prisma.company.findUnique({ where: { id: payload.companyId } });
   } catch {
     return null;
