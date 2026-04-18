@@ -135,7 +135,7 @@ export default function ReadinessModal({ isOpen, onClose, jobId, stops, onSucces
                     <select
                       value={selectedStopId}
                       onChange={(e) => setSelectedStopId(e.target.value)}
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none"
+                      className="w-full px-4 py-3.5 bg-slate-100 border border-slate-300 rounded-2xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-emerald-500 outline-none"
                     >
                       {stops.map((js) => (
                         <option key={js.stopNote.id} value={js.stopNote.id}>
@@ -180,7 +180,7 @@ export default function ReadinessModal({ isOpen, onClose, jobId, stops, onSucces
                   value={checkData.notes}
                   onChange={(e) => setCheckData({ ...checkData, notes: e.target.value })}
                   placeholder="Optional readiness notes..."
-                  className="w-full bg-slate-50 border border-slate-100 rounded-2xl p-5 text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-emerald-500 transition-all resize-none"
+                  className="w-full bg-slate-100 border border-slate-300 rounded-2xl p-5 text-sm font-bold text-slate-900 placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-emerald-500 transition-all resize-none"
                   rows={2}
                 />
 

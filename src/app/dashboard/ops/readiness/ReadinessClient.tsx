@@ -208,7 +208,7 @@ export default function ReadinessClient({ stops }: { stops: any[] }) {
                 value={checkData.notes}
                 onChange={e => setCheckData({...checkData, notes: e.target.value})}
                 placeholder="Specific context for this check..."
-                className="w-full bg-slate-50 border border-slate-100 rounded-[2rem] p-6 text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-red-500 transition-all resize-none"
+                className="w-full bg-slate-100 border border-slate-300 rounded-[2rem] p-6 text-sm font-bold text-slate-900 placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-red-500 transition-all resize-none"
                 rows={3}
               />
            </div>

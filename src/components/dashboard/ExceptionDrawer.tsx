@@ -137,7 +137,7 @@ export default function ExceptionDrawer({
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder="Provide context for the dispatcher..."
-                    className="w-full bg-slate-50 border border-slate-100 rounded-3xl p-6 text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-red-500 transition-all resize-none"
+                    className="w-full bg-slate-100 border border-slate-300 rounded-3xl p-6 text-sm font-bold text-slate-900 placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-red-500 transition-all resize-none"
                     rows={4}
                    />
                </div>

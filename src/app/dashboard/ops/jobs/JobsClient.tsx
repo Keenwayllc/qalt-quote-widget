@@ -217,7 +217,7 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
                   required
                   value={formData.scheduledDate}
                   onChange={e => setFormData({...formData, scheduledDate: e.target.value})}
-                  className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:ring-2 focus:ring-red-500 outline-none"
+                  className="w-full px-5 py-4 bg-slate-100 border border-slate-300 rounded-2xl text-sm font-bold text-slate-900 placeholder-slate-500 focus:ring-2 focus:ring-red-500 outline-none"
                 />
               </div>
 
@@ -255,7 +255,7 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
                 <select
                   value={formData.quoteRequestId}
                   onChange={e => setFormData({...formData, quoteRequestId: e.target.value})}
-                  className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:ring-2 focus:ring-red-500 outline-none appearance-none"
+                  className="w-full px-5 py-4 bg-slate-100 border border-slate-300 rounded-2xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-red-500 outline-none appearance-none cursor-pointer"
                 >
                   <option value="">No linked quote</option>
                   {quotes.map((q) => (

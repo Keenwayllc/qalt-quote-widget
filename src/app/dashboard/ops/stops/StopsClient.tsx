@@ -214,7 +214,7 @@ export default function StopsClient({ initialStops }: { initialStops: any[] }) {
                     value={formData.companyName}
                     onChange={e => setFormData({...formData, companyName: e.target.value})}
                     placeholder="e.g. Acme Warehousing"
-                    className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:ring-2 focus:ring-red-500 outline-none"
+                    className="w-full px-5 py-4 bg-slate-100 border border-slate-300 rounded-2xl text-sm font-bold text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-red-500 outline-none"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -225,7 +225,7 @@ export default function StopsClient({ initialStops }: { initialStops: any[] }) {
                     value={formData.address}
                     onChange={e => setFormData({...formData, address: e.target.value})}
                     placeholder="Full street address"
-                    className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:ring-2 focus:ring-red-500 outline-none"
+                    className="w-full px-5 py-4 bg-slate-100 border border-slate-300 rounded-2xl text-sm font-bold text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-red-500 outline-none"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -235,7 +235,7 @@ export default function StopsClient({ initialStops }: { initialStops: any[] }) {
                     value={formData.contactName}
                     onChange={e => setFormData({...formData, contactName: e.target.value})}
                     placeholder="Who to ask for"
-                    className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:ring-2 focus:ring-red-500 outline-none"
+                    className="w-full px-5 py-4 bg-slate-100 border border-slate-300 rounded-2xl text-sm font-bold text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-red-500 outline-none"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -245,7 +245,7 @@ export default function StopsClient({ initialStops }: { initialStops: any[] }) {
                     value={formData.contactPhone}
                     onChange={e => setFormData({...formData, contactPhone: e.target.value})}
                     placeholder="+1 (555) 000-0000"
-                    className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:ring-2 focus:ring-red-500 outline-none"
+                    className="w-full px-5 py-4 bg-slate-100 border border-slate-300 rounded-2xl text-sm font-bold text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-red-500 outline-none"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -255,7 +255,7 @@ export default function StopsClient({ initialStops }: { initialStops: any[] }) {
                     value={formData.gateCode}
                     onChange={e => setFormData({...formData, gateCode: e.target.value})}
                     placeholder="Code or instructions"
-                    className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:ring-2 focus:ring-red-500 outline-none"
+                    className="w-full px-5 py-4 bg-slate-100 border border-slate-300 rounded-2xl text-sm font-bold text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-red-500 outline-none"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -265,7 +265,7 @@ export default function StopsClient({ initialStops }: { initialStops: any[] }) {
                     value={formData.hours}
                     onChange={e => setFormData({...formData, hours: e.target.value})}
                     placeholder="e.g. 8am-4pm, Door 4"
-                    className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:ring-2 focus:ring-red-500 outline-none"
+                    className="w-full px-5 py-4 bg-slate-100 border border-slate-300 rounded-2xl text-sm font-bold text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-red-500 outline-none"
                   />
                 </div>
               </div>
@@ -277,7 +277,7 @@ export default function StopsClient({ initialStops }: { initialStops: any[] }) {
                   onChange={e => setFormData({...formData, accessNotes: e.target.value})}
                   placeholder="Low clearance, park in rear, one-way street, etc."
                   rows={2}
-                  className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:ring-2 focus:ring-red-500 outline-none resize-none"
+                  className="w-full px-5 py-4 bg-slate-100 border border-slate-300 rounded-2xl text-sm font-bold text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-red-500 outline-none resize-none"
                 />
               </div>
 
@@ -288,7 +288,7 @@ export default function StopsClient({ initialStops }: { initialStops: any[] }) {
                   onChange={e => setFormData({...formData, deliveryNotes: e.target.value})}
                   placeholder="Liftgate required, inside delivery, white glove only, etc."
                   rows={3}
-                  className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:ring-2 focus:ring-red-500 outline-none resize-none"
+                  className="w-full px-5 py-4 bg-slate-100 border border-slate-300 rounded-2xl text-sm font-bold text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-red-500 outline-none resize-none"
                 />
               </div>
 
