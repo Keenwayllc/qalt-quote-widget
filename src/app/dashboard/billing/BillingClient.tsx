@@ -35,7 +35,7 @@ const PLANS: PlanConfig[] = [
   {
     id: "PRO",
     name: "Pro",
-    description: "For growing delivery companies.",
+    description: "For growing delivery companies running daily jobs.",
     icon: Rocket,
     monthly: { price: "$19", detail: "/mo · Billed monthly" },
     annual: { price: "$14", detail: "/mo · Billed $168/yr", badge: "Save $60" },
@@ -45,7 +45,9 @@ const PLANS: PlanConfig[] = [
       "Custom Logo & Background",
       "Full White-label",
       "Advanced Customization",
+      "Analytics Dashboard",
       "Priority Support",
+      "Ops Console — Jobs, Stops, Readiness & Exceptions",
     ],
   },
   {
@@ -58,6 +60,7 @@ const PLANS: PlanConfig[] = [
     features: [
       "Everything in Pro",
       "Unlimited Quote Forms",
+      "Ops Console (Jobs, Stops, Readiness, Exceptions)",
       "Team Management (Multi-user)",
       "Advanced Webhooks & API",
       "Success Manager & SLA",

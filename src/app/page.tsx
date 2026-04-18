@@ -330,8 +330,8 @@ export default function LandingPage() {
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-50 text-red-600 rounded-full text-[10px] font-black tracking-wide border border-red-100 mb-6">
                 Built for delivery companies
               </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-6">Set your pricing once. Let your site quote, book, and collect payment.</h2>
-              <p className="text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto font-medium">Qalt is a widget you embed on your delivery company&apos;s website. Your customers get an instant price, book the job, and pay online. No manual work on your end.</p>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-6">Quote the job. Run the job. All in one place.</h2>
+              <p className="text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto font-medium">Qalt is a widget you embed on your delivery company&apos;s website, plus an Ops Console that takes over the moment the customer says yes. Quote, book, verify, dispatch.</p>
             </motion.div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
@@ -363,8 +363,8 @@ export default function LandingPage() {
                 },
                 {
                   icon: <ShieldCheck className="text-red-600" />,
-                  title: "Flexible for Real Delivery Workflows",
-                  desc: "Handle local delivery, scheduled jobs, special handling, and more. Fits how delivery businesses price in the real world."
+                  title: "Ops Console",
+                  desc: "Run the job after the quote is confirmed. Manage jobs, stops, readiness, and issues in one place."
                 }
               ].map((feature, i) => (
                 <motion.div
@@ -501,20 +501,23 @@ export default function LandingPage() {
               <div className="bg-slate-900 p-8 sm:p-10 flex flex-col rounded-2xl relative shadow-2xl z-10">
                 <div className="h-[240px]">
                   <div className="mb-8 p-0">
-                    <h3 className="text-2xl font-black text-white mb-2">Pro</h3>
-                    <p className="text-slate-400 text-sm font-medium">For growing delivery companies that need more volume.</p>
+                    <div className="flex items-center gap-3 mb-2">
+                      <h3 className="text-2xl font-black text-white">Pro</h3>
+                      <span className="px-2 py-0.5 bg-white/10 text-white/80 rounded-full text-[10px] font-black uppercase tracking-widest border border-white/20">Most Popular</span>
+                    </div>
+                    <p className="text-slate-400 text-sm font-medium">For delivery companies running daily jobs with the full Ops Console.</p>
                   </div>
-                  <div className="mb-0 flex items-end gap-1">
-                    <span className="text-5xl font-black text-white">$14</span>
+                  <div className="mb-1 flex items-end gap-1">
+                    <span className="text-5xl font-black text-white">$19</span>
                     <span className="text-slate-400 font-medium text-lg mb-1">/mo</span>
                   </div>
-                  <p className="text-slate-500 text-sm font-medium">Billed annually</p>
+                  <p className="text-slate-500 text-sm font-medium">$14/mo billed annually · <Link href="/pricing" className="text-red-400 hover:text-red-300 underline underline-offset-2">save 25%</Link></p>
                 </div>
                 <Link href="/register" className="block w-full text-center py-4 bg-red-600 text-white rounded-xl font-bold text-sm hover:bg-red-700 hover:-translate-y-0.5 active:scale-95 transition-all mb-8 shadow-lg shadow-red-900/20">
                   Upgrade to Pro
                 </Link>
                 <ul className="space-y-3 mt-auto">
-                  {["Unlimited Quotes", "Full White-Label", "Advanced Customization", "Analytics Dashboard", "Priority Support"].map((item) => (
+                  {["Unlimited Quotes", "Up to 5 Quote Forms", "Ops Console (Jobs, Stops, Readiness, Exceptions)", "Full White-Label", "Analytics Dashboard", "Priority Support"].map((item) => (
                     <li key={item} className="flex items-start gap-3 text-slate-300 font-medium text-sm">
                       <CheckCircle2 size={16} className="text-red-400 shrink-0 mt-0.5" />{item}
                     </li>
@@ -527,13 +530,13 @@ export default function LandingPage() {
                 <div className="h-[240px]">
                   <div className="mb-8 p-0">
                     <h3 className="text-2xl font-black mb-2">Enterprise</h3>
-                    <p className="text-slate-500 text-sm font-medium">For high-volume operators that need more control.</p>
+                    <p className="text-slate-500 text-sm font-medium">For high-volume operators, agencies, and teams that need more control.</p>
                   </div>
                   <div className="mb-0 flex items-end gap-1">
-                    <span className="text-5xl font-black">$29</span>
+                    <span className="text-5xl font-black">$39</span>
                     <span className="text-slate-400 font-medium text-lg mb-1">/mo</span>
                   </div>
-                  <p className="text-slate-400 text-sm font-medium">Billed annually</p>
+                  <p className="text-slate-400 text-sm font-medium">$29/mo billed annually · <Link href="/pricing" className="text-red-600 hover:text-red-700 underline underline-offset-2">save 25%</Link></p>
                 </div>
                 <Link href="/register" className="block w-full text-center py-4 bg-slate-900 text-white rounded-xl font-bold text-sm hover:opacity-90 hover:-translate-y-0.5 active:scale-95 transition-all mb-8">
                   Upgrade to Enterprise

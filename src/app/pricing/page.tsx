@@ -55,6 +55,16 @@ const FEATURE_SECTIONS: FeatureSection[] = [
     ],
   },
   {
+    title: "Ops Console",
+    rows: [
+      { name: "Job Dashboard",          starter: false, pro: true, enterprise: true },
+      { name: "Saved Stop Notes",       starter: false, pro: true, enterprise: true },
+      { name: "Delivery Readiness",     starter: false, pro: true, enterprise: true },
+      { name: "Exception Logging",      starter: false, pro: true, enterprise: true },
+      { name: "Job audit trail",        starter: false, pro: true, enterprise: true },
+    ],
+  },
+  {
     title: "Team & Collaboration",
     rows: [
       { name: "Team members",            starter: "1",   pro: "1",   enterprise: "Unlimited" },
@@ -221,7 +231,7 @@ export default function PricingPage() {
               <Link href="/register" className="block w-full text-center py-4 bg-slate-900 text-white rounded-xl font-bold text-sm hover:opacity-90 active:scale-[0.98] transition-all mb-8">
                 Get Started Free
               </Link>
-              <ul className="space-y-3 mt-auto">
+              <ul className="space-y-3">
                 {["1 Quote Widget", "25 Quotes/month", "Basic Customization", "Email Support"].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
                     <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
@@ -238,7 +248,7 @@ export default function PricingPage() {
                     <h3 className="text-2xl font-black tracking-tight text-white">Pro</h3>
                     <span className="px-2 py-0.5 bg-white text-slate-900 rounded-full text-[10px] font-black uppercase tracking-widest">Most Popular</span>
                   </div>
-                  <p className="text-slate-300 text-sm font-medium leading-relaxed">For growing delivery companies that need more forms, more quotes, and stronger branding.</p>
+                  <p className="text-slate-300 text-sm font-medium leading-relaxed">For delivery companies running daily jobs with the full Ops Console.</p>
                 </div>
                 <div className="mb-1 flex items-end gap-2">
                   <span className="text-5xl font-black text-white">{annual ? "$14" : "$19"}</span>
@@ -251,8 +261,8 @@ export default function PricingPage() {
               <Link href="/register" className="block w-full text-center py-4 bg-red-600 text-white rounded-xl font-bold text-sm hover:bg-red-700 active:scale-[0.98] transition-all mb-8 shadow-lg shadow-red-900/20">
                 Upgrade to Pro
               </Link>
-              <ul className="space-y-3 mt-auto">
-                {["Unlimited Quotes", "Up to 5 Quote Forms", "Full White-Label", "Advanced Customization", "Analytics Dashboard", "Priority Support"].map((item) => (
+              <ul className="space-y-3">
+                {["Unlimited Quotes", "Up to 5 Quote Forms", "Full Ops Console", "Jobs, Stops, Readiness, Exceptions", "Full White-Label", "Advanced Customization", "Analytics Dashboard", "Priority Support"].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-300 font-medium text-sm">
                     <CheckCircle2 size={16} className="text-red-400 shrink-0 mt-0.5" />{item}
                   </li>
@@ -280,7 +290,7 @@ export default function PricingPage() {
               <Link href="/register" className="block w-full text-center py-4 bg-slate-900 text-white rounded-xl font-bold text-sm hover:opacity-90 active:scale-[0.98] transition-all mb-8">
                 Upgrade to Enterprise
               </Link>
-              <ul className="space-y-3 mt-auto">
+              <ul className="space-y-3">
                 {["Everything in Pro", "Unlimited Quote Forms", "Team Management (Multi-user)", "Advanced Webhooks & API", "Success Manager & SLA"].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
                     <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
@@ -393,6 +403,7 @@ export default function PricingPage() {
           <h2 className="text-3xl font-black tracking-tight text-center mb-12">Common Questions</h2>
           <div className="space-y-3">
             {[
+              { q: "Is the Ops Console included in Pro?", a: "Yes. Every Pro plan includes the full Ops Console — Jobs, Saved Stop Notes, Delivery Readiness, and Exception Logging — at no extra cost." },
               { q: "Can I cancel at any time?", a: "Yes. You can change or cancel your plan at any time." },
               { q: "Can I try Pro features before upgrading?", a: "Qalt is free to start on our Starter plan. You can test your workflow and upgrade to Pro whenever you need more volume and advanced features." },
               { q: "What happens if I exceed my limit on Starter?", a: "Once you reach the Starter limit, you can upgrade to keep collecting quotes without interruption." },
