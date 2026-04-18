@@ -246,6 +246,63 @@ exports.Prisma.PartnerInquiryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.StopNoteScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  companyName: 'companyName',
+  address: 'address',
+  contactName: 'contactName',
+  contactPhone: 'contactPhone',
+  gateCode: 'gateCode',
+  dockInfo: 'dockInfo',
+  hours: 'hours',
+  parkingNotes: 'parkingNotes',
+  accessNotes: 'accessNotes',
+  deliveryNotes: 'deliveryNotes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ReadinessCheckScalarFieldEnum = {
+  id: 'id',
+  stopNoteId: 'stopNoteId',
+  scheduledDate: 'scheduledDate',
+  contactConfirmed: 'contactConfirmed',
+  addressConfirmed: 'addressConfirmed',
+  accessConfirmed: 'accessConfirmed',
+  siteReady: 'siteReady',
+  notes: 'notes',
+  status: 'status',
+  createdAt: 'createdAt',
+  jobId: 'jobId'
+};
+
+exports.Prisma.ExceptionLogScalarFieldEnum = {
+  id: 'id',
+  stopNoteId: 'stopNoteId',
+  type: 'type',
+  notes: 'notes',
+  timestamp: 'timestamp',
+  jobId: 'jobId'
+};
+
+exports.Prisma.JobScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  quoteRequestId: 'quoteRequestId',
+  status: 'status',
+  scheduledDate: 'scheduledDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.JobStopScalarFieldEnum = {
+  id: 'id',
+  jobId: 'jobId',
+  stopNoteId: 'stopNoteId',
+  order: 'order'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -279,7 +336,12 @@ exports.Prisma.ModelName = {
   QuoteRequest: 'QuoteRequest',
   Webhook: 'Webhook',
   ShopifyInstall: 'ShopifyInstall',
-  PartnerInquiry: 'PartnerInquiry'
+  PartnerInquiry: 'PartnerInquiry',
+  StopNote: 'StopNote',
+  ReadinessCheck: 'ReadinessCheck',
+  ExceptionLog: 'ExceptionLog',
+  Job: 'Job',
+  JobStop: 'JobStop'
 };
 
 /**

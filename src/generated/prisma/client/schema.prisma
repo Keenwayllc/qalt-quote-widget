@@ -35,6 +35,8 @@ model Company {
   widgetSettings         WidgetSettings[]
   webhooks               Webhook[]
   shopifyInstalls        ShopifyInstall[]
+  stopNotes              StopNote[]
+  jobs                   Job[]
 }
 
 model PricingProfile {
@@ -108,6 +110,7 @@ model QuoteRequest {
   paidAt                DateTime?
   createdAt             DateTime  @default(now())
   company               Company   @relation(fields: [companyId], references: [id])
+  jobs                  Job[]
 }
 
 model Webhook {
@@ -143,4 +146,76 @@ model PartnerInquiry {
   status          String   @default("NEW") // "NEW", "CONTACTED", "PARTNERED", "REJECTED"
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+}
+
+model StopNote {
+  id              String           @id @default(cuid())
+  companyId       String
+  companyName     String
+  address         String
+  contactName     String?
+  contactPhone    String?
+  gateCode        String?
+  dockInfo        String?
+  hours           String?
+  parkingNotes    String?          @db.Text
+  accessNotes     String?          @db.Text
+  deliveryNotes   String?          @db.Text
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  company         Company          @relation(fields: [companyId], references: [id])
+  readinessChecks ReadinessCheck[]
+  exceptionLogs   ExceptionLog[]
+  jobStops        JobStop[]
+}
+
+model ReadinessCheck {
+  id               String   @id @default(cuid())
+  stopNoteId       String
+  scheduledDate    DateTime
+  contactConfirmed Boolean  @default(false)
+  addressConfirmed Boolean  @default(false)
+  accessConfirmed  Boolean  @default(false)
+  siteReady        Boolean  @default(false)
+  notes            String?  @db.Text
+  status           String   @default("NEEDS_REVIEW") // "READY", "NEEDS_REVIEW", "ISSUE"
+  createdAt        DateTime @default(now())
+  stopNote         StopNote @relation(fields: [stopNoteId], references: [id])
+  jobId            String?
+  job              Job?     @relation(fields: [jobId], references: [id])
+}
+
+model ExceptionLog {
+  id         String    @id @default(cuid())
+  stopNoteId String?
+  type       String // "Customer not ready", "Wrong address", "No access", etc.
+  notes      String?   @db.Text
+  timestamp  DateTime  @default(now())
+  stopNote   StopNote? @relation(fields: [stopNoteId], references: [id])
+  jobId      String?
+  job        Job?      @relation(fields: [jobId], references: [id])
+}
+
+model Job {
+  id              String           @id @default(cuid())
+  companyId       String
+  quoteRequestId  String?
+  status          String           @default("PENDING") // PENDING, READY, IN_PROGRESS, COMPLETED, ISSUE
+  scheduledDate   DateTime
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  company         Company          @relation(fields: [companyId], references: [id])
+  quoteRequest    QuoteRequest?    @relation(fields: [quoteRequestId], references: [id])
+  stops           JobStop[]
+  readinessChecks ReadinessCheck[]
+  exceptionLogs   ExceptionLog[]
+}
+
+model JobStop {
+  id         String   @id @default(cuid())
+  jobId      String
+  stopNoteId String
+  order      Int      @default(0)
+  job        Job      @relation(fields: [jobId], references: [id])
+  stopNote   StopNote @relation(fields: [stopNoteId], references: [id])
 }

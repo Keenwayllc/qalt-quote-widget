@@ -21,6 +21,8 @@ import {
   Eye,
   HelpCircle,
   Webhook,
+  MapPin,
+  Briefcase,
 } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
 
@@ -90,6 +92,12 @@ export default function DashboardClientLayout({
     { name: "Subscription", href: "/dashboard/billing", icon: CreditCard },
     { name: "Account Settings", href: "/dashboard/settings", icon: UserCircle },
     { name: "Help & FAQ", href: "/dashboard/support", icon: HelpCircle },
+  ];
+
+  const opsNavItems = [
+    { name: "Jobs Dashboard", href: "/dashboard/ops/jobs", icon: Briefcase },
+    { name: "Saved Stop Notes", href: "/dashboard/ops/stops", icon: MapPin },
+    { name: "Delivery Readiness", href: "/dashboard/ops/readiness", icon: Eye },
   ];
 
   const router = useRouter();
@@ -236,6 +244,35 @@ export default function DashboardClientLayout({
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
                     </span>
                   )}
+                </Link>
+              );
+            })}
+
+            {/* Field Operations Section */}
+            <div className="mt-8 mb-6 px-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+              Field Operations
+            </div>
+            {opsNavItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={closeSidebar}
+                  className={`
+                     flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all group relative
+                    ${isActive
+                      ? "bg-slate-900 text-white shadow-lg shadow-slate-200 scale-[1.02]"
+                      : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"}
+                  `}
+                >
+                  <item.icon
+                    className={`
+                      mr-3 h-5 w-5 shrink-0 transition-colors
+                      ${isActive ? "text-white" : "text-slate-400 group-hover:text-slate-900"}
+                    `}
+                  />
+                  <span className="flex-1">{item.name}</span>
                 </Link>
               );
             })}

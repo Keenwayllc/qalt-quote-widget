@@ -48,6 +48,31 @@ export type ShopifyInstall = $Result.DefaultSelection<Prisma.$ShopifyInstallPayl
  * 
  */
 export type PartnerInquiry = $Result.DefaultSelection<Prisma.$PartnerInquiryPayload>
+/**
+ * Model StopNote
+ * 
+ */
+export type StopNote = $Result.DefaultSelection<Prisma.$StopNotePayload>
+/**
+ * Model ReadinessCheck
+ * 
+ */
+export type ReadinessCheck = $Result.DefaultSelection<Prisma.$ReadinessCheckPayload>
+/**
+ * Model ExceptionLog
+ * 
+ */
+export type ExceptionLog = $Result.DefaultSelection<Prisma.$ExceptionLogPayload>
+/**
+ * Model Job
+ * 
+ */
+export type Job = $Result.DefaultSelection<Prisma.$JobPayload>
+/**
+ * Model JobStop
+ * 
+ */
+export type JobStop = $Result.DefaultSelection<Prisma.$JobStopPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -239,6 +264,56 @@ export class PrismaClient<
     * ```
     */
   get partnerInquiry(): Prisma.PartnerInquiryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.stopNote`: Exposes CRUD operations for the **StopNote** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StopNotes
+    * const stopNotes = await prisma.stopNote.findMany()
+    * ```
+    */
+  get stopNote(): Prisma.StopNoteDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.readinessCheck`: Exposes CRUD operations for the **ReadinessCheck** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ReadinessChecks
+    * const readinessChecks = await prisma.readinessCheck.findMany()
+    * ```
+    */
+  get readinessCheck(): Prisma.ReadinessCheckDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.exceptionLog`: Exposes CRUD operations for the **ExceptionLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ExceptionLogs
+    * const exceptionLogs = await prisma.exceptionLog.findMany()
+    * ```
+    */
+  get exceptionLog(): Prisma.ExceptionLogDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.job`: Exposes CRUD operations for the **Job** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Jobs
+    * const jobs = await prisma.job.findMany()
+    * ```
+    */
+  get job(): Prisma.JobDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.jobStop`: Exposes CRUD operations for the **JobStop** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more JobStops
+    * const jobStops = await prisma.jobStop.findMany()
+    * ```
+    */
+  get jobStop(): Prisma.JobStopDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -679,7 +754,12 @@ export namespace Prisma {
     QuoteRequest: 'QuoteRequest',
     Webhook: 'Webhook',
     ShopifyInstall: 'ShopifyInstall',
-    PartnerInquiry: 'PartnerInquiry'
+    PartnerInquiry: 'PartnerInquiry',
+    StopNote: 'StopNote',
+    ReadinessCheck: 'ReadinessCheck',
+    ExceptionLog: 'ExceptionLog',
+    Job: 'Job',
+    JobStop: 'JobStop'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -695,7 +775,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "pricingProfile" | "widgetSettings" | "quoteRequest" | "webhook" | "shopifyInstall" | "partnerInquiry"
+      modelProps: "company" | "pricingProfile" | "widgetSettings" | "quoteRequest" | "webhook" | "shopifyInstall" | "partnerInquiry" | "stopNote" | "readinessCheck" | "exceptionLog" | "job" | "jobStop"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1217,6 +1297,376 @@ export namespace Prisma {
           }
         }
       }
+      StopNote: {
+        payload: Prisma.$StopNotePayload<ExtArgs>
+        fields: Prisma.StopNoteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StopNoteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StopNotePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StopNoteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StopNotePayload>
+          }
+          findFirst: {
+            args: Prisma.StopNoteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StopNotePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StopNoteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StopNotePayload>
+          }
+          findMany: {
+            args: Prisma.StopNoteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StopNotePayload>[]
+          }
+          create: {
+            args: Prisma.StopNoteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StopNotePayload>
+          }
+          createMany: {
+            args: Prisma.StopNoteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StopNoteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StopNotePayload>[]
+          }
+          delete: {
+            args: Prisma.StopNoteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StopNotePayload>
+          }
+          update: {
+            args: Prisma.StopNoteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StopNotePayload>
+          }
+          deleteMany: {
+            args: Prisma.StopNoteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StopNoteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StopNoteUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StopNotePayload>[]
+          }
+          upsert: {
+            args: Prisma.StopNoteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StopNotePayload>
+          }
+          aggregate: {
+            args: Prisma.StopNoteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStopNote>
+          }
+          groupBy: {
+            args: Prisma.StopNoteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StopNoteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StopNoteCountArgs<ExtArgs>
+            result: $Utils.Optional<StopNoteCountAggregateOutputType> | number
+          }
+        }
+      }
+      ReadinessCheck: {
+        payload: Prisma.$ReadinessCheckPayload<ExtArgs>
+        fields: Prisma.ReadinessCheckFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReadinessCheckFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadinessCheckPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReadinessCheckFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadinessCheckPayload>
+          }
+          findFirst: {
+            args: Prisma.ReadinessCheckFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadinessCheckPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReadinessCheckFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadinessCheckPayload>
+          }
+          findMany: {
+            args: Prisma.ReadinessCheckFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadinessCheckPayload>[]
+          }
+          create: {
+            args: Prisma.ReadinessCheckCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadinessCheckPayload>
+          }
+          createMany: {
+            args: Prisma.ReadinessCheckCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ReadinessCheckCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadinessCheckPayload>[]
+          }
+          delete: {
+            args: Prisma.ReadinessCheckDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadinessCheckPayload>
+          }
+          update: {
+            args: Prisma.ReadinessCheckUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadinessCheckPayload>
+          }
+          deleteMany: {
+            args: Prisma.ReadinessCheckDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReadinessCheckUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ReadinessCheckUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadinessCheckPayload>[]
+          }
+          upsert: {
+            args: Prisma.ReadinessCheckUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReadinessCheckPayload>
+          }
+          aggregate: {
+            args: Prisma.ReadinessCheckAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReadinessCheck>
+          }
+          groupBy: {
+            args: Prisma.ReadinessCheckGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReadinessCheckGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReadinessCheckCountArgs<ExtArgs>
+            result: $Utils.Optional<ReadinessCheckCountAggregateOutputType> | number
+          }
+        }
+      }
+      ExceptionLog: {
+        payload: Prisma.$ExceptionLogPayload<ExtArgs>
+        fields: Prisma.ExceptionLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ExceptionLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExceptionLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ExceptionLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExceptionLogPayload>
+          }
+          findFirst: {
+            args: Prisma.ExceptionLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExceptionLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ExceptionLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExceptionLogPayload>
+          }
+          findMany: {
+            args: Prisma.ExceptionLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExceptionLogPayload>[]
+          }
+          create: {
+            args: Prisma.ExceptionLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExceptionLogPayload>
+          }
+          createMany: {
+            args: Prisma.ExceptionLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ExceptionLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExceptionLogPayload>[]
+          }
+          delete: {
+            args: Prisma.ExceptionLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExceptionLogPayload>
+          }
+          update: {
+            args: Prisma.ExceptionLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExceptionLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.ExceptionLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ExceptionLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ExceptionLogUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExceptionLogPayload>[]
+          }
+          upsert: {
+            args: Prisma.ExceptionLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExceptionLogPayload>
+          }
+          aggregate: {
+            args: Prisma.ExceptionLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateExceptionLog>
+          }
+          groupBy: {
+            args: Prisma.ExceptionLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ExceptionLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ExceptionLogCountArgs<ExtArgs>
+            result: $Utils.Optional<ExceptionLogCountAggregateOutputType> | number
+          }
+        }
+      }
+      Job: {
+        payload: Prisma.$JobPayload<ExtArgs>
+        fields: Prisma.JobFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.JobFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.JobFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>
+          }
+          findFirst: {
+            args: Prisma.JobFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.JobFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>
+          }
+          findMany: {
+            args: Prisma.JobFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>[]
+          }
+          create: {
+            args: Prisma.JobCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>
+          }
+          createMany: {
+            args: Prisma.JobCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.JobCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>[]
+          }
+          delete: {
+            args: Prisma.JobDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>
+          }
+          update: {
+            args: Prisma.JobUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>
+          }
+          deleteMany: {
+            args: Prisma.JobDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.JobUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.JobUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>[]
+          }
+          upsert: {
+            args: Prisma.JobUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>
+          }
+          aggregate: {
+            args: Prisma.JobAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateJob>
+          }
+          groupBy: {
+            args: Prisma.JobGroupByArgs<ExtArgs>
+            result: $Utils.Optional<JobGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.JobCountArgs<ExtArgs>
+            result: $Utils.Optional<JobCountAggregateOutputType> | number
+          }
+        }
+      }
+      JobStop: {
+        payload: Prisma.$JobStopPayload<ExtArgs>
+        fields: Prisma.JobStopFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.JobStopFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobStopPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.JobStopFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobStopPayload>
+          }
+          findFirst: {
+            args: Prisma.JobStopFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobStopPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.JobStopFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobStopPayload>
+          }
+          findMany: {
+            args: Prisma.JobStopFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobStopPayload>[]
+          }
+          create: {
+            args: Prisma.JobStopCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobStopPayload>
+          }
+          createMany: {
+            args: Prisma.JobStopCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.JobStopCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobStopPayload>[]
+          }
+          delete: {
+            args: Prisma.JobStopDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobStopPayload>
+          }
+          update: {
+            args: Prisma.JobStopUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobStopPayload>
+          }
+          deleteMany: {
+            args: Prisma.JobStopDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.JobStopUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.JobStopUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobStopPayload>[]
+          }
+          upsert: {
+            args: Prisma.JobStopUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobStopPayload>
+          }
+          aggregate: {
+            args: Prisma.JobStopAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateJobStop>
+          }
+          groupBy: {
+            args: Prisma.JobStopGroupByArgs<ExtArgs>
+            result: $Utils.Optional<JobStopGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.JobStopCountArgs<ExtArgs>
+            result: $Utils.Optional<JobStopCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1332,6 +1782,11 @@ export namespace Prisma {
     webhook?: WebhookOmit
     shopifyInstall?: ShopifyInstallOmit
     partnerInquiry?: PartnerInquiryOmit
+    stopNote?: StopNoteOmit
+    readinessCheck?: ReadinessCheckOmit
+    exceptionLog?: ExceptionLogOmit
+    job?: JobOmit
+    jobStop?: JobStopOmit
   }
 
   /* Types for Logging */
@@ -1417,6 +1872,8 @@ export namespace Prisma {
     widgetSettings: number
     webhooks: number
     shopifyInstalls: number
+    stopNotes: number
+    jobs: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1425,6 +1882,8 @@ export namespace Prisma {
     widgetSettings?: boolean | CompanyCountOutputTypeCountWidgetSettingsArgs
     webhooks?: boolean | CompanyCountOutputTypeCountWebhooksArgs
     shopifyInstalls?: boolean | CompanyCountOutputTypeCountShopifyInstallsArgs
+    stopNotes?: boolean | CompanyCountOutputTypeCountStopNotesArgs
+    jobs?: boolean | CompanyCountOutputTypeCountJobsArgs
   }
 
   // Custom InputTypes
@@ -1471,6 +1930,149 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountShopifyInstallsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ShopifyInstallWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountStopNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StopNoteWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JobWhereInput
+  }
+
+
+  /**
+   * Count Type QuoteRequestCountOutputType
+   */
+
+  export type QuoteRequestCountOutputType = {
+    jobs: number
+  }
+
+  export type QuoteRequestCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    jobs?: boolean | QuoteRequestCountOutputTypeCountJobsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * QuoteRequestCountOutputType without action
+   */
+  export type QuoteRequestCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuoteRequestCountOutputType
+     */
+    select?: QuoteRequestCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * QuoteRequestCountOutputType without action
+   */
+  export type QuoteRequestCountOutputTypeCountJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JobWhereInput
+  }
+
+
+  /**
+   * Count Type StopNoteCountOutputType
+   */
+
+  export type StopNoteCountOutputType = {
+    readinessChecks: number
+    exceptionLogs: number
+    jobStops: number
+  }
+
+  export type StopNoteCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    readinessChecks?: boolean | StopNoteCountOutputTypeCountReadinessChecksArgs
+    exceptionLogs?: boolean | StopNoteCountOutputTypeCountExceptionLogsArgs
+    jobStops?: boolean | StopNoteCountOutputTypeCountJobStopsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * StopNoteCountOutputType without action
+   */
+  export type StopNoteCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StopNoteCountOutputType
+     */
+    select?: StopNoteCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * StopNoteCountOutputType without action
+   */
+  export type StopNoteCountOutputTypeCountReadinessChecksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReadinessCheckWhereInput
+  }
+
+  /**
+   * StopNoteCountOutputType without action
+   */
+  export type StopNoteCountOutputTypeCountExceptionLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExceptionLogWhereInput
+  }
+
+  /**
+   * StopNoteCountOutputType without action
+   */
+  export type StopNoteCountOutputTypeCountJobStopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JobStopWhereInput
+  }
+
+
+  /**
+   * Count Type JobCountOutputType
+   */
+
+  export type JobCountOutputType = {
+    stops: number
+    readinessChecks: number
+    exceptionLogs: number
+  }
+
+  export type JobCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    stops?: boolean | JobCountOutputTypeCountStopsArgs
+    readinessChecks?: boolean | JobCountOutputTypeCountReadinessChecksArgs
+    exceptionLogs?: boolean | JobCountOutputTypeCountExceptionLogsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * JobCountOutputType without action
+   */
+  export type JobCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobCountOutputType
+     */
+    select?: JobCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * JobCountOutputType without action
+   */
+  export type JobCountOutputTypeCountStopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JobStopWhereInput
+  }
+
+  /**
+   * JobCountOutputType without action
+   */
+  export type JobCountOutputTypeCountReadinessChecksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReadinessCheckWhereInput
+  }
+
+  /**
+   * JobCountOutputType without action
+   */
+  export type JobCountOutputTypeCountExceptionLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExceptionLogWhereInput
   }
 
 
@@ -1783,6 +2385,8 @@ export namespace Prisma {
     widgetSettings?: boolean | Company$widgetSettingsArgs<ExtArgs>
     webhooks?: boolean | Company$webhooksArgs<ExtArgs>
     shopifyInstalls?: boolean | Company$shopifyInstallsArgs<ExtArgs>
+    stopNotes?: boolean | Company$stopNotesArgs<ExtArgs>
+    jobs?: boolean | Company$jobsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -1868,6 +2472,8 @@ export namespace Prisma {
     widgetSettings?: boolean | Company$widgetSettingsArgs<ExtArgs>
     webhooks?: boolean | Company$webhooksArgs<ExtArgs>
     shopifyInstalls?: boolean | Company$shopifyInstallsArgs<ExtArgs>
+    stopNotes?: boolean | Company$stopNotesArgs<ExtArgs>
+    jobs?: boolean | Company$jobsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1881,6 +2487,8 @@ export namespace Prisma {
       widgetSettings: Prisma.$WidgetSettingsPayload<ExtArgs>[]
       webhooks: Prisma.$WebhookPayload<ExtArgs>[]
       shopifyInstalls: Prisma.$ShopifyInstallPayload<ExtArgs>[]
+      stopNotes: Prisma.$StopNotePayload<ExtArgs>[]
+      jobs: Prisma.$JobPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2304,6 +2912,8 @@ export namespace Prisma {
     widgetSettings<T extends Company$widgetSettingsArgs<ExtArgs> = {}>(args?: Subset<T, Company$widgetSettingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WidgetSettingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     webhooks<T extends Company$webhooksArgs<ExtArgs> = {}>(args?: Subset<T, Company$webhooksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     shopifyInstalls<T extends Company$shopifyInstallsArgs<ExtArgs> = {}>(args?: Subset<T, Company$shopifyInstallsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyInstallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    stopNotes<T extends Company$stopNotesArgs<ExtArgs> = {}>(args?: Subset<T, Company$stopNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    jobs<T extends Company$jobsArgs<ExtArgs> = {}>(args?: Subset<T, Company$jobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2865,6 +3475,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ShopifyInstallScalarFieldEnum | ShopifyInstallScalarFieldEnum[]
+  }
+
+  /**
+   * Company.stopNotes
+   */
+  export type Company$stopNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StopNote
+     */
+    select?: StopNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StopNote
+     */
+    omit?: StopNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StopNoteInclude<ExtArgs> | null
+    where?: StopNoteWhereInput
+    orderBy?: StopNoteOrderByWithRelationInput | StopNoteOrderByWithRelationInput[]
+    cursor?: StopNoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StopNoteScalarFieldEnum | StopNoteScalarFieldEnum[]
+  }
+
+  /**
+   * Company.jobs
+   */
+  export type Company$jobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Job
+     */
+    omit?: JobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    where?: JobWhereInput
+    orderBy?: JobOrderByWithRelationInput | JobOrderByWithRelationInput[]
+    cursor?: JobWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JobScalarFieldEnum | JobScalarFieldEnum[]
   }
 
   /**
@@ -5857,6 +6515,8 @@ export namespace Prisma {
     paidAt?: boolean
     createdAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
+    jobs?: boolean | QuoteRequest$jobsArgs<ExtArgs>
+    _count?: boolean | QuoteRequestCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quoteRequest"]>
 
   export type QuoteRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5936,6 +6596,8 @@ export namespace Prisma {
   export type QuoteRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "customerName" | "customerEmail" | "customerPhone" | "pickupZip" | "dropoffZip" | "distanceMiles" | "serviceType" | "packageSize" | "packageWeight" | "selectedExtras" | "status" | "estimatedPrice" | "vehicleCount" | "awbNumber" | "paymentStatus" | "stripePaymentIntentId" | "internalNotes" | "paidAt" | "createdAt", ExtArgs["result"]["quoteRequest"]>
   export type QuoteRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
+    jobs?: boolean | QuoteRequest$jobsArgs<ExtArgs>
+    _count?: boolean | QuoteRequestCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type QuoteRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -5948,6 +6610,7 @@ export namespace Prisma {
     name: "QuoteRequest"
     objects: {
       company: Prisma.$CompanyPayload<ExtArgs>
+      jobs: Prisma.$JobPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6366,6 +7029,7 @@ export namespace Prisma {
   export interface Prisma__QuoteRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    jobs<T extends QuoteRequest$jobsArgs<ExtArgs> = {}>(args?: Subset<T, QuoteRequest$jobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6814,6 +7478,30 @@ export namespace Prisma {
      * Limit how many QuoteRequests to delete.
      */
     limit?: number
+  }
+
+  /**
+   * QuoteRequest.jobs
+   */
+  export type QuoteRequest$jobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Job
+     */
+    omit?: JobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    where?: JobWhereInput
+    orderBy?: JobOrderByWithRelationInput | JobOrderByWithRelationInput[]
+    cursor?: JobWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JobScalarFieldEnum | JobScalarFieldEnum[]
   }
 
   /**
@@ -10094,6 +10782,5856 @@ export namespace Prisma {
 
 
   /**
+   * Model StopNote
+   */
+
+  export type AggregateStopNote = {
+    _count: StopNoteCountAggregateOutputType | null
+    _min: StopNoteMinAggregateOutputType | null
+    _max: StopNoteMaxAggregateOutputType | null
+  }
+
+  export type StopNoteMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    companyName: string | null
+    address: string | null
+    contactName: string | null
+    contactPhone: string | null
+    gateCode: string | null
+    dockInfo: string | null
+    hours: string | null
+    parkingNotes: string | null
+    accessNotes: string | null
+    deliveryNotes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StopNoteMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    companyName: string | null
+    address: string | null
+    contactName: string | null
+    contactPhone: string | null
+    gateCode: string | null
+    dockInfo: string | null
+    hours: string | null
+    parkingNotes: string | null
+    accessNotes: string | null
+    deliveryNotes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StopNoteCountAggregateOutputType = {
+    id: number
+    companyId: number
+    companyName: number
+    address: number
+    contactName: number
+    contactPhone: number
+    gateCode: number
+    dockInfo: number
+    hours: number
+    parkingNotes: number
+    accessNotes: number
+    deliveryNotes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type StopNoteMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    companyName?: true
+    address?: true
+    contactName?: true
+    contactPhone?: true
+    gateCode?: true
+    dockInfo?: true
+    hours?: true
+    parkingNotes?: true
+    accessNotes?: true
+    deliveryNotes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StopNoteMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    companyName?: true
+    address?: true
+    contactName?: true
+    contactPhone?: true
+    gateCode?: true
+    dockInfo?: true
+    hours?: true
+    parkingNotes?: true
+    accessNotes?: true
+    deliveryNotes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StopNoteCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    companyName?: true
+    address?: true
+    contactName?: true
+    contactPhone?: true
+    gateCode?: true
+    dockInfo?: true
+    hours?: true
+    parkingNotes?: true
+    accessNotes?: true
+    deliveryNotes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type StopNoteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StopNote to aggregate.
+     */
+    where?: StopNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StopNotes to fetch.
+     */
+    orderBy?: StopNoteOrderByWithRelationInput | StopNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StopNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StopNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StopNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StopNotes
+    **/
+    _count?: true | StopNoteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StopNoteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StopNoteMaxAggregateInputType
+  }
+
+  export type GetStopNoteAggregateType<T extends StopNoteAggregateArgs> = {
+        [P in keyof T & keyof AggregateStopNote]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStopNote[P]>
+      : GetScalarType<T[P], AggregateStopNote[P]>
+  }
+
+
+
+
+  export type StopNoteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StopNoteWhereInput
+    orderBy?: StopNoteOrderByWithAggregationInput | StopNoteOrderByWithAggregationInput[]
+    by: StopNoteScalarFieldEnum[] | StopNoteScalarFieldEnum
+    having?: StopNoteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StopNoteCountAggregateInputType | true
+    _min?: StopNoteMinAggregateInputType
+    _max?: StopNoteMaxAggregateInputType
+  }
+
+  export type StopNoteGroupByOutputType = {
+    id: string
+    companyId: string
+    companyName: string
+    address: string
+    contactName: string | null
+    contactPhone: string | null
+    gateCode: string | null
+    dockInfo: string | null
+    hours: string | null
+    parkingNotes: string | null
+    accessNotes: string | null
+    deliveryNotes: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: StopNoteCountAggregateOutputType | null
+    _min: StopNoteMinAggregateOutputType | null
+    _max: StopNoteMaxAggregateOutputType | null
+  }
+
+  type GetStopNoteGroupByPayload<T extends StopNoteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StopNoteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StopNoteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StopNoteGroupByOutputType[P]>
+            : GetScalarType<T[P], StopNoteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StopNoteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    companyName?: boolean
+    address?: boolean
+    contactName?: boolean
+    contactPhone?: boolean
+    gateCode?: boolean
+    dockInfo?: boolean
+    hours?: boolean
+    parkingNotes?: boolean
+    accessNotes?: boolean
+    deliveryNotes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    readinessChecks?: boolean | StopNote$readinessChecksArgs<ExtArgs>
+    exceptionLogs?: boolean | StopNote$exceptionLogsArgs<ExtArgs>
+    jobStops?: boolean | StopNote$jobStopsArgs<ExtArgs>
+    _count?: boolean | StopNoteCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["stopNote"]>
+
+  export type StopNoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    companyName?: boolean
+    address?: boolean
+    contactName?: boolean
+    contactPhone?: boolean
+    gateCode?: boolean
+    dockInfo?: boolean
+    hours?: boolean
+    parkingNotes?: boolean
+    accessNotes?: boolean
+    deliveryNotes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["stopNote"]>
+
+  export type StopNoteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    companyName?: boolean
+    address?: boolean
+    contactName?: boolean
+    contactPhone?: boolean
+    gateCode?: boolean
+    dockInfo?: boolean
+    hours?: boolean
+    parkingNotes?: boolean
+    accessNotes?: boolean
+    deliveryNotes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["stopNote"]>
+
+  export type StopNoteSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    companyName?: boolean
+    address?: boolean
+    contactName?: boolean
+    contactPhone?: boolean
+    gateCode?: boolean
+    dockInfo?: boolean
+    hours?: boolean
+    parkingNotes?: boolean
+    accessNotes?: boolean
+    deliveryNotes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type StopNoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "companyName" | "address" | "contactName" | "contactPhone" | "gateCode" | "dockInfo" | "hours" | "parkingNotes" | "accessNotes" | "deliveryNotes" | "createdAt" | "updatedAt", ExtArgs["result"]["stopNote"]>
+  export type StopNoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    readinessChecks?: boolean | StopNote$readinessChecksArgs<ExtArgs>
+    exceptionLogs?: boolean | StopNote$exceptionLogsArgs<ExtArgs>
+    jobStops?: boolean | StopNote$jobStopsArgs<ExtArgs>
+    _count?: boolean | StopNoteCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type StopNoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type StopNoteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $StopNotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StopNote"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      readinessChecks: Prisma.$ReadinessCheckPayload<ExtArgs>[]
+      exceptionLogs: Prisma.$ExceptionLogPayload<ExtArgs>[]
+      jobStops: Prisma.$JobStopPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      companyName: string
+      address: string
+      contactName: string | null
+      contactPhone: string | null
+      gateCode: string | null
+      dockInfo: string | null
+      hours: string | null
+      parkingNotes: string | null
+      accessNotes: string | null
+      deliveryNotes: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["stopNote"]>
+    composites: {}
+  }
+
+  type StopNoteGetPayload<S extends boolean | null | undefined | StopNoteDefaultArgs> = $Result.GetResult<Prisma.$StopNotePayload, S>
+
+  type StopNoteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StopNoteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StopNoteCountAggregateInputType | true
+    }
+
+  export interface StopNoteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StopNote'], meta: { name: 'StopNote' } }
+    /**
+     * Find zero or one StopNote that matches the filter.
+     * @param {StopNoteFindUniqueArgs} args - Arguments to find a StopNote
+     * @example
+     * // Get one StopNote
+     * const stopNote = await prisma.stopNote.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StopNoteFindUniqueArgs>(args: SelectSubset<T, StopNoteFindUniqueArgs<ExtArgs>>): Prisma__StopNoteClient<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StopNote that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StopNoteFindUniqueOrThrowArgs} args - Arguments to find a StopNote
+     * @example
+     * // Get one StopNote
+     * const stopNote = await prisma.stopNote.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StopNoteFindUniqueOrThrowArgs>(args: SelectSubset<T, StopNoteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StopNoteClient<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StopNote that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StopNoteFindFirstArgs} args - Arguments to find a StopNote
+     * @example
+     * // Get one StopNote
+     * const stopNote = await prisma.stopNote.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StopNoteFindFirstArgs>(args?: SelectSubset<T, StopNoteFindFirstArgs<ExtArgs>>): Prisma__StopNoteClient<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StopNote that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StopNoteFindFirstOrThrowArgs} args - Arguments to find a StopNote
+     * @example
+     * // Get one StopNote
+     * const stopNote = await prisma.stopNote.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StopNoteFindFirstOrThrowArgs>(args?: SelectSubset<T, StopNoteFindFirstOrThrowArgs<ExtArgs>>): Prisma__StopNoteClient<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StopNotes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StopNoteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StopNotes
+     * const stopNotes = await prisma.stopNote.findMany()
+     * 
+     * // Get first 10 StopNotes
+     * const stopNotes = await prisma.stopNote.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const stopNoteWithIdOnly = await prisma.stopNote.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StopNoteFindManyArgs>(args?: SelectSubset<T, StopNoteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StopNote.
+     * @param {StopNoteCreateArgs} args - Arguments to create a StopNote.
+     * @example
+     * // Create one StopNote
+     * const StopNote = await prisma.stopNote.create({
+     *   data: {
+     *     // ... data to create a StopNote
+     *   }
+     * })
+     * 
+     */
+    create<T extends StopNoteCreateArgs>(args: SelectSubset<T, StopNoteCreateArgs<ExtArgs>>): Prisma__StopNoteClient<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StopNotes.
+     * @param {StopNoteCreateManyArgs} args - Arguments to create many StopNotes.
+     * @example
+     * // Create many StopNotes
+     * const stopNote = await prisma.stopNote.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StopNoteCreateManyArgs>(args?: SelectSubset<T, StopNoteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StopNotes and returns the data saved in the database.
+     * @param {StopNoteCreateManyAndReturnArgs} args - Arguments to create many StopNotes.
+     * @example
+     * // Create many StopNotes
+     * const stopNote = await prisma.stopNote.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StopNotes and only return the `id`
+     * const stopNoteWithIdOnly = await prisma.stopNote.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StopNoteCreateManyAndReturnArgs>(args?: SelectSubset<T, StopNoteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StopNote.
+     * @param {StopNoteDeleteArgs} args - Arguments to delete one StopNote.
+     * @example
+     * // Delete one StopNote
+     * const StopNote = await prisma.stopNote.delete({
+     *   where: {
+     *     // ... filter to delete one StopNote
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StopNoteDeleteArgs>(args: SelectSubset<T, StopNoteDeleteArgs<ExtArgs>>): Prisma__StopNoteClient<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StopNote.
+     * @param {StopNoteUpdateArgs} args - Arguments to update one StopNote.
+     * @example
+     * // Update one StopNote
+     * const stopNote = await prisma.stopNote.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StopNoteUpdateArgs>(args: SelectSubset<T, StopNoteUpdateArgs<ExtArgs>>): Prisma__StopNoteClient<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StopNotes.
+     * @param {StopNoteDeleteManyArgs} args - Arguments to filter StopNotes to delete.
+     * @example
+     * // Delete a few StopNotes
+     * const { count } = await prisma.stopNote.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StopNoteDeleteManyArgs>(args?: SelectSubset<T, StopNoteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StopNotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StopNoteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StopNotes
+     * const stopNote = await prisma.stopNote.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StopNoteUpdateManyArgs>(args: SelectSubset<T, StopNoteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StopNotes and returns the data updated in the database.
+     * @param {StopNoteUpdateManyAndReturnArgs} args - Arguments to update many StopNotes.
+     * @example
+     * // Update many StopNotes
+     * const stopNote = await prisma.stopNote.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StopNotes and only return the `id`
+     * const stopNoteWithIdOnly = await prisma.stopNote.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StopNoteUpdateManyAndReturnArgs>(args: SelectSubset<T, StopNoteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StopNote.
+     * @param {StopNoteUpsertArgs} args - Arguments to update or create a StopNote.
+     * @example
+     * // Update or create a StopNote
+     * const stopNote = await prisma.stopNote.upsert({
+     *   create: {
+     *     // ... data to create a StopNote
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StopNote we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StopNoteUpsertArgs>(args: SelectSubset<T, StopNoteUpsertArgs<ExtArgs>>): Prisma__StopNoteClient<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StopNotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StopNoteCountArgs} args - Arguments to filter StopNotes to count.
+     * @example
+     * // Count the number of StopNotes
+     * const count = await prisma.stopNote.count({
+     *   where: {
+     *     // ... the filter for the StopNotes we want to count
+     *   }
+     * })
+    **/
+    count<T extends StopNoteCountArgs>(
+      args?: Subset<T, StopNoteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StopNoteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StopNote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StopNoteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StopNoteAggregateArgs>(args: Subset<T, StopNoteAggregateArgs>): Prisma.PrismaPromise<GetStopNoteAggregateType<T>>
+
+    /**
+     * Group by StopNote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StopNoteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StopNoteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StopNoteGroupByArgs['orderBy'] }
+        : { orderBy?: StopNoteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StopNoteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStopNoteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StopNote model
+   */
+  readonly fields: StopNoteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StopNote.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StopNoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    readinessChecks<T extends StopNote$readinessChecksArgs<ExtArgs> = {}>(args?: Subset<T, StopNote$readinessChecksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReadinessCheckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    exceptionLogs<T extends StopNote$exceptionLogsArgs<ExtArgs> = {}>(args?: Subset<T, StopNote$exceptionLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExceptionLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    jobStops<T extends StopNote$jobStopsArgs<ExtArgs> = {}>(args?: Subset<T, StopNote$jobStopsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobStopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StopNote model
+   */
+  interface StopNoteFieldRefs {
+    readonly id: FieldRef<"StopNote", 'String'>
+    readonly companyId: FieldRef<"StopNote", 'String'>
+    readonly companyName: FieldRef<"StopNote", 'String'>
+    readonly address: FieldRef<"StopNote", 'String'>
+    readonly contactName: FieldRef<"StopNote", 'String'>
+    readonly contactPhone: FieldRef<"StopNote", 'String'>
+    readonly gateCode: FieldRef<"StopNote", 'String'>
+    readonly dockInfo: FieldRef<"StopNote", 'String'>
+    readonly hours: FieldRef<"StopNote", 'String'>
+    readonly parkingNotes: FieldRef<"StopNote", 'String'>
+    readonly accessNotes: FieldRef<"StopNote", 'String'>
+    readonly deliveryNotes: FieldRef<"StopNote", 'String'>
+    readonly createdAt: FieldRef<"StopNote", 'DateTime'>
+    readonly updatedAt: FieldRef<"StopNote", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StopNote findUnique
+   */
+  export type StopNoteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StopNote
+     */
+    select?: StopNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StopNote
+     */
+    omit?: StopNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StopNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which StopNote to fetch.
+     */
+    where: StopNoteWhereUniqueInput
+  }
+
+  /**
+   * StopNote findUniqueOrThrow
+   */
+  export type StopNoteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StopNote
+     */
+    select?: StopNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StopNote
+     */
+    omit?: StopNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StopNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which StopNote to fetch.
+     */
+    where: StopNoteWhereUniqueInput
+  }
+
+  /**
+   * StopNote findFirst
+   */
+  export type StopNoteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StopNote
+     */
+    select?: StopNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StopNote
+     */
+    omit?: StopNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StopNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which StopNote to fetch.
+     */
+    where?: StopNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StopNotes to fetch.
+     */
+    orderBy?: StopNoteOrderByWithRelationInput | StopNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StopNotes.
+     */
+    cursor?: StopNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StopNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StopNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StopNotes.
+     */
+    distinct?: StopNoteScalarFieldEnum | StopNoteScalarFieldEnum[]
+  }
+
+  /**
+   * StopNote findFirstOrThrow
+   */
+  export type StopNoteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StopNote
+     */
+    select?: StopNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StopNote
+     */
+    omit?: StopNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StopNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which StopNote to fetch.
+     */
+    where?: StopNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StopNotes to fetch.
+     */
+    orderBy?: StopNoteOrderByWithRelationInput | StopNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StopNotes.
+     */
+    cursor?: StopNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StopNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StopNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StopNotes.
+     */
+    distinct?: StopNoteScalarFieldEnum | StopNoteScalarFieldEnum[]
+  }
+
+  /**
+   * StopNote findMany
+   */
+  export type StopNoteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StopNote
+     */
+    select?: StopNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StopNote
+     */
+    omit?: StopNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StopNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which StopNotes to fetch.
+     */
+    where?: StopNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StopNotes to fetch.
+     */
+    orderBy?: StopNoteOrderByWithRelationInput | StopNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StopNotes.
+     */
+    cursor?: StopNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StopNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StopNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StopNotes.
+     */
+    distinct?: StopNoteScalarFieldEnum | StopNoteScalarFieldEnum[]
+  }
+
+  /**
+   * StopNote create
+   */
+  export type StopNoteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StopNote
+     */
+    select?: StopNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StopNote
+     */
+    omit?: StopNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StopNoteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a StopNote.
+     */
+    data: XOR<StopNoteCreateInput, StopNoteUncheckedCreateInput>
+  }
+
+  /**
+   * StopNote createMany
+   */
+  export type StopNoteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StopNotes.
+     */
+    data: StopNoteCreateManyInput | StopNoteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StopNote createManyAndReturn
+   */
+  export type StopNoteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StopNote
+     */
+    select?: StopNoteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StopNote
+     */
+    omit?: StopNoteOmit<ExtArgs> | null
+    /**
+     * The data used to create many StopNotes.
+     */
+    data: StopNoteCreateManyInput | StopNoteCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StopNoteIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StopNote update
+   */
+  export type StopNoteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StopNote
+     */
+    select?: StopNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StopNote
+     */
+    omit?: StopNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StopNoteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a StopNote.
+     */
+    data: XOR<StopNoteUpdateInput, StopNoteUncheckedUpdateInput>
+    /**
+     * Choose, which StopNote to update.
+     */
+    where: StopNoteWhereUniqueInput
+  }
+
+  /**
+   * StopNote updateMany
+   */
+  export type StopNoteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StopNotes.
+     */
+    data: XOR<StopNoteUpdateManyMutationInput, StopNoteUncheckedUpdateManyInput>
+    /**
+     * Filter which StopNotes to update
+     */
+    where?: StopNoteWhereInput
+    /**
+     * Limit how many StopNotes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StopNote updateManyAndReturn
+   */
+  export type StopNoteUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StopNote
+     */
+    select?: StopNoteSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StopNote
+     */
+    omit?: StopNoteOmit<ExtArgs> | null
+    /**
+     * The data used to update StopNotes.
+     */
+    data: XOR<StopNoteUpdateManyMutationInput, StopNoteUncheckedUpdateManyInput>
+    /**
+     * Filter which StopNotes to update
+     */
+    where?: StopNoteWhereInput
+    /**
+     * Limit how many StopNotes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StopNoteIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StopNote upsert
+   */
+  export type StopNoteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StopNote
+     */
+    select?: StopNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StopNote
+     */
+    omit?: StopNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StopNoteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the StopNote to update in case it exists.
+     */
+    where: StopNoteWhereUniqueInput
+    /**
+     * In case the StopNote found by the `where` argument doesn't exist, create a new StopNote with this data.
+     */
+    create: XOR<StopNoteCreateInput, StopNoteUncheckedCreateInput>
+    /**
+     * In case the StopNote was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StopNoteUpdateInput, StopNoteUncheckedUpdateInput>
+  }
+
+  /**
+   * StopNote delete
+   */
+  export type StopNoteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StopNote
+     */
+    select?: StopNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StopNote
+     */
+    omit?: StopNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StopNoteInclude<ExtArgs> | null
+    /**
+     * Filter which StopNote to delete.
+     */
+    where: StopNoteWhereUniqueInput
+  }
+
+  /**
+   * StopNote deleteMany
+   */
+  export type StopNoteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StopNotes to delete
+     */
+    where?: StopNoteWhereInput
+    /**
+     * Limit how many StopNotes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StopNote.readinessChecks
+   */
+  export type StopNote$readinessChecksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadinessCheck
+     */
+    select?: ReadinessCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReadinessCheck
+     */
+    omit?: ReadinessCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadinessCheckInclude<ExtArgs> | null
+    where?: ReadinessCheckWhereInput
+    orderBy?: ReadinessCheckOrderByWithRelationInput | ReadinessCheckOrderByWithRelationInput[]
+    cursor?: ReadinessCheckWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReadinessCheckScalarFieldEnum | ReadinessCheckScalarFieldEnum[]
+  }
+
+  /**
+   * StopNote.exceptionLogs
+   */
+  export type StopNote$exceptionLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExceptionLog
+     */
+    select?: ExceptionLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExceptionLog
+     */
+    omit?: ExceptionLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExceptionLogInclude<ExtArgs> | null
+    where?: ExceptionLogWhereInput
+    orderBy?: ExceptionLogOrderByWithRelationInput | ExceptionLogOrderByWithRelationInput[]
+    cursor?: ExceptionLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ExceptionLogScalarFieldEnum | ExceptionLogScalarFieldEnum[]
+  }
+
+  /**
+   * StopNote.jobStops
+   */
+  export type StopNote$jobStopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobStop
+     */
+    select?: JobStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobStop
+     */
+    omit?: JobStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobStopInclude<ExtArgs> | null
+    where?: JobStopWhereInput
+    orderBy?: JobStopOrderByWithRelationInput | JobStopOrderByWithRelationInput[]
+    cursor?: JobStopWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JobStopScalarFieldEnum | JobStopScalarFieldEnum[]
+  }
+
+  /**
+   * StopNote without action
+   */
+  export type StopNoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StopNote
+     */
+    select?: StopNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StopNote
+     */
+    omit?: StopNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StopNoteInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ReadinessCheck
+   */
+
+  export type AggregateReadinessCheck = {
+    _count: ReadinessCheckCountAggregateOutputType | null
+    _min: ReadinessCheckMinAggregateOutputType | null
+    _max: ReadinessCheckMaxAggregateOutputType | null
+  }
+
+  export type ReadinessCheckMinAggregateOutputType = {
+    id: string | null
+    stopNoteId: string | null
+    scheduledDate: Date | null
+    contactConfirmed: boolean | null
+    addressConfirmed: boolean | null
+    accessConfirmed: boolean | null
+    siteReady: boolean | null
+    notes: string | null
+    status: string | null
+    createdAt: Date | null
+    jobId: string | null
+  }
+
+  export type ReadinessCheckMaxAggregateOutputType = {
+    id: string | null
+    stopNoteId: string | null
+    scheduledDate: Date | null
+    contactConfirmed: boolean | null
+    addressConfirmed: boolean | null
+    accessConfirmed: boolean | null
+    siteReady: boolean | null
+    notes: string | null
+    status: string | null
+    createdAt: Date | null
+    jobId: string | null
+  }
+
+  export type ReadinessCheckCountAggregateOutputType = {
+    id: number
+    stopNoteId: number
+    scheduledDate: number
+    contactConfirmed: number
+    addressConfirmed: number
+    accessConfirmed: number
+    siteReady: number
+    notes: number
+    status: number
+    createdAt: number
+    jobId: number
+    _all: number
+  }
+
+
+  export type ReadinessCheckMinAggregateInputType = {
+    id?: true
+    stopNoteId?: true
+    scheduledDate?: true
+    contactConfirmed?: true
+    addressConfirmed?: true
+    accessConfirmed?: true
+    siteReady?: true
+    notes?: true
+    status?: true
+    createdAt?: true
+    jobId?: true
+  }
+
+  export type ReadinessCheckMaxAggregateInputType = {
+    id?: true
+    stopNoteId?: true
+    scheduledDate?: true
+    contactConfirmed?: true
+    addressConfirmed?: true
+    accessConfirmed?: true
+    siteReady?: true
+    notes?: true
+    status?: true
+    createdAt?: true
+    jobId?: true
+  }
+
+  export type ReadinessCheckCountAggregateInputType = {
+    id?: true
+    stopNoteId?: true
+    scheduledDate?: true
+    contactConfirmed?: true
+    addressConfirmed?: true
+    accessConfirmed?: true
+    siteReady?: true
+    notes?: true
+    status?: true
+    createdAt?: true
+    jobId?: true
+    _all?: true
+  }
+
+  export type ReadinessCheckAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReadinessCheck to aggregate.
+     */
+    where?: ReadinessCheckWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReadinessChecks to fetch.
+     */
+    orderBy?: ReadinessCheckOrderByWithRelationInput | ReadinessCheckOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReadinessCheckWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReadinessChecks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReadinessChecks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ReadinessChecks
+    **/
+    _count?: true | ReadinessCheckCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReadinessCheckMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReadinessCheckMaxAggregateInputType
+  }
+
+  export type GetReadinessCheckAggregateType<T extends ReadinessCheckAggregateArgs> = {
+        [P in keyof T & keyof AggregateReadinessCheck]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReadinessCheck[P]>
+      : GetScalarType<T[P], AggregateReadinessCheck[P]>
+  }
+
+
+
+
+  export type ReadinessCheckGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReadinessCheckWhereInput
+    orderBy?: ReadinessCheckOrderByWithAggregationInput | ReadinessCheckOrderByWithAggregationInput[]
+    by: ReadinessCheckScalarFieldEnum[] | ReadinessCheckScalarFieldEnum
+    having?: ReadinessCheckScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReadinessCheckCountAggregateInputType | true
+    _min?: ReadinessCheckMinAggregateInputType
+    _max?: ReadinessCheckMaxAggregateInputType
+  }
+
+  export type ReadinessCheckGroupByOutputType = {
+    id: string
+    stopNoteId: string
+    scheduledDate: Date
+    contactConfirmed: boolean
+    addressConfirmed: boolean
+    accessConfirmed: boolean
+    siteReady: boolean
+    notes: string | null
+    status: string
+    createdAt: Date
+    jobId: string | null
+    _count: ReadinessCheckCountAggregateOutputType | null
+    _min: ReadinessCheckMinAggregateOutputType | null
+    _max: ReadinessCheckMaxAggregateOutputType | null
+  }
+
+  type GetReadinessCheckGroupByPayload<T extends ReadinessCheckGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReadinessCheckGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReadinessCheckGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReadinessCheckGroupByOutputType[P]>
+            : GetScalarType<T[P], ReadinessCheckGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReadinessCheckSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    stopNoteId?: boolean
+    scheduledDate?: boolean
+    contactConfirmed?: boolean
+    addressConfirmed?: boolean
+    accessConfirmed?: boolean
+    siteReady?: boolean
+    notes?: boolean
+    status?: boolean
+    createdAt?: boolean
+    jobId?: boolean
+    stopNote?: boolean | StopNoteDefaultArgs<ExtArgs>
+    job?: boolean | ReadinessCheck$jobArgs<ExtArgs>
+  }, ExtArgs["result"]["readinessCheck"]>
+
+  export type ReadinessCheckSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    stopNoteId?: boolean
+    scheduledDate?: boolean
+    contactConfirmed?: boolean
+    addressConfirmed?: boolean
+    accessConfirmed?: boolean
+    siteReady?: boolean
+    notes?: boolean
+    status?: boolean
+    createdAt?: boolean
+    jobId?: boolean
+    stopNote?: boolean | StopNoteDefaultArgs<ExtArgs>
+    job?: boolean | ReadinessCheck$jobArgs<ExtArgs>
+  }, ExtArgs["result"]["readinessCheck"]>
+
+  export type ReadinessCheckSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    stopNoteId?: boolean
+    scheduledDate?: boolean
+    contactConfirmed?: boolean
+    addressConfirmed?: boolean
+    accessConfirmed?: boolean
+    siteReady?: boolean
+    notes?: boolean
+    status?: boolean
+    createdAt?: boolean
+    jobId?: boolean
+    stopNote?: boolean | StopNoteDefaultArgs<ExtArgs>
+    job?: boolean | ReadinessCheck$jobArgs<ExtArgs>
+  }, ExtArgs["result"]["readinessCheck"]>
+
+  export type ReadinessCheckSelectScalar = {
+    id?: boolean
+    stopNoteId?: boolean
+    scheduledDate?: boolean
+    contactConfirmed?: boolean
+    addressConfirmed?: boolean
+    accessConfirmed?: boolean
+    siteReady?: boolean
+    notes?: boolean
+    status?: boolean
+    createdAt?: boolean
+    jobId?: boolean
+  }
+
+  export type ReadinessCheckOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "stopNoteId" | "scheduledDate" | "contactConfirmed" | "addressConfirmed" | "accessConfirmed" | "siteReady" | "notes" | "status" | "createdAt" | "jobId", ExtArgs["result"]["readinessCheck"]>
+  export type ReadinessCheckInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    stopNote?: boolean | StopNoteDefaultArgs<ExtArgs>
+    job?: boolean | ReadinessCheck$jobArgs<ExtArgs>
+  }
+  export type ReadinessCheckIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    stopNote?: boolean | StopNoteDefaultArgs<ExtArgs>
+    job?: boolean | ReadinessCheck$jobArgs<ExtArgs>
+  }
+  export type ReadinessCheckIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    stopNote?: boolean | StopNoteDefaultArgs<ExtArgs>
+    job?: boolean | ReadinessCheck$jobArgs<ExtArgs>
+  }
+
+  export type $ReadinessCheckPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ReadinessCheck"
+    objects: {
+      stopNote: Prisma.$StopNotePayload<ExtArgs>
+      job: Prisma.$JobPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      stopNoteId: string
+      scheduledDate: Date
+      contactConfirmed: boolean
+      addressConfirmed: boolean
+      accessConfirmed: boolean
+      siteReady: boolean
+      notes: string | null
+      status: string
+      createdAt: Date
+      jobId: string | null
+    }, ExtArgs["result"]["readinessCheck"]>
+    composites: {}
+  }
+
+  type ReadinessCheckGetPayload<S extends boolean | null | undefined | ReadinessCheckDefaultArgs> = $Result.GetResult<Prisma.$ReadinessCheckPayload, S>
+
+  type ReadinessCheckCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ReadinessCheckFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ReadinessCheckCountAggregateInputType | true
+    }
+
+  export interface ReadinessCheckDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ReadinessCheck'], meta: { name: 'ReadinessCheck' } }
+    /**
+     * Find zero or one ReadinessCheck that matches the filter.
+     * @param {ReadinessCheckFindUniqueArgs} args - Arguments to find a ReadinessCheck
+     * @example
+     * // Get one ReadinessCheck
+     * const readinessCheck = await prisma.readinessCheck.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReadinessCheckFindUniqueArgs>(args: SelectSubset<T, ReadinessCheckFindUniqueArgs<ExtArgs>>): Prisma__ReadinessCheckClient<$Result.GetResult<Prisma.$ReadinessCheckPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ReadinessCheck that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ReadinessCheckFindUniqueOrThrowArgs} args - Arguments to find a ReadinessCheck
+     * @example
+     * // Get one ReadinessCheck
+     * const readinessCheck = await prisma.readinessCheck.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReadinessCheckFindUniqueOrThrowArgs>(args: SelectSubset<T, ReadinessCheckFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReadinessCheckClient<$Result.GetResult<Prisma.$ReadinessCheckPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReadinessCheck that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReadinessCheckFindFirstArgs} args - Arguments to find a ReadinessCheck
+     * @example
+     * // Get one ReadinessCheck
+     * const readinessCheck = await prisma.readinessCheck.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReadinessCheckFindFirstArgs>(args?: SelectSubset<T, ReadinessCheckFindFirstArgs<ExtArgs>>): Prisma__ReadinessCheckClient<$Result.GetResult<Prisma.$ReadinessCheckPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReadinessCheck that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReadinessCheckFindFirstOrThrowArgs} args - Arguments to find a ReadinessCheck
+     * @example
+     * // Get one ReadinessCheck
+     * const readinessCheck = await prisma.readinessCheck.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReadinessCheckFindFirstOrThrowArgs>(args?: SelectSubset<T, ReadinessCheckFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReadinessCheckClient<$Result.GetResult<Prisma.$ReadinessCheckPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ReadinessChecks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReadinessCheckFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ReadinessChecks
+     * const readinessChecks = await prisma.readinessCheck.findMany()
+     * 
+     * // Get first 10 ReadinessChecks
+     * const readinessChecks = await prisma.readinessCheck.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const readinessCheckWithIdOnly = await prisma.readinessCheck.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReadinessCheckFindManyArgs>(args?: SelectSubset<T, ReadinessCheckFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReadinessCheckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ReadinessCheck.
+     * @param {ReadinessCheckCreateArgs} args - Arguments to create a ReadinessCheck.
+     * @example
+     * // Create one ReadinessCheck
+     * const ReadinessCheck = await prisma.readinessCheck.create({
+     *   data: {
+     *     // ... data to create a ReadinessCheck
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReadinessCheckCreateArgs>(args: SelectSubset<T, ReadinessCheckCreateArgs<ExtArgs>>): Prisma__ReadinessCheckClient<$Result.GetResult<Prisma.$ReadinessCheckPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ReadinessChecks.
+     * @param {ReadinessCheckCreateManyArgs} args - Arguments to create many ReadinessChecks.
+     * @example
+     * // Create many ReadinessChecks
+     * const readinessCheck = await prisma.readinessCheck.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReadinessCheckCreateManyArgs>(args?: SelectSubset<T, ReadinessCheckCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ReadinessChecks and returns the data saved in the database.
+     * @param {ReadinessCheckCreateManyAndReturnArgs} args - Arguments to create many ReadinessChecks.
+     * @example
+     * // Create many ReadinessChecks
+     * const readinessCheck = await prisma.readinessCheck.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ReadinessChecks and only return the `id`
+     * const readinessCheckWithIdOnly = await prisma.readinessCheck.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ReadinessCheckCreateManyAndReturnArgs>(args?: SelectSubset<T, ReadinessCheckCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReadinessCheckPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ReadinessCheck.
+     * @param {ReadinessCheckDeleteArgs} args - Arguments to delete one ReadinessCheck.
+     * @example
+     * // Delete one ReadinessCheck
+     * const ReadinessCheck = await prisma.readinessCheck.delete({
+     *   where: {
+     *     // ... filter to delete one ReadinessCheck
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReadinessCheckDeleteArgs>(args: SelectSubset<T, ReadinessCheckDeleteArgs<ExtArgs>>): Prisma__ReadinessCheckClient<$Result.GetResult<Prisma.$ReadinessCheckPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ReadinessCheck.
+     * @param {ReadinessCheckUpdateArgs} args - Arguments to update one ReadinessCheck.
+     * @example
+     * // Update one ReadinessCheck
+     * const readinessCheck = await prisma.readinessCheck.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReadinessCheckUpdateArgs>(args: SelectSubset<T, ReadinessCheckUpdateArgs<ExtArgs>>): Prisma__ReadinessCheckClient<$Result.GetResult<Prisma.$ReadinessCheckPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ReadinessChecks.
+     * @param {ReadinessCheckDeleteManyArgs} args - Arguments to filter ReadinessChecks to delete.
+     * @example
+     * // Delete a few ReadinessChecks
+     * const { count } = await prisma.readinessCheck.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReadinessCheckDeleteManyArgs>(args?: SelectSubset<T, ReadinessCheckDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReadinessChecks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReadinessCheckUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ReadinessChecks
+     * const readinessCheck = await prisma.readinessCheck.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReadinessCheckUpdateManyArgs>(args: SelectSubset<T, ReadinessCheckUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReadinessChecks and returns the data updated in the database.
+     * @param {ReadinessCheckUpdateManyAndReturnArgs} args - Arguments to update many ReadinessChecks.
+     * @example
+     * // Update many ReadinessChecks
+     * const readinessCheck = await prisma.readinessCheck.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ReadinessChecks and only return the `id`
+     * const readinessCheckWithIdOnly = await prisma.readinessCheck.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ReadinessCheckUpdateManyAndReturnArgs>(args: SelectSubset<T, ReadinessCheckUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReadinessCheckPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ReadinessCheck.
+     * @param {ReadinessCheckUpsertArgs} args - Arguments to update or create a ReadinessCheck.
+     * @example
+     * // Update or create a ReadinessCheck
+     * const readinessCheck = await prisma.readinessCheck.upsert({
+     *   create: {
+     *     // ... data to create a ReadinessCheck
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ReadinessCheck we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReadinessCheckUpsertArgs>(args: SelectSubset<T, ReadinessCheckUpsertArgs<ExtArgs>>): Prisma__ReadinessCheckClient<$Result.GetResult<Prisma.$ReadinessCheckPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ReadinessChecks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReadinessCheckCountArgs} args - Arguments to filter ReadinessChecks to count.
+     * @example
+     * // Count the number of ReadinessChecks
+     * const count = await prisma.readinessCheck.count({
+     *   where: {
+     *     // ... the filter for the ReadinessChecks we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReadinessCheckCountArgs>(
+      args?: Subset<T, ReadinessCheckCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReadinessCheckCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ReadinessCheck.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReadinessCheckAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReadinessCheckAggregateArgs>(args: Subset<T, ReadinessCheckAggregateArgs>): Prisma.PrismaPromise<GetReadinessCheckAggregateType<T>>
+
+    /**
+     * Group by ReadinessCheck.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReadinessCheckGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReadinessCheckGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReadinessCheckGroupByArgs['orderBy'] }
+        : { orderBy?: ReadinessCheckGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReadinessCheckGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReadinessCheckGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ReadinessCheck model
+   */
+  readonly fields: ReadinessCheckFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ReadinessCheck.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReadinessCheckClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    stopNote<T extends StopNoteDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StopNoteDefaultArgs<ExtArgs>>): Prisma__StopNoteClient<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    job<T extends ReadinessCheck$jobArgs<ExtArgs> = {}>(args?: Subset<T, ReadinessCheck$jobArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ReadinessCheck model
+   */
+  interface ReadinessCheckFieldRefs {
+    readonly id: FieldRef<"ReadinessCheck", 'String'>
+    readonly stopNoteId: FieldRef<"ReadinessCheck", 'String'>
+    readonly scheduledDate: FieldRef<"ReadinessCheck", 'DateTime'>
+    readonly contactConfirmed: FieldRef<"ReadinessCheck", 'Boolean'>
+    readonly addressConfirmed: FieldRef<"ReadinessCheck", 'Boolean'>
+    readonly accessConfirmed: FieldRef<"ReadinessCheck", 'Boolean'>
+    readonly siteReady: FieldRef<"ReadinessCheck", 'Boolean'>
+    readonly notes: FieldRef<"ReadinessCheck", 'String'>
+    readonly status: FieldRef<"ReadinessCheck", 'String'>
+    readonly createdAt: FieldRef<"ReadinessCheck", 'DateTime'>
+    readonly jobId: FieldRef<"ReadinessCheck", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ReadinessCheck findUnique
+   */
+  export type ReadinessCheckFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadinessCheck
+     */
+    select?: ReadinessCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReadinessCheck
+     */
+    omit?: ReadinessCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadinessCheckInclude<ExtArgs> | null
+    /**
+     * Filter, which ReadinessCheck to fetch.
+     */
+    where: ReadinessCheckWhereUniqueInput
+  }
+
+  /**
+   * ReadinessCheck findUniqueOrThrow
+   */
+  export type ReadinessCheckFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadinessCheck
+     */
+    select?: ReadinessCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReadinessCheck
+     */
+    omit?: ReadinessCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadinessCheckInclude<ExtArgs> | null
+    /**
+     * Filter, which ReadinessCheck to fetch.
+     */
+    where: ReadinessCheckWhereUniqueInput
+  }
+
+  /**
+   * ReadinessCheck findFirst
+   */
+  export type ReadinessCheckFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadinessCheck
+     */
+    select?: ReadinessCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReadinessCheck
+     */
+    omit?: ReadinessCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadinessCheckInclude<ExtArgs> | null
+    /**
+     * Filter, which ReadinessCheck to fetch.
+     */
+    where?: ReadinessCheckWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReadinessChecks to fetch.
+     */
+    orderBy?: ReadinessCheckOrderByWithRelationInput | ReadinessCheckOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReadinessChecks.
+     */
+    cursor?: ReadinessCheckWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReadinessChecks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReadinessChecks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReadinessChecks.
+     */
+    distinct?: ReadinessCheckScalarFieldEnum | ReadinessCheckScalarFieldEnum[]
+  }
+
+  /**
+   * ReadinessCheck findFirstOrThrow
+   */
+  export type ReadinessCheckFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadinessCheck
+     */
+    select?: ReadinessCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReadinessCheck
+     */
+    omit?: ReadinessCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadinessCheckInclude<ExtArgs> | null
+    /**
+     * Filter, which ReadinessCheck to fetch.
+     */
+    where?: ReadinessCheckWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReadinessChecks to fetch.
+     */
+    orderBy?: ReadinessCheckOrderByWithRelationInput | ReadinessCheckOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReadinessChecks.
+     */
+    cursor?: ReadinessCheckWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReadinessChecks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReadinessChecks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReadinessChecks.
+     */
+    distinct?: ReadinessCheckScalarFieldEnum | ReadinessCheckScalarFieldEnum[]
+  }
+
+  /**
+   * ReadinessCheck findMany
+   */
+  export type ReadinessCheckFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadinessCheck
+     */
+    select?: ReadinessCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReadinessCheck
+     */
+    omit?: ReadinessCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadinessCheckInclude<ExtArgs> | null
+    /**
+     * Filter, which ReadinessChecks to fetch.
+     */
+    where?: ReadinessCheckWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReadinessChecks to fetch.
+     */
+    orderBy?: ReadinessCheckOrderByWithRelationInput | ReadinessCheckOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ReadinessChecks.
+     */
+    cursor?: ReadinessCheckWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReadinessChecks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReadinessChecks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReadinessChecks.
+     */
+    distinct?: ReadinessCheckScalarFieldEnum | ReadinessCheckScalarFieldEnum[]
+  }
+
+  /**
+   * ReadinessCheck create
+   */
+  export type ReadinessCheckCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadinessCheck
+     */
+    select?: ReadinessCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReadinessCheck
+     */
+    omit?: ReadinessCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadinessCheckInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ReadinessCheck.
+     */
+    data: XOR<ReadinessCheckCreateInput, ReadinessCheckUncheckedCreateInput>
+  }
+
+  /**
+   * ReadinessCheck createMany
+   */
+  export type ReadinessCheckCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ReadinessChecks.
+     */
+    data: ReadinessCheckCreateManyInput | ReadinessCheckCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ReadinessCheck createManyAndReturn
+   */
+  export type ReadinessCheckCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadinessCheck
+     */
+    select?: ReadinessCheckSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReadinessCheck
+     */
+    omit?: ReadinessCheckOmit<ExtArgs> | null
+    /**
+     * The data used to create many ReadinessChecks.
+     */
+    data: ReadinessCheckCreateManyInput | ReadinessCheckCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadinessCheckIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ReadinessCheck update
+   */
+  export type ReadinessCheckUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadinessCheck
+     */
+    select?: ReadinessCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReadinessCheck
+     */
+    omit?: ReadinessCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadinessCheckInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ReadinessCheck.
+     */
+    data: XOR<ReadinessCheckUpdateInput, ReadinessCheckUncheckedUpdateInput>
+    /**
+     * Choose, which ReadinessCheck to update.
+     */
+    where: ReadinessCheckWhereUniqueInput
+  }
+
+  /**
+   * ReadinessCheck updateMany
+   */
+  export type ReadinessCheckUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ReadinessChecks.
+     */
+    data: XOR<ReadinessCheckUpdateManyMutationInput, ReadinessCheckUncheckedUpdateManyInput>
+    /**
+     * Filter which ReadinessChecks to update
+     */
+    where?: ReadinessCheckWhereInput
+    /**
+     * Limit how many ReadinessChecks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReadinessCheck updateManyAndReturn
+   */
+  export type ReadinessCheckUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadinessCheck
+     */
+    select?: ReadinessCheckSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReadinessCheck
+     */
+    omit?: ReadinessCheckOmit<ExtArgs> | null
+    /**
+     * The data used to update ReadinessChecks.
+     */
+    data: XOR<ReadinessCheckUpdateManyMutationInput, ReadinessCheckUncheckedUpdateManyInput>
+    /**
+     * Filter which ReadinessChecks to update
+     */
+    where?: ReadinessCheckWhereInput
+    /**
+     * Limit how many ReadinessChecks to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadinessCheckIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ReadinessCheck upsert
+   */
+  export type ReadinessCheckUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadinessCheck
+     */
+    select?: ReadinessCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReadinessCheck
+     */
+    omit?: ReadinessCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadinessCheckInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ReadinessCheck to update in case it exists.
+     */
+    where: ReadinessCheckWhereUniqueInput
+    /**
+     * In case the ReadinessCheck found by the `where` argument doesn't exist, create a new ReadinessCheck with this data.
+     */
+    create: XOR<ReadinessCheckCreateInput, ReadinessCheckUncheckedCreateInput>
+    /**
+     * In case the ReadinessCheck was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReadinessCheckUpdateInput, ReadinessCheckUncheckedUpdateInput>
+  }
+
+  /**
+   * ReadinessCheck delete
+   */
+  export type ReadinessCheckDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadinessCheck
+     */
+    select?: ReadinessCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReadinessCheck
+     */
+    omit?: ReadinessCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadinessCheckInclude<ExtArgs> | null
+    /**
+     * Filter which ReadinessCheck to delete.
+     */
+    where: ReadinessCheckWhereUniqueInput
+  }
+
+  /**
+   * ReadinessCheck deleteMany
+   */
+  export type ReadinessCheckDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReadinessChecks to delete
+     */
+    where?: ReadinessCheckWhereInput
+    /**
+     * Limit how many ReadinessChecks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReadinessCheck.job
+   */
+  export type ReadinessCheck$jobArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Job
+     */
+    omit?: JobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    where?: JobWhereInput
+  }
+
+  /**
+   * ReadinessCheck without action
+   */
+  export type ReadinessCheckDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadinessCheck
+     */
+    select?: ReadinessCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReadinessCheck
+     */
+    omit?: ReadinessCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadinessCheckInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ExceptionLog
+   */
+
+  export type AggregateExceptionLog = {
+    _count: ExceptionLogCountAggregateOutputType | null
+    _min: ExceptionLogMinAggregateOutputType | null
+    _max: ExceptionLogMaxAggregateOutputType | null
+  }
+
+  export type ExceptionLogMinAggregateOutputType = {
+    id: string | null
+    stopNoteId: string | null
+    type: string | null
+    notes: string | null
+    timestamp: Date | null
+    jobId: string | null
+  }
+
+  export type ExceptionLogMaxAggregateOutputType = {
+    id: string | null
+    stopNoteId: string | null
+    type: string | null
+    notes: string | null
+    timestamp: Date | null
+    jobId: string | null
+  }
+
+  export type ExceptionLogCountAggregateOutputType = {
+    id: number
+    stopNoteId: number
+    type: number
+    notes: number
+    timestamp: number
+    jobId: number
+    _all: number
+  }
+
+
+  export type ExceptionLogMinAggregateInputType = {
+    id?: true
+    stopNoteId?: true
+    type?: true
+    notes?: true
+    timestamp?: true
+    jobId?: true
+  }
+
+  export type ExceptionLogMaxAggregateInputType = {
+    id?: true
+    stopNoteId?: true
+    type?: true
+    notes?: true
+    timestamp?: true
+    jobId?: true
+  }
+
+  export type ExceptionLogCountAggregateInputType = {
+    id?: true
+    stopNoteId?: true
+    type?: true
+    notes?: true
+    timestamp?: true
+    jobId?: true
+    _all?: true
+  }
+
+  export type ExceptionLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ExceptionLog to aggregate.
+     */
+    where?: ExceptionLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExceptionLogs to fetch.
+     */
+    orderBy?: ExceptionLogOrderByWithRelationInput | ExceptionLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ExceptionLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExceptionLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExceptionLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ExceptionLogs
+    **/
+    _count?: true | ExceptionLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ExceptionLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ExceptionLogMaxAggregateInputType
+  }
+
+  export type GetExceptionLogAggregateType<T extends ExceptionLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateExceptionLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateExceptionLog[P]>
+      : GetScalarType<T[P], AggregateExceptionLog[P]>
+  }
+
+
+
+
+  export type ExceptionLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExceptionLogWhereInput
+    orderBy?: ExceptionLogOrderByWithAggregationInput | ExceptionLogOrderByWithAggregationInput[]
+    by: ExceptionLogScalarFieldEnum[] | ExceptionLogScalarFieldEnum
+    having?: ExceptionLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ExceptionLogCountAggregateInputType | true
+    _min?: ExceptionLogMinAggregateInputType
+    _max?: ExceptionLogMaxAggregateInputType
+  }
+
+  export type ExceptionLogGroupByOutputType = {
+    id: string
+    stopNoteId: string | null
+    type: string
+    notes: string | null
+    timestamp: Date
+    jobId: string | null
+    _count: ExceptionLogCountAggregateOutputType | null
+    _min: ExceptionLogMinAggregateOutputType | null
+    _max: ExceptionLogMaxAggregateOutputType | null
+  }
+
+  type GetExceptionLogGroupByPayload<T extends ExceptionLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ExceptionLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ExceptionLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ExceptionLogGroupByOutputType[P]>
+            : GetScalarType<T[P], ExceptionLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ExceptionLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    stopNoteId?: boolean
+    type?: boolean
+    notes?: boolean
+    timestamp?: boolean
+    jobId?: boolean
+    stopNote?: boolean | ExceptionLog$stopNoteArgs<ExtArgs>
+    job?: boolean | ExceptionLog$jobArgs<ExtArgs>
+  }, ExtArgs["result"]["exceptionLog"]>
+
+  export type ExceptionLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    stopNoteId?: boolean
+    type?: boolean
+    notes?: boolean
+    timestamp?: boolean
+    jobId?: boolean
+    stopNote?: boolean | ExceptionLog$stopNoteArgs<ExtArgs>
+    job?: boolean | ExceptionLog$jobArgs<ExtArgs>
+  }, ExtArgs["result"]["exceptionLog"]>
+
+  export type ExceptionLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    stopNoteId?: boolean
+    type?: boolean
+    notes?: boolean
+    timestamp?: boolean
+    jobId?: boolean
+    stopNote?: boolean | ExceptionLog$stopNoteArgs<ExtArgs>
+    job?: boolean | ExceptionLog$jobArgs<ExtArgs>
+  }, ExtArgs["result"]["exceptionLog"]>
+
+  export type ExceptionLogSelectScalar = {
+    id?: boolean
+    stopNoteId?: boolean
+    type?: boolean
+    notes?: boolean
+    timestamp?: boolean
+    jobId?: boolean
+  }
+
+  export type ExceptionLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "stopNoteId" | "type" | "notes" | "timestamp" | "jobId", ExtArgs["result"]["exceptionLog"]>
+  export type ExceptionLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    stopNote?: boolean | ExceptionLog$stopNoteArgs<ExtArgs>
+    job?: boolean | ExceptionLog$jobArgs<ExtArgs>
+  }
+  export type ExceptionLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    stopNote?: boolean | ExceptionLog$stopNoteArgs<ExtArgs>
+    job?: boolean | ExceptionLog$jobArgs<ExtArgs>
+  }
+  export type ExceptionLogIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    stopNote?: boolean | ExceptionLog$stopNoteArgs<ExtArgs>
+    job?: boolean | ExceptionLog$jobArgs<ExtArgs>
+  }
+
+  export type $ExceptionLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ExceptionLog"
+    objects: {
+      stopNote: Prisma.$StopNotePayload<ExtArgs> | null
+      job: Prisma.$JobPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      stopNoteId: string | null
+      type: string
+      notes: string | null
+      timestamp: Date
+      jobId: string | null
+    }, ExtArgs["result"]["exceptionLog"]>
+    composites: {}
+  }
+
+  type ExceptionLogGetPayload<S extends boolean | null | undefined | ExceptionLogDefaultArgs> = $Result.GetResult<Prisma.$ExceptionLogPayload, S>
+
+  type ExceptionLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ExceptionLogFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ExceptionLogCountAggregateInputType | true
+    }
+
+  export interface ExceptionLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ExceptionLog'], meta: { name: 'ExceptionLog' } }
+    /**
+     * Find zero or one ExceptionLog that matches the filter.
+     * @param {ExceptionLogFindUniqueArgs} args - Arguments to find a ExceptionLog
+     * @example
+     * // Get one ExceptionLog
+     * const exceptionLog = await prisma.exceptionLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ExceptionLogFindUniqueArgs>(args: SelectSubset<T, ExceptionLogFindUniqueArgs<ExtArgs>>): Prisma__ExceptionLogClient<$Result.GetResult<Prisma.$ExceptionLogPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ExceptionLog that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ExceptionLogFindUniqueOrThrowArgs} args - Arguments to find a ExceptionLog
+     * @example
+     * // Get one ExceptionLog
+     * const exceptionLog = await prisma.exceptionLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ExceptionLogFindUniqueOrThrowArgs>(args: SelectSubset<T, ExceptionLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ExceptionLogClient<$Result.GetResult<Prisma.$ExceptionLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ExceptionLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExceptionLogFindFirstArgs} args - Arguments to find a ExceptionLog
+     * @example
+     * // Get one ExceptionLog
+     * const exceptionLog = await prisma.exceptionLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ExceptionLogFindFirstArgs>(args?: SelectSubset<T, ExceptionLogFindFirstArgs<ExtArgs>>): Prisma__ExceptionLogClient<$Result.GetResult<Prisma.$ExceptionLogPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ExceptionLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExceptionLogFindFirstOrThrowArgs} args - Arguments to find a ExceptionLog
+     * @example
+     * // Get one ExceptionLog
+     * const exceptionLog = await prisma.exceptionLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ExceptionLogFindFirstOrThrowArgs>(args?: SelectSubset<T, ExceptionLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__ExceptionLogClient<$Result.GetResult<Prisma.$ExceptionLogPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ExceptionLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExceptionLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ExceptionLogs
+     * const exceptionLogs = await prisma.exceptionLog.findMany()
+     * 
+     * // Get first 10 ExceptionLogs
+     * const exceptionLogs = await prisma.exceptionLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const exceptionLogWithIdOnly = await prisma.exceptionLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ExceptionLogFindManyArgs>(args?: SelectSubset<T, ExceptionLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExceptionLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ExceptionLog.
+     * @param {ExceptionLogCreateArgs} args - Arguments to create a ExceptionLog.
+     * @example
+     * // Create one ExceptionLog
+     * const ExceptionLog = await prisma.exceptionLog.create({
+     *   data: {
+     *     // ... data to create a ExceptionLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends ExceptionLogCreateArgs>(args: SelectSubset<T, ExceptionLogCreateArgs<ExtArgs>>): Prisma__ExceptionLogClient<$Result.GetResult<Prisma.$ExceptionLogPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ExceptionLogs.
+     * @param {ExceptionLogCreateManyArgs} args - Arguments to create many ExceptionLogs.
+     * @example
+     * // Create many ExceptionLogs
+     * const exceptionLog = await prisma.exceptionLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ExceptionLogCreateManyArgs>(args?: SelectSubset<T, ExceptionLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ExceptionLogs and returns the data saved in the database.
+     * @param {ExceptionLogCreateManyAndReturnArgs} args - Arguments to create many ExceptionLogs.
+     * @example
+     * // Create many ExceptionLogs
+     * const exceptionLog = await prisma.exceptionLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ExceptionLogs and only return the `id`
+     * const exceptionLogWithIdOnly = await prisma.exceptionLog.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ExceptionLogCreateManyAndReturnArgs>(args?: SelectSubset<T, ExceptionLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExceptionLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ExceptionLog.
+     * @param {ExceptionLogDeleteArgs} args - Arguments to delete one ExceptionLog.
+     * @example
+     * // Delete one ExceptionLog
+     * const ExceptionLog = await prisma.exceptionLog.delete({
+     *   where: {
+     *     // ... filter to delete one ExceptionLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ExceptionLogDeleteArgs>(args: SelectSubset<T, ExceptionLogDeleteArgs<ExtArgs>>): Prisma__ExceptionLogClient<$Result.GetResult<Prisma.$ExceptionLogPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ExceptionLog.
+     * @param {ExceptionLogUpdateArgs} args - Arguments to update one ExceptionLog.
+     * @example
+     * // Update one ExceptionLog
+     * const exceptionLog = await prisma.exceptionLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ExceptionLogUpdateArgs>(args: SelectSubset<T, ExceptionLogUpdateArgs<ExtArgs>>): Prisma__ExceptionLogClient<$Result.GetResult<Prisma.$ExceptionLogPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ExceptionLogs.
+     * @param {ExceptionLogDeleteManyArgs} args - Arguments to filter ExceptionLogs to delete.
+     * @example
+     * // Delete a few ExceptionLogs
+     * const { count } = await prisma.exceptionLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ExceptionLogDeleteManyArgs>(args?: SelectSubset<T, ExceptionLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ExceptionLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExceptionLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ExceptionLogs
+     * const exceptionLog = await prisma.exceptionLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ExceptionLogUpdateManyArgs>(args: SelectSubset<T, ExceptionLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ExceptionLogs and returns the data updated in the database.
+     * @param {ExceptionLogUpdateManyAndReturnArgs} args - Arguments to update many ExceptionLogs.
+     * @example
+     * // Update many ExceptionLogs
+     * const exceptionLog = await prisma.exceptionLog.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ExceptionLogs and only return the `id`
+     * const exceptionLogWithIdOnly = await prisma.exceptionLog.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ExceptionLogUpdateManyAndReturnArgs>(args: SelectSubset<T, ExceptionLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExceptionLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ExceptionLog.
+     * @param {ExceptionLogUpsertArgs} args - Arguments to update or create a ExceptionLog.
+     * @example
+     * // Update or create a ExceptionLog
+     * const exceptionLog = await prisma.exceptionLog.upsert({
+     *   create: {
+     *     // ... data to create a ExceptionLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ExceptionLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ExceptionLogUpsertArgs>(args: SelectSubset<T, ExceptionLogUpsertArgs<ExtArgs>>): Prisma__ExceptionLogClient<$Result.GetResult<Prisma.$ExceptionLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ExceptionLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExceptionLogCountArgs} args - Arguments to filter ExceptionLogs to count.
+     * @example
+     * // Count the number of ExceptionLogs
+     * const count = await prisma.exceptionLog.count({
+     *   where: {
+     *     // ... the filter for the ExceptionLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends ExceptionLogCountArgs>(
+      args?: Subset<T, ExceptionLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ExceptionLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ExceptionLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExceptionLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ExceptionLogAggregateArgs>(args: Subset<T, ExceptionLogAggregateArgs>): Prisma.PrismaPromise<GetExceptionLogAggregateType<T>>
+
+    /**
+     * Group by ExceptionLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExceptionLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ExceptionLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ExceptionLogGroupByArgs['orderBy'] }
+        : { orderBy?: ExceptionLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ExceptionLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetExceptionLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ExceptionLog model
+   */
+  readonly fields: ExceptionLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ExceptionLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ExceptionLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    stopNote<T extends ExceptionLog$stopNoteArgs<ExtArgs> = {}>(args?: Subset<T, ExceptionLog$stopNoteArgs<ExtArgs>>): Prisma__StopNoteClient<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    job<T extends ExceptionLog$jobArgs<ExtArgs> = {}>(args?: Subset<T, ExceptionLog$jobArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ExceptionLog model
+   */
+  interface ExceptionLogFieldRefs {
+    readonly id: FieldRef<"ExceptionLog", 'String'>
+    readonly stopNoteId: FieldRef<"ExceptionLog", 'String'>
+    readonly type: FieldRef<"ExceptionLog", 'String'>
+    readonly notes: FieldRef<"ExceptionLog", 'String'>
+    readonly timestamp: FieldRef<"ExceptionLog", 'DateTime'>
+    readonly jobId: FieldRef<"ExceptionLog", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ExceptionLog findUnique
+   */
+  export type ExceptionLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExceptionLog
+     */
+    select?: ExceptionLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExceptionLog
+     */
+    omit?: ExceptionLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExceptionLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ExceptionLog to fetch.
+     */
+    where: ExceptionLogWhereUniqueInput
+  }
+
+  /**
+   * ExceptionLog findUniqueOrThrow
+   */
+  export type ExceptionLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExceptionLog
+     */
+    select?: ExceptionLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExceptionLog
+     */
+    omit?: ExceptionLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExceptionLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ExceptionLog to fetch.
+     */
+    where: ExceptionLogWhereUniqueInput
+  }
+
+  /**
+   * ExceptionLog findFirst
+   */
+  export type ExceptionLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExceptionLog
+     */
+    select?: ExceptionLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExceptionLog
+     */
+    omit?: ExceptionLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExceptionLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ExceptionLog to fetch.
+     */
+    where?: ExceptionLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExceptionLogs to fetch.
+     */
+    orderBy?: ExceptionLogOrderByWithRelationInput | ExceptionLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ExceptionLogs.
+     */
+    cursor?: ExceptionLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExceptionLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExceptionLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExceptionLogs.
+     */
+    distinct?: ExceptionLogScalarFieldEnum | ExceptionLogScalarFieldEnum[]
+  }
+
+  /**
+   * ExceptionLog findFirstOrThrow
+   */
+  export type ExceptionLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExceptionLog
+     */
+    select?: ExceptionLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExceptionLog
+     */
+    omit?: ExceptionLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExceptionLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ExceptionLog to fetch.
+     */
+    where?: ExceptionLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExceptionLogs to fetch.
+     */
+    orderBy?: ExceptionLogOrderByWithRelationInput | ExceptionLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ExceptionLogs.
+     */
+    cursor?: ExceptionLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExceptionLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExceptionLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExceptionLogs.
+     */
+    distinct?: ExceptionLogScalarFieldEnum | ExceptionLogScalarFieldEnum[]
+  }
+
+  /**
+   * ExceptionLog findMany
+   */
+  export type ExceptionLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExceptionLog
+     */
+    select?: ExceptionLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExceptionLog
+     */
+    omit?: ExceptionLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExceptionLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ExceptionLogs to fetch.
+     */
+    where?: ExceptionLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExceptionLogs to fetch.
+     */
+    orderBy?: ExceptionLogOrderByWithRelationInput | ExceptionLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ExceptionLogs.
+     */
+    cursor?: ExceptionLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExceptionLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExceptionLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExceptionLogs.
+     */
+    distinct?: ExceptionLogScalarFieldEnum | ExceptionLogScalarFieldEnum[]
+  }
+
+  /**
+   * ExceptionLog create
+   */
+  export type ExceptionLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExceptionLog
+     */
+    select?: ExceptionLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExceptionLog
+     */
+    omit?: ExceptionLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExceptionLogInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ExceptionLog.
+     */
+    data: XOR<ExceptionLogCreateInput, ExceptionLogUncheckedCreateInput>
+  }
+
+  /**
+   * ExceptionLog createMany
+   */
+  export type ExceptionLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ExceptionLogs.
+     */
+    data: ExceptionLogCreateManyInput | ExceptionLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ExceptionLog createManyAndReturn
+   */
+  export type ExceptionLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExceptionLog
+     */
+    select?: ExceptionLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExceptionLog
+     */
+    omit?: ExceptionLogOmit<ExtArgs> | null
+    /**
+     * The data used to create many ExceptionLogs.
+     */
+    data: ExceptionLogCreateManyInput | ExceptionLogCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExceptionLogIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ExceptionLog update
+   */
+  export type ExceptionLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExceptionLog
+     */
+    select?: ExceptionLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExceptionLog
+     */
+    omit?: ExceptionLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExceptionLogInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ExceptionLog.
+     */
+    data: XOR<ExceptionLogUpdateInput, ExceptionLogUncheckedUpdateInput>
+    /**
+     * Choose, which ExceptionLog to update.
+     */
+    where: ExceptionLogWhereUniqueInput
+  }
+
+  /**
+   * ExceptionLog updateMany
+   */
+  export type ExceptionLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ExceptionLogs.
+     */
+    data: XOR<ExceptionLogUpdateManyMutationInput, ExceptionLogUncheckedUpdateManyInput>
+    /**
+     * Filter which ExceptionLogs to update
+     */
+    where?: ExceptionLogWhereInput
+    /**
+     * Limit how many ExceptionLogs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ExceptionLog updateManyAndReturn
+   */
+  export type ExceptionLogUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExceptionLog
+     */
+    select?: ExceptionLogSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExceptionLog
+     */
+    omit?: ExceptionLogOmit<ExtArgs> | null
+    /**
+     * The data used to update ExceptionLogs.
+     */
+    data: XOR<ExceptionLogUpdateManyMutationInput, ExceptionLogUncheckedUpdateManyInput>
+    /**
+     * Filter which ExceptionLogs to update
+     */
+    where?: ExceptionLogWhereInput
+    /**
+     * Limit how many ExceptionLogs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExceptionLogIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ExceptionLog upsert
+   */
+  export type ExceptionLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExceptionLog
+     */
+    select?: ExceptionLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExceptionLog
+     */
+    omit?: ExceptionLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExceptionLogInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ExceptionLog to update in case it exists.
+     */
+    where: ExceptionLogWhereUniqueInput
+    /**
+     * In case the ExceptionLog found by the `where` argument doesn't exist, create a new ExceptionLog with this data.
+     */
+    create: XOR<ExceptionLogCreateInput, ExceptionLogUncheckedCreateInput>
+    /**
+     * In case the ExceptionLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ExceptionLogUpdateInput, ExceptionLogUncheckedUpdateInput>
+  }
+
+  /**
+   * ExceptionLog delete
+   */
+  export type ExceptionLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExceptionLog
+     */
+    select?: ExceptionLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExceptionLog
+     */
+    omit?: ExceptionLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExceptionLogInclude<ExtArgs> | null
+    /**
+     * Filter which ExceptionLog to delete.
+     */
+    where: ExceptionLogWhereUniqueInput
+  }
+
+  /**
+   * ExceptionLog deleteMany
+   */
+  export type ExceptionLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ExceptionLogs to delete
+     */
+    where?: ExceptionLogWhereInput
+    /**
+     * Limit how many ExceptionLogs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ExceptionLog.stopNote
+   */
+  export type ExceptionLog$stopNoteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StopNote
+     */
+    select?: StopNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StopNote
+     */
+    omit?: StopNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StopNoteInclude<ExtArgs> | null
+    where?: StopNoteWhereInput
+  }
+
+  /**
+   * ExceptionLog.job
+   */
+  export type ExceptionLog$jobArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Job
+     */
+    omit?: JobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    where?: JobWhereInput
+  }
+
+  /**
+   * ExceptionLog without action
+   */
+  export type ExceptionLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExceptionLog
+     */
+    select?: ExceptionLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExceptionLog
+     */
+    omit?: ExceptionLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExceptionLogInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Job
+   */
+
+  export type AggregateJob = {
+    _count: JobCountAggregateOutputType | null
+    _min: JobMinAggregateOutputType | null
+    _max: JobMaxAggregateOutputType | null
+  }
+
+  export type JobMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    quoteRequestId: string | null
+    status: string | null
+    scheduledDate: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type JobMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    quoteRequestId: string | null
+    status: string | null
+    scheduledDate: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type JobCountAggregateOutputType = {
+    id: number
+    companyId: number
+    quoteRequestId: number
+    status: number
+    scheduledDate: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type JobMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    quoteRequestId?: true
+    status?: true
+    scheduledDate?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type JobMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    quoteRequestId?: true
+    status?: true
+    scheduledDate?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type JobCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    quoteRequestId?: true
+    status?: true
+    scheduledDate?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type JobAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Job to aggregate.
+     */
+    where?: JobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Jobs to fetch.
+     */
+    orderBy?: JobOrderByWithRelationInput | JobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: JobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Jobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Jobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Jobs
+    **/
+    _count?: true | JobCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: JobMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: JobMaxAggregateInputType
+  }
+
+  export type GetJobAggregateType<T extends JobAggregateArgs> = {
+        [P in keyof T & keyof AggregateJob]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateJob[P]>
+      : GetScalarType<T[P], AggregateJob[P]>
+  }
+
+
+
+
+  export type JobGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JobWhereInput
+    orderBy?: JobOrderByWithAggregationInput | JobOrderByWithAggregationInput[]
+    by: JobScalarFieldEnum[] | JobScalarFieldEnum
+    having?: JobScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: JobCountAggregateInputType | true
+    _min?: JobMinAggregateInputType
+    _max?: JobMaxAggregateInputType
+  }
+
+  export type JobGroupByOutputType = {
+    id: string
+    companyId: string
+    quoteRequestId: string | null
+    status: string
+    scheduledDate: Date
+    createdAt: Date
+    updatedAt: Date
+    _count: JobCountAggregateOutputType | null
+    _min: JobMinAggregateOutputType | null
+    _max: JobMaxAggregateOutputType | null
+  }
+
+  type GetJobGroupByPayload<T extends JobGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<JobGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof JobGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], JobGroupByOutputType[P]>
+            : GetScalarType<T[P], JobGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type JobSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    quoteRequestId?: boolean
+    status?: boolean
+    scheduledDate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    quoteRequest?: boolean | Job$quoteRequestArgs<ExtArgs>
+    stops?: boolean | Job$stopsArgs<ExtArgs>
+    readinessChecks?: boolean | Job$readinessChecksArgs<ExtArgs>
+    exceptionLogs?: boolean | Job$exceptionLogsArgs<ExtArgs>
+    _count?: boolean | JobCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["job"]>
+
+  export type JobSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    quoteRequestId?: boolean
+    status?: boolean
+    scheduledDate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    quoteRequest?: boolean | Job$quoteRequestArgs<ExtArgs>
+  }, ExtArgs["result"]["job"]>
+
+  export type JobSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    quoteRequestId?: boolean
+    status?: boolean
+    scheduledDate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    quoteRequest?: boolean | Job$quoteRequestArgs<ExtArgs>
+  }, ExtArgs["result"]["job"]>
+
+  export type JobSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    quoteRequestId?: boolean
+    status?: boolean
+    scheduledDate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type JobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "quoteRequestId" | "status" | "scheduledDate" | "createdAt" | "updatedAt", ExtArgs["result"]["job"]>
+  export type JobInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    quoteRequest?: boolean | Job$quoteRequestArgs<ExtArgs>
+    stops?: boolean | Job$stopsArgs<ExtArgs>
+    readinessChecks?: boolean | Job$readinessChecksArgs<ExtArgs>
+    exceptionLogs?: boolean | Job$exceptionLogsArgs<ExtArgs>
+    _count?: boolean | JobCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type JobIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    quoteRequest?: boolean | Job$quoteRequestArgs<ExtArgs>
+  }
+  export type JobIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    quoteRequest?: boolean | Job$quoteRequestArgs<ExtArgs>
+  }
+
+  export type $JobPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Job"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      quoteRequest: Prisma.$QuoteRequestPayload<ExtArgs> | null
+      stops: Prisma.$JobStopPayload<ExtArgs>[]
+      readinessChecks: Prisma.$ReadinessCheckPayload<ExtArgs>[]
+      exceptionLogs: Prisma.$ExceptionLogPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      quoteRequestId: string | null
+      status: string
+      scheduledDate: Date
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["job"]>
+    composites: {}
+  }
+
+  type JobGetPayload<S extends boolean | null | undefined | JobDefaultArgs> = $Result.GetResult<Prisma.$JobPayload, S>
+
+  type JobCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<JobFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: JobCountAggregateInputType | true
+    }
+
+  export interface JobDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Job'], meta: { name: 'Job' } }
+    /**
+     * Find zero or one Job that matches the filter.
+     * @param {JobFindUniqueArgs} args - Arguments to find a Job
+     * @example
+     * // Get one Job
+     * const job = await prisma.job.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends JobFindUniqueArgs>(args: SelectSubset<T, JobFindUniqueArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Job that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {JobFindUniqueOrThrowArgs} args - Arguments to find a Job
+     * @example
+     * // Get one Job
+     * const job = await prisma.job.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends JobFindUniqueOrThrowArgs>(args: SelectSubset<T, JobFindUniqueOrThrowArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Job that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobFindFirstArgs} args - Arguments to find a Job
+     * @example
+     * // Get one Job
+     * const job = await prisma.job.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends JobFindFirstArgs>(args?: SelectSubset<T, JobFindFirstArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Job that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobFindFirstOrThrowArgs} args - Arguments to find a Job
+     * @example
+     * // Get one Job
+     * const job = await prisma.job.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends JobFindFirstOrThrowArgs>(args?: SelectSubset<T, JobFindFirstOrThrowArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Jobs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Jobs
+     * const jobs = await prisma.job.findMany()
+     * 
+     * // Get first 10 Jobs
+     * const jobs = await prisma.job.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const jobWithIdOnly = await prisma.job.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends JobFindManyArgs>(args?: SelectSubset<T, JobFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Job.
+     * @param {JobCreateArgs} args - Arguments to create a Job.
+     * @example
+     * // Create one Job
+     * const Job = await prisma.job.create({
+     *   data: {
+     *     // ... data to create a Job
+     *   }
+     * })
+     * 
+     */
+    create<T extends JobCreateArgs>(args: SelectSubset<T, JobCreateArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Jobs.
+     * @param {JobCreateManyArgs} args - Arguments to create many Jobs.
+     * @example
+     * // Create many Jobs
+     * const job = await prisma.job.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends JobCreateManyArgs>(args?: SelectSubset<T, JobCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Jobs and returns the data saved in the database.
+     * @param {JobCreateManyAndReturnArgs} args - Arguments to create many Jobs.
+     * @example
+     * // Create many Jobs
+     * const job = await prisma.job.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Jobs and only return the `id`
+     * const jobWithIdOnly = await prisma.job.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends JobCreateManyAndReturnArgs>(args?: SelectSubset<T, JobCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Job.
+     * @param {JobDeleteArgs} args - Arguments to delete one Job.
+     * @example
+     * // Delete one Job
+     * const Job = await prisma.job.delete({
+     *   where: {
+     *     // ... filter to delete one Job
+     *   }
+     * })
+     * 
+     */
+    delete<T extends JobDeleteArgs>(args: SelectSubset<T, JobDeleteArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Job.
+     * @param {JobUpdateArgs} args - Arguments to update one Job.
+     * @example
+     * // Update one Job
+     * const job = await prisma.job.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends JobUpdateArgs>(args: SelectSubset<T, JobUpdateArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Jobs.
+     * @param {JobDeleteManyArgs} args - Arguments to filter Jobs to delete.
+     * @example
+     * // Delete a few Jobs
+     * const { count } = await prisma.job.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends JobDeleteManyArgs>(args?: SelectSubset<T, JobDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Jobs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Jobs
+     * const job = await prisma.job.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends JobUpdateManyArgs>(args: SelectSubset<T, JobUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Jobs and returns the data updated in the database.
+     * @param {JobUpdateManyAndReturnArgs} args - Arguments to update many Jobs.
+     * @example
+     * // Update many Jobs
+     * const job = await prisma.job.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Jobs and only return the `id`
+     * const jobWithIdOnly = await prisma.job.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends JobUpdateManyAndReturnArgs>(args: SelectSubset<T, JobUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Job.
+     * @param {JobUpsertArgs} args - Arguments to update or create a Job.
+     * @example
+     * // Update or create a Job
+     * const job = await prisma.job.upsert({
+     *   create: {
+     *     // ... data to create a Job
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Job we want to update
+     *   }
+     * })
+     */
+    upsert<T extends JobUpsertArgs>(args: SelectSubset<T, JobUpsertArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Jobs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobCountArgs} args - Arguments to filter Jobs to count.
+     * @example
+     * // Count the number of Jobs
+     * const count = await prisma.job.count({
+     *   where: {
+     *     // ... the filter for the Jobs we want to count
+     *   }
+     * })
+    **/
+    count<T extends JobCountArgs>(
+      args?: Subset<T, JobCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], JobCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Job.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends JobAggregateArgs>(args: Subset<T, JobAggregateArgs>): Prisma.PrismaPromise<GetJobAggregateType<T>>
+
+    /**
+     * Group by Job.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends JobGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: JobGroupByArgs['orderBy'] }
+        : { orderBy?: JobGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, JobGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetJobGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Job model
+   */
+  readonly fields: JobFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Job.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__JobClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    quoteRequest<T extends Job$quoteRequestArgs<ExtArgs> = {}>(args?: Subset<T, Job$quoteRequestArgs<ExtArgs>>): Prisma__QuoteRequestClient<$Result.GetResult<Prisma.$QuoteRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    stops<T extends Job$stopsArgs<ExtArgs> = {}>(args?: Subset<T, Job$stopsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobStopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    readinessChecks<T extends Job$readinessChecksArgs<ExtArgs> = {}>(args?: Subset<T, Job$readinessChecksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReadinessCheckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    exceptionLogs<T extends Job$exceptionLogsArgs<ExtArgs> = {}>(args?: Subset<T, Job$exceptionLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExceptionLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Job model
+   */
+  interface JobFieldRefs {
+    readonly id: FieldRef<"Job", 'String'>
+    readonly companyId: FieldRef<"Job", 'String'>
+    readonly quoteRequestId: FieldRef<"Job", 'String'>
+    readonly status: FieldRef<"Job", 'String'>
+    readonly scheduledDate: FieldRef<"Job", 'DateTime'>
+    readonly createdAt: FieldRef<"Job", 'DateTime'>
+    readonly updatedAt: FieldRef<"Job", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Job findUnique
+   */
+  export type JobFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Job
+     */
+    omit?: JobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * Filter, which Job to fetch.
+     */
+    where: JobWhereUniqueInput
+  }
+
+  /**
+   * Job findUniqueOrThrow
+   */
+  export type JobFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Job
+     */
+    omit?: JobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * Filter, which Job to fetch.
+     */
+    where: JobWhereUniqueInput
+  }
+
+  /**
+   * Job findFirst
+   */
+  export type JobFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Job
+     */
+    omit?: JobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * Filter, which Job to fetch.
+     */
+    where?: JobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Jobs to fetch.
+     */
+    orderBy?: JobOrderByWithRelationInput | JobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Jobs.
+     */
+    cursor?: JobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Jobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Jobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Jobs.
+     */
+    distinct?: JobScalarFieldEnum | JobScalarFieldEnum[]
+  }
+
+  /**
+   * Job findFirstOrThrow
+   */
+  export type JobFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Job
+     */
+    omit?: JobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * Filter, which Job to fetch.
+     */
+    where?: JobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Jobs to fetch.
+     */
+    orderBy?: JobOrderByWithRelationInput | JobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Jobs.
+     */
+    cursor?: JobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Jobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Jobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Jobs.
+     */
+    distinct?: JobScalarFieldEnum | JobScalarFieldEnum[]
+  }
+
+  /**
+   * Job findMany
+   */
+  export type JobFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Job
+     */
+    omit?: JobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * Filter, which Jobs to fetch.
+     */
+    where?: JobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Jobs to fetch.
+     */
+    orderBy?: JobOrderByWithRelationInput | JobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Jobs.
+     */
+    cursor?: JobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Jobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Jobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Jobs.
+     */
+    distinct?: JobScalarFieldEnum | JobScalarFieldEnum[]
+  }
+
+  /**
+   * Job create
+   */
+  export type JobCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Job
+     */
+    omit?: JobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Job.
+     */
+    data: XOR<JobCreateInput, JobUncheckedCreateInput>
+  }
+
+  /**
+   * Job createMany
+   */
+  export type JobCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Jobs.
+     */
+    data: JobCreateManyInput | JobCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Job createManyAndReturn
+   */
+  export type JobCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Job
+     */
+    omit?: JobOmit<ExtArgs> | null
+    /**
+     * The data used to create many Jobs.
+     */
+    data: JobCreateManyInput | JobCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Job update
+   */
+  export type JobUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Job
+     */
+    omit?: JobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Job.
+     */
+    data: XOR<JobUpdateInput, JobUncheckedUpdateInput>
+    /**
+     * Choose, which Job to update.
+     */
+    where: JobWhereUniqueInput
+  }
+
+  /**
+   * Job updateMany
+   */
+  export type JobUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Jobs.
+     */
+    data: XOR<JobUpdateManyMutationInput, JobUncheckedUpdateManyInput>
+    /**
+     * Filter which Jobs to update
+     */
+    where?: JobWhereInput
+    /**
+     * Limit how many Jobs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Job updateManyAndReturn
+   */
+  export type JobUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Job
+     */
+    omit?: JobOmit<ExtArgs> | null
+    /**
+     * The data used to update Jobs.
+     */
+    data: XOR<JobUpdateManyMutationInput, JobUncheckedUpdateManyInput>
+    /**
+     * Filter which Jobs to update
+     */
+    where?: JobWhereInput
+    /**
+     * Limit how many Jobs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Job upsert
+   */
+  export type JobUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Job
+     */
+    omit?: JobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Job to update in case it exists.
+     */
+    where: JobWhereUniqueInput
+    /**
+     * In case the Job found by the `where` argument doesn't exist, create a new Job with this data.
+     */
+    create: XOR<JobCreateInput, JobUncheckedCreateInput>
+    /**
+     * In case the Job was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<JobUpdateInput, JobUncheckedUpdateInput>
+  }
+
+  /**
+   * Job delete
+   */
+  export type JobDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Job
+     */
+    omit?: JobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * Filter which Job to delete.
+     */
+    where: JobWhereUniqueInput
+  }
+
+  /**
+   * Job deleteMany
+   */
+  export type JobDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Jobs to delete
+     */
+    where?: JobWhereInput
+    /**
+     * Limit how many Jobs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Job.quoteRequest
+   */
+  export type Job$quoteRequestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuoteRequest
+     */
+    select?: QuoteRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuoteRequest
+     */
+    omit?: QuoteRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteRequestInclude<ExtArgs> | null
+    where?: QuoteRequestWhereInput
+  }
+
+  /**
+   * Job.stops
+   */
+  export type Job$stopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobStop
+     */
+    select?: JobStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobStop
+     */
+    omit?: JobStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobStopInclude<ExtArgs> | null
+    where?: JobStopWhereInput
+    orderBy?: JobStopOrderByWithRelationInput | JobStopOrderByWithRelationInput[]
+    cursor?: JobStopWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JobStopScalarFieldEnum | JobStopScalarFieldEnum[]
+  }
+
+  /**
+   * Job.readinessChecks
+   */
+  export type Job$readinessChecksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReadinessCheck
+     */
+    select?: ReadinessCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReadinessCheck
+     */
+    omit?: ReadinessCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReadinessCheckInclude<ExtArgs> | null
+    where?: ReadinessCheckWhereInput
+    orderBy?: ReadinessCheckOrderByWithRelationInput | ReadinessCheckOrderByWithRelationInput[]
+    cursor?: ReadinessCheckWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReadinessCheckScalarFieldEnum | ReadinessCheckScalarFieldEnum[]
+  }
+
+  /**
+   * Job.exceptionLogs
+   */
+  export type Job$exceptionLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExceptionLog
+     */
+    select?: ExceptionLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExceptionLog
+     */
+    omit?: ExceptionLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExceptionLogInclude<ExtArgs> | null
+    where?: ExceptionLogWhereInput
+    orderBy?: ExceptionLogOrderByWithRelationInput | ExceptionLogOrderByWithRelationInput[]
+    cursor?: ExceptionLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ExceptionLogScalarFieldEnum | ExceptionLogScalarFieldEnum[]
+  }
+
+  /**
+   * Job without action
+   */
+  export type JobDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Job
+     */
+    omit?: JobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model JobStop
+   */
+
+  export type AggregateJobStop = {
+    _count: JobStopCountAggregateOutputType | null
+    _avg: JobStopAvgAggregateOutputType | null
+    _sum: JobStopSumAggregateOutputType | null
+    _min: JobStopMinAggregateOutputType | null
+    _max: JobStopMaxAggregateOutputType | null
+  }
+
+  export type JobStopAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type JobStopSumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type JobStopMinAggregateOutputType = {
+    id: string | null
+    jobId: string | null
+    stopNoteId: string | null
+    order: number | null
+  }
+
+  export type JobStopMaxAggregateOutputType = {
+    id: string | null
+    jobId: string | null
+    stopNoteId: string | null
+    order: number | null
+  }
+
+  export type JobStopCountAggregateOutputType = {
+    id: number
+    jobId: number
+    stopNoteId: number
+    order: number
+    _all: number
+  }
+
+
+  export type JobStopAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type JobStopSumAggregateInputType = {
+    order?: true
+  }
+
+  export type JobStopMinAggregateInputType = {
+    id?: true
+    jobId?: true
+    stopNoteId?: true
+    order?: true
+  }
+
+  export type JobStopMaxAggregateInputType = {
+    id?: true
+    jobId?: true
+    stopNoteId?: true
+    order?: true
+  }
+
+  export type JobStopCountAggregateInputType = {
+    id?: true
+    jobId?: true
+    stopNoteId?: true
+    order?: true
+    _all?: true
+  }
+
+  export type JobStopAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which JobStop to aggregate.
+     */
+    where?: JobStopWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JobStops to fetch.
+     */
+    orderBy?: JobStopOrderByWithRelationInput | JobStopOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: JobStopWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JobStops from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JobStops.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned JobStops
+    **/
+    _count?: true | JobStopCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: JobStopAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: JobStopSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: JobStopMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: JobStopMaxAggregateInputType
+  }
+
+  export type GetJobStopAggregateType<T extends JobStopAggregateArgs> = {
+        [P in keyof T & keyof AggregateJobStop]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateJobStop[P]>
+      : GetScalarType<T[P], AggregateJobStop[P]>
+  }
+
+
+
+
+  export type JobStopGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JobStopWhereInput
+    orderBy?: JobStopOrderByWithAggregationInput | JobStopOrderByWithAggregationInput[]
+    by: JobStopScalarFieldEnum[] | JobStopScalarFieldEnum
+    having?: JobStopScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: JobStopCountAggregateInputType | true
+    _avg?: JobStopAvgAggregateInputType
+    _sum?: JobStopSumAggregateInputType
+    _min?: JobStopMinAggregateInputType
+    _max?: JobStopMaxAggregateInputType
+  }
+
+  export type JobStopGroupByOutputType = {
+    id: string
+    jobId: string
+    stopNoteId: string
+    order: number
+    _count: JobStopCountAggregateOutputType | null
+    _avg: JobStopAvgAggregateOutputType | null
+    _sum: JobStopSumAggregateOutputType | null
+    _min: JobStopMinAggregateOutputType | null
+    _max: JobStopMaxAggregateOutputType | null
+  }
+
+  type GetJobStopGroupByPayload<T extends JobStopGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<JobStopGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof JobStopGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], JobStopGroupByOutputType[P]>
+            : GetScalarType<T[P], JobStopGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type JobStopSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    jobId?: boolean
+    stopNoteId?: boolean
+    order?: boolean
+    job?: boolean | JobDefaultArgs<ExtArgs>
+    stopNote?: boolean | StopNoteDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["jobStop"]>
+
+  export type JobStopSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    jobId?: boolean
+    stopNoteId?: boolean
+    order?: boolean
+    job?: boolean | JobDefaultArgs<ExtArgs>
+    stopNote?: boolean | StopNoteDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["jobStop"]>
+
+  export type JobStopSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    jobId?: boolean
+    stopNoteId?: boolean
+    order?: boolean
+    job?: boolean | JobDefaultArgs<ExtArgs>
+    stopNote?: boolean | StopNoteDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["jobStop"]>
+
+  export type JobStopSelectScalar = {
+    id?: boolean
+    jobId?: boolean
+    stopNoteId?: boolean
+    order?: boolean
+  }
+
+  export type JobStopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "jobId" | "stopNoteId" | "order", ExtArgs["result"]["jobStop"]>
+  export type JobStopInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    job?: boolean | JobDefaultArgs<ExtArgs>
+    stopNote?: boolean | StopNoteDefaultArgs<ExtArgs>
+  }
+  export type JobStopIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    job?: boolean | JobDefaultArgs<ExtArgs>
+    stopNote?: boolean | StopNoteDefaultArgs<ExtArgs>
+  }
+  export type JobStopIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    job?: boolean | JobDefaultArgs<ExtArgs>
+    stopNote?: boolean | StopNoteDefaultArgs<ExtArgs>
+  }
+
+  export type $JobStopPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "JobStop"
+    objects: {
+      job: Prisma.$JobPayload<ExtArgs>
+      stopNote: Prisma.$StopNotePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      jobId: string
+      stopNoteId: string
+      order: number
+    }, ExtArgs["result"]["jobStop"]>
+    composites: {}
+  }
+
+  type JobStopGetPayload<S extends boolean | null | undefined | JobStopDefaultArgs> = $Result.GetResult<Prisma.$JobStopPayload, S>
+
+  type JobStopCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<JobStopFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: JobStopCountAggregateInputType | true
+    }
+
+  export interface JobStopDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['JobStop'], meta: { name: 'JobStop' } }
+    /**
+     * Find zero or one JobStop that matches the filter.
+     * @param {JobStopFindUniqueArgs} args - Arguments to find a JobStop
+     * @example
+     * // Get one JobStop
+     * const jobStop = await prisma.jobStop.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends JobStopFindUniqueArgs>(args: SelectSubset<T, JobStopFindUniqueArgs<ExtArgs>>): Prisma__JobStopClient<$Result.GetResult<Prisma.$JobStopPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one JobStop that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {JobStopFindUniqueOrThrowArgs} args - Arguments to find a JobStop
+     * @example
+     * // Get one JobStop
+     * const jobStop = await prisma.jobStop.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends JobStopFindUniqueOrThrowArgs>(args: SelectSubset<T, JobStopFindUniqueOrThrowArgs<ExtArgs>>): Prisma__JobStopClient<$Result.GetResult<Prisma.$JobStopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first JobStop that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobStopFindFirstArgs} args - Arguments to find a JobStop
+     * @example
+     * // Get one JobStop
+     * const jobStop = await prisma.jobStop.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends JobStopFindFirstArgs>(args?: SelectSubset<T, JobStopFindFirstArgs<ExtArgs>>): Prisma__JobStopClient<$Result.GetResult<Prisma.$JobStopPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first JobStop that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobStopFindFirstOrThrowArgs} args - Arguments to find a JobStop
+     * @example
+     * // Get one JobStop
+     * const jobStop = await prisma.jobStop.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends JobStopFindFirstOrThrowArgs>(args?: SelectSubset<T, JobStopFindFirstOrThrowArgs<ExtArgs>>): Prisma__JobStopClient<$Result.GetResult<Prisma.$JobStopPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more JobStops that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobStopFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all JobStops
+     * const jobStops = await prisma.jobStop.findMany()
+     * 
+     * // Get first 10 JobStops
+     * const jobStops = await prisma.jobStop.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const jobStopWithIdOnly = await prisma.jobStop.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends JobStopFindManyArgs>(args?: SelectSubset<T, JobStopFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobStopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a JobStop.
+     * @param {JobStopCreateArgs} args - Arguments to create a JobStop.
+     * @example
+     * // Create one JobStop
+     * const JobStop = await prisma.jobStop.create({
+     *   data: {
+     *     // ... data to create a JobStop
+     *   }
+     * })
+     * 
+     */
+    create<T extends JobStopCreateArgs>(args: SelectSubset<T, JobStopCreateArgs<ExtArgs>>): Prisma__JobStopClient<$Result.GetResult<Prisma.$JobStopPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many JobStops.
+     * @param {JobStopCreateManyArgs} args - Arguments to create many JobStops.
+     * @example
+     * // Create many JobStops
+     * const jobStop = await prisma.jobStop.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends JobStopCreateManyArgs>(args?: SelectSubset<T, JobStopCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many JobStops and returns the data saved in the database.
+     * @param {JobStopCreateManyAndReturnArgs} args - Arguments to create many JobStops.
+     * @example
+     * // Create many JobStops
+     * const jobStop = await prisma.jobStop.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many JobStops and only return the `id`
+     * const jobStopWithIdOnly = await prisma.jobStop.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends JobStopCreateManyAndReturnArgs>(args?: SelectSubset<T, JobStopCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobStopPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a JobStop.
+     * @param {JobStopDeleteArgs} args - Arguments to delete one JobStop.
+     * @example
+     * // Delete one JobStop
+     * const JobStop = await prisma.jobStop.delete({
+     *   where: {
+     *     // ... filter to delete one JobStop
+     *   }
+     * })
+     * 
+     */
+    delete<T extends JobStopDeleteArgs>(args: SelectSubset<T, JobStopDeleteArgs<ExtArgs>>): Prisma__JobStopClient<$Result.GetResult<Prisma.$JobStopPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one JobStop.
+     * @param {JobStopUpdateArgs} args - Arguments to update one JobStop.
+     * @example
+     * // Update one JobStop
+     * const jobStop = await prisma.jobStop.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends JobStopUpdateArgs>(args: SelectSubset<T, JobStopUpdateArgs<ExtArgs>>): Prisma__JobStopClient<$Result.GetResult<Prisma.$JobStopPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more JobStops.
+     * @param {JobStopDeleteManyArgs} args - Arguments to filter JobStops to delete.
+     * @example
+     * // Delete a few JobStops
+     * const { count } = await prisma.jobStop.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends JobStopDeleteManyArgs>(args?: SelectSubset<T, JobStopDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more JobStops.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobStopUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many JobStops
+     * const jobStop = await prisma.jobStop.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends JobStopUpdateManyArgs>(args: SelectSubset<T, JobStopUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more JobStops and returns the data updated in the database.
+     * @param {JobStopUpdateManyAndReturnArgs} args - Arguments to update many JobStops.
+     * @example
+     * // Update many JobStops
+     * const jobStop = await prisma.jobStop.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more JobStops and only return the `id`
+     * const jobStopWithIdOnly = await prisma.jobStop.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends JobStopUpdateManyAndReturnArgs>(args: SelectSubset<T, JobStopUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobStopPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one JobStop.
+     * @param {JobStopUpsertArgs} args - Arguments to update or create a JobStop.
+     * @example
+     * // Update or create a JobStop
+     * const jobStop = await prisma.jobStop.upsert({
+     *   create: {
+     *     // ... data to create a JobStop
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the JobStop we want to update
+     *   }
+     * })
+     */
+    upsert<T extends JobStopUpsertArgs>(args: SelectSubset<T, JobStopUpsertArgs<ExtArgs>>): Prisma__JobStopClient<$Result.GetResult<Prisma.$JobStopPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of JobStops.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobStopCountArgs} args - Arguments to filter JobStops to count.
+     * @example
+     * // Count the number of JobStops
+     * const count = await prisma.jobStop.count({
+     *   where: {
+     *     // ... the filter for the JobStops we want to count
+     *   }
+     * })
+    **/
+    count<T extends JobStopCountArgs>(
+      args?: Subset<T, JobStopCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], JobStopCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a JobStop.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobStopAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends JobStopAggregateArgs>(args: Subset<T, JobStopAggregateArgs>): Prisma.PrismaPromise<GetJobStopAggregateType<T>>
+
+    /**
+     * Group by JobStop.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobStopGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends JobStopGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: JobStopGroupByArgs['orderBy'] }
+        : { orderBy?: JobStopGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, JobStopGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetJobStopGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the JobStop model
+   */
+  readonly fields: JobStopFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for JobStop.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__JobStopClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    job<T extends JobDefaultArgs<ExtArgs> = {}>(args?: Subset<T, JobDefaultArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    stopNote<T extends StopNoteDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StopNoteDefaultArgs<ExtArgs>>): Prisma__StopNoteClient<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the JobStop model
+   */
+  interface JobStopFieldRefs {
+    readonly id: FieldRef<"JobStop", 'String'>
+    readonly jobId: FieldRef<"JobStop", 'String'>
+    readonly stopNoteId: FieldRef<"JobStop", 'String'>
+    readonly order: FieldRef<"JobStop", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * JobStop findUnique
+   */
+  export type JobStopFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobStop
+     */
+    select?: JobStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobStop
+     */
+    omit?: JobStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobStopInclude<ExtArgs> | null
+    /**
+     * Filter, which JobStop to fetch.
+     */
+    where: JobStopWhereUniqueInput
+  }
+
+  /**
+   * JobStop findUniqueOrThrow
+   */
+  export type JobStopFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobStop
+     */
+    select?: JobStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobStop
+     */
+    omit?: JobStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobStopInclude<ExtArgs> | null
+    /**
+     * Filter, which JobStop to fetch.
+     */
+    where: JobStopWhereUniqueInput
+  }
+
+  /**
+   * JobStop findFirst
+   */
+  export type JobStopFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobStop
+     */
+    select?: JobStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobStop
+     */
+    omit?: JobStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobStopInclude<ExtArgs> | null
+    /**
+     * Filter, which JobStop to fetch.
+     */
+    where?: JobStopWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JobStops to fetch.
+     */
+    orderBy?: JobStopOrderByWithRelationInput | JobStopOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for JobStops.
+     */
+    cursor?: JobStopWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JobStops from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JobStops.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of JobStops.
+     */
+    distinct?: JobStopScalarFieldEnum | JobStopScalarFieldEnum[]
+  }
+
+  /**
+   * JobStop findFirstOrThrow
+   */
+  export type JobStopFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobStop
+     */
+    select?: JobStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobStop
+     */
+    omit?: JobStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobStopInclude<ExtArgs> | null
+    /**
+     * Filter, which JobStop to fetch.
+     */
+    where?: JobStopWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JobStops to fetch.
+     */
+    orderBy?: JobStopOrderByWithRelationInput | JobStopOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for JobStops.
+     */
+    cursor?: JobStopWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JobStops from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JobStops.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of JobStops.
+     */
+    distinct?: JobStopScalarFieldEnum | JobStopScalarFieldEnum[]
+  }
+
+  /**
+   * JobStop findMany
+   */
+  export type JobStopFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobStop
+     */
+    select?: JobStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobStop
+     */
+    omit?: JobStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobStopInclude<ExtArgs> | null
+    /**
+     * Filter, which JobStops to fetch.
+     */
+    where?: JobStopWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JobStops to fetch.
+     */
+    orderBy?: JobStopOrderByWithRelationInput | JobStopOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing JobStops.
+     */
+    cursor?: JobStopWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JobStops from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JobStops.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of JobStops.
+     */
+    distinct?: JobStopScalarFieldEnum | JobStopScalarFieldEnum[]
+  }
+
+  /**
+   * JobStop create
+   */
+  export type JobStopCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobStop
+     */
+    select?: JobStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobStop
+     */
+    omit?: JobStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobStopInclude<ExtArgs> | null
+    /**
+     * The data needed to create a JobStop.
+     */
+    data: XOR<JobStopCreateInput, JobStopUncheckedCreateInput>
+  }
+
+  /**
+   * JobStop createMany
+   */
+  export type JobStopCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many JobStops.
+     */
+    data: JobStopCreateManyInput | JobStopCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * JobStop createManyAndReturn
+   */
+  export type JobStopCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobStop
+     */
+    select?: JobStopSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobStop
+     */
+    omit?: JobStopOmit<ExtArgs> | null
+    /**
+     * The data used to create many JobStops.
+     */
+    data: JobStopCreateManyInput | JobStopCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobStopIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * JobStop update
+   */
+  export type JobStopUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobStop
+     */
+    select?: JobStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobStop
+     */
+    omit?: JobStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobStopInclude<ExtArgs> | null
+    /**
+     * The data needed to update a JobStop.
+     */
+    data: XOR<JobStopUpdateInput, JobStopUncheckedUpdateInput>
+    /**
+     * Choose, which JobStop to update.
+     */
+    where: JobStopWhereUniqueInput
+  }
+
+  /**
+   * JobStop updateMany
+   */
+  export type JobStopUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update JobStops.
+     */
+    data: XOR<JobStopUpdateManyMutationInput, JobStopUncheckedUpdateManyInput>
+    /**
+     * Filter which JobStops to update
+     */
+    where?: JobStopWhereInput
+    /**
+     * Limit how many JobStops to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * JobStop updateManyAndReturn
+   */
+  export type JobStopUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobStop
+     */
+    select?: JobStopSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobStop
+     */
+    omit?: JobStopOmit<ExtArgs> | null
+    /**
+     * The data used to update JobStops.
+     */
+    data: XOR<JobStopUpdateManyMutationInput, JobStopUncheckedUpdateManyInput>
+    /**
+     * Filter which JobStops to update
+     */
+    where?: JobStopWhereInput
+    /**
+     * Limit how many JobStops to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobStopIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * JobStop upsert
+   */
+  export type JobStopUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobStop
+     */
+    select?: JobStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobStop
+     */
+    omit?: JobStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobStopInclude<ExtArgs> | null
+    /**
+     * The filter to search for the JobStop to update in case it exists.
+     */
+    where: JobStopWhereUniqueInput
+    /**
+     * In case the JobStop found by the `where` argument doesn't exist, create a new JobStop with this data.
+     */
+    create: XOR<JobStopCreateInput, JobStopUncheckedCreateInput>
+    /**
+     * In case the JobStop was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<JobStopUpdateInput, JobStopUncheckedUpdateInput>
+  }
+
+  /**
+   * JobStop delete
+   */
+  export type JobStopDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobStop
+     */
+    select?: JobStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobStop
+     */
+    omit?: JobStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobStopInclude<ExtArgs> | null
+    /**
+     * Filter which JobStop to delete.
+     */
+    where: JobStopWhereUniqueInput
+  }
+
+  /**
+   * JobStop deleteMany
+   */
+  export type JobStopDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which JobStops to delete
+     */
+    where?: JobStopWhereInput
+    /**
+     * Limit how many JobStops to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * JobStop without action
+   */
+  export type JobStopDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobStop
+     */
+    select?: JobStopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobStop
+     */
+    omit?: JobStopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobStopInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -10254,6 +16792,78 @@ export namespace Prisma {
   export type PartnerInquiryScalarFieldEnum = (typeof PartnerInquiryScalarFieldEnum)[keyof typeof PartnerInquiryScalarFieldEnum]
 
 
+  export const StopNoteScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    companyName: 'companyName',
+    address: 'address',
+    contactName: 'contactName',
+    contactPhone: 'contactPhone',
+    gateCode: 'gateCode',
+    dockInfo: 'dockInfo',
+    hours: 'hours',
+    parkingNotes: 'parkingNotes',
+    accessNotes: 'accessNotes',
+    deliveryNotes: 'deliveryNotes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type StopNoteScalarFieldEnum = (typeof StopNoteScalarFieldEnum)[keyof typeof StopNoteScalarFieldEnum]
+
+
+  export const ReadinessCheckScalarFieldEnum: {
+    id: 'id',
+    stopNoteId: 'stopNoteId',
+    scheduledDate: 'scheduledDate',
+    contactConfirmed: 'contactConfirmed',
+    addressConfirmed: 'addressConfirmed',
+    accessConfirmed: 'accessConfirmed',
+    siteReady: 'siteReady',
+    notes: 'notes',
+    status: 'status',
+    createdAt: 'createdAt',
+    jobId: 'jobId'
+  };
+
+  export type ReadinessCheckScalarFieldEnum = (typeof ReadinessCheckScalarFieldEnum)[keyof typeof ReadinessCheckScalarFieldEnum]
+
+
+  export const ExceptionLogScalarFieldEnum: {
+    id: 'id',
+    stopNoteId: 'stopNoteId',
+    type: 'type',
+    notes: 'notes',
+    timestamp: 'timestamp',
+    jobId: 'jobId'
+  };
+
+  export type ExceptionLogScalarFieldEnum = (typeof ExceptionLogScalarFieldEnum)[keyof typeof ExceptionLogScalarFieldEnum]
+
+
+  export const JobScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    quoteRequestId: 'quoteRequestId',
+    status: 'status',
+    scheduledDate: 'scheduledDate',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type JobScalarFieldEnum = (typeof JobScalarFieldEnum)[keyof typeof JobScalarFieldEnum]
+
+
+  export const JobStopScalarFieldEnum: {
+    id: 'id',
+    jobId: 'jobId',
+    stopNoteId: 'stopNoteId',
+    order: 'order'
+  };
+
+  export type JobStopScalarFieldEnum = (typeof JobStopScalarFieldEnum)[keyof typeof JobStopScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -10410,6 +17020,8 @@ export namespace Prisma {
     widgetSettings?: WidgetSettingsListRelationFilter
     webhooks?: WebhookListRelationFilter
     shopifyInstalls?: ShopifyInstallListRelationFilter
+    stopNotes?: StopNoteListRelationFilter
+    jobs?: JobListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -10440,6 +17052,8 @@ export namespace Prisma {
     widgetSettings?: WidgetSettingsOrderByRelationAggregateInput
     webhooks?: WebhookOrderByRelationAggregateInput
     shopifyInstalls?: ShopifyInstallOrderByRelationAggregateInput
+    stopNotes?: StopNoteOrderByRelationAggregateInput
+    jobs?: JobOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -10473,6 +17087,8 @@ export namespace Prisma {
     widgetSettings?: WidgetSettingsListRelationFilter
     webhooks?: WebhookListRelationFilter
     shopifyInstalls?: ShopifyInstallListRelationFilter
+    stopNotes?: StopNoteListRelationFilter
+    jobs?: JobListRelationFilter
   }, "id" | "email" | "emailVerificationToken">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -10817,6 +17433,7 @@ export namespace Prisma {
     paidAt?: DateTimeNullableFilter<"QuoteRequest"> | Date | string | null
     createdAt?: DateTimeFilter<"QuoteRequest"> | Date | string
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    jobs?: JobListRelationFilter
   }
 
   export type QuoteRequestOrderByWithRelationInput = {
@@ -10842,6 +17459,7 @@ export namespace Prisma {
     paidAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
+    jobs?: JobOrderByRelationAggregateInput
   }
 
   export type QuoteRequestWhereUniqueInput = Prisma.AtLeast<{
@@ -10870,6 +17488,7 @@ export namespace Prisma {
     paidAt?: DateTimeNullableFilter<"QuoteRequest"> | Date | string | null
     createdAt?: DateTimeFilter<"QuoteRequest"> | Date | string
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    jobs?: JobListRelationFilter
   }, "id">
 
   export type QuoteRequestOrderByWithAggregationInput = {
@@ -11135,6 +17754,398 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"PartnerInquiry"> | Date | string
   }
 
+  export type StopNoteWhereInput = {
+    AND?: StopNoteWhereInput | StopNoteWhereInput[]
+    OR?: StopNoteWhereInput[]
+    NOT?: StopNoteWhereInput | StopNoteWhereInput[]
+    id?: StringFilter<"StopNote"> | string
+    companyId?: StringFilter<"StopNote"> | string
+    companyName?: StringFilter<"StopNote"> | string
+    address?: StringFilter<"StopNote"> | string
+    contactName?: StringNullableFilter<"StopNote"> | string | null
+    contactPhone?: StringNullableFilter<"StopNote"> | string | null
+    gateCode?: StringNullableFilter<"StopNote"> | string | null
+    dockInfo?: StringNullableFilter<"StopNote"> | string | null
+    hours?: StringNullableFilter<"StopNote"> | string | null
+    parkingNotes?: StringNullableFilter<"StopNote"> | string | null
+    accessNotes?: StringNullableFilter<"StopNote"> | string | null
+    deliveryNotes?: StringNullableFilter<"StopNote"> | string | null
+    createdAt?: DateTimeFilter<"StopNote"> | Date | string
+    updatedAt?: DateTimeFilter<"StopNote"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    readinessChecks?: ReadinessCheckListRelationFilter
+    exceptionLogs?: ExceptionLogListRelationFilter
+    jobStops?: JobStopListRelationFilter
+  }
+
+  export type StopNoteOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    companyName?: SortOrder
+    address?: SortOrder
+    contactName?: SortOrderInput | SortOrder
+    contactPhone?: SortOrderInput | SortOrder
+    gateCode?: SortOrderInput | SortOrder
+    dockInfo?: SortOrderInput | SortOrder
+    hours?: SortOrderInput | SortOrder
+    parkingNotes?: SortOrderInput | SortOrder
+    accessNotes?: SortOrderInput | SortOrder
+    deliveryNotes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    readinessChecks?: ReadinessCheckOrderByRelationAggregateInput
+    exceptionLogs?: ExceptionLogOrderByRelationAggregateInput
+    jobStops?: JobStopOrderByRelationAggregateInput
+  }
+
+  export type StopNoteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: StopNoteWhereInput | StopNoteWhereInput[]
+    OR?: StopNoteWhereInput[]
+    NOT?: StopNoteWhereInput | StopNoteWhereInput[]
+    companyId?: StringFilter<"StopNote"> | string
+    companyName?: StringFilter<"StopNote"> | string
+    address?: StringFilter<"StopNote"> | string
+    contactName?: StringNullableFilter<"StopNote"> | string | null
+    contactPhone?: StringNullableFilter<"StopNote"> | string | null
+    gateCode?: StringNullableFilter<"StopNote"> | string | null
+    dockInfo?: StringNullableFilter<"StopNote"> | string | null
+    hours?: StringNullableFilter<"StopNote"> | string | null
+    parkingNotes?: StringNullableFilter<"StopNote"> | string | null
+    accessNotes?: StringNullableFilter<"StopNote"> | string | null
+    deliveryNotes?: StringNullableFilter<"StopNote"> | string | null
+    createdAt?: DateTimeFilter<"StopNote"> | Date | string
+    updatedAt?: DateTimeFilter<"StopNote"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    readinessChecks?: ReadinessCheckListRelationFilter
+    exceptionLogs?: ExceptionLogListRelationFilter
+    jobStops?: JobStopListRelationFilter
+  }, "id">
+
+  export type StopNoteOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    companyName?: SortOrder
+    address?: SortOrder
+    contactName?: SortOrderInput | SortOrder
+    contactPhone?: SortOrderInput | SortOrder
+    gateCode?: SortOrderInput | SortOrder
+    dockInfo?: SortOrderInput | SortOrder
+    hours?: SortOrderInput | SortOrder
+    parkingNotes?: SortOrderInput | SortOrder
+    accessNotes?: SortOrderInput | SortOrder
+    deliveryNotes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: StopNoteCountOrderByAggregateInput
+    _max?: StopNoteMaxOrderByAggregateInput
+    _min?: StopNoteMinOrderByAggregateInput
+  }
+
+  export type StopNoteScalarWhereWithAggregatesInput = {
+    AND?: StopNoteScalarWhereWithAggregatesInput | StopNoteScalarWhereWithAggregatesInput[]
+    OR?: StopNoteScalarWhereWithAggregatesInput[]
+    NOT?: StopNoteScalarWhereWithAggregatesInput | StopNoteScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"StopNote"> | string
+    companyId?: StringWithAggregatesFilter<"StopNote"> | string
+    companyName?: StringWithAggregatesFilter<"StopNote"> | string
+    address?: StringWithAggregatesFilter<"StopNote"> | string
+    contactName?: StringNullableWithAggregatesFilter<"StopNote"> | string | null
+    contactPhone?: StringNullableWithAggregatesFilter<"StopNote"> | string | null
+    gateCode?: StringNullableWithAggregatesFilter<"StopNote"> | string | null
+    dockInfo?: StringNullableWithAggregatesFilter<"StopNote"> | string | null
+    hours?: StringNullableWithAggregatesFilter<"StopNote"> | string | null
+    parkingNotes?: StringNullableWithAggregatesFilter<"StopNote"> | string | null
+    accessNotes?: StringNullableWithAggregatesFilter<"StopNote"> | string | null
+    deliveryNotes?: StringNullableWithAggregatesFilter<"StopNote"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"StopNote"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"StopNote"> | Date | string
+  }
+
+  export type ReadinessCheckWhereInput = {
+    AND?: ReadinessCheckWhereInput | ReadinessCheckWhereInput[]
+    OR?: ReadinessCheckWhereInput[]
+    NOT?: ReadinessCheckWhereInput | ReadinessCheckWhereInput[]
+    id?: StringFilter<"ReadinessCheck"> | string
+    stopNoteId?: StringFilter<"ReadinessCheck"> | string
+    scheduledDate?: DateTimeFilter<"ReadinessCheck"> | Date | string
+    contactConfirmed?: BoolFilter<"ReadinessCheck"> | boolean
+    addressConfirmed?: BoolFilter<"ReadinessCheck"> | boolean
+    accessConfirmed?: BoolFilter<"ReadinessCheck"> | boolean
+    siteReady?: BoolFilter<"ReadinessCheck"> | boolean
+    notes?: StringNullableFilter<"ReadinessCheck"> | string | null
+    status?: StringFilter<"ReadinessCheck"> | string
+    createdAt?: DateTimeFilter<"ReadinessCheck"> | Date | string
+    jobId?: StringNullableFilter<"ReadinessCheck"> | string | null
+    stopNote?: XOR<StopNoteScalarRelationFilter, StopNoteWhereInput>
+    job?: XOR<JobNullableScalarRelationFilter, JobWhereInput> | null
+  }
+
+  export type ReadinessCheckOrderByWithRelationInput = {
+    id?: SortOrder
+    stopNoteId?: SortOrder
+    scheduledDate?: SortOrder
+    contactConfirmed?: SortOrder
+    addressConfirmed?: SortOrder
+    accessConfirmed?: SortOrder
+    siteReady?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    jobId?: SortOrderInput | SortOrder
+    stopNote?: StopNoteOrderByWithRelationInput
+    job?: JobOrderByWithRelationInput
+  }
+
+  export type ReadinessCheckWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ReadinessCheckWhereInput | ReadinessCheckWhereInput[]
+    OR?: ReadinessCheckWhereInput[]
+    NOT?: ReadinessCheckWhereInput | ReadinessCheckWhereInput[]
+    stopNoteId?: StringFilter<"ReadinessCheck"> | string
+    scheduledDate?: DateTimeFilter<"ReadinessCheck"> | Date | string
+    contactConfirmed?: BoolFilter<"ReadinessCheck"> | boolean
+    addressConfirmed?: BoolFilter<"ReadinessCheck"> | boolean
+    accessConfirmed?: BoolFilter<"ReadinessCheck"> | boolean
+    siteReady?: BoolFilter<"ReadinessCheck"> | boolean
+    notes?: StringNullableFilter<"ReadinessCheck"> | string | null
+    status?: StringFilter<"ReadinessCheck"> | string
+    createdAt?: DateTimeFilter<"ReadinessCheck"> | Date | string
+    jobId?: StringNullableFilter<"ReadinessCheck"> | string | null
+    stopNote?: XOR<StopNoteScalarRelationFilter, StopNoteWhereInput>
+    job?: XOR<JobNullableScalarRelationFilter, JobWhereInput> | null
+  }, "id">
+
+  export type ReadinessCheckOrderByWithAggregationInput = {
+    id?: SortOrder
+    stopNoteId?: SortOrder
+    scheduledDate?: SortOrder
+    contactConfirmed?: SortOrder
+    addressConfirmed?: SortOrder
+    accessConfirmed?: SortOrder
+    siteReady?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    jobId?: SortOrderInput | SortOrder
+    _count?: ReadinessCheckCountOrderByAggregateInput
+    _max?: ReadinessCheckMaxOrderByAggregateInput
+    _min?: ReadinessCheckMinOrderByAggregateInput
+  }
+
+  export type ReadinessCheckScalarWhereWithAggregatesInput = {
+    AND?: ReadinessCheckScalarWhereWithAggregatesInput | ReadinessCheckScalarWhereWithAggregatesInput[]
+    OR?: ReadinessCheckScalarWhereWithAggregatesInput[]
+    NOT?: ReadinessCheckScalarWhereWithAggregatesInput | ReadinessCheckScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ReadinessCheck"> | string
+    stopNoteId?: StringWithAggregatesFilter<"ReadinessCheck"> | string
+    scheduledDate?: DateTimeWithAggregatesFilter<"ReadinessCheck"> | Date | string
+    contactConfirmed?: BoolWithAggregatesFilter<"ReadinessCheck"> | boolean
+    addressConfirmed?: BoolWithAggregatesFilter<"ReadinessCheck"> | boolean
+    accessConfirmed?: BoolWithAggregatesFilter<"ReadinessCheck"> | boolean
+    siteReady?: BoolWithAggregatesFilter<"ReadinessCheck"> | boolean
+    notes?: StringNullableWithAggregatesFilter<"ReadinessCheck"> | string | null
+    status?: StringWithAggregatesFilter<"ReadinessCheck"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ReadinessCheck"> | Date | string
+    jobId?: StringNullableWithAggregatesFilter<"ReadinessCheck"> | string | null
+  }
+
+  export type ExceptionLogWhereInput = {
+    AND?: ExceptionLogWhereInput | ExceptionLogWhereInput[]
+    OR?: ExceptionLogWhereInput[]
+    NOT?: ExceptionLogWhereInput | ExceptionLogWhereInput[]
+    id?: StringFilter<"ExceptionLog"> | string
+    stopNoteId?: StringNullableFilter<"ExceptionLog"> | string | null
+    type?: StringFilter<"ExceptionLog"> | string
+    notes?: StringNullableFilter<"ExceptionLog"> | string | null
+    timestamp?: DateTimeFilter<"ExceptionLog"> | Date | string
+    jobId?: StringNullableFilter<"ExceptionLog"> | string | null
+    stopNote?: XOR<StopNoteNullableScalarRelationFilter, StopNoteWhereInput> | null
+    job?: XOR<JobNullableScalarRelationFilter, JobWhereInput> | null
+  }
+
+  export type ExceptionLogOrderByWithRelationInput = {
+    id?: SortOrder
+    stopNoteId?: SortOrderInput | SortOrder
+    type?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    timestamp?: SortOrder
+    jobId?: SortOrderInput | SortOrder
+    stopNote?: StopNoteOrderByWithRelationInput
+    job?: JobOrderByWithRelationInput
+  }
+
+  export type ExceptionLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ExceptionLogWhereInput | ExceptionLogWhereInput[]
+    OR?: ExceptionLogWhereInput[]
+    NOT?: ExceptionLogWhereInput | ExceptionLogWhereInput[]
+    stopNoteId?: StringNullableFilter<"ExceptionLog"> | string | null
+    type?: StringFilter<"ExceptionLog"> | string
+    notes?: StringNullableFilter<"ExceptionLog"> | string | null
+    timestamp?: DateTimeFilter<"ExceptionLog"> | Date | string
+    jobId?: StringNullableFilter<"ExceptionLog"> | string | null
+    stopNote?: XOR<StopNoteNullableScalarRelationFilter, StopNoteWhereInput> | null
+    job?: XOR<JobNullableScalarRelationFilter, JobWhereInput> | null
+  }, "id">
+
+  export type ExceptionLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    stopNoteId?: SortOrderInput | SortOrder
+    type?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    timestamp?: SortOrder
+    jobId?: SortOrderInput | SortOrder
+    _count?: ExceptionLogCountOrderByAggregateInput
+    _max?: ExceptionLogMaxOrderByAggregateInput
+    _min?: ExceptionLogMinOrderByAggregateInput
+  }
+
+  export type ExceptionLogScalarWhereWithAggregatesInput = {
+    AND?: ExceptionLogScalarWhereWithAggregatesInput | ExceptionLogScalarWhereWithAggregatesInput[]
+    OR?: ExceptionLogScalarWhereWithAggregatesInput[]
+    NOT?: ExceptionLogScalarWhereWithAggregatesInput | ExceptionLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ExceptionLog"> | string
+    stopNoteId?: StringNullableWithAggregatesFilter<"ExceptionLog"> | string | null
+    type?: StringWithAggregatesFilter<"ExceptionLog"> | string
+    notes?: StringNullableWithAggregatesFilter<"ExceptionLog"> | string | null
+    timestamp?: DateTimeWithAggregatesFilter<"ExceptionLog"> | Date | string
+    jobId?: StringNullableWithAggregatesFilter<"ExceptionLog"> | string | null
+  }
+
+  export type JobWhereInput = {
+    AND?: JobWhereInput | JobWhereInput[]
+    OR?: JobWhereInput[]
+    NOT?: JobWhereInput | JobWhereInput[]
+    id?: StringFilter<"Job"> | string
+    companyId?: StringFilter<"Job"> | string
+    quoteRequestId?: StringNullableFilter<"Job"> | string | null
+    status?: StringFilter<"Job"> | string
+    scheduledDate?: DateTimeFilter<"Job"> | Date | string
+    createdAt?: DateTimeFilter<"Job"> | Date | string
+    updatedAt?: DateTimeFilter<"Job"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    quoteRequest?: XOR<QuoteRequestNullableScalarRelationFilter, QuoteRequestWhereInput> | null
+    stops?: JobStopListRelationFilter
+    readinessChecks?: ReadinessCheckListRelationFilter
+    exceptionLogs?: ExceptionLogListRelationFilter
+  }
+
+  export type JobOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    quoteRequestId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    scheduledDate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    quoteRequest?: QuoteRequestOrderByWithRelationInput
+    stops?: JobStopOrderByRelationAggregateInput
+    readinessChecks?: ReadinessCheckOrderByRelationAggregateInput
+    exceptionLogs?: ExceptionLogOrderByRelationAggregateInput
+  }
+
+  export type JobWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: JobWhereInput | JobWhereInput[]
+    OR?: JobWhereInput[]
+    NOT?: JobWhereInput | JobWhereInput[]
+    companyId?: StringFilter<"Job"> | string
+    quoteRequestId?: StringNullableFilter<"Job"> | string | null
+    status?: StringFilter<"Job"> | string
+    scheduledDate?: DateTimeFilter<"Job"> | Date | string
+    createdAt?: DateTimeFilter<"Job"> | Date | string
+    updatedAt?: DateTimeFilter<"Job"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    quoteRequest?: XOR<QuoteRequestNullableScalarRelationFilter, QuoteRequestWhereInput> | null
+    stops?: JobStopListRelationFilter
+    readinessChecks?: ReadinessCheckListRelationFilter
+    exceptionLogs?: ExceptionLogListRelationFilter
+  }, "id">
+
+  export type JobOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    quoteRequestId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    scheduledDate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: JobCountOrderByAggregateInput
+    _max?: JobMaxOrderByAggregateInput
+    _min?: JobMinOrderByAggregateInput
+  }
+
+  export type JobScalarWhereWithAggregatesInput = {
+    AND?: JobScalarWhereWithAggregatesInput | JobScalarWhereWithAggregatesInput[]
+    OR?: JobScalarWhereWithAggregatesInput[]
+    NOT?: JobScalarWhereWithAggregatesInput | JobScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Job"> | string
+    companyId?: StringWithAggregatesFilter<"Job"> | string
+    quoteRequestId?: StringNullableWithAggregatesFilter<"Job"> | string | null
+    status?: StringWithAggregatesFilter<"Job"> | string
+    scheduledDate?: DateTimeWithAggregatesFilter<"Job"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"Job"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Job"> | Date | string
+  }
+
+  export type JobStopWhereInput = {
+    AND?: JobStopWhereInput | JobStopWhereInput[]
+    OR?: JobStopWhereInput[]
+    NOT?: JobStopWhereInput | JobStopWhereInput[]
+    id?: StringFilter<"JobStop"> | string
+    jobId?: StringFilter<"JobStop"> | string
+    stopNoteId?: StringFilter<"JobStop"> | string
+    order?: IntFilter<"JobStop"> | number
+    job?: XOR<JobScalarRelationFilter, JobWhereInput>
+    stopNote?: XOR<StopNoteScalarRelationFilter, StopNoteWhereInput>
+  }
+
+  export type JobStopOrderByWithRelationInput = {
+    id?: SortOrder
+    jobId?: SortOrder
+    stopNoteId?: SortOrder
+    order?: SortOrder
+    job?: JobOrderByWithRelationInput
+    stopNote?: StopNoteOrderByWithRelationInput
+  }
+
+  export type JobStopWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: JobStopWhereInput | JobStopWhereInput[]
+    OR?: JobStopWhereInput[]
+    NOT?: JobStopWhereInput | JobStopWhereInput[]
+    jobId?: StringFilter<"JobStop"> | string
+    stopNoteId?: StringFilter<"JobStop"> | string
+    order?: IntFilter<"JobStop"> | number
+    job?: XOR<JobScalarRelationFilter, JobWhereInput>
+    stopNote?: XOR<StopNoteScalarRelationFilter, StopNoteWhereInput>
+  }, "id">
+
+  export type JobStopOrderByWithAggregationInput = {
+    id?: SortOrder
+    jobId?: SortOrder
+    stopNoteId?: SortOrder
+    order?: SortOrder
+    _count?: JobStopCountOrderByAggregateInput
+    _avg?: JobStopAvgOrderByAggregateInput
+    _max?: JobStopMaxOrderByAggregateInput
+    _min?: JobStopMinOrderByAggregateInput
+    _sum?: JobStopSumOrderByAggregateInput
+  }
+
+  export type JobStopScalarWhereWithAggregatesInput = {
+    AND?: JobStopScalarWhereWithAggregatesInput | JobStopScalarWhereWithAggregatesInput[]
+    OR?: JobStopScalarWhereWithAggregatesInput[]
+    NOT?: JobStopScalarWhereWithAggregatesInput | JobStopScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"JobStop"> | string
+    jobId?: StringWithAggregatesFilter<"JobStop"> | string
+    stopNoteId?: StringWithAggregatesFilter<"JobStop"> | string
+    order?: IntWithAggregatesFilter<"JobStop"> | number
+  }
+
   export type CompanyCreateInput = {
     id?: string
     email: string
@@ -11163,6 +18174,8 @@ export namespace Prisma {
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
+    jobs?: JobCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -11193,6 +18206,8 @@ export namespace Prisma {
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
+    jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -11223,6 +18238,8 @@ export namespace Prisma {
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -11253,6 +18270,8 @@ export namespace Prisma {
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -11661,6 +18680,7 @@ export namespace Prisma {
     paidAt?: Date | string | null
     createdAt?: Date | string
     company: CompanyCreateNestedOneWithoutQuoteRequestsInput
+    jobs?: JobCreateNestedManyWithoutQuoteRequestInput
   }
 
   export type QuoteRequestUncheckedCreateInput = {
@@ -11685,6 +18705,7 @@ export namespace Prisma {
     internalNotes?: string | null
     paidAt?: Date | string | null
     createdAt?: Date | string
+    jobs?: JobUncheckedCreateNestedManyWithoutQuoteRequestInput
   }
 
   export type QuoteRequestUpdateInput = {
@@ -11709,6 +18730,7 @@ export namespace Prisma {
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutQuoteRequestsNestedInput
+    jobs?: JobUpdateManyWithoutQuoteRequestNestedInput
   }
 
   export type QuoteRequestUncheckedUpdateInput = {
@@ -11733,6 +18755,7 @@ export namespace Prisma {
     internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    jobs?: JobUncheckedUpdateManyWithoutQuoteRequestNestedInput
   }
 
   export type QuoteRequestCreateManyInput = {
@@ -12035,6 +19058,420 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type StopNoteCreateInput = {
+    id?: string
+    companyName: string
+    address: string
+    contactName?: string | null
+    contactPhone?: string | null
+    gateCode?: string | null
+    dockInfo?: string | null
+    hours?: string | null
+    parkingNotes?: string | null
+    accessNotes?: string | null
+    deliveryNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutStopNotesInput
+    readinessChecks?: ReadinessCheckCreateNestedManyWithoutStopNoteInput
+    exceptionLogs?: ExceptionLogCreateNestedManyWithoutStopNoteInput
+    jobStops?: JobStopCreateNestedManyWithoutStopNoteInput
+  }
+
+  export type StopNoteUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    companyName: string
+    address: string
+    contactName?: string | null
+    contactPhone?: string | null
+    gateCode?: string | null
+    dockInfo?: string | null
+    hours?: string | null
+    parkingNotes?: string | null
+    accessNotes?: string | null
+    deliveryNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    readinessChecks?: ReadinessCheckUncheckedCreateNestedManyWithoutStopNoteInput
+    exceptionLogs?: ExceptionLogUncheckedCreateNestedManyWithoutStopNoteInput
+    jobStops?: JobStopUncheckedCreateNestedManyWithoutStopNoteInput
+  }
+
+  export type StopNoteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    gateCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dockInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    hours?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutStopNotesNestedInput
+    readinessChecks?: ReadinessCheckUpdateManyWithoutStopNoteNestedInput
+    exceptionLogs?: ExceptionLogUpdateManyWithoutStopNoteNestedInput
+    jobStops?: JobStopUpdateManyWithoutStopNoteNestedInput
+  }
+
+  export type StopNoteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    gateCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dockInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    hours?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    readinessChecks?: ReadinessCheckUncheckedUpdateManyWithoutStopNoteNestedInput
+    exceptionLogs?: ExceptionLogUncheckedUpdateManyWithoutStopNoteNestedInput
+    jobStops?: JobStopUncheckedUpdateManyWithoutStopNoteNestedInput
+  }
+
+  export type StopNoteCreateManyInput = {
+    id?: string
+    companyId: string
+    companyName: string
+    address: string
+    contactName?: string | null
+    contactPhone?: string | null
+    gateCode?: string | null
+    dockInfo?: string | null
+    hours?: string | null
+    parkingNotes?: string | null
+    accessNotes?: string | null
+    deliveryNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StopNoteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    gateCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dockInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    hours?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StopNoteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    gateCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dockInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    hours?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReadinessCheckCreateInput = {
+    id?: string
+    scheduledDate: Date | string
+    contactConfirmed?: boolean
+    addressConfirmed?: boolean
+    accessConfirmed?: boolean
+    siteReady?: boolean
+    notes?: string | null
+    status?: string
+    createdAt?: Date | string
+    stopNote: StopNoteCreateNestedOneWithoutReadinessChecksInput
+    job?: JobCreateNestedOneWithoutReadinessChecksInput
+  }
+
+  export type ReadinessCheckUncheckedCreateInput = {
+    id?: string
+    stopNoteId: string
+    scheduledDate: Date | string
+    contactConfirmed?: boolean
+    addressConfirmed?: boolean
+    accessConfirmed?: boolean
+    siteReady?: boolean
+    notes?: string | null
+    status?: string
+    createdAt?: Date | string
+    jobId?: string | null
+  }
+
+  export type ReadinessCheckUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    contactConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    addressConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    accessConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    siteReady?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stopNote?: StopNoteUpdateOneRequiredWithoutReadinessChecksNestedInput
+    job?: JobUpdateOneWithoutReadinessChecksNestedInput
+  }
+
+  export type ReadinessCheckUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stopNoteId?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    contactConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    addressConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    accessConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    siteReady?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    jobId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ReadinessCheckCreateManyInput = {
+    id?: string
+    stopNoteId: string
+    scheduledDate: Date | string
+    contactConfirmed?: boolean
+    addressConfirmed?: boolean
+    accessConfirmed?: boolean
+    siteReady?: boolean
+    notes?: string | null
+    status?: string
+    createdAt?: Date | string
+    jobId?: string | null
+  }
+
+  export type ReadinessCheckUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    contactConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    addressConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    accessConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    siteReady?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReadinessCheckUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stopNoteId?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    contactConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    addressConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    accessConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    siteReady?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    jobId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ExceptionLogCreateInput = {
+    id?: string
+    type: string
+    notes?: string | null
+    timestamp?: Date | string
+    stopNote?: StopNoteCreateNestedOneWithoutExceptionLogsInput
+    job?: JobCreateNestedOneWithoutExceptionLogsInput
+  }
+
+  export type ExceptionLogUncheckedCreateInput = {
+    id?: string
+    stopNoteId?: string | null
+    type: string
+    notes?: string | null
+    timestamp?: Date | string
+    jobId?: string | null
+  }
+
+  export type ExceptionLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    stopNote?: StopNoteUpdateOneWithoutExceptionLogsNestedInput
+    job?: JobUpdateOneWithoutExceptionLogsNestedInput
+  }
+
+  export type ExceptionLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stopNoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    jobId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ExceptionLogCreateManyInput = {
+    id?: string
+    stopNoteId?: string | null
+    type: string
+    notes?: string | null
+    timestamp?: Date | string
+    jobId?: string | null
+  }
+
+  export type ExceptionLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExceptionLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stopNoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    jobId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type JobCreateInput = {
+    id?: string
+    status?: string
+    scheduledDate: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutJobsInput
+    quoteRequest?: QuoteRequestCreateNestedOneWithoutJobsInput
+    stops?: JobStopCreateNestedManyWithoutJobInput
+    readinessChecks?: ReadinessCheckCreateNestedManyWithoutJobInput
+    exceptionLogs?: ExceptionLogCreateNestedManyWithoutJobInput
+  }
+
+  export type JobUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    quoteRequestId?: string | null
+    status?: string
+    scheduledDate: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    stops?: JobStopUncheckedCreateNestedManyWithoutJobInput
+    readinessChecks?: ReadinessCheckUncheckedCreateNestedManyWithoutJobInput
+    exceptionLogs?: ExceptionLogUncheckedCreateNestedManyWithoutJobInput
+  }
+
+  export type JobUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutJobsNestedInput
+    quoteRequest?: QuoteRequestUpdateOneWithoutJobsNestedInput
+    stops?: JobStopUpdateManyWithoutJobNestedInput
+    readinessChecks?: ReadinessCheckUpdateManyWithoutJobNestedInput
+    exceptionLogs?: ExceptionLogUpdateManyWithoutJobNestedInput
+  }
+
+  export type JobUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    quoteRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stops?: JobStopUncheckedUpdateManyWithoutJobNestedInput
+    readinessChecks?: ReadinessCheckUncheckedUpdateManyWithoutJobNestedInput
+    exceptionLogs?: ExceptionLogUncheckedUpdateManyWithoutJobNestedInput
+  }
+
+  export type JobCreateManyInput = {
+    id?: string
+    companyId: string
+    quoteRequestId?: string | null
+    status?: string
+    scheduledDate: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type JobUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type JobUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    quoteRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type JobStopCreateInput = {
+    id?: string
+    order?: number
+    job: JobCreateNestedOneWithoutStopsInput
+    stopNote: StopNoteCreateNestedOneWithoutJobStopsInput
+  }
+
+  export type JobStopUncheckedCreateInput = {
+    id?: string
+    jobId: string
+    stopNoteId: string
+    order?: number
+  }
+
+  export type JobStopUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    job?: JobUpdateOneRequiredWithoutStopsNestedInput
+    stopNote?: StopNoteUpdateOneRequiredWithoutJobStopsNestedInput
+  }
+
+  export type JobStopUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jobId?: StringFieldUpdateOperationsInput | string
+    stopNoteId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type JobStopCreateManyInput = {
+    id?: string
+    jobId: string
+    stopNoteId: string
+    order?: number
+  }
+
+  export type JobStopUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type JobStopUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jobId?: StringFieldUpdateOperationsInput | string
+    stopNoteId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -12122,6 +19559,18 @@ export namespace Prisma {
     none?: ShopifyInstallWhereInput
   }
 
+  export type StopNoteListRelationFilter = {
+    every?: StopNoteWhereInput
+    some?: StopNoteWhereInput
+    none?: StopNoteWhereInput
+  }
+
+  export type JobListRelationFilter = {
+    every?: JobWhereInput
+    some?: JobWhereInput
+    none?: JobWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -12144,6 +19593,14 @@ export namespace Prisma {
   }
 
   export type ShopifyInstallOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StopNoteOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type JobOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -12768,6 +20225,267 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type ReadinessCheckListRelationFilter = {
+    every?: ReadinessCheckWhereInput
+    some?: ReadinessCheckWhereInput
+    none?: ReadinessCheckWhereInput
+  }
+
+  export type ExceptionLogListRelationFilter = {
+    every?: ExceptionLogWhereInput
+    some?: ExceptionLogWhereInput
+    none?: ExceptionLogWhereInput
+  }
+
+  export type JobStopListRelationFilter = {
+    every?: JobStopWhereInput
+    some?: JobStopWhereInput
+    none?: JobStopWhereInput
+  }
+
+  export type ReadinessCheckOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ExceptionLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type JobStopOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StopNoteCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    companyName?: SortOrder
+    address?: SortOrder
+    contactName?: SortOrder
+    contactPhone?: SortOrder
+    gateCode?: SortOrder
+    dockInfo?: SortOrder
+    hours?: SortOrder
+    parkingNotes?: SortOrder
+    accessNotes?: SortOrder
+    deliveryNotes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StopNoteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    companyName?: SortOrder
+    address?: SortOrder
+    contactName?: SortOrder
+    contactPhone?: SortOrder
+    gateCode?: SortOrder
+    dockInfo?: SortOrder
+    hours?: SortOrder
+    parkingNotes?: SortOrder
+    accessNotes?: SortOrder
+    deliveryNotes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StopNoteMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    companyName?: SortOrder
+    address?: SortOrder
+    contactName?: SortOrder
+    contactPhone?: SortOrder
+    gateCode?: SortOrder
+    dockInfo?: SortOrder
+    hours?: SortOrder
+    parkingNotes?: SortOrder
+    accessNotes?: SortOrder
+    deliveryNotes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StopNoteScalarRelationFilter = {
+    is?: StopNoteWhereInput
+    isNot?: StopNoteWhereInput
+  }
+
+  export type JobNullableScalarRelationFilter = {
+    is?: JobWhereInput | null
+    isNot?: JobWhereInput | null
+  }
+
+  export type ReadinessCheckCountOrderByAggregateInput = {
+    id?: SortOrder
+    stopNoteId?: SortOrder
+    scheduledDate?: SortOrder
+    contactConfirmed?: SortOrder
+    addressConfirmed?: SortOrder
+    accessConfirmed?: SortOrder
+    siteReady?: SortOrder
+    notes?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    jobId?: SortOrder
+  }
+
+  export type ReadinessCheckMaxOrderByAggregateInput = {
+    id?: SortOrder
+    stopNoteId?: SortOrder
+    scheduledDate?: SortOrder
+    contactConfirmed?: SortOrder
+    addressConfirmed?: SortOrder
+    accessConfirmed?: SortOrder
+    siteReady?: SortOrder
+    notes?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    jobId?: SortOrder
+  }
+
+  export type ReadinessCheckMinOrderByAggregateInput = {
+    id?: SortOrder
+    stopNoteId?: SortOrder
+    scheduledDate?: SortOrder
+    contactConfirmed?: SortOrder
+    addressConfirmed?: SortOrder
+    accessConfirmed?: SortOrder
+    siteReady?: SortOrder
+    notes?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    jobId?: SortOrder
+  }
+
+  export type StopNoteNullableScalarRelationFilter = {
+    is?: StopNoteWhereInput | null
+    isNot?: StopNoteWhereInput | null
+  }
+
+  export type ExceptionLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    stopNoteId?: SortOrder
+    type?: SortOrder
+    notes?: SortOrder
+    timestamp?: SortOrder
+    jobId?: SortOrder
+  }
+
+  export type ExceptionLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    stopNoteId?: SortOrder
+    type?: SortOrder
+    notes?: SortOrder
+    timestamp?: SortOrder
+    jobId?: SortOrder
+  }
+
+  export type ExceptionLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    stopNoteId?: SortOrder
+    type?: SortOrder
+    notes?: SortOrder
+    timestamp?: SortOrder
+    jobId?: SortOrder
+  }
+
+  export type QuoteRequestNullableScalarRelationFilter = {
+    is?: QuoteRequestWhereInput | null
+    isNot?: QuoteRequestWhereInput | null
+  }
+
+  export type JobCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    quoteRequestId?: SortOrder
+    status?: SortOrder
+    scheduledDate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type JobMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    quoteRequestId?: SortOrder
+    status?: SortOrder
+    scheduledDate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type JobMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    quoteRequestId?: SortOrder
+    status?: SortOrder
+    scheduledDate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type JobScalarRelationFilter = {
+    is?: JobWhereInput
+    isNot?: JobWhereInput
+  }
+
+  export type JobStopCountOrderByAggregateInput = {
+    id?: SortOrder
+    jobId?: SortOrder
+    stopNoteId?: SortOrder
+    order?: SortOrder
+  }
+
+  export type JobStopAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type JobStopMaxOrderByAggregateInput = {
+    id?: SortOrder
+    jobId?: SortOrder
+    stopNoteId?: SortOrder
+    order?: SortOrder
+  }
+
+  export type JobStopMinOrderByAggregateInput = {
+    id?: SortOrder
+    jobId?: SortOrder
+    stopNoteId?: SortOrder
+    order?: SortOrder
+  }
+
+  export type JobStopSumOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type PricingProfileCreateNestedManyWithoutCompanyInput = {
     create?: XOR<PricingProfileCreateWithoutCompanyInput, PricingProfileUncheckedCreateWithoutCompanyInput> | PricingProfileCreateWithoutCompanyInput[] | PricingProfileUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: PricingProfileCreateOrConnectWithoutCompanyInput | PricingProfileCreateOrConnectWithoutCompanyInput[]
@@ -12803,6 +20521,20 @@ export namespace Prisma {
     connect?: ShopifyInstallWhereUniqueInput | ShopifyInstallWhereUniqueInput[]
   }
 
+  export type StopNoteCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<StopNoteCreateWithoutCompanyInput, StopNoteUncheckedCreateWithoutCompanyInput> | StopNoteCreateWithoutCompanyInput[] | StopNoteUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: StopNoteCreateOrConnectWithoutCompanyInput | StopNoteCreateOrConnectWithoutCompanyInput[]
+    createMany?: StopNoteCreateManyCompanyInputEnvelope
+    connect?: StopNoteWhereUniqueInput | StopNoteWhereUniqueInput[]
+  }
+
+  export type JobCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<JobCreateWithoutCompanyInput, JobUncheckedCreateWithoutCompanyInput> | JobCreateWithoutCompanyInput[] | JobUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: JobCreateOrConnectWithoutCompanyInput | JobCreateOrConnectWithoutCompanyInput[]
+    createMany?: JobCreateManyCompanyInputEnvelope
+    connect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+  }
+
   export type PricingProfileUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<PricingProfileCreateWithoutCompanyInput, PricingProfileUncheckedCreateWithoutCompanyInput> | PricingProfileCreateWithoutCompanyInput[] | PricingProfileUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: PricingProfileCreateOrConnectWithoutCompanyInput | PricingProfileCreateOrConnectWithoutCompanyInput[]
@@ -12836,6 +20568,20 @@ export namespace Prisma {
     connectOrCreate?: ShopifyInstallCreateOrConnectWithoutCompanyInput | ShopifyInstallCreateOrConnectWithoutCompanyInput[]
     createMany?: ShopifyInstallCreateManyCompanyInputEnvelope
     connect?: ShopifyInstallWhereUniqueInput | ShopifyInstallWhereUniqueInput[]
+  }
+
+  export type StopNoteUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<StopNoteCreateWithoutCompanyInput, StopNoteUncheckedCreateWithoutCompanyInput> | StopNoteCreateWithoutCompanyInput[] | StopNoteUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: StopNoteCreateOrConnectWithoutCompanyInput | StopNoteCreateOrConnectWithoutCompanyInput[]
+    createMany?: StopNoteCreateManyCompanyInputEnvelope
+    connect?: StopNoteWhereUniqueInput | StopNoteWhereUniqueInput[]
+  }
+
+  export type JobUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<JobCreateWithoutCompanyInput, JobUncheckedCreateWithoutCompanyInput> | JobCreateWithoutCompanyInput[] | JobUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: JobCreateOrConnectWithoutCompanyInput | JobCreateOrConnectWithoutCompanyInput[]
+    createMany?: JobCreateManyCompanyInputEnvelope
+    connect?: JobWhereUniqueInput | JobWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -12928,6 +20674,34 @@ export namespace Prisma {
     deleteMany?: ShopifyInstallScalarWhereInput | ShopifyInstallScalarWhereInput[]
   }
 
+  export type StopNoteUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<StopNoteCreateWithoutCompanyInput, StopNoteUncheckedCreateWithoutCompanyInput> | StopNoteCreateWithoutCompanyInput[] | StopNoteUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: StopNoteCreateOrConnectWithoutCompanyInput | StopNoteCreateOrConnectWithoutCompanyInput[]
+    upsert?: StopNoteUpsertWithWhereUniqueWithoutCompanyInput | StopNoteUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: StopNoteCreateManyCompanyInputEnvelope
+    set?: StopNoteWhereUniqueInput | StopNoteWhereUniqueInput[]
+    disconnect?: StopNoteWhereUniqueInput | StopNoteWhereUniqueInput[]
+    delete?: StopNoteWhereUniqueInput | StopNoteWhereUniqueInput[]
+    connect?: StopNoteWhereUniqueInput | StopNoteWhereUniqueInput[]
+    update?: StopNoteUpdateWithWhereUniqueWithoutCompanyInput | StopNoteUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: StopNoteUpdateManyWithWhereWithoutCompanyInput | StopNoteUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: StopNoteScalarWhereInput | StopNoteScalarWhereInput[]
+  }
+
+  export type JobUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<JobCreateWithoutCompanyInput, JobUncheckedCreateWithoutCompanyInput> | JobCreateWithoutCompanyInput[] | JobUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: JobCreateOrConnectWithoutCompanyInput | JobCreateOrConnectWithoutCompanyInput[]
+    upsert?: JobUpsertWithWhereUniqueWithoutCompanyInput | JobUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: JobCreateManyCompanyInputEnvelope
+    set?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    disconnect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    delete?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    connect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    update?: JobUpdateWithWhereUniqueWithoutCompanyInput | JobUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: JobUpdateManyWithWhereWithoutCompanyInput | JobUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: JobScalarWhereInput | JobScalarWhereInput[]
+  }
+
   export type PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<PricingProfileCreateWithoutCompanyInput, PricingProfileUncheckedCreateWithoutCompanyInput> | PricingProfileCreateWithoutCompanyInput[] | PricingProfileUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: PricingProfileCreateOrConnectWithoutCompanyInput | PricingProfileCreateOrConnectWithoutCompanyInput[]
@@ -12996,6 +20770,34 @@ export namespace Prisma {
     update?: ShopifyInstallUpdateWithWhereUniqueWithoutCompanyInput | ShopifyInstallUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: ShopifyInstallUpdateManyWithWhereWithoutCompanyInput | ShopifyInstallUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: ShopifyInstallScalarWhereInput | ShopifyInstallScalarWhereInput[]
+  }
+
+  export type StopNoteUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<StopNoteCreateWithoutCompanyInput, StopNoteUncheckedCreateWithoutCompanyInput> | StopNoteCreateWithoutCompanyInput[] | StopNoteUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: StopNoteCreateOrConnectWithoutCompanyInput | StopNoteCreateOrConnectWithoutCompanyInput[]
+    upsert?: StopNoteUpsertWithWhereUniqueWithoutCompanyInput | StopNoteUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: StopNoteCreateManyCompanyInputEnvelope
+    set?: StopNoteWhereUniqueInput | StopNoteWhereUniqueInput[]
+    disconnect?: StopNoteWhereUniqueInput | StopNoteWhereUniqueInput[]
+    delete?: StopNoteWhereUniqueInput | StopNoteWhereUniqueInput[]
+    connect?: StopNoteWhereUniqueInput | StopNoteWhereUniqueInput[]
+    update?: StopNoteUpdateWithWhereUniqueWithoutCompanyInput | StopNoteUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: StopNoteUpdateManyWithWhereWithoutCompanyInput | StopNoteUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: StopNoteScalarWhereInput | StopNoteScalarWhereInput[]
+  }
+
+  export type JobUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<JobCreateWithoutCompanyInput, JobUncheckedCreateWithoutCompanyInput> | JobCreateWithoutCompanyInput[] | JobUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: JobCreateOrConnectWithoutCompanyInput | JobCreateOrConnectWithoutCompanyInput[]
+    upsert?: JobUpsertWithWhereUniqueWithoutCompanyInput | JobUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: JobCreateManyCompanyInputEnvelope
+    set?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    disconnect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    delete?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    connect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    update?: JobUpdateWithWhereUniqueWithoutCompanyInput | JobUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: JobUpdateManyWithWhereWithoutCompanyInput | JobUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: JobScalarWhereInput | JobScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutPricingProfilesInput = {
@@ -13088,6 +20890,20 @@ export namespace Prisma {
     connect?: CompanyWhereUniqueInput
   }
 
+  export type JobCreateNestedManyWithoutQuoteRequestInput = {
+    create?: XOR<JobCreateWithoutQuoteRequestInput, JobUncheckedCreateWithoutQuoteRequestInput> | JobCreateWithoutQuoteRequestInput[] | JobUncheckedCreateWithoutQuoteRequestInput[]
+    connectOrCreate?: JobCreateOrConnectWithoutQuoteRequestInput | JobCreateOrConnectWithoutQuoteRequestInput[]
+    createMany?: JobCreateManyQuoteRequestInputEnvelope
+    connect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+  }
+
+  export type JobUncheckedCreateNestedManyWithoutQuoteRequestInput = {
+    create?: XOR<JobCreateWithoutQuoteRequestInput, JobUncheckedCreateWithoutQuoteRequestInput> | JobCreateWithoutQuoteRequestInput[] | JobUncheckedCreateWithoutQuoteRequestInput[]
+    connectOrCreate?: JobCreateOrConnectWithoutQuoteRequestInput | JobCreateOrConnectWithoutQuoteRequestInput[]
+    createMany?: JobCreateManyQuoteRequestInputEnvelope
+    connect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+  }
+
   export type NullableIntFieldUpdateOperationsInput = {
     set?: number | null
     increment?: number
@@ -13102,6 +20918,34 @@ export namespace Prisma {
     upsert?: CompanyUpsertWithoutQuoteRequestsInput
     connect?: CompanyWhereUniqueInput
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutQuoteRequestsInput, CompanyUpdateWithoutQuoteRequestsInput>, CompanyUncheckedUpdateWithoutQuoteRequestsInput>
+  }
+
+  export type JobUpdateManyWithoutQuoteRequestNestedInput = {
+    create?: XOR<JobCreateWithoutQuoteRequestInput, JobUncheckedCreateWithoutQuoteRequestInput> | JobCreateWithoutQuoteRequestInput[] | JobUncheckedCreateWithoutQuoteRequestInput[]
+    connectOrCreate?: JobCreateOrConnectWithoutQuoteRequestInput | JobCreateOrConnectWithoutQuoteRequestInput[]
+    upsert?: JobUpsertWithWhereUniqueWithoutQuoteRequestInput | JobUpsertWithWhereUniqueWithoutQuoteRequestInput[]
+    createMany?: JobCreateManyQuoteRequestInputEnvelope
+    set?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    disconnect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    delete?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    connect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    update?: JobUpdateWithWhereUniqueWithoutQuoteRequestInput | JobUpdateWithWhereUniqueWithoutQuoteRequestInput[]
+    updateMany?: JobUpdateManyWithWhereWithoutQuoteRequestInput | JobUpdateManyWithWhereWithoutQuoteRequestInput[]
+    deleteMany?: JobScalarWhereInput | JobScalarWhereInput[]
+  }
+
+  export type JobUncheckedUpdateManyWithoutQuoteRequestNestedInput = {
+    create?: XOR<JobCreateWithoutQuoteRequestInput, JobUncheckedCreateWithoutQuoteRequestInput> | JobCreateWithoutQuoteRequestInput[] | JobUncheckedCreateWithoutQuoteRequestInput[]
+    connectOrCreate?: JobCreateOrConnectWithoutQuoteRequestInput | JobCreateOrConnectWithoutQuoteRequestInput[]
+    upsert?: JobUpsertWithWhereUniqueWithoutQuoteRequestInput | JobUpsertWithWhereUniqueWithoutQuoteRequestInput[]
+    createMany?: JobCreateManyQuoteRequestInputEnvelope
+    set?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    disconnect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    delete?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    connect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    update?: JobUpdateWithWhereUniqueWithoutQuoteRequestInput | JobUpdateWithWhereUniqueWithoutQuoteRequestInput[]
+    updateMany?: JobUpdateManyWithWhereWithoutQuoteRequestInput | JobUpdateManyWithWhereWithoutQuoteRequestInput[]
+    deleteMany?: JobScalarWhereInput | JobScalarWhereInput[]
   }
 
   export type WebhookCreateeventsInput = {
@@ -13141,6 +20985,400 @@ export namespace Prisma {
     delete?: CompanyWhereInput | boolean
     connect?: CompanyWhereUniqueInput
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutShopifyInstallsInput, CompanyUpdateWithoutShopifyInstallsInput>, CompanyUncheckedUpdateWithoutShopifyInstallsInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutStopNotesInput = {
+    create?: XOR<CompanyCreateWithoutStopNotesInput, CompanyUncheckedCreateWithoutStopNotesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutStopNotesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type ReadinessCheckCreateNestedManyWithoutStopNoteInput = {
+    create?: XOR<ReadinessCheckCreateWithoutStopNoteInput, ReadinessCheckUncheckedCreateWithoutStopNoteInput> | ReadinessCheckCreateWithoutStopNoteInput[] | ReadinessCheckUncheckedCreateWithoutStopNoteInput[]
+    connectOrCreate?: ReadinessCheckCreateOrConnectWithoutStopNoteInput | ReadinessCheckCreateOrConnectWithoutStopNoteInput[]
+    createMany?: ReadinessCheckCreateManyStopNoteInputEnvelope
+    connect?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+  }
+
+  export type ExceptionLogCreateNestedManyWithoutStopNoteInput = {
+    create?: XOR<ExceptionLogCreateWithoutStopNoteInput, ExceptionLogUncheckedCreateWithoutStopNoteInput> | ExceptionLogCreateWithoutStopNoteInput[] | ExceptionLogUncheckedCreateWithoutStopNoteInput[]
+    connectOrCreate?: ExceptionLogCreateOrConnectWithoutStopNoteInput | ExceptionLogCreateOrConnectWithoutStopNoteInput[]
+    createMany?: ExceptionLogCreateManyStopNoteInputEnvelope
+    connect?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+  }
+
+  export type JobStopCreateNestedManyWithoutStopNoteInput = {
+    create?: XOR<JobStopCreateWithoutStopNoteInput, JobStopUncheckedCreateWithoutStopNoteInput> | JobStopCreateWithoutStopNoteInput[] | JobStopUncheckedCreateWithoutStopNoteInput[]
+    connectOrCreate?: JobStopCreateOrConnectWithoutStopNoteInput | JobStopCreateOrConnectWithoutStopNoteInput[]
+    createMany?: JobStopCreateManyStopNoteInputEnvelope
+    connect?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+  }
+
+  export type ReadinessCheckUncheckedCreateNestedManyWithoutStopNoteInput = {
+    create?: XOR<ReadinessCheckCreateWithoutStopNoteInput, ReadinessCheckUncheckedCreateWithoutStopNoteInput> | ReadinessCheckCreateWithoutStopNoteInput[] | ReadinessCheckUncheckedCreateWithoutStopNoteInput[]
+    connectOrCreate?: ReadinessCheckCreateOrConnectWithoutStopNoteInput | ReadinessCheckCreateOrConnectWithoutStopNoteInput[]
+    createMany?: ReadinessCheckCreateManyStopNoteInputEnvelope
+    connect?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+  }
+
+  export type ExceptionLogUncheckedCreateNestedManyWithoutStopNoteInput = {
+    create?: XOR<ExceptionLogCreateWithoutStopNoteInput, ExceptionLogUncheckedCreateWithoutStopNoteInput> | ExceptionLogCreateWithoutStopNoteInput[] | ExceptionLogUncheckedCreateWithoutStopNoteInput[]
+    connectOrCreate?: ExceptionLogCreateOrConnectWithoutStopNoteInput | ExceptionLogCreateOrConnectWithoutStopNoteInput[]
+    createMany?: ExceptionLogCreateManyStopNoteInputEnvelope
+    connect?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+  }
+
+  export type JobStopUncheckedCreateNestedManyWithoutStopNoteInput = {
+    create?: XOR<JobStopCreateWithoutStopNoteInput, JobStopUncheckedCreateWithoutStopNoteInput> | JobStopCreateWithoutStopNoteInput[] | JobStopUncheckedCreateWithoutStopNoteInput[]
+    connectOrCreate?: JobStopCreateOrConnectWithoutStopNoteInput | JobStopCreateOrConnectWithoutStopNoteInput[]
+    createMany?: JobStopCreateManyStopNoteInputEnvelope
+    connect?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+  }
+
+  export type CompanyUpdateOneRequiredWithoutStopNotesNestedInput = {
+    create?: XOR<CompanyCreateWithoutStopNotesInput, CompanyUncheckedCreateWithoutStopNotesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutStopNotesInput
+    upsert?: CompanyUpsertWithoutStopNotesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutStopNotesInput, CompanyUpdateWithoutStopNotesInput>, CompanyUncheckedUpdateWithoutStopNotesInput>
+  }
+
+  export type ReadinessCheckUpdateManyWithoutStopNoteNestedInput = {
+    create?: XOR<ReadinessCheckCreateWithoutStopNoteInput, ReadinessCheckUncheckedCreateWithoutStopNoteInput> | ReadinessCheckCreateWithoutStopNoteInput[] | ReadinessCheckUncheckedCreateWithoutStopNoteInput[]
+    connectOrCreate?: ReadinessCheckCreateOrConnectWithoutStopNoteInput | ReadinessCheckCreateOrConnectWithoutStopNoteInput[]
+    upsert?: ReadinessCheckUpsertWithWhereUniqueWithoutStopNoteInput | ReadinessCheckUpsertWithWhereUniqueWithoutStopNoteInput[]
+    createMany?: ReadinessCheckCreateManyStopNoteInputEnvelope
+    set?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+    disconnect?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+    delete?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+    connect?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+    update?: ReadinessCheckUpdateWithWhereUniqueWithoutStopNoteInput | ReadinessCheckUpdateWithWhereUniqueWithoutStopNoteInput[]
+    updateMany?: ReadinessCheckUpdateManyWithWhereWithoutStopNoteInput | ReadinessCheckUpdateManyWithWhereWithoutStopNoteInput[]
+    deleteMany?: ReadinessCheckScalarWhereInput | ReadinessCheckScalarWhereInput[]
+  }
+
+  export type ExceptionLogUpdateManyWithoutStopNoteNestedInput = {
+    create?: XOR<ExceptionLogCreateWithoutStopNoteInput, ExceptionLogUncheckedCreateWithoutStopNoteInput> | ExceptionLogCreateWithoutStopNoteInput[] | ExceptionLogUncheckedCreateWithoutStopNoteInput[]
+    connectOrCreate?: ExceptionLogCreateOrConnectWithoutStopNoteInput | ExceptionLogCreateOrConnectWithoutStopNoteInput[]
+    upsert?: ExceptionLogUpsertWithWhereUniqueWithoutStopNoteInput | ExceptionLogUpsertWithWhereUniqueWithoutStopNoteInput[]
+    createMany?: ExceptionLogCreateManyStopNoteInputEnvelope
+    set?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+    disconnect?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+    delete?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+    connect?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+    update?: ExceptionLogUpdateWithWhereUniqueWithoutStopNoteInput | ExceptionLogUpdateWithWhereUniqueWithoutStopNoteInput[]
+    updateMany?: ExceptionLogUpdateManyWithWhereWithoutStopNoteInput | ExceptionLogUpdateManyWithWhereWithoutStopNoteInput[]
+    deleteMany?: ExceptionLogScalarWhereInput | ExceptionLogScalarWhereInput[]
+  }
+
+  export type JobStopUpdateManyWithoutStopNoteNestedInput = {
+    create?: XOR<JobStopCreateWithoutStopNoteInput, JobStopUncheckedCreateWithoutStopNoteInput> | JobStopCreateWithoutStopNoteInput[] | JobStopUncheckedCreateWithoutStopNoteInput[]
+    connectOrCreate?: JobStopCreateOrConnectWithoutStopNoteInput | JobStopCreateOrConnectWithoutStopNoteInput[]
+    upsert?: JobStopUpsertWithWhereUniqueWithoutStopNoteInput | JobStopUpsertWithWhereUniqueWithoutStopNoteInput[]
+    createMany?: JobStopCreateManyStopNoteInputEnvelope
+    set?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+    disconnect?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+    delete?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+    connect?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+    update?: JobStopUpdateWithWhereUniqueWithoutStopNoteInput | JobStopUpdateWithWhereUniqueWithoutStopNoteInput[]
+    updateMany?: JobStopUpdateManyWithWhereWithoutStopNoteInput | JobStopUpdateManyWithWhereWithoutStopNoteInput[]
+    deleteMany?: JobStopScalarWhereInput | JobStopScalarWhereInput[]
+  }
+
+  export type ReadinessCheckUncheckedUpdateManyWithoutStopNoteNestedInput = {
+    create?: XOR<ReadinessCheckCreateWithoutStopNoteInput, ReadinessCheckUncheckedCreateWithoutStopNoteInput> | ReadinessCheckCreateWithoutStopNoteInput[] | ReadinessCheckUncheckedCreateWithoutStopNoteInput[]
+    connectOrCreate?: ReadinessCheckCreateOrConnectWithoutStopNoteInput | ReadinessCheckCreateOrConnectWithoutStopNoteInput[]
+    upsert?: ReadinessCheckUpsertWithWhereUniqueWithoutStopNoteInput | ReadinessCheckUpsertWithWhereUniqueWithoutStopNoteInput[]
+    createMany?: ReadinessCheckCreateManyStopNoteInputEnvelope
+    set?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+    disconnect?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+    delete?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+    connect?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+    update?: ReadinessCheckUpdateWithWhereUniqueWithoutStopNoteInput | ReadinessCheckUpdateWithWhereUniqueWithoutStopNoteInput[]
+    updateMany?: ReadinessCheckUpdateManyWithWhereWithoutStopNoteInput | ReadinessCheckUpdateManyWithWhereWithoutStopNoteInput[]
+    deleteMany?: ReadinessCheckScalarWhereInput | ReadinessCheckScalarWhereInput[]
+  }
+
+  export type ExceptionLogUncheckedUpdateManyWithoutStopNoteNestedInput = {
+    create?: XOR<ExceptionLogCreateWithoutStopNoteInput, ExceptionLogUncheckedCreateWithoutStopNoteInput> | ExceptionLogCreateWithoutStopNoteInput[] | ExceptionLogUncheckedCreateWithoutStopNoteInput[]
+    connectOrCreate?: ExceptionLogCreateOrConnectWithoutStopNoteInput | ExceptionLogCreateOrConnectWithoutStopNoteInput[]
+    upsert?: ExceptionLogUpsertWithWhereUniqueWithoutStopNoteInput | ExceptionLogUpsertWithWhereUniqueWithoutStopNoteInput[]
+    createMany?: ExceptionLogCreateManyStopNoteInputEnvelope
+    set?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+    disconnect?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+    delete?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+    connect?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+    update?: ExceptionLogUpdateWithWhereUniqueWithoutStopNoteInput | ExceptionLogUpdateWithWhereUniqueWithoutStopNoteInput[]
+    updateMany?: ExceptionLogUpdateManyWithWhereWithoutStopNoteInput | ExceptionLogUpdateManyWithWhereWithoutStopNoteInput[]
+    deleteMany?: ExceptionLogScalarWhereInput | ExceptionLogScalarWhereInput[]
+  }
+
+  export type JobStopUncheckedUpdateManyWithoutStopNoteNestedInput = {
+    create?: XOR<JobStopCreateWithoutStopNoteInput, JobStopUncheckedCreateWithoutStopNoteInput> | JobStopCreateWithoutStopNoteInput[] | JobStopUncheckedCreateWithoutStopNoteInput[]
+    connectOrCreate?: JobStopCreateOrConnectWithoutStopNoteInput | JobStopCreateOrConnectWithoutStopNoteInput[]
+    upsert?: JobStopUpsertWithWhereUniqueWithoutStopNoteInput | JobStopUpsertWithWhereUniqueWithoutStopNoteInput[]
+    createMany?: JobStopCreateManyStopNoteInputEnvelope
+    set?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+    disconnect?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+    delete?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+    connect?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+    update?: JobStopUpdateWithWhereUniqueWithoutStopNoteInput | JobStopUpdateWithWhereUniqueWithoutStopNoteInput[]
+    updateMany?: JobStopUpdateManyWithWhereWithoutStopNoteInput | JobStopUpdateManyWithWhereWithoutStopNoteInput[]
+    deleteMany?: JobStopScalarWhereInput | JobStopScalarWhereInput[]
+  }
+
+  export type StopNoteCreateNestedOneWithoutReadinessChecksInput = {
+    create?: XOR<StopNoteCreateWithoutReadinessChecksInput, StopNoteUncheckedCreateWithoutReadinessChecksInput>
+    connectOrCreate?: StopNoteCreateOrConnectWithoutReadinessChecksInput
+    connect?: StopNoteWhereUniqueInput
+  }
+
+  export type JobCreateNestedOneWithoutReadinessChecksInput = {
+    create?: XOR<JobCreateWithoutReadinessChecksInput, JobUncheckedCreateWithoutReadinessChecksInput>
+    connectOrCreate?: JobCreateOrConnectWithoutReadinessChecksInput
+    connect?: JobWhereUniqueInput
+  }
+
+  export type StopNoteUpdateOneRequiredWithoutReadinessChecksNestedInput = {
+    create?: XOR<StopNoteCreateWithoutReadinessChecksInput, StopNoteUncheckedCreateWithoutReadinessChecksInput>
+    connectOrCreate?: StopNoteCreateOrConnectWithoutReadinessChecksInput
+    upsert?: StopNoteUpsertWithoutReadinessChecksInput
+    connect?: StopNoteWhereUniqueInput
+    update?: XOR<XOR<StopNoteUpdateToOneWithWhereWithoutReadinessChecksInput, StopNoteUpdateWithoutReadinessChecksInput>, StopNoteUncheckedUpdateWithoutReadinessChecksInput>
+  }
+
+  export type JobUpdateOneWithoutReadinessChecksNestedInput = {
+    create?: XOR<JobCreateWithoutReadinessChecksInput, JobUncheckedCreateWithoutReadinessChecksInput>
+    connectOrCreate?: JobCreateOrConnectWithoutReadinessChecksInput
+    upsert?: JobUpsertWithoutReadinessChecksInput
+    disconnect?: JobWhereInput | boolean
+    delete?: JobWhereInput | boolean
+    connect?: JobWhereUniqueInput
+    update?: XOR<XOR<JobUpdateToOneWithWhereWithoutReadinessChecksInput, JobUpdateWithoutReadinessChecksInput>, JobUncheckedUpdateWithoutReadinessChecksInput>
+  }
+
+  export type StopNoteCreateNestedOneWithoutExceptionLogsInput = {
+    create?: XOR<StopNoteCreateWithoutExceptionLogsInput, StopNoteUncheckedCreateWithoutExceptionLogsInput>
+    connectOrCreate?: StopNoteCreateOrConnectWithoutExceptionLogsInput
+    connect?: StopNoteWhereUniqueInput
+  }
+
+  export type JobCreateNestedOneWithoutExceptionLogsInput = {
+    create?: XOR<JobCreateWithoutExceptionLogsInput, JobUncheckedCreateWithoutExceptionLogsInput>
+    connectOrCreate?: JobCreateOrConnectWithoutExceptionLogsInput
+    connect?: JobWhereUniqueInput
+  }
+
+  export type StopNoteUpdateOneWithoutExceptionLogsNestedInput = {
+    create?: XOR<StopNoteCreateWithoutExceptionLogsInput, StopNoteUncheckedCreateWithoutExceptionLogsInput>
+    connectOrCreate?: StopNoteCreateOrConnectWithoutExceptionLogsInput
+    upsert?: StopNoteUpsertWithoutExceptionLogsInput
+    disconnect?: StopNoteWhereInput | boolean
+    delete?: StopNoteWhereInput | boolean
+    connect?: StopNoteWhereUniqueInput
+    update?: XOR<XOR<StopNoteUpdateToOneWithWhereWithoutExceptionLogsInput, StopNoteUpdateWithoutExceptionLogsInput>, StopNoteUncheckedUpdateWithoutExceptionLogsInput>
+  }
+
+  export type JobUpdateOneWithoutExceptionLogsNestedInput = {
+    create?: XOR<JobCreateWithoutExceptionLogsInput, JobUncheckedCreateWithoutExceptionLogsInput>
+    connectOrCreate?: JobCreateOrConnectWithoutExceptionLogsInput
+    upsert?: JobUpsertWithoutExceptionLogsInput
+    disconnect?: JobWhereInput | boolean
+    delete?: JobWhereInput | boolean
+    connect?: JobWhereUniqueInput
+    update?: XOR<XOR<JobUpdateToOneWithWhereWithoutExceptionLogsInput, JobUpdateWithoutExceptionLogsInput>, JobUncheckedUpdateWithoutExceptionLogsInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutJobsInput = {
+    create?: XOR<CompanyCreateWithoutJobsInput, CompanyUncheckedCreateWithoutJobsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutJobsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type QuoteRequestCreateNestedOneWithoutJobsInput = {
+    create?: XOR<QuoteRequestCreateWithoutJobsInput, QuoteRequestUncheckedCreateWithoutJobsInput>
+    connectOrCreate?: QuoteRequestCreateOrConnectWithoutJobsInput
+    connect?: QuoteRequestWhereUniqueInput
+  }
+
+  export type JobStopCreateNestedManyWithoutJobInput = {
+    create?: XOR<JobStopCreateWithoutJobInput, JobStopUncheckedCreateWithoutJobInput> | JobStopCreateWithoutJobInput[] | JobStopUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: JobStopCreateOrConnectWithoutJobInput | JobStopCreateOrConnectWithoutJobInput[]
+    createMany?: JobStopCreateManyJobInputEnvelope
+    connect?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+  }
+
+  export type ReadinessCheckCreateNestedManyWithoutJobInput = {
+    create?: XOR<ReadinessCheckCreateWithoutJobInput, ReadinessCheckUncheckedCreateWithoutJobInput> | ReadinessCheckCreateWithoutJobInput[] | ReadinessCheckUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: ReadinessCheckCreateOrConnectWithoutJobInput | ReadinessCheckCreateOrConnectWithoutJobInput[]
+    createMany?: ReadinessCheckCreateManyJobInputEnvelope
+    connect?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+  }
+
+  export type ExceptionLogCreateNestedManyWithoutJobInput = {
+    create?: XOR<ExceptionLogCreateWithoutJobInput, ExceptionLogUncheckedCreateWithoutJobInput> | ExceptionLogCreateWithoutJobInput[] | ExceptionLogUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: ExceptionLogCreateOrConnectWithoutJobInput | ExceptionLogCreateOrConnectWithoutJobInput[]
+    createMany?: ExceptionLogCreateManyJobInputEnvelope
+    connect?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+  }
+
+  export type JobStopUncheckedCreateNestedManyWithoutJobInput = {
+    create?: XOR<JobStopCreateWithoutJobInput, JobStopUncheckedCreateWithoutJobInput> | JobStopCreateWithoutJobInput[] | JobStopUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: JobStopCreateOrConnectWithoutJobInput | JobStopCreateOrConnectWithoutJobInput[]
+    createMany?: JobStopCreateManyJobInputEnvelope
+    connect?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+  }
+
+  export type ReadinessCheckUncheckedCreateNestedManyWithoutJobInput = {
+    create?: XOR<ReadinessCheckCreateWithoutJobInput, ReadinessCheckUncheckedCreateWithoutJobInput> | ReadinessCheckCreateWithoutJobInput[] | ReadinessCheckUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: ReadinessCheckCreateOrConnectWithoutJobInput | ReadinessCheckCreateOrConnectWithoutJobInput[]
+    createMany?: ReadinessCheckCreateManyJobInputEnvelope
+    connect?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+  }
+
+  export type ExceptionLogUncheckedCreateNestedManyWithoutJobInput = {
+    create?: XOR<ExceptionLogCreateWithoutJobInput, ExceptionLogUncheckedCreateWithoutJobInput> | ExceptionLogCreateWithoutJobInput[] | ExceptionLogUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: ExceptionLogCreateOrConnectWithoutJobInput | ExceptionLogCreateOrConnectWithoutJobInput[]
+    createMany?: ExceptionLogCreateManyJobInputEnvelope
+    connect?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+  }
+
+  export type CompanyUpdateOneRequiredWithoutJobsNestedInput = {
+    create?: XOR<CompanyCreateWithoutJobsInput, CompanyUncheckedCreateWithoutJobsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutJobsInput
+    upsert?: CompanyUpsertWithoutJobsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutJobsInput, CompanyUpdateWithoutJobsInput>, CompanyUncheckedUpdateWithoutJobsInput>
+  }
+
+  export type QuoteRequestUpdateOneWithoutJobsNestedInput = {
+    create?: XOR<QuoteRequestCreateWithoutJobsInput, QuoteRequestUncheckedCreateWithoutJobsInput>
+    connectOrCreate?: QuoteRequestCreateOrConnectWithoutJobsInput
+    upsert?: QuoteRequestUpsertWithoutJobsInput
+    disconnect?: QuoteRequestWhereInput | boolean
+    delete?: QuoteRequestWhereInput | boolean
+    connect?: QuoteRequestWhereUniqueInput
+    update?: XOR<XOR<QuoteRequestUpdateToOneWithWhereWithoutJobsInput, QuoteRequestUpdateWithoutJobsInput>, QuoteRequestUncheckedUpdateWithoutJobsInput>
+  }
+
+  export type JobStopUpdateManyWithoutJobNestedInput = {
+    create?: XOR<JobStopCreateWithoutJobInput, JobStopUncheckedCreateWithoutJobInput> | JobStopCreateWithoutJobInput[] | JobStopUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: JobStopCreateOrConnectWithoutJobInput | JobStopCreateOrConnectWithoutJobInput[]
+    upsert?: JobStopUpsertWithWhereUniqueWithoutJobInput | JobStopUpsertWithWhereUniqueWithoutJobInput[]
+    createMany?: JobStopCreateManyJobInputEnvelope
+    set?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+    disconnect?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+    delete?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+    connect?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+    update?: JobStopUpdateWithWhereUniqueWithoutJobInput | JobStopUpdateWithWhereUniqueWithoutJobInput[]
+    updateMany?: JobStopUpdateManyWithWhereWithoutJobInput | JobStopUpdateManyWithWhereWithoutJobInput[]
+    deleteMany?: JobStopScalarWhereInput | JobStopScalarWhereInput[]
+  }
+
+  export type ReadinessCheckUpdateManyWithoutJobNestedInput = {
+    create?: XOR<ReadinessCheckCreateWithoutJobInput, ReadinessCheckUncheckedCreateWithoutJobInput> | ReadinessCheckCreateWithoutJobInput[] | ReadinessCheckUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: ReadinessCheckCreateOrConnectWithoutJobInput | ReadinessCheckCreateOrConnectWithoutJobInput[]
+    upsert?: ReadinessCheckUpsertWithWhereUniqueWithoutJobInput | ReadinessCheckUpsertWithWhereUniqueWithoutJobInput[]
+    createMany?: ReadinessCheckCreateManyJobInputEnvelope
+    set?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+    disconnect?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+    delete?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+    connect?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+    update?: ReadinessCheckUpdateWithWhereUniqueWithoutJobInput | ReadinessCheckUpdateWithWhereUniqueWithoutJobInput[]
+    updateMany?: ReadinessCheckUpdateManyWithWhereWithoutJobInput | ReadinessCheckUpdateManyWithWhereWithoutJobInput[]
+    deleteMany?: ReadinessCheckScalarWhereInput | ReadinessCheckScalarWhereInput[]
+  }
+
+  export type ExceptionLogUpdateManyWithoutJobNestedInput = {
+    create?: XOR<ExceptionLogCreateWithoutJobInput, ExceptionLogUncheckedCreateWithoutJobInput> | ExceptionLogCreateWithoutJobInput[] | ExceptionLogUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: ExceptionLogCreateOrConnectWithoutJobInput | ExceptionLogCreateOrConnectWithoutJobInput[]
+    upsert?: ExceptionLogUpsertWithWhereUniqueWithoutJobInput | ExceptionLogUpsertWithWhereUniqueWithoutJobInput[]
+    createMany?: ExceptionLogCreateManyJobInputEnvelope
+    set?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+    disconnect?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+    delete?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+    connect?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+    update?: ExceptionLogUpdateWithWhereUniqueWithoutJobInput | ExceptionLogUpdateWithWhereUniqueWithoutJobInput[]
+    updateMany?: ExceptionLogUpdateManyWithWhereWithoutJobInput | ExceptionLogUpdateManyWithWhereWithoutJobInput[]
+    deleteMany?: ExceptionLogScalarWhereInput | ExceptionLogScalarWhereInput[]
+  }
+
+  export type JobStopUncheckedUpdateManyWithoutJobNestedInput = {
+    create?: XOR<JobStopCreateWithoutJobInput, JobStopUncheckedCreateWithoutJobInput> | JobStopCreateWithoutJobInput[] | JobStopUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: JobStopCreateOrConnectWithoutJobInput | JobStopCreateOrConnectWithoutJobInput[]
+    upsert?: JobStopUpsertWithWhereUniqueWithoutJobInput | JobStopUpsertWithWhereUniqueWithoutJobInput[]
+    createMany?: JobStopCreateManyJobInputEnvelope
+    set?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+    disconnect?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+    delete?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+    connect?: JobStopWhereUniqueInput | JobStopWhereUniqueInput[]
+    update?: JobStopUpdateWithWhereUniqueWithoutJobInput | JobStopUpdateWithWhereUniqueWithoutJobInput[]
+    updateMany?: JobStopUpdateManyWithWhereWithoutJobInput | JobStopUpdateManyWithWhereWithoutJobInput[]
+    deleteMany?: JobStopScalarWhereInput | JobStopScalarWhereInput[]
+  }
+
+  export type ReadinessCheckUncheckedUpdateManyWithoutJobNestedInput = {
+    create?: XOR<ReadinessCheckCreateWithoutJobInput, ReadinessCheckUncheckedCreateWithoutJobInput> | ReadinessCheckCreateWithoutJobInput[] | ReadinessCheckUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: ReadinessCheckCreateOrConnectWithoutJobInput | ReadinessCheckCreateOrConnectWithoutJobInput[]
+    upsert?: ReadinessCheckUpsertWithWhereUniqueWithoutJobInput | ReadinessCheckUpsertWithWhereUniqueWithoutJobInput[]
+    createMany?: ReadinessCheckCreateManyJobInputEnvelope
+    set?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+    disconnect?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+    delete?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+    connect?: ReadinessCheckWhereUniqueInput | ReadinessCheckWhereUniqueInput[]
+    update?: ReadinessCheckUpdateWithWhereUniqueWithoutJobInput | ReadinessCheckUpdateWithWhereUniqueWithoutJobInput[]
+    updateMany?: ReadinessCheckUpdateManyWithWhereWithoutJobInput | ReadinessCheckUpdateManyWithWhereWithoutJobInput[]
+    deleteMany?: ReadinessCheckScalarWhereInput | ReadinessCheckScalarWhereInput[]
+  }
+
+  export type ExceptionLogUncheckedUpdateManyWithoutJobNestedInput = {
+    create?: XOR<ExceptionLogCreateWithoutJobInput, ExceptionLogUncheckedCreateWithoutJobInput> | ExceptionLogCreateWithoutJobInput[] | ExceptionLogUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: ExceptionLogCreateOrConnectWithoutJobInput | ExceptionLogCreateOrConnectWithoutJobInput[]
+    upsert?: ExceptionLogUpsertWithWhereUniqueWithoutJobInput | ExceptionLogUpsertWithWhereUniqueWithoutJobInput[]
+    createMany?: ExceptionLogCreateManyJobInputEnvelope
+    set?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+    disconnect?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+    delete?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+    connect?: ExceptionLogWhereUniqueInput | ExceptionLogWhereUniqueInput[]
+    update?: ExceptionLogUpdateWithWhereUniqueWithoutJobInput | ExceptionLogUpdateWithWhereUniqueWithoutJobInput[]
+    updateMany?: ExceptionLogUpdateManyWithWhereWithoutJobInput | ExceptionLogUpdateManyWithWhereWithoutJobInput[]
+    deleteMany?: ExceptionLogScalarWhereInput | ExceptionLogScalarWhereInput[]
+  }
+
+  export type JobCreateNestedOneWithoutStopsInput = {
+    create?: XOR<JobCreateWithoutStopsInput, JobUncheckedCreateWithoutStopsInput>
+    connectOrCreate?: JobCreateOrConnectWithoutStopsInput
+    connect?: JobWhereUniqueInput
+  }
+
+  export type StopNoteCreateNestedOneWithoutJobStopsInput = {
+    create?: XOR<StopNoteCreateWithoutJobStopsInput, StopNoteUncheckedCreateWithoutJobStopsInput>
+    connectOrCreate?: StopNoteCreateOrConnectWithoutJobStopsInput
+    connect?: StopNoteWhereUniqueInput
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type JobUpdateOneRequiredWithoutStopsNestedInput = {
+    create?: XOR<JobCreateWithoutStopsInput, JobUncheckedCreateWithoutStopsInput>
+    connectOrCreate?: JobCreateOrConnectWithoutStopsInput
+    upsert?: JobUpsertWithoutStopsInput
+    connect?: JobWhereUniqueInput
+    update?: XOR<XOR<JobUpdateToOneWithWhereWithoutStopsInput, JobUpdateWithoutStopsInput>, JobUncheckedUpdateWithoutStopsInput>
+  }
+
+  export type StopNoteUpdateOneRequiredWithoutJobStopsNestedInput = {
+    create?: XOR<StopNoteCreateWithoutJobStopsInput, StopNoteUncheckedCreateWithoutJobStopsInput>
+    connectOrCreate?: StopNoteCreateOrConnectWithoutJobStopsInput
+    upsert?: StopNoteUpsertWithoutJobStopsInput
+    connect?: StopNoteWhereUniqueInput
+    update?: XOR<XOR<StopNoteUpdateToOneWithWhereWithoutJobStopsInput, StopNoteUpdateWithoutJobStopsInput>, StopNoteUncheckedUpdateWithoutJobStopsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -13367,6 +21605,22 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type PricingProfileCreateWithoutCompanyInput = {
     id?: string
     baseRatePerMile?: number
@@ -13438,6 +21692,7 @@ export namespace Prisma {
     internalNotes?: string | null
     paidAt?: Date | string | null
     createdAt?: Date | string
+    jobs?: JobCreateNestedManyWithoutQuoteRequestInput
   }
 
   export type QuoteRequestUncheckedCreateWithoutCompanyInput = {
@@ -13461,6 +21716,7 @@ export namespace Prisma {
     internalNotes?: string | null
     paidAt?: Date | string | null
     createdAt?: Date | string
+    jobs?: JobUncheckedCreateNestedManyWithoutQuoteRequestInput
   }
 
   export type QuoteRequestCreateOrConnectWithoutCompanyInput = {
@@ -13582,6 +21838,88 @@ export namespace Prisma {
 
   export type ShopifyInstallCreateManyCompanyInputEnvelope = {
     data: ShopifyInstallCreateManyCompanyInput | ShopifyInstallCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StopNoteCreateWithoutCompanyInput = {
+    id?: string
+    companyName: string
+    address: string
+    contactName?: string | null
+    contactPhone?: string | null
+    gateCode?: string | null
+    dockInfo?: string | null
+    hours?: string | null
+    parkingNotes?: string | null
+    accessNotes?: string | null
+    deliveryNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    readinessChecks?: ReadinessCheckCreateNestedManyWithoutStopNoteInput
+    exceptionLogs?: ExceptionLogCreateNestedManyWithoutStopNoteInput
+    jobStops?: JobStopCreateNestedManyWithoutStopNoteInput
+  }
+
+  export type StopNoteUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    companyName: string
+    address: string
+    contactName?: string | null
+    contactPhone?: string | null
+    gateCode?: string | null
+    dockInfo?: string | null
+    hours?: string | null
+    parkingNotes?: string | null
+    accessNotes?: string | null
+    deliveryNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    readinessChecks?: ReadinessCheckUncheckedCreateNestedManyWithoutStopNoteInput
+    exceptionLogs?: ExceptionLogUncheckedCreateNestedManyWithoutStopNoteInput
+    jobStops?: JobStopUncheckedCreateNestedManyWithoutStopNoteInput
+  }
+
+  export type StopNoteCreateOrConnectWithoutCompanyInput = {
+    where: StopNoteWhereUniqueInput
+    create: XOR<StopNoteCreateWithoutCompanyInput, StopNoteUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type StopNoteCreateManyCompanyInputEnvelope = {
+    data: StopNoteCreateManyCompanyInput | StopNoteCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type JobCreateWithoutCompanyInput = {
+    id?: string
+    status?: string
+    scheduledDate: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quoteRequest?: QuoteRequestCreateNestedOneWithoutJobsInput
+    stops?: JobStopCreateNestedManyWithoutJobInput
+    readinessChecks?: ReadinessCheckCreateNestedManyWithoutJobInput
+    exceptionLogs?: ExceptionLogCreateNestedManyWithoutJobInput
+  }
+
+  export type JobUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    quoteRequestId?: string | null
+    status?: string
+    scheduledDate: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    stops?: JobStopUncheckedCreateNestedManyWithoutJobInput
+    readinessChecks?: ReadinessCheckUncheckedCreateNestedManyWithoutJobInput
+    exceptionLogs?: ExceptionLogUncheckedCreateNestedManyWithoutJobInput
+  }
+
+  export type JobCreateOrConnectWithoutCompanyInput = {
+    where: JobWhereUniqueInput
+    create: XOR<JobCreateWithoutCompanyInput, JobUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type JobCreateManyCompanyInputEnvelope = {
+    data: JobCreateManyCompanyInput | JobCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -13768,6 +22106,71 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ShopifyInstall"> | Date | string
   }
 
+  export type StopNoteUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: StopNoteWhereUniqueInput
+    update: XOR<StopNoteUpdateWithoutCompanyInput, StopNoteUncheckedUpdateWithoutCompanyInput>
+    create: XOR<StopNoteCreateWithoutCompanyInput, StopNoteUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type StopNoteUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: StopNoteWhereUniqueInput
+    data: XOR<StopNoteUpdateWithoutCompanyInput, StopNoteUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type StopNoteUpdateManyWithWhereWithoutCompanyInput = {
+    where: StopNoteScalarWhereInput
+    data: XOR<StopNoteUpdateManyMutationInput, StopNoteUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type StopNoteScalarWhereInput = {
+    AND?: StopNoteScalarWhereInput | StopNoteScalarWhereInput[]
+    OR?: StopNoteScalarWhereInput[]
+    NOT?: StopNoteScalarWhereInput | StopNoteScalarWhereInput[]
+    id?: StringFilter<"StopNote"> | string
+    companyId?: StringFilter<"StopNote"> | string
+    companyName?: StringFilter<"StopNote"> | string
+    address?: StringFilter<"StopNote"> | string
+    contactName?: StringNullableFilter<"StopNote"> | string | null
+    contactPhone?: StringNullableFilter<"StopNote"> | string | null
+    gateCode?: StringNullableFilter<"StopNote"> | string | null
+    dockInfo?: StringNullableFilter<"StopNote"> | string | null
+    hours?: StringNullableFilter<"StopNote"> | string | null
+    parkingNotes?: StringNullableFilter<"StopNote"> | string | null
+    accessNotes?: StringNullableFilter<"StopNote"> | string | null
+    deliveryNotes?: StringNullableFilter<"StopNote"> | string | null
+    createdAt?: DateTimeFilter<"StopNote"> | Date | string
+    updatedAt?: DateTimeFilter<"StopNote"> | Date | string
+  }
+
+  export type JobUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: JobWhereUniqueInput
+    update: XOR<JobUpdateWithoutCompanyInput, JobUncheckedUpdateWithoutCompanyInput>
+    create: XOR<JobCreateWithoutCompanyInput, JobUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type JobUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: JobWhereUniqueInput
+    data: XOR<JobUpdateWithoutCompanyInput, JobUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type JobUpdateManyWithWhereWithoutCompanyInput = {
+    where: JobScalarWhereInput
+    data: XOR<JobUpdateManyMutationInput, JobUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type JobScalarWhereInput = {
+    AND?: JobScalarWhereInput | JobScalarWhereInput[]
+    OR?: JobScalarWhereInput[]
+    NOT?: JobScalarWhereInput | JobScalarWhereInput[]
+    id?: StringFilter<"Job"> | string
+    companyId?: StringFilter<"Job"> | string
+    quoteRequestId?: StringNullableFilter<"Job"> | string | null
+    status?: StringFilter<"Job"> | string
+    scheduledDate?: DateTimeFilter<"Job"> | Date | string
+    createdAt?: DateTimeFilter<"Job"> | Date | string
+    updatedAt?: DateTimeFilter<"Job"> | Date | string
+  }
+
   export type CompanyCreateWithoutPricingProfilesInput = {
     id?: string
     email: string
@@ -13795,6 +22198,8 @@ export namespace Prisma {
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
+    jobs?: JobCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPricingProfilesInput = {
@@ -13824,6 +22229,8 @@ export namespace Prisma {
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
+    jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPricingProfilesInput = {
@@ -13920,6 +22327,8 @@ export namespace Prisma {
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPricingProfilesInput = {
@@ -13949,6 +22358,8 @@ export namespace Prisma {
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WidgetSettingsUpsertWithoutPricingProfileInput = {
@@ -14035,6 +22446,8 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
+    jobs?: JobCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWidgetSettingsInput = {
@@ -14064,6 +22477,8 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
+    jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWidgetSettingsInput = {
@@ -14154,6 +22569,8 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWidgetSettingsInput = {
@@ -14183,6 +22600,8 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type PricingProfileUpsertWithoutWidgetSettingsInput = {
@@ -14263,6 +22682,8 @@ export namespace Prisma {
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
+    jobs?: JobCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutQuoteRequestsInput = {
@@ -14292,11 +22713,47 @@ export namespace Prisma {
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
+    jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutQuoteRequestsInput = {
     where: CompanyWhereUniqueInput
     create: XOR<CompanyCreateWithoutQuoteRequestsInput, CompanyUncheckedCreateWithoutQuoteRequestsInput>
+  }
+
+  export type JobCreateWithoutQuoteRequestInput = {
+    id?: string
+    status?: string
+    scheduledDate: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutJobsInput
+    stops?: JobStopCreateNestedManyWithoutJobInput
+    readinessChecks?: ReadinessCheckCreateNestedManyWithoutJobInput
+    exceptionLogs?: ExceptionLogCreateNestedManyWithoutJobInput
+  }
+
+  export type JobUncheckedCreateWithoutQuoteRequestInput = {
+    id?: string
+    companyId: string
+    status?: string
+    scheduledDate: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    stops?: JobStopUncheckedCreateNestedManyWithoutJobInput
+    readinessChecks?: ReadinessCheckUncheckedCreateNestedManyWithoutJobInput
+    exceptionLogs?: ExceptionLogUncheckedCreateNestedManyWithoutJobInput
+  }
+
+  export type JobCreateOrConnectWithoutQuoteRequestInput = {
+    where: JobWhereUniqueInput
+    create: XOR<JobCreateWithoutQuoteRequestInput, JobUncheckedCreateWithoutQuoteRequestInput>
+  }
+
+  export type JobCreateManyQuoteRequestInputEnvelope = {
+    data: JobCreateManyQuoteRequestInput | JobCreateManyQuoteRequestInput[]
+    skipDuplicates?: boolean
   }
 
   export type CompanyUpsertWithoutQuoteRequestsInput = {
@@ -14337,6 +22794,8 @@ export namespace Prisma {
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutQuoteRequestsInput = {
@@ -14366,6 +22825,24 @@ export namespace Prisma {
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type JobUpsertWithWhereUniqueWithoutQuoteRequestInput = {
+    where: JobWhereUniqueInput
+    update: XOR<JobUpdateWithoutQuoteRequestInput, JobUncheckedUpdateWithoutQuoteRequestInput>
+    create: XOR<JobCreateWithoutQuoteRequestInput, JobUncheckedCreateWithoutQuoteRequestInput>
+  }
+
+  export type JobUpdateWithWhereUniqueWithoutQuoteRequestInput = {
+    where: JobWhereUniqueInput
+    data: XOR<JobUpdateWithoutQuoteRequestInput, JobUncheckedUpdateWithoutQuoteRequestInput>
+  }
+
+  export type JobUpdateManyWithWhereWithoutQuoteRequestInput = {
+    where: JobScalarWhereInput
+    data: XOR<JobUpdateManyMutationInput, JobUncheckedUpdateManyWithoutQuoteRequestInput>
   }
 
   export type CompanyCreateWithoutWebhooksInput = {
@@ -14395,6 +22872,8 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
+    jobs?: JobCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWebhooksInput = {
@@ -14424,6 +22903,8 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
+    jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWebhooksInput = {
@@ -14469,6 +22950,8 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWebhooksInput = {
@@ -14498,6 +22981,8 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutShopifyInstallsInput = {
@@ -14527,6 +23012,8 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
+    jobs?: JobCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutShopifyInstallsInput = {
@@ -14556,6 +23043,8 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
+    jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutShopifyInstallsInput = {
@@ -14601,6 +23090,8 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutShopifyInstallsInput = {
@@ -14630,6 +23121,1171 @@ export namespace Prisma {
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutStopNotesInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name: string
+    logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
+    timezone?: string
+    subscriptionPlan?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripeConnectAccountId?: string | null
+    trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    createdAt?: Date | string
+    pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
+    quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
+    widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
+    webhooks?: WebhookCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
+    jobs?: JobCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutStopNotesInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name: string
+    logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
+    timezone?: string
+    subscriptionPlan?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripeConnectAccountId?: string | null
+    trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    createdAt?: Date | string
+    pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
+    quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
+    widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
+    jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutStopNotesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutStopNotesInput, CompanyUncheckedCreateWithoutStopNotesInput>
+  }
+
+  export type ReadinessCheckCreateWithoutStopNoteInput = {
+    id?: string
+    scheduledDate: Date | string
+    contactConfirmed?: boolean
+    addressConfirmed?: boolean
+    accessConfirmed?: boolean
+    siteReady?: boolean
+    notes?: string | null
+    status?: string
+    createdAt?: Date | string
+    job?: JobCreateNestedOneWithoutReadinessChecksInput
+  }
+
+  export type ReadinessCheckUncheckedCreateWithoutStopNoteInput = {
+    id?: string
+    scheduledDate: Date | string
+    contactConfirmed?: boolean
+    addressConfirmed?: boolean
+    accessConfirmed?: boolean
+    siteReady?: boolean
+    notes?: string | null
+    status?: string
+    createdAt?: Date | string
+    jobId?: string | null
+  }
+
+  export type ReadinessCheckCreateOrConnectWithoutStopNoteInput = {
+    where: ReadinessCheckWhereUniqueInput
+    create: XOR<ReadinessCheckCreateWithoutStopNoteInput, ReadinessCheckUncheckedCreateWithoutStopNoteInput>
+  }
+
+  export type ReadinessCheckCreateManyStopNoteInputEnvelope = {
+    data: ReadinessCheckCreateManyStopNoteInput | ReadinessCheckCreateManyStopNoteInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ExceptionLogCreateWithoutStopNoteInput = {
+    id?: string
+    type: string
+    notes?: string | null
+    timestamp?: Date | string
+    job?: JobCreateNestedOneWithoutExceptionLogsInput
+  }
+
+  export type ExceptionLogUncheckedCreateWithoutStopNoteInput = {
+    id?: string
+    type: string
+    notes?: string | null
+    timestamp?: Date | string
+    jobId?: string | null
+  }
+
+  export type ExceptionLogCreateOrConnectWithoutStopNoteInput = {
+    where: ExceptionLogWhereUniqueInput
+    create: XOR<ExceptionLogCreateWithoutStopNoteInput, ExceptionLogUncheckedCreateWithoutStopNoteInput>
+  }
+
+  export type ExceptionLogCreateManyStopNoteInputEnvelope = {
+    data: ExceptionLogCreateManyStopNoteInput | ExceptionLogCreateManyStopNoteInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type JobStopCreateWithoutStopNoteInput = {
+    id?: string
+    order?: number
+    job: JobCreateNestedOneWithoutStopsInput
+  }
+
+  export type JobStopUncheckedCreateWithoutStopNoteInput = {
+    id?: string
+    jobId: string
+    order?: number
+  }
+
+  export type JobStopCreateOrConnectWithoutStopNoteInput = {
+    where: JobStopWhereUniqueInput
+    create: XOR<JobStopCreateWithoutStopNoteInput, JobStopUncheckedCreateWithoutStopNoteInput>
+  }
+
+  export type JobStopCreateManyStopNoteInputEnvelope = {
+    data: JobStopCreateManyStopNoteInput | JobStopCreateManyStopNoteInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutStopNotesInput = {
+    update: XOR<CompanyUpdateWithoutStopNotesInput, CompanyUncheckedUpdateWithoutStopNotesInput>
+    create: XOR<CompanyCreateWithoutStopNotesInput, CompanyUncheckedCreateWithoutStopNotesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutStopNotesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutStopNotesInput, CompanyUncheckedUpdateWithoutStopNotesInput>
+  }
+
+  export type CompanyUpdateWithoutStopNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
+    quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
+    widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
+    webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutStopNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
+    quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type ReadinessCheckUpsertWithWhereUniqueWithoutStopNoteInput = {
+    where: ReadinessCheckWhereUniqueInput
+    update: XOR<ReadinessCheckUpdateWithoutStopNoteInput, ReadinessCheckUncheckedUpdateWithoutStopNoteInput>
+    create: XOR<ReadinessCheckCreateWithoutStopNoteInput, ReadinessCheckUncheckedCreateWithoutStopNoteInput>
+  }
+
+  export type ReadinessCheckUpdateWithWhereUniqueWithoutStopNoteInput = {
+    where: ReadinessCheckWhereUniqueInput
+    data: XOR<ReadinessCheckUpdateWithoutStopNoteInput, ReadinessCheckUncheckedUpdateWithoutStopNoteInput>
+  }
+
+  export type ReadinessCheckUpdateManyWithWhereWithoutStopNoteInput = {
+    where: ReadinessCheckScalarWhereInput
+    data: XOR<ReadinessCheckUpdateManyMutationInput, ReadinessCheckUncheckedUpdateManyWithoutStopNoteInput>
+  }
+
+  export type ReadinessCheckScalarWhereInput = {
+    AND?: ReadinessCheckScalarWhereInput | ReadinessCheckScalarWhereInput[]
+    OR?: ReadinessCheckScalarWhereInput[]
+    NOT?: ReadinessCheckScalarWhereInput | ReadinessCheckScalarWhereInput[]
+    id?: StringFilter<"ReadinessCheck"> | string
+    stopNoteId?: StringFilter<"ReadinessCheck"> | string
+    scheduledDate?: DateTimeFilter<"ReadinessCheck"> | Date | string
+    contactConfirmed?: BoolFilter<"ReadinessCheck"> | boolean
+    addressConfirmed?: BoolFilter<"ReadinessCheck"> | boolean
+    accessConfirmed?: BoolFilter<"ReadinessCheck"> | boolean
+    siteReady?: BoolFilter<"ReadinessCheck"> | boolean
+    notes?: StringNullableFilter<"ReadinessCheck"> | string | null
+    status?: StringFilter<"ReadinessCheck"> | string
+    createdAt?: DateTimeFilter<"ReadinessCheck"> | Date | string
+    jobId?: StringNullableFilter<"ReadinessCheck"> | string | null
+  }
+
+  export type ExceptionLogUpsertWithWhereUniqueWithoutStopNoteInput = {
+    where: ExceptionLogWhereUniqueInput
+    update: XOR<ExceptionLogUpdateWithoutStopNoteInput, ExceptionLogUncheckedUpdateWithoutStopNoteInput>
+    create: XOR<ExceptionLogCreateWithoutStopNoteInput, ExceptionLogUncheckedCreateWithoutStopNoteInput>
+  }
+
+  export type ExceptionLogUpdateWithWhereUniqueWithoutStopNoteInput = {
+    where: ExceptionLogWhereUniqueInput
+    data: XOR<ExceptionLogUpdateWithoutStopNoteInput, ExceptionLogUncheckedUpdateWithoutStopNoteInput>
+  }
+
+  export type ExceptionLogUpdateManyWithWhereWithoutStopNoteInput = {
+    where: ExceptionLogScalarWhereInput
+    data: XOR<ExceptionLogUpdateManyMutationInput, ExceptionLogUncheckedUpdateManyWithoutStopNoteInput>
+  }
+
+  export type ExceptionLogScalarWhereInput = {
+    AND?: ExceptionLogScalarWhereInput | ExceptionLogScalarWhereInput[]
+    OR?: ExceptionLogScalarWhereInput[]
+    NOT?: ExceptionLogScalarWhereInput | ExceptionLogScalarWhereInput[]
+    id?: StringFilter<"ExceptionLog"> | string
+    stopNoteId?: StringNullableFilter<"ExceptionLog"> | string | null
+    type?: StringFilter<"ExceptionLog"> | string
+    notes?: StringNullableFilter<"ExceptionLog"> | string | null
+    timestamp?: DateTimeFilter<"ExceptionLog"> | Date | string
+    jobId?: StringNullableFilter<"ExceptionLog"> | string | null
+  }
+
+  export type JobStopUpsertWithWhereUniqueWithoutStopNoteInput = {
+    where: JobStopWhereUniqueInput
+    update: XOR<JobStopUpdateWithoutStopNoteInput, JobStopUncheckedUpdateWithoutStopNoteInput>
+    create: XOR<JobStopCreateWithoutStopNoteInput, JobStopUncheckedCreateWithoutStopNoteInput>
+  }
+
+  export type JobStopUpdateWithWhereUniqueWithoutStopNoteInput = {
+    where: JobStopWhereUniqueInput
+    data: XOR<JobStopUpdateWithoutStopNoteInput, JobStopUncheckedUpdateWithoutStopNoteInput>
+  }
+
+  export type JobStopUpdateManyWithWhereWithoutStopNoteInput = {
+    where: JobStopScalarWhereInput
+    data: XOR<JobStopUpdateManyMutationInput, JobStopUncheckedUpdateManyWithoutStopNoteInput>
+  }
+
+  export type JobStopScalarWhereInput = {
+    AND?: JobStopScalarWhereInput | JobStopScalarWhereInput[]
+    OR?: JobStopScalarWhereInput[]
+    NOT?: JobStopScalarWhereInput | JobStopScalarWhereInput[]
+    id?: StringFilter<"JobStop"> | string
+    jobId?: StringFilter<"JobStop"> | string
+    stopNoteId?: StringFilter<"JobStop"> | string
+    order?: IntFilter<"JobStop"> | number
+  }
+
+  export type StopNoteCreateWithoutReadinessChecksInput = {
+    id?: string
+    companyName: string
+    address: string
+    contactName?: string | null
+    contactPhone?: string | null
+    gateCode?: string | null
+    dockInfo?: string | null
+    hours?: string | null
+    parkingNotes?: string | null
+    accessNotes?: string | null
+    deliveryNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutStopNotesInput
+    exceptionLogs?: ExceptionLogCreateNestedManyWithoutStopNoteInput
+    jobStops?: JobStopCreateNestedManyWithoutStopNoteInput
+  }
+
+  export type StopNoteUncheckedCreateWithoutReadinessChecksInput = {
+    id?: string
+    companyId: string
+    companyName: string
+    address: string
+    contactName?: string | null
+    contactPhone?: string | null
+    gateCode?: string | null
+    dockInfo?: string | null
+    hours?: string | null
+    parkingNotes?: string | null
+    accessNotes?: string | null
+    deliveryNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    exceptionLogs?: ExceptionLogUncheckedCreateNestedManyWithoutStopNoteInput
+    jobStops?: JobStopUncheckedCreateNestedManyWithoutStopNoteInput
+  }
+
+  export type StopNoteCreateOrConnectWithoutReadinessChecksInput = {
+    where: StopNoteWhereUniqueInput
+    create: XOR<StopNoteCreateWithoutReadinessChecksInput, StopNoteUncheckedCreateWithoutReadinessChecksInput>
+  }
+
+  export type JobCreateWithoutReadinessChecksInput = {
+    id?: string
+    status?: string
+    scheduledDate: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutJobsInput
+    quoteRequest?: QuoteRequestCreateNestedOneWithoutJobsInput
+    stops?: JobStopCreateNestedManyWithoutJobInput
+    exceptionLogs?: ExceptionLogCreateNestedManyWithoutJobInput
+  }
+
+  export type JobUncheckedCreateWithoutReadinessChecksInput = {
+    id?: string
+    companyId: string
+    quoteRequestId?: string | null
+    status?: string
+    scheduledDate: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    stops?: JobStopUncheckedCreateNestedManyWithoutJobInput
+    exceptionLogs?: ExceptionLogUncheckedCreateNestedManyWithoutJobInput
+  }
+
+  export type JobCreateOrConnectWithoutReadinessChecksInput = {
+    where: JobWhereUniqueInput
+    create: XOR<JobCreateWithoutReadinessChecksInput, JobUncheckedCreateWithoutReadinessChecksInput>
+  }
+
+  export type StopNoteUpsertWithoutReadinessChecksInput = {
+    update: XOR<StopNoteUpdateWithoutReadinessChecksInput, StopNoteUncheckedUpdateWithoutReadinessChecksInput>
+    create: XOR<StopNoteCreateWithoutReadinessChecksInput, StopNoteUncheckedCreateWithoutReadinessChecksInput>
+    where?: StopNoteWhereInput
+  }
+
+  export type StopNoteUpdateToOneWithWhereWithoutReadinessChecksInput = {
+    where?: StopNoteWhereInput
+    data: XOR<StopNoteUpdateWithoutReadinessChecksInput, StopNoteUncheckedUpdateWithoutReadinessChecksInput>
+  }
+
+  export type StopNoteUpdateWithoutReadinessChecksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    gateCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dockInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    hours?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutStopNotesNestedInput
+    exceptionLogs?: ExceptionLogUpdateManyWithoutStopNoteNestedInput
+    jobStops?: JobStopUpdateManyWithoutStopNoteNestedInput
+  }
+
+  export type StopNoteUncheckedUpdateWithoutReadinessChecksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    gateCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dockInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    hours?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    exceptionLogs?: ExceptionLogUncheckedUpdateManyWithoutStopNoteNestedInput
+    jobStops?: JobStopUncheckedUpdateManyWithoutStopNoteNestedInput
+  }
+
+  export type JobUpsertWithoutReadinessChecksInput = {
+    update: XOR<JobUpdateWithoutReadinessChecksInput, JobUncheckedUpdateWithoutReadinessChecksInput>
+    create: XOR<JobCreateWithoutReadinessChecksInput, JobUncheckedCreateWithoutReadinessChecksInput>
+    where?: JobWhereInput
+  }
+
+  export type JobUpdateToOneWithWhereWithoutReadinessChecksInput = {
+    where?: JobWhereInput
+    data: XOR<JobUpdateWithoutReadinessChecksInput, JobUncheckedUpdateWithoutReadinessChecksInput>
+  }
+
+  export type JobUpdateWithoutReadinessChecksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutJobsNestedInput
+    quoteRequest?: QuoteRequestUpdateOneWithoutJobsNestedInput
+    stops?: JobStopUpdateManyWithoutJobNestedInput
+    exceptionLogs?: ExceptionLogUpdateManyWithoutJobNestedInput
+  }
+
+  export type JobUncheckedUpdateWithoutReadinessChecksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    quoteRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stops?: JobStopUncheckedUpdateManyWithoutJobNestedInput
+    exceptionLogs?: ExceptionLogUncheckedUpdateManyWithoutJobNestedInput
+  }
+
+  export type StopNoteCreateWithoutExceptionLogsInput = {
+    id?: string
+    companyName: string
+    address: string
+    contactName?: string | null
+    contactPhone?: string | null
+    gateCode?: string | null
+    dockInfo?: string | null
+    hours?: string | null
+    parkingNotes?: string | null
+    accessNotes?: string | null
+    deliveryNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutStopNotesInput
+    readinessChecks?: ReadinessCheckCreateNestedManyWithoutStopNoteInput
+    jobStops?: JobStopCreateNestedManyWithoutStopNoteInput
+  }
+
+  export type StopNoteUncheckedCreateWithoutExceptionLogsInput = {
+    id?: string
+    companyId: string
+    companyName: string
+    address: string
+    contactName?: string | null
+    contactPhone?: string | null
+    gateCode?: string | null
+    dockInfo?: string | null
+    hours?: string | null
+    parkingNotes?: string | null
+    accessNotes?: string | null
+    deliveryNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    readinessChecks?: ReadinessCheckUncheckedCreateNestedManyWithoutStopNoteInput
+    jobStops?: JobStopUncheckedCreateNestedManyWithoutStopNoteInput
+  }
+
+  export type StopNoteCreateOrConnectWithoutExceptionLogsInput = {
+    where: StopNoteWhereUniqueInput
+    create: XOR<StopNoteCreateWithoutExceptionLogsInput, StopNoteUncheckedCreateWithoutExceptionLogsInput>
+  }
+
+  export type JobCreateWithoutExceptionLogsInput = {
+    id?: string
+    status?: string
+    scheduledDate: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutJobsInput
+    quoteRequest?: QuoteRequestCreateNestedOneWithoutJobsInput
+    stops?: JobStopCreateNestedManyWithoutJobInput
+    readinessChecks?: ReadinessCheckCreateNestedManyWithoutJobInput
+  }
+
+  export type JobUncheckedCreateWithoutExceptionLogsInput = {
+    id?: string
+    companyId: string
+    quoteRequestId?: string | null
+    status?: string
+    scheduledDate: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    stops?: JobStopUncheckedCreateNestedManyWithoutJobInput
+    readinessChecks?: ReadinessCheckUncheckedCreateNestedManyWithoutJobInput
+  }
+
+  export type JobCreateOrConnectWithoutExceptionLogsInput = {
+    where: JobWhereUniqueInput
+    create: XOR<JobCreateWithoutExceptionLogsInput, JobUncheckedCreateWithoutExceptionLogsInput>
+  }
+
+  export type StopNoteUpsertWithoutExceptionLogsInput = {
+    update: XOR<StopNoteUpdateWithoutExceptionLogsInput, StopNoteUncheckedUpdateWithoutExceptionLogsInput>
+    create: XOR<StopNoteCreateWithoutExceptionLogsInput, StopNoteUncheckedCreateWithoutExceptionLogsInput>
+    where?: StopNoteWhereInput
+  }
+
+  export type StopNoteUpdateToOneWithWhereWithoutExceptionLogsInput = {
+    where?: StopNoteWhereInput
+    data: XOR<StopNoteUpdateWithoutExceptionLogsInput, StopNoteUncheckedUpdateWithoutExceptionLogsInput>
+  }
+
+  export type StopNoteUpdateWithoutExceptionLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    gateCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dockInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    hours?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutStopNotesNestedInput
+    readinessChecks?: ReadinessCheckUpdateManyWithoutStopNoteNestedInput
+    jobStops?: JobStopUpdateManyWithoutStopNoteNestedInput
+  }
+
+  export type StopNoteUncheckedUpdateWithoutExceptionLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    gateCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dockInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    hours?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    readinessChecks?: ReadinessCheckUncheckedUpdateManyWithoutStopNoteNestedInput
+    jobStops?: JobStopUncheckedUpdateManyWithoutStopNoteNestedInput
+  }
+
+  export type JobUpsertWithoutExceptionLogsInput = {
+    update: XOR<JobUpdateWithoutExceptionLogsInput, JobUncheckedUpdateWithoutExceptionLogsInput>
+    create: XOR<JobCreateWithoutExceptionLogsInput, JobUncheckedCreateWithoutExceptionLogsInput>
+    where?: JobWhereInput
+  }
+
+  export type JobUpdateToOneWithWhereWithoutExceptionLogsInput = {
+    where?: JobWhereInput
+    data: XOR<JobUpdateWithoutExceptionLogsInput, JobUncheckedUpdateWithoutExceptionLogsInput>
+  }
+
+  export type JobUpdateWithoutExceptionLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutJobsNestedInput
+    quoteRequest?: QuoteRequestUpdateOneWithoutJobsNestedInput
+    stops?: JobStopUpdateManyWithoutJobNestedInput
+    readinessChecks?: ReadinessCheckUpdateManyWithoutJobNestedInput
+  }
+
+  export type JobUncheckedUpdateWithoutExceptionLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    quoteRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stops?: JobStopUncheckedUpdateManyWithoutJobNestedInput
+    readinessChecks?: ReadinessCheckUncheckedUpdateManyWithoutJobNestedInput
+  }
+
+  export type CompanyCreateWithoutJobsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name: string
+    logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
+    timezone?: string
+    subscriptionPlan?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripeConnectAccountId?: string | null
+    trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    createdAt?: Date | string
+    pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
+    quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
+    widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
+    webhooks?: WebhookCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutJobsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name: string
+    logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
+    timezone?: string
+    subscriptionPlan?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripeConnectAccountId?: string | null
+    trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    createdAt?: Date | string
+    pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
+    quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
+    widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutJobsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutJobsInput, CompanyUncheckedCreateWithoutJobsInput>
+  }
+
+  export type QuoteRequestCreateWithoutJobsInput = {
+    id?: string
+    customerName: string
+    customerEmail: string
+    customerPhone?: string | null
+    pickupZip: string
+    dropoffZip: string
+    distanceMiles: number
+    serviceType: string
+    packageSize?: string | null
+    packageWeight?: string | null
+    selectedExtras?: string | null
+    status?: string
+    estimatedPrice: number
+    vehicleCount?: number | null
+    awbNumber?: string | null
+    paymentStatus?: string | null
+    stripePaymentIntentId?: string | null
+    internalNotes?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    company: CompanyCreateNestedOneWithoutQuoteRequestsInput
+  }
+
+  export type QuoteRequestUncheckedCreateWithoutJobsInput = {
+    id?: string
+    companyId: string
+    customerName: string
+    customerEmail: string
+    customerPhone?: string | null
+    pickupZip: string
+    dropoffZip: string
+    distanceMiles: number
+    serviceType: string
+    packageSize?: string | null
+    packageWeight?: string | null
+    selectedExtras?: string | null
+    status?: string
+    estimatedPrice: number
+    vehicleCount?: number | null
+    awbNumber?: string | null
+    paymentStatus?: string | null
+    stripePaymentIntentId?: string | null
+    internalNotes?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type QuoteRequestCreateOrConnectWithoutJobsInput = {
+    where: QuoteRequestWhereUniqueInput
+    create: XOR<QuoteRequestCreateWithoutJobsInput, QuoteRequestUncheckedCreateWithoutJobsInput>
+  }
+
+  export type JobStopCreateWithoutJobInput = {
+    id?: string
+    order?: number
+    stopNote: StopNoteCreateNestedOneWithoutJobStopsInput
+  }
+
+  export type JobStopUncheckedCreateWithoutJobInput = {
+    id?: string
+    stopNoteId: string
+    order?: number
+  }
+
+  export type JobStopCreateOrConnectWithoutJobInput = {
+    where: JobStopWhereUniqueInput
+    create: XOR<JobStopCreateWithoutJobInput, JobStopUncheckedCreateWithoutJobInput>
+  }
+
+  export type JobStopCreateManyJobInputEnvelope = {
+    data: JobStopCreateManyJobInput | JobStopCreateManyJobInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReadinessCheckCreateWithoutJobInput = {
+    id?: string
+    scheduledDate: Date | string
+    contactConfirmed?: boolean
+    addressConfirmed?: boolean
+    accessConfirmed?: boolean
+    siteReady?: boolean
+    notes?: string | null
+    status?: string
+    createdAt?: Date | string
+    stopNote: StopNoteCreateNestedOneWithoutReadinessChecksInput
+  }
+
+  export type ReadinessCheckUncheckedCreateWithoutJobInput = {
+    id?: string
+    stopNoteId: string
+    scheduledDate: Date | string
+    contactConfirmed?: boolean
+    addressConfirmed?: boolean
+    accessConfirmed?: boolean
+    siteReady?: boolean
+    notes?: string | null
+    status?: string
+    createdAt?: Date | string
+  }
+
+  export type ReadinessCheckCreateOrConnectWithoutJobInput = {
+    where: ReadinessCheckWhereUniqueInput
+    create: XOR<ReadinessCheckCreateWithoutJobInput, ReadinessCheckUncheckedCreateWithoutJobInput>
+  }
+
+  export type ReadinessCheckCreateManyJobInputEnvelope = {
+    data: ReadinessCheckCreateManyJobInput | ReadinessCheckCreateManyJobInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ExceptionLogCreateWithoutJobInput = {
+    id?: string
+    type: string
+    notes?: string | null
+    timestamp?: Date | string
+    stopNote?: StopNoteCreateNestedOneWithoutExceptionLogsInput
+  }
+
+  export type ExceptionLogUncheckedCreateWithoutJobInput = {
+    id?: string
+    stopNoteId?: string | null
+    type: string
+    notes?: string | null
+    timestamp?: Date | string
+  }
+
+  export type ExceptionLogCreateOrConnectWithoutJobInput = {
+    where: ExceptionLogWhereUniqueInput
+    create: XOR<ExceptionLogCreateWithoutJobInput, ExceptionLogUncheckedCreateWithoutJobInput>
+  }
+
+  export type ExceptionLogCreateManyJobInputEnvelope = {
+    data: ExceptionLogCreateManyJobInput | ExceptionLogCreateManyJobInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutJobsInput = {
+    update: XOR<CompanyUpdateWithoutJobsInput, CompanyUncheckedUpdateWithoutJobsInput>
+    create: XOR<CompanyCreateWithoutJobsInput, CompanyUncheckedCreateWithoutJobsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutJobsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutJobsInput, CompanyUncheckedUpdateWithoutJobsInput>
+  }
+
+  export type CompanyUpdateWithoutJobsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
+    quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
+    widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
+    webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutJobsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
+    quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type QuoteRequestUpsertWithoutJobsInput = {
+    update: XOR<QuoteRequestUpdateWithoutJobsInput, QuoteRequestUncheckedUpdateWithoutJobsInput>
+    create: XOR<QuoteRequestCreateWithoutJobsInput, QuoteRequestUncheckedCreateWithoutJobsInput>
+    where?: QuoteRequestWhereInput
+  }
+
+  export type QuoteRequestUpdateToOneWithWhereWithoutJobsInput = {
+    where?: QuoteRequestWhereInput
+    data: XOR<QuoteRequestUpdateWithoutJobsInput, QuoteRequestUncheckedUpdateWithoutJobsInput>
+  }
+
+  export type QuoteRequestUpdateWithoutJobsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: StringFieldUpdateOperationsInput | string
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupZip?: StringFieldUpdateOperationsInput | string
+    dropoffZip?: StringFieldUpdateOperationsInput | string
+    distanceMiles?: FloatFieldUpdateOperationsInput | number
+    serviceType?: StringFieldUpdateOperationsInput | string
+    packageSize?: NullableStringFieldUpdateOperationsInput | string | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedExtras?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    estimatedPrice?: FloatFieldUpdateOperationsInput | number
+    vehicleCount?: NullableIntFieldUpdateOperationsInput | number | null
+    awbNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutQuoteRequestsNestedInput
+  }
+
+  export type QuoteRequestUncheckedUpdateWithoutJobsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: StringFieldUpdateOperationsInput | string
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupZip?: StringFieldUpdateOperationsInput | string
+    dropoffZip?: StringFieldUpdateOperationsInput | string
+    distanceMiles?: FloatFieldUpdateOperationsInput | number
+    serviceType?: StringFieldUpdateOperationsInput | string
+    packageSize?: NullableStringFieldUpdateOperationsInput | string | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedExtras?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    estimatedPrice?: FloatFieldUpdateOperationsInput | number
+    vehicleCount?: NullableIntFieldUpdateOperationsInput | number | null
+    awbNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type JobStopUpsertWithWhereUniqueWithoutJobInput = {
+    where: JobStopWhereUniqueInput
+    update: XOR<JobStopUpdateWithoutJobInput, JobStopUncheckedUpdateWithoutJobInput>
+    create: XOR<JobStopCreateWithoutJobInput, JobStopUncheckedCreateWithoutJobInput>
+  }
+
+  export type JobStopUpdateWithWhereUniqueWithoutJobInput = {
+    where: JobStopWhereUniqueInput
+    data: XOR<JobStopUpdateWithoutJobInput, JobStopUncheckedUpdateWithoutJobInput>
+  }
+
+  export type JobStopUpdateManyWithWhereWithoutJobInput = {
+    where: JobStopScalarWhereInput
+    data: XOR<JobStopUpdateManyMutationInput, JobStopUncheckedUpdateManyWithoutJobInput>
+  }
+
+  export type ReadinessCheckUpsertWithWhereUniqueWithoutJobInput = {
+    where: ReadinessCheckWhereUniqueInput
+    update: XOR<ReadinessCheckUpdateWithoutJobInput, ReadinessCheckUncheckedUpdateWithoutJobInput>
+    create: XOR<ReadinessCheckCreateWithoutJobInput, ReadinessCheckUncheckedCreateWithoutJobInput>
+  }
+
+  export type ReadinessCheckUpdateWithWhereUniqueWithoutJobInput = {
+    where: ReadinessCheckWhereUniqueInput
+    data: XOR<ReadinessCheckUpdateWithoutJobInput, ReadinessCheckUncheckedUpdateWithoutJobInput>
+  }
+
+  export type ReadinessCheckUpdateManyWithWhereWithoutJobInput = {
+    where: ReadinessCheckScalarWhereInput
+    data: XOR<ReadinessCheckUpdateManyMutationInput, ReadinessCheckUncheckedUpdateManyWithoutJobInput>
+  }
+
+  export type ExceptionLogUpsertWithWhereUniqueWithoutJobInput = {
+    where: ExceptionLogWhereUniqueInput
+    update: XOR<ExceptionLogUpdateWithoutJobInput, ExceptionLogUncheckedUpdateWithoutJobInput>
+    create: XOR<ExceptionLogCreateWithoutJobInput, ExceptionLogUncheckedCreateWithoutJobInput>
+  }
+
+  export type ExceptionLogUpdateWithWhereUniqueWithoutJobInput = {
+    where: ExceptionLogWhereUniqueInput
+    data: XOR<ExceptionLogUpdateWithoutJobInput, ExceptionLogUncheckedUpdateWithoutJobInput>
+  }
+
+  export type ExceptionLogUpdateManyWithWhereWithoutJobInput = {
+    where: ExceptionLogScalarWhereInput
+    data: XOR<ExceptionLogUpdateManyMutationInput, ExceptionLogUncheckedUpdateManyWithoutJobInput>
+  }
+
+  export type JobCreateWithoutStopsInput = {
+    id?: string
+    status?: string
+    scheduledDate: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutJobsInput
+    quoteRequest?: QuoteRequestCreateNestedOneWithoutJobsInput
+    readinessChecks?: ReadinessCheckCreateNestedManyWithoutJobInput
+    exceptionLogs?: ExceptionLogCreateNestedManyWithoutJobInput
+  }
+
+  export type JobUncheckedCreateWithoutStopsInput = {
+    id?: string
+    companyId: string
+    quoteRequestId?: string | null
+    status?: string
+    scheduledDate: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    readinessChecks?: ReadinessCheckUncheckedCreateNestedManyWithoutJobInput
+    exceptionLogs?: ExceptionLogUncheckedCreateNestedManyWithoutJobInput
+  }
+
+  export type JobCreateOrConnectWithoutStopsInput = {
+    where: JobWhereUniqueInput
+    create: XOR<JobCreateWithoutStopsInput, JobUncheckedCreateWithoutStopsInput>
+  }
+
+  export type StopNoteCreateWithoutJobStopsInput = {
+    id?: string
+    companyName: string
+    address: string
+    contactName?: string | null
+    contactPhone?: string | null
+    gateCode?: string | null
+    dockInfo?: string | null
+    hours?: string | null
+    parkingNotes?: string | null
+    accessNotes?: string | null
+    deliveryNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutStopNotesInput
+    readinessChecks?: ReadinessCheckCreateNestedManyWithoutStopNoteInput
+    exceptionLogs?: ExceptionLogCreateNestedManyWithoutStopNoteInput
+  }
+
+  export type StopNoteUncheckedCreateWithoutJobStopsInput = {
+    id?: string
+    companyId: string
+    companyName: string
+    address: string
+    contactName?: string | null
+    contactPhone?: string | null
+    gateCode?: string | null
+    dockInfo?: string | null
+    hours?: string | null
+    parkingNotes?: string | null
+    accessNotes?: string | null
+    deliveryNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    readinessChecks?: ReadinessCheckUncheckedCreateNestedManyWithoutStopNoteInput
+    exceptionLogs?: ExceptionLogUncheckedCreateNestedManyWithoutStopNoteInput
+  }
+
+  export type StopNoteCreateOrConnectWithoutJobStopsInput = {
+    where: StopNoteWhereUniqueInput
+    create: XOR<StopNoteCreateWithoutJobStopsInput, StopNoteUncheckedCreateWithoutJobStopsInput>
+  }
+
+  export type JobUpsertWithoutStopsInput = {
+    update: XOR<JobUpdateWithoutStopsInput, JobUncheckedUpdateWithoutStopsInput>
+    create: XOR<JobCreateWithoutStopsInput, JobUncheckedCreateWithoutStopsInput>
+    where?: JobWhereInput
+  }
+
+  export type JobUpdateToOneWithWhereWithoutStopsInput = {
+    where?: JobWhereInput
+    data: XOR<JobUpdateWithoutStopsInput, JobUncheckedUpdateWithoutStopsInput>
+  }
+
+  export type JobUpdateWithoutStopsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutJobsNestedInput
+    quoteRequest?: QuoteRequestUpdateOneWithoutJobsNestedInput
+    readinessChecks?: ReadinessCheckUpdateManyWithoutJobNestedInput
+    exceptionLogs?: ExceptionLogUpdateManyWithoutJobNestedInput
+  }
+
+  export type JobUncheckedUpdateWithoutStopsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    quoteRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    readinessChecks?: ReadinessCheckUncheckedUpdateManyWithoutJobNestedInput
+    exceptionLogs?: ExceptionLogUncheckedUpdateManyWithoutJobNestedInput
+  }
+
+  export type StopNoteUpsertWithoutJobStopsInput = {
+    update: XOR<StopNoteUpdateWithoutJobStopsInput, StopNoteUncheckedUpdateWithoutJobStopsInput>
+    create: XOR<StopNoteCreateWithoutJobStopsInput, StopNoteUncheckedCreateWithoutJobStopsInput>
+    where?: StopNoteWhereInput
+  }
+
+  export type StopNoteUpdateToOneWithWhereWithoutJobStopsInput = {
+    where?: StopNoteWhereInput
+    data: XOR<StopNoteUpdateWithoutJobStopsInput, StopNoteUncheckedUpdateWithoutJobStopsInput>
+  }
+
+  export type StopNoteUpdateWithoutJobStopsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    gateCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dockInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    hours?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutStopNotesNestedInput
+    readinessChecks?: ReadinessCheckUpdateManyWithoutStopNoteNestedInput
+    exceptionLogs?: ExceptionLogUpdateManyWithoutStopNoteNestedInput
+  }
+
+  export type StopNoteUncheckedUpdateWithoutJobStopsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    gateCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dockInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    hours?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    readinessChecks?: ReadinessCheckUncheckedUpdateManyWithoutStopNoteNestedInput
+    exceptionLogs?: ExceptionLogUncheckedUpdateManyWithoutStopNoteNestedInput
   }
 
   export type PricingProfileCreateManyCompanyInput = {
@@ -14715,6 +24371,31 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type StopNoteCreateManyCompanyInput = {
+    id?: string
+    companyName: string
+    address: string
+    contactName?: string | null
+    contactPhone?: string | null
+    gateCode?: string | null
+    dockInfo?: string | null
+    hours?: string | null
+    parkingNotes?: string | null
+    accessNotes?: string | null
+    deliveryNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type JobCreateManyCompanyInput = {
+    id?: string
+    quoteRequestId?: string | null
+    status?: string
+    scheduledDate: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type PricingProfileUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     baseRatePerMile?: FloatFieldUpdateOperationsInput | number
@@ -14796,6 +24477,7 @@ export namespace Prisma {
     internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    jobs?: JobUpdateManyWithoutQuoteRequestNestedInput
   }
 
   export type QuoteRequestUncheckedUpdateWithoutCompanyInput = {
@@ -14819,6 +24501,7 @@ export namespace Prisma {
     internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    jobs?: JobUncheckedUpdateManyWithoutQuoteRequestNestedInput
   }
 
   export type QuoteRequestUncheckedUpdateManyWithoutCompanyInput = {
@@ -14964,6 +24647,351 @@ export namespace Prisma {
     scriptTagId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StopNoteUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    gateCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dockInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    hours?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    readinessChecks?: ReadinessCheckUpdateManyWithoutStopNoteNestedInput
+    exceptionLogs?: ExceptionLogUpdateManyWithoutStopNoteNestedInput
+    jobStops?: JobStopUpdateManyWithoutStopNoteNestedInput
+  }
+
+  export type StopNoteUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    gateCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dockInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    hours?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    readinessChecks?: ReadinessCheckUncheckedUpdateManyWithoutStopNoteNestedInput
+    exceptionLogs?: ExceptionLogUncheckedUpdateManyWithoutStopNoteNestedInput
+    jobStops?: JobStopUncheckedUpdateManyWithoutStopNoteNestedInput
+  }
+
+  export type StopNoteUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    gateCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dockInfo?: NullableStringFieldUpdateOperationsInput | string | null
+    hours?: NullableStringFieldUpdateOperationsInput | string | null
+    parkingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type JobUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quoteRequest?: QuoteRequestUpdateOneWithoutJobsNestedInput
+    stops?: JobStopUpdateManyWithoutJobNestedInput
+    readinessChecks?: ReadinessCheckUpdateManyWithoutJobNestedInput
+    exceptionLogs?: ExceptionLogUpdateManyWithoutJobNestedInput
+  }
+
+  export type JobUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stops?: JobStopUncheckedUpdateManyWithoutJobNestedInput
+    readinessChecks?: ReadinessCheckUncheckedUpdateManyWithoutJobNestedInput
+    exceptionLogs?: ExceptionLogUncheckedUpdateManyWithoutJobNestedInput
+  }
+
+  export type JobUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type JobCreateManyQuoteRequestInput = {
+    id?: string
+    companyId: string
+    status?: string
+    scheduledDate: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type JobUpdateWithoutQuoteRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutJobsNestedInput
+    stops?: JobStopUpdateManyWithoutJobNestedInput
+    readinessChecks?: ReadinessCheckUpdateManyWithoutJobNestedInput
+    exceptionLogs?: ExceptionLogUpdateManyWithoutJobNestedInput
+  }
+
+  export type JobUncheckedUpdateWithoutQuoteRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stops?: JobStopUncheckedUpdateManyWithoutJobNestedInput
+    readinessChecks?: ReadinessCheckUncheckedUpdateManyWithoutJobNestedInput
+    exceptionLogs?: ExceptionLogUncheckedUpdateManyWithoutJobNestedInput
+  }
+
+  export type JobUncheckedUpdateManyWithoutQuoteRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReadinessCheckCreateManyStopNoteInput = {
+    id?: string
+    scheduledDate: Date | string
+    contactConfirmed?: boolean
+    addressConfirmed?: boolean
+    accessConfirmed?: boolean
+    siteReady?: boolean
+    notes?: string | null
+    status?: string
+    createdAt?: Date | string
+    jobId?: string | null
+  }
+
+  export type ExceptionLogCreateManyStopNoteInput = {
+    id?: string
+    type: string
+    notes?: string | null
+    timestamp?: Date | string
+    jobId?: string | null
+  }
+
+  export type JobStopCreateManyStopNoteInput = {
+    id?: string
+    jobId: string
+    order?: number
+  }
+
+  export type ReadinessCheckUpdateWithoutStopNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    contactConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    addressConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    accessConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    siteReady?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    job?: JobUpdateOneWithoutReadinessChecksNestedInput
+  }
+
+  export type ReadinessCheckUncheckedUpdateWithoutStopNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    contactConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    addressConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    accessConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    siteReady?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    jobId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ReadinessCheckUncheckedUpdateManyWithoutStopNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    contactConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    addressConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    accessConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    siteReady?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    jobId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ExceptionLogUpdateWithoutStopNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    job?: JobUpdateOneWithoutExceptionLogsNestedInput
+  }
+
+  export type ExceptionLogUncheckedUpdateWithoutStopNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    jobId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ExceptionLogUncheckedUpdateManyWithoutStopNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    jobId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type JobStopUpdateWithoutStopNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    job?: JobUpdateOneRequiredWithoutStopsNestedInput
+  }
+
+  export type JobStopUncheckedUpdateWithoutStopNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jobId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type JobStopUncheckedUpdateManyWithoutStopNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jobId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type JobStopCreateManyJobInput = {
+    id?: string
+    stopNoteId: string
+    order?: number
+  }
+
+  export type ReadinessCheckCreateManyJobInput = {
+    id?: string
+    stopNoteId: string
+    scheduledDate: Date | string
+    contactConfirmed?: boolean
+    addressConfirmed?: boolean
+    accessConfirmed?: boolean
+    siteReady?: boolean
+    notes?: string | null
+    status?: string
+    createdAt?: Date | string
+  }
+
+  export type ExceptionLogCreateManyJobInput = {
+    id?: string
+    stopNoteId?: string | null
+    type: string
+    notes?: string | null
+    timestamp?: Date | string
+  }
+
+  export type JobStopUpdateWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    stopNote?: StopNoteUpdateOneRequiredWithoutJobStopsNestedInput
+  }
+
+  export type JobStopUncheckedUpdateWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stopNoteId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type JobStopUncheckedUpdateManyWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stopNoteId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ReadinessCheckUpdateWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    contactConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    addressConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    accessConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    siteReady?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stopNote?: StopNoteUpdateOneRequiredWithoutReadinessChecksNestedInput
+  }
+
+  export type ReadinessCheckUncheckedUpdateWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stopNoteId?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    contactConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    addressConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    accessConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    siteReady?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReadinessCheckUncheckedUpdateManyWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stopNoteId?: StringFieldUpdateOperationsInput | string
+    scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    contactConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    addressConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    accessConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    siteReady?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExceptionLogUpdateWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    stopNote?: StopNoteUpdateOneWithoutExceptionLogsNestedInput
+  }
+
+  export type ExceptionLogUncheckedUpdateWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stopNoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExceptionLogUncheckedUpdateManyWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stopNoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

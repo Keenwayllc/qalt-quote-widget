@@ -11,7 +11,11 @@ import {
   ChevronRight,
   ArrowUpRight,
   TrendingUp,
-  MapPin
+  MapPin,
+  Briefcase,
+  AlertCircle,
+  CheckCircle2,
+  Clock
 } from "lucide-react";
 import Link from "next/link";
 
@@ -48,6 +52,27 @@ export default async function DashboardOverview() {
     prisma.widgetSettings.findMany({ where: { companyId: company.id } }),
     prisma.pricingProfile.findMany({ where: { companyId: company.id } }),
   ]);
+
+  // Active Jobs for today's ops summary
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+  const todayEnd = new Date();
+  todayEnd.setHours(23, 59, 59, 999);
+
+  let activeJobs: any[] = [];
+  try {
+    activeJobs = await prisma.job.findMany({
+      where: {
+        companyId: company.id,
+        status: { in: ["PENDING", "READY", "IN_PROGRESS", "ISSUE"] },
+      },
+      include: {
+        stops: { include: { stopNote: { select: { companyName: true } } }, orderBy: { order: "asc" } },
+      },
+      orderBy: { scheduledDate: "asc" },
+      take: 5,
+    });
+  } catch { /* Jobs table may not exist yet on first boot */ }
 
   const hasBranding = widgets.some(
     (w) =>
@@ -169,6 +194,58 @@ export default async function DashboardOverview() {
       </div>
 
       <QuotaBar used={monthlyQuotes} limit={quotaLimit} plan={company.subscriptionPlan} />
+
+      {/* Active Jobs Summary Widget */}
+      {activeJobs.length > 0 && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between px-2">
+            <h2 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+              <Briefcase size={20} className="text-red-500" />
+              Active Jobs
+            </h2>
+            <Link
+              href="/dashboard/ops/jobs"
+              className="text-sm font-bold text-red-600 hover:text-red-700 flex items-center gap-1 group"
+            >
+              View all
+              <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {activeJobs.map((job: any) => {
+              const statusMap: Record<string, { cls: string; icon: any; label: string }> = {
+                PENDING:     { cls: "text-amber-600 bg-amber-50 border-amber-100", icon: Clock, label: "Pending" },
+                READY:       { cls: "text-emerald-600 bg-emerald-50 border-emerald-100", icon: CheckCircle2, label: "Ready" },
+                IN_PROGRESS: { cls: "text-blue-600 bg-blue-50 border-blue-100", icon: Activity, label: "In Progress" },
+                ISSUE:       { cls: "text-rose-600 bg-rose-50 border-rose-100", icon: AlertCircle, label: "Issue" },
+              };
+              const s = statusMap[job.status] || statusMap.PENDING;
+              const Icon = s.icon;
+              return (
+                <Link
+                  key={job.id}
+                  href={`/dashboard/ops/jobs/${job.id}`}
+                  className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-5 flex items-center gap-4 hover:shadow-lg hover:border-slate-300 transition-all group"
+                >
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center border shrink-0 ${s.cls}`}>
+                    <Icon size={22} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">#{job.id.slice(-6).toUpperCase()}</p>
+                    <p className="font-black text-slate-900 text-sm truncate">
+                      {job.stops.map((js: any) => js.stopNote.companyName).join(" → ") || "No stops"}
+                    </p>
+                    <p className="text-[10px] font-bold text-slate-400 mt-0.5">
+                      {new Date(job.scheduledDate).toLocaleDateString(undefined, { month: "short", day: "numeric" })}
+                    </p>
+                  </div>
+                  <ChevronRight size={16} className="text-slate-200 group-hover:text-slate-600 shrink-0 transition-colors" />
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Onboarding checklist — shown until merchant completes 3 of 4 steps */}
       {showChecklist && <OnboardingChecklist steps={onboardingSteps} />}
