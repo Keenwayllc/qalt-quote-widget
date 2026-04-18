@@ -925,7 +925,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                   alt="Qalt Logo"
                   width={1080}
                   height={1080}
-                  className="h-[14px] w-auto object-contain"
+                  className="h-[22px] w-auto object-contain"
                 />
               </a>
             )}
