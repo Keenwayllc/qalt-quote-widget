@@ -43,6 +43,9 @@ export default async function DashboardLayout({
       companyId={company.id}
       trialDaysLeft={daysLeft}
       incompleteHrefs={incompleteHrefs}
+      companyName={company.name}
+      logoUrl={company.logoUrl ?? undefined}
+      profilePicUrl={company.profilePicUrl ?? undefined}
     >
       {children}
     </DashboardClientLayout>

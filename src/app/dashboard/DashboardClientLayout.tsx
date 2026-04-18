@@ -31,6 +31,9 @@ export default function DashboardClientLayout({
   companyId,
   trialDaysLeft,
   incompleteHrefs = [],
+  companyName,
+  logoUrl,
+  profilePicUrl,
 }: {
   children: React.ReactNode;
   subscriptionPlan: string;
@@ -38,6 +41,9 @@ export default function DashboardClientLayout({
   companyId?: string;
   trialDaysLeft?: number | null;
   incompleteHrefs?: string[];
+  companyName?: string;
+  logoUrl?: string;
+  profilePicUrl?: string;
 }) {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -236,6 +242,51 @@ export default function DashboardClientLayout({
           </nav>
 
           <div className="p-4 mt-auto border-t border-slate-100/60 space-y-1">
+            {/* Company identity card */}
+            {(companyName || logoUrl || profilePicUrl) && (
+              <Link
+                href="/dashboard/settings"
+                onClick={closeSidebar}
+                className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-100/80 transition-all group mb-1"
+              >
+                {/* Avatar: profile pic > logo initial > letter */}
+                <div className="relative shrink-0">
+                  {profilePicUrl ? (
+                    <img
+                      src={profilePicUrl}
+                      alt="Profile"
+                      className="w-9 h-9 rounded-full object-cover ring-2 ring-slate-200 group-hover:ring-red-200 transition-all"
+                    />
+                  ) : logoUrl ? (
+                    <img
+                      src={logoUrl}
+                      alt="Logo"
+                      className="w-9 h-9 rounded-xl object-cover ring-2 ring-slate-200 group-hover:ring-red-200 transition-all"
+                    />
+                  ) : (
+                    <div className="w-9 h-9 rounded-full bg-red-100 flex items-center justify-center ring-2 ring-slate-200 group-hover:ring-red-200 transition-all">
+                      <span className="text-red-600 font-black text-sm">
+                        {companyName?.[0]?.toUpperCase() ?? "?"}
+                      </span>
+                    </div>
+                  )}
+                  {/* Small logo badge overlaid on profile pic */}
+                  {profilePicUrl && logoUrl && (
+                    <img
+                      src={logoUrl}
+                      alt=""
+                      className="absolute -bottom-1 -right-1 w-4 h-4 rounded-sm object-cover ring-1 ring-white"
+                    />
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-bold text-slate-800 truncate group-hover:text-slate-900">
+                    {companyName ?? "My Company"}
+                  </p>
+                  <p className="text-[11px] font-semibold text-slate-400 capitalize">{subscriptionPlan} Plan</p>
+                </div>
+              </Link>
+            )}
             {companyId && (
               <a
                 href={`/widget/${companyId}`}
