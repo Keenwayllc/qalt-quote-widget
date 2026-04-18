@@ -34,6 +34,7 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
   const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [stopError, setStopError] = useState(false);
 
   // Modal State
   const [formData, setFormData] = useState({
@@ -49,7 +50,11 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.stopNoteIds.length === 0) return;
+    if (formData.stopNoteIds.length === 0) {
+      setStopError(true);
+      return;
+    }
+    setStopError(false);
     setIsSubmitting(true);
     try {
       const res = await fetch("/api/dashboard/ops/jobs", {
@@ -228,7 +233,7 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
                     <button
                       key={stop.id}
                       type="button"
-                      onClick={() => toggleStop(stop.id)}
+                      onClick={() => { toggleStop(stop.id); setStopError(false); }}
                       className={`w-full flex items-center justify-between p-4 rounded-2xl border-2 transition-all text-left ${
                         formData.stopNoteIds.includes(stop.id)
                         ? "bg-slate-900 border-slate-900 text-white shadow-lg"
@@ -248,6 +253,11 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
                      <p className="text-xs text-slate-400 font-bold italic p-4 text-center">No stop notes saved. Create them first in Stops Console.</p>
                   )}
                 </div>
+                {stopError && (
+                  <p className="text-xs font-black text-rose-500 px-1 flex items-center gap-1">
+                    <span>⚠</span> Select at least one stop to create a job.
+                  </p>
+                )}
               </div>
 
               <div className="space-y-1.5">
@@ -273,9 +283,13 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
                   Cancel
                 </button>
                 <button
-                  disabled={isSubmitting || formData.stopNoteIds.length === 0}
+                  disabled={isSubmitting}
                   type="submit"
-                  className="flex-[2] py-4 bg-slate-900 text-white rounded-2xl font-black hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 disabled:opacity-50"
+                  className={`flex-[2] py-4 rounded-2xl font-black transition-all shadow-xl ${
+                    isSubmitting
+                      ? "bg-slate-400 text-white shadow-none cursor-not-allowed"
+                      : "bg-slate-900 text-white shadow-slate-200 hover:bg-slate-800"
+                  }`}
                 >
                   {isSubmitting ? "Creating..." : "Create Job"}
                 </button>

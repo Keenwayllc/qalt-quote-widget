@@ -48,14 +48,18 @@ export default function ExceptionDrawer({
       });
       if (res.ok) {
         setSuccess(true);
+        // Keep isSubmitting true through success flash so button doesn't revert
         setTimeout(() => {
-          setSuccess(false);
           onClose();
+          setSuccess(false);
+          setIsSubmitting(false);
           setSelectedType("");
           setNotes("");
-        }, 1500);
+        }, 900);
+      } else {
+        setIsSubmitting(false);
       }
-    } finally {
+    } catch {
       setIsSubmitting(false);
     }
   };

@@ -75,13 +75,17 @@ export default function ReadinessModal({ isOpen, onClose, jobId, stops, onSucces
       });
       if (res.ok) {
         setSuccess(true);
+        // Close after brief success flash — don't reset isSubmitting until done
         setTimeout(() => {
-          setSuccess(false);
           onSuccess();
           onClose();
-        }, 1200);
+          setSuccess(false);
+          setIsSubmitting(false);
+        }, 900);
+      } else {
+        setIsSubmitting(false);
       }
-    } finally {
+    } catch {
       setIsSubmitting(false);
     }
   };

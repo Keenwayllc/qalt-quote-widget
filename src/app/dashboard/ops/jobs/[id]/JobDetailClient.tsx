@@ -66,18 +66,18 @@ export default function JobDetailClient({ job: initialJob }: { job: any }) {
                 <button 
                     onClick={() => updateStatus('IN_PROGRESS')}
                     disabled={isUpdating}
-                    className="flex items-center gap-2 px-6 py-2.5 bg-slate-900 text-white rounded-xl text-sm font-black hover:bg-slate-800 shadow-lg shadow-slate-200"
+                    className="flex items-center gap-2 px-6 py-2.5 bg-slate-900 text-white rounded-xl text-sm font-black hover:bg-slate-800 shadow-lg shadow-slate-200 disabled:opacity-50"
                 >
                     <Play size={16} fill="currentColor" />
                     Start Execution
                 </button>
             )}
 
-            {job.status === 'IN_PROGRESS' && (
+            {(job.status === 'IN_PROGRESS' || job.status === 'ISSUE') && (
                 <button 
                     onClick={() => updateStatus('COMPLETED')}
                     disabled={isUpdating}
-                    className="flex items-center gap-2 px-6 py-2.5 bg-emerald-600 text-white rounded-xl text-sm font-black hover:bg-emerald-700 shadow-lg shadow-emerald-100"
+                    className="flex items-center gap-2 px-6 py-2.5 bg-emerald-600 text-white rounded-xl text-sm font-black hover:bg-emerald-700 shadow-lg shadow-emerald-100 disabled:opacity-50"
                 >
                     <Check size={16} />
                     Mark Completed

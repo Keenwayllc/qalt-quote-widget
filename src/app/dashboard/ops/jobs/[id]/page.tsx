@@ -3,14 +3,14 @@ import prisma from "@/lib/prisma";
 import JobDetailClient from "./JobDetailClient";
 import { notFound } from "next/navigation";
 
-export default async function JobDetailPage({ params }: { params: { id: string } }) {
+export default async function JobDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const company = await getCurrentCompany();
   const { id } = await params;
 
-  const job = await prisma.job.findUnique({
-    where: { 
+  const job = await prisma.job.findFirst({
+    where: {
       id,
-      companyId: company.id 
+      companyId: company.id,
     },
     include: {
       stops: {

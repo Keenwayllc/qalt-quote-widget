@@ -26,7 +26,7 @@ export default async function JobsPage() {
       orderBy: { companyName: "asc" },
     }),
     prisma.quoteRequest.findMany({
-      where: { companyId: company.id, status: "CONFIRMED" },
+      where: { companyId: company.id, status: { in: ["CONFIRMED", "WON"] } },
       orderBy: { createdAt: "desc" },
       take: 20
     })

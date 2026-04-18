@@ -7,21 +7,47 @@ export async function POST(req: Request) {
     const company = await getCurrentCompany();
     const body = await req.json();
 
+    const stopNoteId: string | null = body.stopNoteId || null;
+    const jobId: string | null = body.jobId || null;
+
+    if (!stopNoteId && !jobId) {
+      return NextResponse.json({ error: "stopNoteId or jobId is required" }, { status: 400 });
+    }
+
+    if (stopNoteId) {
+      const stop = await prisma.stopNote.findFirst({
+        where: { id: stopNoteId, companyId: company.id },
+        select: { id: true },
+      });
+      if (!stop) {
+        return NextResponse.json({ error: "Stop not found" }, { status: 404 });
+      }
+    }
+
+    if (jobId) {
+      const job = await prisma.job.findFirst({
+        where: { id: jobId, companyId: company.id },
+        select: { id: true },
+      });
+      if (!job) {
+        return NextResponse.json({ error: "Job not found" }, { status: 404 });
+      }
+    }
+
     const log = await prisma.$transaction(async (tx) => {
       const newLog = await tx.exceptionLog.create({
         data: {
-          stopNoteId: body.stopNoteId || null,
-          jobId: body.jobId || null,
+          stopNoteId,
+          jobId,
           type: body.type,
           notes: body.notes,
         },
       });
 
-      // Simple Auto-Update Rule: If an issue is logged on a job, change status to ISSUE
-      if (body.jobId) {
+      if (jobId) {
         await tx.job.update({
-          where: { id: body.jobId },
-          data: { status: "ISSUE" }
+          where: { id: jobId },
+          data: { status: "ISSUE" },
         });
       }
 

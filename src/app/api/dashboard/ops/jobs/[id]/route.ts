@@ -10,10 +10,10 @@ export async function GET(
     const company = await getCurrentCompany();
     const { id } = await params;
 
-    const job = await prisma.job.findUnique({
-      where: { 
+    const job = await prisma.job.findFirst({
+      where: {
         id,
-        companyId: company.id 
+        companyId: company.id,
       },
       include: {
         stops: {
@@ -53,11 +53,16 @@ export async function PATCH(
     const { id } = await params;
     const body = await req.json();
 
+    const existing = await prisma.job.findFirst({
+      where: { id, companyId: company.id },
+      select: { id: true },
+    });
+    if (!existing) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+
     const job = await prisma.job.update({
-      where: { 
-        id,
-        companyId: company.id 
-      },
+      where: { id },
       data: {
         status: body.status,
         scheduledDate: body.scheduledDate ? new Date(body.scheduledDate) : undefined,

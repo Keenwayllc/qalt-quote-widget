@@ -35,21 +35,42 @@ export async function POST(req: Request) {
     const company = await getCurrentCompany();
     const body = await req.json();
 
+    const stopNoteIds: string[] = Array.isArray(body.stopNoteIds) ? body.stopNoteIds : [];
+    const quoteRequestId: string | null = body.quoteRequestId || null;
+
+    if (quoteRequestId) {
+      const quote = await prisma.quoteRequest.findFirst({
+        where: { id: quoteRequestId, companyId: company.id },
+        select: { id: true },
+      });
+      if (!quote) {
+        return NextResponse.json({ error: "Quote request not found" }, { status: 404 });
+      }
+    }
+
+    if (stopNoteIds.length > 0) {
+      const ownedStops = await prisma.stopNote.findMany({
+        where: { id: { in: stopNoteIds }, companyId: company.id },
+        select: { id: true },
+      });
+      if (ownedStops.length !== stopNoteIds.length) {
+        return NextResponse.json({ error: "One or more stops not found" }, { status: 404 });
+      }
+    }
+
     const job = await prisma.$transaction(async (tx) => {
-      // 1. Create the Job
       const newJob = await tx.job.create({
         data: {
           companyId: company.id,
-          quoteRequestId: body.quoteRequestId || null,
+          quoteRequestId,
           scheduledDate: new Date(body.scheduledDate),
           status: "PENDING",
         },
       });
 
-      // 2. Link the Stops
-      if (body.stopNoteIds && Array.isArray(body.stopNoteIds)) {
+      if (stopNoteIds.length > 0) {
         await tx.jobStop.createMany({
-          data: body.stopNoteIds.map((stopId: string, index: number) => ({
+          data: stopNoteIds.map((stopId, index) => ({
             jobId: newJob.id,
             stopNoteId: stopId,
             order: index,

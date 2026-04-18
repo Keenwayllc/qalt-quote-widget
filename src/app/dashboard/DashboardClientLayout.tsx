@@ -206,7 +206,7 @@ export default function DashboardClientLayout({
                   href={isLocked ? "/dashboard/billing" : item.href}
                   onClick={closeSidebar}
                   className={`
-                     flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all group relative
+                     flex items-center px-4 py-2.5 rounded-xl text-sm font-semibold transition-all group relative
                     ${isActive
                       ? "bg-red-600 text-white shadow-lg shadow-red-200 scale-[1.02]"
                       : isLocked
@@ -249,7 +249,7 @@ export default function DashboardClientLayout({
             })}
 
             {/* Field Operations Section */}
-            <div className="mt-8 mb-6 px-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+            <div className="mt-4 mb-3 px-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
               Field Operations
             </div>
             {opsNavItems.map((item) => {
@@ -260,7 +260,7 @@ export default function DashboardClientLayout({
                   href={item.href}
                   onClick={closeSidebar}
                   className={`
-                     flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all group relative
+                     flex items-center px-4 py-2.5 rounded-xl text-sm font-semibold transition-all group relative
                     ${isActive
                       ? "bg-slate-900 text-white shadow-lg shadow-slate-200 scale-[1.02]"
                       : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"}
