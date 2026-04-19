@@ -145,7 +145,7 @@ export default async function DashboardOverview() {
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
   sevenDaysAgo.setHours(0, 0, 0, 0);
 
-  let chartQuotes: Awaited<ReturnType<typeof prisma.quoteRequest.findMany>> = [];
+  let chartQuotes: { createdAt: Date }[] = [];
   let serviceTypeGroups: any[] = [];
   try {
     [chartQuotes, serviceTypeGroups] = await Promise.all([
