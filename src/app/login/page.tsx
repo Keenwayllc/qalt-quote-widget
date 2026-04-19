@@ -3,6 +3,7 @@
 import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, ArrowLeft, Loader2, Zap, Shield, BarChart3 } from "lucide-react";
 import QaltLogo from "@/components/shared/QaltLogo";
@@ -58,11 +59,16 @@ function LoginForm() {
   return (
     <div className="min-h-screen flex">
       {/* Left brand panel */}
-      <div className="hidden lg:flex lg:w-[45%] bg-[#1E40AF] relative flex-col justify-between p-12 overflow-hidden">
-        <div className="absolute inset-0 bg-linear-to-br from-[#1E40AF] to-[#1e3a8a]" />
-        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-white/5" />
-        <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-white/5" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-white/2 border border-white/10" />
+      <div className="hidden lg:flex lg:w-[45%] relative flex-col justify-between p-12 overflow-hidden bg-slate-950">
+        <Image
+          src="/images/login-bg.png"
+          alt="Qalt Data Operations"
+          fill
+          className="object-cover object-center z-0 opacity-70"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-tr from-slate-900/90 to-transparent z-0" />
+        <div className="absolute inset-0 bg-[#1E40AF]/10 z-0 mix-blend-color" />
 
         <Link href="/" className="relative z-10 flex items-center gap-3 w-fit group">
           <ArrowLeft size={16} className="text-white/40 group-hover:text-white/70 group-hover:-translate-x-0.5 transition-all shrink-0" />

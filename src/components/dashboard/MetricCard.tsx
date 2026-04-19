@@ -37,7 +37,7 @@ export default function MetricCard({
   };
 
   return (
-    <div className={`relative overflow-hidden bg-white p-6 rounded-2xl border ${variants[variant].split(' ')[4]} shadow-sm transition-all hover:shadow-md group`}>
+    <div className={`relative overflow-hidden bg-white p-6 rounded-xl border ${variants[variant].split(' ')[4]} shadow-sm transition-all hover:shadow-md group`}>
       {/* Background Gradient */}
       <div className={`absolute inset-0 bg-linear-to-br ${variants[variant].split(' ').slice(0, 2).join(' ')} opacity-50`} />
       

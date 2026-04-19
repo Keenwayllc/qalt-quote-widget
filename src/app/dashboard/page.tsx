@@ -4,6 +4,8 @@ import prisma from "@/lib/prisma";
 import MetricCard from "@/components/dashboard/MetricCard";
 import QuotaBar from "@/components/dashboard/QuotaBar";
 import OnboardingChecklist from "@/components/dashboard/OnboardingChecklist";
+import QuoteTrendChart from "@/components/dashboard/QuoteTrendChart";
+import ServiceTypeChart from "@/components/dashboard/ServiceTypeChart";
 import {
   FileText,
   DollarSign,
@@ -138,6 +140,53 @@ export default async function DashboardOverview() {
   const doneCount = onboardingSteps.filter((s) => s.done).length;
   const showChecklist = doneCount < onboardingSteps.length;
 
+  // Chart Data preparation
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+  sevenDaysAgo.setHours(0, 0, 0, 0);
+
+  let chartQuotes: Awaited<ReturnType<typeof prisma.quoteRequest.findMany>> = [];
+  let serviceTypeGroups: any[] = [];
+  try {
+    [chartQuotes, serviceTypeGroups] = await Promise.all([
+      prisma.quoteRequest.findMany({
+        where: { companyId: company.id, createdAt: { gte: sevenDaysAgo } },
+        select: { createdAt: true }
+      }),
+      prisma.quoteRequest.groupBy({
+        by: ['serviceType'],
+        where: { companyId: company.id },
+        _count: { serviceType: true }
+      })
+    ]);
+  } catch (error) {
+    console.error("Dashboard chart query error:", error instanceof Error ? error.message : String(error));
+  }
+
+  // Map 7-day volume
+  const dailyDataMap = new Map<string, number>();
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(sevenDaysAgo);
+    d.setDate(d.getDate() + i);
+    const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    dailyDataMap.set(dateStr, 0);
+  }
+
+  chartQuotes.forEach(q => {
+    const dateStr = new Date(q.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    if (dailyDataMap.has(dateStr)) {
+      dailyDataMap.set(dateStr, dailyDataMap.get(dateStr)! + 1);
+    }
+  });
+
+  const quoteTrendData = Array.from(dailyDataMap.entries()).map(([date, count]) => ({ date, count }));
+
+  // Map Service Type chart data
+  const serviceTypeData = serviceTypeGroups.map(g => ({
+    name: g.serviceType || "Unknown",
+    value: g._count.serviceType
+  })).sort((a, b) => b.value - a.value);
+
   return (
     <div className="p-4 lg:p-10 space-y-10 max-w-7xl mx-auto">
       {/* Header Section */}
@@ -225,7 +274,7 @@ export default async function DashboardOverview() {
                 <Link
                   key={job.id}
                   href={`/dashboard/ops/jobs/${job.id}`}
-                  className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-5 flex items-center gap-4 hover:shadow-lg hover:border-slate-300 transition-all group"
+                  className="bg-white rounded-xl border border-slate-200/60 shadow-sm p-5 flex items-center gap-4 hover:shadow-lg hover:border-slate-300 transition-all group"
                 >
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center border shrink-0 ${s.cls}`}>
                     <Icon size={22} />
@@ -250,6 +299,16 @@ export default async function DashboardOverview() {
       {/* Onboarding checklist — shown until merchant completes 3 of 4 steps */}
       {showChecklist && <OnboardingChecklist steps={onboardingSteps} />}
 
+      {/* Charts Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <QuoteTrendChart data={quoteTrendData} />
+        </div>
+        <div>
+          <ServiceTypeChart data={serviceTypeData} />
+        </div>
+      </div>
+
       <div className="space-y-4">
         <div className="flex items-center justify-between px-2">
           <h2 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
@@ -268,7 +327,7 @@ export default async function DashboardOverview() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         {/* Recent Quotes List */}
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-3xl border border-slate-200/60 shadow-xl shadow-slate-200/40 overflow-hidden">
+          <div className="bg-white rounded-xl border border-slate-200/60 shadow-md overflow-hidden">
             {recentQuotes.length === 0 ? (
               <div className="p-12 text-center">
                 <div className="inline-flex p-4 bg-slate-50 text-slate-400 rounded-full mb-4">
@@ -318,7 +377,7 @@ export default async function DashboardOverview() {
 
         {/* Quick Tips / Sidebar Card */}
         <div>
-          <div className="bg-linear-to-br from-red-700 to-[#4f515b] rounded-3xl p-6 text-white shadow-xl shadow-red-200">
+          <div className="bg-linear-to-br from-red-700 to-[#4f515b] rounded-xl p-6 text-white shadow-md shadow-red-200/50">
             <TrendingUp size={32} className="mb-4 text-red-200" />
             <h3 className="text-xl font-black tracking-tight mb-2 leading-tight">Increase Conversion</h3>
             <p className="text-red-100 text-sm font-medium leading-relaxed mb-6">

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Building2, Mail, Lock, Eye, EyeOff, ArrowRight, ArrowLeft, Loader2, CheckCircle, Zap, Shield, BarChart3, MailCheck } from "lucide-react";
 import QaltLogo from "@/components/shared/QaltLogo";
@@ -90,12 +91,16 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex">
       {/* Left brand panel */}
-      <div className="hidden lg:flex lg:w-[45%] bg-[#1E40AF] relative flex-col justify-between p-12 overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute inset-0 bg-linear-to-br from-[#1E40AF] to-[#1e3a8a]" />
-        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-white/5" />
-        <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-white/5" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-white/2 border border-white/10" />
+      <div className="hidden lg:flex lg:w-[45%] relative flex-col justify-between p-12 overflow-hidden bg-slate-900">
+        <Image
+          src="/images/register-bg.png"
+          alt="Delivery Logistics"
+          fill
+          className="object-cover object-center z-0 opacity-80 mix-blend-luminosity"
+          priority
+        />
+        <div className="absolute inset-0 bg-slate-900/40 z-0" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#1E40AF]/60 to-transparent z-0 mix-blend-multiply" />
 
         {/* Logo */}
         <Link href="/" className="relative z-10 flex items-center gap-3 w-fit group">

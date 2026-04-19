@@ -10,7 +10,7 @@ interface QuotaBarProps {
 export default function QuotaBar({ used, limit, plan }: QuotaBarProps) {
   if (limit === "unlimited") {
     return (
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-4 flex items-center justify-between">
+      <div className="bg-white rounded-xl border border-slate-200 shadow-sm px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center">
             <CheckCircle size={18} className="text-emerald-600" />
@@ -43,7 +43,7 @@ export default function QuotaBar({ used, limit, plan }: QuotaBarProps) {
     : "bg-white border-slate-200";
 
   return (
-    <div className={`rounded-2xl border shadow-sm px-6 py-4 ${bgColor}`}>
+    <div className={`rounded-xl border shadow-sm px-6 py-4 ${bgColor}`}>
       <div className="flex items-start justify-between gap-4 mb-3">
         <div className="flex items-center gap-3">
           <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${

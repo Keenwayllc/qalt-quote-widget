@@ -36,7 +36,7 @@ export default function OnboardingChecklist({ steps }: Props) {
       initial={{ opacity: 0, y: -16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className={`relative rounded-3xl overflow-hidden border shadow-xl ${
+      className={`relative rounded-xl overflow-hidden border shadow-xl ${
         isNew
           ? "bg-linear-to-br from-slate-900 to-slate-800 border-slate-700 shadow-slate-900/40"
           : "bg-white border-slate-200 shadow-slate-200/40"
