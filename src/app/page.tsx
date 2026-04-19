@@ -27,17 +27,17 @@ import SupportModal from "@/components/shared/SupportModal";
 
 const BANNER_IMAGES = [
   {
-    src: "/images/banner-1.jpg",
+    src: "/images/hero-1.png",
     headline: <>Quote, book, and get paid<br /><span className="text-red-400">right on your site.</span></>,
     sub: "Qalt is a white-label tool for delivery companies. Embed it on your site so customers can get an instant price, book their delivery, and pay. No lifting a finger required.",
   },
   {
-    src: "/images/banner-2.jpg",
+    src: "/images/hero-2.png",
     headline: <>Your rates. Your brand.<br /><span className="text-red-400">Zero phone tag.</span></>,
     sub: "Set your pricing rules once and Qalt handles the rest: instant quotes, online booking, and payment collection for your delivery business.",
   },
   {
-    src: "/images/company-owner-opt.jpeg",
+    src: "/images/hero-3.png",
     headline: <>Built for delivery companies<br /><span className="text-emerald-400">big and small.</span></>,
     sub: "From solo couriers to multi-vehicle fleets, Qalt gives your business a professional quote and booking widget so you can focus on delivering, not quoting.",
   },
@@ -64,9 +64,7 @@ export default function LandingPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
-  const [progress, setProgress] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const heroRef = useRef<HTMLElement>(null);
 
   const { scrollY } = useScroll();
@@ -89,15 +87,8 @@ export default function LandingPage() {
 
   const startSlideTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
-    if (progressRef.current) clearInterval(progressRef.current);
-    setProgress(0);
-    const step = 100 / (SLIDE_DURATION / 50);
-    progressRef.current = setInterval(() => {
-      setProgress((p) => Math.min(p + step, 100));
-    }, 50);
     timerRef.current = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % BANNER_IMAGES.length);
-      setProgress(0);
     }, SLIDE_DURATION);
   }, []);
 
@@ -105,7 +96,6 @@ export default function LandingPage() {
     startSlideTimer();
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
-      if (progressRef.current) clearInterval(progressRef.current);
     };
   }, [startSlideTimer]);
 
@@ -193,11 +183,13 @@ export default function LandingPage() {
           <div className="absolute bottom-0 left-0 right-0 h-32 z-10 bg-linear-to-t from-black/60 to-transparent pointer-events-none" />
 
           {/* Auto-progress bar */}
-          <div className="absolute top-0 left-0 right-0 z-30 h-[3px] bg-white/10">
+          <div className="absolute top-0 left-0 right-0 z-30 h-[4px] bg-white/10">
             <motion.div
+              key={`progress-${currentImageIndex}`}
+              initial={{ width: "0%" }}
+              animate={{ width: "100%" }}
+              transition={{ duration: SLIDE_DURATION / 1000, ease: "linear" }}
               className="h-full bg-red-500"
-              style={{ width: `${progress}%` }}
-              transition={{ ease: "linear" }}
             />
           </div>
 
@@ -205,31 +197,31 @@ export default function LandingPage() {
           <button
             onClick={() => goToSlide((currentImageIndex - 1 + BANNER_IMAGES.length) % BANNER_IMAGES.length)}
             aria-label="Previous slide"
-            className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 active:scale-95 transition-all opacity-60 hover:opacity-100"
+            className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 active:scale-95 transition-all opacity-60 hover:opacity-100"
           >
-            <ChevronLeft size={18} />
+            <ChevronLeft size={24} />
           </button>
 
           {/* Right arrow */}
           <button
             onClick={() => goToSlide((currentImageIndex + 1) % BANNER_IMAGES.length)}
             aria-label="Next slide"
-            className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 active:scale-95 transition-all opacity-60 hover:opacity-100"
+            className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 active:scale-95 transition-all opacity-60 hover:opacity-100"
           >
-            <ChevronRight size={18} />
+            <ChevronRight size={24} />
           </button>
 
           {/* Slide indicator dots */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3">
             {BANNER_IMAGES.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
                 aria-label={`Go to slide ${index + 1}`}
-                className={`rounded-full transition-all duration-500 ${
+                className={`transition-all duration-500 ${
                   index === currentImageIndex
-                    ? "w-6 h-2 bg-white"
-                    : "w-2 h-2 bg-white/40 hover:bg-white/70"
+                    ? "w-8 h-1.5 bg-white"
+                    : "w-4 h-1.5 bg-white/40 hover:bg-white/70"
                 }`}
               />
             ))}
