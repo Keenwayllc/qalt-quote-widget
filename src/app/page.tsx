@@ -27,17 +27,17 @@ import SupportModal from "@/components/shared/SupportModal";
 
 const BANNER_IMAGES = [
   {
-    src: "/images/hero-1.png",
+    src: "/images/hero_banner_dark_ui.png",
     headline: <>Quote, book, and get paid<br /><span className="text-red-400">right on your site.</span></>,
     sub: "Qalt is a white-label tool for delivery companies. Embed it on your site so customers can get an instant price, book their delivery, and pay. No lifting a finger required.",
   },
   {
-    src: "/images/hero-2.png",
+    src: "/images/hero_banner_van_wide.png",
     headline: <>Your rates. Your brand.<br /><span className="text-red-400">Zero phone tag.</span></>,
     sub: "Set your pricing rules once and Qalt handles the rest: instant quotes, online booking, and payment collection for your delivery business.",
   },
   {
-    src: "/images/hero-3.png",
+    src: "/images/hero_banner_network_wide.png",
     headline: <>Built for delivery companies<br /><span className="text-emerald-400">big and small.</span></>,
     sub: "From solo couriers to multi-vehicle fleets, Qalt gives your business a professional quote and booking widget so you can focus on delivering, not quoting.",
   },
@@ -128,7 +128,7 @@ export default function LandingPage() {
         <section
           ref={heroRef}
           onMouseMove={handleMouseMove}
-          className="relative min-h-[90vh] flex items-center justify-center overflow-hidden"
+          className="relative h-[90vh] min-h-[600px] flex items-center justify-center overflow-hidden"
         >
           {/* Rotating Background Images — mouse parallax + scroll parallax */}
           <motion.div
