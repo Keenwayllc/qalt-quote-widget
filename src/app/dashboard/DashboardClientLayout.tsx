@@ -25,6 +25,7 @@ import {
   Briefcase,
 } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
+import ThemeToggle from "@/components/shared/ThemeToggle";
 
 export default function DashboardClientLayout({
   children,
@@ -129,7 +130,7 @@ export default function DashboardClientLayout({
   const closeSidebar = () => setIsSidebarOpen(false);
 
   return (
-    <div className="flex h-screen bg-slate-50 font-sans selection:bg-red-100 selection:text-red-900">
+    <div className="flex h-screen bg-slate-50 dark:bg-slate-950 font-sans selection:bg-red-100 selection:text-red-900 transition-colors duration-300">
 
       {/* Mobile backdrop overlay — closes sidebar on tap outside */}
       {isSidebarOpen && (
@@ -141,7 +142,7 @@ export default function DashboardClientLayout({
 
       {/* Sidebar */}
       <aside className={`
-        fixed inset-y-0 left-0 z-40 w-72 bg-white/90 backdrop-blur-xl border-r border-slate-200/60 transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0
+        fixed inset-y-0 left-0 z-40 w-72 bg-white/90 dark:bg-slate-900/95 backdrop-blur-xl border-r border-slate-200/60 dark:border-white/5 transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <div className="flex flex-col h-full">
@@ -157,7 +158,7 @@ export default function DashboardClientLayout({
             </button>
             <button
               onClick={closeSidebar}
-              className="lg:hidden p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
+              className="lg:hidden p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
               aria-label="Close menu"
             >
               <X size={20} />
@@ -208,16 +209,16 @@ export default function DashboardClientLayout({
                   className={`
                      flex items-center px-4 py-2.5 rounded-xl text-sm font-semibold transition-all group relative
                     ${isActive
-                      ? "bg-red-600 text-white shadow-lg shadow-red-200 scale-[1.02]"
+                      ? "bg-red-600 text-white shadow-lg shadow-red-200 dark:shadow-none scale-[1.02]"
                       : isLocked
-                        ? "text-slate-400 cursor-not-allowed opacity-70"
-                        : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"}
+                        ? "text-slate-400 dark:text-slate-600 cursor-not-allowed opacity-70"
+                        : "text-slate-600 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white"}
                   `}
                 >
                   <item.icon
                     className={`
                       mr-3 h-5 w-5 shrink-0 transition-colors
-                      ${isActive ? "text-white" : isLocked ? "text-slate-300" : "text-slate-400 group-hover:text-slate-900"}
+                      ${isActive ? "text-white" : isLocked ? "text-slate-300 dark:text-slate-600" : "text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white"}
                     `}
                   />
                   <span className="flex-1">{item.name}</span>
@@ -262,14 +263,14 @@ export default function DashboardClientLayout({
                   className={`
                      flex items-center px-4 py-2.5 rounded-xl text-sm font-semibold transition-all group relative
                     ${isActive
-                      ? "bg-slate-900 text-white shadow-lg shadow-slate-200 scale-[1.02]"
-                      : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"}
+                      ? "bg-slate-900 dark:bg-white dark:text-slate-900 text-white shadow-lg shadow-slate-200 dark:shadow-none scale-[1.02]"
+                      : "text-slate-600 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white"}
                   `}
                 >
                   <item.icon
                     className={`
                       mr-3 h-5 w-5 shrink-0 transition-colors
-                      ${isActive ? "text-white" : "text-slate-400 group-hover:text-slate-900"}
+                      ${isActive ? "text-white dark:text-slate-900" : "text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white"}
                     `}
                   />
                   <span className="flex-1">{item.name}</span>
@@ -278,13 +279,14 @@ export default function DashboardClientLayout({
             })}
           </nav>
 
-          <div className="p-4 mt-auto border-t border-slate-100/60 space-y-1">
+          <div className="p-4 mt-auto border-t border-slate-100/60 dark:border-white/5 space-y-1">
+            <ThemeToggle />
             {/* Company identity card */}
             {(companyName || logoUrl || profilePicUrl) && (
               <Link
                 href="/dashboard/settings"
                 onClick={closeSidebar}
-                className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-100/80 transition-all group mb-1"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-100/80 dark:hover:bg-white/5 transition-all group mb-1"
               >
                 {/* Avatar: profile pic > logo initial > letter */}
                 <div className="relative shrink-0">
@@ -317,10 +319,10 @@ export default function DashboardClientLayout({
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-slate-800 truncate group-hover:text-slate-900">
+                  <p className="text-sm font-bold text-slate-800 dark:text-slate-200 truncate group-hover:text-slate-900 dark:group-hover:text-white">
                     {companyName ?? "My Company"}
                   </p>
-                  <p className="text-[11px] font-semibold text-slate-400 capitalize">{subscriptionPlan} Plan</p>
+                  <p className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 capitalize">{subscriptionPlan} Plan</p>
                 </div>
               </Link>
             )}
@@ -339,7 +341,7 @@ export default function DashboardClientLayout({
             <button
               onClick={handleLogout}
               disabled={isLoggingOut}
-              className="flex w-full items-center px-4 py-3 text-sm font-bold text-slate-600 rounded-xl hover:bg-rose-50 hover:text-rose-600 transition-all group"
+              className="flex w-full items-center px-4 py-3 text-sm font-bold text-slate-600 dark:text-slate-400 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-500/10 hover:text-rose-600 dark:hover:text-rose-400 transition-all group"
             >
               <LogOut className="mr-3 h-5 w-5 text-slate-400 group-hover:text-rose-500 transition-colors" />
               {isLoggingOut ? "Logging out..." : "Log out"}
@@ -355,11 +357,11 @@ export default function DashboardClientLayout({
         <div className="absolute bottom-[-10%] left-[-10%] w-[30%] h-[30%] bg-red-400/5 blur-[100px] rounded-full pointer-events-none" />
 
         {/* Mobile header with hamburger */}
-        <header className="lg:hidden bg-white/80 backdrop-blur-md border-b border-slate-200 h-16 flex items-center justify-between px-4 sm:px-6 shrink-0 relative z-10">
+        <header className="lg:hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-white/5 h-16 flex items-center justify-between px-4 sm:px-6 shrink-0 relative z-10 transition-colors">
           <QaltLogo size="md" />
           <button
             onClick={() => setIsSidebarOpen(true)}
-            className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors"
+            className="p-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
             aria-label="Open menu"
           >
             <Menu size={22} />

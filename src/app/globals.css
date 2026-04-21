@@ -23,6 +23,8 @@
   --radius-4xl: 0px;
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

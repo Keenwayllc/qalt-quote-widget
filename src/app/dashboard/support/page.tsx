@@ -79,20 +79,20 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="border border-slate-200 rounded-xl overflow-hidden">
+    <div className="border border-slate-200 dark:border-white/[0.06] rounded-none overflow-hidden">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between px-5 py-4 text-left bg-white hover:bg-slate-50 transition-colors"
+        className="w-full flex items-center justify-between px-5 py-4 text-left bg-white dark:bg-[#1e1e1e] hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors"
       >
-        <span className="text-sm font-bold text-slate-900 pr-4">{q}</span>
+        <span className="text-sm font-bold text-slate-900 dark:text-white pr-4">{q}</span>
         <ChevronDown
           size={16}
-          className={`shrink-0 text-slate-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          className={`shrink-0 text-slate-400 dark:text-slate-500 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
         />
       </button>
       {open && (
-        <div className="px-5 pb-5 bg-white">
-          <p className="text-sm text-slate-600 leading-relaxed">{a}</p>
+        <div className="px-5 pb-5 bg-white dark:bg-[#1e1e1e]">
+          <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{a}</p>
         </div>
       )}
     </div>
@@ -106,8 +106,8 @@ export default function SupportPage() {
     <>
       <div className="p-4 sm:p-8 max-w-4xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Help & FAQ</h1>
-          <p className="text-slate-500 mt-1 font-medium">
+          <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Help & FAQ</h1>
+          <p className="text-slate-500 dark:text-slate-400 mt-1 font-medium">
             Answers to the most common questions about installing and using Qalt.
           </p>
         </div>
@@ -117,7 +117,7 @@ export default function SupportPage() {
             <div key={section.category}>
               <div className="flex items-center gap-2 mb-4">
                 <HelpCircle size={16} className="text-red-500" />
-                <h2 className="text-xs font-black text-slate-400 uppercase tracking-widest">
+                <h2 className="text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
                   {section.category}
                 </h2>
               </div>
@@ -131,9 +131,9 @@ export default function SupportPage() {
         </div>
 
         {/* Still need help CTA */}
-        <div className="mt-12 bg-slate-900 rounded-2xl p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div className="mt-12 bg-slate-900 dark:bg-[#1e1e1e] dark:border dark:border-white/[0.06] rounded-none p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 bg-white/10 rounded-none flex items-center justify-center shrink-0">
               <MessageCircle size={18} className="text-white" />
             </div>
             <div>
@@ -145,7 +145,7 @@ export default function SupportPage() {
           </div>
           <button
             onClick={() => setIsSupportModalOpen(true)}
-            className="shrink-0 px-6 py-3 bg-red-600 text-white rounded-xl font-black text-sm hover:bg-red-500 transition-all shadow-lg whitespace-nowrap"
+            className="shrink-0 px-6 py-3 bg-red-600 text-white rounded-none font-black text-sm hover:bg-red-500 transition-all shadow-lg dark:shadow-none whitespace-nowrap"
           >
             Contact Support →
           </button>

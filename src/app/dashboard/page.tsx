@@ -193,21 +193,21 @@ export default async function DashboardOverview() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <span className="px-2 py-0.5 bg-red-100 text-red-700 text-[10px] font-black uppercase tracking-wider rounded-md">
+            <span className="px-2 py-0.5 bg-red-100 dark:bg-red-500/15 text-red-700 dark:text-red-400 text-[10px] font-black uppercase tracking-wider rounded-md">
               {company.subscriptionPlan} Plan
             </span>
           </div>
-          <h1 className="text-4xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">
             Dashboard
           </h1>
-          <p className="text-slate-500 font-medium">
-            Welcome back, <span className="text-slate-900 font-bold">{company.name}</span>. Here&apos;s your performance.
+          <p className="text-slate-500 dark:text-slate-400 font-medium">
+            Welcome back, <span className="text-slate-900 dark:text-white font-bold">{company.name}</span>. Here&apos;s your performance.
           </p>
         </div>
         
         <Link 
           href="/dashboard/widget"
-          className="inline-flex items-center justify-center px-5 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-xl hover:bg-slate-800 transition-all shadow-lg shadow-slate-200"
+          className="inline-flex items-center justify-center px-5 py-2.5 bg-slate-900 border border-transparent dark:border-white/10 dark:bg-[#1e1e1e] text-white dark:text-white text-sm font-bold rounded-none hover:bg-slate-800 dark:hover:bg-white/5 transition-all shadow-none"
         >
           Customize Widget
           <ArrowUpRight className="ml-2 w-4 h-4" />
@@ -248,13 +248,13 @@ export default async function DashboardOverview() {
       {activeJobs.length > 0 && (
         <div className="space-y-4">
           <div className="flex items-center justify-between px-2">
-            <h2 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+            <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
               <Briefcase size={20} className="text-red-500" />
               Active Jobs
             </h2>
             <Link
               href="/dashboard/ops/jobs"
-              className="text-sm font-bold text-red-600 hover:text-red-700 flex items-center gap-1 group"
+              className="text-sm font-bold text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 flex items-center gap-1 group"
             >
               View all
               <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
@@ -274,21 +274,21 @@ export default async function DashboardOverview() {
                 <Link
                   key={job.id}
                   href={`/dashboard/ops/jobs/${job.id}`}
-                  className="bg-white rounded-xl border border-slate-200/60 shadow-sm p-5 flex items-center gap-4 hover:shadow-lg hover:border-slate-300 transition-all group"
+                  className="bg-white dark:bg-[#1e1e1e] rounded-none border border-slate-200/60 dark:border-white/[0.06] shadow-sm dark:shadow-none p-5 flex items-center gap-4 hover:shadow-lg dark:hover:border-white/10 hover:border-slate-300 transition-all group"
                 >
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center border shrink-0 ${s.cls}`}>
+                  <div className={`w-12 h-12 rounded-none flex items-center justify-center border shrink-0 ${s.cls}`}>
                     <Icon size={22} />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">#{job.id.slice(-6).toUpperCase()}</p>
-                    <p className="font-black text-slate-900 text-sm truncate">
+                    <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-0.5">#{job.id.slice(-6).toUpperCase()}</p>
+                    <p className="font-black text-slate-900 dark:text-slate-100 text-sm truncate">
                       {job.stops.map((js: any) => js.stopNote.companyName).join(" → ") || "No stops"}
                     </p>
                     <p className="text-[10px] font-bold text-slate-400 mt-0.5">
                       {new Date(job.scheduledDate).toLocaleDateString(undefined, { month: "short", day: "numeric" })}
                     </p>
                   </div>
-                  <ChevronRight size={16} className="text-slate-200 group-hover:text-slate-600 shrink-0 transition-colors" />
+                  <ChevronRight size={16} className="text-slate-200 dark:text-slate-600 group-hover:text-slate-600 dark:group-hover:text-slate-300 shrink-0 transition-colors" />
                 </Link>
               );
             })}
@@ -311,13 +311,13 @@ export default async function DashboardOverview() {
 
       <div className="space-y-4">
         <div className="flex items-center justify-between px-2">
-          <h2 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+          <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
             Recent Requests
             <span className="flex h-2 w-2 rounded-full bg-red-500 animate-pulse" />
           </h2>
           <Link
             href="/dashboard/quotes"
-            className="text-sm font-bold text-red-600 hover:text-red-700 flex items-center gap-1 group"
+            className="text-sm font-bold text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 flex items-center gap-1 group"
           >
             View all
             <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
@@ -327,14 +327,14 @@ export default async function DashboardOverview() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         {/* Recent Quotes List */}
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-xl border border-slate-200/60 shadow-md overflow-hidden">
+          <div className="bg-white dark:bg-[#1e1e1e] rounded-none border border-slate-200/60 dark:border-white/[0.06] shadow-md dark:shadow-none overflow-hidden">
             {recentQuotes.length === 0 ? (
               <div className="p-12 text-center">
-                <div className="inline-flex p-4 bg-slate-50 text-slate-400 rounded-full mb-4">
+                <div className="inline-flex p-4 bg-slate-50 dark:bg-white/5 text-slate-400 dark:text-slate-500 rounded-full mb-4">
                   <FileText size={32} />
                 </div>
-                <p className="text-slate-500 font-bold">No requests yet.</p>
-                <p className="text-sm text-slate-400 mt-1 max-w-[200px] mx-auto">
+                <p className="text-slate-500 dark:text-slate-400 font-bold">No requests yet.</p>
+                <p className="text-sm text-slate-400 dark:text-slate-500 mt-1 max-w-[200px] mx-auto">
                   Embed the widget to start receiving quote requests.
                 </p>
                 <Link 
@@ -345,28 +345,28 @@ export default async function DashboardOverview() {
                 </Link>
               </div>
             ) : (
-              <div className="divide-y divide-slate-100">
+              <div className="divide-y divide-slate-100 dark:divide-white/[0.04]">
                 {recentQuotes.map((quote) => (
-                  <div key={quote.id} className="group px-6 py-5 flex items-center justify-between hover:bg-slate-50/50 transition-colors">
+                  <div key={quote.id} className="group px-6 py-5 flex items-center justify-between hover:bg-slate-50/50 dark:hover:bg-white/[0.02] transition-colors">
                     <div className="flex items-center gap-4">
-                      <div className="h-12 w-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 font-black text-xs transition-colors group-hover:border-red-100 group-hover:bg-red-50 group-hover:text-red-500">
+                      <div className="h-12 w-12 rounded-none bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/[0.06] flex items-center justify-center text-slate-400 dark:text-slate-500 font-black text-xs transition-colors group-hover:border-red-100 dark:group-hover:border-red-500/20 group-hover:bg-red-50 dark:group-hover:bg-red-500/10 group-hover:text-red-500 dark:group-hover:text-red-400">
                         {quote.customerName.charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <p className="font-black text-slate-900 tracking-tight leading-none mb-1.5">{quote.customerName}</p>
-                        <div className="flex items-center gap-3 text-xs text-slate-500 font-bold">
+                        <p className="font-black text-slate-900 dark:text-slate-100 tracking-tight leading-none mb-1.5">{quote.customerName}</p>
+                        <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400 font-bold">
                            <span className="flex items-center gap-1">
-                             <MapPin size={10} className="text-slate-300" />
+                             <MapPin size={10} className="text-slate-300 dark:text-slate-600" />
                              {quote.pickupZip} &rarr; {quote.dropoffZip}
                            </span>
-                           <span className="h-1 w-1 rounded-full bg-slate-200" />
+                           <span className="h-1 w-1 rounded-full bg-slate-200 dark:bg-slate-600" />
                            <span>{quote.distanceMiles.toFixed(1)} mi</span>
                         </div>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-lg font-black text-slate-900 tracking-tight leading-none mb-1">${quote.estimatedPrice.toFixed(2)}</p>
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{new Date(quote.createdAt).toLocaleDateString()}</p>
+                      <p className="text-lg font-black text-slate-900 dark:text-slate-100 tracking-tight leading-none mb-1">${quote.estimatedPrice.toFixed(2)}</p>
+                      <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">{new Date(quote.createdAt).toLocaleDateString()}</p>
                     </div>
                   </div>
                 ))}
@@ -377,7 +377,7 @@ export default async function DashboardOverview() {
 
         {/* Quick Tips / Sidebar Card */}
         <div>
-          <div className="bg-linear-to-br from-red-700 to-[#4f515b] rounded-xl p-6 text-white shadow-md shadow-red-200/50">
+          <div className="bg-linear-to-br from-red-700 to-[#4f515b] rounded-none p-6 text-white shadow-md shadow-red-200/50 dark:shadow-none">
             <TrendingUp size={32} className="mb-4 text-red-200" />
             <h3 className="text-xl font-black tracking-tight mb-2 leading-tight">Increase Conversion</h3>
             <p className="text-red-100 text-sm font-medium leading-relaxed mb-6">
@@ -385,7 +385,7 @@ export default async function DashboardOverview() {
             </p>
             <Link 
               href="/dashboard/widget"
-              className="block w-full text-center py-2.5 bg-white/20 backdrop-blur-md rounded-xl text-sm font-bold hover:bg-white/30 transition-all border border-white/20"
+              className="block w-full text-center py-2.5 bg-white/20 backdrop-blur-md rounded-none text-sm font-bold hover:bg-white/30 transition-all border border-white/20"
             >
               Update Styles
             </Link>

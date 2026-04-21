@@ -29,17 +29,17 @@ export default async function BillingPage({
   return (
     <div className="p-8 max-w-6xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Subscription</h1>
-        <p className="text-slate-500 mt-1">Manage your plan and feature access.</p>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Subscription</h1>
+        <p className="text-slate-500 dark:text-slate-400 mt-1">Manage your plan and feature access.</p>
       </div>
 
       {showSuccess && <SuccessBanner plan={company.subscriptionPlan} />}
 
       {/* ── Trial Expired Hard Paywall ─────────────────────────────────────── */}
       {trialExpired && (
-        <div className="mb-8 bg-slate-900 rounded-2xl p-8 border border-red-500/30 shadow-2xl shadow-red-900/20">
+        <div className="mb-8 bg-slate-900 dark:bg-[#1e1e1e] rounded-none p-8 border border-red-500/30 dark:border-white/[0.06] shadow-2xl shadow-red-900/20 dark:shadow-none">
           <div className="flex items-start gap-5">
-            <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 bg-red-600 rounded-none flex items-center justify-center shrink-0">
               <Clock size={22} className="text-white" />
             </div>
             <div className="flex-1">
@@ -49,7 +49,7 @@ export default async function BillingPage({
               </p>
               <a
                 href="#pro"
-                className="inline-flex items-center px-6 py-3 bg-red-600 text-white rounded-xl font-black text-sm hover:bg-red-500 transition-all shadow-lg shadow-red-900/30"
+                className="inline-flex items-center px-6 py-3 bg-red-600 text-white rounded-none font-black text-sm hover:bg-red-500 transition-all shadow-lg shadow-red-900/30 dark:shadow-none"
               >
                 Choose a plan →
               </a>
@@ -60,9 +60,9 @@ export default async function BillingPage({
 
       {/* ── 7-Day Pro Trial Banner (Starter only) ─────────────────────────── */}
       {isStarter && (
-        <div className="mb-6 bg-linear-to-r from-red-700 to-[#4f515b] rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl shadow-red-200">
+        <div className="mb-6 bg-linear-to-r from-red-700 to-[#4f515b] rounded-none p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl shadow-red-200 dark:shadow-none">
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 bg-white/20 rounded-none flex items-center justify-center shrink-0">
               <Zap size={20} className="text-white fill-white" />
             </div>
             <div>
@@ -81,7 +81,7 @@ export default async function BillingPage({
           </div>
           <a
             href="#pro"
-            className="shrink-0 px-6 py-3 bg-white text-red-700 rounded-xl font-black text-sm hover:bg-red-50 transition-all shadow-lg whitespace-nowrap"
+            className="shrink-0 px-6 py-3 bg-white text-red-700 rounded-none font-black text-sm hover:bg-red-50 transition-all shadow-lg dark:shadow-none whitespace-nowrap"
           >
             Start Free Trial →
           </a>
@@ -89,22 +89,22 @@ export default async function BillingPage({
       )}
 
       {/* Current plan summary card */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-10 flex items-center justify-between">
+      <div className="bg-white dark:bg-[#1e1e1e] rounded-none border border-slate-200 dark:border-white/[0.06] shadow-sm dark:shadow-none p-6 mb-10 flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-slate-500 uppercase tracking-wider">Current Plan</p>
+          <p className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Current Plan</p>
           <div className="flex items-center gap-3 mt-1">
-            <h2 className="text-2xl font-bold text-slate-900">{company.subscriptionPlan}</h2>
-            <span className="px-2 py-0.5 bg-red-100 text-red-700 text-xs font-bold rounded-full border border-red-200 uppercase tracking-wide">Active</span>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">{company.subscriptionPlan}</h2>
+            <span className="px-2 py-0.5 bg-red-100 dark:bg-red-500/15 text-red-700 dark:text-red-400 text-xs font-bold rounded-full border border-red-200 dark:border-red-500/30 uppercase tracking-wide">Active</span>
           </div>
         </div>
         <div className="text-right">
-          <p className="text-sm font-medium text-slate-500 uppercase tracking-wider">Quotes This Month</p>
+          <p className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Quotes This Month</p>
           {isUnlimited ? (
-            <p className="text-2xl font-bold text-slate-900 mt-1">{monthlyQuotes} <span className="text-sm text-slate-400 font-medium">· Unlimited</span></p>
+            <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{monthlyQuotes} <span className="text-sm text-slate-400 dark:text-slate-500 font-medium">· Unlimited</span></p>
           ) : (
-            <p className="text-2xl font-bold text-slate-900 mt-1">
+            <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
               {monthlyQuotes}
-              <span className="text-sm text-slate-400 font-medium"> / {limit}</span>
+              <span className="text-sm text-slate-400 dark:text-slate-500 font-medium"> / {limit}</span>
             </p>
           )}
         </div>
@@ -123,16 +123,16 @@ export default async function BillingPage({
 
 function AccountDangerZone({ hasPaidPlan }: { hasPaidPlan: boolean }) {
   return (
-    <div className="mt-16 border border-red-200 rounded-2xl overflow-hidden">
-      <div className="bg-red-50 px-6 py-4 border-b border-red-200">
-        <h2 className="text-sm font-black text-red-700 uppercase tracking-widest">Account Management</h2>
+    <div className="mt-16 border border-red-200 dark:border-red-500/30 rounded-none overflow-hidden">
+      <div className="bg-red-50 dark:bg-red-500/10 px-6 py-4 border-b border-red-200 dark:border-red-500/30">
+        <h2 className="text-sm font-black text-red-700 dark:text-red-400 uppercase tracking-widest">Account Management</h2>
       </div>
-      <div className="bg-white divide-y divide-slate-100">
+      <div className="bg-white dark:bg-[#1e1e1e] divide-y divide-slate-100 dark:divide-white/[0.04]">
         {hasPaidPlan && (
           <div className="flex items-start justify-between gap-6 px-6 py-5">
             <div>
-              <p className="font-bold text-slate-900 text-sm">Cancel Subscription</p>
-              <p className="text-slate-500 text-xs mt-0.5 leading-relaxed">
+              <p className="font-bold text-slate-900 dark:text-white text-sm">Cancel Subscription</p>
+              <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5 leading-relaxed">
                 Downgrade to the free plan. Your widget stays active with up to 25 quotes per month. Your data is kept.
               </p>
             </div>
@@ -141,8 +141,8 @@ function AccountDangerZone({ hasPaidPlan }: { hasPaidPlan: boolean }) {
         )}
         <div className="flex items-start justify-between gap-6 px-6 py-5">
           <div>
-            <p className="font-bold text-red-700 text-sm">Close Account</p>
-            <p className="text-slate-500 text-xs mt-0.5 leading-relaxed">
+            <p className="font-bold text-red-700 dark:text-red-400 text-sm">Close Account</p>
+            <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5 leading-relaxed">
               Permanently delete your account, all quotes, widget settings, and cancel any active subscription. This cannot be undone.
             </p>
           </div>

@@ -36,10 +36,10 @@ export default function OnboardingChecklist({ steps }: Props) {
       initial={{ opacity: 0, y: -16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className={`relative rounded-xl overflow-hidden border shadow-xl ${
+      className={`relative rounded-none overflow-hidden border shadow-xl ${
         isNew
-          ? "bg-linear-to-br from-slate-900 to-slate-800 border-slate-700 shadow-slate-900/40"
-          : "bg-white border-slate-200 shadow-slate-200/40"
+          ? "bg-linear-to-br from-slate-900 to-slate-800 border-slate-700 shadow-none dark:shadow-none"
+          : "bg-white dark:bg-[#1e1e1e] border-slate-200 dark:border-white/[0.06] shadow-none dark:shadow-none"
       }`}
     >
       {/* Glow for fresh users */}
@@ -54,12 +54,12 @@ export default function OnboardingChecklist({ steps }: Props) {
       <button
         onClick={() => setCollapsed((c) => !c)}
         className={`relative w-full flex items-center justify-between px-6 py-5 transition-colors group ${
-          isNew ? "hover:bg-white/5" : "hover:bg-slate-50/60"
+          isNew ? "hover:bg-white/5" : "hover:bg-slate-50/60 dark:hover:bg-white/[0.02]"
         }`}
       >
         <div className="flex items-center gap-4">
-          <div className={`relative w-11 h-11 rounded-2xl flex items-center justify-center shadow-lg shrink-0 ${
-            isNew ? "bg-red-600 shadow-red-900/40" : "bg-red-600 shadow-red-200"
+          <div className={`relative w-11 h-11 rounded-none flex items-center justify-center shadow-none shrink-0 ${
+            isNew ? "bg-red-600 shadow-none dark:shadow-none" : "bg-red-600 shadow-none dark:shadow-none"
           }`}>
             <Rocket size={18} className="text-white" />
             {isNew && (
@@ -68,7 +68,7 @@ export default function OnboardingChecklist({ steps }: Props) {
           </div>
           <div className="text-left">
             <div className="flex items-center gap-2">
-              <p className={`font-black tracking-tight text-base ${isNew ? "text-white" : "text-slate-900"}`}>
+              <p className={`font-black tracking-tight text-base ${isNew ? "text-white" : "text-slate-900 dark:text-white"}`}>
                 {isNew ? "Welcome! Let's get you set up 👋" : "Get started with Qalt"}
               </p>
               {isNew && (
@@ -78,7 +78,7 @@ export default function OnboardingChecklist({ steps }: Props) {
                 </span>
               )}
             </div>
-            <p className={`text-xs font-medium mt-0.5 ${isNew ? "text-slate-400" : "text-slate-500"}`}>
+            <p className={`text-xs font-medium mt-0.5 ${isNew ? "text-slate-400" : "text-slate-500 dark:text-slate-400"}`}>
               {doneCount} of {steps.length} steps complete
               {isNew && nextStep && (
                 <span className="ml-2 text-amber-400 font-bold">· Next: {nextStep.label}</span>
@@ -88,9 +88,9 @@ export default function OnboardingChecklist({ steps }: Props) {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className={`hidden sm:block w-32 h-2 rounded-full overflow-hidden ${isNew ? "bg-slate-700" : "bg-slate-100"}`}>
+          <div className={`hidden sm:block w-32 h-2 rounded-none overflow-hidden ${isNew ? "bg-slate-700" : "bg-slate-100 dark:bg-white/[0.06]"}`}>
             <motion.div
-              className="h-full bg-red-500 rounded-full"
+              className="h-full bg-red-500 rounded-none"
               initial={{ width: 0 }}
               animate={{ width: `${pct}%` }}
               transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
@@ -117,7 +117,7 @@ export default function OnboardingChecklist({ steps }: Props) {
             className="overflow-hidden"
           >
             <div className={`border-t divide-y ${
-              isNew ? "border-slate-700/60 divide-slate-700/40" : "border-slate-100 divide-slate-50"
+              isNew ? "border-slate-700/60 divide-slate-700/40" : "border-slate-100 dark:border-white/[0.04] divide-slate-50 dark:divide-white/[0.04]"
             }`}>
               {steps.map((step, i) => {
                 const isNext = step.id === nextStep?.id;
@@ -129,10 +129,10 @@ export default function OnboardingChecklist({ steps }: Props) {
                     transition={{ duration: 0.3, delay: i * 0.06 }}
                     className={`flex items-center gap-4 px-6 py-4 transition-colors ${
                       step.done
-                        ? isNew ? "bg-white/5" : "bg-slate-50/40"
+                        ? isNew ? "bg-white/5" : "bg-slate-50/40 dark:bg-white/[0.02]"
                         : isNew
                           ? isNext ? "bg-red-900/20" : "hover:bg-white/5"
-                          : "hover:bg-red-50/30"
+                          : "hover:bg-red-50/30 dark:hover:bg-white/[0.02]"
                     }`}
                   >
                     {/* Icon */}
@@ -153,8 +153,8 @@ export default function OnboardingChecklist({ steps }: Props) {
                     <div className="flex-1 min-w-0">
                       <p className={`font-bold text-sm ${
                         step.done
-                          ? "line-through text-slate-500"
-                          : isNew ? "text-white" : "text-slate-900"
+                          ? "line-through text-slate-500 dark:text-slate-500"
+                          : isNew ? "text-white" : "text-slate-900 dark:text-slate-100"
                       }`}>
                         {step.label}
                         {isNext && !step.done && (
@@ -162,7 +162,7 @@ export default function OnboardingChecklist({ steps }: Props) {
                         )}
                       </p>
                       {!step.done && (
-                        <p className={`text-xs font-medium mt-0.5 leading-relaxed ${isNew ? "text-slate-400" : "text-slate-500"}`}>
+                        <p className={`text-xs font-medium mt-0.5 leading-relaxed ${isNew ? "text-slate-400" : "text-slate-500 dark:text-slate-400"}`}>
                           {step.description}
                         </p>
                       )}
@@ -173,11 +173,10 @@ export default function OnboardingChecklist({ steps }: Props) {
                       <Link
                         href={step.href}
                         className={`shrink-0 px-4 py-2 text-xs font-bold rounded-xl transition-all active:scale-[0.97] whitespace-nowrap ${
-                          isNext
-                            ? "bg-red-600 text-white hover:bg-red-500 shadow-lg shadow-red-900/30"
+                            ? "bg-red-600 text-white hover:bg-red-500 shadow-none dark:shadow-none"
                             : isNew
                               ? "bg-slate-700 text-slate-300 hover:bg-slate-600"
-                              : "bg-slate-900 text-white hover:bg-slate-800 shadow-sm shadow-slate-200"
+                              : "bg-slate-900 dark:bg-[#1e1e1e] text-white dark:text-white dark:border dark:border-white/10 hover:bg-slate-800 dark:hover:bg-white/5 shadow-none dark:shadow-none"
                         }`}
                       >
                         {step.cta}

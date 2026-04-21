@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import QaltLogo from "@/components/shared/QaltLogo";
 import {
@@ -16,14 +16,13 @@ import {
   BarChart3,
   Code2,
   CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
 } from "lucide-react";
 import PublicNav from "@/components/shared/PublicNav";
 import HowItWorksAnimation from "@/components/landing/HowItWorksAnimation";
 import AnalyticsAnimation from "@/components/landing/AnalyticsAnimation";
 import TestimonialsCarousel from "@/components/landing/TestimonialsCarousel";
 import SupportModal from "@/components/shared/SupportModal";
+import HeroDashboardMockup from "@/components/landing/HeroDashboardMockup";
 
 const BANNER_IMAGES = [
   {
@@ -40,6 +39,11 @@ const BANNER_IMAGES = [
     src: "/images/hero_banner_network_wide.png",
     headline: <>Built for delivery companies<br /><span className="text-emerald-400">big and small.</span></>,
     sub: "From solo couriers to multi-vehicle fleets, Qalt gives your business a professional quote and booking widget so you can focus on delivering, not quoting.",
+  },
+  {
+    src: "/images/hero_banner_delivery.png",
+    headline: <>Quote, route, and collect<br /><span className="text-emerald-400">in one step.</span></>,
+    sub: "Customers get an instant price, see the full route on a live map, enter their details, and pay — all without you lifting a finger.",
   },
 ];
 
@@ -58,7 +62,7 @@ const fadeIn = {
   visible: { opacity: 1, transition: { duration: 0.7 } },
 };
 
-const SLIDE_DURATION = 8000;
+const SLIDE_DURATION = 5000;
 
 export default function LandingPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -77,6 +81,7 @@ export default function LandingPage() {
   const mouseY = useSpring(rawMouseY, { stiffness: 60, damping: 20 });
   const bgX = useTransform(mouseX, [-1, 1], [-18, 18]);
   const bgY = useTransform(mouseY, [-1, 1], [-10, 10]);
+
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
     const rect = heroRef.current?.getBoundingClientRect();
@@ -128,170 +133,171 @@ export default function LandingPage() {
         <section
           ref={heroRef}
           onMouseMove={handleMouseMove}
-          className="relative h-[90vh] min-h-[600px] flex items-center justify-center overflow-hidden"
+          className="relative min-h-screen flex items-center overflow-hidden bg-[#080B14]"
         >
-          {/* Rotating Background Images — mouse parallax + scroll parallax */}
-          <motion.div
-            style={{ y: heroParallax, x: bgX, translateY: bgY }}
-            className="absolute inset-0 scale-110"
-          >
-            {BANNER_IMAGES.map((banner, index) => (
-              <motion.div
-                key={index}
-                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'}`}
-              >
-                <motion.div
-                  className="absolute inset-0"
-                  animate={index === currentImageIndex ? { scale: 1.06 } : { scale: 1 }}
-                  transition={{ duration: SLIDE_DURATION / 1000, ease: "linear" }}
-                >
-                  <Image
-                    src={banner.src}
-                    alt={`Qalt Banner ${index + 1}`}
-                    fill
-                    priority={index === 0}
-                    className="object-cover object-top"
-                  />
-                </motion.div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Ambient floating orbs — z-15 puts them above dark overlay (z-10) but below content (z-20) */}
-          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
-            <motion.div
-              animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
-              transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full bg-red-500/20 blur-3xl"
-            />
-            <motion.div
-              animate={{ x: [0, -20, 0], y: [0, 25, 0] }}
-              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-              className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-violet-500/10 blur-3xl"
-            />
-            <motion.div
-              animate={{ x: [0, 15, 0], y: [0, -15, 0] }}
-              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-              className="absolute bottom-1/4 left-1/2 w-64 h-64 rounded-full bg-white/10 blur-2xl"
+          {/* California sunset gradient background */}
+          <div className="absolute inset-0 pointer-events-none">
+            {/* Base gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#0d0f1a] via-[#0d0813] to-[#130810]" />
+            {/* Red glow — bottom left */}
+            <div className="absolute bottom-0 left-0 w-[60%] h-[55%] bg-red-700/20 blur-[120px] rounded-full" />
+            {/* Amber streak — top right (LA sunset) */}
+            <div className="absolute top-0 right-0 w-[45%] h-[45%] bg-amber-600/10 blur-[100px] rounded-full" />
+            {/* Deep violet accent */}
+            <div className="absolute top-1/2 left-1/3 w-[35%] h-[40%] bg-violet-900/20 blur-[100px] rounded-full" />
+            {/* Subtle grid overlay */}
+            <div
+              className="absolute inset-0 opacity-[0.03]"
+              style={{
+                backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)`,
+                backgroundSize: "60px 60px",
+              }}
             />
           </div>
 
-          {/* Dark overlay */}
-          <div className={`absolute inset-0 z-10 transition-all duration-1000 ${currentImageIndex === 2 ? 'bg-black/20' : 'bg-black/50'}`} />
+          {/* Floating orbs */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <motion.div
+              animate={{ x: [0, 25, 0], y: [0, -18, 0] }}
+              transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-1/4 left-[10%] w-64 h-64 rounded-full bg-red-600/10 blur-3xl"
+            />
+            <motion.div
+              animate={{ x: [0, -18, 0], y: [0, 22, 0] }}
+              transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+              className="absolute bottom-1/4 right-[15%] w-80 h-80 rounded-full bg-amber-500/8 blur-3xl"
+            />
+          </div>
 
-          {/* Bottom gradient fade */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 z-10 bg-linear-to-t from-black/60 to-transparent pointer-events-none" />
+          {/* Content */}
+          <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-24 sm:py-32">
+            <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+
+              {/* Left — copy */}
+              <div className="flex-1 min-w-0 text-center lg:text-left">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 backdrop-blur-md text-white/80 rounded-full text-xs font-black uppercase tracking-widest mb-8 border border-white/10"
+                >
+                  <motion.span
+                    animate={{ rotate: [0, 15, -15, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, repeatDelay: 4 }}
+                  >
+                    <Zap size={13} className="fill-yellow-400 text-yellow-400" />
+                  </motion.span>
+                  Start free · No card required
+                </motion.div>
+
+                <div className="grid grid-cols-1">
+                  {/* Invisible spacer stack preserves exact height dynamically */}
+                  {BANNER_IMAGES.map((banner, index) => (
+                    <div key={`spacer-${index}`} className="col-start-1 row-start-1 invisible pointer-events-none select-none transition-none" aria-hidden="true">
+                      <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight mb-6 leading-[0.92]">
+                        {banner.headline}
+                      </h1>
+                      <p className="text-base sm:text-lg mb-10 font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
+                        {banner.sub}
+                      </p>
+                    </div>
+                  ))}
+
+                  {/* Visible animated content */}
+                  <motion.div className="col-start-1 row-start-1 z-10 w-full h-full">
+                    <AnimatePresence mode="wait">
+                      <motion.h1
+                        key={`headline-${currentImageIndex}`}
+                        initial={{ opacity: 0, y: 28 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -16 }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight mb-6 leading-[0.92] text-white"
+                      >
+                        {BANNER_IMAGES[currentImageIndex].headline}
+                      </motion.h1>
+                    </AnimatePresence>
+
+                    <AnimatePresence mode="wait">
+                      <motion.p
+                        key={`sub-${currentImageIndex}`}
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
+                        className="text-base sm:text-lg text-white/55 mb-10 font-medium leading-relaxed max-w-xl mx-auto lg:mx-0"
+                      >
+                        {BANNER_IMAGES[currentImageIndex].sub}
+                      </motion.p>
+                    </AnimatePresence>
+                  </motion.div>
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 mb-8"
+                >
+                  <Link
+                    href="/register"
+                    className="group/btn w-full sm:w-auto px-8 py-4 bg-red-600 text-white font-black rounded-none flex items-center justify-center gap-3 hover:bg-red-500 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-xl shadow-red-900/40 text-sm tracking-wide"
+                  >
+                    Start for Free
+                    <ArrowRight size={16} className="group-hover/btn:translate-x-1.5 transition-transform" />
+                  </Link>
+                  <Link
+                    href="/pricing"
+                    className="w-full sm:w-auto px-8 py-4 bg-white/5 border border-white/10 text-white/80 font-black rounded-none hover:bg-white/10 hover:border-white/20 transition-all text-center text-sm tracking-wide"
+                  >
+                    View Pricing
+                  </Link>
+                </motion.div>
+
+                {/* Slide indicators */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.7 }}
+                  className="flex items-center gap-2 justify-center lg:justify-start"
+                >
+                  {BANNER_IMAGES.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => goToSlide(index)}
+                      className={`transition-all duration-500 h-1 rounded-full ${
+                        index === currentImageIndex ? "w-8 bg-red-500" : "w-4 bg-white/20 hover:bg-white/40"
+                      }`}
+                    />
+                  ))}
+                  <span className="text-[10px] text-white/20 font-medium ml-2">
+                    {currentImageIndex + 1} / {BANNER_IMAGES.length}
+                  </span>
+                </motion.div>
+              </div>
+
+              {/* Right — dashboard mockup */}
+              <motion.div
+                initial={{ opacity: 0, x: 40, y: 10 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+                className="w-full lg:w-auto flex-shrink-0 flex justify-center lg:justify-end relative z-20"
+              >
+                <HeroDashboardMockup />
+              </motion.div>
+
+            </div>
+          </div>
 
           {/* Auto-progress bar */}
-          <div className="absolute top-0 left-0 right-0 z-30 h-[4px] bg-white/10">
+          <div className="absolute top-0 left-0 right-0 z-30 h-[3px] bg-white/5">
             <motion.div
               key={`progress-${currentImageIndex}`}
               initial={{ width: "0%" }}
               animate={{ width: "100%" }}
               transition={{ duration: SLIDE_DURATION / 1000, ease: "linear" }}
-              className="h-full bg-red-500"
+              className="h-full bg-red-500/70"
             />
-          </div>
-
-          {/* Left arrow */}
-          <button
-            onClick={() => goToSlide((currentImageIndex - 1 + BANNER_IMAGES.length) % BANNER_IMAGES.length)}
-            aria-label="Previous slide"
-            className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 active:scale-95 transition-all opacity-60 hover:opacity-100"
-          >
-            <ChevronLeft size={24} />
-          </button>
-
-          {/* Right arrow */}
-          <button
-            onClick={() => goToSlide((currentImageIndex + 1) % BANNER_IMAGES.length)}
-            aria-label="Next slide"
-            className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 active:scale-95 transition-all opacity-60 hover:opacity-100"
-          >
-            <ChevronRight size={24} />
-          </button>
-
-          {/* Slide indicator dots */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3">
-            {BANNER_IMAGES.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                aria-label={`Go to slide ${index + 1}`}
-                className={`transition-all duration-500 ${
-                  index === currentImageIndex
-                    ? "w-8 h-1.5 bg-white"
-                    : "w-4 h-1.5 bg-white/40 hover:bg-white/70"
-                }`}
-              />
-            ))}
-          </div>
-
-          {/* Content — per-slide text crossfades */}
-          <div className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 text-center pt-28 sm:pt-36 pb-28 sm:pb-32">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-xs font-black uppercase tracking-widest mb-6 sm:mb-8 border border-white/20"
-            >
-              <motion.span
-                animate={{ rotate: [0, 15, -15, 0] }}
-                transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-              >
-                <Zap size={14} className="fill-yellow-400 text-yellow-400" />
-              </motion.span>
-              Start free. No card required.
-            </motion.div>
-
-            <AnimatePresence mode="wait">
-              <motion.h1
-                key={`headline-${currentImageIndex}`}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.55, ease: "easeOut" }}
-                className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tight mb-6 sm:mb-8 leading-[0.9] text-white drop-shadow-lg"
-              >
-                {BANNER_IMAGES[currentImageIndex].headline}
-              </motion.h1>
-            </AnimatePresence>
-
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={`sub-${currentImageIndex}`}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
-                className="max-w-2xl mx-auto text-base sm:text-xl text-white/80 mb-10 sm:mb-12 font-medium leading-relaxed px-2"
-              >
-                {BANNER_IMAGES[currentImageIndex].sub}
-              </motion.p>
-            </AnimatePresence>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8"
-            >
-              <Link href="/register" className="group/btn w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 bg-red-600 text-white rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-red-500 transition-all hover:scale-[1.03] active:scale-[0.98] shadow-xl shadow-red-900/30">
-                Get Started Free
-                <ArrowRight className="group-hover/btn:translate-x-1.5 transition-transform" />
-              </Link>
-              <Link href="/pricing" className="w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 bg-white/10 backdrop-blur-md border-2 border-white/20 text-white rounded-2xl font-bold hover:bg-white/20 hover:scale-[1.02] active:scale-[0.98] transition-all text-center">
-                View Pricing
-              </Link>
-            </motion.div>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.65 }}
-              className="text-sm text-white/50 font-medium"
-            >
-              No card required. Set up in minutes.
-            </motion.p>
           </div>
         </section>
 
@@ -311,7 +317,19 @@ export default function LandingPage() {
 
         {/* Features Grid */}
         <section id="features" className="py-20 sm:py-32 bg-slate-50 relative overflow-hidden scroll-mt-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          {/* Left-side backdrop image */}
+          <div className="absolute inset-0 w-full h-full opacity-80 pointer-events-none z-0 select-none">
+            <div className="absolute inset-0 bg-linear-to-r from-slate-50/60 via-transparent to-slate-50/60 z-10" />
+            <div className="absolute inset-0 bg-linear-to-b from-slate-50/80 via-transparent to-slate-50/80 z-10" />
+            <Image
+              src="/images/whitesitting.jpg"
+              alt="Feature Background"
+              fill
+              className="object-cover object-center mix-blend-darken"
+            />
+          </div>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -319,7 +337,7 @@ export default function LandingPage() {
               variants={fadeUp}
               className="text-center mb-16 sm:mb-24"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-50 text-red-600 rounded-full text-[10px] font-black tracking-wide border border-red-100 mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-50 text-red-600 rounded-full text-[10px] font-black tracking-wide border border-red-100 mb-6 shadow-xs">
                 Built for delivery companies
               </div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-6">Quote the job. Run the job. All in one place.</h2>
@@ -366,7 +384,7 @@ export default function LandingPage() {
                   viewport={{ once: true, margin: "-60px" }}
                   custom={i}
                   variants={fadeUp}
-                  className="bg-linear-to-b from-white to-slate-50 p-7 sm:p-9 rounded-xl border border-slate-200 hover:shadow-lg hover:shadow-red-900/5 hover:-translate-y-1.5 transition-all duration-300 group"
+                  className="bg-white/50 backdrop-blur-xl p-7 sm:p-9 rounded-xl border border-white hover:bg-white/70 hover:shadow-xl hover:shadow-slate-300/40 hover:-translate-y-1.5 transition-all duration-300 group"
                 >
                   <div className="w-12 h-12 bg-red-600/10 border border-red-100 rounded-lg flex items-center justify-center mb-6 sm:mb-7 group-hover:bg-red-600/15 group-hover:scale-110 transition-all duration-300">
                     {feature.icon}

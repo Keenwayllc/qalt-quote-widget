@@ -31,7 +31,7 @@ export default function PublicNav() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="shrink-0">
-          <QaltLogo size="lg" />
+          <QaltLogo size="lg" linked={false} />
         </Link>
 
         {/* Desktop links — fixed layout, no wrapping */}

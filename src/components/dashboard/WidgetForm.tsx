@@ -185,38 +185,38 @@ export default function WidgetSettingsForm({
     <div className="p-4 sm:p-8 max-w-6xl flex flex-col lg:flex-row gap-8 lg:gap-12">
       <div className="flex-1">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-slate-900">Widget Appearance</h1>
-          <p className="text-slate-500">Customize how your quote calculator looks on your website.</p>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Widget Appearance</h1>
+          <p className="text-slate-500 dark:text-slate-400">Customize how your quote calculator looks on your website.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-6">
-            <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <div className="bg-white dark:bg-[#1e1e1e] rounded-none border border-slate-200 dark:border-white/[0.06] shadow-sm dark:shadow-none p-6 space-y-6">
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
               <Settings className="text-red-600" size={20} />
               Appearance & Branding
             </h2>
 
             {!entitlements.isAdvancedCustomizationEnabled && (
-              <div className="p-4 bg-amber-50 border border-amber-100 rounded-xl flex items-start gap-4 mb-6">
-                <div className="p-2 bg-amber-100 rounded-lg shrink-0">
-                   <Sparkles className="text-amber-600" size={20} />
+              <div className="p-4 bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/30 rounded-none flex items-start gap-4 mb-6">
+                <div className="p-2 bg-amber-100 dark:bg-amber-500/20 rounded-none shrink-0">
+                   <Sparkles className="text-amber-600 dark:text-amber-400" size={20} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-amber-900 leading-none mb-1">Unlock Pro Features</h3>
-                  <p className="text-xs text-amber-700 leading-relaxed mb-2">
-                    The Starter plan generates broad estimates based on ZIP code ranges. Upgrade to <strong>Pro</strong> for <strong className="text-amber-900">exact address-to-address pricing</strong> powered by Google Maps routing, plus custom logos, backgrounds, and white-labeling!
+                  <h3 className="text-sm font-bold text-amber-900 dark:text-amber-300 leading-none mb-1">Unlock Pro Features</h3>
+                  <p className="text-xs text-amber-700 dark:text-amber-400 leading-relaxed mb-2">
+                    The Starter plan generates broad estimates based on ZIP code ranges. Upgrade to <strong>Pro</strong> for <strong className="text-amber-900 dark:text-amber-300">exact address-to-address pricing</strong> powered by Google Maps routing, plus custom logos, backgrounds, and white-labeling!
                   </p>
-                  <Link href="/dashboard/billing" className="text-xs font-bold text-amber-900 underline inline-block">View Plans</Link>
+                  <Link href="/dashboard/billing" className="text-xs font-bold text-amber-900 dark:text-amber-300 underline inline-block">View Plans</Link>
                 </div>
               </div>
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Image Uploads */}
-              <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-white border border-slate-300 rounded-lg shadow-sm">
+              <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none shadow-sm dark:shadow-none">
                 {/* Company Logo */}
                 <div className="flex flex-col gap-3">
-                  <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
+                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2">
                     Company Logo
                     {!entitlements.isAdvancedCustomizationEnabled && <Lock size={12} className="text-amber-500" />}
                   </label>
@@ -225,31 +225,31 @@ export default function WidgetSettingsForm({
                     <div className="relative w-14 h-14 shrink-0 group/thumb">
                       {logo ? (
                         <>
-                          <Image src={logo} alt="Logo" fill className="object-contain bg-white rounded-xl border border-slate-200" unoptimized />
+                          <Image src={logo} alt="Logo" fill className="object-contain bg-white dark:bg-white/5 rounded-none border border-slate-200 dark:border-white/[0.06]" unoptimized />
                           {entitlements.isAdvancedCustomizationEnabled && (
                             <button
                               type="button"
                               onClick={() => setLogo("")}
                               title="Remove logo"
-                              className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-xl opacity-0 group-hover/thumb:opacity-100 transition-opacity"
+                              className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-none opacity-0 group-hover/thumb:opacity-100 transition-opacity"
                             >
                               <Trash2 size={16} className="text-white" />
                             </button>
                           )}
                         </>
                       ) : (
-                        <div className="w-14 h-14 bg-slate-50 rounded-xl border border-dashed border-slate-300 flex items-center justify-center">
+                        <div className="w-14 h-14 bg-slate-50 dark:bg-white/[0.02] rounded-none border border-dashed border-slate-300 dark:border-white/[0.08] flex items-center justify-center">
                           <ImageIcon size={20} className="text-slate-300" />
                         </div>
                       )}
                     </div>
                     {/* Upload button */}
                     {!entitlements.isAdvancedCustomizationEnabled ? (
-                      <button type="button" disabled className="px-4 py-2 bg-slate-50 border border-slate-200 text-sm font-medium text-slate-400 rounded-lg flex items-center gap-2">
+                      <button type="button" disabled className="px-4 py-2 bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/[0.06] text-sm font-medium text-slate-400 dark:text-slate-500 rounded-none flex items-center gap-2">
                         <Lock size={14} /> Locked
                       </button>
                     ) : (
-                      <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 text-sm font-medium text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors shadow-sm">
+                      <label className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] text-sm font-medium text-slate-700 dark:text-slate-300 rounded-none cursor-pointer hover:bg-slate-50 dark:hover:bg-white/5 transition-colors shadow-sm dark:shadow-none">
                         <Upload size={15} />
                         {logo ? "Replace" : "Upload Logo"}
                         <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'logo')} />
@@ -257,13 +257,13 @@ export default function WidgetSettingsForm({
                     )}
                   </div>
                   {logo && entitlements.isAdvancedCustomizationEnabled && (
-                    <p className="text-[11px] text-slate-400">Hover the thumbnail to remove</p>
+                    <p className="text-[11px] text-slate-400 dark:text-slate-500">Hover the thumbnail to remove</p>
                   )}
                 </div>
 
                 {/* Widget Background */}
                 <div className="flex flex-col gap-3">
-                  <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
+                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2">
                     Widget Background
                     {!entitlements.isAdvancedCustomizationEnabled && <Lock size={12} className="text-amber-500" />}
                   </label>
@@ -272,31 +272,31 @@ export default function WidgetSettingsForm({
                     <div className="relative w-20 h-14 shrink-0 group/thumb">
                       {previewData.backgroundImageUrl ? (
                         <>
-                          <div className="w-20 h-14 rounded-xl border border-slate-200 bg-cover bg-center" style={{ backgroundImage: `url(${previewData.backgroundImageUrl})` }} />
+                          <div className="w-20 h-14 rounded-none border border-slate-200 dark:border-white/[0.06] bg-cover bg-center" style={{ backgroundImage: `url(${previewData.backgroundImageUrl})` }} />
                           {entitlements.isAdvancedCustomizationEnabled && (
                             <button
                               type="button"
                               onClick={() => setPreviewData(prev => ({ ...prev, backgroundImageUrl: null }))}
                               title="Remove background"
-                              className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-xl opacity-0 group-hover/thumb:opacity-100 transition-opacity"
+                              className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-none opacity-0 group-hover/thumb:opacity-100 transition-opacity"
                             >
                               <Trash2 size={16} className="text-white" />
                             </button>
                           )}
                         </>
                       ) : (
-                        <div className="w-20 h-14 bg-slate-50 rounded-xl border border-dashed border-slate-300 flex items-center justify-center">
+                        <div className="w-20 h-14 bg-slate-50 dark:bg-white/[0.02] rounded-none border border-dashed border-slate-300 dark:border-white/[0.08] flex items-center justify-center">
                           <ImageIcon size={20} className="text-slate-300" />
                         </div>
                       )}
                     </div>
                     {/* Upload button */}
                     {!entitlements.isAdvancedCustomizationEnabled ? (
-                      <button type="button" disabled className="px-4 py-2 bg-slate-50 border border-slate-200 text-sm font-medium text-slate-400 rounded-lg flex items-center gap-2">
+                      <button type="button" disabled className="px-4 py-2 bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/[0.06] text-sm font-medium text-slate-400 dark:text-slate-500 rounded-none flex items-center gap-2">
                         <Lock size={14} /> Locked
                       </button>
                     ) : (
-                      <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 text-sm font-medium text-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors shadow-sm">
+                      <label className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] text-sm font-medium text-slate-700 dark:text-slate-300 rounded-none cursor-pointer hover:bg-slate-50 dark:hover:bg-white/5 transition-colors shadow-sm dark:shadow-none">
                         <Upload size={15} />
                         {previewData.backgroundImageUrl ? "Replace" : "Upload Background"}
                         <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'background')} />
@@ -304,13 +304,13 @@ export default function WidgetSettingsForm({
                     )}
                   </div>
                   {previewData.backgroundImageUrl && entitlements.isAdvancedCustomizationEnabled && (
-                    <p className="text-[11px] text-slate-400">Hover the thumbnail to remove</p>
+                    <p className="text-[11px] text-slate-400 dark:text-slate-500">Hover the thumbnail to remove</p>
                   )}
                 </div>
               </div>
 
               {/* Text Branding (Free Plan Option) */}
-              <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-white border border-slate-300 rounded-lg shadow-sm">
+              <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none shadow-sm dark:shadow-none">
                 <div>
                   <label htmlFor="companyNameText" className="text-sm font-medium text-slate-700 mb-1 flex items-center gap-2">
                     Company Name (Text Branding)
@@ -322,10 +322,10 @@ export default function WidgetSettingsForm({
                     placeholder="Your Company"
                     value={previewData.companyNameText || ""}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm"
+                    className="w-full px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm dark:shadow-none"
                     style={{ fontFamily: previewData.companyNameFont || "Inter" }}
                   />
-                  <p className="text-xs text-slate-400 mt-1">Shown if no logo is uploaded</p>
+                  <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Shown if no logo is uploaded</p>
                 </div>
                 <div>
                   <label htmlFor="companyNameFont" className="text-sm font-medium text-slate-700 mb-1 flex items-center gap-2">
@@ -336,7 +336,7 @@ export default function WidgetSettingsForm({
                     name="companyNameFont"
                     value={previewData.companyNameFont || "Inter"}
                     onChange={(e) => setPreviewData(prev => ({ ...prev, companyNameFont: e.target.value }))}
-                    className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm"
+                    className="w-full px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm dark:shadow-none"
                   >
                     <option value="Inter" style={{ fontFamily: 'Inter, sans-serif' }}>Inter (Sans)</option>
                     <option value="Roboto" style={{ fontFamily: 'Roboto, sans-serif' }}>Roboto (Clean)</option>
@@ -349,10 +349,10 @@ export default function WidgetSettingsForm({
               </div>
 
               <div>
-                <label htmlFor="primaryColor" className="block text-sm font-medium text-slate-700 mb-1">Primary Brand Color (Hex)</label>
+                <label htmlFor="primaryColor" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Primary Brand Color (Hex)</label>
                 <div className="flex gap-2">
-                  <div 
-                    className="relative w-10 h-10 rounded-lg border border-slate-200 shrink-0 overflow-hidden cursor-pointer" 
+                  <div
+                    className="relative w-10 h-10 rounded-none border border-slate-200 dark:border-white/[0.06] shrink-0 overflow-hidden cursor-pointer"
                     style={{ backgroundColor: previewData.primaryColor }}
                   >
                      <input
@@ -378,7 +378,7 @@ export default function WidgetSettingsForm({
                   <button
                     type="button"
                     onClick={() => setPreviewData((prev) => ({ ...prev, primaryColor: '#3B82F6' }))}
-                    className="shrink-0 flex items-center justify-center px-3 bg-white border border-slate-300 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors shadow-sm"
+                    className="shrink-0 flex items-center justify-center px-3 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5 transition-colors shadow-sm dark:shadow-none"
                     title="Reset to default color"
                   >
                      <RotateCcw size={18} />
@@ -386,7 +386,7 @@ export default function WidgetSettingsForm({
                 </div>
               </div>
               <div>
-                <label htmlFor="buttonText" className="block text-sm font-medium text-slate-700 mb-1">Button Text</label>
+                <label htmlFor="buttonText" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Button Text</label>
                 <input
                   id="buttonText"
                   name="buttonText"
@@ -394,13 +394,13 @@ export default function WidgetSettingsForm({
                   required
                   value={previewData.buttonText}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm"
+                  className="w-full px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm dark:shadow-none"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="headerText" className="block text-sm font-medium text-slate-700 mb-1">Header Title</label>
+              <label htmlFor="headerText" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Header Title</label>
               <input
                 id="headerText"
                 name="headerText"
@@ -408,18 +408,18 @@ export default function WidgetSettingsForm({
                 required
                 value={previewData.headerText}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm"
+                className="w-full px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm dark:shadow-none"
               />
             </div>
 
             <div>
-              <label htmlFor="mapLayout" className="block text-sm font-medium text-slate-700 mb-1">Map Output Style</label>
+              <label htmlFor="mapLayout" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Map Output Style</label>
               <select
                 id="mapLayout"
                 name="mapLayout"
                 value={previewData.mapLayout}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm"
+                className="w-full px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm dark:shadow-none"
               >
                 <option value="inline">Inline (Default)</option>
                 <option value="side">Side Panel Slide-out</option>
@@ -453,9 +453,9 @@ export default function WidgetSettingsForm({
                 placeholder="https://yourcompany.com"
                 value={previewData.websiteUrl || ""}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm"
+                className="w-full px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm dark:shadow-none"
               />
-              <p className="text-xs text-slate-400 mt-1">Optional but recommended. Customers will see a &quot;Back to [your site]&quot; button after submitting their quote.</p>
+              <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Optional but recommended. Customers will see a &quot;Back to [your site]&quot; button after submitting their quote.</p>
             </div>
 
             <div>
@@ -470,53 +470,52 @@ export default function WidgetSettingsForm({
                 disabled={!entitlements.isAdvancedCustomizationEnabled}
                 value={previewData.disclaimerText}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm disabled:bg-slate-50 disabled:text-slate-400"
+                className="w-full px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm dark:shadow-none disabled:bg-slate-50 dark:disabled:bg-white/[0.02] disabled:text-slate-400 dark:disabled:text-slate-500"
               />
               {!entitlements.isAdvancedCustomizationEnabled && (
-                <p className="text-[10px] text-amber-600 bg-amber-50 px-2 py-1 rounded w-max mt-2 font-semibold">Custom disclaimers are a Pro feature.</p>
+                <p className="text-[10px] text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 border border-transparent dark:border-amber-500/30 px-2 py-1 rounded-none w-max mt-2 font-semibold">Custom disclaimers are a Pro feature.</p>
               )}
             </div>
 
           </div>
 
           {/* Payments Toggle — Enterprise Only */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-4">
-            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+          <div className="bg-white dark:bg-[#1e1e1e] rounded-none border border-slate-200 dark:border-white/[0.06] shadow-sm dark:shadow-none p-6 space-y-4">
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <span className="text-xl">💳</span>
               Accept Payments
               {!entitlements.isPaymentsEnabled && (
-                <span className="ml-2 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-red-100 text-red-700 rounded-full">Enterprise</span>
+                <span className="ml-2 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-red-100 dark:bg-red-500/15 text-red-700 dark:text-red-400 border border-transparent dark:border-red-500/30 rounded-full">Enterprise</span>
               )}
             </h2>
 
             {entitlements.isPaymentsEnabled ? (
               <div className="flex flex-col gap-6">
-                <p className="text-sm text-slate-500 leading-relaxed">
-                  When enabled, your widget will show a <strong className="text-slate-700">&ldquo;Pay &amp; Book&rdquo;</strong> button after the estimate. Your customers pay the quoted amount directly via Stripe before the booking is confirmed.
+                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                  When enabled, your widget will show a <strong className="text-slate-700 dark:text-slate-200">&ldquo;Pay &amp; Book&rdquo;</strong> button after the estimate. Your customers pay the quoted amount directly via Stripe before the booking is confirmed.
                 </p>
 
-                {/* Stripe Connect Status */}
-                <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-4">
+                <div className="bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/[0.06] rounded-none p-5 space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${stripeConnectAccountId ? 'bg-emerald-100 text-emerald-600' : 'bg-amber-100 text-amber-600'}`}>
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${stripeConnectAccountId ? 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' : 'bg-amber-100 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400'}`}>
                         {stripeConnectAccountId ? <CheckCircle size={20} /> : <XCircle size={20} />}
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-slate-900">Stripe Connection</h4>
-                        <p className="text-xs text-slate-500">
-                          {stripeConnectAccountId 
-                            ? `Connected (ID: ${stripeConnectAccountId.substring(0, 12)}...)` 
+                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">Stripe Connection</h4>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">
+                          {stripeConnectAccountId
+                            ? `Connected (ID: ${stripeConnectAccountId.substring(0, 12)}...)`
                             : "No Stripe account linked."}
                         </p>
                       </div>
                     </div>
                     {stripeConnectAccountId ? (
-                      <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase tracking-wider rounded-full border border-emerald-100 italic">
+                      <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px] font-black uppercase tracking-wider rounded-full border border-emerald-100 dark:border-emerald-500/30 italic">
                         <Sparkles size={10} /> Connected
                       </span>
                     ) : (
-                      <span className="px-3 py-1 bg-amber-50 text-amber-700 text-[10px] font-black uppercase tracking-wider rounded-full border border-amber-100">
+                      <span className="px-3 py-1 bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-[10px] font-black uppercase tracking-wider rounded-full border border-amber-100 dark:border-amber-500/30">
                         Disconnected
                       </span>
                     )}
@@ -526,7 +525,7 @@ export default function WidgetSettingsForm({
                     <button
                       type="button"
                       onClick={() => router.push(`/api/stripe/connect?companyId=${companyId}`)}
-                      className="w-full py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-bold transition-all shadow-md active:scale-[0.98] flex items-center justify-center gap-2"
+                      className="w-full py-3 bg-red-600 hover:bg-red-500 text-white rounded-none text-sm font-black transition-all shadow-md dark:shadow-none active:scale-[0.98] flex items-center justify-center gap-2"
                     >
                       <ExternalLink size={16} /> Link Your Stripe Account
                     </button>
@@ -534,14 +533,14 @@ export default function WidgetSettingsForm({
                     <button
                       type="button"
                       onClick={() => router.push(`/api/stripe/connect?companyId=${companyId}`)}
-                      className="text-xs text-red-600 font-semibold hover:underline"
+                      className="text-xs text-red-600 dark:text-red-400 font-semibold hover:underline"
                     >
                       Reconnect or change account
                     </button>
                   )}
                 </div>
 
-                <label className={`flex items-center gap-4 p-4 rounded-xl border transition-colors ${!stripeConnectAccountId ? 'bg-slate-50/50 border-slate-100 cursor-not-allowed opacity-60' : 'bg-slate-50 border-slate-200 cursor-pointer hover:bg-slate-100'}`}>
+                <label className={`flex items-center gap-4 p-4 rounded-none border transition-colors ${!stripeConnectAccountId ? 'bg-slate-50/50 dark:bg-white/[0.02] border-slate-100 dark:border-white/[0.04] cursor-not-allowed opacity-60' : 'bg-slate-50 dark:bg-white/[0.02] border-slate-200 dark:border-white/[0.06] cursor-pointer hover:bg-slate-100 dark:hover:bg-white/5'}`}>
                   <div className="relative">
                     <input
                       name="paymentsEnabled"
@@ -551,33 +550,33 @@ export default function WidgetSettingsForm({
                       disabled={!stripeConnectAccountId}
                       onChange={(e) => setPreviewData({ ...previewData, paymentsEnabled: e.target.checked })}
                     />
-                    <div className="w-11 h-6 bg-slate-300 peer-checked:bg-emerald-500 rounded-full transition-colors" />
+                    <div className="w-11 h-6 bg-slate-300 dark:bg-white/10 peer-checked:bg-emerald-500 rounded-full transition-colors" />
                     <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform peer-checked:translate-x-5" />
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-slate-800">Enable Pay &amp; Book</p>
-                    <p className="text-xs text-slate-500 mt-0.5">Customers must pay before their booking is confirmed</p>
+                    <p className="text-sm font-bold text-slate-800 dark:text-white">Enable Pay &amp; Book</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Customers must pay before their booking is confirmed</p>
                   </div>
                   {!stripeConnectAccountId && (
-                    <span className="text-[10px] text-amber-600 ml-auto flex items-center gap-1">
+                    <span className="text-[10px] text-amber-600 dark:text-amber-400 ml-auto flex items-center gap-1">
                       <Info size={10} /> Link Stripe first
                     </span>
                   )}
                 </label>
                 {previewData.paymentsEnabled && (
-                  <div className="flex items-start gap-2 p-3 bg-emerald-50 border border-emerald-100 rounded-lg text-xs text-emerald-800">
+                  <div className="flex items-start gap-2 p-3 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-500/30 rounded-none text-xs text-emerald-800 dark:text-emerald-300">
                     <span>✅</span>
                     <span>Payments are <strong>active</strong>. Stripe will process customer payments and you&apos;ll receive a webhook confirmation on each successful booking.</span>
                   </div>
                 )}
               </div>
             ) : (
-              <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-100 rounded-xl">
-                <Lock className="text-rose-500 shrink-0 mt-0.5" size={18} />
+              <div className="flex items-start gap-3 p-4 bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/30 rounded-none">
+                <Lock className="text-rose-500 dark:text-rose-400 shrink-0 mt-0.5" size={18} />
                 <div>
-                  <p className="text-sm font-bold text-red-900">Upgrade to Enterprise</p>
-                  <p className="text-xs text-red-700 mt-0.5 leading-relaxed">Allow your customers to pay for deliveries directly from the widget. No back-and-forth needed.</p>
-                  <Link href="/dashboard/billing" className="inline-block mt-2 text-xs font-bold text-red-900 underline">View Plans →</Link>
+                  <p className="text-sm font-bold text-red-900 dark:text-red-300">Upgrade to Enterprise</p>
+                  <p className="text-xs text-red-700 dark:text-red-400 mt-0.5 leading-relaxed">Allow your customers to pay for deliveries directly from the widget. No back-and-forth needed.</p>
+                  <Link href="/dashboard/billing" className="inline-block mt-2 text-xs font-bold text-red-900 dark:text-red-300 underline">View Plans →</Link>
                 </div>
               </div>
             )}
@@ -587,7 +586,7 @@ export default function WidgetSettingsForm({
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center gap-2 px-8 py-3 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition-all disabled:opacity-50"
+              className="flex items-center gap-2 px-8 py-3 bg-red-600 text-white font-black rounded-none hover:bg-red-500 transition-all disabled:opacity-50"
             >
               <Save size={20} />
               {loading ? "Saving..." : "Save Settings"}
