@@ -173,6 +173,7 @@ export default function OnboardingChecklist({ steps }: Props) {
                       <Link
                         href={step.href}
                         className={`shrink-0 px-4 py-2 text-xs font-bold rounded-xl transition-all active:scale-[0.97] whitespace-nowrap ${
+                          isNext
                             ? "bg-red-600 text-white hover:bg-red-500 shadow-none dark:shadow-none"
                             : isNew
                               ? "bg-slate-700 text-slate-300 hover:bg-slate-600"
