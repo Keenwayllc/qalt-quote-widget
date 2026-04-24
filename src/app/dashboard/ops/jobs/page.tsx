@@ -35,8 +35,8 @@ export default async function JobsPage() {
   return (
     <div className="p-4 lg:p-10 max-w-7xl mx-auto space-y-6 sm:space-y-8">
       <div className="space-y-1">
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Jobs Dashboard</h1>
-        <p className="text-slate-500 font-medium text-sm sm:text-base">Track and execute delivery workflows. Connect verified stops to your dispatch cycle.</p>
+        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">Jobs Dashboard</h1>
+        <p className="text-slate-500 dark:text-zinc-400 font-medium text-sm sm:text-base">Track and execute delivery workflows. Connect verified stops to your dispatch cycle.</p>
       </div>
       <JobsClient initialJobs={jobs} stops={stops} quotes={quotes} />
     </div>

@@ -123,7 +123,7 @@ export default async function AnalyticsPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-50 text-red-600 rounded-full text-[10px] font-black uppercase tracking-widest mb-3 border border-red-100/50 shadow-sm">
             <Activity size={12} /> Qalt • Smart Quotes
           </div>
-          <h1 className="text-5xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-5xl font-black text-slate-900 dark:text-white tracking-tight">
             Analytics Overview
           </h1>
           <p className="text-slate-500 font-medium text-lg mt-2 font-['Outfit']">
