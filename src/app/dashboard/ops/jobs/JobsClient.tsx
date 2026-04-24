@@ -95,12 +95,12 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
             placeholder="Search jobs by ID or stop name..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 transition-all font-medium text-slate-700"
+            className="w-full pl-12 pr-4 py-3.5 bg-white dark:bg-[#1c1c1c] border border-slate-200 dark:border-white/6 rounded-2xl shadow-sm dark:shadow-none focus:outline-none focus:ring-2 focus:ring-red-500 transition-all font-medium text-slate-700 dark:text-zinc-200 placeholder:text-slate-400 dark:placeholder:text-zinc-600"
           />
         </div>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="px-6 py-3.5 bg-slate-900 text-white rounded-2xl font-black flex items-center justify-center gap-2 hover:bg-slate-800 active:scale-95 transition-all shadow-lg shadow-slate-200"
+          className="px-6 py-3.5 bg-zinc-900 dark:bg-zinc-800 text-white rounded-2xl font-black flex items-center justify-center gap-2 hover:bg-zinc-800 dark:hover:bg-zinc-700 active:scale-95 transition-all shadow-lg shadow-slate-200 dark:shadow-none"
         >
           <Plus size={20} />
           Create New Job
@@ -108,17 +108,17 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
       </div>
 
       {jobs.length === 0 ? (
-        <div className="bg-white rounded-[32px] border border-slate-200/60 shadow-xl p-12 text-center">
-          <div className="p-6 bg-red-50 rounded-3xl w-24 h-24 flex items-center justify-center mx-auto mb-6 text-red-600">
+        <div className="bg-white dark:bg-[#141414] rounded-[32px] border border-slate-200/60 dark:border-white/6 shadow-xl dark:shadow-none p-12 text-center">
+          <div className="p-6 bg-red-50 dark:bg-red-500/10 rounded-3xl w-24 h-24 flex items-center justify-center mx-auto mb-6 text-red-600 dark:text-red-400">
             <Briefcase size={40} />
           </div>
-          <h2 className="text-2xl font-black text-slate-900 mb-2">No Active Jobs</h2>
-          <p className="text-slate-500 font-medium mb-8 max-w-sm mx-auto">
+          <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">No Active Jobs</h2>
+          <p className="text-slate-500 dark:text-zinc-400 font-medium mb-8 max-w-sm mx-auto">
             Get started by creating a job and assigning stops from your saved notes library.
           </p>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="px-8 py-3.5 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition-all"
+            className="px-8 py-3.5 bg-zinc-900 dark:bg-zinc-800 text-white rounded-xl font-bold hover:bg-zinc-800 dark:hover:bg-zinc-700 transition-all"
           >
             Create Your First Job
           </button>
@@ -129,10 +129,10 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
                 <div 
                   key={job.id}
                   onClick={() => router.push(`/dashboard/ops/jobs/${job.id}`)}
-                  className="bg-white rounded-[2rem] border border-slate-200/60 shadow-sm p-6 hover:shadow-xl hover:border-slate-300 transition-all cursor-pointer group flex flex-col md:flex-row md:items-center gap-6"
+                  className="bg-white dark:bg-[#141414] rounded-4xl border border-slate-200/60 dark:border-white/6 shadow-sm dark:shadow-none p-6 hover:shadow-xl dark:hover:shadow-none hover:border-slate-300 dark:hover:border-white/10 transition-all cursor-pointer group flex flex-col md:flex-row md:items-center gap-6"
                 >
                     <div className="flex items-center gap-4 shrink-0">
-                        <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-slate-900 group-hover:text-white transition-all">
+                        <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-white/5 flex items-center justify-center text-slate-400 dark:text-zinc-500 group-hover:bg-zinc-900 dark:group-hover:bg-zinc-700 group-hover:text-white transition-all">
                            <Briefcase size={28} />
                         </div>
                         <div>
@@ -146,7 +146,7 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
                     <div className="flex-1 min-w-0 px-2 space-y-2">
                         <div className="flex items-center gap-3">
                             <CalendarDays size={14} className="text-red-500" />
-                            <span className="text-sm font-black text-slate-800">
+                            <span className="text-sm font-black text-slate-800 dark:text-white">
                                 {new Date(job.scheduledDate).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
                             </span>
                         </div>
@@ -158,7 +158,7 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
                                     </div>
                                 ))}
                             </div>
-                            <p className="text-xs font-bold text-slate-500 truncate">
+                            <p className="text-xs font-bold text-slate-500 dark:text-zinc-500 truncate">
                                 {job.stops.map((js: any) => js.stopNote.companyName).join(' → ')}
                             </p>
                         </div>
@@ -177,7 +177,7 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
                                 </span>
                             )}
                         </div>
-                        <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-300 group-hover:text-slate-900 group-hover:bg-slate-100 transition-all">
+                        <div className="w-10 h-10 rounded-full bg-slate-50 dark:bg-white/5 flex items-center justify-center text-slate-300 dark:text-zinc-600 group-hover:text-slate-900 dark:group-hover:text-white group-hover:bg-slate-100 dark:group-hover:bg-white/10 transition-all">
                             <ChevronRight size={20} />
                         </div>
                     </div>
@@ -199,16 +199,16 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="relative bg-white rounded-[2.5rem] w-full max-w-xl max-h-[85vh] overflow-y-auto shadow-2xl p-6 sm:p-10 scrollbar-hide"
+            className="relative bg-white dark:bg-[#161616] rounded-[2.5rem] w-full max-w-xl max-h-[85vh] overflow-y-auto shadow-2xl dark:shadow-black/60 p-6 sm:p-10 scrollbar-hide border dark:border-white/6"
           >
             <div className="flex items-center justify-between mb-8">
               <div>
-                <h2 className="text-2xl font-black text-slate-900 tracking-tight">Schedule New Job</h2>
-                <p className="text-slate-400 text-sm font-bold">Connect stops into a single delivery</p>
+                <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Schedule New Job</h2>
+                <p className="text-slate-400 dark:text-zinc-500 text-sm font-bold">Connect stops into a single delivery</p>
               </div>
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 hover:bg-slate-200"
+                className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-400 dark:text-zinc-500 hover:bg-slate-200 dark:hover:bg-white/10"
               >
                 <X size={20} />
               </button>
@@ -222,7 +222,7 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
                   required
                   value={formData.scheduledDate}
                   onChange={e => setFormData({...formData, scheduledDate: e.target.value})}
-                  className="w-full px-5 py-4 bg-slate-100 border border-slate-300 rounded-2xl text-sm font-bold text-slate-900 placeholder-slate-500 focus:ring-2 focus:ring-red-500 outline-none"
+                  className="w-full px-5 py-4 bg-slate-100 dark:bg-[#1c1c1c] border border-slate-300 dark:border-white/6 rounded-2xl text-sm font-bold text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder:text-zinc-600 focus:ring-2 focus:ring-red-500 outline-none dark:scheme-dark"
                 />
               </div>
 
@@ -236,8 +236,8 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
                       onClick={() => { toggleStop(stop.id); setStopError(false); }}
                       className={`w-full flex items-center justify-between p-4 rounded-2xl border-2 transition-all text-left ${
                         formData.stopNoteIds.includes(stop.id)
-                        ? "bg-slate-900 border-slate-900 text-white shadow-lg"
-                        : "bg-white border-slate-100 hover:border-slate-200 text-slate-700"
+                        ? "bg-zinc-900 dark:bg-zinc-700 border-zinc-900 dark:border-zinc-600 text-white shadow-lg dark:shadow-none"
+                        : "bg-white dark:bg-[#1c1c1c] border-slate-100 dark:border-white/6 hover:border-slate-200 dark:hover:border-white/15 text-slate-700 dark:text-zinc-300"
                       }`}
                     >
                       <div className="min-w-0 pr-4">
@@ -265,7 +265,7 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
                 <select
                   value={formData.quoteRequestId}
                   onChange={e => setFormData({...formData, quoteRequestId: e.target.value})}
-                  className="w-full px-5 py-4 bg-slate-100 border border-slate-300 rounded-2xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-red-500 outline-none appearance-none cursor-pointer"
+                  className="w-full px-5 py-4 bg-slate-100 dark:bg-[#1c1c1c] border border-slate-300 dark:border-white/6 rounded-2xl text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-red-500 outline-none appearance-none cursor-pointer"
                 >
                   <option value="">No linked quote</option>
                   {quotes.map((q) => (
@@ -278,17 +278,17 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="flex-1 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black hover:bg-slate-200 transition-all"
+                  className="flex-1 py-4 bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-zinc-400 rounded-2xl font-black hover:bg-slate-200 dark:hover:bg-white/10 transition-all"
                 >
                   Cancel
                 </button>
                 <button
                   disabled={isSubmitting}
                   type="submit"
-                  className={`flex-[2] py-4 rounded-2xl font-black transition-all shadow-xl ${
+                  className={`flex-2 py-4 rounded-2xl font-black transition-all shadow-xl ${
                     isSubmitting
-                      ? "bg-slate-400 text-white shadow-none cursor-not-allowed"
-                      : "bg-slate-900 text-white shadow-slate-200 hover:bg-slate-800"
+                      ? "bg-zinc-600 text-white shadow-none cursor-not-allowed"
+                      : "bg-zinc-900 dark:bg-zinc-800 text-white shadow-slate-200 dark:shadow-none hover:bg-zinc-800 dark:hover:bg-zinc-700"
                   }`}
                 >
                   {isSubmitting ? "Creating..." : "Create Job"}

@@ -130,7 +130,7 @@ export default function DashboardClientLayout({
   const closeSidebar = () => setIsSidebarOpen(false);
 
   return (
-    <div className="flex h-screen bg-slate-50 dark:bg-slate-950 font-sans selection:bg-red-100 selection:text-red-900 transition-colors duration-300">
+    <div className="flex h-screen bg-slate-50 dark:bg-[#0a0a0a] font-sans selection:bg-red-100 selection:text-red-900 transition-colors duration-300">
 
       {/* Mobile backdrop overlay — closes sidebar on tap outside */}
       {isSidebarOpen && (
@@ -142,7 +142,7 @@ export default function DashboardClientLayout({
 
       {/* Sidebar */}
       <aside className={`
-        fixed inset-y-0 left-0 z-40 w-72 bg-white/90 dark:bg-slate-900/95 backdrop-blur-xl border-r border-slate-200/60 dark:border-white/5 transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0
+        fixed inset-y-0 left-0 z-40 w-72 bg-white/95 dark:bg-[#111111] backdrop-blur-xl border-r border-slate-200/60 dark:border-white/6 transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <div className="flex flex-col h-full">
@@ -209,7 +209,7 @@ export default function DashboardClientLayout({
                   className={`
                      flex items-center px-4 py-2.5 rounded-xl text-sm font-semibold transition-all group relative
                     ${isActive
-                      ? "bg-red-600 text-white shadow-lg shadow-red-200 dark:shadow-none scale-[1.02]"
+                      ? "bg-red-600 text-white shadow-none scale-[1.02]"
                       : isLocked
                         ? "text-slate-400 dark:text-slate-600 cursor-not-allowed opacity-70"
                         : "text-slate-600 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white"}
@@ -263,7 +263,7 @@ export default function DashboardClientLayout({
                   className={`
                      flex items-center px-4 py-2.5 rounded-xl text-sm font-semibold transition-all group relative
                     ${isActive
-                      ? "bg-slate-900 dark:bg-white dark:text-slate-900 text-white shadow-lg shadow-slate-200 dark:shadow-none scale-[1.02]"
+                      ? "bg-slate-900 dark:bg-white/10 dark:text-white text-white shadow-none scale-[1.02]"
                       : "text-slate-600 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white"}
                   `}
                 >
@@ -279,7 +279,7 @@ export default function DashboardClientLayout({
             })}
           </nav>
 
-          <div className="p-4 mt-auto border-t border-slate-100/60 dark:border-white/5 space-y-1">
+          <div className="p-4 mt-auto border-t border-slate-100/60 dark:border-white/6 space-y-1">
             <ThemeToggle />
             {/* Company identity card */}
             {(companyName || logoUrl || profilePicUrl) && (
@@ -357,7 +357,7 @@ export default function DashboardClientLayout({
         <div className="absolute bottom-[-10%] left-[-10%] w-[30%] h-[30%] bg-red-400/5 blur-[100px] rounded-full pointer-events-none" />
 
         {/* Mobile header with hamburger */}
-        <header className="lg:hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-white/5 h-16 flex items-center justify-between px-4 sm:px-6 shrink-0 relative z-10 transition-colors">
+        <header className="lg:hidden bg-white/80 dark:bg-[#111111]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/6 h-16 flex items-center justify-between px-4 sm:px-6 shrink-0 relative z-10 transition-colors">
           <QaltLogo size="md" />
           <button
             onClick={() => setIsSidebarOpen(true)}
