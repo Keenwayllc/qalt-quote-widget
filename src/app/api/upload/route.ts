@@ -32,16 +32,22 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
-    // 3. Validate File Type
-    const validTypes = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/svg+xml"];
+    // 3. Validate file size (10 MB cap)
+    const MAX_SIZE = 10 * 1024 * 1024;
+    if (file.size > MAX_SIZE) {
+      return NextResponse.json({ error: "File too large. Maximum size is 10 MB." }, { status: 400 });
+    }
+
+    // 4. Validate file type — SVG excluded: browsers may execute embedded scripts
+    const validTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
     if (!validTypes.includes(file.type)) {
       return NextResponse.json(
-        { error: "Invalid file type. Only JPG, PNG, WEBP, GIF, and SVG are allowed." },
+        { error: "Invalid file type. Only JPG, PNG, WEBP, and GIF are allowed." },
         { status: 400 }
       );
     }
 
-    // 4. Upload via Admin SDK (bypasses Firebase Storage security rules)
+    // 5. Upload via Admin SDK (bypasses Firebase Storage security rules)
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 

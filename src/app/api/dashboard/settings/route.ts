@@ -69,10 +69,6 @@ export async function PATCH(req: Request) {
       profilePicUrl: profilePicUrl || null,
     };
 
-    if (subscriptionPlan && currentCompany.email.toLowerCase() === "emmanuel@gokeenway.com") {
-      updateData.subscriptionPlan = subscriptionPlan;
-    }
-
     const updated = await prisma.company.update({
       where: { id: payload.companyId },
       data: updateData,

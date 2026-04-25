@@ -2,7 +2,8 @@ import * as jose from "jose";
 import bcrypt from "bcryptjs";
 
 function getSecret() {
-  const secret = process.env.JWT_SECRET || "dev-fallback-secret-key-only-for-local-use";
+  const secret = process.env.JWT_SECRET;
+  if (!secret) throw new Error("JWT_SECRET environment variable is not set");
   return new TextEncoder().encode(secret);
 }
 

@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { hashPassword } from "@/lib/auth";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 import { sendEmail } from "@/lib/email";
 import { VerifyEmail } from "@/components/emails/VerifyEmail";
 import crypto from "crypto";
 import React from "react";
 
 export async function POST(req: Request) {
+  // 3 registrations per 10 minutes per IP
+  if (!rateLimit(`register:${getClientIp(req)}`, 3, 10 * 60 * 1000)) {
+    return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
+  }
+
   try {
     const { email, password, name } = await req.json();
 

@@ -8,6 +8,8 @@ export async function POST() {
     value: "",
     httpOnly: true,
     path: "/",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
     expires: new Date(0),
   });
 

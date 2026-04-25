@@ -96,8 +96,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ checkoutUrl: session.url });
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error);
-    console.error("Quote payment error:", message);
-    return NextResponse.json({ error: message || "Failed to create payment session." }, { status: 500 });
+    console.error("Quote payment error:", error instanceof Error ? error.message : String(error));
+    return NextResponse.json({ error: "Failed to create payment session." }, { status: 500 });
   }
 }
