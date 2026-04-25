@@ -79,10 +79,10 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="border border-slate-200 dark:border-white/[0.06] rounded-none overflow-hidden">
+    <div className="border border-slate-200 dark:border-white/6 rounded-none overflow-hidden">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between px-5 py-4 text-left bg-white dark:bg-[#1e1e1e] hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors"
+        className="w-full flex items-center justify-between px-5 py-4 text-left bg-white dark:bg-[#1e1e1e] hover:bg-slate-50 dark:hover:bg-white/2 transition-colors"
       >
         <span className="text-sm font-bold text-slate-900 dark:text-white pr-4">{q}</span>
         <ChevronDown
@@ -131,7 +131,7 @@ export default function SupportPage() {
         </div>
 
         {/* Still need help CTA */}
-        <div className="mt-12 bg-slate-900 dark:bg-[#1e1e1e] dark:border dark:border-white/[0.06] rounded-none p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div className="mt-12 bg-slate-900 dark:bg-[#1e1e1e] dark:border dark:border-white/6 rounded-none p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="flex items-start gap-4">
             <div className="w-10 h-10 bg-white/10 rounded-none flex items-center justify-center shrink-0">
               <MessageCircle size={18} className="text-white" />

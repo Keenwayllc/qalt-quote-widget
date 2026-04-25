@@ -9,6 +9,7 @@ export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -23,7 +24,7 @@ export default function ThemeToggle() {
   ];
 
   return (
-    <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-white/[0.04] border border-slate-200/60 dark:border-white/[0.06] w-full mb-4">
+    <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-white/4 border border-slate-200/60 dark:border-white/6 w-full mb-4">
       {buttons.map(({ key, icon: Icon, label }) => (
         <button
           key={key}

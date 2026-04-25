@@ -37,7 +37,7 @@ export default async function BillingPage({
 
       {/* ── Trial Expired Hard Paywall ─────────────────────────────────────── */}
       {trialExpired && (
-        <div className="mb-8 bg-slate-900 dark:bg-[#1e1e1e] rounded-none p-8 border border-red-500/30 dark:border-white/[0.06] shadow-2xl shadow-red-900/20 dark:shadow-none">
+        <div className="mb-8 bg-slate-900 dark:bg-[#1e1e1e] rounded-none p-8 border border-red-500/30 dark:border-white/6 shadow-2xl shadow-red-900/20 dark:shadow-none">
           <div className="flex items-start gap-5">
             <div className="w-12 h-12 bg-red-600 rounded-none flex items-center justify-center shrink-0">
               <Clock size={22} className="text-white" />
@@ -89,7 +89,7 @@ export default async function BillingPage({
       )}
 
       {/* Current plan summary card */}
-      <div className="bg-white dark:bg-[#1e1e1e] rounded-none border border-slate-200 dark:border-white/[0.06] shadow-sm dark:shadow-none p-6 mb-10 flex items-center justify-between">
+      <div className="bg-white dark:bg-[#1e1e1e] rounded-none border border-slate-200 dark:border-white/6 shadow-sm dark:shadow-none p-6 mb-10 flex items-center justify-between">
         <div>
           <p className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Current Plan</p>
           <div className="flex items-center gap-3 mt-1">
@@ -127,7 +127,7 @@ function AccountDangerZone({ hasPaidPlan }: { hasPaidPlan: boolean }) {
       <div className="bg-red-50 dark:bg-red-500/10 px-6 py-4 border-b border-red-200 dark:border-red-500/30">
         <h2 className="text-sm font-black text-red-700 dark:text-red-400 uppercase tracking-widest">Account Management</h2>
       </div>
-      <div className="bg-white dark:bg-[#1e1e1e] divide-y divide-slate-100 dark:divide-white/[0.04]">
+      <div className="bg-white dark:bg-[#1e1e1e] divide-y divide-slate-100 dark:divide-white/4">
         {hasPaidPlan && (
           <div className="flex items-start justify-between gap-6 px-6 py-5">
             <div>

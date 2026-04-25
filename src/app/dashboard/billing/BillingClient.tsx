@@ -110,13 +110,13 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
     <>
       {/* Monthly / Annual toggle */}
       <div className="flex items-center justify-center mb-10">
-        <div className="inline-flex items-center bg-slate-100 rounded-xl p-1 gap-1">
+        <div className="inline-flex items-center bg-slate-100 dark:bg-white/5 rounded-xl p-1 gap-1">
           <button
             onClick={() => setInterval("monthly")}
             className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${
               interval === "monthly"
-                ? "bg-white text-slate-900 shadow-sm"
-                : "text-slate-500 hover:text-slate-700"
+                ? "bg-white dark:bg-[#1c1c1c] text-slate-900 dark:text-white shadow-sm"
+                : "text-slate-500 dark:text-zinc-400 hover:text-slate-700 dark:hover:text-zinc-200"
             }`}
           >
             Monthly
@@ -125,12 +125,12 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
             onClick={() => setInterval("annual")}
             className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-all ${
               interval === "annual"
-                ? "bg-white text-slate-900 shadow-sm"
-                : "text-slate-500 hover:text-slate-700"
+                ? "bg-white dark:bg-[#1c1c1c] text-slate-900 dark:text-white shadow-sm"
+                : "text-slate-500 dark:text-zinc-400 hover:text-slate-700 dark:hover:text-zinc-200"
             }`}
           >
             Annually
-            <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[10px] font-black rounded-full uppercase tracking-wide">
+            <span className="px-2 py-0.5 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-[10px] font-black rounded-full uppercase tracking-wide">
               Save 25%
             </span>
           </button>
@@ -173,8 +173,8 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
               className={`
                 relative flex flex-col p-8 rounded-3xl border-2 transition-all duration-300
                 ${isCurrentPlan
-                  ? "bg-white border-red-500 shadow-xl scale-[1.02] z-10"
-                  : "bg-white border-slate-100 hover:border-slate-200 hover:shadow-lg hover:-translate-y-1"}
+                  ? "bg-white dark:bg-[#1c1c1c] border-red-500 shadow-xl dark:shadow-none scale-[1.02] z-10"
+                  : "bg-white dark:bg-[#141414] border-slate-100 dark:border-white/6 hover:border-slate-200 dark:hover:border-white/15 hover:shadow-lg dark:hover:shadow-none hover:-translate-y-1"}
               `}
             >
               {isCurrentPlan && (
@@ -185,24 +185,24 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
 
               <div className="mb-6">
                 <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 ${
-                  plan.id === "STARTER" ? "bg-slate-100 text-slate-600" : "bg-red-100 text-red-600"
+                  plan.id === "STARTER" ? "bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-zinc-400" : "bg-red-100 dark:bg-red-500/15 text-red-600 dark:text-red-400"
                 }`}>
                   <plan.icon size={24} />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900">{plan.name}</h3>
-                <p className="text-slate-500 text-sm mt-1">{plan.description}</p>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">{plan.name}</h3>
+                <p className="text-slate-500 dark:text-zinc-400 text-sm mt-1">{plan.description}</p>
               </div>
 
               <div className="mb-8">
                 <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-black text-slate-900">{pricing.price}</span>
+                  <span className="text-4xl font-black text-slate-900 dark:text-white">{pricing.price}</span>
                   {interval === "annual" && plan.annual.badge && (
-                    <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[10px] font-black rounded-full uppercase tracking-wide">
+                    <span className="px-2 py-0.5 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-[10px] font-black rounded-full uppercase tracking-wide">
                       {plan.annual.badge}
                     </span>
                   )}
                 </div>
-                <p className="text-xs font-semibold text-slate-400 mt-1 uppercase tracking-wider">
+                <p className="text-xs font-semibold text-slate-400 dark:text-zinc-500 mt-1 uppercase tracking-wider">
                   {pricing.detail}
                 </p>
               </div>
@@ -210,10 +210,10 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
               <ul className="space-y-4 mb-10 flex-1">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-3">
-                    <div className="mt-1 shrink-0 w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center">
-                      <Check size={12} className="text-emerald-600" strokeWidth={3} />
+                    <div className="mt-1 shrink-0 w-5 h-5 rounded-full bg-emerald-50 dark:bg-emerald-500/15 flex items-center justify-center">
+                      <Check size={12} className="text-emerald-600 dark:text-emerald-400" strokeWidth={3} />
                     </div>
-                    <span className="text-sm text-slate-600 font-medium">{feature}</span>
+                    <span className="text-sm text-slate-600 dark:text-zinc-300 font-medium">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -225,10 +225,10 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
                   w-full py-4 rounded-xl font-bold text-sm transition-all active:scale-[0.98] disabled:opacity-50 disabled:active:scale-100
                   flex items-center justify-center gap-2
                   ${buttonDisabled
-                    ? "bg-slate-100 text-slate-400 cursor-default"
+                    ? "bg-slate-100 dark:bg-white/5 text-slate-400 dark:text-zinc-600 cursor-default"
                     : isCurrentPlan && currentPlan !== "STARTER"
-                      ? "bg-white text-slate-700 border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
-                      : "bg-slate-900 text-white hover:bg-slate-800 shadow-md shadow-slate-200"}
+                      ? "bg-white dark:bg-white/5 text-slate-700 dark:text-zinc-300 border-2 border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 hover:bg-slate-50 dark:hover:bg-white/10"
+                      : "bg-slate-900 dark:bg-zinc-800 text-white hover:bg-slate-800 dark:hover:bg-zinc-700 shadow-md shadow-slate-200 dark:shadow-none"}
                 `}
               >
                 {buttonLabel}
@@ -239,7 +239,7 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
         })}
       </div>
 
-      <p className="text-center text-sm text-slate-400 font-medium mt-8">
+      <p className="text-center text-sm text-slate-400 dark:text-zinc-600 font-medium mt-8">
         ✦ We&apos;re constantly shipping new features & improvements to Qalt. If you spot something new, it&apos;s all for you and your customers.
       </p>
     </>

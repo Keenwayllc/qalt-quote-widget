@@ -37,26 +37,26 @@ export default function CancelSubscriptionButton() {
 
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-          <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden">
-            <div className="px-6 py-5 border-b border-slate-100">
-              <h2 className="font-black text-slate-900 text-base">Cancel your subscription?</h2>
+          <div className="w-full max-w-md bg-white dark:bg-[#141414] rounded-2xl shadow-2xl dark:shadow-black/60 border dark:border-white/6 overflow-hidden">
+            <div className="px-6 py-5 border-b border-slate-100 dark:border-white/6">
+              <h2 className="font-black text-slate-900 dark:text-white text-base">Cancel your subscription?</h2>
             </div>
             <div className="px-6 py-6 space-y-4">
-              <p className="text-slate-600 text-sm leading-relaxed">
+              <p className="text-slate-600 dark:text-zinc-300 text-sm leading-relaxed">
                 You&apos;ll be taken to the Stripe billing portal where you can cancel your subscription. Your account stays active on the <strong>free plan</strong> with up to 25 quotes/month. Your data is never deleted.
               </p>
               {error && <p className="text-xs font-bold text-red-600">{error}</p>}
               <div className="flex gap-3 pt-1">
                 <button
                   onClick={() => { setOpen(false); setError(""); }}
-                  className="flex-1 py-3 rounded-xl border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all"
+                  className="flex-1 py-3 rounded-xl border border-slate-200 dark:border-white/6 text-sm font-bold text-slate-600 dark:text-zinc-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-all"
                 >
                   Keep my plan
                 </button>
                 <button
                   onClick={handleCancel}
                   disabled={loading}
-                  className="flex-1 py-3 rounded-xl bg-slate-900 text-white text-sm font-black hover:bg-slate-800 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="flex-1 py-3 rounded-xl bg-slate-900 dark:bg-zinc-700 text-white text-sm font-black hover:bg-slate-800 dark:hover:bg-zinc-600 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {loading ? <><Loader2 size={14} className="animate-spin" /> Opening...</> : "Go to Billing Portal"}
                 </button>
