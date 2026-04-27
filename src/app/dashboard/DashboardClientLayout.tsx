@@ -26,18 +26,9 @@ import {
 } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
 import ThemeToggle from "@/components/shared/ThemeToggle";
+import { CompanyProfileProvider, useCompanyProfile } from "@/context/CompanyProfileContext";
 
-export default function DashboardClientLayout({
-  children,
-  subscriptionPlan,
-  pendingCount = 0,
-  companyId,
-  trialDaysLeft,
-  incompleteHrefs = [],
-  companyName,
-  logoUrl,
-  profilePicUrl,
-}: {
+interface DashboardLayoutProps {
   children: React.ReactNode;
   subscriptionPlan: string;
   pendingCount?: number;
@@ -47,7 +38,33 @@ export default function DashboardClientLayout({
   companyName?: string;
   logoUrl?: string;
   profilePicUrl?: string;
-}) {
+}
+
+export default function DashboardClientLayout(props: DashboardLayoutProps) {
+  return (
+    <CompanyProfileProvider
+      initial={{
+        logoUrl: props.logoUrl ?? "",
+        profilePicUrl: props.profilePicUrl ?? "",
+        companyName: props.companyName ?? "",
+      }}
+    >
+      <DashboardLayoutInner {...props} />
+    </CompanyProfileProvider>
+  );
+}
+
+function DashboardLayoutInner({
+  children,
+  subscriptionPlan,
+  pendingCount = 0,
+  companyId,
+  trialDaysLeft,
+  incompleteHrefs = [],
+  companyName,
+}: DashboardLayoutProps) {
+  const { logoUrl, profilePicUrl, companyName: profileName } = useCompanyProfile();
+  const displayName = profileName || companyName;
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -282,7 +299,7 @@ export default function DashboardClientLayout({
           <div className="p-4 mt-auto border-t border-slate-100/60 dark:border-white/6 space-y-1">
             <ThemeToggle />
             {/* Company identity card */}
-            {(companyName || logoUrl || profilePicUrl) && (
+            {(displayName || logoUrl || profilePicUrl) && (
               <Link
                 href="/dashboard/settings"
                 onClick={closeSidebar}
@@ -305,7 +322,7 @@ export default function DashboardClientLayout({
                   ) : (
                     <div className="w-9 h-9 rounded-full bg-red-100 flex items-center justify-center ring-2 ring-slate-200 group-hover:ring-red-200 transition-all">
                       <span className="text-red-600 font-black text-sm">
-                        {companyName?.[0]?.toUpperCase() ?? "?"}
+                        {displayName?.[0]?.toUpperCase() ?? "?"}
                       </span>
                     </div>
                   )}
@@ -320,7 +337,7 @@ export default function DashboardClientLayout({
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-bold text-slate-800 dark:text-slate-200 truncate group-hover:text-slate-900 dark:group-hover:text-white">
-                    {companyName ?? "My Company"}
+                    {displayName ?? "My Company"}
                   </p>
                   <p className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 capitalize">{subscriptionPlan} Plan</p>
                 </div>

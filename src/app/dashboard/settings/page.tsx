@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useCompanyProfile } from "@/context/CompanyProfileContext";
 import {
   User, Mail, Save, CheckCircle2, AlertCircle, Send,
   Phone, Globe, MapPin, Building2, Camera, Upload,
@@ -146,6 +147,7 @@ function Field({
 }
 
 export default function SettingsPage() {
+  const { updateProfile } = useCompanyProfile();
   const [data, setData] = useState<ProfileData>({
     name: "", email: "", subscriptionPlan: "",
     logoUrl: "", profilePicUrl: "",
@@ -198,6 +200,7 @@ export default function SettingsPage() {
     if (result.success) {
       setStatus("success");
       setTimeout(() => setStatus("idle"), 3000);
+      updateProfile({ logoUrl: data.logoUrl, profilePicUrl: data.profilePicUrl, companyName: data.name });
     } else {
       setStatus("error");
       setErrorMsg(result.error ?? "Something went wrong");
