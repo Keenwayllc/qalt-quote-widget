@@ -636,7 +636,7 @@ export default function PricingPage({
           className="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-700 shadow-sm p-6"
         >
           <div className="flex items-start justify-between mb-2">
-            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <Box className="text-red-600" size={20} />
               Large Item Categories
             </h2>
