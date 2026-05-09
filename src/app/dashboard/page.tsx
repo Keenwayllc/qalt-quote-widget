@@ -27,13 +27,15 @@ export default async function DashboardOverview() {
 
   const now = new Date();
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
 
-  // Get recent quotes + monthly count
+  // Get recent quotes + monthly count + previous month for trend
   let recentQuotes: Awaited<ReturnType<typeof prisma.quoteRequest.findMany>> = [];
   let totalQuotes = 0;
   let monthlyQuotes = 0;
+  let prevMonthQuotes = 0;
   try {
-    [recentQuotes, totalQuotes, monthlyQuotes] = await Promise.all([
+    [recentQuotes, totalQuotes, monthlyQuotes, prevMonthQuotes] = await Promise.all([
       prisma.quoteRequest.findMany({
         where: { companyId: company.id },
         orderBy: { createdAt: "desc" },
@@ -41,10 +43,16 @@ export default async function DashboardOverview() {
       }),
       prisma.quoteRequest.count({ where: { companyId: company.id } }),
       prisma.quoteRequest.count({ where: { companyId: company.id, createdAt: { gte: monthStart } } }),
+      prisma.quoteRequest.count({ where: { companyId: company.id, createdAt: { gte: prevMonthStart, lt: monthStart } } }),
     ]);
-  } catch (error) {
-    console.error("Dashboard query error:", error instanceof Error ? error.message : String(error));
+  } catch {
+    // non-critical — dashboard still renders without metrics
   }
+
+  // Month-over-month trend (null if no previous data to compare)
+  const quoteTrend = prevMonthQuotes > 0
+    ? { value: Math.round(Math.abs((monthlyQuotes - prevMonthQuotes) / prevMonthQuotes) * 100), isPositive: monthlyQuotes >= prevMonthQuotes }
+    : null;
 
   const entitlements = getEntitlements(company.subscriptionPlan);
   const quotaLimit = entitlements.maxQuotesPerMonth;
@@ -159,8 +167,8 @@ export default async function DashboardOverview() {
         _count: { serviceType: true }
       })
     ]);
-  } catch (error) {
-    console.error("Dashboard chart query error:", error instanceof Error ? error.message : String(error));
+  } catch {
+    // non-critical — charts render empty if query fails
   }
 
   // Map 7-day volume
@@ -222,7 +230,7 @@ export default async function DashboardOverview() {
           description="Cumulative quote requests generated"
           icon={<FileText size={20} />}
           variant="blue"
-          trend={{ value: 12, isPositive: true }}
+          trend={quoteTrend ?? undefined}
         />
 
         <MetricCard

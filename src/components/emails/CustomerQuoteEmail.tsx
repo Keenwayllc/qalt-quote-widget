@@ -8,6 +8,8 @@ interface CustomerQuoteEmailProps {
   estimatedPrice: number;
   serviceType: string;
   companyName: string;
+  logoUrl?: string;
+  primaryColor?: string;
 }
 
 export const CustomerQuoteEmail: React.FC<Readonly<CustomerQuoteEmailProps>> = ({
@@ -18,19 +20,27 @@ export const CustomerQuoteEmail: React.FC<Readonly<CustomerQuoteEmailProps>> = (
   estimatedPrice,
   serviceType,
   companyName,
+  logoUrl,
+  primaryColor = '#1E40AF',
 }) => (
   <div style={{ fontFamily: 'system-ui, -apple-system, sans-serif', maxWidth: '600px', margin: '0 auto', backgroundColor: '#f8fafc' }}>
 
-    {/* Header */}
-    <div style={{ backgroundColor: '#1e3a5f', borderRadius: '12px 12px 0 0', padding: '48px 32px', textAlign: 'center' }}>
-      <img
-        src="https://qalt.site/images/qalt-logo-main-2026.png"
-        alt="Qalt"
-        height="44"
-        style={{ display: 'block', margin: '0 auto 16px', borderRadius: '8px', padding: '6px 16px', backgroundColor: '#ffffff' }}
-      />
-      <p style={{ margin: '0', color: '#93c5fd', fontSize: '13px', fontWeight: '800', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-        Your rates. Embedded. Anywhere.
+    {/* Header — uses company branding */}
+    <div style={{ backgroundColor: primaryColor, borderRadius: '12px 12px 0 0', padding: '40px 32px', textAlign: 'center' }}>
+      {logoUrl ? (
+        <img
+          src={logoUrl}
+          alt={companyName}
+          height="48"
+          style={{ display: 'block', margin: '0 auto 12px', borderRadius: '8px', maxWidth: '180px', objectFit: 'contain', backgroundColor: '#ffffff', padding: '6px 14px' }}
+        />
+      ) : (
+        <p style={{ margin: '0 0 8px', fontSize: '22px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.02em' }}>
+          {companyName}
+        </p>
+      )}
+      <p style={{ margin: '0', color: 'rgba(255,255,255,0.7)', fontSize: '12px', fontWeight: '700', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+        Delivery Quote
       </p>
     </div>
 
@@ -44,7 +54,7 @@ export const CustomerQuoteEmail: React.FC<Readonly<CustomerQuoteEmailProps>> = (
       </p>
 
       {/* Price */}
-      <div style={{ backgroundColor: '#1e3a5f', borderRadius: '10px', padding: '20px 24px', marginBottom: '20px', textAlign: 'center' }}>
+      <div style={{ backgroundColor: primaryColor, borderRadius: '10px', padding: '20px 24px', marginBottom: '20px', textAlign: 'center' }}>
         <p style={{ margin: '0 0 2px', fontSize: '11px', color: '#93c5fd', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: '700' }}>
           Your Estimate
         </p>

@@ -15,7 +15,13 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
 
     const company = await prisma.company.findUnique({
       where: { id: companyId },
-      select: { subscriptionPlan: true, email: true, name: true }
+      select: {
+        subscriptionPlan: true,
+        email: true,
+        name: true,
+        logoUrl: true,
+        widgetSettings: { take: 1, select: { primaryColor: true } },
+      },
     });
 
     if (!company) {
@@ -49,14 +55,30 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       }
     }
 
-    // Determine if this widget has payments enabled (Enterprise feature)
+    // Determine if this widget has payments enabled and check geo-fencing
     let paymentsEnabled = false;
-    if (data.widgetSettingsId && entitlements.isPaymentsEnabled) {
+    if (data.widgetSettingsId) {
       const widgetSettings = await prisma.widgetSettings.findUnique({
         where: { id: data.widgetSettingsId },
-        select: { paymentsEnabled: true },
+        select: { paymentsEnabled: true, geoFencingEnabled: true, serviceZips: true },
       });
-      paymentsEnabled = widgetSettings?.paymentsEnabled ?? false;
+
+      if (entitlements.isPaymentsEnabled) {
+        paymentsEnabled = widgetSettings?.paymentsEnabled ?? false;
+      }
+
+      // Server-side geo-fence enforcement
+      if (widgetSettings?.geoFencingEnabled && widgetSettings.serviceZips.length > 0) {
+        const allowed = widgetSettings.serviceZips;
+        const pickupOk = allowed.includes(data.pickupZip?.trim());
+        const dropoffOk = allowed.includes(data.dropoffZip?.trim());
+        if (!pickupOk && !dropoffOk) {
+          return NextResponse.json(
+            { error: "This location is outside our current service area." },
+            { status: 422 }
+          );
+        }
+      }
     }
 
     const quote = await prisma.quoteRequest.create({
@@ -126,6 +148,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
               estimatedPrice={data.estimatedPrice}
               serviceType={serviceType}
               companyName={company.name}
+              logoUrl={company.logoUrl ?? undefined}
+              primaryColor={company.widgetSettings[0]?.primaryColor ?? "#1E40AF"}
             />
           ),
         });

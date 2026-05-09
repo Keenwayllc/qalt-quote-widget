@@ -35,6 +35,8 @@ interface WidgetProps {
       showVehicles?: boolean;
       pricePerVehicle?: number;
       showAwb?: boolean;
+      geoFencingEnabled?: boolean;
+      serviceZips?: string[];
     };
   };
 }
@@ -59,6 +61,13 @@ interface FormData {
 }
 
 const LIBRARIES: ("places" | "geometry" | "drawing" | "visualization")[] = ["places"];
+
+function formatDuration(minutes: number): string {
+  if (minutes < 60) return `${minutes} min`;
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return m === 0 ? `${h} hr` : `${h} hr ${m} min`;
+}
 
 // Sub-component for Google Autocomplete to avoid race conditions
 const AutocompleteInput = ({
@@ -329,6 +338,19 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
     setError("");
 
     try {
+      // Geo-fence check — runs before any API call
+      const geoEnabled = company.widgetSettings.geoFencingEnabled;
+      const serviceZips = company.widgetSettings.serviceZips ?? [];
+      if (geoEnabled && serviceZips.length > 0) {
+        const pickup = formData.pickupZip.trim();
+        const dropoff = formData.dropoffZip.trim();
+        if (!serviceZips.includes(pickup) && !serviceZips.includes(dropoff)) {
+          setError("Sorry, we don't currently service that area. Please check our coverage and try again.");
+          setLoading(false);
+          return;
+        }
+      }
+
       const origin = formData.pickupAddress || formData.pickupZip;
       const destination = formData.dropoffAddress || formData.dropoffZip;
 
@@ -763,12 +785,16 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                   <p className="text-[10px] uppercase font-extrabold text-emerald-600/80 tracking-[0.2em] mb-2">Your Estimated Rate</p>
                   <div className="flex flex-col items-center">
                     <p className="text-5xl font-black text-emerald-700 tracking-tight">${estimate?.toFixed(2)}</p>
-                    <p className="text-[12px] text-emerald-600/60 mt-2 font-semibold flex items-center gap-1.5">
-                      <Navigation size={12} /> {distance?.toFixed(1)} miles
+                    <div className="flex items-center gap-2 mt-3 flex-wrap justify-center">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/70 border border-emerald-100 rounded-full text-[11px] font-bold text-emerald-700">
+                        <Navigation size={10} /> {distance?.toFixed(1)} miles
+                      </span>
                       {durationMinutes !== null && (
-                        <span className="text-emerald-600/50">· Est. {durationMinutes} min drive</span>
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/70 border border-emerald-100 rounded-full text-[11px] font-bold text-emerald-700">
+                          <Clock size={10} /> Est. {formatDuration(durationMinutes)} drive
+                        </span>
                       )}
-                    </p>
+                    </div>
                   </div>
 
                   {/* Inline map — only for "inline" layout. "side" layout uses the side panel instead (one instance only to avoid double API calls) */}
@@ -967,7 +993,9 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                   <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
                     <Clock size={9} /> Drive Time
                   </span>
-                  <p className="text-sm font-black text-slate-900 tracking-tight">{routeInfo?.duration || "N/A"}</p>
+                  <p className="text-sm font-black text-slate-900 tracking-tight">
+                    {routeInfo?.duration || (durationMinutes !== null ? formatDuration(durationMinutes) : "N/A")}
+                  </p>
                 </div>
               </div>
 

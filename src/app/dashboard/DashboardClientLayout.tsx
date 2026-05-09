@@ -27,6 +27,7 @@ import {
 import { getEntitlements } from "@/lib/plans";
 import ThemeToggle from "@/components/shared/ThemeToggle";
 import { CompanyProfileProvider, useCompanyProfile } from "@/context/CompanyProfileContext";
+import WelcomeToast from "@/components/dashboard/WelcomeToast";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -389,6 +390,8 @@ function DashboardLayoutInner({
           {children}
         </div>
       </main>
+
+      <WelcomeToast companyName={companyName} />
     </div>
   );
 }

@@ -91,6 +91,8 @@ export async function POST(req: Request) {
       websiteUrl:    data.websiteUrl ? String(data.websiteUrl).trim() : null,
       // Enterprise only: allow customers to pay directly via widget
       paymentsEnabled: entitlements.isPaymentsEnabled ? Boolean(data.paymentsEnabled) : false,
+      geoFencingEnabled: Boolean(data.geoFencingEnabled),
+      serviceZips: Array.isArray(data.serviceZips) ? data.serviceZips.filter((z: unknown) => typeof z === "string" && /^\d{5}$/.test(z)) : [],
     };
 
     if (formId) {

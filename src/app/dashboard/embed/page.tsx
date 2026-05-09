@@ -27,8 +27,8 @@ export default function EmbedCodePage() {
         const countData = await countRes.json();
         if (widgetData.id) setCompanyId(widgetData.id);
         if (typeof countData.count === "number") setQuoteCount(countData.count);
-      } catch (err) {
-        console.error("Failed to fetch company", err);
+      } catch {
+        // non-critical — embed page still renders without the preview
       } finally {
         setLoading(false);
       }

@@ -30,6 +30,8 @@ interface WidgetProps {
       mapLayout?: string;
       websiteUrl?: string | null;
       paymentsEnabled?: boolean;
+      geoFencingEnabled?: boolean;
+      serviceZips?: string[];
     };
   };
 }
@@ -78,7 +80,10 @@ export default function WidgetSettingsForm({
     showVehicles: initialData.showVehicles ?? false,
     pricePerVehicle: initialData.pricePerVehicle ?? 0,
     showAwb: initialData.showAwb ?? false,
+    geoFencingEnabled: initialData.geoFencingEnabled ?? false,
+    serviceZips: initialData.serviceZips ?? [],
   });
+  const [zipInput, setZipInput] = useState("");
   // Per-form logo takes priority over company logo
   const [logo, setLogo] = useState(
     entitlements.isAdvancedCustomizationEnabled
@@ -477,6 +482,97 @@ export default function WidgetSettingsForm({
               )}
             </div>
 
+          </div>
+
+          {/* Service Area / Geo-Fencing */}
+          <div className="bg-white dark:bg-[#1e1e1e] rounded-none border border-slate-200 dark:border-white/[0.06] shadow-sm dark:shadow-none p-6 space-y-4">
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Globe className="text-red-600" size={20} />
+              Service Area
+            </h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+              Restrict your widget to only accept quotes from ZIP codes you serve. Leave disabled to accept requests from anywhere.
+            </p>
+
+            <label className="flex items-center gap-4 p-4 rounded-none border bg-slate-50 dark:bg-white/2 border-slate-200 dark:border-white/6 cursor-pointer hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">
+              <div className="relative">
+                <input
+                  name="geoFencingEnabled"
+                  type="checkbox"
+                  className="sr-only peer"
+                  checked={previewData.geoFencingEnabled}
+                  onChange={(e) => setPreviewData(prev => ({ ...prev, geoFencingEnabled: e.target.checked }))}
+                />
+                <div className="w-11 h-6 bg-slate-300 dark:bg-white/10 peer-checked:bg-emerald-500 rounded-full transition-colors" />
+                <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform peer-checked:translate-x-5" />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-slate-800 dark:text-white">Enable ZIP code restrictions</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Customers outside your service area will see an error instead of a quote</p>
+              </div>
+            </label>
+
+            {previewData.geoFencingEnabled && (
+              <div className="space-y-3">
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={zipInput}
+                    onChange={(e) => setZipInput(e.target.value.replace(/[^0-9,\s]/g, ""))}
+                    placeholder="e.g. 60601, 60602, 60603"
+                    className="flex-1 px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/6 rounded-none text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 text-sm"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        const newZips = zipInput.split(/[\s,]+/).map(z => z.trim()).filter(z => /^\d{5}$/.test(z));
+                        if (newZips.length > 0) {
+                          setPreviewData(prev => ({ ...prev, serviceZips: [...new Set([...(prev.serviceZips ?? []), ...newZips])] }));
+                          setZipInput("");
+                        }
+                      }
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newZips = zipInput.split(/[\s,]+/).map(z => z.trim()).filter(z => /^\d{5}$/.test(z));
+                      if (newZips.length > 0) {
+                        setPreviewData(prev => ({ ...prev, serviceZips: [...new Set([...(prev.serviceZips ?? []), ...newZips])] }));
+                        setZipInput("");
+                      }
+                    }}
+                    className="px-4 py-2 bg-red-600 text-white font-bold text-sm hover:bg-red-500 transition-colors"
+                  >
+                    Add
+                  </button>
+                </div>
+                <p className="text-[11px] text-slate-400">Enter one or more 5-digit ZIP codes separated by commas, then click Add or press Enter.</p>
+
+                {(previewData.serviceZips ?? []).length > 0 && (
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {(previewData.serviceZips ?? []).map((zip) => (
+                      <span key={zip} className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300">
+                        {zip}
+                        <button
+                          type="button"
+                          onClick={() => setPreviewData(prev => ({ ...prev, serviceZips: (prev.serviceZips ?? []).filter(z => z !== zip) }))}
+                          className="text-slate-400 hover:text-red-500 transition-colors"
+                          aria-label={`Remove ${zip}`}
+                        >
+                          <Trash2 size={10} />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {previewData.geoFencingEnabled && (previewData.serviceZips ?? []).length === 0 && (
+                  <p className="text-xs text-amber-600 dark:text-amber-400 font-semibold">
+                    ⚠️ Geo-fencing is on but no ZIP codes are added — all requests will be blocked. Add at least one ZIP.
+                  </p>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Payments Toggle — Enterprise Only */}

@@ -186,7 +186,9 @@ exports.Prisma.WidgetSettingsScalarFieldEnum = {
   paymentsEnabled: 'paymentsEnabled',
   showVehicles: 'showVehicles',
   pricePerVehicle: 'pricePerVehicle',
-  showAwb: 'showAwb'
+  showAwb: 'showAwb',
+  geoFencingEnabled: 'geoFencingEnabled',
+  serviceZips: 'serviceZips'
 };
 
 exports.Prisma.QuoteRequestScalarFieldEnum = {

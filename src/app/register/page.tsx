@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Building2, Mail, Lock, Eye, EyeOff, ArrowRight, ArrowLeft, Loader2, CheckCircle, Zap, Shield, BarChart3, MailCheck } from "lucide-react";
+import { Building2, Mail, Lock, Eye, EyeOff, ArrowRight, ArrowLeft, Loader2, CheckCircle, Zap, Shield, BarChart3, MailCheck, RefreshCw } from "lucide-react";
 import QaltLogo from "@/components/shared/QaltLogo";
 
 const features = [
@@ -19,6 +19,23 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [registered, setRegistered] = useState(false);
   const [registeredEmail, setRegisteredEmail] = useState("");
+  const [resending, setResending] = useState(false);
+  const [resent, setResent] = useState(false);
+
+  const handleResend = async () => {
+    setResending(true);
+    try {
+      await fetch("/api/auth/resend-verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: registeredEmail }),
+      });
+    } finally {
+      setResending(false);
+      setResent(true);
+      setTimeout(() => setResent(false), 5000);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,12 +93,27 @@ export default function RegisterPage() {
             <p className="text-slate-400 text-xs font-medium">
               The link expires in 24 hours. Check your spam folder if you don&apos;t see it.
             </p>
-            <Link
-              href="/login"
-              className="inline-flex items-center gap-2 mt-4 px-6 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-800 transition-all"
-            >
-              Back to Login <ArrowRight size={14} />
-            </Link>
+            <div className="flex flex-col items-center gap-3 mt-4">
+              <button
+                onClick={handleResend}
+                disabled={resending || resent}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-slate-100 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-200 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {resending ? (
+                  <><Loader2 size={14} className="animate-spin" /> Sending...</>
+                ) : resent ? (
+                  <><CheckCircle size={14} className="text-emerald-500" /> Email sent!</>
+                ) : (
+                  <><RefreshCw size={14} /> Resend confirmation email</>
+                )}
+              </button>
+              <Link
+                href="/login"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-800 transition-all"
+              >
+                Back to Login <ArrowRight size={14} />
+              </Link>
+            </div>
           </div>
         </motion.div>
       </div>
