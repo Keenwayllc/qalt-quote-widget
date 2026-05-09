@@ -23,6 +23,7 @@ import {
   Webhook,
   MapPin,
   Briefcase,
+  Star,
 } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
 import ThemeToggle from "@/components/shared/ThemeToggle";
@@ -110,6 +111,7 @@ function DashboardLayoutInner({
     { name: "Quotes", href: "/dashboard/quotes", icon: FileText, showBadge: true },
     { name: "Subscription", href: "/dashboard/billing", icon: CreditCard },
     { name: "Account Settings", href: "/dashboard/settings", icon: UserCircle },
+    { name: "What's New", href: "/dashboard/whats-new", icon: Star },
     { name: "Help & FAQ", href: "/dashboard/support", icon: HelpCircle },
   ];
 
