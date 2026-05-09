@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import MetricCard from "@/components/dashboard/MetricCard";
 import QuotaBar from "@/components/dashboard/QuotaBar";
 import OnboardingChecklist from "@/components/dashboard/OnboardingChecklist";
+import WhatsNewHighlight from "@/components/dashboard/WhatsNewHighlight";
 import QuoteTrendChart from "@/components/dashboard/QuoteTrendChart";
 import ServiceTypeChart from "@/components/dashboard/ServiceTypeChart";
 import {
@@ -306,6 +307,9 @@ export default async function DashboardOverview() {
 
       {/* Onboarding checklist — shown until merchant completes 3 of 4 steps */}
       {showChecklist && <OnboardingChecklist steps={onboardingSteps} />}
+
+      {/* What's New Highlight */}
+      <WhatsNewHighlight />
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
