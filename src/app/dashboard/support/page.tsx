@@ -1,98 +1,306 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, HelpCircle, MessageCircle } from "lucide-react";
+import {
+  Palette,
+  DollarSign,
+  Mail,
+  Zap,
+  BarChart3,
+  Settings,
+  HelpCircle,
+  MessageCircle,
+  ChevronDown,
+} from "lucide-react";
 import SupportModal from "@/components/shared/SupportModal";
 
-const faqs = [
+const featureCategories = [
   {
-    category: "Installation",
-    items: [
+    id: "widget-configuration",
+    name: "Widget Configuration",
+    icon: Palette,
+    description: "Customize how your widget looks and feels",
+    guides: [
       {
-        q: "My widget isn't showing on my site,what should I check?",
-        a: "First, confirm the embed code is pasted inside an HTML block (not a text/paragraph block). Most builders (WordPress, Webflow, Shopify) have a dedicated 'Custom HTML' or 'Embed' element,use that. Also check your browser console for any Content Security Policy (CSP) errors, which may block iframes from external domains.",
+        title: "Upload Logo",
+        description:
+          "Add your company logo to the quote form header. Improves brand recognition and customer trust.",
+        actionLink: "/dashboard/widget",
+        actionText: "Go to Widget Settings",
       },
       {
-        q: "The widget loads but looks cut off or too small.",
-        a: "The iframe needs a minimum height of 700px to display correctly. Check that the height attribute in your embed code hasn't been changed. If your page has a max-width container, make sure it's at least 360px wide. You can also adjust the height in your embed code to a larger value like 800px.",
+        title: "Customize Colors",
+        description:
+          "Set the primary color to match your brand. Changes apply instantly to your live widget.",
+        actionLink: "/dashboard/widget",
+        actionText: "Go to Widget Settings",
       },
       {
-        q: "How do I update my embed code after making changes?",
-        a: "You don't need to,your embed code never changes. Any updates you make to your widget appearance, pricing, or settings in the dashboard automatically apply to the embedded widget. Just save your changes and refresh the page where it's embedded.",
+        title: "Add Background Image",
+        description:
+          "Upload a background image to the quote form for visual context about your services.",
+        actionLink: "/dashboard/widget",
+        actionText: "Go to Widget Settings",
+      },
+      {
+        title: "Edit Widget Text",
+        description:
+          "Customize the button text and form headers to match your brand voice.",
+        actionLink: "/dashboard/widget",
+        actionText: "Go to Widget Settings",
       },
     ],
   },
   {
-    category: "Styling & Appearance",
-    items: [
+    id: "pricing-quotes",
+    name: "Pricing & Quotes",
+    icon: DollarSign,
+    description: "Configure pricing and organize customer requests",
+    guides: [
       {
-        q: "The widget style is conflicting with my website's CSS.",
-        a: "The Qalt widget runs inside an iframe which isolates it from your site's CSS,so true style conflicts are rare. If you're seeing layout issues, it's most likely a container width or height problem. Wrap the iframe in a div and set width: 100%; overflow: hidden; on that wrapper.",
+        title: "Set Pricing Rules",
+        description:
+          "Configure your base rate per mile, minimum charge, and service extras (stairs, inside delivery, large items).",
+        actionLink: "/dashboard/pricing",
+        actionText: "Go to Pricing Settings",
       },
       {
-        q: "Can I change the widget colors to match my brand?",
-        a: "Yes,go to Dashboard → Widget Appearance. You can set a primary color, upload a logo, add a background image, and customize the header and button text. Changes take effect immediately on your live widget.",
+        title: "Kanban Quote Board",
+        description:
+          "Organize quotes by status in a visual board. Drag quotes to track PENDING → CONFIRMED → WON.",
+        actionLink: "/dashboard/quotes",
+        actionText: "Go to Quotes Board",
       },
       {
-        q: "The widget looks different on mobile than desktop.",
-        a: "The widget is fully responsive but needs enough horizontal space to render correctly. Use the Desktop / Mobile toggle on the Get Embed Code page to preview both views. If mobile looks off, try setting the iframe width to 100% and testing in a real mobile browser.",
-      },
-    ],
-  },
-  {
-    category: "Quotes & Notifications",
-    items: [
-      {
-        q: "I'm not receiving email notifications when a quote is submitted.",
-        a: "Go to Dashboard → Account Settings and confirm your notification email is correct, then send a test email to verify delivery. Check your spam/junk folder. If the test email doesn't arrive, contact support and we'll investigate the mail delivery.",
-      },
-      {
-        q: "What does the quote limit mean on the Starter plan?",
-        a: "The Starter plan allows up to 25 quote requests per month. Once you hit that limit, new customers will still see your widget but won't be able to submit a quote until the next billing cycle or until you upgrade. Upgrade to Pro for unlimited quotes.",
-      },
-      {
-        q: "Can I see who submitted a quote and respond to them?",
-        a: "Yes,go to Dashboard → Quotes to see all submitted quote requests with customer name, email, pickup/dropoff location, and estimated price. You can add internal notes to each quote. Direct email reply to the customer from the dashboard is on our roadmap.",
+        title: "View Quote Details",
+        description:
+          "See customer info, location, requested date, estimated price, and add internal notes.",
+        actionLink: "/dashboard/quotes",
+        actionText: "Go to Quotes Board",
       },
     ],
   },
   {
-    category: "Account & Billing",
-    items: [
+    id: "customer-communication",
+    name: "Customer Communication",
+    icon: Mail,
+    description: "Manage how you communicate with customers",
+    guides: [
       {
-        q: "How do I upgrade or downgrade my plan?",
-        a: "Go to Dashboard → Subscription. You can upgrade, downgrade, or cancel at any time. Upgrades take effect immediately. Downgrades take effect at the end of your current billing period.",
+        title: "Send Test Emails",
+        description:
+          "Verify your notification emails arrive correctly before deploying the widget.",
+        actionLink: "/dashboard/settings",
+        actionText: "Go to Account Settings",
       },
       {
-        q: "What happens to my data if I cancel?",
-        a: "Your data (quotes, widget settings, pricing) is retained for 30 days after cancellation. During that window you can reactivate your account without losing anything. After 30 days, data is permanently deleted.",
+        title: "White-Label Email Domain",
+        description:
+          "Send customer emails from your own domain instead of Qalt's. Requires Pro/Enterprise plan.",
+        actionLink: "/dashboard/settings",
+        actionText: "Go to Custom Email Domain",
       },
       {
-        q: "Can I use Qalt on multiple websites?",
-        a: "Your embed code works on any number of websites,there's no domain restriction. Pro plan users can create up to 5 separate widget forms with different branding and pricing. Enterprise users get unlimited forms.",
+        title: "Email Notifications",
+        description:
+          "Confirm your notification email is set correctly to receive quote alerts immediately.",
+        actionLink: "/dashboard/settings",
+        actionText: "Go to Account Settings",
+      },
+    ],
+  },
+  {
+    id: "advanced-features",
+    name: "Advanced Features",
+    icon: Zap,
+    description: "Power up your workflow with advanced capabilities",
+    guides: [
+      {
+        title: "Geo-Fencing & Service Areas",
+        description:
+          "Restrict quote requests to specific ZIP codes. Customers outside your service area see a message explaining coverage.",
+        actionLink: "/dashboard/widget",
+        actionText: "Go to Geo-Fencing Settings",
+      },
+      {
+        title: "Transit Time Estimation",
+        description:
+          "Automatically calculate and display estimated transit time for each quote based on distance.",
+        actionLink: "/dashboard/quotes",
+        actionText: "View in Quotes",
+      },
+      {
+        title: "Payment Processing",
+        description:
+          "Accept customer payments upfront for quotes. Available on Pro/Enterprise plans.",
+        actionLink: "/dashboard/settings",
+        actionText: "Go to Payment Settings",
+      },
+      {
+        title: "Webhooks & Integrations",
+        description:
+          "Integrate Qalt with your backend systems to automate quote handling and data sync.",
+        actionLink: "/dashboard/webhooks",
+        actionText: "Go to Webhooks",
+      },
+      {
+        title: "Multiple Widget Forms",
+        description:
+          "Create up to 5 separate widgets with different branding and pricing (Pro) or unlimited (Enterprise).",
+        actionLink: "/dashboard/forms",
+        actionText: "Go to Forms",
+      },
+    ],
+  },
+  {
+    id: "analytics-reporting",
+    name: "Analytics & Reporting",
+    icon: BarChart3,
+    description: "Understand your quote performance",
+    guides: [
+      {
+        title: "Quote Metrics & Trends",
+        description:
+          "View total quotes, monthly trends, and quote status breakdown on your dashboard.",
+        actionLink: "/dashboard",
+        actionText: "Go to Dashboard",
+      },
+      {
+        title: "Service Type Breakdown",
+        description:
+          "See which services are most requested (standard delivery vs. large item) in a visual chart.",
+        actionLink: "/dashboard",
+        actionText: "Go to Dashboard",
+      },
+      {
+        title: "Monthly Quota Tracking",
+        description:
+          "Monitor your monthly quota usage based on your subscription plan in real-time.",
+        actionLink: "/dashboard",
+        actionText: "Go to Dashboard",
+      },
+    ],
+  },
+  {
+    id: "account-billing",
+    name: "Account & Billing",
+    icon: Settings,
+    description: "Manage your account and subscription",
+    guides: [
+      {
+        title: "View Your Plan",
+        description:
+          "See your current plan features, quota limits, and pricing. Understand what's included in your tier.",
+        actionLink: "/dashboard/billing",
+        actionText: "Go to Subscription",
+      },
+      {
+        title: "Upgrade or Downgrade",
+        description:
+          "Change plans anytime. Upgrades take effect immediately; downgrades apply at the end of your billing period.",
+        actionLink: "/dashboard/billing",
+        actionText: "Go to Subscription",
+      },
+      {
+        title: "Billing & Invoices",
+        description:
+          "View invoice history, manage your payment method, and download receipts.",
+        actionLink: "/dashboard/billing",
+        actionText: "Go to Billing",
+      },
+      {
+        title: "Account Settings",
+        description:
+          "Update your company name, email address, and notification preferences.",
+        actionLink: "/dashboard/settings",
+        actionText: "Go to Account Settings",
+      },
+      {
+        title: "Data Retention & Cancellation",
+        description:
+          "Your data is retained for 30 days after cancellation. Reactivate within that window to recover everything.",
+        actionLink: "/dashboard/billing",
+        actionText: "Go to Subscription",
       },
     ],
   },
 ];
 
-function FaqItem({ q, a }: { q: string; a: string }) {
-  const [open, setOpen] = useState(false);
+function FeatureGuide({
+  title,
+  description,
+  actionLink,
+  actionText,
+}: {
+  title: string;
+  description: string;
+  actionLink: string;
+  actionText: string;
+}) {
+  return (
+    <div className="border-l-2 border-slate-200 dark:border-white/6 pl-4 py-3">
+      <p className="font-bold text-slate-900 dark:text-white text-sm mb-1">
+        {title}
+      </p>
+      <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
+        {description}
+      </p>
+      <a
+        href={actionLink}
+        className="inline-flex text-sm font-bold text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors items-center gap-1 group"
+      >
+        {actionText}
+        <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+      </a>
+    </div>
+  );
+}
+
+function CategorySection({
+  id,
+  name,
+  icon: Icon,
+  description,
+  guides,
+}: (typeof featureCategories)[0]) {
+  const [expanded, setExpanded] = useState(true);
 
   return (
-    <div className="border border-slate-200 dark:border-white/6 rounded-none overflow-hidden">
+    <div id={id} className="scroll-mt-20 space-y-4">
       <button
-        onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between px-5 py-4 text-left bg-white dark:bg-[#1e1e1e] hover:bg-slate-50 dark:hover:bg-white/2 transition-colors"
+        onClick={() => setExpanded(!expanded)}
+        className="w-full flex items-center justify-between p-4 bg-white dark:bg-[#1e1e1e] border border-slate-200 dark:border-white/6 rounded-none hover:bg-slate-50 dark:hover:bg-white/5 transition-colors"
       >
-        <span className="text-sm font-bold text-slate-900 dark:text-white pr-4">{q}</span>
+        <div className="flex items-center gap-3 text-left">
+          <Icon size={20} className="text-red-500 shrink-0" />
+          <div>
+            <h2 className="font-black text-slate-900 dark:text-white text-base">
+              {name}
+            </h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
+              {description}
+            </p>
+          </div>
+        </div>
         <ChevronDown
-          size={16}
-          className={`shrink-0 text-slate-400 dark:text-slate-500 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          size={18}
+          className={`text-slate-400 shrink-0 transition-transform ${
+            expanded ? "rotate-180" : ""
+          }`}
         />
       </button>
-      {open && (
-        <div className="px-5 pb-5 bg-white dark:bg-[#1e1e1e]">
-          <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{a}</p>
+
+      {expanded && (
+        <div className="space-y-4 pl-4">
+          {guides.map((guide, idx) => (
+            <FeatureGuide
+              key={idx}
+              title={guide.title}
+              description={guide.description}
+              actionLink={guide.actionLink}
+              actionText={guide.actionText}
+            />
+          ))}
         </div>
       )}
     </div>
@@ -106,32 +314,23 @@ export default function SupportPage() {
     <>
       <div className="p-4 sm:p-8 max-w-4xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Help & FAQ</h1>
-          <p className="text-slate-500 dark:text-slate-400 mt-1 font-medium">
-            Answers to the most common questions about installing and using Qalt.
+          <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+            Feature Reference
+          </h1>
+          <p className="text-slate-600 dark:text-slate-400 mt-2 font-medium">
+            Learn about every Qalt feature and how to use it. Each guide includes a direct link to the relevant settings page.
           </p>
         </div>
 
-        <div className="space-y-10">
-          {faqs.map((section) => (
-            <div key={section.category}>
-              <div className="flex items-center gap-2 mb-4">
-                <HelpCircle size={16} className="text-red-500" />
-                <h2 className="text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-                  {section.category}
-                </h2>
-              </div>
-              <div className="space-y-2">
-                {section.items.map((item) => (
-                  <FaqItem key={item.q} q={item.q} a={item.a} />
-                ))}
-              </div>
-            </div>
+        {/* Feature Categories */}
+        <div className="space-y-6 mb-12">
+          {featureCategories.map((category) => (
+            <CategorySection key={category.id} {...category} />
           ))}
         </div>
 
         {/* Still need help CTA */}
-        <div className="mt-12 bg-slate-900 dark:bg-[#1e1e1e] dark:border dark:border-white/6 rounded-none p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div className="bg-slate-900 dark:bg-[#1e1e1e] dark:border dark:border-white/6 rounded-none p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="flex items-start gap-4">
             <div className="w-10 h-10 bg-white/10 rounded-none flex items-center justify-center shrink-0">
               <MessageCircle size={18} className="text-white" />
