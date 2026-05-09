@@ -58,7 +58,7 @@ const DAYS = [
 ];
 
 const inputClass =
-  "w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-900 placeholder:text-slate-400 transition-all shadow-sm";
+  "w-full px-4 py-2 bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 transition-all shadow-sm";
 
 // ── Tooltip ──────────────────────────────────────────────────────────────────
 
@@ -89,7 +89,7 @@ function Tooltip({ text }: { text: string }) {
 
 function FieldLabel({ label, tooltip }: { label: string; tooltip: string }) {
   return (
-    <label className="flex items-center text-sm font-medium text-slate-700 mb-1">
+    <label className="flex items-center text-sm font-medium text-slate-700 dark:text-zinc-300 mb-1">
       {label}
       <Tooltip text={tooltip} />
     </label>
@@ -314,10 +314,10 @@ export default function PricingPage({
   return (
     <div className="p-8 max-w-4xl">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-slate-900">
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
           Pricing Configuration
         </h1>
-        <p className="text-slate-500">
+        <p className="text-slate-500 dark:text-zinc-400">
           Define your delivery rates and extra charges. Use the{" "}
           <strong>Update</strong> button on each section to save changes.
         </p>
@@ -338,9 +338,9 @@ export default function PricingPage({
               setCoreStatus
             );
           }}
-          className="bg-white rounded-xl border border-slate-200 shadow-sm p-6"
+          className="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-700 shadow-sm p-6"
         >
-          <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
             <DollarSign className="text-red-600" size={20} />
             Core Rates
           </h2>
@@ -399,14 +399,14 @@ export default function PricingPage({
                   className="sr-only peer"
                 />
                 <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600" />
-                <span className="ml-3 text-sm font-medium text-slate-700">
+                <span className="ml-3 text-sm font-medium text-slate-700 dark:text-zinc-300">
                   Apply Minimum Charge
                 </span>
               </label>
               <Tooltip text="When ON, no quote will go below your minimum. Turn OFF for pure distance-based pricing with no floor." />
             </div>
           </div>
-          <div className="flex justify-end pt-4 border-t border-slate-100">
+          <div className="flex justify-end pt-4 border-t border-slate-100 dark:border-zinc-700">
             <UpdateButton status={coreStatus} />
           </div>
         </form>
@@ -423,9 +423,9 @@ export default function PricingPage({
               setPerUnitStatus
             );
           }}
-          className="bg-white rounded-xl border border-slate-200 shadow-sm p-6"
+          className="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-700 shadow-sm p-6"
         >
-          <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
             <Weight className="text-red-600" size={20} />
             Per-Unit Fees
           </h2>
@@ -459,7 +459,7 @@ export default function PricingPage({
               />
             </div>
           </div>
-          <div className="flex justify-end pt-4 border-t border-slate-100">
+          <div className="flex justify-end pt-4 border-t border-slate-100 dark:border-zinc-700">
             <UpdateButton status={perUnitStatus} />
           </div>
         </form>
@@ -476,13 +476,13 @@ export default function PricingPage({
               setFlatFeesStatus
             );
           }}
-          className="bg-white rounded-xl border border-slate-200 shadow-sm p-6"
+          className="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-700 shadow-sm p-6"
         >
-          <h2 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
             <DollarSign className="text-red-600" size={20} />
             Optional Flat Fees
           </h2>
-          <p className="text-sm text-slate-500 mb-6">
+          <p className="text-sm text-slate-500 dark:text-zinc-400 mb-6">
             Flat fees added when a customer selects the matching option in your
             widget. Set to 0 to not charge for that option.
           </p>
@@ -516,7 +516,7 @@ export default function PricingPage({
               />
             </div>
           </div>
-          <div className="flex justify-end pt-4 border-t border-slate-100">
+          <div className="flex justify-end pt-4 border-t border-slate-100 dark:border-zinc-700">
             <UpdateButton status={flatFeesStatus} />
           </div>
         </form>
@@ -535,13 +535,13 @@ export default function PricingPage({
               setAfterHoursStatus
             );
           }}
-          className="bg-white rounded-xl border border-slate-200 shadow-sm p-6"
+          className="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-700 shadow-sm p-6"
         >
-          <h2 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
             <Clock className="text-red-600" size={20} />
             After-Hours Delivery
           </h2>
-          <p className="text-sm text-slate-500 mb-6">
+          <p className="text-sm text-slate-500 dark:text-zinc-400 mb-6">
             Customers select a pickup date and time in your widget. The
             after-hours fee is applied automatically when their chosen time falls
             outside your business hours.
@@ -562,14 +562,14 @@ export default function PricingPage({
               />
             </div>
           </div>
-          <div className="border-t border-slate-100 pt-6 mb-6">
-            <p className="text-sm font-semibold text-slate-700 mb-4 flex items-center">
+          <div className="border-t border-slate-100 dark:border-zinc-700 pt-6 mb-6">
+            <p className="text-sm font-semibold text-slate-700 dark:text-zinc-300 mb-4 flex items-center">
               Your Business Hours
               <Tooltip text="Define your normal operating hours. Any pickup time outside this window will automatically trigger the after-hours fee." />
             </p>
             <div className="grid grid-cols-2 gap-4 mb-5">
               <div>
-                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide block mb-1.5">
+                <label className="text-xs font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wide block mb-1.5">
                   Opens at
                 </label>
                 <input
@@ -580,7 +580,7 @@ export default function PricingPage({
                 />
               </div>
               <div>
-                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide block mb-1.5">
+                <label className="text-xs font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wide block mb-1.5">
                   Closes at
                 </label>
                 <input
@@ -592,7 +592,7 @@ export default function PricingPage({
               </div>
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide block mb-2.5">
+              <label className="text-xs font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wide block mb-2.5">
                 Operating Days
                 <Tooltip text="Select each day you operate normally. Any day not selected is treated as after-hours regardless of time." />
               </label>
@@ -605,7 +605,7 @@ export default function PricingPage({
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                       businessDays.includes(day.value)
                         ? "bg-red-600 text-white shadow-sm"
-                        : "bg-slate-100 text-slate-500 hover:bg-slate-200"
+                        : "bg-slate-100 dark:bg-zinc-700 text-slate-500 dark:text-zinc-300 hover:bg-slate-200 dark:hover:bg-zinc-600"
                     }`}
                   >
                     {day.label}
@@ -614,7 +614,7 @@ export default function PricingPage({
               </div>
             </div>
           </div>
-          <div className="flex justify-end pt-4 border-t border-slate-100">
+          <div className="flex justify-end pt-4 border-t border-slate-100 dark:border-zinc-700">
             <UpdateButton status={afterHoursStatus} />
           </div>
         </form>
@@ -633,7 +633,7 @@ export default function PricingPage({
               setLargeItemsStatus
             );
           }}
-          className="bg-white rounded-xl border border-slate-200 shadow-sm p-6"
+          className="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-700 shadow-sm p-6"
         >
           <div className="flex items-start justify-between mb-2">
             <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
@@ -648,13 +648,13 @@ export default function PricingPage({
                 onChange={(e) => setLargeItemsEnabled(e.target.checked)}
               />
               <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600" />
-              <span className="ml-3 text-sm font-medium text-slate-700">
+              <span className="ml-3 text-sm font-medium text-slate-700 dark:text-zinc-300">
                 Enable
               </span>
               <Tooltip text="When enabled, customers can select specific item types in your widget. Each selected item adds its fee to the quote. Disable to hide this section from your widget." />
             </label>
           </div>
-          <p className="text-sm text-slate-500 mb-6">
+          <p className="text-sm text-slate-500 dark:text-zinc-400 mb-6">
             Define item types and their flat fees (e.g. Pallet, Furniture,
             Appliance). Customers can select one or more and each adds its fee
             to the quote.
@@ -676,7 +676,7 @@ export default function PricingPage({
                       onChange={(e) =>
                         updateCategory(index, "name", e.target.value)
                       }
-                      className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-900 placeholder:text-slate-400"
+                      className="w-full px-3 py-2 bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500"
                     />
                   </div>
                   <div className="w-32 relative">
@@ -692,7 +692,7 @@ export default function PricingPage({
                       onChange={(e) =>
                         updateCategory(index, "price", e.target.value)
                       }
-                      className="w-full pl-6 pr-3 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-900 placeholder:text-slate-400"
+                      className="w-full pl-6 pr-3 py-2 bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500"
                     />
                   </div>
                   <button
@@ -715,7 +715,7 @@ export default function PricingPage({
               </button>
             </div>
           ) : (
-            <div className="flex items-center gap-3 py-3 px-4 bg-slate-50 rounded-lg border border-slate-100 mb-6">
+            <div className="flex items-center gap-3 py-3 px-4 bg-slate-50 dark:bg-zinc-800 rounded-lg border border-slate-100 dark:border-zinc-700 mb-6">
               <Box size={16} className="text-slate-300" />
               <p className="text-sm text-slate-400">
                 Toggle Enable above to configure large item types for your
@@ -723,7 +723,7 @@ export default function PricingPage({
               </p>
             </div>
           )}
-          <div className="flex justify-end pt-4 border-t border-slate-100">
+          <div className="flex justify-end pt-4 border-t border-slate-100 dark:border-zinc-700">
             <UpdateButton status={largeItemsStatus} />
           </div>
         </form>
@@ -745,13 +745,13 @@ export default function PricingPage({
               setFormFieldsStatus
             );
           }}
-          className="bg-white rounded-xl border border-slate-200 shadow-sm p-6"
+          className="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-700 shadow-sm p-6"
         >
-          <h2 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
             <SlidersHorizontal className="text-red-600" size={20} />
             Form Fields
           </h2>
-          <p className="text-sm text-slate-500 mb-6">
+          <p className="text-sm text-slate-500 dark:text-zinc-400 mb-6">
             Choose which extra fields appear in your quote form. Each field adds
             more data to the quote and affects pricing where applicable.
           </p>
@@ -763,7 +763,7 @@ export default function PricingPage({
                 onChange={(e) => setShowWeight(e.target.checked)}
                 className="w-5 h-5 rounded border-slate-300 text-red-600 focus:ring-red-500"
               />
-              <span className="text-sm font-medium text-slate-700">
+              <span className="text-sm font-medium text-slate-700 dark:text-zinc-300">
                 Show Package Weight field
               </span>
             </label>
@@ -774,7 +774,7 @@ export default function PricingPage({
                 onChange={(e) => setShowExtras(e.target.checked)}
                 className="w-5 h-5 rounded border-slate-300 text-red-600 focus:ring-red-500"
               />
-              <span className="text-sm font-medium text-slate-700">
+              <span className="text-sm font-medium text-slate-700 dark:text-zinc-300">
                 Display Extras (Stairs, Inside Delivery)
               </span>
             </label>
@@ -792,7 +792,7 @@ export default function PricingPage({
                 disabled={!vehicleEnabled}
                 className="w-5 h-5 rounded border-slate-300 text-red-600 focus:ring-red-500 disabled:opacity-50"
               />
-              <span className="text-sm font-medium text-slate-700">
+              <span className="text-sm font-medium text-slate-700 dark:text-zinc-300">
                 Number of Vehicles
                 {!vehicleEnabled && (
                   <span className="ml-2 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest bg-red-100 text-red-700 rounded-full">
@@ -815,7 +815,7 @@ export default function PricingPage({
                 disabled={!vehicleEnabled}
                 className="w-5 h-5 rounded border-slate-300 text-red-600 focus:ring-red-500 disabled:opacity-50"
               />
-              <span className="text-sm font-medium text-slate-700">
+              <span className="text-sm font-medium text-slate-700 dark:text-zinc-300">
                 AWB Number (Airport Pickup)
                 {!vehicleEnabled && (
                   <span className="ml-2 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest bg-red-100 text-red-700 rounded-full">
@@ -826,8 +826,8 @@ export default function PricingPage({
             </label>
           </div>
           {showVehicles && vehicleEnabled && (
-            <div className="mb-6 pt-5 border-t border-slate-100">
-              <label className="block text-sm font-semibold text-slate-700 mb-1">
+            <div className="mb-6 pt-5 border-t border-slate-100 dark:border-zinc-700">
+              <label className="block text-sm font-semibold text-slate-700 dark:text-zinc-300 mb-1">
                 Price Per Vehicle ($)
               </label>
               <input
@@ -837,14 +837,14 @@ export default function PricingPage({
                 value={pricePerVehicle}
                 onChange={(e) => setPricePerVehicle(e.target.value)}
                 placeholder="e.g. 50.00"
-                className="w-40 px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-red-500 shadow-sm"
+                className="w-40 px-4 py-2 bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-600 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500 shadow-sm"
               />
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs text-slate-500 dark:text-zinc-400 mt-1">
                 Flat fee added per vehicle the customer selects in the widget.
               </p>
             </div>
           )}
-          <div className="flex justify-end pt-4 border-t border-slate-100">
+          <div className="flex justify-end pt-4 border-t border-slate-100 dark:border-zinc-700">
             <UpdateButton status={formFieldsStatus} />
           </div>
         </form>
