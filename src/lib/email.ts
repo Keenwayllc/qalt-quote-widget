@@ -6,19 +6,23 @@ function getResend() {
   return new Resend(key);
 }
 
+const DEFAULT_FROM = 'Qalt <notifications@qalt.site>';
+
 export const sendEmail = async ({
   to,
   subject,
   react,
+  from,
 }: {
   to: string | string[];
   subject: string;
   react: React.ReactNode;
+  from?: string;
 }) => {
   try {
     const resend = getResend();
     const data = await resend.emails.send({
-      from: 'Qalt <notifications@qalt.site>',
+      from: from || DEFAULT_FROM,
       to,
       subject,
       react,
@@ -31,3 +35,16 @@ export const sendEmail = async ({
     return { success: false, error };
   }
 };
+
+export function buildFromAddress(opts: {
+  customDomain?: string | null;
+  fromName?: string | null;
+  domainVerified?: boolean | null;
+  fallbackName: string;
+}): string {
+  if (opts.customDomain && opts.domainVerified) {
+    const name = (opts.fromName || opts.fallbackName).replace(/[<>]/g, '').trim();
+    return `${name} <noreply@${opts.customDomain}>`;
+  }
+  return DEFAULT_FROM;
+}

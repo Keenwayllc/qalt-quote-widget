@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { sendEmail } from "@/lib/email";
+import { sendEmail, buildFromAddress } from "@/lib/email";
 import { NewQuoteEmail } from "@/components/emails/NewQuoteEmail";
 import { CustomerQuoteEmail } from "@/components/emails/CustomerQuoteEmail";
 import { PLANS, SubscriptionPlan } from "@/lib/plans";
@@ -20,6 +20,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
         email: true,
         name: true,
         logoUrl: true,
+        customEmailDomain: true,
+        customEmailFromName: true,
+        emailDomainVerified: true,
         widgetSettings: { take: 1, select: { primaryColor: true } },
       },
     });
@@ -136,9 +139,16 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
     if (data.customerEmail) {
       try {
         const serviceType = (data.selectedLargeItems?.length > 0) ? "Large Item Delivery" : "Standard Delivery";
+        const customerFrom = buildFromAddress({
+          customDomain: company.customEmailDomain,
+          fromName: company.customEmailFromName,
+          domainVerified: company.emailDomainVerified,
+          fallbackName: company.name,
+        });
         await sendEmail({
           to: data.customerEmail,
           subject: `Your Quote from ${company.name}`,
+          from: customerFrom,
           react: (
             <CustomerQuoteEmail
               customerName={data.customerName}

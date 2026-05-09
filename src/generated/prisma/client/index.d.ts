@@ -2112,6 +2112,10 @@ export namespace Prisma {
     trialEndsAt: Date | null
     emailVerified: boolean | null
     emailVerificationToken: string | null
+    customEmailDomain: string | null
+    customEmailFromName: string | null
+    resendDomainId: string | null
+    emailDomainVerified: boolean | null
     createdAt: Date | null
   }
 
@@ -2137,6 +2141,10 @@ export namespace Prisma {
     trialEndsAt: Date | null
     emailVerified: boolean | null
     emailVerificationToken: string | null
+    customEmailDomain: string | null
+    customEmailFromName: string | null
+    resendDomainId: string | null
+    emailDomainVerified: boolean | null
     createdAt: Date | null
   }
 
@@ -2162,6 +2170,11 @@ export namespace Prisma {
     trialEndsAt: number
     emailVerified: number
     emailVerificationToken: number
+    customEmailDomain: number
+    customEmailFromName: number
+    resendDomainId: number
+    emailDomainVerified: number
+    emailDomainDnsRecords: number
     createdAt: number
     _all: number
   }
@@ -2189,6 +2202,10 @@ export namespace Prisma {
     trialEndsAt?: true
     emailVerified?: true
     emailVerificationToken?: true
+    customEmailDomain?: true
+    customEmailFromName?: true
+    resendDomainId?: true
+    emailDomainVerified?: true
     createdAt?: true
   }
 
@@ -2214,6 +2231,10 @@ export namespace Prisma {
     trialEndsAt?: true
     emailVerified?: true
     emailVerificationToken?: true
+    customEmailDomain?: true
+    customEmailFromName?: true
+    resendDomainId?: true
+    emailDomainVerified?: true
     createdAt?: true
   }
 
@@ -2239,6 +2260,11 @@ export namespace Prisma {
     trialEndsAt?: true
     emailVerified?: true
     emailVerificationToken?: true
+    customEmailDomain?: true
+    customEmailFromName?: true
+    resendDomainId?: true
+    emailDomainVerified?: true
+    emailDomainDnsRecords?: true
     createdAt?: true
     _all?: true
   }
@@ -2337,6 +2363,11 @@ export namespace Prisma {
     trialEndsAt: Date | null
     emailVerified: boolean
     emailVerificationToken: string | null
+    customEmailDomain: string | null
+    customEmailFromName: string | null
+    resendDomainId: string | null
+    emailDomainVerified: boolean
+    emailDomainDnsRecords: JsonValue | null
     createdAt: Date
     _count: CompanyCountAggregateOutputType | null
     _min: CompanyMinAggregateOutputType | null
@@ -2379,6 +2410,11 @@ export namespace Prisma {
     trialEndsAt?: boolean
     emailVerified?: boolean
     emailVerificationToken?: boolean
+    customEmailDomain?: boolean
+    customEmailFromName?: boolean
+    resendDomainId?: boolean
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: boolean
     createdAt?: boolean
     pricingProfiles?: boolean | Company$pricingProfilesArgs<ExtArgs>
     quoteRequests?: boolean | Company$quoteRequestsArgs<ExtArgs>
@@ -2412,6 +2448,11 @@ export namespace Prisma {
     trialEndsAt?: boolean
     emailVerified?: boolean
     emailVerificationToken?: boolean
+    customEmailDomain?: boolean
+    customEmailFromName?: boolean
+    resendDomainId?: boolean
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["company"]>
 
@@ -2437,6 +2478,11 @@ export namespace Prisma {
     trialEndsAt?: boolean
     emailVerified?: boolean
     emailVerificationToken?: boolean
+    customEmailDomain?: boolean
+    customEmailFromName?: boolean
+    resendDomainId?: boolean
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["company"]>
 
@@ -2462,10 +2508,15 @@ export namespace Prisma {
     trialEndsAt?: boolean
     emailVerified?: boolean
     emailVerificationToken?: boolean
+    customEmailDomain?: boolean
+    customEmailFromName?: boolean
+    resendDomainId?: boolean
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: boolean
     createdAt?: boolean
   }
 
-  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "logoUrl" | "profilePicUrl" | "phone" | "website" | "address" | "city" | "state" | "zip" | "contactName" | "timezone" | "subscriptionPlan" | "stripeCustomerId" | "stripeSubscriptionId" | "stripeConnectAccountId" | "trialEndsAt" | "emailVerified" | "emailVerificationToken" | "createdAt", ExtArgs["result"]["company"]>
+  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "logoUrl" | "profilePicUrl" | "phone" | "website" | "address" | "city" | "state" | "zip" | "contactName" | "timezone" | "subscriptionPlan" | "stripeCustomerId" | "stripeSubscriptionId" | "stripeConnectAccountId" | "trialEndsAt" | "emailVerified" | "emailVerificationToken" | "customEmailDomain" | "customEmailFromName" | "resendDomainId" | "emailDomainVerified" | "emailDomainDnsRecords" | "createdAt", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     pricingProfiles?: boolean | Company$pricingProfilesArgs<ExtArgs>
     quoteRequests?: boolean | Company$quoteRequestsArgs<ExtArgs>
@@ -2512,6 +2563,11 @@ export namespace Prisma {
       trialEndsAt: Date | null
       emailVerified: boolean
       emailVerificationToken: string | null
+      customEmailDomain: string | null
+      customEmailFromName: string | null
+      resendDomainId: string | null
+      emailDomainVerified: boolean
+      emailDomainDnsRecords: Prisma.JsonValue | null
       createdAt: Date
     }, ExtArgs["result"]["company"]>
     composites: {}
@@ -2964,6 +3020,11 @@ export namespace Prisma {
     readonly trialEndsAt: FieldRef<"Company", 'DateTime'>
     readonly emailVerified: FieldRef<"Company", 'Boolean'>
     readonly emailVerificationToken: FieldRef<"Company", 'String'>
+    readonly customEmailDomain: FieldRef<"Company", 'String'>
+    readonly customEmailFromName: FieldRef<"Company", 'String'>
+    readonly resendDomainId: FieldRef<"Company", 'String'>
+    readonly emailDomainVerified: FieldRef<"Company", 'Boolean'>
+    readonly emailDomainDnsRecords: FieldRef<"Company", 'Json'>
     readonly createdAt: FieldRef<"Company", 'DateTime'>
   }
     
@@ -16689,6 +16750,11 @@ export namespace Prisma {
     trialEndsAt: 'trialEndsAt',
     emailVerified: 'emailVerified',
     emailVerificationToken: 'emailVerificationToken',
+    customEmailDomain: 'customEmailDomain',
+    customEmailFromName: 'customEmailFromName',
+    resendDomainId: 'resendDomainId',
+    emailDomainVerified: 'emailDomainVerified',
+    emailDomainDnsRecords: 'emailDomainDnsRecords',
     createdAt: 'createdAt'
   };
 
@@ -16896,6 +16962,14 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
   export const JsonNullValueInput: {
     JsonNull: typeof JsonNull
   };
@@ -16911,14 +16985,6 @@ export namespace Prisma {
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
-  export const NullsOrder: {
-    first: 'first',
-    last: 'last'
-  };
-
-  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
   export const JsonNullValueFilter: {
     DbNull: typeof DbNull,
     JsonNull: typeof JsonNull,
@@ -16926,6 +16992,14 @@ export namespace Prisma {
   };
 
   export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -16969,20 +17043,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -16993,6 +17053,20 @@ export namespace Prisma {
    * Reference to a field of type 'QueryMode'
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 
@@ -17038,6 +17112,11 @@ export namespace Prisma {
     trialEndsAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     emailVerified?: BoolFilter<"Company"> | boolean
     emailVerificationToken?: StringNullableFilter<"Company"> | string | null
+    customEmailDomain?: StringNullableFilter<"Company"> | string | null
+    customEmailFromName?: StringNullableFilter<"Company"> | string | null
+    resendDomainId?: StringNullableFilter<"Company"> | string | null
+    emailDomainVerified?: BoolFilter<"Company"> | boolean
+    emailDomainDnsRecords?: JsonNullableFilter<"Company">
     createdAt?: DateTimeFilter<"Company"> | Date | string
     pricingProfiles?: PricingProfileListRelationFilter
     quoteRequests?: QuoteRequestListRelationFilter
@@ -17070,6 +17149,11 @@ export namespace Prisma {
     trialEndsAt?: SortOrderInput | SortOrder
     emailVerified?: SortOrder
     emailVerificationToken?: SortOrderInput | SortOrder
+    customEmailDomain?: SortOrderInput | SortOrder
+    customEmailFromName?: SortOrderInput | SortOrder
+    resendDomainId?: SortOrderInput | SortOrder
+    emailDomainVerified?: SortOrder
+    emailDomainDnsRecords?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     pricingProfiles?: PricingProfileOrderByRelationAggregateInput
     quoteRequests?: QuoteRequestOrderByRelationAggregateInput
@@ -17105,6 +17189,11 @@ export namespace Prisma {
     stripeConnectAccountId?: StringNullableFilter<"Company"> | string | null
     trialEndsAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     emailVerified?: BoolFilter<"Company"> | boolean
+    customEmailDomain?: StringNullableFilter<"Company"> | string | null
+    customEmailFromName?: StringNullableFilter<"Company"> | string | null
+    resendDomainId?: StringNullableFilter<"Company"> | string | null
+    emailDomainVerified?: BoolFilter<"Company"> | boolean
+    emailDomainDnsRecords?: JsonNullableFilter<"Company">
     createdAt?: DateTimeFilter<"Company"> | Date | string
     pricingProfiles?: PricingProfileListRelationFilter
     quoteRequests?: QuoteRequestListRelationFilter
@@ -17137,6 +17226,11 @@ export namespace Prisma {
     trialEndsAt?: SortOrderInput | SortOrder
     emailVerified?: SortOrder
     emailVerificationToken?: SortOrderInput | SortOrder
+    customEmailDomain?: SortOrderInput | SortOrder
+    customEmailFromName?: SortOrderInput | SortOrder
+    resendDomainId?: SortOrderInput | SortOrder
+    emailDomainVerified?: SortOrder
+    emailDomainDnsRecords?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: CompanyCountOrderByAggregateInput
     _max?: CompanyMaxOrderByAggregateInput
@@ -17168,6 +17262,11 @@ export namespace Prisma {
     trialEndsAt?: DateTimeNullableWithAggregatesFilter<"Company"> | Date | string | null
     emailVerified?: BoolWithAggregatesFilter<"Company"> | boolean
     emailVerificationToken?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    customEmailDomain?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    customEmailFromName?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    resendDomainId?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    emailDomainVerified?: BoolWithAggregatesFilter<"Company"> | boolean
+    emailDomainDnsRecords?: JsonNullableWithAggregatesFilter<"Company">
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
   }
 
@@ -18202,6 +18301,11 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -18234,6 +18338,11 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -18266,6 +18375,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -18298,6 +18412,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -18330,6 +18449,11 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
   }
 
@@ -18355,6 +18479,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -18380,6 +18509,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -19565,6 +19699,29 @@ export namespace Prisma {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -19674,6 +19831,11 @@ export namespace Prisma {
     trialEndsAt?: SortOrder
     emailVerified?: SortOrder
     emailVerificationToken?: SortOrder
+    customEmailDomain?: SortOrder
+    customEmailFromName?: SortOrder
+    resendDomainId?: SortOrder
+    emailDomainVerified?: SortOrder
+    emailDomainDnsRecords?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -19699,6 +19861,10 @@ export namespace Prisma {
     trialEndsAt?: SortOrder
     emailVerified?: SortOrder
     emailVerificationToken?: SortOrder
+    customEmailDomain?: SortOrder
+    customEmailFromName?: SortOrder
+    resendDomainId?: SortOrder
+    emailDomainVerified?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -19724,6 +19890,10 @@ export namespace Prisma {
     trialEndsAt?: SortOrder
     emailVerified?: SortOrder
     emailVerificationToken?: SortOrder
+    customEmailDomain?: SortOrder
+    customEmailFromName?: SortOrder
+    resendDomainId?: SortOrder
+    emailDomainVerified?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -19783,6 +19953,32 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -21574,6 +21770,29 @@ export namespace Prisma {
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -22260,6 +22479,11 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
@@ -22291,6 +22515,11 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
@@ -22393,6 +22622,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
@@ -22424,6 +22658,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
@@ -22516,6 +22755,11 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -22547,6 +22791,11 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -22639,6 +22888,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -22670,6 +22924,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -22752,6 +23011,11 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
@@ -22783,6 +23047,11 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
@@ -22864,6 +23133,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
@@ -22895,6 +23169,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
@@ -22942,6 +23221,11 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -22973,6 +23257,11 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -23020,6 +23309,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -23051,6 +23345,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -23082,6 +23381,11 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -23113,6 +23417,11 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -23160,6 +23469,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -23191,6 +23505,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -23222,6 +23541,11 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -23253,6 +23577,11 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -23384,6 +23713,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -23415,6 +23749,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -23845,6 +24184,11 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -23876,6 +24220,11 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -24060,6 +24409,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -24091,6 +24445,11 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput

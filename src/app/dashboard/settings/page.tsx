@@ -6,6 +6,7 @@ import {
   User, Mail, Save, CheckCircle2, AlertCircle, Send,
   Phone, Globe, MapPin, Building2, Camera, Upload,
 } from "lucide-react";
+import EmailDomainSection from "@/components/dashboard/EmailDomainSection";
 
 type ProfileData = {
   name: string;
@@ -307,6 +308,11 @@ export default function SettingsPage() {
           {saving ? "Saving…" : "Save Changes"}
         </button>
       </form>
+
+      {/* ── Custom Email Domain ─────────────────────────── */}
+      <div className="mt-6">
+        <EmailDomainSection />
+      </div>
 
       {/* ── Admin Plan Override ─────────────────────────── */}
       {data.email.toLowerCase() === "emmanuel@gokeenway.com" && (

@@ -29,6 +29,11 @@ model Company {
   trialEndsAt            DateTime?
   emailVerified          Boolean          @default(false)
   emailVerificationToken String?          @unique
+  customEmailDomain      String?
+  customEmailFromName    String?
+  resendDomainId         String?
+  emailDomainVerified    Boolean          @default(false)
+  emailDomainDnsRecords  Json?
   createdAt              DateTime         @default(now())
   pricingProfiles        PricingProfile[]
   quoteRequests          QuoteRequest[]
