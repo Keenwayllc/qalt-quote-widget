@@ -1,24 +1,23 @@
-import { getCurrentCompany, isTrialExpired, trialDaysRemaining } from "@/lib/session";
+import { getCurrentCompany, isTrialExpired, trialDaysRemaining, wasTrialDowngraded } from "@/lib/session";
 import DashboardClientLayout from "./DashboardClientLayout";
 import prisma from "@/lib/prisma";
-import { redirect } from "next/navigation";
-import { headers } from "next/headers";
 
 export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const company = await getCurrentCompany();
+  let company = await getCurrentCompany();
 
-  // Redirect expired trials to billing — but let billing itself through
+  // Trial ended without paying → silently drop them to STARTER.
+  // They keep the account; premium features just disappear and we surface
+  // an upgrade banner via trialDaysLeft=0.
   if (isTrialExpired(company)) {
-    const headersList = await headers();
-    const pathname = headersList.get("x-pathname") ?? "";
-    const isBillingPage = pathname.startsWith("/dashboard/billing");
-    if (!isBillingPage) {
-      redirect("/dashboard/billing?expired=1");
-    }
+    await prisma.company.update({
+      where: { id: company.id },
+      data: { subscriptionPlan: "STARTER" },
+    });
+    company = { ...company, subscriptionPlan: "STARTER" };
   }
 
   const [pendingCount, pricingCount, widgetCount, quoteCount] = await Promise.all([
@@ -35,6 +34,7 @@ export default async function DashboardLayout({
   if (quoteCount === 0) incompleteHrefs.push("/dashboard/embed");
 
   const daysLeft = trialDaysRemaining(company);
+  const trialEnded = wasTrialDowngraded(company);
 
   return (
     <DashboardClientLayout
@@ -42,6 +42,7 @@ export default async function DashboardLayout({
       pendingCount={pendingCount}
       companyId={company.id}
       trialDaysLeft={daysLeft}
+      trialEnded={trialEnded}
       incompleteHrefs={incompleteHrefs}
       companyName={company.name}
       logoUrl={company.logoUrl ?? undefined}

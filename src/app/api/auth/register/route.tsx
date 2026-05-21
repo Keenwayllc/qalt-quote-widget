@@ -30,6 +30,7 @@ export async function POST(req: Request) {
         email,
         passwordHash,
         name,
+        subscriptionPlan: "PRO",
         trialEndsAt,
         emailVerified: false,
         emailVerificationToken,

@@ -36,6 +36,7 @@ interface DashboardLayoutProps {
   pendingCount?: number;
   companyId?: string;
   trialDaysLeft?: number | null;
+  trialEnded?: boolean;
   incompleteHrefs?: string[];
   companyName?: string;
   logoUrl?: string;
@@ -62,6 +63,7 @@ function DashboardLayoutInner({
   pendingCount = 0,
   companyId,
   trialDaysLeft,
+  trialEnded = false,
   incompleteHrefs = [],
   companyName,
 }: DashboardLayoutProps) {
@@ -184,6 +186,20 @@ function DashboardLayoutInner({
               <X size={20} />
             </button>
           </div>
+
+          {/* Post-trial downgrade banner — hide on billing itself */}
+          {trialEnded && !pathname.startsWith("/dashboard/billing") && (
+            <div className="mx-4 mb-2 rounded-xl px-4 py-3 text-sm font-bold bg-slate-900 text-white">
+              <div className="flex items-center gap-2 mb-1">
+                <span>✨</span>
+                <span className="font-black">Your PRO trial ended</span>
+              </div>
+              <p className="text-xs text-white/80 mb-1">You're on STARTER. Upgrade to restore PRO features.</p>
+              <Link href="/dashboard/billing" className="text-xs underline underline-offset-2 font-black text-white/90 hover:text-white">
+                Upgrade →
+              </Link>
+            </div>
+          )}
 
           {/* Trial countdown banner */}
           {trialDaysLeft !== null && trialDaysLeft !== undefined && (
