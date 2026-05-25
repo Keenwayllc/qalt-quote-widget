@@ -24,6 +24,7 @@ interface WidgetProps {
       showWeight: boolean;
       showItemCount: boolean;
       showExtras: boolean;
+      insideDeliveryLabel?: string;
       disclaimerText: string;
       backgroundImageUrl?: string | null;
       logoUrl?: string | null;
@@ -47,6 +48,7 @@ interface FormData {
   pickupZip: string;
   dropoffZip: string;
   hasStairs: boolean;
+  stairsFlights: string;
   needsInsideDelivery: boolean;
   pickupDate: string;
   pickupTime: string;
@@ -263,6 +265,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
     pickupZip: "",
     dropoffZip: "",
     hasStairs: false,
+    stairsFlights: "1",
     needsInsideDelivery: false,
     pickupDate: "",
     pickupTime: "",
@@ -369,6 +372,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
           formId: company.formId || null,
           extras: {
             hasStairs: formData.hasStairs,
+            stairsFlights: formData.hasStairs ? (parseInt(formData.stairsFlights) || 1) : 0,
             needsInsideDelivery: formData.needsInsideDelivery,
             pickupDateTime: formData.pickupDate && formData.pickupTime
               ? `${formData.pickupDate}T${formData.pickupTime}`
@@ -674,7 +678,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                       {(['hasStairs', 'needsInsideDelivery'] as const).map((id) => {
                         const config: Record<string, { label: string; icon: React.ReactNode }> = {
                           hasStairs: { label: 'Stairs', icon: <Footprints size={15} /> },
-                          needsInsideDelivery: { label: 'Inside', icon: <Home size={15} /> },
+                          needsInsideDelivery: { label: widgetSettings.insideDeliveryLabel || 'Inside Delivery', icon: <Home size={15} /> },
                         };
                         return (
                           <label
@@ -705,6 +709,24 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                         );
                       })}
                     </div>
+
+                    {formData.hasStairs && (
+                      <div className="flex items-center justify-between gap-3 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl animate-in fade-in slide-in-from-top-1">
+                        <label htmlFor="stairsFlights" className="text-[12px] font-bold text-slate-600 flex items-center gap-1.5">
+                          <Footprints size={14} className="text-slate-400" /> Number of flights
+                        </label>
+                        <input
+                          id="stairsFlights"
+                          type="number"
+                          name="stairsFlights"
+                          min="1"
+                          step="1"
+                          value={formData.stairsFlights}
+                          onChange={handleInputChange}
+                          className="w-20 px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm font-bold text-slate-800 text-center focus:ring-2 focus:border-transparent outline-none transition-all"
+                        />
+                      </div>
+                    )}
 
                     {largeItemsEnabled && largeItemCategories.length > 0 && (
                       <div className="space-y-3">
@@ -1074,10 +1096,12 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                     <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Add-ons</p>
                     <div className="flex flex-wrap gap-1.5">
                       {formData.hasStairs && (
-                        <span className="text-[10px] font-bold px-2.5 py-1 bg-amber-50 text-amber-700 rounded-lg border border-amber-100">Stairs</span>
+                        <span className="text-[10px] font-bold px-2.5 py-1 bg-amber-50 text-amber-700 rounded-lg border border-amber-100">
+                          Stairs{(parseInt(formData.stairsFlights) || 1) > 1 ? ` ×${parseInt(formData.stairsFlights)}` : ""}
+                        </span>
                       )}
                       {formData.needsInsideDelivery && (
-                        <span className="text-[10px] font-bold px-2.5 py-1 bg-red-50 text-red-700 rounded-lg border border-red-100">Inside Delivery</span>
+                        <span className="text-[10px] font-bold px-2.5 py-1 bg-red-50 text-red-700 rounded-lg border border-red-100">{widgetSettings.insideDeliveryLabel || "Inside Delivery"}</span>
                       )}
                       {formData.selectedLargeItems.map((item) => (
                         <span key={item} className="text-[10px] font-bold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg border border-slate-200">{item}</span>

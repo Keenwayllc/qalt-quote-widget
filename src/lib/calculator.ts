@@ -93,6 +93,7 @@ export function estimatePrice(
     selectedLargeItems?: string[];
     packageWeight?: number;
     itemCount?: number;
+    stairsFlights?: number;
   }
 ): number {
   const distanceToCharge = Math.max(0, distance - rules.minMilesThreshold);
@@ -110,7 +111,14 @@ export function estimatePrice(
     total += extras.itemCount * rules.itemCountFee;
   }
 
-  if (extras.hasStairs) total += rules.stairsFee;
+  if (extras.hasStairs) {
+    // stairsFee is charged per flight of stairs; default to 1 flight when unspecified
+    const flights =
+      extras.stairsFlights && extras.stairsFlights > 0
+        ? extras.stairsFlights
+        : 1;
+    total += rules.stairsFee * flights;
+  }
   if (extras.needsInsideDelivery) total += rules.insideDeliveryFee;
 
   // After-hours: auto-detect via pickup datetime if provided, else use manual flag

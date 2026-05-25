@@ -19,6 +19,7 @@ interface WidgetProps {
       buttonText: string;
       showWeight: boolean;
       showExtras: boolean;
+      insideDeliveryLabel?: string;
       showVehicles: boolean;
       pricePerVehicle: number;
       showAwb: boolean;
@@ -75,6 +76,7 @@ export default function WidgetSettingsForm({
     companyNameFont: initialData.companyNameFont || "Inter",
     disclaimerText: entitlements.isAdvancedCustomizationEnabled ? initialData.disclaimerText : "Estimate only. Final price confirmed after booking.",
     mapLayout: initialData.mapLayout || "inline",
+    insideDeliveryLabel: initialData.insideDeliveryLabel || "Inside Delivery",
     websiteUrl: initialData.websiteUrl || "",
     paymentsEnabled: initialData.paymentsEnabled ?? false,
     showVehicles: initialData.showVehicles ?? false,
@@ -415,6 +417,22 @@ export default function WidgetSettingsForm({
                 onChange={handleChange}
                 className="w-full px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm dark:shadow-none"
               />
+            </div>
+
+            <div>
+              <label htmlFor="insideDeliveryLabel" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                &ldquo;Inside Delivery&rdquo; Add-on Label
+              </label>
+              <input
+                id="insideDeliveryLabel"
+                name="insideDeliveryLabel"
+                type="text"
+                placeholder="Inside Delivery"
+                value={previewData.insideDeliveryLabel || ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm dark:shadow-none"
+              />
+              <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Rename the second add-on in your widget (e.g. &ldquo;Door Removal&rdquo;, &ldquo;White Glove&rdquo;). Charges the Inside Delivery fee from your pricing.</p>
             </div>
 
             <div>

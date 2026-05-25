@@ -75,6 +75,7 @@ model WidgetSettings {
   showWeight         Boolean         @default(false)
   showItemCount      Boolean         @default(true)
   showExtras         Boolean         @default(true)
+  insideDeliveryLabel String         @default("Inside Delivery")
   primaryColor       String          @default("#1E40AF")
   buttonText         String          @default("Get Instant Quote")
   headerText         String          @default("Delivery Quote Calculator")

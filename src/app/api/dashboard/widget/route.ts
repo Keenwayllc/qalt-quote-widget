@@ -75,6 +75,7 @@ export async function POST(req: Request) {
       name:          data.name || "Default Form",
       showWeight:       Boolean(data.showWeight),
       showExtras:       Boolean(data.showExtras),
+      insideDeliveryLabel: data.insideDeliveryLabel ? String(data.insideDeliveryLabel).trim() : "Inside Delivery",
       showVehicles:     entitlements.isVehicleQuotingEnabled ? Boolean(data.showVehicles) : false,
       pricePerVehicle:  entitlements.isVehicleQuotingEnabled ? (parseFloat(data.pricePerVehicle) || 0) : 0,
       showAwb:          entitlements.isVehicleQuotingEnabled ? Boolean(data.showAwb) : false,
