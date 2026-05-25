@@ -41,6 +41,7 @@ interface PricingProfile {
 interface WidgetSettingsSnapshot {
   id: string;
   showWeight: boolean;
+  showItemCount: boolean;
   showExtras: boolean;
   showVehicles: boolean;
   pricePerVehicle: number;
@@ -213,6 +214,9 @@ export default function PricingPage({
   // ── Form Fields state (widget settings) ─────────────────────────────────
   const [showWeight, setShowWeight] = useState(
     widgetSettings?.showWeight ?? false
+  );
+  const [showItemCount, setShowItemCount] = useState(
+    widgetSettings?.showItemCount ?? true
   );
   const [showExtras, setShowExtras] = useState(
     widgetSettings?.showExtras ?? true
@@ -735,6 +739,7 @@ export default function PricingPage({
             patchWidget(
               {
                 showWeight,
+                showItemCount,
                 showExtras,
                 showVehicles: vehicleEnabled ? showVehicles : false,
                 pricePerVehicle: vehicleEnabled
@@ -765,6 +770,17 @@ export default function PricingPage({
               />
               <span className="text-sm font-medium text-slate-700 dark:text-zinc-300">
                 Show Package Weight field
+              </span>
+            </label>
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={showItemCount}
+                onChange={(e) => setShowItemCount(e.target.checked)}
+                className="w-5 h-5 rounded border-slate-300 text-red-600 focus:ring-red-500"
+              />
+              <span className="text-sm font-medium text-slate-700 dark:text-zinc-300">
+                Show Item Count field
               </span>
             </label>
             <label className="flex items-center gap-3 cursor-pointer">
