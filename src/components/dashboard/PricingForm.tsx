@@ -489,8 +489,8 @@ export default function PricingPage({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
               <FieldLabel
-                label="Stairs Fee (Flat $)"
-                tooltip="Added when the customer indicates the pickup or dropoff requires navigating stairs. Example: $15 flat added if stairs are selected."
+                label="Stairs Fee ($ per flight)"
+                tooltip="Charged for each flight of stairs the customer enters in your widget. Example: $25/flight × 2 flights = $50 added. If the customer selects stairs without specifying, it defaults to 1 flight."
               />
               <input
                 type="number"
