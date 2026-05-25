@@ -93,24 +93,27 @@ function DashboardLayoutInner({
   }, []);
 
   const navItems = [
+    // Monitor — your day-to-day
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
+    { name: "Quotes", href: "/dashboard/quotes", icon: FileText, showBadge: true },
     {
       name: "Analytics",
       href: "/dashboard/analytics",
       icon: BarChart3,
       isLocked: !entitlements.isAnalyticsDashboardEnabled
     },
-    { name: "Pricing Settings", href: "/dashboard/pricing", icon: DollarSign },
+    // Build your widget — configure, price, style, then ship it
     { name: "My Forms", href: "/dashboard/forms", icon: FormInput },
+    { name: "Pricing Settings", href: "/dashboard/pricing", icon: DollarSign },
+    { name: "Widget Appearance", href: "/dashboard/widget", icon: Settings },
+    { name: "Get Embed Code", href: "/dashboard/embed", icon: Code },
+    // Advanced & account
     {
       name: "Webhooks",
       href: "/dashboard/webhooks",
       icon: Webhook,
       isLocked: !entitlements.isWebhookEnabled,
     },
-    { name: "Widget Appearance", href: "/dashboard/widget", icon: Settings },
-    { name: "Get Embed Code", href: "/dashboard/embed", icon: Code },
-    { name: "Quotes", href: "/dashboard/quotes", icon: FileText, showBadge: true },
     { name: "Subscription", href: "/dashboard/billing", icon: CreditCard },
     { name: "Account Settings", href: "/dashboard/settings", icon: UserCircle },
     { name: "What's New", href: "/dashboard/whats-new", icon: Star },

@@ -7,6 +7,7 @@ import { MapPin, CheckCircle, ArrowRight, ArrowLeft, User, Mail, Phone, Truck, S
 import { useJsApiLoader } from "@react-google-maps/api";
 import usePlacesAutocomplete, { getGeocode } from "use-places-autocomplete";
 import RouteMapDisplay from "./RouteMapDisplay";
+import PickupDateTime from "./PickupDateTime";
 
 interface WidgetProps {
   company: {
@@ -178,6 +179,9 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
     afterHoursFee?: number;
     largeItemsEnabled?: boolean;
     largeItemCategories?: Array<{ name: string; price: number }>;
+    businessHoursStart?: string;
+    businessHoursEnd?: string;
+    businessDays?: string;
   };
   const largeItemsEnabled = pricingProfile?.largeItemsEnabled ?? false;
   const largeItemCategories: Array<{ name: string; price: number }> = Array.isArray(
@@ -585,22 +589,16 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                   <p className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] flex items-center gap-1.5 mb-2 ml-1">
                     <Clock size={11} className="text-slate-400" /> Pickup Date &amp; Time
                   </p>
-                  <div className="grid grid-cols-2 gap-3">
-                    <input
-                      type="date"
-                      name="pickupDate"
-                      value={formData.pickupDate}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-semibold text-slate-800 focus:ring-2 focus:border-transparent outline-none transition-all duration-200"
-                    />
-                    <input
-                      type="time"
-                      name="pickupTime"
-                      value={formData.pickupTime}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-semibold text-slate-800 focus:ring-2 focus:border-transparent outline-none transition-all duration-200"
-                    />
-                  </div>
+                  <PickupDateTime
+                    date={formData.pickupDate}
+                    time={formData.pickupTime}
+                    onDateChange={(d) => setFormData((prev) => ({ ...prev, pickupDate: d }))}
+                    onTimeChange={(t) => setFormData((prev) => ({ ...prev, pickupTime: t }))}
+                    businessHoursStart={pricingProfile?.businessHoursStart}
+                    businessHoursEnd={pricingProfile?.businessHoursEnd}
+                    businessDays={pricingProfile?.businessDays}
+                    primaryColor={primaryColor}
+                  />
                 </div>
 
                 {/* Weight & Item Count */}
