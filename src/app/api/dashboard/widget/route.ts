@@ -74,6 +74,7 @@ export async function POST(req: Request) {
     const settingsData = {
       name:          data.name || "Default Form",
       showWeight:       Boolean(data.showWeight),
+      showItemCount:    data.showItemCount === undefined ? true : Boolean(data.showItemCount),
       showExtras:       Boolean(data.showExtras),
       insideDeliveryLabel: data.insideDeliveryLabel ? String(data.insideDeliveryLabel).trim() : "Inside Delivery",
       showVehicles:     entitlements.isVehicleQuotingEnabled ? Boolean(data.showVehicles) : false,
@@ -147,8 +148,9 @@ export async function PATCH(req: Request) {
     const formId: string | undefined = data.formId;
 
     const patch: Record<string, unknown> = {};
-    if ("showWeight" in data)   patch.showWeight = Boolean(data.showWeight);
-    if ("showExtras" in data)   patch.showExtras = Boolean(data.showExtras);
+    if ("showWeight" in data)    patch.showWeight = Boolean(data.showWeight);
+    if ("showItemCount" in data) patch.showItemCount = Boolean(data.showItemCount);
+    if ("showExtras" in data)    patch.showExtras = Boolean(data.showExtras);
     if (entitlements.isVehicleQuotingEnabled) {
       if ("showVehicles" in data)    patch.showVehicles = Boolean(data.showVehicles);
       if ("pricePerVehicle" in data) patch.pricePerVehicle = parseFloat(data.pricePerVehicle) || 0;
