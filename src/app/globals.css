@@ -26,6 +26,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: "Clash Display", var(--font-geist-sans), sans-serif;
 
   /* Global Sharp Design Override */
   --radius-sm: 0px;
@@ -44,4 +45,11 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Headings use Clash Display for a premium, branded feel.
+   Body text stays in the sans stack for readability. The embedded
+   quote widget sets its own font inline, so it is unaffected. */
+h1, h2, h3 {
+  font-family: var(--font-display);
 }
