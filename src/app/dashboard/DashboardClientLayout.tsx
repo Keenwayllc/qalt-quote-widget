@@ -24,6 +24,7 @@ import {
   MapPin,
   Briefcase,
   Star,
+  Shield,
 } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
 import ThemeToggle from "@/components/shared/ThemeToggle";
@@ -41,6 +42,7 @@ interface DashboardLayoutProps {
   companyName?: string;
   logoUrl?: string;
   profilePicUrl?: string;
+  isAdmin?: boolean;
 }
 
 export default function DashboardClientLayout(props: DashboardLayoutProps) {
@@ -66,6 +68,7 @@ function DashboardLayoutInner({
   trialEnded = false,
   incompleteHrefs = [],
   companyName,
+  isAdmin = false,
 }: DashboardLayoutProps) {
   const { logoUrl, profilePicUrl, companyName: profileName } = useCompanyProfile();
   const displayName = profileName || companyName;
@@ -93,6 +96,8 @@ function DashboardLayoutInner({
   }, []);
 
   const navItems = [
+    // Admin — only visible to platform admins
+    ...(isAdmin ? [{ name: "Admin", href: "/dashboard/admin", icon: Shield }] : []),
     // Monitor — your day-to-day
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { name: "Quotes", href: "/dashboard/quotes", icon: FileText, showBadge: true },

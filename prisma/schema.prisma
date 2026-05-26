@@ -34,6 +34,8 @@ model Company {
   resendDomainId        String?
   emailDomainVerified   Boolean          @default(false)
   emailDomainDnsRecords Json?
+  isAdmin              Boolean          @default(false)
+  lastLoginAt          DateTime?
   createdAt            DateTime         @default(now())
   pricingProfiles      PricingProfile[]
   quoteRequests        QuoteRequest[]
