@@ -2,6 +2,7 @@ import { getCurrentCompany } from "@/lib/session";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { Shield, Building2, FileText, Sparkles } from "lucide-react";
+import PlanSelect from "./PlanSelect";
 
 export const dynamic = "force-dynamic";
 
@@ -13,17 +14,6 @@ function fmtDate(d: Date | null): string {
     hour: "numeric",
     minute: "2-digit",
   });
-}
-
-function planBadge(plan: string): string {
-  switch (plan) {
-    case "ENTERPRISE":
-      return "bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300";
-    case "PRO":
-      return "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300";
-    default:
-      return "bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-300";
-  }
 }
 
 export default async function AdminPage() {
@@ -131,9 +121,7 @@ export default async function AdminPage() {
                     <p className="text-xs text-slate-400 dark:text-slate-500">{c.email}</p>
                   </td>
                   <td className="px-4 py-3">
-                    <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wide ${planBadge(c.subscriptionPlan)}`}>
-                      {c.subscriptionPlan}
-                    </span>
+                    <PlanSelect companyId={c.id} plan={c.subscriptionPlan} />
                   </td>
                   <td className="px-4 py-3 font-bold text-slate-700 dark:text-slate-200">
                     {countMap.get(c.id) ?? 0}
