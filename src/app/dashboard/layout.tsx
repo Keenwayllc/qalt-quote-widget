@@ -47,6 +47,7 @@ export default async function DashboardLayout({
       companyName={company.name}
       logoUrl={company.logoUrl ?? undefined}
       profilePicUrl={company.profilePicUrl ?? undefined}
+      isAdmin={company.isAdmin}
     >
       {children}
     </DashboardClientLayout>
