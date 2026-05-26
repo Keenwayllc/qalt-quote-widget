@@ -49,7 +49,10 @@ body {
 
 /* Headings use Clash Display for a premium, branded feel.
    Body text stays in the sans stack for readability. The embedded
-   quote widget sets its own font inline, so it is unaffected. */
+   quote widget sets its own font inline, so it is unaffected.
+   NOTE: the family is written literally here — the --font-display token
+   lives in @theme inline, which inlines into utilities and does NOT emit
+   a usable CSS variable, so var(--font-display) would resolve to nothing. */
 h1, h2, h3 {
-  font-family: var(--font-display);
+  font-family: "Clash Display", var(--font-geist-sans), system-ui, sans-serif;
 }
