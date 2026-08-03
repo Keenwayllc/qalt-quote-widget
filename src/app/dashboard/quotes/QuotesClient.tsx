@@ -64,7 +64,7 @@ function CopyButton({ text }: { text: string }) {
   );
 }
 
-function QuoteDrawer({ quote, onClose, onUpdate }: { quote: Quote; onClose: () => void; onUpdate: (q: Quote) => void }) {
+function QuoteDrawer({ quote, onClose, onUpdate, insideDeliveryLabel, addon3Label }: { quote: Quote; onClose: () => void; onUpdate: (q: Quote) => void; insideDeliveryLabel: string; addon3Label: string }) {
   const [notes, setNotes] = useState(quote.internalNotes || "");
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -85,9 +85,23 @@ function QuoteDrawer({ quote, onClose, onUpdate }: { quote: Quote; onClose: () =
     }
   };
 
-  const extras = quote.selectedExtras
-    ? (JSON.parse(quote.selectedExtras) as string[])
-    : [];
+  const parsedExtras = quote.selectedExtras
+    ? (JSON.parse(quote.selectedExtras) as {
+        hasStairs?: boolean;
+        needsInsideDelivery?: boolean;
+        needsAddon3?: boolean;
+        stairsFlights?: number;
+        selectedLargeItems?: string[];
+      })
+    : {};
+  const extras: string[] = [
+    ...(parsedExtras.hasStairs
+      ? [parsedExtras.stairsFlights && parsedExtras.stairsFlights > 1 ? `Stairs x${parsedExtras.stairsFlights}` : "Stairs"]
+      : []),
+    ...(parsedExtras.needsInsideDelivery ? [insideDeliveryLabel] : []),
+    ...(parsedExtras.needsAddon3 && addon3Label ? [addon3Label] : []),
+    ...(parsedExtras.selectedLargeItems ?? []),
+  ];
 
   return (
     <AnimatePresence>
@@ -332,7 +346,7 @@ function QuoteDrawer({ quote, onClose, onUpdate }: { quote: Quote; onClose: () =
   );
 }
 
-export default function QuotesClient({ quotes: initialQuotes }: { quotes: Quote[] }) {
+export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabel, addon3Label }: { quotes: Quote[]; insideDeliveryLabel: string; addon3Label: string }) {
   const [quotes, setQuotes] = useState<Quote[]>(initialQuotes);
   const [selected, setSelected] = useState<Quote | null>(null);
   const [view, setView] = useState<"list" | "kanban">("list");
@@ -536,7 +550,7 @@ export default function QuotesClient({ quotes: initialQuotes }: { quotes: Quote[
 
       {/* Detail Drawer */}
       <AnimatePresence>
-        {selected && <QuoteDrawer quote={selected} onClose={() => setSelected(null)} onUpdate={handleUpdate} />}
+        {selected && <QuoteDrawer quote={selected} onClose={() => setSelected(null)} onUpdate={handleUpdate} insideDeliveryLabel={insideDeliveryLabel} addon3Label={addon3Label} />}
       </AnimatePresence>
     </>
   );
