@@ -17,6 +17,7 @@ const pricingFields = (data: Record<string, unknown>) => ({
   itemCountFee:       safeNum(data.itemCountFee,       0),
   stairsFee:          safeNum(data.stairsFee,          0),
   insideDeliveryFee:  safeNum(data.insideDeliveryFee,  0),
+  addon3Fee:          safeNum(data.addon3Fee,          0),
   afterHoursFee:      safeNum(data.afterHoursFee,      0),
   largeItemFee:       safeNum(data.largeItemFee,       0),
   businessHoursStart: String(data.businessHoursStart  || "08:00"),
@@ -127,6 +128,7 @@ export async function PATCH(req: Request) {
       itemCountFee: 0,
       stairsFee: 0,
       insideDeliveryFee: 0,
+      addon3Fee: 0,
       afterHoursFee: 0,
       largeItemFee: 0,
     };

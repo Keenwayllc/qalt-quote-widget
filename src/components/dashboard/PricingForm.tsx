@@ -29,6 +29,7 @@ interface PricingProfile {
   itemCountFee: number;
   stairsFee: number;
   insideDeliveryFee: number;
+  addon3Fee?: number;
   afterHoursFee: number;
   businessHoursStart?: string;
   businessHoursEnd?: string;
@@ -178,6 +179,9 @@ export default function PricingPage({
   );
   const [insideDeliveryFee, setInsideDeliveryFee] = useState(
     String(initialData?.insideDeliveryFee ?? 0)
+  );
+  const [addon3Fee, setAddon3Fee] = useState(
+    String(initialData?.addon3Fee ?? 0)
   );
   const [flatFeesStatus, setFlatFeesStatus] = useState<SectionStatus>("idle");
 
@@ -476,6 +480,7 @@ export default function PricingPage({
               {
                 stairsFee: parseFloat(stairsFee) || 0,
                 insideDeliveryFee: parseFloat(insideDeliveryFee) || 0,
+                addon3Fee: parseFloat(addon3Fee) || 0,
               },
               setFlatFeesStatus
             );
@@ -516,6 +521,20 @@ export default function PricingPage({
                 min="0"
                 value={insideDeliveryFee}
                 onChange={(e) => setInsideDeliveryFee(e.target.value)}
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <FieldLabel
+                label="Add-on 3 Fee (Flat $)"
+                tooltip="A third optional flat fee. Name it on the Widget Appearance page (e.g. Helper Fee, Assembly, White Glove). Leave at 0 to hide it from your widget."
+              />
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                value={addon3Fee}
+                onChange={(e) => setAddon3Fee(e.target.value)}
                 className={inputClass}
               />
             </div>
