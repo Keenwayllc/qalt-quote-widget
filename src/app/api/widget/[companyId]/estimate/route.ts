@@ -14,6 +14,7 @@ type PricingProfileShape = {
   itemCountFee: number;
   stairsFee: number;
   insideDeliveryFee: number;
+  addon3Fee: number;
   afterHoursFee: number;
   largeItemFee: number;
   businessHoursStart?: string;

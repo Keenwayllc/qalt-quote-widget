@@ -76,6 +76,7 @@ export function estimatePrice(
     itemCountFee: number;
     stairsFee: number;
     insideDeliveryFee: number;
+    addon3Fee: number;
     afterHoursFee: number;
     businessHoursStart?: string;
     businessHoursEnd?: string;
@@ -87,6 +88,7 @@ export function estimatePrice(
   extras: {
     hasStairs: boolean;
     needsInsideDelivery: boolean;
+    needsAddon3: boolean;
     isAfterHours?: boolean;
     pickupDateTime?: string;
     isLargeItem?: boolean;
@@ -120,6 +122,7 @@ export function estimatePrice(
     total += rules.stairsFee * flights;
   }
   if (extras.needsInsideDelivery) total += rules.insideDeliveryFee;
+  if (extras.needsAddon3) total += rules.addon3Fee;
 
   // After-hours: auto-detect via pickup datetime if provided, else use manual flag
   if (

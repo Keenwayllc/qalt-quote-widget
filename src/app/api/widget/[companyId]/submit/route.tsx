@@ -102,6 +102,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
         selectedExtras: JSON.stringify({
           hasStairs: data.hasStairs,
           needsInsideDelivery: data.needsInsideDelivery,
+          needsAddon3: data.needsAddon3,
           pickupDateTime: data.pickupDateTime || null,
           selectedLargeItems: data.selectedLargeItems || [],
         }),
