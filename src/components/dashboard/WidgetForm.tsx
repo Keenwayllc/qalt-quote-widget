@@ -20,6 +20,7 @@ interface WidgetProps {
       showWeight: boolean;
       showExtras: boolean;
       insideDeliveryLabel?: string;
+      addon3Label?: string;
       showVehicles: boolean;
       pricePerVehicle: number;
       showAwb: boolean;
@@ -77,6 +78,7 @@ export default function WidgetSettingsForm({
     disclaimerText: entitlements.isAdvancedCustomizationEnabled ? initialData.disclaimerText : "Estimate only. Final price confirmed after booking.",
     mapLayout: initialData.mapLayout || "inline",
     insideDeliveryLabel: initialData.insideDeliveryLabel || "Inside Delivery",
+    addon3Label: initialData.addon3Label || "",
     websiteUrl: initialData.websiteUrl || "",
     paymentsEnabled: initialData.paymentsEnabled ?? false,
     showVehicles: initialData.showVehicles ?? false,
@@ -433,6 +435,22 @@ export default function WidgetSettingsForm({
                 className="w-full px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm dark:shadow-none"
               />
               <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Rename the second add-on in your widget (e.g. &ldquo;Door Removal&rdquo;, &ldquo;White Glove&rdquo;). Charges the Inside Delivery fee from your pricing.</p>
+            </div>
+
+            <div>
+              <label htmlFor="addon3Label" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                &ldquo;Add-on 3&rdquo; Label
+              </label>
+              <input
+                id="addon3Label"
+                name="addon3Label"
+                type="text"
+                placeholder="e.g. Helper Fee"
+                value={previewData.addon3Label || ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm dark:shadow-none"
+              />
+              <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Name a third add-on (e.g. &ldquo;Helper Fee&rdquo;, &ldquo;Assembly&rdquo;, &ldquo;White Glove&rdquo;). Charges the Add-on 3 fee from your pricing. Leave blank (or fee 0) to hide it.</p>
             </div>
 
             <div>

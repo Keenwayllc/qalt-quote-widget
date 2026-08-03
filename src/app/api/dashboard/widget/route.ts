@@ -77,6 +77,7 @@ export async function POST(req: Request) {
       showItemCount:    data.showItemCount === undefined ? true : Boolean(data.showItemCount),
       showExtras:       Boolean(data.showExtras),
       insideDeliveryLabel: data.insideDeliveryLabel ? String(data.insideDeliveryLabel).trim() : "Inside Delivery",
+      addon3Label:      data.addon3Label ? String(data.addon3Label).trim() : "",
       showVehicles:     entitlements.isVehicleQuotingEnabled ? Boolean(data.showVehicles) : false,
       pricePerVehicle:  entitlements.isVehicleQuotingEnabled ? (parseFloat(data.pricePerVehicle) || 0) : 0,
       showAwb:          entitlements.isVehicleQuotingEnabled ? Boolean(data.showAwb) : false,
