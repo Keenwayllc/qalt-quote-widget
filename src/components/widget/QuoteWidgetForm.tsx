@@ -26,6 +26,7 @@ interface WidgetProps {
       showItemCount: boolean;
       showExtras: boolean;
       insideDeliveryLabel?: string;
+      addon3Label?: string;
       disclaimerText: string;
       backgroundImageUrl?: string | null;
       logoUrl?: string | null;
@@ -51,6 +52,7 @@ interface FormData {
   hasStairs: boolean;
   stairsFlights: string;
   needsInsideDelivery: boolean;
+  needsAddon3: boolean;
   pickupDate: string;
   pickupTime: string;
   selectedLargeItems: string[];
@@ -177,6 +179,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
 
   const pricingProfile = company.pricingProfile as {
     afterHoursFee?: number;
+    addon3Fee?: number;
     largeItemsEnabled?: boolean;
     largeItemCategories?: Array<{ name: string; price: number }>;
     businessHoursStart?: string;
@@ -271,6 +274,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
     hasStairs: false,
     stairsFlights: "1",
     needsInsideDelivery: false,
+    needsAddon3: false,
     pickupDate: "",
     pickupTime: "",
     selectedLargeItems: [] as string[],
@@ -378,6 +382,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
             hasStairs: formData.hasStairs,
             stairsFlights: formData.hasStairs ? (parseInt(formData.stairsFlights) || 1) : 0,
             needsInsideDelivery: formData.needsInsideDelivery,
+            needsAddon3: formData.needsAddon3,
             pickupDateTime: formData.pickupDate && formData.pickupTime
               ? `${formData.pickupDate}T${formData.pickupTime}`
               : undefined,
@@ -673,10 +678,16 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                   <div className="space-y-3">
                     <p className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] ml-1">Add-ons</p>
                     <div className="grid grid-cols-2 gap-2.5">
-                      {(['hasStairs', 'needsInsideDelivery'] as const).map((id) => {
+                      {(() => {
+                        const addonIds: Array<'hasStairs' | 'needsInsideDelivery' | 'needsAddon3'> = ['hasStairs', 'needsInsideDelivery'];
+                        // Add-on 3 only appears once the merchant has both named it and set a fee.
+                        if (widgetSettings.addon3Label && (pricingProfile?.addon3Fee ?? 0) > 0) addonIds.push('needsAddon3');
+                        return addonIds;
+                      })().map((id) => {
                         const config: Record<string, { label: string; icon: React.ReactNode }> = {
                           hasStairs: { label: 'Stairs', icon: <Footprints size={15} /> },
                           needsInsideDelivery: { label: widgetSettings.insideDeliveryLabel || 'Inside Delivery', icon: <Home size={15} /> },
+                          needsAddon3: { label: widgetSettings.addon3Label || 'Add-on', icon: <Sparkles size={15} /> },
                         };
                         return (
                           <label
@@ -1089,7 +1100,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                 )}
 
                 {/* Add-ons & Large Items */}
-                {(formData.hasStairs || formData.needsInsideDelivery || formData.selectedLargeItems.length > 0) && (
+                {(formData.hasStairs || formData.needsInsideDelivery || formData.needsAddon3 || formData.selectedLargeItems.length > 0) && (
                   <div className="pt-1">
                     <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Add-ons</p>
                     <div className="flex flex-wrap gap-1.5">
@@ -1100,6 +1111,9 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                       )}
                       {formData.needsInsideDelivery && (
                         <span className="text-[10px] font-bold px-2.5 py-1 bg-red-50 text-red-700 rounded-lg border border-red-100">{widgetSettings.insideDeliveryLabel || "Inside Delivery"}</span>
+                      )}
+                      {formData.needsAddon3 && (
+                        <span className="text-[10px] font-bold px-2.5 py-1 bg-red-50 text-red-700 rounded-lg border border-red-100">{widgetSettings.addon3Label || "Add-on"}</span>
                       )}
                       {formData.selectedLargeItems.map((item) => (
                         <span key={item} className="text-[10px] font-bold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg border border-slate-200">{item}</span>
