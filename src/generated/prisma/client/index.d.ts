@@ -2116,6 +2116,8 @@ export namespace Prisma {
     customEmailFromName: string | null
     resendDomainId: string | null
     emailDomainVerified: boolean | null
+    isAdmin: boolean | null
+    lastLoginAt: Date | null
     createdAt: Date | null
   }
 
@@ -2145,6 +2147,8 @@ export namespace Prisma {
     customEmailFromName: string | null
     resendDomainId: string | null
     emailDomainVerified: boolean | null
+    isAdmin: boolean | null
+    lastLoginAt: Date | null
     createdAt: Date | null
   }
 
@@ -2175,6 +2179,8 @@ export namespace Prisma {
     resendDomainId: number
     emailDomainVerified: number
     emailDomainDnsRecords: number
+    isAdmin: number
+    lastLoginAt: number
     createdAt: number
     _all: number
   }
@@ -2206,6 +2212,8 @@ export namespace Prisma {
     customEmailFromName?: true
     resendDomainId?: true
     emailDomainVerified?: true
+    isAdmin?: true
+    lastLoginAt?: true
     createdAt?: true
   }
 
@@ -2235,6 +2243,8 @@ export namespace Prisma {
     customEmailFromName?: true
     resendDomainId?: true
     emailDomainVerified?: true
+    isAdmin?: true
+    lastLoginAt?: true
     createdAt?: true
   }
 
@@ -2265,6 +2275,8 @@ export namespace Prisma {
     resendDomainId?: true
     emailDomainVerified?: true
     emailDomainDnsRecords?: true
+    isAdmin?: true
+    lastLoginAt?: true
     createdAt?: true
     _all?: true
   }
@@ -2368,6 +2380,8 @@ export namespace Prisma {
     resendDomainId: string | null
     emailDomainVerified: boolean
     emailDomainDnsRecords: JsonValue | null
+    isAdmin: boolean
+    lastLoginAt: Date | null
     createdAt: Date
     _count: CompanyCountAggregateOutputType | null
     _min: CompanyMinAggregateOutputType | null
@@ -2415,6 +2429,8 @@ export namespace Prisma {
     resendDomainId?: boolean
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: boolean
+    isAdmin?: boolean
+    lastLoginAt?: boolean
     createdAt?: boolean
     pricingProfiles?: boolean | Company$pricingProfilesArgs<ExtArgs>
     quoteRequests?: boolean | Company$quoteRequestsArgs<ExtArgs>
@@ -2453,6 +2469,8 @@ export namespace Prisma {
     resendDomainId?: boolean
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: boolean
+    isAdmin?: boolean
+    lastLoginAt?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["company"]>
 
@@ -2483,6 +2501,8 @@ export namespace Prisma {
     resendDomainId?: boolean
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: boolean
+    isAdmin?: boolean
+    lastLoginAt?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["company"]>
 
@@ -2513,10 +2533,12 @@ export namespace Prisma {
     resendDomainId?: boolean
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: boolean
+    isAdmin?: boolean
+    lastLoginAt?: boolean
     createdAt?: boolean
   }
 
-  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "logoUrl" | "profilePicUrl" | "phone" | "website" | "address" | "city" | "state" | "zip" | "contactName" | "timezone" | "subscriptionPlan" | "stripeCustomerId" | "stripeSubscriptionId" | "stripeConnectAccountId" | "trialEndsAt" | "emailVerified" | "emailVerificationToken" | "customEmailDomain" | "customEmailFromName" | "resendDomainId" | "emailDomainVerified" | "emailDomainDnsRecords" | "createdAt", ExtArgs["result"]["company"]>
+  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "logoUrl" | "profilePicUrl" | "phone" | "website" | "address" | "city" | "state" | "zip" | "contactName" | "timezone" | "subscriptionPlan" | "stripeCustomerId" | "stripeSubscriptionId" | "stripeConnectAccountId" | "trialEndsAt" | "emailVerified" | "emailVerificationToken" | "customEmailDomain" | "customEmailFromName" | "resendDomainId" | "emailDomainVerified" | "emailDomainDnsRecords" | "isAdmin" | "lastLoginAt" | "createdAt", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     pricingProfiles?: boolean | Company$pricingProfilesArgs<ExtArgs>
     quoteRequests?: boolean | Company$quoteRequestsArgs<ExtArgs>
@@ -2568,6 +2590,8 @@ export namespace Prisma {
       resendDomainId: string | null
       emailDomainVerified: boolean
       emailDomainDnsRecords: Prisma.JsonValue | null
+      isAdmin: boolean
+      lastLoginAt: Date | null
       createdAt: Date
     }, ExtArgs["result"]["company"]>
     composites: {}
@@ -3025,6 +3049,8 @@ export namespace Prisma {
     readonly resendDomainId: FieldRef<"Company", 'String'>
     readonly emailDomainVerified: FieldRef<"Company", 'Boolean'>
     readonly emailDomainDnsRecords: FieldRef<"Company", 'Json'>
+    readonly isAdmin: FieldRef<"Company", 'Boolean'>
+    readonly lastLoginAt: FieldRef<"Company", 'DateTime'>
     readonly createdAt: FieldRef<"Company", 'DateTime'>
   }
     
@@ -3625,6 +3651,7 @@ export namespace Prisma {
     itemCountFee: number | null
     stairsFee: number | null
     insideDeliveryFee: number | null
+    addon3Fee: number | null
     afterHoursFee: number | null
     largeItemFee: number | null
   }
@@ -3637,6 +3664,7 @@ export namespace Prisma {
     itemCountFee: number | null
     stairsFee: number | null
     insideDeliveryFee: number | null
+    addon3Fee: number | null
     afterHoursFee: number | null
     largeItemFee: number | null
   }
@@ -3653,6 +3681,7 @@ export namespace Prisma {
     itemCountFee: number | null
     stairsFee: number | null
     insideDeliveryFee: number | null
+    addon3Fee: number | null
     afterHoursFee: number | null
     businessHoursStart: string | null
     businessHoursEnd: string | null
@@ -3673,6 +3702,7 @@ export namespace Prisma {
     itemCountFee: number | null
     stairsFee: number | null
     insideDeliveryFee: number | null
+    addon3Fee: number | null
     afterHoursFee: number | null
     businessHoursStart: string | null
     businessHoursEnd: string | null
@@ -3693,6 +3723,7 @@ export namespace Prisma {
     itemCountFee: number
     stairsFee: number
     insideDeliveryFee: number
+    addon3Fee: number
     afterHoursFee: number
     businessHoursStart: number
     businessHoursEnd: number
@@ -3712,6 +3743,7 @@ export namespace Prisma {
     itemCountFee?: true
     stairsFee?: true
     insideDeliveryFee?: true
+    addon3Fee?: true
     afterHoursFee?: true
     largeItemFee?: true
   }
@@ -3724,6 +3756,7 @@ export namespace Prisma {
     itemCountFee?: true
     stairsFee?: true
     insideDeliveryFee?: true
+    addon3Fee?: true
     afterHoursFee?: true
     largeItemFee?: true
   }
@@ -3740,6 +3773,7 @@ export namespace Prisma {
     itemCountFee?: true
     stairsFee?: true
     insideDeliveryFee?: true
+    addon3Fee?: true
     afterHoursFee?: true
     businessHoursStart?: true
     businessHoursEnd?: true
@@ -3760,6 +3794,7 @@ export namespace Prisma {
     itemCountFee?: true
     stairsFee?: true
     insideDeliveryFee?: true
+    addon3Fee?: true
     afterHoursFee?: true
     businessHoursStart?: true
     businessHoursEnd?: true
@@ -3780,6 +3815,7 @@ export namespace Prisma {
     itemCountFee?: true
     stairsFee?: true
     insideDeliveryFee?: true
+    addon3Fee?: true
     afterHoursFee?: true
     businessHoursStart?: true
     businessHoursEnd?: true
@@ -3888,6 +3924,7 @@ export namespace Prisma {
     itemCountFee: number
     stairsFee: number
     insideDeliveryFee: number
+    addon3Fee: number
     afterHoursFee: number
     businessHoursStart: string
     businessHoursEnd: string
@@ -3928,6 +3965,7 @@ export namespace Prisma {
     itemCountFee?: boolean
     stairsFee?: boolean
     insideDeliveryFee?: boolean
+    addon3Fee?: boolean
     afterHoursFee?: boolean
     businessHoursStart?: boolean
     businessHoursEnd?: boolean
@@ -3951,6 +3989,7 @@ export namespace Prisma {
     itemCountFee?: boolean
     stairsFee?: boolean
     insideDeliveryFee?: boolean
+    addon3Fee?: boolean
     afterHoursFee?: boolean
     businessHoursStart?: boolean
     businessHoursEnd?: boolean
@@ -3974,6 +4013,7 @@ export namespace Prisma {
     itemCountFee?: boolean
     stairsFee?: boolean
     insideDeliveryFee?: boolean
+    addon3Fee?: boolean
     afterHoursFee?: boolean
     businessHoursStart?: boolean
     businessHoursEnd?: boolean
@@ -3997,6 +4037,7 @@ export namespace Prisma {
     itemCountFee?: boolean
     stairsFee?: boolean
     insideDeliveryFee?: boolean
+    addon3Fee?: boolean
     afterHoursFee?: boolean
     businessHoursStart?: boolean
     businessHoursEnd?: boolean
@@ -4006,7 +4047,7 @@ export namespace Prisma {
     largeItemCategories?: boolean
   }
 
-  export type PricingProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "widgetSettingsId" | "baseRatePerMile" | "minimumCharge" | "useMinimumCharge" | "minMilesThreshold" | "weightFee" | "itemCountFee" | "stairsFee" | "insideDeliveryFee" | "afterHoursFee" | "businessHoursStart" | "businessHoursEnd" | "businessDays" | "largeItemFee" | "largeItemsEnabled" | "largeItemCategories", ExtArgs["result"]["pricingProfile"]>
+  export type PricingProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "widgetSettingsId" | "baseRatePerMile" | "minimumCharge" | "useMinimumCharge" | "minMilesThreshold" | "weightFee" | "itemCountFee" | "stairsFee" | "insideDeliveryFee" | "addon3Fee" | "afterHoursFee" | "businessHoursStart" | "businessHoursEnd" | "businessDays" | "largeItemFee" | "largeItemsEnabled" | "largeItemCategories", ExtArgs["result"]["pricingProfile"]>
   export type PricingProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     widgetSettings?: boolean | PricingProfile$widgetSettingsArgs<ExtArgs>
@@ -4038,6 +4079,7 @@ export namespace Prisma {
       itemCountFee: number
       stairsFee: number
       insideDeliveryFee: number
+      addon3Fee: number
       afterHoursFee: number
       businessHoursStart: string
       businessHoursEnd: string
@@ -4481,6 +4523,7 @@ export namespace Prisma {
     readonly itemCountFee: FieldRef<"PricingProfile", 'Float'>
     readonly stairsFee: FieldRef<"PricingProfile", 'Float'>
     readonly insideDeliveryFee: FieldRef<"PricingProfile", 'Float'>
+    readonly addon3Fee: FieldRef<"PricingProfile", 'Float'>
     readonly afterHoursFee: FieldRef<"PricingProfile", 'Float'>
     readonly businessHoursStart: FieldRef<"PricingProfile", 'String'>
     readonly businessHoursEnd: FieldRef<"PricingProfile", 'String'>
@@ -4954,6 +4997,8 @@ export namespace Prisma {
     showWeight: boolean | null
     showItemCount: boolean | null
     showExtras: boolean | null
+    insideDeliveryLabel: string | null
+    addon3Label: string | null
     primaryColor: string | null
     buttonText: string | null
     headerText: string | null
@@ -4978,6 +5023,8 @@ export namespace Prisma {
     showWeight: boolean | null
     showItemCount: boolean | null
     showExtras: boolean | null
+    insideDeliveryLabel: string | null
+    addon3Label: string | null
     primaryColor: string | null
     buttonText: string | null
     headerText: string | null
@@ -5002,6 +5049,8 @@ export namespace Prisma {
     showWeight: number
     showItemCount: number
     showExtras: number
+    insideDeliveryLabel: number
+    addon3Label: number
     primaryColor: number
     buttonText: number
     headerText: number
@@ -5037,6 +5086,8 @@ export namespace Prisma {
     showWeight?: true
     showItemCount?: true
     showExtras?: true
+    insideDeliveryLabel?: true
+    addon3Label?: true
     primaryColor?: true
     buttonText?: true
     headerText?: true
@@ -5061,6 +5112,8 @@ export namespace Prisma {
     showWeight?: true
     showItemCount?: true
     showExtras?: true
+    insideDeliveryLabel?: true
+    addon3Label?: true
     primaryColor?: true
     buttonText?: true
     headerText?: true
@@ -5085,6 +5138,8 @@ export namespace Prisma {
     showWeight?: true
     showItemCount?: true
     showExtras?: true
+    insideDeliveryLabel?: true
+    addon3Label?: true
     primaryColor?: true
     buttonText?: true
     headerText?: true
@@ -5197,6 +5252,8 @@ export namespace Prisma {
     showWeight: boolean
     showItemCount: boolean
     showExtras: boolean
+    insideDeliveryLabel: string
+    addon3Label: string
     primaryColor: string
     buttonText: string
     headerText: string
@@ -5241,6 +5298,8 @@ export namespace Prisma {
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
+    insideDeliveryLabel?: boolean
+    addon3Label?: boolean
     primaryColor?: boolean
     buttonText?: boolean
     headerText?: boolean
@@ -5268,6 +5327,8 @@ export namespace Prisma {
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
+    insideDeliveryLabel?: boolean
+    addon3Label?: boolean
     primaryColor?: boolean
     buttonText?: boolean
     headerText?: boolean
@@ -5294,6 +5355,8 @@ export namespace Prisma {
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
+    insideDeliveryLabel?: boolean
+    addon3Label?: boolean
     primaryColor?: boolean
     buttonText?: boolean
     headerText?: boolean
@@ -5320,6 +5383,8 @@ export namespace Prisma {
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
+    insideDeliveryLabel?: boolean
+    addon3Label?: boolean
     primaryColor?: boolean
     buttonText?: boolean
     headerText?: boolean
@@ -5337,7 +5402,7 @@ export namespace Prisma {
     serviceZips?: boolean
   }
 
-  export type WidgetSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "name" | "logoUrl" | "showWeight" | "showItemCount" | "showExtras" | "primaryColor" | "buttonText" | "headerText" | "disclaimerText" | "companyNameText" | "companyNameFont" | "backgroundImageUrl" | "mapLayout" | "websiteUrl" | "paymentsEnabled" | "showVehicles" | "pricePerVehicle" | "showAwb" | "geoFencingEnabled" | "serviceZips", ExtArgs["result"]["widgetSettings"]>
+  export type WidgetSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "name" | "logoUrl" | "showWeight" | "showItemCount" | "showExtras" | "insideDeliveryLabel" | "addon3Label" | "primaryColor" | "buttonText" | "headerText" | "disclaimerText" | "companyNameText" | "companyNameFont" | "backgroundImageUrl" | "mapLayout" | "websiteUrl" | "paymentsEnabled" | "showVehicles" | "pricePerVehicle" | "showAwb" | "geoFencingEnabled" | "serviceZips", ExtArgs["result"]["widgetSettings"]>
   export type WidgetSettingsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     pricingProfile?: boolean | WidgetSettings$pricingProfileArgs<ExtArgs>
@@ -5363,6 +5428,8 @@ export namespace Prisma {
       showWeight: boolean
       showItemCount: boolean
       showExtras: boolean
+      insideDeliveryLabel: string
+      addon3Label: string
       primaryColor: string
       buttonText: string
       headerText: string
@@ -5810,6 +5877,8 @@ export namespace Prisma {
     readonly showWeight: FieldRef<"WidgetSettings", 'Boolean'>
     readonly showItemCount: FieldRef<"WidgetSettings", 'Boolean'>
     readonly showExtras: FieldRef<"WidgetSettings", 'Boolean'>
+    readonly insideDeliveryLabel: FieldRef<"WidgetSettings", 'String'>
+    readonly addon3Label: FieldRef<"WidgetSettings", 'String'>
     readonly primaryColor: FieldRef<"WidgetSettings", 'String'>
     readonly buttonText: FieldRef<"WidgetSettings", 'String'>
     readonly headerText: FieldRef<"WidgetSettings", 'String'>
@@ -16755,6 +16824,8 @@ export namespace Prisma {
     resendDomainId: 'resendDomainId',
     emailDomainVerified: 'emailDomainVerified',
     emailDomainDnsRecords: 'emailDomainDnsRecords',
+    isAdmin: 'isAdmin',
+    lastLoginAt: 'lastLoginAt',
     createdAt: 'createdAt'
   };
 
@@ -16773,6 +16844,7 @@ export namespace Prisma {
     itemCountFee: 'itemCountFee',
     stairsFee: 'stairsFee',
     insideDeliveryFee: 'insideDeliveryFee',
+    addon3Fee: 'addon3Fee',
     afterHoursFee: 'afterHoursFee',
     businessHoursStart: 'businessHoursStart',
     businessHoursEnd: 'businessHoursEnd',
@@ -16793,6 +16865,8 @@ export namespace Prisma {
     showWeight: 'showWeight',
     showItemCount: 'showItemCount',
     showExtras: 'showExtras',
+    insideDeliveryLabel: 'insideDeliveryLabel',
+    addon3Label: 'addon3Label',
     primaryColor: 'primaryColor',
     buttonText: 'buttonText',
     headerText: 'headerText',
@@ -17117,6 +17191,8 @@ export namespace Prisma {
     resendDomainId?: StringNullableFilter<"Company"> | string | null
     emailDomainVerified?: BoolFilter<"Company"> | boolean
     emailDomainDnsRecords?: JsonNullableFilter<"Company">
+    isAdmin?: BoolFilter<"Company"> | boolean
+    lastLoginAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     createdAt?: DateTimeFilter<"Company"> | Date | string
     pricingProfiles?: PricingProfileListRelationFilter
     quoteRequests?: QuoteRequestListRelationFilter
@@ -17154,6 +17230,8 @@ export namespace Prisma {
     resendDomainId?: SortOrderInput | SortOrder
     emailDomainVerified?: SortOrder
     emailDomainDnsRecords?: SortOrderInput | SortOrder
+    isAdmin?: SortOrder
+    lastLoginAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     pricingProfiles?: PricingProfileOrderByRelationAggregateInput
     quoteRequests?: QuoteRequestOrderByRelationAggregateInput
@@ -17194,6 +17272,8 @@ export namespace Prisma {
     resendDomainId?: StringNullableFilter<"Company"> | string | null
     emailDomainVerified?: BoolFilter<"Company"> | boolean
     emailDomainDnsRecords?: JsonNullableFilter<"Company">
+    isAdmin?: BoolFilter<"Company"> | boolean
+    lastLoginAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     createdAt?: DateTimeFilter<"Company"> | Date | string
     pricingProfiles?: PricingProfileListRelationFilter
     quoteRequests?: QuoteRequestListRelationFilter
@@ -17231,6 +17311,8 @@ export namespace Prisma {
     resendDomainId?: SortOrderInput | SortOrder
     emailDomainVerified?: SortOrder
     emailDomainDnsRecords?: SortOrderInput | SortOrder
+    isAdmin?: SortOrder
+    lastLoginAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: CompanyCountOrderByAggregateInput
     _max?: CompanyMaxOrderByAggregateInput
@@ -17267,6 +17349,8 @@ export namespace Prisma {
     resendDomainId?: StringNullableWithAggregatesFilter<"Company"> | string | null
     emailDomainVerified?: BoolWithAggregatesFilter<"Company"> | boolean
     emailDomainDnsRecords?: JsonNullableWithAggregatesFilter<"Company">
+    isAdmin?: BoolWithAggregatesFilter<"Company"> | boolean
+    lastLoginAt?: DateTimeNullableWithAggregatesFilter<"Company"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
   }
 
@@ -17285,6 +17369,7 @@ export namespace Prisma {
     itemCountFee?: FloatFilter<"PricingProfile"> | number
     stairsFee?: FloatFilter<"PricingProfile"> | number
     insideDeliveryFee?: FloatFilter<"PricingProfile"> | number
+    addon3Fee?: FloatFilter<"PricingProfile"> | number
     afterHoursFee?: FloatFilter<"PricingProfile"> | number
     businessHoursStart?: StringFilter<"PricingProfile"> | string
     businessHoursEnd?: StringFilter<"PricingProfile"> | string
@@ -17308,6 +17393,7 @@ export namespace Prisma {
     itemCountFee?: SortOrder
     stairsFee?: SortOrder
     insideDeliveryFee?: SortOrder
+    addon3Fee?: SortOrder
     afterHoursFee?: SortOrder
     businessHoursStart?: SortOrder
     businessHoursEnd?: SortOrder
@@ -17334,6 +17420,7 @@ export namespace Prisma {
     itemCountFee?: FloatFilter<"PricingProfile"> | number
     stairsFee?: FloatFilter<"PricingProfile"> | number
     insideDeliveryFee?: FloatFilter<"PricingProfile"> | number
+    addon3Fee?: FloatFilter<"PricingProfile"> | number
     afterHoursFee?: FloatFilter<"PricingProfile"> | number
     businessHoursStart?: StringFilter<"PricingProfile"> | string
     businessHoursEnd?: StringFilter<"PricingProfile"> | string
@@ -17357,6 +17444,7 @@ export namespace Prisma {
     itemCountFee?: SortOrder
     stairsFee?: SortOrder
     insideDeliveryFee?: SortOrder
+    addon3Fee?: SortOrder
     afterHoursFee?: SortOrder
     businessHoursStart?: SortOrder
     businessHoursEnd?: SortOrder
@@ -17386,6 +17474,7 @@ export namespace Prisma {
     itemCountFee?: FloatWithAggregatesFilter<"PricingProfile"> | number
     stairsFee?: FloatWithAggregatesFilter<"PricingProfile"> | number
     insideDeliveryFee?: FloatWithAggregatesFilter<"PricingProfile"> | number
+    addon3Fee?: FloatWithAggregatesFilter<"PricingProfile"> | number
     afterHoursFee?: FloatWithAggregatesFilter<"PricingProfile"> | number
     businessHoursStart?: StringWithAggregatesFilter<"PricingProfile"> | string
     businessHoursEnd?: StringWithAggregatesFilter<"PricingProfile"> | string
@@ -17406,6 +17495,8 @@ export namespace Prisma {
     showWeight?: BoolFilter<"WidgetSettings"> | boolean
     showItemCount?: BoolFilter<"WidgetSettings"> | boolean
     showExtras?: BoolFilter<"WidgetSettings"> | boolean
+    insideDeliveryLabel?: StringFilter<"WidgetSettings"> | string
+    addon3Label?: StringFilter<"WidgetSettings"> | string
     primaryColor?: StringFilter<"WidgetSettings"> | string
     buttonText?: StringFilter<"WidgetSettings"> | string
     headerText?: StringFilter<"WidgetSettings"> | string
@@ -17433,6 +17524,8 @@ export namespace Prisma {
     showWeight?: SortOrder
     showItemCount?: SortOrder
     showExtras?: SortOrder
+    insideDeliveryLabel?: SortOrder
+    addon3Label?: SortOrder
     primaryColor?: SortOrder
     buttonText?: SortOrder
     headerText?: SortOrder
@@ -17463,6 +17556,8 @@ export namespace Prisma {
     showWeight?: BoolFilter<"WidgetSettings"> | boolean
     showItemCount?: BoolFilter<"WidgetSettings"> | boolean
     showExtras?: BoolFilter<"WidgetSettings"> | boolean
+    insideDeliveryLabel?: StringFilter<"WidgetSettings"> | string
+    addon3Label?: StringFilter<"WidgetSettings"> | string
     primaryColor?: StringFilter<"WidgetSettings"> | string
     buttonText?: StringFilter<"WidgetSettings"> | string
     headerText?: StringFilter<"WidgetSettings"> | string
@@ -17490,6 +17585,8 @@ export namespace Prisma {
     showWeight?: SortOrder
     showItemCount?: SortOrder
     showExtras?: SortOrder
+    insideDeliveryLabel?: SortOrder
+    addon3Label?: SortOrder
     primaryColor?: SortOrder
     buttonText?: SortOrder
     headerText?: SortOrder
@@ -17523,6 +17620,8 @@ export namespace Prisma {
     showWeight?: BoolWithAggregatesFilter<"WidgetSettings"> | boolean
     showItemCount?: BoolWithAggregatesFilter<"WidgetSettings"> | boolean
     showExtras?: BoolWithAggregatesFilter<"WidgetSettings"> | boolean
+    insideDeliveryLabel?: StringWithAggregatesFilter<"WidgetSettings"> | string
+    addon3Label?: StringWithAggregatesFilter<"WidgetSettings"> | string
     primaryColor?: StringWithAggregatesFilter<"WidgetSettings"> | string
     buttonText?: StringWithAggregatesFilter<"WidgetSettings"> | string
     headerText?: StringWithAggregatesFilter<"WidgetSettings"> | string
@@ -18306,6 +18405,8 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -18343,6 +18444,8 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -18380,6 +18483,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -18417,6 +18522,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -18454,6 +18561,8 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -18484,6 +18593,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -18514,6 +18625,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -18527,6 +18640,7 @@ export namespace Prisma {
     itemCountFee?: number
     stairsFee?: number
     insideDeliveryFee?: number
+    addon3Fee?: number
     afterHoursFee?: number
     businessHoursStart?: string
     businessHoursEnd?: string
@@ -18550,6 +18664,7 @@ export namespace Prisma {
     itemCountFee?: number
     stairsFee?: number
     insideDeliveryFee?: number
+    addon3Fee?: number
     afterHoursFee?: number
     businessHoursStart?: string
     businessHoursEnd?: string
@@ -18569,6 +18684,7 @@ export namespace Prisma {
     itemCountFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
+    addon3Fee?: FloatFieldUpdateOperationsInput | number
     afterHoursFee?: FloatFieldUpdateOperationsInput | number
     businessHoursStart?: StringFieldUpdateOperationsInput | string
     businessHoursEnd?: StringFieldUpdateOperationsInput | string
@@ -18592,6 +18708,7 @@ export namespace Prisma {
     itemCountFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
+    addon3Fee?: FloatFieldUpdateOperationsInput | number
     afterHoursFee?: FloatFieldUpdateOperationsInput | number
     businessHoursStart?: StringFieldUpdateOperationsInput | string
     businessHoursEnd?: StringFieldUpdateOperationsInput | string
@@ -18613,6 +18730,7 @@ export namespace Prisma {
     itemCountFee?: number
     stairsFee?: number
     insideDeliveryFee?: number
+    addon3Fee?: number
     afterHoursFee?: number
     businessHoursStart?: string
     businessHoursEnd?: string
@@ -18632,6 +18750,7 @@ export namespace Prisma {
     itemCountFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
+    addon3Fee?: FloatFieldUpdateOperationsInput | number
     afterHoursFee?: FloatFieldUpdateOperationsInput | number
     businessHoursStart?: StringFieldUpdateOperationsInput | string
     businessHoursEnd?: StringFieldUpdateOperationsInput | string
@@ -18653,6 +18772,7 @@ export namespace Prisma {
     itemCountFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
+    addon3Fee?: FloatFieldUpdateOperationsInput | number
     afterHoursFee?: FloatFieldUpdateOperationsInput | number
     businessHoursStart?: StringFieldUpdateOperationsInput | string
     businessHoursEnd?: StringFieldUpdateOperationsInput | string
@@ -18669,6 +18789,8 @@ export namespace Prisma {
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
+    insideDeliveryLabel?: string
+    addon3Label?: string
     primaryColor?: string
     buttonText?: string
     headerText?: string
@@ -18696,6 +18818,8 @@ export namespace Prisma {
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
+    insideDeliveryLabel?: string
+    addon3Label?: string
     primaryColor?: string
     buttonText?: string
     headerText?: string
@@ -18721,6 +18845,8 @@ export namespace Prisma {
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
+    insideDeliveryLabel?: StringFieldUpdateOperationsInput | string
+    addon3Label?: StringFieldUpdateOperationsInput | string
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string
@@ -18748,6 +18874,8 @@ export namespace Prisma {
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
+    insideDeliveryLabel?: StringFieldUpdateOperationsInput | string
+    addon3Label?: StringFieldUpdateOperationsInput | string
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string
@@ -18774,6 +18902,8 @@ export namespace Prisma {
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
+    insideDeliveryLabel?: string
+    addon3Label?: string
     primaryColor?: string
     buttonText?: string
     headerText?: string
@@ -18798,6 +18928,8 @@ export namespace Prisma {
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
+    insideDeliveryLabel?: StringFieldUpdateOperationsInput | string
+    addon3Label?: StringFieldUpdateOperationsInput | string
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string
@@ -18823,6 +18955,8 @@ export namespace Prisma {
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
+    insideDeliveryLabel?: StringFieldUpdateOperationsInput | string
+    addon3Label?: StringFieldUpdateOperationsInput | string
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string
@@ -19836,6 +19970,8 @@ export namespace Prisma {
     resendDomainId?: SortOrder
     emailDomainVerified?: SortOrder
     emailDomainDnsRecords?: SortOrder
+    isAdmin?: SortOrder
+    lastLoginAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -19865,6 +20001,8 @@ export namespace Prisma {
     customEmailFromName?: SortOrder
     resendDomainId?: SortOrder
     emailDomainVerified?: SortOrder
+    isAdmin?: SortOrder
+    lastLoginAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -19894,6 +20032,8 @@ export namespace Prisma {
     customEmailFromName?: SortOrder
     resendDomainId?: SortOrder
     emailDomainVerified?: SortOrder
+    isAdmin?: SortOrder
+    lastLoginAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -20051,6 +20191,7 @@ export namespace Prisma {
     itemCountFee?: SortOrder
     stairsFee?: SortOrder
     insideDeliveryFee?: SortOrder
+    addon3Fee?: SortOrder
     afterHoursFee?: SortOrder
     businessHoursStart?: SortOrder
     businessHoursEnd?: SortOrder
@@ -20068,6 +20209,7 @@ export namespace Prisma {
     itemCountFee?: SortOrder
     stairsFee?: SortOrder
     insideDeliveryFee?: SortOrder
+    addon3Fee?: SortOrder
     afterHoursFee?: SortOrder
     largeItemFee?: SortOrder
   }
@@ -20084,6 +20226,7 @@ export namespace Prisma {
     itemCountFee?: SortOrder
     stairsFee?: SortOrder
     insideDeliveryFee?: SortOrder
+    addon3Fee?: SortOrder
     afterHoursFee?: SortOrder
     businessHoursStart?: SortOrder
     businessHoursEnd?: SortOrder
@@ -20104,6 +20247,7 @@ export namespace Prisma {
     itemCountFee?: SortOrder
     stairsFee?: SortOrder
     insideDeliveryFee?: SortOrder
+    addon3Fee?: SortOrder
     afterHoursFee?: SortOrder
     businessHoursStart?: SortOrder
     businessHoursEnd?: SortOrder
@@ -20120,6 +20264,7 @@ export namespace Prisma {
     itemCountFee?: SortOrder
     stairsFee?: SortOrder
     insideDeliveryFee?: SortOrder
+    addon3Fee?: SortOrder
     afterHoursFee?: SortOrder
     largeItemFee?: SortOrder
   }
@@ -20187,6 +20332,8 @@ export namespace Prisma {
     showWeight?: SortOrder
     showItemCount?: SortOrder
     showExtras?: SortOrder
+    insideDeliveryLabel?: SortOrder
+    addon3Label?: SortOrder
     primaryColor?: SortOrder
     buttonText?: SortOrder
     headerText?: SortOrder
@@ -20216,6 +20363,8 @@ export namespace Prisma {
     showWeight?: SortOrder
     showItemCount?: SortOrder
     showExtras?: SortOrder
+    insideDeliveryLabel?: SortOrder
+    addon3Label?: SortOrder
     primaryColor?: SortOrder
     buttonText?: SortOrder
     headerText?: SortOrder
@@ -20240,6 +20389,8 @@ export namespace Prisma {
     showWeight?: SortOrder
     showItemCount?: SortOrder
     showExtras?: SortOrder
+    insideDeliveryLabel?: SortOrder
+    addon3Label?: SortOrder
     primaryColor?: SortOrder
     buttonText?: SortOrder
     headerText?: SortOrder
@@ -21911,6 +22062,7 @@ export namespace Prisma {
     itemCountFee?: number
     stairsFee?: number
     insideDeliveryFee?: number
+    addon3Fee?: number
     afterHoursFee?: number
     businessHoursStart?: string
     businessHoursEnd?: string
@@ -21932,6 +22084,7 @@ export namespace Prisma {
     itemCountFee?: number
     stairsFee?: number
     insideDeliveryFee?: number
+    addon3Fee?: number
     afterHoursFee?: number
     businessHoursStart?: string
     businessHoursEnd?: string
@@ -22016,6 +22169,8 @@ export namespace Prisma {
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
+    insideDeliveryLabel?: string
+    addon3Label?: string
     primaryColor?: string
     buttonText?: string
     headerText?: string
@@ -22041,6 +22196,8 @@ export namespace Prisma {
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
+    insideDeliveryLabel?: string
+    addon3Label?: string
     primaryColor?: string
     buttonText?: string
     headerText?: string
@@ -22238,6 +22395,7 @@ export namespace Prisma {
     itemCountFee?: FloatFilter<"PricingProfile"> | number
     stairsFee?: FloatFilter<"PricingProfile"> | number
     insideDeliveryFee?: FloatFilter<"PricingProfile"> | number
+    addon3Fee?: FloatFilter<"PricingProfile"> | number
     afterHoursFee?: FloatFilter<"PricingProfile"> | number
     businessHoursStart?: StringFilter<"PricingProfile"> | string
     businessHoursEnd?: StringFilter<"PricingProfile"> | string
@@ -22317,6 +22475,8 @@ export namespace Prisma {
     showWeight?: BoolFilter<"WidgetSettings"> | boolean
     showItemCount?: BoolFilter<"WidgetSettings"> | boolean
     showExtras?: BoolFilter<"WidgetSettings"> | boolean
+    insideDeliveryLabel?: StringFilter<"WidgetSettings"> | string
+    addon3Label?: StringFilter<"WidgetSettings"> | string
     primaryColor?: StringFilter<"WidgetSettings"> | string
     buttonText?: StringFilter<"WidgetSettings"> | string
     headerText?: StringFilter<"WidgetSettings"> | string
@@ -22484,6 +22644,8 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
@@ -22520,6 +22682,8 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
@@ -22541,6 +22705,8 @@ export namespace Prisma {
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
+    insideDeliveryLabel?: string
+    addon3Label?: string
     primaryColor?: string
     buttonText?: string
     headerText?: string
@@ -22567,6 +22733,8 @@ export namespace Prisma {
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
+    insideDeliveryLabel?: string
+    addon3Label?: string
     primaryColor?: string
     buttonText?: string
     headerText?: string
@@ -22627,6 +22795,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
@@ -22663,6 +22833,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
@@ -22690,6 +22862,8 @@ export namespace Prisma {
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
+    insideDeliveryLabel?: StringFieldUpdateOperationsInput | string
+    addon3Label?: StringFieldUpdateOperationsInput | string
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string
@@ -22716,6 +22890,8 @@ export namespace Prisma {
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
+    insideDeliveryLabel?: StringFieldUpdateOperationsInput | string
+    addon3Label?: StringFieldUpdateOperationsInput | string
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string
@@ -22760,6 +22936,8 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -22796,6 +22974,8 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -22820,6 +23000,7 @@ export namespace Prisma {
     itemCountFee?: number
     stairsFee?: number
     insideDeliveryFee?: number
+    addon3Fee?: number
     afterHoursFee?: number
     businessHoursStart?: string
     businessHoursEnd?: string
@@ -22841,6 +23022,7 @@ export namespace Prisma {
     itemCountFee?: number
     stairsFee?: number
     insideDeliveryFee?: number
+    addon3Fee?: number
     afterHoursFee?: number
     businessHoursStart?: string
     businessHoursEnd?: string
@@ -22893,6 +23075,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -22929,6 +23113,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -22959,6 +23145,7 @@ export namespace Prisma {
     itemCountFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
+    addon3Fee?: FloatFieldUpdateOperationsInput | number
     afterHoursFee?: FloatFieldUpdateOperationsInput | number
     businessHoursStart?: StringFieldUpdateOperationsInput | string
     businessHoursEnd?: StringFieldUpdateOperationsInput | string
@@ -22980,6 +23167,7 @@ export namespace Prisma {
     itemCountFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
+    addon3Fee?: FloatFieldUpdateOperationsInput | number
     afterHoursFee?: FloatFieldUpdateOperationsInput | number
     businessHoursStart?: StringFieldUpdateOperationsInput | string
     businessHoursEnd?: StringFieldUpdateOperationsInput | string
@@ -23016,6 +23204,8 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
@@ -23052,6 +23242,8 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
@@ -23138,6 +23330,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
@@ -23174,6 +23368,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
@@ -23226,6 +23422,8 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -23262,6 +23460,8 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -23314,6 +23514,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -23350,6 +23552,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -23386,6 +23590,8 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -23422,6 +23628,8 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -23474,6 +23682,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -23510,6 +23720,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -23546,6 +23758,8 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -23582,6 +23796,8 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -23718,6 +23934,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -23754,6 +23972,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -24189,6 +24409,8 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -24225,6 +24447,8 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -24414,6 +24638,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -24450,6 +24676,8 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -24733,6 +24961,7 @@ export namespace Prisma {
     itemCountFee?: number
     stairsFee?: number
     insideDeliveryFee?: number
+    addon3Fee?: number
     afterHoursFee?: number
     businessHoursStart?: string
     businessHoursEnd?: string
@@ -24772,6 +25001,8 @@ export namespace Prisma {
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
+    insideDeliveryLabel?: string
+    addon3Label?: string
     primaryColor?: string
     buttonText?: string
     headerText?: string
@@ -24842,6 +25073,7 @@ export namespace Prisma {
     itemCountFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
+    addon3Fee?: FloatFieldUpdateOperationsInput | number
     afterHoursFee?: FloatFieldUpdateOperationsInput | number
     businessHoursStart?: StringFieldUpdateOperationsInput | string
     businessHoursEnd?: StringFieldUpdateOperationsInput | string
@@ -24863,6 +25095,7 @@ export namespace Prisma {
     itemCountFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
+    addon3Fee?: FloatFieldUpdateOperationsInput | number
     afterHoursFee?: FloatFieldUpdateOperationsInput | number
     businessHoursStart?: StringFieldUpdateOperationsInput | string
     businessHoursEnd?: StringFieldUpdateOperationsInput | string
@@ -24883,6 +25116,7 @@ export namespace Prisma {
     itemCountFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
+    addon3Fee?: FloatFieldUpdateOperationsInput | number
     afterHoursFee?: FloatFieldUpdateOperationsInput | number
     businessHoursStart?: StringFieldUpdateOperationsInput | string
     businessHoursEnd?: StringFieldUpdateOperationsInput | string
@@ -24970,6 +25204,8 @@ export namespace Prisma {
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
+    insideDeliveryLabel?: StringFieldUpdateOperationsInput | string
+    addon3Label?: StringFieldUpdateOperationsInput | string
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string
@@ -24995,6 +25231,8 @@ export namespace Prisma {
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
+    insideDeliveryLabel?: StringFieldUpdateOperationsInput | string
+    addon3Label?: StringFieldUpdateOperationsInput | string
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string
@@ -25020,6 +25258,8 @@ export namespace Prisma {
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
+    insideDeliveryLabel?: StringFieldUpdateOperationsInput | string
+    addon3Label?: StringFieldUpdateOperationsInput | string
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string

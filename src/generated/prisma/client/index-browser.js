@@ -147,6 +147,8 @@ exports.Prisma.CompanyScalarFieldEnum = {
   resendDomainId: 'resendDomainId',
   emailDomainVerified: 'emailDomainVerified',
   emailDomainDnsRecords: 'emailDomainDnsRecords',
+  isAdmin: 'isAdmin',
+  lastLoginAt: 'lastLoginAt',
   createdAt: 'createdAt'
 };
 
@@ -162,6 +164,7 @@ exports.Prisma.PricingProfileScalarFieldEnum = {
   itemCountFee: 'itemCountFee',
   stairsFee: 'stairsFee',
   insideDeliveryFee: 'insideDeliveryFee',
+  addon3Fee: 'addon3Fee',
   afterHoursFee: 'afterHoursFee',
   businessHoursStart: 'businessHoursStart',
   businessHoursEnd: 'businessHoursEnd',
@@ -179,6 +182,8 @@ exports.Prisma.WidgetSettingsScalarFieldEnum = {
   showWeight: 'showWeight',
   showItemCount: 'showItemCount',
   showExtras: 'showExtras',
+  insideDeliveryLabel: 'insideDeliveryLabel',
+  addon3Label: 'addon3Label',
   primaryColor: 'primaryColor',
   buttonText: 'buttonText',
   headerText: 'headerText',

@@ -34,6 +34,8 @@ model Company {
   resendDomainId         String?
   emailDomainVerified    Boolean          @default(false)
   emailDomainDnsRecords  Json?
+  isAdmin                Boolean          @default(false)
+  lastLoginAt            DateTime?
   createdAt              DateTime         @default(now())
   pricingProfiles        PricingProfile[]
   quoteRequests          QuoteRequest[]
@@ -56,6 +58,7 @@ model PricingProfile {
   itemCountFee        Float           @default(0)
   stairsFee           Float           @default(0)
   insideDeliveryFee   Float           @default(0)
+  addon3Fee           Float           @default(0)
   afterHoursFee       Float           @default(0)
   businessHoursStart  String          @default("08:00")
   businessHoursEnd    String          @default("18:00")
@@ -68,30 +71,32 @@ model PricingProfile {
 }
 
 model WidgetSettings {
-  id                 String          @id @default(cuid())
-  companyId          String
-  name               String          @default("Default Form")
-  logoUrl            String?
-  showWeight         Boolean         @default(false)
-  showItemCount      Boolean         @default(true)
-  showExtras         Boolean         @default(true)
-  primaryColor       String          @default("#1E40AF")
-  buttonText         String          @default("Get Instant Quote")
-  headerText         String          @default("Delivery Quote Calculator")
-  disclaimerText     String          @default("Estimate only. Final price confirmed after booking.")
-  companyNameText    String?
-  companyNameFont    String          @default("Inter")
-  backgroundImageUrl String?
-  mapLayout          String          @default("inline")
-  websiteUrl         String?
-  paymentsEnabled    Boolean         @default(false) // Enterprise only
-  showVehicles       Boolean         @default(false)
-  pricePerVehicle    Float           @default(0)
-  showAwb            Boolean         @default(false)
-  geoFencingEnabled  Boolean         @default(false)
-  serviceZips        String[]        @default([])
-  company            Company         @relation(fields: [companyId], references: [id])
-  pricingProfile     PricingProfile?
+  id                  String          @id @default(cuid())
+  companyId           String
+  name                String          @default("Default Form")
+  logoUrl             String?
+  showWeight          Boolean         @default(false)
+  showItemCount       Boolean         @default(true)
+  showExtras          Boolean         @default(true)
+  insideDeliveryLabel String          @default("Inside Delivery")
+  addon3Label         String          @default("")
+  primaryColor        String          @default("#1E40AF")
+  buttonText          String          @default("Get Instant Quote")
+  headerText          String          @default("Delivery Quote Calculator")
+  disclaimerText      String          @default("Estimate only. Final price confirmed after booking.")
+  companyNameText     String?
+  companyNameFont     String          @default("Inter")
+  backgroundImageUrl  String?
+  mapLayout           String          @default("inline")
+  websiteUrl          String?
+  paymentsEnabled     Boolean         @default(false) // Enterprise only
+  showVehicles        Boolean         @default(false)
+  pricePerVehicle     Float           @default(0)
+  showAwb             Boolean         @default(false)
+  geoFencingEnabled   Boolean         @default(false)
+  serviceZips         String[]        @default([])
+  company             Company         @relation(fields: [companyId], references: [id])
+  pricingProfile      PricingProfile?
 }
 
 model QuoteRequest {
