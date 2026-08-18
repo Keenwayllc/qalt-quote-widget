@@ -3,9 +3,18 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Script from "next/script";
 import { motion } from "framer-motion";
-import { Building2, Mail, Lock, Eye, EyeOff, ArrowRight, ArrowLeft, Loader2, CheckCircle, Zap, Shield, BarChart3, MailCheck, RefreshCw } from "lucide-react";
+import { Building2, Mail, Lock, Eye, EyeOff, ArrowRight, ArrowLeft, Loader2, CheckCircle, Zap, Shield, BarChart3, MailCheck, RefreshCw, AlertTriangle } from "lucide-react";
 import QaltLogo from "@/components/shared/QaltLogo";
+
+declare global {
+  interface Window {
+    turnstile?: { reset: (widgetId?: string) => void };
+  }
+}
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 const features = [
   { icon: Zap, title: "Instant Quotes", desc: "Add a real-time delivery quote widget to your site in minutes." },
@@ -19,6 +28,7 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [registered, setRegistered] = useState(false);
   const [registeredEmail, setRegisteredEmail] = useState("");
+  const [emailSent, setEmailSent] = useState(true);
   const [resending, setResending] = useState(false);
   const [resent, setResent] = useState(false);
 
@@ -46,23 +56,33 @@ export default function RegisterPage() {
     const email = formData.get("email");
     const name = formData.get("name");
     const password = formData.get("password");
+    const turnstileToken = formData.get("cf-turnstile-response");
+
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+      setError("Please complete the \"I am human\" check below.");
+      setLoading(false);
+      return;
+    }
 
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name, password }),
+        body: JSON.stringify({ email, name, password, turnstileToken }),
       });
 
+      const data = await res.json().catch(() => ({}));
       if (res.ok) {
         setRegisteredEmail(String(email));
+        setEmailSent(data.emailSent !== false);
         setRegistered(true);
       } else {
-        const data = await res.json();
         setError(data.error || "Failed to register");
+        window.turnstile?.reset();
       }
     } catch {
       setError("An unexpected error occurred.");
+      window.turnstile?.reset();
     } finally {
       setLoading(false);
     }
@@ -85,6 +105,14 @@ export default function RegisterPage() {
             <p className="text-red-200 text-sm font-medium mt-2">One more step to activate your account</p>
           </div>
           <div className="px-8 py-8 text-center space-y-4">
+            {!emailSent && (
+              <div className="flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-2xl text-left">
+                <AlertTriangle size={18} className="text-amber-600 shrink-0 mt-0.5" />
+                <p className="text-xs font-semibold text-amber-800">
+                  Your account was created, but we could not send the confirmation email just now. Tap &ldquo;Resend confirmation email&rdquo; below, or contact support if it keeps failing.
+                </p>
+              </div>
+            )}
             <p className="text-slate-600 text-sm leading-relaxed font-medium">
               We sent a confirmation link to{" "}
               <span className="font-black text-slate-900">{registeredEmail}</span>.
@@ -289,6 +317,14 @@ export default function RegisterPage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
                 <p className="text-sm font-semibold text-rose-700">{error}</p>
               </motion.div>
+            )}
+
+            {/* Bot protection */}
+            {TURNSTILE_SITE_KEY && (
+              <>
+                <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" />
+                <div className="cf-turnstile flex justify-center" data-sitekey={TURNSTILE_SITE_KEY} data-theme="light" />
+              </>
             )}
 
             {/* Submit */}
