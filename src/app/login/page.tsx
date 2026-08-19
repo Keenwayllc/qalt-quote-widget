@@ -17,6 +17,7 @@ const features = [
 function LoginForm() {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirect") || "/dashboard";
+  const resetSuccess = searchParams.get("reset") === "success";
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -142,6 +143,13 @@ function LoginForm() {
             </p>
           </div>
 
+          {resetSuccess && (
+            <div className="flex items-center gap-3 p-4 bg-emerald-50 border border-emerald-100 rounded-2xl mb-5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+              <p className="text-sm font-semibold text-emerald-700">Password updated. Sign in with your new password.</p>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
               <label htmlFor="email" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">
@@ -162,9 +170,14 @@ function LoginForm() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="password" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">
-                Password
-              </label>
+              <div className="flex items-center justify-between">
+                <label htmlFor="password" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">
+                  Password
+                </label>
+                <Link href="/forgot-password" className="text-xs font-bold text-red-600 hover:text-red-700 transition-colors">
+                  Forgot password?
+                </Link>
+              </div>
               <div className="relative">
                 <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                 <input
