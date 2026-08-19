@@ -142,6 +142,8 @@ exports.Prisma.CompanyScalarFieldEnum = {
   trialEndsAt: 'trialEndsAt',
   emailVerified: 'emailVerified',
   emailVerificationToken: 'emailVerificationToken',
+  passwordResetToken: 'passwordResetToken',
+  passwordResetExpires: 'passwordResetExpires',
   customEmailDomain: 'customEmailDomain',
   customEmailFromName: 'customEmailFromName',
   resendDomainId: 'resendDomainId',

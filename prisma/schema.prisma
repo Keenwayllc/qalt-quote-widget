@@ -29,6 +29,8 @@ model Company {
   trialEndsAt          DateTime?
   emailVerified        Boolean          @default(false)
   emailVerificationToken String?        @unique
+  passwordResetToken   String?          @unique
+  passwordResetExpires DateTime?
   customEmailDomain     String?
   customEmailFromName   String?
   resendDomainId        String?

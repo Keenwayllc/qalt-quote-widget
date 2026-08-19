@@ -2112,6 +2112,8 @@ export namespace Prisma {
     trialEndsAt: Date | null
     emailVerified: boolean | null
     emailVerificationToken: string | null
+    passwordResetToken: string | null
+    passwordResetExpires: Date | null
     customEmailDomain: string | null
     customEmailFromName: string | null
     resendDomainId: string | null
@@ -2143,6 +2145,8 @@ export namespace Prisma {
     trialEndsAt: Date | null
     emailVerified: boolean | null
     emailVerificationToken: string | null
+    passwordResetToken: string | null
+    passwordResetExpires: Date | null
     customEmailDomain: string | null
     customEmailFromName: string | null
     resendDomainId: string | null
@@ -2174,6 +2178,8 @@ export namespace Prisma {
     trialEndsAt: number
     emailVerified: number
     emailVerificationToken: number
+    passwordResetToken: number
+    passwordResetExpires: number
     customEmailDomain: number
     customEmailFromName: number
     resendDomainId: number
@@ -2208,6 +2214,8 @@ export namespace Prisma {
     trialEndsAt?: true
     emailVerified?: true
     emailVerificationToken?: true
+    passwordResetToken?: true
+    passwordResetExpires?: true
     customEmailDomain?: true
     customEmailFromName?: true
     resendDomainId?: true
@@ -2239,6 +2247,8 @@ export namespace Prisma {
     trialEndsAt?: true
     emailVerified?: true
     emailVerificationToken?: true
+    passwordResetToken?: true
+    passwordResetExpires?: true
     customEmailDomain?: true
     customEmailFromName?: true
     resendDomainId?: true
@@ -2270,6 +2280,8 @@ export namespace Prisma {
     trialEndsAt?: true
     emailVerified?: true
     emailVerificationToken?: true
+    passwordResetToken?: true
+    passwordResetExpires?: true
     customEmailDomain?: true
     customEmailFromName?: true
     resendDomainId?: true
@@ -2375,6 +2387,8 @@ export namespace Prisma {
     trialEndsAt: Date | null
     emailVerified: boolean
     emailVerificationToken: string | null
+    passwordResetToken: string | null
+    passwordResetExpires: Date | null
     customEmailDomain: string | null
     customEmailFromName: string | null
     resendDomainId: string | null
@@ -2424,6 +2438,8 @@ export namespace Prisma {
     trialEndsAt?: boolean
     emailVerified?: boolean
     emailVerificationToken?: boolean
+    passwordResetToken?: boolean
+    passwordResetExpires?: boolean
     customEmailDomain?: boolean
     customEmailFromName?: boolean
     resendDomainId?: boolean
@@ -2464,6 +2480,8 @@ export namespace Prisma {
     trialEndsAt?: boolean
     emailVerified?: boolean
     emailVerificationToken?: boolean
+    passwordResetToken?: boolean
+    passwordResetExpires?: boolean
     customEmailDomain?: boolean
     customEmailFromName?: boolean
     resendDomainId?: boolean
@@ -2496,6 +2514,8 @@ export namespace Prisma {
     trialEndsAt?: boolean
     emailVerified?: boolean
     emailVerificationToken?: boolean
+    passwordResetToken?: boolean
+    passwordResetExpires?: boolean
     customEmailDomain?: boolean
     customEmailFromName?: boolean
     resendDomainId?: boolean
@@ -2528,6 +2548,8 @@ export namespace Prisma {
     trialEndsAt?: boolean
     emailVerified?: boolean
     emailVerificationToken?: boolean
+    passwordResetToken?: boolean
+    passwordResetExpires?: boolean
     customEmailDomain?: boolean
     customEmailFromName?: boolean
     resendDomainId?: boolean
@@ -2538,7 +2560,7 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "logoUrl" | "profilePicUrl" | "phone" | "website" | "address" | "city" | "state" | "zip" | "contactName" | "timezone" | "subscriptionPlan" | "stripeCustomerId" | "stripeSubscriptionId" | "stripeConnectAccountId" | "trialEndsAt" | "emailVerified" | "emailVerificationToken" | "customEmailDomain" | "customEmailFromName" | "resendDomainId" | "emailDomainVerified" | "emailDomainDnsRecords" | "isAdmin" | "lastLoginAt" | "createdAt", ExtArgs["result"]["company"]>
+  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "logoUrl" | "profilePicUrl" | "phone" | "website" | "address" | "city" | "state" | "zip" | "contactName" | "timezone" | "subscriptionPlan" | "stripeCustomerId" | "stripeSubscriptionId" | "stripeConnectAccountId" | "trialEndsAt" | "emailVerified" | "emailVerificationToken" | "passwordResetToken" | "passwordResetExpires" | "customEmailDomain" | "customEmailFromName" | "resendDomainId" | "emailDomainVerified" | "emailDomainDnsRecords" | "isAdmin" | "lastLoginAt" | "createdAt", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     pricingProfiles?: boolean | Company$pricingProfilesArgs<ExtArgs>
     quoteRequests?: boolean | Company$quoteRequestsArgs<ExtArgs>
@@ -2585,6 +2607,8 @@ export namespace Prisma {
       trialEndsAt: Date | null
       emailVerified: boolean
       emailVerificationToken: string | null
+      passwordResetToken: string | null
+      passwordResetExpires: Date | null
       customEmailDomain: string | null
       customEmailFromName: string | null
       resendDomainId: string | null
@@ -3044,6 +3068,8 @@ export namespace Prisma {
     readonly trialEndsAt: FieldRef<"Company", 'DateTime'>
     readonly emailVerified: FieldRef<"Company", 'Boolean'>
     readonly emailVerificationToken: FieldRef<"Company", 'String'>
+    readonly passwordResetToken: FieldRef<"Company", 'String'>
+    readonly passwordResetExpires: FieldRef<"Company", 'DateTime'>
     readonly customEmailDomain: FieldRef<"Company", 'String'>
     readonly customEmailFromName: FieldRef<"Company", 'String'>
     readonly resendDomainId: FieldRef<"Company", 'String'>
@@ -16819,6 +16845,8 @@ export namespace Prisma {
     trialEndsAt: 'trialEndsAt',
     emailVerified: 'emailVerified',
     emailVerificationToken: 'emailVerificationToken',
+    passwordResetToken: 'passwordResetToken',
+    passwordResetExpires: 'passwordResetExpires',
     customEmailDomain: 'customEmailDomain',
     customEmailFromName: 'customEmailFromName',
     resendDomainId: 'resendDomainId',
@@ -17186,6 +17214,8 @@ export namespace Prisma {
     trialEndsAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     emailVerified?: BoolFilter<"Company"> | boolean
     emailVerificationToken?: StringNullableFilter<"Company"> | string | null
+    passwordResetToken?: StringNullableFilter<"Company"> | string | null
+    passwordResetExpires?: DateTimeNullableFilter<"Company"> | Date | string | null
     customEmailDomain?: StringNullableFilter<"Company"> | string | null
     customEmailFromName?: StringNullableFilter<"Company"> | string | null
     resendDomainId?: StringNullableFilter<"Company"> | string | null
@@ -17225,6 +17255,8 @@ export namespace Prisma {
     trialEndsAt?: SortOrderInput | SortOrder
     emailVerified?: SortOrder
     emailVerificationToken?: SortOrderInput | SortOrder
+    passwordResetToken?: SortOrderInput | SortOrder
+    passwordResetExpires?: SortOrderInput | SortOrder
     customEmailDomain?: SortOrderInput | SortOrder
     customEmailFromName?: SortOrderInput | SortOrder
     resendDomainId?: SortOrderInput | SortOrder
@@ -17246,6 +17278,7 @@ export namespace Prisma {
     id?: string
     email?: string
     emailVerificationToken?: string
+    passwordResetToken?: string
     AND?: CompanyWhereInput | CompanyWhereInput[]
     OR?: CompanyWhereInput[]
     NOT?: CompanyWhereInput | CompanyWhereInput[]
@@ -17267,6 +17300,7 @@ export namespace Prisma {
     stripeConnectAccountId?: StringNullableFilter<"Company"> | string | null
     trialEndsAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     emailVerified?: BoolFilter<"Company"> | boolean
+    passwordResetExpires?: DateTimeNullableFilter<"Company"> | Date | string | null
     customEmailDomain?: StringNullableFilter<"Company"> | string | null
     customEmailFromName?: StringNullableFilter<"Company"> | string | null
     resendDomainId?: StringNullableFilter<"Company"> | string | null
@@ -17282,7 +17316,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallListRelationFilter
     stopNotes?: StopNoteListRelationFilter
     jobs?: JobListRelationFilter
-  }, "id" | "email" | "emailVerificationToken">
+  }, "id" | "email" | "emailVerificationToken" | "passwordResetToken">
 
   export type CompanyOrderByWithAggregationInput = {
     id?: SortOrder
@@ -17306,6 +17340,8 @@ export namespace Prisma {
     trialEndsAt?: SortOrderInput | SortOrder
     emailVerified?: SortOrder
     emailVerificationToken?: SortOrderInput | SortOrder
+    passwordResetToken?: SortOrderInput | SortOrder
+    passwordResetExpires?: SortOrderInput | SortOrder
     customEmailDomain?: SortOrderInput | SortOrder
     customEmailFromName?: SortOrderInput | SortOrder
     resendDomainId?: SortOrderInput | SortOrder
@@ -17344,6 +17380,8 @@ export namespace Prisma {
     trialEndsAt?: DateTimeNullableWithAggregatesFilter<"Company"> | Date | string | null
     emailVerified?: BoolWithAggregatesFilter<"Company"> | boolean
     emailVerificationToken?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    passwordResetToken?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    passwordResetExpires?: DateTimeNullableWithAggregatesFilter<"Company"> | Date | string | null
     customEmailDomain?: StringNullableWithAggregatesFilter<"Company"> | string | null
     customEmailFromName?: StringNullableWithAggregatesFilter<"Company"> | string | null
     resendDomainId?: StringNullableWithAggregatesFilter<"Company"> | string | null
@@ -18400,6 +18438,8 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
     customEmailDomain?: string | null
     customEmailFromName?: string | null
     resendDomainId?: string | null
@@ -18439,6 +18479,8 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
     customEmailDomain?: string | null
     customEmailFromName?: string | null
     resendDomainId?: string | null
@@ -18478,6 +18520,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18517,6 +18561,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18556,6 +18602,8 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
     customEmailDomain?: string | null
     customEmailFromName?: string | null
     resendDomainId?: string | null
@@ -18588,6 +18636,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18620,6 +18670,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19965,6 +20017,8 @@ export namespace Prisma {
     trialEndsAt?: SortOrder
     emailVerified?: SortOrder
     emailVerificationToken?: SortOrder
+    passwordResetToken?: SortOrder
+    passwordResetExpires?: SortOrder
     customEmailDomain?: SortOrder
     customEmailFromName?: SortOrder
     resendDomainId?: SortOrder
@@ -19997,6 +20051,8 @@ export namespace Prisma {
     trialEndsAt?: SortOrder
     emailVerified?: SortOrder
     emailVerificationToken?: SortOrder
+    passwordResetToken?: SortOrder
+    passwordResetExpires?: SortOrder
     customEmailDomain?: SortOrder
     customEmailFromName?: SortOrder
     resendDomainId?: SortOrder
@@ -20028,6 +20084,8 @@ export namespace Prisma {
     trialEndsAt?: SortOrder
     emailVerified?: SortOrder
     emailVerificationToken?: SortOrder
+    passwordResetToken?: SortOrder
+    passwordResetExpires?: SortOrder
     customEmailDomain?: SortOrder
     customEmailFromName?: SortOrder
     resendDomainId?: SortOrder
@@ -22639,6 +22697,8 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
     customEmailDomain?: string | null
     customEmailFromName?: string | null
     resendDomainId?: string | null
@@ -22677,6 +22737,8 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
     customEmailDomain?: string | null
     customEmailFromName?: string | null
     resendDomainId?: string | null
@@ -22790,6 +22852,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22828,6 +22892,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22931,6 +22997,8 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
     customEmailDomain?: string | null
     customEmailFromName?: string | null
     resendDomainId?: string | null
@@ -22969,6 +23037,8 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
     customEmailDomain?: string | null
     customEmailFromName?: string | null
     resendDomainId?: string | null
@@ -23070,6 +23140,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23108,6 +23180,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23199,6 +23273,8 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
     customEmailDomain?: string | null
     customEmailFromName?: string | null
     resendDomainId?: string | null
@@ -23237,6 +23313,8 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
     customEmailDomain?: string | null
     customEmailFromName?: string | null
     resendDomainId?: string | null
@@ -23325,6 +23403,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23363,6 +23443,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23417,6 +23499,8 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
     customEmailDomain?: string | null
     customEmailFromName?: string | null
     resendDomainId?: string | null
@@ -23455,6 +23539,8 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
     customEmailDomain?: string | null
     customEmailFromName?: string | null
     resendDomainId?: string | null
@@ -23509,6 +23595,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23547,6 +23635,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23585,6 +23675,8 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
     customEmailDomain?: string | null
     customEmailFromName?: string | null
     resendDomainId?: string | null
@@ -23623,6 +23715,8 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
     customEmailDomain?: string | null
     customEmailFromName?: string | null
     resendDomainId?: string | null
@@ -23677,6 +23771,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23715,6 +23811,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23753,6 +23851,8 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
     customEmailDomain?: string | null
     customEmailFromName?: string | null
     resendDomainId?: string | null
@@ -23791,6 +23891,8 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
     customEmailDomain?: string | null
     customEmailFromName?: string | null
     resendDomainId?: string | null
@@ -23929,6 +24031,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23967,6 +24071,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24404,6 +24510,8 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
     customEmailDomain?: string | null
     customEmailFromName?: string | null
     resendDomainId?: string | null
@@ -24442,6 +24550,8 @@ export namespace Prisma {
     trialEndsAt?: Date | string | null
     emailVerified?: boolean
     emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
     customEmailDomain?: string | null
     customEmailFromName?: string | null
     resendDomainId?: string | null
@@ -24633,6 +24743,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24671,6 +24783,8 @@ export namespace Prisma {
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
     customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
