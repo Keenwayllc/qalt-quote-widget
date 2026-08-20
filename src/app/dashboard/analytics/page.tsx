@@ -84,6 +84,7 @@ export default async function AnalyticsPage() {
   const recentQuotesData = await prisma.quoteRequest.findMany({
     where: {
       companyId: company.id,
+      deletedAt: null,
       createdAt: { gte: thirtyDaysAgo }
     },
     orderBy: { createdAt: "desc" }

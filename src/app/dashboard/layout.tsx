@@ -21,10 +21,10 @@ export default async function DashboardLayout({
   }
 
   const [pendingCount, pricingCount, widgetCount, quoteCount] = await Promise.all([
-    prisma.quoteRequest.count({ where: { companyId: company.id, status: "PENDING" } }),
+    prisma.quoteRequest.count({ where: { companyId: company.id, status: "PENDING", deletedAt: null } }),
     prisma.pricingProfile.count({ where: { companyId: company.id } }),
     prisma.widgetSettings.count({ where: { companyId: company.id } }),
-    prisma.quoteRequest.count({ where: { companyId: company.id } }),
+    prisma.quoteRequest.count({ where: { companyId: company.id, deletedAt: null } }),
   ]);
 
   // Which nav hrefs still need attention (for sidebar pulsing dots)

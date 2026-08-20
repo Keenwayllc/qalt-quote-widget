@@ -6,7 +6,7 @@ export default async function QuotesListPage() {
   const company = await getCurrentCompany();
 
   const quotes = await prisma.quoteRequest.findMany({
-    where: { companyId: company.id },
+    where: { companyId: company.id, deletedAt: null },
     orderBy: { createdAt: "desc" },
   });
 

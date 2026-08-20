@@ -38,13 +38,13 @@ export default async function DashboardOverview() {
   try {
     [recentQuotes, totalQuotes, monthlyQuotes, prevMonthQuotes] = await Promise.all([
       prisma.quoteRequest.findMany({
-        where: { companyId: company.id },
+        where: { companyId: company.id, deletedAt: null },
         orderBy: { createdAt: "desc" },
         take: 5,
       }),
-      prisma.quoteRequest.count({ where: { companyId: company.id } }),
-      prisma.quoteRequest.count({ where: { companyId: company.id, createdAt: { gte: monthStart } } }),
-      prisma.quoteRequest.count({ where: { companyId: company.id, createdAt: { gte: prevMonthStart, lt: monthStart } } }),
+      prisma.quoteRequest.count({ where: { companyId: company.id, deletedAt: null } }),
+      prisma.quoteRequest.count({ where: { companyId: company.id, deletedAt: null, createdAt: { gte: monthStart } } }),
+      prisma.quoteRequest.count({ where: { companyId: company.id, deletedAt: null, createdAt: { gte: prevMonthStart, lt: monthStart } } }),
     ]);
   } catch {
     // non-critical — dashboard still renders without metrics
@@ -159,12 +159,12 @@ export default async function DashboardOverview() {
   try {
     [chartQuotes, serviceTypeGroups] = await Promise.all([
       prisma.quoteRequest.findMany({
-        where: { companyId: company.id, createdAt: { gte: sevenDaysAgo } },
+        where: { companyId: company.id, deletedAt: null, createdAt: { gte: sevenDaysAgo } },
         select: { createdAt: true }
       }),
       prisma.quoteRequest.groupBy({
         by: ['serviceType'],
-        where: { companyId: company.id },
+        where: { companyId: company.id, deletedAt: null },
         _count: { serviceType: true }
       })
     ]);

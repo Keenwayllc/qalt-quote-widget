@@ -34,9 +34,10 @@ export default async function AdminPage() {
     }),
     prisma.quoteRequest.groupBy({
       by: ["companyId"],
+      where: { deletedAt: null },
       _count: { _all: true },
     }),
-    prisma.quoteRequest.count(),
+    prisma.quoteRequest.count({ where: { deletedAt: null } }),
   ]);
 
   const countMap = new Map(quoteCounts.map((c) => [c.companyId, c._count._all]));

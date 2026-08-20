@@ -58,3 +58,37 @@ export async function PATCH(
     );
   }
 }
+
+// Soft-delete (archive) a quote: hide it from the merchant's views without
+// erasing the record or breaking any linked Job.
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const company = await getCurrentCompany();
+    const resolvedParams = await params;
+
+    // Ensure the quote belongs to the company
+    const existingQuote = await prisma.quoteRequest.findUnique({
+      where: { id: resolvedParams.id },
+    });
+
+    if (!existingQuote || existingQuote.companyId !== company.id) {
+      return NextResponse.json({ error: "Quote not found or unauthorized" }, { status: 404 });
+    }
+
+    await prisma.quoteRequest.update({
+      where: { id: resolvedParams.id },
+      data: { deletedAt: new Date() },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error: unknown) {
+    console.error("Error deleting quote:", error);
+    return NextResponse.json(
+      { error: "Failed to delete quote" },
+      { status: 500 }
+    );
+  }
+}
