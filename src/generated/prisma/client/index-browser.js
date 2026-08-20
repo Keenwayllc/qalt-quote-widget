@@ -224,7 +224,8 @@ exports.Prisma.QuoteRequestScalarFieldEnum = {
   stripePaymentIntentId: 'stripePaymentIntentId',
   internalNotes: 'internalNotes',
   paidAt: 'paidAt',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.WebhookScalarFieldEnum = {

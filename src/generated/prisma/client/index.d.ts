@@ -6404,6 +6404,7 @@ export namespace Prisma {
     internalNotes: string | null
     paidAt: Date | null
     createdAt: Date | null
+    deletedAt: Date | null
   }
 
   export type QuoteRequestMaxAggregateOutputType = {
@@ -6428,6 +6429,7 @@ export namespace Prisma {
     internalNotes: string | null
     paidAt: Date | null
     createdAt: Date | null
+    deletedAt: Date | null
   }
 
   export type QuoteRequestCountAggregateOutputType = {
@@ -6452,6 +6454,7 @@ export namespace Prisma {
     internalNotes: number
     paidAt: number
     createdAt: number
+    deletedAt: number
     _all: number
   }
 
@@ -6490,6 +6493,7 @@ export namespace Prisma {
     internalNotes?: true
     paidAt?: true
     createdAt?: true
+    deletedAt?: true
   }
 
   export type QuoteRequestMaxAggregateInputType = {
@@ -6514,6 +6518,7 @@ export namespace Prisma {
     internalNotes?: true
     paidAt?: true
     createdAt?: true
+    deletedAt?: true
   }
 
   export type QuoteRequestCountAggregateInputType = {
@@ -6538,6 +6543,7 @@ export namespace Prisma {
     internalNotes?: true
     paidAt?: true
     createdAt?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -6649,6 +6655,7 @@ export namespace Prisma {
     internalNotes: string | null
     paidAt: Date | null
     createdAt: Date
+    deletedAt: Date | null
     _count: QuoteRequestCountAggregateOutputType | null
     _avg: QuoteRequestAvgAggregateOutputType | null
     _sum: QuoteRequestSumAggregateOutputType | null
@@ -6692,6 +6699,7 @@ export namespace Prisma {
     internalNotes?: boolean
     paidAt?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     jobs?: boolean | QuoteRequest$jobsArgs<ExtArgs>
     _count?: boolean | QuoteRequestCountOutputTypeDefaultArgs<ExtArgs>
@@ -6719,6 +6727,7 @@ export namespace Prisma {
     internalNotes?: boolean
     paidAt?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quoteRequest"]>
 
@@ -6744,6 +6753,7 @@ export namespace Prisma {
     internalNotes?: boolean
     paidAt?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quoteRequest"]>
 
@@ -6769,9 +6779,10 @@ export namespace Prisma {
     internalNotes?: boolean
     paidAt?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
   }
 
-  export type QuoteRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "customerName" | "customerEmail" | "customerPhone" | "pickupZip" | "dropoffZip" | "distanceMiles" | "serviceType" | "packageSize" | "packageWeight" | "selectedExtras" | "status" | "estimatedPrice" | "vehicleCount" | "awbNumber" | "paymentStatus" | "stripePaymentIntentId" | "internalNotes" | "paidAt" | "createdAt", ExtArgs["result"]["quoteRequest"]>
+  export type QuoteRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "customerName" | "customerEmail" | "customerPhone" | "pickupZip" | "dropoffZip" | "distanceMiles" | "serviceType" | "packageSize" | "packageWeight" | "selectedExtras" | "status" | "estimatedPrice" | "vehicleCount" | "awbNumber" | "paymentStatus" | "stripePaymentIntentId" | "internalNotes" | "paidAt" | "createdAt" | "deletedAt", ExtArgs["result"]["quoteRequest"]>
   export type QuoteRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     jobs?: boolean | QuoteRequest$jobsArgs<ExtArgs>
@@ -6812,6 +6823,7 @@ export namespace Prisma {
       internalNotes: string | null
       paidAt: Date | null
       createdAt: Date
+      deletedAt: Date | null
     }, ExtArgs["result"]["quoteRequest"]>
     composites: {}
   }
@@ -7258,6 +7270,7 @@ export namespace Prisma {
     readonly internalNotes: FieldRef<"QuoteRequest", 'String'>
     readonly paidAt: FieldRef<"QuoteRequest", 'DateTime'>
     readonly createdAt: FieldRef<"QuoteRequest", 'DateTime'>
+    readonly deletedAt: FieldRef<"QuoteRequest", 'DateTime'>
   }
     
 
@@ -16936,7 +16949,8 @@ export namespace Prisma {
     stripePaymentIntentId: 'stripePaymentIntentId',
     internalNotes: 'internalNotes',
     paidAt: 'paidAt',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    deletedAt: 'deletedAt'
   };
 
   export type QuoteRequestScalarFieldEnum = (typeof QuoteRequestScalarFieldEnum)[keyof typeof QuoteRequestScalarFieldEnum]
@@ -17702,6 +17716,7 @@ export namespace Prisma {
     internalNotes?: StringNullableFilter<"QuoteRequest"> | string | null
     paidAt?: DateTimeNullableFilter<"QuoteRequest"> | Date | string | null
     createdAt?: DateTimeFilter<"QuoteRequest"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"QuoteRequest"> | Date | string | null
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
     jobs?: JobListRelationFilter
   }
@@ -17728,6 +17743,7 @@ export namespace Prisma {
     internalNotes?: SortOrderInput | SortOrder
     paidAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     jobs?: JobOrderByRelationAggregateInput
   }
@@ -17757,6 +17773,7 @@ export namespace Prisma {
     internalNotes?: StringNullableFilter<"QuoteRequest"> | string | null
     paidAt?: DateTimeNullableFilter<"QuoteRequest"> | Date | string | null
     createdAt?: DateTimeFilter<"QuoteRequest"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"QuoteRequest"> | Date | string | null
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
     jobs?: JobListRelationFilter
   }, "id">
@@ -17783,6 +17800,7 @@ export namespace Prisma {
     internalNotes?: SortOrderInput | SortOrder
     paidAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: QuoteRequestCountOrderByAggregateInput
     _avg?: QuoteRequestAvgOrderByAggregateInput
     _max?: QuoteRequestMaxOrderByAggregateInput
@@ -17815,6 +17833,7 @@ export namespace Prisma {
     internalNotes?: StringNullableWithAggregatesFilter<"QuoteRequest"> | string | null
     paidAt?: DateTimeNullableWithAggregatesFilter<"QuoteRequest"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"QuoteRequest"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"QuoteRequest"> | Date | string | null
   }
 
   export type WebhookWhereInput = {
@@ -19047,6 +19066,7 @@ export namespace Prisma {
     internalNotes?: string | null
     paidAt?: Date | string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     company: CompanyCreateNestedOneWithoutQuoteRequestsInput
     jobs?: JobCreateNestedManyWithoutQuoteRequestInput
   }
@@ -19073,6 +19093,7 @@ export namespace Prisma {
     internalNotes?: string | null
     paidAt?: Date | string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     jobs?: JobUncheckedCreateNestedManyWithoutQuoteRequestInput
   }
 
@@ -19097,6 +19118,7 @@ export namespace Prisma {
     internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneRequiredWithoutQuoteRequestsNestedInput
     jobs?: JobUpdateManyWithoutQuoteRequestNestedInput
   }
@@ -19123,6 +19145,7 @@ export namespace Prisma {
     internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     jobs?: JobUncheckedUpdateManyWithoutQuoteRequestNestedInput
   }
 
@@ -19148,6 +19171,7 @@ export namespace Prisma {
     internalNotes?: string | null
     paidAt?: Date | string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type QuoteRequestUpdateManyMutationInput = {
@@ -19171,6 +19195,7 @@ export namespace Prisma {
     internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type QuoteRequestUncheckedUpdateManyInput = {
@@ -19195,6 +19220,7 @@ export namespace Prisma {
     internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type WebhookCreateInput = {
@@ -20502,6 +20528,7 @@ export namespace Prisma {
     internalNotes?: SortOrder
     paidAt?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type QuoteRequestAvgOrderByAggregateInput = {
@@ -20532,6 +20559,7 @@ export namespace Prisma {
     internalNotes?: SortOrder
     paidAt?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type QuoteRequestMinOrderByAggregateInput = {
@@ -20556,6 +20584,7 @@ export namespace Prisma {
     internalNotes?: SortOrder
     paidAt?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type QuoteRequestSumOrderByAggregateInput = {
@@ -22183,6 +22212,7 @@ export namespace Prisma {
     internalNotes?: string | null
     paidAt?: Date | string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     jobs?: JobCreateNestedManyWithoutQuoteRequestInput
   }
 
@@ -22207,6 +22237,7 @@ export namespace Prisma {
     internalNotes?: string | null
     paidAt?: Date | string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     jobs?: JobUncheckedCreateNestedManyWithoutQuoteRequestInput
   }
 
@@ -22504,6 +22535,7 @@ export namespace Prisma {
     internalNotes?: StringNullableFilter<"QuoteRequest"> | string | null
     paidAt?: DateTimeNullableFilter<"QuoteRequest"> | Date | string | null
     createdAt?: DateTimeFilter<"QuoteRequest"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"QuoteRequest"> | Date | string | null
   }
 
   export type WidgetSettingsUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -24594,6 +24626,7 @@ export namespace Prisma {
     internalNotes?: string | null
     paidAt?: Date | string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     company: CompanyCreateNestedOneWithoutQuoteRequestsInput
   }
 
@@ -24619,6 +24652,7 @@ export namespace Prisma {
     internalNotes?: string | null
     paidAt?: Date | string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type QuoteRequestCreateOrConnectWithoutJobsInput = {
@@ -24833,6 +24867,7 @@ export namespace Prisma {
     internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneRequiredWithoutQuoteRequestsNestedInput
   }
 
@@ -24858,6 +24893,7 @@ export namespace Prisma {
     internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type JobStopUpsertWithWhereUniqueWithoutJobInput = {
@@ -25106,6 +25142,7 @@ export namespace Prisma {
     internalNotes?: string | null
     paidAt?: Date | string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type WidgetSettingsCreateManyCompanyInput = {
@@ -25261,6 +25298,7 @@ export namespace Prisma {
     internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     jobs?: JobUpdateManyWithoutQuoteRequestNestedInput
   }
 
@@ -25285,6 +25323,7 @@ export namespace Prisma {
     internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     jobs?: JobUncheckedUpdateManyWithoutQuoteRequestNestedInput
   }
 
@@ -25309,6 +25348,7 @@ export namespace Prisma {
     internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type WidgetSettingsUpdateWithoutCompanyInput = {
