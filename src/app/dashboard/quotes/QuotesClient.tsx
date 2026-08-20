@@ -6,6 +6,7 @@ import {
   FileText, MapPin, Mail, Phone, Calendar, ChevronRight,
   X, Package, Truck, Hash, CreditCard, Clock, CheckCircle2,
   AlertCircle, Copy, Check, Settings, Code, LayoutList, Kanban,
+  Trash2, Loader2,
 } from "lucide-react";
 import Link from "next/link";
 import KanbanBoard from "./KanbanBoard";
@@ -64,9 +65,11 @@ function CopyButton({ text }: { text: string }) {
   );
 }
 
-function QuoteDrawer({ quote, onClose, onUpdate, insideDeliveryLabel, addon3Label }: { quote: Quote; onClose: () => void; onUpdate: (q: Quote) => void; insideDeliveryLabel: string; addon3Label: string }) {
+function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, addon3Label }: { quote: Quote; onClose: () => void; onUpdate: (q: Quote) => void; onDelete: (id: string) => Promise<void>; insideDeliveryLabel: string; addon3Label: string }) {
   const [notes, setNotes] = useState(quote.internalNotes || "");
   const [isUpdating, setIsUpdating] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const updateQuote = async (data: Partial<Quote>) => {
     setIsUpdating(true);
@@ -339,6 +342,37 @@ function QuoteDrawer({ quote, onClose, onUpdate, insideDeliveryLabel, addon3Labe
                 </a>
               )}
             </div>
+
+            {/* Delete (archive) quote */}
+            <div className="pt-2 border-t border-slate-100 dark:border-white/6">
+              {confirmDelete ? (
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={async () => { setIsDeleting(true); await onDelete(quote.id); }}
+                    disabled={isDeleting}
+                    className="flex-1 flex items-center justify-center gap-2 py-3 bg-red-600 text-white rounded-xl font-bold text-sm hover:bg-red-700 active:scale-95 transition-all disabled:opacity-60"
+                  >
+                    {isDeleting ? <Loader2 size={15} className="animate-spin" /> : <Trash2 size={15} />}
+                    Yes, delete this quote
+                  </button>
+                  <button
+                    onClick={() => setConfirmDelete(false)}
+                    disabled={isDeleting}
+                    className="py-3 px-4 bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-zinc-300 rounded-xl font-bold text-sm hover:bg-slate-200 dark:hover:bg-white/10 active:scale-95 transition-all disabled:opacity-60"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setConfirmDelete(true)}
+                  className="w-full flex items-center justify-center gap-2 py-3 text-rose-600 dark:text-rose-400 rounded-xl font-bold text-sm hover:bg-rose-50 dark:hover:bg-rose-500/10 active:scale-95 transition-all"
+                >
+                  <Trash2 size={15} />
+                  Delete quote
+                </button>
+              )}
+            </div>
           </div>
         </motion.div>
       </>
@@ -350,10 +384,26 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
   const [quotes, setQuotes] = useState<Quote[]>(initialQuotes);
   const [selected, setSelected] = useState<Quote | null>(null);
   const [view, setView] = useState<"list" | "kanban">("list");
+  const [confirmingId, setConfirmingId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const handleUpdate = (updated: Quote) => {
     setQuotes((prev) => prev.map((q) => q.id === updated.id ? updated : q));
     setSelected(updated);
+  };
+
+  const handleDelete = async (id: string) => {
+    setDeletingId(id);
+    try {
+      const res = await fetch(`/api/dashboard/quotes/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setQuotes((prev) => prev.filter((q) => q.id !== id));
+        setSelected((cur) => (cur?.id === id ? null : cur));
+      }
+    } finally {
+      setDeletingId(null);
+      setConfirmingId(null);
+    }
   };
 
   return (
@@ -477,13 +527,46 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
                         </div>
                       </td>
                       <td className="px-8 py-6 text-right">
-                        <button
-                          onClick={() => setSelected(quote)}
-                          className="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-zinc-400 hover:bg-slate-900 dark:hover:bg-zinc-700 hover:text-white active:scale-90 transition-all shadow-sm dark:shadow-none"
-                          title="View quote details"
-                        >
-                          <FileText size={16} />
-                        </button>
+                        <div className="inline-flex items-center justify-end gap-2">
+                          {confirmingId === quote.id ? (
+                            <>
+                              <button
+                                onClick={() => handleDelete(quote.id)}
+                                disabled={deletingId === quote.id}
+                                className="inline-flex items-center gap-1.5 h-10 px-3 rounded-xl bg-red-600 text-white text-xs font-black hover:bg-red-700 active:scale-90 transition-all disabled:opacity-60"
+                                title="Confirm delete"
+                              >
+                                {deletingId === quote.id ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
+                                Delete
+                              </button>
+                              <button
+                                onClick={() => setConfirmingId(null)}
+                                disabled={deletingId === quote.id}
+                                className="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-zinc-400 hover:bg-slate-200 dark:hover:bg-white/10 active:scale-90 transition-all disabled:opacity-60"
+                                title="Cancel"
+                              >
+                                <X size={16} />
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                onClick={() => setSelected(quote)}
+                                className="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-zinc-400 hover:bg-slate-900 dark:hover:bg-zinc-700 hover:text-white active:scale-90 transition-all shadow-sm dark:shadow-none"
+                                title="View quote details"
+                              >
+                                <FileText size={16} />
+                              </button>
+                              <button
+                                onClick={() => setConfirmingId(quote.id)}
+                                className="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-400 dark:text-zinc-500 hover:bg-red-600 hover:text-white active:scale-90 transition-all shadow-sm dark:shadow-none"
+                                title="Delete quote"
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            </>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -550,7 +633,7 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
 
       {/* Detail Drawer */}
       <AnimatePresence>
-        {selected && <QuoteDrawer quote={selected} onClose={() => setSelected(null)} onUpdate={handleUpdate} insideDeliveryLabel={insideDeliveryLabel} addon3Label={addon3Label} />}
+        {selected && <QuoteDrawer quote={selected} onClose={() => setSelected(null)} onUpdate={handleUpdate} onDelete={handleDelete} insideDeliveryLabel={insideDeliveryLabel} addon3Label={addon3Label} />}
       </AnimatePresence>
     </>
   );
