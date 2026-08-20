@@ -40,6 +40,7 @@ export default async function DashboardLayout({
     <DashboardClientLayout
       subscriptionPlan={company.subscriptionPlan}
       pendingCount={pendingCount}
+      quoteCount={quoteCount}
       companyId={company.id}
       trialDaysLeft={daysLeft}
       trialEnded={trialEnded}

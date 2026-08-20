@@ -9,6 +9,7 @@ import {
   Trash2, Loader2,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import KanbanBoard from "./KanbanBoard";
 
 interface Quote {
@@ -381,6 +382,7 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
 }
 
 export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabel, addon3Label }: { quotes: Quote[]; insideDeliveryLabel: string; addon3Label: string }) {
+  const router = useRouter();
   const [quotes, setQuotes] = useState<Quote[]>(initialQuotes);
   const [selected, setSelected] = useState<Quote | null>(null);
   const [view, setView] = useState<"list" | "kanban">("list");
@@ -403,6 +405,7 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
         setQuotes((prev) => prev.filter((q) => q.id !== id));
         setSelected((cur) => (cur?.id === id ? null : cur));
         setSelectedIds((prev) => { const next = new Set(prev); next.delete(id); return next; });
+        router.refresh(); // re-run the layout so the sidebar quote badge updates
       }
     } finally {
       setDeletingId(null);
@@ -439,6 +442,7 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
         setQuotes((prev) => prev.filter((q) => !idSet.has(q.id)));
         setSelected((cur) => (cur && idSet.has(cur.id) ? null : cur));
         clearSelection();
+        router.refresh(); // re-run the layout so the sidebar quote badge updates
       }
     } finally {
       setBulkDeleting(false);

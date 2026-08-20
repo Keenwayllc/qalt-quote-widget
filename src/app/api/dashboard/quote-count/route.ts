@@ -6,7 +6,7 @@ export async function GET() {
   try {
     const company = await getCurrentCompany();
     const count = await prisma.quoteRequest.count({
-      where: { companyId: company.id },
+      where: { companyId: company.id, deletedAt: null },
     });
     return NextResponse.json({ count });
   } catch {

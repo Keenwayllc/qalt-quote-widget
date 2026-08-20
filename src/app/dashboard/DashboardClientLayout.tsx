@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import QaltLogo from "@/components/shared/QaltLogo";
@@ -35,6 +35,7 @@ interface DashboardLayoutProps {
   children: React.ReactNode;
   subscriptionPlan: string;
   pendingCount?: number;
+  quoteCount?: number;
   companyId?: string;
   trialDaysLeft?: number | null;
   trialEnded?: boolean;
@@ -63,6 +64,7 @@ function DashboardLayoutInner({
   children,
   subscriptionPlan,
   pendingCount = 0,
+  quoteCount = 0,
   companyId,
   trialDaysLeft,
   trialEnded = false,
@@ -75,25 +77,8 @@ function DashboardLayoutInner({
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const [quoteCount, setQuoteCount] = useState<number | null>(null);
 
   const entitlements = getEntitlements(subscriptionPlan);
-
-  // Fetch total quote count for the sidebar badge
-  useEffect(() => {
-    async function fetchCount() {
-      try {
-        const res = await fetch("/api/dashboard/quote-count");
-        if (res.ok) {
-          const data = await res.json();
-          setQuoteCount(data.count ?? null);
-        }
-      } catch {
-        // silently ignore — badge is non-critical
-      }
-    }
-    fetchCount();
-  }, []);
 
   const navItems = [
     // Admin — only visible to platform admins
@@ -268,14 +253,14 @@ function DashboardLayoutInner({
                   <span className="flex-1">{item.name}</span>
 
                   {/* Quote count badge */}
-                  {showBadge && !isLocked && (
+                  {showBadge && !isLocked && quoteCount > 0 && (
                     <span
                       className={`
                         ml-2 min-w-[20px] h-5 px-1.5 rounded-full text-[10px] font-black flex items-center justify-center
                         ${isActive ? "bg-white/20 text-white" : "bg-red-600 text-white"}
                       `}
                     >
-                      {quoteCount! > 99 ? "99+" : quoteCount}
+                      {quoteCount > 99 ? "99+" : quoteCount}
                     </span>
                   )}
 
