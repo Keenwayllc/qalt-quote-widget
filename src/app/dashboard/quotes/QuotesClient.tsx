@@ -386,6 +386,9 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
   const [view, setView] = useState<"list" | "kanban">("list");
   const [confirmingId, setConfirmingId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkConfirm, setBulkConfirm] = useState(false);
+  const [bulkDeleting, setBulkDeleting] = useState(false);
 
   const handleUpdate = (updated: Quote) => {
     setQuotes((prev) => prev.map((q) => q.id === updated.id ? updated : q));
@@ -399,10 +402,46 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
       if (res.ok) {
         setQuotes((prev) => prev.filter((q) => q.id !== id));
         setSelected((cur) => (cur?.id === id ? null : cur));
+        setSelectedIds((prev) => { const next = new Set(prev); next.delete(id); return next; });
       }
     } finally {
       setDeletingId(null);
       setConfirmingId(null);
+    }
+  };
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    setSelectedIds((prev) => prev.size === quotes.length ? new Set() : new Set(quotes.map((q) => q.id)));
+  };
+
+  const clearSelection = () => { setSelectedIds(new Set()); setBulkConfirm(false); };
+
+  const handleBulkDelete = async () => {
+    const ids = Array.from(selectedIds);
+    if (ids.length === 0) return;
+    setBulkDeleting(true);
+    try {
+      const res = await fetch("/api/dashboard/quotes/bulk-delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids }),
+      });
+      if (res.ok) {
+        const idSet = new Set(ids);
+        setQuotes((prev) => prev.filter((q) => !idSet.has(q.id)));
+        setSelected((cur) => (cur && idSet.has(cur.id) ? null : cur));
+        clearSelection();
+      }
+    } finally {
+      setBulkDeleting(false);
     }
   };
 
@@ -462,12 +501,64 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
           {/* List View */}
           {view === "list" && <>
 
+          {/* Bulk action bar */}
+          {selectedIds.size > 0 && (
+            <div className="sticky top-2 z-20 mb-3 flex items-center justify-between gap-3 bg-slate-900 dark:bg-zinc-800 text-white rounded-2xl px-5 py-3 shadow-lg shadow-slate-900/20">
+              <span className="text-sm font-black">{selectedIds.size} selected</span>
+              <div className="flex items-center gap-2">
+                {bulkConfirm ? (
+                  <>
+                    <button
+                      onClick={handleBulkDelete}
+                      disabled={bulkDeleting}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-red-600 rounded-xl text-xs font-black hover:bg-red-700 active:scale-95 transition-all disabled:opacity-60"
+                    >
+                      {bulkDeleting ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
+                      Delete {selectedIds.size} quote{selectedIds.size > 1 ? "s" : ""}
+                    </button>
+                    <button
+                      onClick={() => setBulkConfirm(false)}
+                      disabled={bulkDeleting}
+                      className="px-3.5 py-2 bg-white/10 rounded-xl text-xs font-bold hover:bg-white/20 transition-all disabled:opacity-60"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => setBulkConfirm(true)}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-red-600 rounded-xl text-xs font-black hover:bg-red-700 active:scale-95 transition-all"
+                    >
+                      <Trash2 size={14} /> Delete selected
+                    </button>
+                    <button
+                      onClick={clearSelection}
+                      className="px-3.5 py-2 bg-white/10 rounded-xl text-xs font-bold hover:bg-white/20 transition-all"
+                    >
+                      Clear
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Desktop Table */}
           <div className="hidden md:block bg-white dark:bg-[#141414] rounded-4xl border border-slate-200/60 dark:border-white/6 shadow-2xl shadow-slate-200/50 dark:shadow-none overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full border-collapse text-left min-w-[800px]">
                 <thead>
                   <tr className="bg-slate-50 dark:bg-[#1c1c1c] border-b border-slate-100 dark:border-white/6">
+                    <th className="pl-8 pr-2 py-5 w-px">
+                      <input
+                        type="checkbox"
+                        checked={quotes.length > 0 && selectedIds.size === quotes.length}
+                        onChange={toggleSelectAll}
+                        aria-label="Select all quotes"
+                        className="h-4 w-4 rounded border-slate-300 dark:border-white/20 cursor-pointer accent-red-600"
+                      />
+                    </th>
                     <th className="px-8 py-5 text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest">Customer &amp; Date</th>
                     <th className="px-8 py-5 text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest">Route Details</th>
                     <th className="px-8 py-5 text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest text-center">Value</th>
@@ -477,7 +568,16 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
                 </thead>
                 <tbody className="divide-y divide-slate-50 dark:divide-white/4">
                   {quotes.map((quote) => (
-                    <tr key={quote.id} className="group hover:bg-slate-50/80 dark:hover:bg-white/3 transition-all duration-300">
+                    <tr key={quote.id} className={`group transition-all duration-300 ${selectedIds.has(quote.id) ? "bg-red-50/60 dark:bg-red-500/5" : "hover:bg-slate-50/80 dark:hover:bg-white/3"}`}>
+                      <td className="pl-8 pr-2 py-6">
+                        <input
+                          type="checkbox"
+                          checked={selectedIds.has(quote.id)}
+                          onChange={() => toggleSelect(quote.id)}
+                          aria-label={`Select quote from ${quote.customerName}`}
+                          className="h-4 w-4 rounded border-slate-300 dark:border-white/20 cursor-pointer accent-red-600"
+                        />
+                      </td>
                       <td className="px-8 py-6">
                         <div className="flex items-center gap-4">
                           <div className="h-10 w-10 rounded-xl bg-slate-900 dark:bg-zinc-700 flex items-center justify-center text-white font-black text-xs shrink-0">
