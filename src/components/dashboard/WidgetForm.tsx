@@ -752,7 +752,7 @@ export default function WidgetSettingsForm({
         <div className="sticky top-8">
           <div className="mb-4 flex items-center gap-2">
             <Eye className="text-slate-400" size={20} />
-            <h2 className="text-lg font-bold text-slate-900">Widget Live Preview</h2>
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white">Widget Live Preview</h2>
           </div>
           <div className="bg-white rounded-2xl border-slate-200 shadow-xl overflow-hidden pointer-events-none opacity-80 scale-95 border-dashed border-2">
              <div 
