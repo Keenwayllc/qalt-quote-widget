@@ -672,30 +672,29 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                   <div key={label} className={`flex items-center ${i < stages.length - 1 ? 'flex-1' : ''}`}>
                     <div className="flex items-center gap-2">
                       <div className="relative">
-                        {/* Active: layered continuous ripple for a smooth splash */}
-                        {status === "active" && !reduce && [0, 0.9].map((delay, r) => (
+                        {/* Active: soft breathing halo. Keyframes start === end so it
+                            loops seamlessly with no hard restart (no flicker). */}
+                        {status === "active" && !reduce && (
                           <motion.span
-                            key={`ripple-${r}`}
-                            className="absolute inset-0 rounded-full bg-white/50"
-                            initial={{ opacity: 0.45, scale: 1 }}
-                            animate={{ opacity: 0, scale: 2.3 }}
-                            transition={{ duration: 2, repeat: Infinity, ease: "easeOut", delay }}
+                            className="absolute -inset-1 rounded-full bg-white/25 blur-[3px] pointer-events-none"
+                            animate={{ opacity: [0.25, 0.55, 0.25], scale: [1, 1.12, 1] }}
+                            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
                           />
-                        ))}
-                        {/* Completion: one-shot splash the moment the step turns done */}
+                        )}
+                        {/* Completion: single gentle splash the moment the step turns done */}
                         {status === "done" && !reduce && (
                           <motion.span
-                            className="absolute inset-0 rounded-full bg-white"
-                            initial={{ opacity: 0.55, scale: 1 }}
-                            animate={{ opacity: 0, scale: 2 }}
-                            transition={{ duration: 0.7, ease: "easeOut" }}
+                            className="absolute inset-0 rounded-full bg-white pointer-events-none"
+                            initial={{ opacity: 0.4, scale: 1 }}
+                            animate={{ opacity: 0, scale: 1.7 }}
+                            transition={{ duration: 0.6, ease: "easeOut" }}
                           />
                         )}
                         <motion.div
                           key={status}
-                          initial={reduce ? false : { scale: 0.62 }}
+                          initial={reduce ? false : { scale: 0.86 }}
                           animate={{ scale: 1 }}
-                          transition={{ duration: 0.45, ease: EASE }}
+                          transition={{ duration: 0.4, ease: EASE }}
                           className={`relative w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold transition-colors duration-500 ${
                             status === "todo"
                               ? "bg-white/15 text-white/50 ring-1 ring-white/20"
