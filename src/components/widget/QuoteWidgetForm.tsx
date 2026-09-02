@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import Image from "next/image";
 import { getEntitlements } from "@/lib/plans";
 import { MapPin, CheckCircle, ArrowRight, ArrowLeft, User, Mail, Phone, Truck, Sparkles, Weight, Hash, Footprints, Home, Clock, Box, Navigation, Check, Lock, ShieldCheck } from "lucide-react";
@@ -76,6 +76,36 @@ interface QuoteBreakdown {
 }
 
 const LIBRARIES: ("places" | "geometry" | "drawing" | "visualization")[] = ["places"];
+
+// useLayoutEffect on the client (restore before first paint), useEffect on the
+// server (avoids the SSR warning). Restoring pre-paint prevents a blank-form flash.
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+// Per-widget draft key so multiple embedded widgets don't collide.
+const draftKey = (companyId: string) => `qalt-draft-${companyId}`;
+// Drafts self-expire so a long-abandoned session doesn't resurrect much later.
+const DRAFT_TTL_MS = 1000 * 60 * 60 * 24; // 24h
+
+const EMPTY_FORM: FormData = {
+  pickupAddress: "",
+  dropoffAddress: "",
+  pickupZip: "",
+  dropoffZip: "",
+  hasStairs: false,
+  stairsFlights: "1",
+  needsInsideDelivery: false,
+  needsAddon3: false,
+  pickupDate: "",
+  pickupTime: "",
+  selectedLargeItems: [],
+  packageWeight: "",
+  itemCount: "",
+  vehicleCount: "",
+  awbNumber: "",
+  customerName: "",
+  customerEmail: "",
+  customerPhone: "",
+};
 
 // Shared field styling. Sentence-case labels, lighter borders, branded focus ring
 // (colour comes from the inherited --ring CSS var set on the widget container),
@@ -261,7 +291,10 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
   const [parentUrl, setParentUrl] = useState<string | null>(null);
+  const stepRef = useRef(step);
+  stepRef.current = step;
 
   useEffect(() => {
     // Domains that should NEVER be used as a "Back to" destination.
@@ -314,26 +347,75 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
     libraries: LIBRARIES
   });
 
-  const [formData, setFormData] = useState<FormData>({
-    pickupAddress: "",
-    dropoffAddress: "",
-    pickupZip: "",
-    dropoffZip: "",
-    hasStairs: false,
-    stairsFlights: "1",
-    needsInsideDelivery: false,
-    needsAddon3: false,
-    pickupDate: "",
-    pickupTime: "",
-    selectedLargeItems: [] as string[],
-    packageWeight: "",
-    itemCount: "",
-    vehicleCount: "",
-    awbNumber: "",
-    customerName: "",
-    customerEmail: "",
-    customerPhone: "",
-  });
+  const [formData, setFormData] = useState<FormData>(EMPTY_FORM);
+
+  // ---- Draft persistence: keep the customer's quote across the Stripe handoff ----
+  // Rehydrate before first paint. Runs once. Storage may be blocked (partitioned
+  // third-party context) — in that case we simply degrade to a fresh form.
+  useIsoLayoutEffect(() => {
+    try {
+      const raw = sessionStorage.getItem(draftKey(company.id));
+      if (raw) {
+        const d = JSON.parse(raw);
+        const fresh = !d?.savedAt || Date.now() - d.savedAt < DRAFT_TTL_MS;
+        if (d && fresh) {
+          if (d.formData) setFormData({ ...EMPTY_FORM, ...d.formData });
+          if (typeof d.estimate === "number") setEstimate(d.estimate);
+          if (typeof d.distance === "number") setDistance(d.distance);
+          if (typeof d.durationMinutes === "number") setDurationMinutes(d.durationMinutes);
+          if (d.breakdown) setBreakdown(d.breakdown);
+          if (d.routeInfo) setRouteInfo(d.routeInfo);
+          let s = typeof d.step === "number" ? d.step : 1;
+          let sum = Boolean(d.showSummary);
+          // Returning from the payment redirect → land on the Quote screen, not the
+          // spinner (step 4) or the success screen (step 3).
+          if (s >= 3) { s = 2; sum = false; }
+          setStep(s);
+          setShowSummary(sum);
+        } else {
+          sessionStorage.removeItem(draftKey(company.id));
+        }
+      }
+    } catch {
+      // storage unavailable — no restore, no crash
+    }
+    setHydrated(true);
+  }, []);
+
+  // Persist the draft on every meaningful change (never before hydration, so we
+  // don't clobber a saved draft with the blank initial state). Card / Stripe data
+  // is never included — only the quote the customer built.
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      if (step === 3) {
+        // Completed lead booking → the draft is done.
+        sessionStorage.removeItem(draftKey(company.id));
+        return;
+      }
+      const started = step > 1 || Boolean(formData.pickupAddress || formData.dropoffAddress);
+      if (!started) return;
+      sessionStorage.setItem(
+        draftKey(company.id),
+        JSON.stringify({ savedAt: Date.now(), step, showSummary, formData, estimate, distance, durationMinutes, breakdown, routeInfo })
+      );
+    } catch {
+      // ignore write failures
+    }
+  }, [hydrated, step, showSummary, formData, estimate, distance, durationMinutes, breakdown, routeInfo, company.id]);
+
+  // Browser Back from Stripe may restore this page from the bfcache with the
+  // in-memory step still at 4 (redirect spinner). Send them to the Quote screen.
+  useEffect(() => {
+    const onShow = (e: PageTransitionEvent) => {
+      if (e.persisted && stepRef.current >= 3) {
+        setStep(2);
+        setShowSummary(false);
+      }
+    };
+    window.addEventListener("pageshow", onShow);
+    return () => window.removeEventListener("pageshow", onShow);
+  }, []);
 
   /* Address Clear functionality */
   const clearPickup = () => {
@@ -522,6 +604,16 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
       });
       const data = await res.json();
       if (res.ok && data.checkoutUrl) {
+        // Snapshot the completed quote so Back-from-Stripe lands on the Quote
+        // screen with everything populated, regardless of effect-flush timing.
+        try {
+          sessionStorage.setItem(
+            draftKey(company.id),
+            JSON.stringify({ savedAt: Date.now(), step: 2, showSummary: false, formData, estimate, distance, durationMinutes, breakdown, routeInfo })
+          );
+        } catch {
+          // ignore — return will just start fresh
+        }
         if (window.top) {
           window.top.location.href = data.checkoutUrl;
         } else {
@@ -544,9 +636,17 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
   };
 
   const startNewQuote = () => {
+    // Intentional fresh start — drop the saved draft and clear the whole quote.
+    try { sessionStorage.removeItem(draftKey(company.id)); } catch { /* ignore */ }
     setShowSummary(false);
+    setError("");
+    setEstimate(null);
+    setDistance(null);
+    setDurationMinutes(null);
+    setBreakdown(null);
+    setRouteInfo(null);
+    setFormData(EMPTY_FORM);
     setStep(1);
-    setFormData(prev => ({ ...prev, pickupZip: "", dropoffZip: "", customerName: "", customerEmail: "", customerPhone: "", packageWeight: "", itemCount: "", vehicleCount: "", awbNumber: "" }));
   };
 
   const primaryColor = (widgetSettings.primaryColor && widgetSettings.primaryColor.length >= 4) ? widgetSettings.primaryColor : "#3B82F6";
@@ -727,6 +827,11 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
 
           {/* Body */}
           <div className="bg-white px-6 py-7 sm:px-8 sm:py-8 flex-1">
+            {!hydrated ? (
+              <div className="py-16 flex items-center justify-center">
+                <div className="w-8 h-8 border-[3px] rounded-full animate-spin" style={{ borderColor: `${primaryColor}22`, borderTopColor: primaryColor }} />
+              </div>
+            ) : (
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={bodyKey}
@@ -1259,7 +1364,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                           )}
                         </span>
                       </button>
-                      <button type="button" onClick={() => { setShowSummary(false); setError(""); }}
+                      <button type="button" onClick={backToEdit}
                         className="w-full py-3 text-slate-400 font-bold text-[11px] uppercase tracking-[0.15em] hover:text-slate-600 transition-all">
                         ← Edit details
                       </button>
@@ -1335,6 +1440,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                 )}
               </motion.div>
             </AnimatePresence>
+            )}
           </div>
 
           {/* Footer */}
