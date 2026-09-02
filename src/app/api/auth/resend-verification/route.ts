@@ -26,27 +26,11 @@ export async function POST(req: Request) {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL!;
     const verifyUrl = `${appUrl}/api/auth/verify-email?token=${token}`;
 
-    const result = await sendEmail({
+    await sendEmail({
       to: email,
       subject: "Confirm your Qalt account",
       react: React.createElement(VerifyEmail, { companyName: company.name, verifyUrl }),
     });
-
-    // TEMP DIAGNOSTIC: secret-gated (timing-safe) so only a controlled caller
-    // can read the extracted provider error message. Removed after root-causing.
-    const diagToken = "qalt_diag_7f3a9c2e5b81aa";
-    const provided = Buffer.from(req.headers.get("x-diag-secret") || "");
-    const expected = Buffer.from(diagToken);
-    if (provided.length === expected.length && crypto.timingSafeEqual(provided, expected)) {
-      const e = result.error as { name?: string; message?: string; statusCode?: number } | undefined;
-      return NextResponse.json({
-        success: result.success,
-        appUrlPresent: Boolean(appUrl),
-        errorName: e?.name ?? null,
-        errorStatus: e?.statusCode ?? null,
-        errorMessage: e?.message ?? null,
-      });
-    }
 
     return NextResponse.json({ success: true });
   } catch (error) {
