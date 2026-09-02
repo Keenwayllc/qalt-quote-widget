@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import prisma from "@/lib/prisma";
 import PublicNav from "@/components/shared/PublicNav";
 import QaltLogo from "@/components/shared/QaltLogo";
 import { ArrowRight, Zap, Globe, ReceiptText, CreditCard, Truck, LayoutTemplate } from "lucide-react";
@@ -13,25 +12,11 @@ export const metadata: Metadata = {
     "See the full Qalt customer flow. Delivery companies add an instant quote and booking widget to their site so customers quote, book, and pay online without calling.",
 };
 
-// The demo widget: prefer an explicitly configured demo company, then the
-// Pittman demo, then any company that has a widget. Set NEXT_PUBLIC_DEMO_COMPANY_ID
-// in Vercel to point this page at your polished demo merchant.
-async function resolveDemoCompanyId(): Promise<string | null> {
-  const envId = process.env.NEXT_PUBLIC_DEMO_COMPANY_ID?.trim();
-  if (envId) return envId;
-
-  const byName = await prisma.company.findFirst({
-    where: { name: { contains: "Pittman", mode: "insensitive" }, widgetSettings: { some: {} } },
-    select: { id: true },
-  });
-  if (byName) return byName.id;
-
-  const anyWithWidget = await prisma.company.findFirst({
-    where: { widgetSettings: { some: {} } },
-    orderBy: { createdAt: "asc" },
-    select: { id: true },
-  });
-  return anyWithWidget?.id ?? null;
+// Points ONLY at a dedicated demo merchant configured via env. It must never
+// fall back to a real customer's widget. Create a demo company in the dashboard
+// and set DEMO_COMPANY_ID (or NEXT_PUBLIC_DEMO_COMPANY_ID) to its id.
+function resolveDemoCompanyId(): string | null {
+  return (process.env.DEMO_COMPANY_ID || process.env.NEXT_PUBLIC_DEMO_COMPANY_ID)?.trim() || null;
 }
 
 const POSITIONING: { icon: React.ComponentType<{ size?: number; className?: string }>; title: string; body: string }[] = [
@@ -44,7 +29,7 @@ const POSITIONING: { icon: React.ComponentType<{ size?: number; className?: stri
 ];
 
 export default async function DemoPage() {
-  const demoId = await resolveDemoCompanyId();
+  const demoId = resolveDemoCompanyId();
 
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-red-100 selection:text-red-900">
@@ -112,10 +97,12 @@ export default async function DemoPage() {
                     className="w-full h-[820px] block bg-slate-100"
                   />
                 ) : (
-                  <div className="h-[420px] flex items-center justify-center text-center px-8 bg-slate-50">
-                    <p className="text-sm font-semibold text-slate-500">
-                      Demo widget is being configured. Set <code className="text-slate-700">NEXT_PUBLIC_DEMO_COMPANY_ID</code> to your demo company.
-                    </p>
+                  <div className="h-[420px] flex flex-col items-center justify-center text-center px-8 bg-slate-50 gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center">
+                      <Zap size={22} />
+                    </div>
+                    <p className="text-sm font-bold text-slate-700">Live demo coming online</p>
+                    <p className="text-xs text-slate-400 font-medium max-w-xs">The interactive quote and booking widget will appear here.</p>
                   </div>
                 )}
               </div>
