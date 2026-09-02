@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { getEntitlements } from "@/lib/plans";
-import { MapPin, CheckCircle, ArrowRight, ArrowLeft, User, Mail, Phone, Truck, Sparkles, Weight, Hash, Footprints, Home, Clock, Box, Navigation } from "lucide-react";
+import { MapPin, CheckCircle, ArrowRight, ArrowLeft, User, Mail, Phone, Truck, Sparkles, Weight, Hash, Footprints, Home, Clock, Box, Navigation, Check, Lock, ShieldCheck } from "lucide-react";
 import { useJsApiLoader } from "@react-google-maps/api";
 import usePlacesAutocomplete, { getGeocode } from "use-places-autocomplete";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import RouteMapDisplay from "./RouteMapDisplay";
 import PickupDateTime from "./PickupDateTime";
 
@@ -67,11 +68,46 @@ interface FormData {
 
 const LIBRARIES: ("places" | "geometry" | "drawing" | "visualization")[] = ["places"];
 
+// Shared field styling. Sentence-case labels, lighter borders, branded focus ring
+// (colour comes from the inherited --ring CSS var set on the widget container),
+// larger tap targets, and a subtle lift to white on focus.
+const LABEL_CLASS = "text-xs font-semibold text-slate-500 flex items-center gap-1.5 mb-2 ml-0.5";
+const INPUT_CLASS = "w-full px-4 py-3.5 bg-slate-50/70 border border-slate-200 rounded-2xl text-[15px] font-semibold text-slate-800 placeholder:text-slate-400 placeholder:font-medium focus:bg-white focus:ring-2 focus:ring-[color:var(--ring)] focus:border-transparent outline-none transition-all duration-200";
+
+// ease-out-quint: fast start, gentle settle. No bounce, no elastic.
+const EASE = [0.22, 1, 0.36, 1] as const;
+
 function formatDuration(minutes: number): string {
   if (minutes < 60) return `${minutes} min`;
   const h = Math.floor(minutes / 60);
   const m = minutes % 60;
   return m === 0 ? `${h} hr` : `${h} hr ${m} min`;
+}
+
+// Animate a number from 0 → target once, respecting reduced-motion.
+function useCountUp(target: number | null, durationMs = 650): number {
+  const reduce = useReducedMotion();
+  const [value, setValue] = useState<number>(0);
+  const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (target == null || reduce) return;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / durationMs);
+      const eased = 1 - Math.pow(1 - t, 5); // ease-out-quint
+      setValue(target * eased);
+      if (t < 1) rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [target, durationMs, reduce]);
+
+  // Reduced motion (or no motion needed): show the final value directly, no state churn.
+  if (reduce) return target ?? 0;
+  return value;
 }
 
 // Sub-component for Google Autocomplete to avoid race conditions
@@ -107,8 +143,8 @@ const AutocompleteInput = ({
 
   return (
     <div className="relative">
-      <label className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] flex items-center gap-1.5 mb-2 ml-1">
-        <Icon size={11} className="text-slate-400" /> {label}
+      <label className={LABEL_CLASS}>
+        <Icon size={12} className="text-slate-400" /> {label}
       </label>
       <div className="relative group">
         <input
@@ -117,7 +153,7 @@ const AutocompleteInput = ({
           onChange={(e) => setValue(e.target.value)}
           disabled={!ready}
           placeholder={placeholder}
-          className="w-full px-4 py-3.5 pr-10 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:ring-2 focus:border-transparent outline-none transition-all duration-200"
+          className={`${INPUT_CLASS} pr-10`}
         />
         {inputValue && (
           <button
@@ -158,6 +194,7 @@ const AutocompleteInput = ({
 
 export default function QuoteWidgetForm({ company }: WidgetProps) {
   const entitlements = getEntitlements(company.subscriptionPlan);
+  const reduce = useReducedMotion();
 
   const widgetSettings = {
     ...(company.widgetSettings || {
@@ -214,6 +251,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [showSummary, setShowSummary] = useState(false);
   const [parentUrl, setParentUrl] = useState<string | null>(null);
 
   useEffect(() => {
@@ -410,8 +448,8 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
     }
   };
 
-  const submitQuote = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const submitQuote = async (e?: React.FormEvent) => {
+    e?.preventDefault();
     setLoading(true);
     setError("");
 
@@ -453,6 +491,17 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
     }
   };
 
+  // Payment flow only: review the booking before creating the quote + redirecting to Stripe.
+  const handleStep2Submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (widgetSettings.paymentsEnabled) {
+      setError("");
+      setShowSummary(true);
+    } else {
+      submitQuote(e);
+    }
+  };
+
   const initiatePayment = async (quoteId: string) => {
     try {
       const res = await fetch("/api/stripe/quote-payment", {
@@ -477,18 +526,59 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
     }
   };
 
+  const backToEdit = () => {
+    setShowSummary(false);
+    setError("");
+    setStep(1);
+  };
+
+  const startNewQuote = () => {
+    setShowSummary(false);
+    setStep(1);
+    setFormData(prev => ({ ...prev, pickupZip: "", dropoffZip: "", customerName: "", customerEmail: "", customerPhone: "", packageWeight: "", itemCount: "", vehicleCount: "", awbNumber: "" }));
+  };
 
   const primaryColor = (widgetSettings.primaryColor && widgetSettings.primaryColor.length >= 4) ? widgetSettings.primaryColor : "#3B82F6";
 
+  // Progress: Route (addresses) → Details (everything else) → Quote (estimate shown).
+  const routeComplete = Boolean(formData.pickupAddress && formData.dropoffAddress);
+  const activeStage = step >= 2 ? 2 : routeComplete ? 1 : 0;
+  const stages = ["Route", "Details", "Quote"] as const;
+  const stageStatus = (i: number): "done" | "active" | "todo" => {
+    if (i < activeStage) return "done";
+    if (i === activeStage) return i === 2 && step >= 3 ? "done" : "active";
+    return "todo";
+  };
+
+  const serviceType = formData.awbNumber?.trim() ? "Airport pickup" : "Standard delivery";
+  const hasAnyAddon = formData.hasStairs || formData.needsInsideDelivery || formData.needsAddon3 || formData.selectedLargeItems.length > 0;
+
+  // Animated price for the quote card.
+  const animatedEstimate = useCountUp(step >= 2 ? estimate : null);
+
+  // Step body transition. Reduced motion → cross-fade only.
+  const bodyKey = step === 2 && showSummary ? "summary" : `step-${step}`;
+  const bodyVariants = reduce
+    ? { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 } }
+    : { initial: { opacity: 0, x: 24 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: -24 } };
+
+  // Staggered reveal for the progressively-revealed Details section.
+  const revealItem = reduce
+    ? { hidden: { opacity: 0 }, show: { opacity: 1 } }
+    : { hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } };
+
   return (
-    <div className={`w-full transition-all duration-700 ease-in-out font-sans flex items-start justify-center mx-auto relative ${step === 2 && widgetSettings.mapLayout === 'side' ? 'max-w-5xl' : 'max-w-md'}`} style={{ fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif" }}>
+    <div
+      className={`w-full transition-all duration-700 ease-in-out font-sans flex items-start justify-center mx-auto relative ${step === 2 && !showSummary && widgetSettings.mapLayout === 'side' ? 'max-w-5xl' : 'max-w-md'}`}
+      style={{ fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif", ['--ring' as string]: `${primaryColor}59` }}
+    >
       <div className="w-full transition-all duration-700 ease-in-out relative z-10 rounded-[32px] overflow-hidden shadow-[0_30px_100px_-15px_rgba(0,0,0,0.2)] bg-white flex flex-col md:flex-row">
-        
+
         {/* Left Side: Form & Content */}
-        <div className={`w-full transition-all duration-700 ${step === 2 && widgetSettings.mapLayout === 'side' ? 'md:w-[440px]' : 'md:w-full'} flex flex-col shrink-0`}>
-          {/* Header */}
+        <div className={`w-full transition-all duration-700 ${step === 2 && !showSummary && widgetSettings.mapLayout === 'side' ? 'md:w-[440px]' : 'md:w-full'} flex flex-col shrink-0`}>
+          {/* Header — reduced height on mobile so the form is closer to the fold */}
           <div
-            className="relative px-8 pt-8 pb-10 overflow-hidden bg-cover bg-center"
+            className="relative px-6 pt-6 pb-7 sm:px-8 sm:pt-8 sm:pb-10 overflow-hidden bg-cover bg-center"
             style={
               widgetSettings.backgroundImageUrl
                 ? { backgroundImage: `url(${widgetSettings.backgroundImageUrl})` }
@@ -531,431 +621,632 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
               )}
             </div>
 
-            {/* Step indicator */}
-            <div className="relative z-10 flex items-center gap-2 mt-6">
-              {[1, 2, 3].map((s) => (
-                <div key={s} className="flex items-center gap-2">
-                  <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-500 ${
-                    step >= s ? 'bg-white text-slate-800 shadow-lg' : 'bg-white/15 text-white/50 ring-1 ring-white/20'
-                  }`}>
-                    {step > s ? <CheckCircle size={14} /> : s}
+            {/* Step indicator — labeled Route · Details · Quote */}
+            <div className="relative z-10 flex items-center mt-5 sm:mt-6">
+              {stages.map((label, i) => {
+                const status = stageStatus(i);
+                return (
+                  <div key={label} className={`flex items-center ${i < stages.length - 1 ? 'flex-1' : ''}`}>
+                    <div className="flex items-center gap-2">
+                      <div className="relative">
+                        {status === "active" && !reduce && (
+                          <motion.span
+                            className="absolute inset-0 rounded-full bg-white"
+                            initial={{ opacity: 0.5, scale: 1 }}
+                            animate={{ opacity: 0, scale: 1.8 }}
+                            transition={{ duration: 1.6, repeat: Infinity, ease: "easeOut" }}
+                          />
+                        )}
+                        <div
+                          className={`relative w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold transition-all duration-500 ${
+                            status === "todo"
+                              ? "bg-white/15 text-white/50 ring-1 ring-white/20"
+                              : "bg-white shadow-lg"
+                          }`}
+                          style={status !== "todo" ? { color: primaryColor } : {}}
+                        >
+                          {status === "done" ? <Check size={13} strokeWidth={3} /> : i + 1}
+                        </div>
+                      </div>
+                      <span className={`text-[11px] font-bold tracking-tight transition-colors duration-500 ${status === "todo" ? "text-white/50" : "text-white"}`}>
+                        {label}
+                      </span>
+                    </div>
+                    {i < stages.length - 1 && (
+                      <div className="flex-1 mx-2 h-0.5 rounded-full bg-white/15 overflow-hidden">
+                        <motion.div
+                          className="h-full rounded-full bg-white/70"
+                          initial={false}
+                          animate={{ width: i < activeStage ? "100%" : "0%" }}
+                          transition={{ duration: reduce ? 0 : 0.5, ease: EASE }}
+                        />
+                      </div>
+                    )}
                   </div>
-                  {s < 3 && (
-                    <div className={`w-12 h-0.5 rounded-full transition-all duration-500 ${step > s ? 'bg-white/60' : 'bg-white/15'}`}></div>
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
           {/* Body */}
-          <div className="bg-white px-8 py-8 flex-1">
+          <div className="bg-white px-6 py-7 sm:px-8 sm:py-8 flex-1">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={bodyKey}
+                variants={bodyVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={{ duration: 0.28, ease: EASE }}
+              >
 
-            {/* Step 1 */}
-            {step === 1 && (
-              <form onSubmit={getEstimate} className="space-y-5">
-                <div className="space-y-4">
-                  <AutocompleteInput
-                    label="Pickup Address"
-                    placeholder="Enter pickup address"
-                    value={formData.pickupAddress}
-                    isLoaded={isLoaded}
-                    icon={MapPin}
-                    onAddressSelect={(address, zip) => setFormData(prev => ({ ...prev, pickupAddress: address, pickupZip: zip }))}
-                    onClear={clearPickup}
-                  />
+                {/* Step 1 */}
+                {step === 1 && (
+                  <form onSubmit={getEstimate} className="space-y-5">
+                    {/* Section 1 — Route */}
+                    <div className="space-y-4">
+                      <AutocompleteInput
+                        label="Pickup address"
+                        placeholder="Enter pickup address"
+                        value={formData.pickupAddress}
+                        isLoaded={isLoaded}
+                        icon={MapPin}
+                        onAddressSelect={(address, zip) => setFormData(prev => ({ ...prev, pickupAddress: address, pickupZip: zip }))}
+                        onClear={clearPickup}
+                      />
 
-                  <AutocompleteInput
-                    label="Dropoff Address"
-                    placeholder="Enter dropoff address"
-                    value={formData.dropoffAddress}
-                    isLoaded={isLoaded}
-                    icon={MapPin}
-                    onAddressSelect={(address, zip) => setFormData(prev => ({ ...prev, dropoffAddress: address, dropoffZip: zip }))}
-                    onClear={clearDropoff}
-                  />
-                </div>
-
-                {/* Route connector */}
-                <div className="flex items-center justify-center -my-1">
-                  <div className="flex items-center gap-1.5 text-slate-300">
-                    <div className="w-2 h-2 rounded-full bg-slate-200"></div>
-                    <div className="w-1 h-1 rounded-full bg-slate-200"></div>
-                    <div className="w-1 h-1 rounded-full bg-slate-200"></div>
-                    <Truck size={16} className="text-slate-300 mx-1" />
-                    <div className="w-1 h-1 rounded-full bg-slate-200"></div>
-                    <div className="w-1 h-1 rounded-full bg-slate-200"></div>
-                    <div className="w-2 h-2 rounded-full bg-slate-200"></div>
-                  </div>
-                </div>
-
-                {/* Pickup Date & Time */}
-                <div>
-                  <p className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] flex items-center gap-1.5 mb-2 ml-1">
-                    <Clock size={11} className="text-slate-400" /> Pickup Date &amp; Time
-                  </p>
-                  <PickupDateTime
-                    date={formData.pickupDate}
-                    time={formData.pickupTime}
-                    onDateChange={(d) => setFormData((prev) => ({ ...prev, pickupDate: d }))}
-                    onTimeChange={(t) => setFormData((prev) => ({ ...prev, pickupTime: t }))}
-                    businessHoursStart={pricingProfile?.businessHoursStart}
-                    businessHoursEnd={pricingProfile?.businessHoursEnd}
-                    businessDays={pricingProfile?.businessDays}
-                    primaryColor={primaryColor}
-                  />
-                </div>
-
-                {/* Weight & Item Count */}
-                <div className="grid grid-cols-2 gap-4">
-                  {widgetSettings.showWeight && (
-                    <div>
-                      <label className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] flex items-center gap-1.5 mb-2 ml-1">
-                        <Weight size={11} /> Weight (lbs)
-                      </label>
-                      <input
-                        type="number"
-                        name="packageWeight"
-                        placeholder="0"
-                        value={formData.packageWeight}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:ring-2 focus:border-transparent outline-none transition-all"
+                      <AutocompleteInput
+                        label="Dropoff address"
+                        placeholder="Enter dropoff address"
+                        value={formData.dropoffAddress}
+                        isLoaded={isLoaded}
+                        icon={MapPin}
+                        onAddressSelect={(address, zip) => setFormData(prev => ({ ...prev, dropoffAddress: address, dropoffZip: zip }))}
+                        onClear={clearDropoff}
                       />
                     </div>
-                  )}
-                  {widgetSettings.showItemCount && (
-                    <div>
-                      <label className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] flex items-center gap-1.5 mb-2 ml-1">
-                        <Hash size={11} /> Items
-                      </label>
-                      <input
-                        type="number"
-                        name="itemCount"
-                        placeholder="1"
-                        min="1"
-                        value={formData.itemCount}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:ring-2 focus:border-transparent outline-none transition-all"
-                      />
-                    </div>
-                  )}
-                  {widgetSettings.showVehicles && (
-                    <div>
-                      <label className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] flex items-center gap-1.5 mb-2 ml-1">
-                        <Hash size={11} /> Vehicles
-                      </label>
-                      <input
-                        type="number"
-                        name="vehicleCount"
-                        placeholder="1"
-                        min="1"
-                        value={formData.vehicleCount}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:ring-2 focus:border-transparent outline-none transition-all"
-                      />
-                    </div>
-                  )}
-                </div>
 
-                {/* AWB field — full width below the grid */}
-                {widgetSettings.showAwb && (
-                  <div>
-                    <label className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] flex items-center gap-1.5 mb-2 ml-1">
-                      ✈ AWB Number <span className="normal-case font-medium text-slate-400">(Airport Pickup)</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="awbNumber"
-                      placeholder="e.g. 123-45678901"
-                      value={formData.awbNumber}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:ring-2 focus:border-transparent outline-none transition-all"
-                    />
-                  </div>
-                )}
+                    {/* Route connector */}
+                    <div className="flex items-center justify-center -my-1">
+                      <div className="flex items-center gap-1.5 text-slate-300">
+                        <div className="w-2 h-2 rounded-full bg-slate-200"></div>
+                        <div className="w-1 h-1 rounded-full bg-slate-200"></div>
+                        <div className="w-1 h-1 rounded-full bg-slate-200"></div>
+                        <Truck size={16} className="text-slate-300 mx-1" />
+                        <div className="w-1 h-1 rounded-full bg-slate-200"></div>
+                        <div className="w-1 h-1 rounded-full bg-slate-200"></div>
+                        <div className="w-2 h-2 rounded-full bg-slate-200"></div>
+                      </div>
+                    </div>
 
-                {widgetSettings.showExtras && (
-                  <div className="space-y-3">
-                    <p className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] ml-1">Add-ons</p>
-                    <div className="grid grid-cols-2 gap-2.5">
-                      {(() => {
-                        const addonIds: Array<'hasStairs' | 'needsInsideDelivery' | 'needsAddon3'> = ['hasStairs', 'needsInsideDelivery'];
-                        // Add-on 3 only appears once the merchant has both named it and set a fee.
-                        if (widgetSettings.addon3Label && (pricingProfile?.addon3Fee ?? 0) > 0) addonIds.push('needsAddon3');
-                        return addonIds;
-                      })().map((id) => {
-                        const config: Record<string, { label: string; icon: React.ReactNode }> = {
-                          hasStairs: { label: 'Stairs', icon: <Footprints size={15} /> },
-                          needsInsideDelivery: { label: widgetSettings.insideDeliveryLabel || 'Inside Delivery', icon: <Home size={15} /> },
-                          needsAddon3: { label: widgetSettings.addon3Label || 'Add-on', icon: <Sparkles size={15} /> },
-                        };
-                        return (
-                          <label
-                            key={id}
-                            className={`
-                              relative flex items-center gap-2.5 px-4 py-3 border rounded-xl cursor-pointer transition-all duration-200 select-none overflow-hidden
-                              ${formData[id]
-                                ? 'border-transparent shadow-md scale-[1.02]'
-                                : 'bg-slate-50 border-slate-300 hover:border-slate-400 hover:bg-white'}
-                            `}
-                            style={formData[id] ? { borderColor: primaryColor } : {}}
+                    {/* Sections 2 & 3 — revealed once both addresses are set (soft reveal) */}
+                    <AnimatePresence initial={false}>
+                      {routeComplete ? (
+                        <motion.div
+                          key="details"
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: reduce ? 0 : 0.35, ease: EASE }}
+                          style={{ overflow: "hidden" }}
+                        >
+                          <motion.div
+                            className="space-y-5"
+                            initial="hidden"
+                            animate="show"
+                            transition={{ staggerChildren: reduce ? 0 : 0.05, delayChildren: reduce ? 0 : 0.08 }}
                           >
-                            {formData[id] && (
-                              <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundColor: primaryColor }}></div>
-                            )}
-                            <input
-                              type="checkbox"
-                              name={id}
-                              checked={formData[id]}
-                              onChange={handleInputChange}
-                              className="hidden"
-                            />
-                            <span className={`${formData[id] ? 'text-slate-700' : 'text-slate-400'} transition-colors`}>{config[id].icon}</span>
-                            <span className={`text-[12px] font-bold ${formData[id] ? 'text-slate-800' : 'text-slate-500'}`}>
-                              {config[id].label}
-                            </span>
-                          </label>
-                        );
-                      })}
-                    </div>
+                            {/* Section 2 — Details */}
+                            <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }}>
+                              <p className="text-xs font-semibold text-slate-500 flex items-center gap-1.5 mb-2 ml-0.5">
+                                <Clock size={12} className="text-slate-400" /> Pickup date &amp; time
+                              </p>
+                              <PickupDateTime
+                                date={formData.pickupDate}
+                                time={formData.pickupTime}
+                                onDateChange={(d) => setFormData((prev) => ({ ...prev, pickupDate: d }))}
+                                onTimeChange={(t) => setFormData((prev) => ({ ...prev, pickupTime: t }))}
+                                businessHoursStart={pricingProfile?.businessHoursStart}
+                                businessHoursEnd={pricingProfile?.businessHoursEnd}
+                                businessDays={pricingProfile?.businessDays}
+                                primaryColor={primaryColor}
+                              />
+                            </motion.div>
 
-                    {formData.hasStairs && (
-                      <div className="flex items-center justify-between gap-3 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl animate-in fade-in slide-in-from-top-1">
-                        <label htmlFor="stairsFlights" className="text-[12px] font-bold text-slate-600 flex items-center gap-1.5">
-                          <Footprints size={14} className="text-slate-400" /> Number of flights
-                        </label>
-                        <input
-                          id="stairsFlights"
-                          type="number"
-                          name="stairsFlights"
-                          min="1"
-                          step="1"
-                          value={formData.stairsFlights}
-                          onChange={handleInputChange}
-                          className="w-20 px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm font-bold text-slate-800 text-center focus:ring-2 focus:border-transparent outline-none transition-all"
-                        />
+                            {/* Weight & Item Count */}
+                            {(widgetSettings.showWeight || widgetSettings.showItemCount || widgetSettings.showVehicles) && (
+                              <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }} className="grid grid-cols-2 gap-4">
+                                {widgetSettings.showWeight && (
+                                  <div>
+                                    <label className={LABEL_CLASS}>
+                                      <Weight size={12} className="text-slate-400" /> Weight (lbs)
+                                    </label>
+                                    <input
+                                      type="number"
+                                      name="packageWeight"
+                                      placeholder="0"
+                                      value={formData.packageWeight}
+                                      onChange={handleInputChange}
+                                      className={INPUT_CLASS}
+                                    />
+                                  </div>
+                                )}
+                                {widgetSettings.showItemCount && (
+                                  <div>
+                                    <label className={LABEL_CLASS}>
+                                      <Hash size={12} className="text-slate-400" /> Items
+                                    </label>
+                                    <input
+                                      type="number"
+                                      name="itemCount"
+                                      placeholder="1"
+                                      min="1"
+                                      value={formData.itemCount}
+                                      onChange={handleInputChange}
+                                      className={INPUT_CLASS}
+                                    />
+                                  </div>
+                                )}
+                                {widgetSettings.showVehicles && (
+                                  <div>
+                                    <label className={LABEL_CLASS}>
+                                      <Truck size={12} className="text-slate-400" /> Vehicles
+                                    </label>
+                                    <input
+                                      type="number"
+                                      name="vehicleCount"
+                                      placeholder="1"
+                                      min="1"
+                                      value={formData.vehicleCount}
+                                      onChange={handleInputChange}
+                                      className={INPUT_CLASS}
+                                    />
+                                  </div>
+                                )}
+                              </motion.div>
+                            )}
+
+                            {/* AWB field — full width */}
+                            {widgetSettings.showAwb && (
+                              <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }}>
+                                <label className={LABEL_CLASS}>
+                                  <span className="text-slate-400">✈</span> AWB number <span className="font-medium text-slate-400">(airport pickup)</span>
+                                </label>
+                                <input
+                                  type="text"
+                                  name="awbNumber"
+                                  placeholder="e.g. 123-45678901"
+                                  value={formData.awbNumber}
+                                  onChange={handleInputChange}
+                                  className={INPUT_CLASS}
+                                />
+                              </motion.div>
+                            )}
+
+                            {/* Section 3 — Add-ons */}
+                            {widgetSettings.showExtras && (
+                              <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }} className="space-y-3">
+                                <p className="text-xs font-semibold text-slate-500 ml-0.5">Add-ons</p>
+                                <div className="grid grid-cols-2 gap-2.5">
+                                  {(() => {
+                                    const addonIds: Array<'hasStairs' | 'needsInsideDelivery' | 'needsAddon3'> = ['hasStairs', 'needsInsideDelivery'];
+                                    // Add-on 3 only appears once the merchant has both named it and set a fee.
+                                    if (widgetSettings.addon3Label && (pricingProfile?.addon3Fee ?? 0) > 0) addonIds.push('needsAddon3');
+                                    return addonIds;
+                                  })().map((id) => {
+                                    const config: Record<string, { label: string; icon: React.ReactNode }> = {
+                                      hasStairs: { label: 'Stairs', icon: <Footprints size={15} /> },
+                                      needsInsideDelivery: { label: widgetSettings.insideDeliveryLabel || 'Inside delivery', icon: <Home size={15} /> },
+                                      needsAddon3: { label: widgetSettings.addon3Label || 'Add-on', icon: <Sparkles size={15} /> },
+                                    };
+                                    const active = formData[id];
+                                    return (
+                                      <label
+                                        key={id}
+                                        className={`
+                                          relative flex items-center gap-2.5 px-4 py-3.5 border rounded-2xl cursor-pointer transition-all duration-200 select-none overflow-hidden
+                                          ${active
+                                            ? 'border-transparent shadow-md'
+                                            : 'bg-slate-50/70 border-slate-200 hover:border-slate-300 hover:bg-white'}
+                                        `}
+                                        style={active ? { borderColor: primaryColor } : {}}
+                                      >
+                                        {active && (
+                                          <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundColor: primaryColor }}></div>
+                                        )}
+                                        <input
+                                          type="checkbox"
+                                          name={id}
+                                          checked={active}
+                                          onChange={handleInputChange}
+                                          className="hidden"
+                                        />
+                                        <span className={`relative ${active ? 'text-slate-700' : 'text-slate-400'} transition-colors`}>{config[id].icon}</span>
+                                        <span className={`relative text-[13px] font-bold ${active ? 'text-slate-800' : 'text-slate-500'}`}>
+                                          {config[id].label}
+                                        </span>
+                                        {active && (
+                                          <span
+                                            className="relative ml-auto w-5 h-5 rounded-full flex items-center justify-center text-white shrink-0"
+                                            style={{ backgroundColor: primaryColor }}
+                                          >
+                                            <Check size={12} strokeWidth={3} />
+                                          </span>
+                                        )}
+                                      </label>
+                                    );
+                                  })}
+                                </div>
+
+                                <AnimatePresence initial={false}>
+                                  {formData.hasStairs && (
+                                    <motion.div
+                                      initial={{ opacity: 0, height: 0 }}
+                                      animate={{ opacity: 1, height: "auto" }}
+                                      exit={{ opacity: 0, height: 0 }}
+                                      transition={{ duration: reduce ? 0 : 0.25, ease: EASE }}
+                                      style={{ overflow: "hidden" }}
+                                    >
+                                      <div className="flex items-center justify-between gap-3 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl">
+                                        <label htmlFor="stairsFlights" className="text-[13px] font-bold text-slate-600 flex items-center gap-1.5">
+                                          <Footprints size={14} className="text-slate-400" /> Number of flights
+                                        </label>
+                                        <input
+                                          id="stairsFlights"
+                                          type="number"
+                                          name="stairsFlights"
+                                          min="1"
+                                          step="1"
+                                          value={formData.stairsFlights}
+                                          onChange={handleInputChange}
+                                          className="w-20 px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-bold text-slate-800 text-center focus:ring-2 focus:ring-[color:var(--ring)] focus:border-transparent outline-none transition-all"
+                                        />
+                                      </div>
+                                    </motion.div>
+                                  )}
+                                </AnimatePresence>
+
+                                {largeItemsEnabled && largeItemCategories.length > 0 && (
+                                  <div className="space-y-3">
+                                    <p className="text-xs font-semibold text-slate-500 ml-0.5 flex items-center gap-1.5">
+                                      <Box size={12} className="text-slate-400" /> Special items
+                                    </p>
+                                    <div className="grid grid-cols-2 gap-2.5">
+                                      {largeItemCategories.map((cat) => {
+                                        const selected = formData.selectedLargeItems.includes(cat.name);
+                                        return (
+                                          <button
+                                            key={cat.name}
+                                            type="button"
+                                            onClick={() => toggleLargeItem(cat.name)}
+                                            className={`relative flex items-center justify-between gap-2 px-4 py-3.5 border rounded-2xl cursor-pointer transition-all duration-200 select-none overflow-hidden text-left ${
+                                              selected
+                                                ? "border-transparent shadow-md"
+                                                : "bg-slate-50/70 border-slate-200 hover:border-slate-300 hover:bg-white"
+                                            }`}
+                                            style={selected ? { borderColor: primaryColor } : {}}
+                                          >
+                                            {selected && (
+                                              <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundColor: primaryColor }} />
+                                            )}
+                                            <span className={`text-[13px] font-bold relative ${selected ? "text-slate-800" : "text-slate-500"}`}>
+                                              {cat.name}
+                                            </span>
+                                            <span className={`text-[11px] font-bold relative shrink-0 ${selected ? "text-slate-600" : "text-slate-400"}`}>
+                                              +${cat.price.toFixed(2)}
+                                            </span>
+                                          </button>
+                                        );
+                                      })}
+                                    </div>
+                                  </div>
+                                )}
+                              </motion.div>
+                            )}
+                          </motion.div>
+                        </motion.div>
+                      ) : null}
+                    </AnimatePresence>
+
+                    {error && (
+                      <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2">
+                        <span className="shrink-0 mt-0.5">⚠️</span> {error}
                       </div>
                     )}
 
-                    {largeItemsEnabled && largeItemCategories.length > 0 && (
-                      <div className="space-y-3">
-                        <p className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] ml-1 flex items-center gap-1.5">
-                          <Box size={11} /> Special Items
-                        </p>
-                        <div className="grid grid-cols-2 gap-2.5">
-                          {largeItemCategories.map((cat) => {
-                            const selected = formData.selectedLargeItems.includes(cat.name);
-                            return (
-                              <button
-                                key={cat.name}
-                                type="button"
-                                onClick={() => toggleLargeItem(cat.name)}
-                                className={`relative flex items-center justify-between gap-2 px-4 py-3 border rounded-xl cursor-pointer transition-all duration-200 select-none overflow-hidden text-left ${
-                                  selected
-                                    ? "border-transparent shadow-md scale-[1.02]"
-                                    : "bg-slate-50 border-slate-300 hover:border-slate-400 hover:bg-white"
-                                }`}
-                                style={selected ? { borderColor: primaryColor } : {}}
-                              >
-                                {selected && (
-                                  <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundColor: primaryColor }} />
-                                )}
-                                <span className={`text-[12px] font-bold relative ${selected ? "text-slate-800" : "text-slate-500"}`}>
-                                  {cat.name}
-                                </span>
-                                <span className={`text-[11px] font-bold relative shrink-0 ${selected ? "text-slate-600" : "text-slate-400"}`}>
-                                  +${cat.price.toFixed(2)}
-                                </span>
-                              </button>
-                            );
-                          })}
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="w-full py-4 rounded-2xl text-white font-bold text-sm shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2.5 disabled:opacity-50 relative overflow-hidden group"
+                      style={{ backgroundColor: primaryColor }}
+                    >
+                      <div className="absolute inset-0 opacity-20" style={{ boxShadow: `inset 0 -4px 12px rgba(0,0,0,0.2)` }}></div>
+                      <span className="absolute inset-0 bg-linear-to-t from-black/10 to-transparent"></span>
+                      <span className="relative flex items-center gap-2.5">
+                        {loading ? (
+                          <>
+                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            Calculating route...
+                          </>
+                        ) : (
+                          <>
+                            {widgetSettings.buttonText}
+                            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                          </>
+                        )}
+                      </span>
+                    </button>
+                  </form>
+                )}
+
+                {/* Step 2 — Quote + customer details */}
+                {step === 2 && !showSummary && (
+                  <form onSubmit={handleStep2Submit} className="space-y-6">
+                    <motion.div
+                      className="relative bg-linear-to-br from-emerald-50 to-teal-50/50 border border-emerald-100/80 rounded-[20px] p-6 text-center overflow-hidden"
+                      initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.97 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: reduce ? 0.2 : 0.4, ease: EASE }}
+                    >
+                      <div className="absolute top-2 right-3">
+                        <Sparkles size={16} className="text-emerald-400/50" />
+                      </div>
+                      <p className="text-[10px] uppercase font-extrabold text-emerald-600/80 tracking-[0.2em] mb-2">Your estimated rate</p>
+                      <div className="flex flex-col items-center">
+                        <p className="text-5xl font-black text-emerald-700 tracking-tight tabular-nums">${animatedEstimate.toFixed(2)}</p>
+                        <div className="flex items-center gap-2 mt-3 flex-wrap justify-center">
+                          <motion.span
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/70 border border-emerald-100 rounded-full text-[11px] font-bold text-emerald-700"
+                            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3, ease: EASE, delay: reduce ? 0 : 0.25 }}
+                          >
+                            <Navigation size={10} /> {distance?.toFixed(1)} miles
+                          </motion.span>
+                          {durationMinutes !== null && (
+                            <motion.span
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/70 border border-emerald-100 rounded-full text-[11px] font-bold text-emerald-700"
+                              initial={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3, ease: EASE, delay: reduce ? 0 : 0.38 }}
+                            >
+                              <Clock size={10} /> Est. {formatDuration(durationMinutes)} drive
+                            </motion.span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Inline map — only for "inline" layout. "side" layout uses the side panel instead (one instance only to avoid double API calls) */}
+                      {widgetSettings.mapLayout !== 'side' && isLoaded && formData.pickupAddress && formData.dropoffAddress && (
+                        <motion.div
+                          className="mt-6 h-32 w-full rounded-2xl overflow-hidden border border-emerald-100 shadow-inner group"
+                          initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.4, ease: EASE, delay: reduce ? 0 : 0.2 }}
+                        >
+                          <RouteMapDisplay
+                            pickupAddress={formData.pickupAddress}
+                            dropoffAddress={formData.dropoffAddress}
+                            isLoaded={isLoaded}
+                          />
+                        </motion.div>
+                      )}
+                    </motion.div>
+
+                    <div className="space-y-4">
+                      <div>
+                        <label className={LABEL_CLASS}>
+                          <User size={12} className="text-slate-400" /> Full name
+                        </label>
+                        <input type="text" name="customerName" required placeholder="John Doe" value={formData.customerName} onChange={handleInputChange}
+                          className={INPUT_CLASS} />
+                      </div>
+                      <div>
+                        <label className={LABEL_CLASS}>
+                          <Mail size={12} className="text-slate-400" /> Email
+                        </label>
+                        <input type="email" name="customerEmail" required placeholder="john@example.com" value={formData.customerEmail} onChange={handleInputChange}
+                          className={INPUT_CLASS} />
+                      </div>
+                      <div>
+                        <label className={LABEL_CLASS}>
+                          <Phone size={12} className="text-slate-400" /> Phone
+                        </label>
+                        <input type="tel" name="customerPhone" required placeholder="(555) 000-0000" value={formData.customerPhone} onChange={handleInputChange}
+                          className={INPUT_CLASS} />
+                      </div>
+                    </div>
+
+                    {error && (
+                      <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2">
+                        <span className="shrink-0 mt-0.5">⚠️</span> {error}
+                      </div>
+                    )}
+
+                    <div className="space-y-3 pt-1">
+                      <button type="submit" disabled={loading}
+                        className="w-full py-4 rounded-2xl text-white font-bold text-sm shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2.5 disabled:opacity-50 relative overflow-hidden group bg-emerald-600"
+                        style={{ boxShadow: '0 8px 24px -4px rgba(16,185,129,0.35)' }}>
+                        <span className="absolute inset-0 bg-linear-to-t from-black/10 to-transparent"></span>
+                        <span className="relative flex items-center gap-2">
+                          {loading ? (
+                            <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>Submitting...</>
+                          ) : widgetSettings.paymentsEnabled ? (
+                            <>Pay &amp; Book <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>
+                          ) : (
+                            <>Submit Quote <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>
+                          )}
+                        </span>
+                      </button>
+                      <button type="button" onClick={() => setStep(1)}
+                        className="w-full py-3 text-slate-400 font-bold text-[11px] uppercase tracking-[0.15em] hover:text-slate-600 transition-all">
+                        ← Edit details
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+                {/* Step 2.5 — Booking summary before Stripe (payments only) */}
+                {step === 2 && showSummary && (
+                  <div className="space-y-5">
+                    <div className="text-center">
+                      <h3 className="text-xl font-black text-slate-900 tracking-tight">Review your booking</h3>
+                      <p className="text-sm text-slate-500 mt-1 font-medium">Confirm the details before payment.</p>
+                    </div>
+
+                    <div className="rounded-[20px] border border-slate-200 bg-slate-50/60 overflow-hidden divide-y divide-slate-100">
+                      <div className="flex items-center justify-between gap-3 px-4 py-3">
+                        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0">Service</span>
+                        <span className="text-[13px] font-bold text-slate-800 text-right">{serviceType}</span>
+                      </div>
+                      <div className="flex items-center justify-between gap-3 px-4 py-3">
+                        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0">Distance</span>
+                        <span className="text-[13px] font-bold text-slate-800 text-right">{distance?.toFixed(1)} miles{durationMinutes !== null ? ` · ${formatDuration(durationMinutes)}` : ""}</span>
+                      </div>
+                      <div className="flex items-start justify-between gap-3 px-4 py-3">
+                        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0 mt-0.5">Pickup</span>
+                        <span className="text-[13px] font-semibold text-slate-800 text-right leading-snug">{formData.pickupAddress}</span>
+                      </div>
+                      <div className="flex items-start justify-between gap-3 px-4 py-3">
+                        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0 mt-0.5">Dropoff</span>
+                        <span className="text-[13px] font-semibold text-slate-800 text-right leading-snug">{formData.dropoffAddress}</span>
+                      </div>
+                      {formData.pickupDate && (
+                        <div className="flex items-center justify-between gap-3 px-4 py-3">
+                          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0">When</span>
+                          <span className="text-[13px] font-bold text-slate-800 text-right">
+                            {new Date(formData.pickupDate).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}
+                            {formData.pickupTime && ` · ${formData.pickupTime}`}
+                          </span>
+                        </div>
+                      )}
+                      {hasAnyAddon && (
+                        <div className="flex items-start justify-between gap-3 px-4 py-3">
+                          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0 mt-1">Add-ons</span>
+                          <div className="flex flex-wrap gap-1.5 justify-end">
+                            {formData.hasStairs && (
+                              <span className="text-[11px] font-bold px-2.5 py-1 bg-white text-slate-600 rounded-lg border border-slate-200">
+                                Stairs{(parseInt(formData.stairsFlights) || 1) > 1 ? ` ×${parseInt(formData.stairsFlights)}` : ""}
+                              </span>
+                            )}
+                            {formData.needsInsideDelivery && (
+                              <span className="text-[11px] font-bold px-2.5 py-1 bg-white text-slate-600 rounded-lg border border-slate-200">{widgetSettings.insideDeliveryLabel || "Inside delivery"}</span>
+                            )}
+                            {formData.needsAddon3 && (
+                              <span className="text-[11px] font-bold px-2.5 py-1 bg-white text-slate-600 rounded-lg border border-slate-200">{widgetSettings.addon3Label || "Add-on"}</span>
+                            )}
+                            {formData.selectedLargeItems.map((item) => (
+                              <span key={item} className="text-[11px] font-bold px-2.5 py-1 bg-white text-slate-600 rounded-lg border border-slate-200">{item}</span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="flex items-center justify-between px-1">
+                      <span className="text-sm font-semibold text-slate-500">Total</span>
+                      <span className="text-3xl font-black text-slate-900 tracking-tight tabular-nums">${estimate?.toFixed(2)}</span>
+                    </div>
+
+                    {error && (
+                      <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2">
+                        <span className="shrink-0 mt-0.5">⚠️</span> {error}
+                      </div>
+                    )}
+
+                    <div className="space-y-3 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => submitQuote()}
+                        disabled={loading}
+                        className="w-full py-4 rounded-2xl text-white font-bold text-sm shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2.5 disabled:opacity-50 relative overflow-hidden group"
+                        style={{ backgroundColor: primaryColor, boxShadow: `0 8px 24px -4px ${primaryColor}55` }}
+                      >
+                        <span className="absolute inset-0 bg-linear-to-t from-black/10 to-transparent"></span>
+                        <span className="relative flex items-center gap-2">
+                          {loading ? (
+                            <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>Preparing checkout...</>
+                          ) : (
+                            <><Lock size={15} /> Continue to secure payment</>
+                          )}
+                        </span>
+                      </button>
+                      <button type="button" onClick={() => { setShowSummary(false); setError(""); }}
+                        className="w-full py-3 text-slate-400 font-bold text-[11px] uppercase tracking-[0.15em] hover:text-slate-600 transition-all">
+                        ← Edit details
+                      </button>
+                      <p className="flex items-center justify-center gap-1.5 text-[11px] font-semibold text-slate-400">
+                        <ShieldCheck size={13} className="text-emerald-500" /> Payments secured by Stripe
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Step 3 — Success */}
+                {step === 3 && (
+                  <div className="py-8 text-center space-y-5">
+                    <div className="w-20 h-20 bg-linear-to-br from-emerald-100 to-teal-100 text-emerald-600 rounded-[20px] flex items-center justify-center mx-auto shadow-lg shadow-emerald-100">
+                      <CheckCircle size={36} strokeWidth={2.5} />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-black text-slate-900 tracking-tight">You&apos;re all set!</h3>
+                      <p className="text-sm text-slate-500 mt-3 leading-relaxed px-2 font-medium">
+                        Thanks, <strong className="text-slate-700">{formData.customerName}</strong>. {widgetSettings.companyNameText || company.name} will reach out shortly about your <strong className="text-emerald-600">${estimate?.toFixed(2)}</strong> delivery quote.
+                      </p>
+                    </div>
+                    <div className="space-y-3 pt-2">
+                      {parentUrl && (() => {
+                        let hostname = "";
+                        try { hostname = new URL(parentUrl).hostname.replace(/^www\./, ""); } catch { hostname = ""; }
+                        return hostname ? (
+                          <a
+                            href={parentUrl}
+                            className="w-full py-4 rounded-2xl text-white font-bold text-sm shadow-lg flex items-center justify-center gap-2.5 transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
+                            style={{ backgroundColor: primaryColor, boxShadow: `0 8px 24px -4px ${primaryColor}55` }}
+                          >
+                            <ArrowLeft size={16} />
+                            Back to {hostname}
+                          </a>
+                        ) : null;
+                      })()}
+                      <button
+                        onClick={startNewQuote}
+                        className="w-full font-bold text-sm flex items-center justify-center gap-2 mx-auto px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105"
+                        style={{ color: primaryColor, backgroundColor: `${primaryColor}15` }}>
+                        Start new quote <ArrowRight size={16} />
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Step 4 — Payment Processing */}
+                {step === 4 && (
+                  <div className="py-10 text-center space-y-6">
+                    <div className="w-20 h-20 rounded-[20px] flex items-center justify-center mx-auto shadow-lg" style={{ backgroundColor: `${primaryColor}15` }}>
+                      <div className="w-10 h-10 border-4 rounded-full animate-spin" style={{ borderColor: `${primaryColor}33`, borderTopColor: primaryColor }} />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-black text-slate-900 tracking-tight">Redirecting to payment</h3>
+                      <p className="text-sm text-slate-500 mt-2 leading-relaxed px-4 font-medium">
+                        Secure checkout via Stripe. Please don&apos;t close this window.
+                      </p>
+                      <p className="text-xs text-slate-400 mt-3">
+                        Quote total: <strong className="text-slate-600">${estimate?.toFixed(2)}</strong>
+                      </p>
+                    </div>
+                    {error && (
+                      <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2">
+                        <span className="shrink-0">⚠️</span>
+                        <div>
+                          <p>{error}</p>
+                          <button onClick={backToEdit} className="mt-2 underline text-red-700">Go back and try again</button>
                         </div>
                       </div>
                     )}
                   </div>
                 )}
-
-                {error && (
-                  <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2">
-                    <span className="shrink-0 mt-0.5">⚠️</span> {error}
-                  </div>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full py-4 rounded-xl text-white font-bold text-sm shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2.5 disabled:opacity-50 relative overflow-hidden group"
-                  style={{ backgroundColor: primaryColor }}
-                >
-                  <div className="absolute inset-0 opacity-20" style={{ boxShadow: `inset 0 -4px 12px rgba(0,0,0,0.2)` }}></div>
-                  <span className="absolute inset-0 bg-linear-to-t from-black/10 to-transparent"></span>
-                  <span className="relative flex items-center gap-2.5">
-                    {loading ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                        Calculating...
-                      </>
-                    ) : (
-                      <>
-                        {widgetSettings.buttonText}
-                        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                      </>
-                    )}
-                  </span>
-                </button>
-              </form>
-            )}
-
-            {/* Step 2 */}
-            {step === 2 && (
-              <form onSubmit={submitQuote} className="space-y-6">
-                <div className="relative bg-linear-to-br from-emerald-50 to-teal-50/50 border border-emerald-100/80 rounded-[20px] p-6 text-center overflow-hidden">
-                  <div className="absolute top-2 right-3">
-                    <Sparkles size={16} className="text-emerald-400/50" />
-                  </div>
-                  <p className="text-[10px] uppercase font-extrabold text-emerald-600/80 tracking-[0.2em] mb-2">Your Estimated Rate</p>
-                  <div className="flex flex-col items-center">
-                    <p className="text-5xl font-black text-emerald-700 tracking-tight">${estimate?.toFixed(2)}</p>
-                    <div className="flex items-center gap-2 mt-3 flex-wrap justify-center">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/70 border border-emerald-100 rounded-full text-[11px] font-bold text-emerald-700">
-                        <Navigation size={10} /> {distance?.toFixed(1)} miles
-                      </span>
-                      {durationMinutes !== null && (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/70 border border-emerald-100 rounded-full text-[11px] font-bold text-emerald-700">
-                          <Clock size={10} /> Est. {formatDuration(durationMinutes)} drive
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Inline map — only for "inline" layout. "side" layout uses the side panel instead (one instance only to avoid double API calls) */}
-                  {widgetSettings.mapLayout !== 'side' && isLoaded && formData.pickupAddress && formData.dropoffAddress && (
-                    <div className="mt-6 h-32 w-full rounded-2xl overflow-hidden border border-emerald-100 shadow-inner group">
-                      <RouteMapDisplay
-                        pickupAddress={formData.pickupAddress}
-                        dropoffAddress={formData.dropoffAddress}
-                        isLoaded={isLoaded}
-                      />
-                    </div>
-                  )}
-                </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] flex items-center gap-1.5 mb-2 ml-1">
-                      <User size={11} /> Full Name
-                    </label>
-                    <input type="text" name="customerName" required placeholder="John Doe" value={formData.customerName} onChange={handleInputChange}
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all" />
-                  </div>
-                  <div>
-                    <label className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] flex items-center gap-1.5 mb-2 ml-1">
-                      <Mail size={11} /> Email
-                    </label>
-                    <input type="email" name="customerEmail" required placeholder="john@example.com" value={formData.customerEmail} onChange={handleInputChange}
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all" />
-                  </div>
-                  <div>
-                    <label className="text-[11px] uppercase font-extrabold text-slate-400 tracking-[0.15em] flex items-center gap-1.5 mb-2 ml-1">
-                      <Phone size={11} /> Phone
-                    </label>
-                    <input type="tel" name="customerPhone" required placeholder="(555) 000-0000" value={formData.customerPhone} onChange={handleInputChange}
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all" />
-                  </div>
-                </div>
-
-                {error && (
-                  <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2">
-                    <span className="shrink-0 mt-0.5">⚠️</span> {error}
-                  </div>
-                )}
-
-                <div className="space-y-3 pt-1">
-                  <button type="submit" disabled={loading}
-                    className="w-full py-4 rounded-2xl text-white font-bold text-sm shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2.5 disabled:opacity-50 relative overflow-hidden group bg-emerald-600"
-                    style={{ boxShadow: '0 8px 24px -4px rgba(16,185,129,0.35)' }}>
-                    <span className="absolute inset-0 bg-linear-to-t from-black/10 to-transparent"></span>
-                    <span className="relative flex items-center gap-2">
-                      {loading ? (
-                        <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>Submitting...</>
-                      ) : widgetSettings.paymentsEnabled ? (
-                        <>Pay &amp; Book <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>
-                      ) : (
-                        <>Submit Quote <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>
-                      )}
-                    </span>
-                  </button>
-                  <button type="button" onClick={() => setStep(1)}
-                    className="w-full py-3 text-slate-400 font-bold text-[11px] uppercase tracking-[0.15em] hover:text-slate-600 transition-all">
-                    ← Edit Details
-                  </button>
-                </div>
-              </form>
-            )}
-
-            {/* Step 3 — Success */}
-            {step === 3 && (
-              <div className="py-8 text-center space-y-5">
-                <div className="w-20 h-20 bg-linear-to-br from-emerald-100 to-teal-100 text-emerald-600 rounded-[20px] flex items-center justify-center mx-auto shadow-lg shadow-emerald-100">
-                  <CheckCircle size={36} strokeWidth={2.5} />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tight">You&apos;re All Set!</h3>
-                  <p className="text-sm text-slate-500 mt-3 leading-relaxed px-2 font-medium">
-                    Thanks, <strong className="text-slate-700">{formData.customerName}</strong>. {widgetSettings.companyNameText || company.name} will reach out shortly about your <strong className="text-emerald-600">${estimate?.toFixed(2)}</strong> delivery quote.
-                  </p>
-                </div>
-                <div className="space-y-3 pt-2">
-                  {parentUrl && (() => {
-                    let hostname = "";
-                    try { hostname = new URL(parentUrl).hostname.replace(/^www\./, ""); } catch { hostname = ""; }
-                    return hostname ? (
-                      <a
-                        href={parentUrl}
-                        className="w-full py-4 rounded-2xl text-white font-bold text-sm shadow-lg flex items-center justify-center gap-2.5 transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
-                        style={{ backgroundColor: primaryColor, boxShadow: `0 8px 24px -4px ${primaryColor}55` }}
-                      >
-                        <ArrowLeft size={16} />
-                        Back to {hostname}
-                      </a>
-                    ) : null;
-                  })()}
-                  <button
-                    onClick={() => { setStep(1); setFormData(prev => ({ ...prev, pickupZip: "", dropoffZip: "", customerName: "", customerEmail: "", customerPhone: "", packageWeight: "", itemCount: "", vehicleCount: "", awbNumber: "" })); }}
-                    className="w-full font-bold text-sm flex items-center justify-center gap-2 mx-auto px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105"
-                    style={{ color: primaryColor, backgroundColor: `${primaryColor}15` }}>
-                    Start New Quote <ArrowRight size={16} />
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Step 4 — Payment Processing */}
-            {step === 4 && (
-              <div className="py-10 text-center space-y-6">
-                <div className="w-20 h-20 rounded-[20px] flex items-center justify-center mx-auto shadow-lg" style={{ backgroundColor: `${primaryColor}15` }}>
-                  <div className="w-10 h-10 border-4 rounded-full animate-spin" style={{ borderColor: `${primaryColor}33`, borderTopColor: primaryColor }} />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tight">Redirecting to Payment</h3>
-                  <p className="text-sm text-slate-500 mt-2 leading-relaxed px-4 font-medium">
-                    Secure checkout via Stripe. Please don&apos;t close this window.
-                  </p>
-                  <p className="text-xs text-slate-400 mt-3">
-                    Quote total: <strong className="text-slate-600">${estimate?.toFixed(2)}</strong>
-                  </p>
-                </div>
-                {error && (
-                  <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2">
-                    <span className="shrink-0">⚠️</span>
-                    <div>
-                      <p>{error}</p>
-                      <button onClick={() => setStep(2)} className="mt-2 underline text-red-700">Go back and try again</button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {/* Footer */}
@@ -990,7 +1281,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
         </div>
 
         {/* Integrated Side Map & Info Area */}
-        {step === 2 && widgetSettings.mapLayout === 'side' && (
+        {step === 2 && !showSummary && widgetSettings.mapLayout === 'side' && (
           <div className="hidden md:flex flex-col flex-1 min-h-[500px] animate-in slide-in-from-left-4 fade-in duration-700 bg-slate-50 relative border-l border-slate-100">
             {/* Top: Map Area — absolute inset-0 wrapper ensures height:100% resolves for GoogleMap */}
             <div className="relative flex-1 min-h-[320px]">
@@ -1011,7 +1302,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
             </div>
 
             {/* Bottom: Info Section */}
-            <div className="bg-white p-5 border-t border-slate-100 relative z-10space-y-4">
+            <div className="bg-white p-5 border-t border-slate-100 relative z-10 space-y-4">
               {/* Route stats row */}
               <div className="grid grid-cols-2 gap-3 pb-4 border-b border-slate-100">
                 <div className="space-y-0.5">
