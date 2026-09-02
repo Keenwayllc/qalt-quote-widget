@@ -30,7 +30,8 @@ export const sendEmail = async ({
     // Resend v6 resolves with an { error } object on API rejections instead of
     // throwing — must inspect it or failures get silently reported as success.
     if (error) {
-      console.error('[email] Resend rejected send | from:', from || DEFAULT_FROM, '| to:', to, '| error:', JSON.stringify(error));
+      const e = error as { name?: string; message?: string; statusCode?: number };
+      console.error('[email] Resend rejected send | name:', e?.name, '| status:', e?.statusCode, '| message:', e?.message, '| from:', from || DEFAULT_FROM, '| to:', to);
       return { success: false, error };
     }
     return { success: true, data };
