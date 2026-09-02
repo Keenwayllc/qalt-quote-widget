@@ -21,16 +21,22 @@ export const sendEmail = async ({
 }) => {
   try {
     const resend = getResend();
-    const data = await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: from || DEFAULT_FROM,
       to,
       subject,
       react,
     });
+    // Resend v6 resolves with an { error } object on API rejections instead of
+    // throwing — must inspect it or failures get silently reported as success.
+    if (error) {
+      console.error('[email] Resend rejected send | from:', from || DEFAULT_FROM, '| to:', to, '| error:', JSON.stringify(error));
+      return { success: false, error };
+    }
     return { success: true, data };
   } catch (error) {
     const msg = error instanceof Error ? error.message : JSON.stringify(error);
-    console.error('[email] FULL ERROR:', msg);
+    console.error('[email] FULL ERROR (threw):', msg);
     console.error('[email] Stack:', error instanceof Error ? error.stack : 'no stack');
     return { success: false, error };
   }

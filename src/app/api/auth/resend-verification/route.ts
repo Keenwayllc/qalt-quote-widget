@@ -26,11 +26,21 @@ export async function POST(req: Request) {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL!;
     const verifyUrl = `${appUrl}/api/auth/verify-email?token=${token}`;
 
-    await sendEmail({
+    const result = await sendEmail({
       to: email,
       subject: "Confirm your Qalt account",
       react: React.createElement(VerifyEmail, { companyName: company.name, verifyUrl }),
     });
+
+    // TEMP DIAGNOSTIC: surface the exact provider error to a controlled caller.
+    // Remove after root-causing the verification email failure.
+    if (new URL(req.url).searchParams.get("diag") === "1") {
+      return NextResponse.json({
+        success: result.success,
+        appUrlPresent: Boolean(appUrl),
+        sendError: result.success ? null : (result.error ?? "unknown"),
+      });
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {
