@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import prisma from "@/lib/prisma";
 import PublicNav from "@/components/shared/PublicNav";
 import QaltLogo from "@/components/shared/QaltLogo";
 import { ArrowRight, Zap, Globe, ReceiptText, CreditCard, Truck, LayoutTemplate } from "lucide-react";
@@ -12,11 +13,19 @@ export const metadata: Metadata = {
     "See the full Qalt customer flow. Delivery companies add an instant quote and booking widget to their site so customers quote, book, and pay online without calling.",
 };
 
-// Points ONLY at a dedicated demo merchant configured via env. It must never
-// fall back to a real customer's widget. Create a demo company in the dashboard
-// and set DEMO_COMPANY_ID (or NEXT_PUBLIC_DEMO_COMPANY_ID) to its id.
-function resolveDemoCompanyId(): string | null {
-  return (process.env.DEMO_COMPANY_ID || process.env.NEXT_PUBLIC_DEMO_COMPANY_ID)?.trim() || null;
+// Points ONLY at a dedicated demo merchant configured via env, and only if that
+// company actually exists with a widget. It must NEVER fall back to a real
+// customer's widget — a missing OR invalid id just shows the neutral placeholder.
+// Create a demo company in the dashboard and set DEMO_COMPANY_ID to its id.
+async function resolveDemoCompanyId(): Promise<string | null> {
+  const id = (process.env.DEMO_COMPANY_ID || process.env.NEXT_PUBLIC_DEMO_COMPANY_ID)?.trim();
+  if (!id) return null;
+  const company = await prisma.company.findUnique({
+    where: { id },
+    select: { id: true, widgetSettings: { select: { id: true }, take: 1 } },
+  });
+  if (!company || company.widgetSettings.length === 0) return null;
+  return company.id;
 }
 
 const POSITIONING: { icon: React.ComponentType<{ size?: number; className?: string }>; title: string; body: string }[] = [
@@ -29,7 +38,7 @@ const POSITIONING: { icon: React.ComponentType<{ size?: number; className?: stri
 ];
 
 export default async function DemoPage() {
-  const demoId = resolveDemoCompanyId();
+  const demoId = await resolveDemoCompanyId();
 
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-red-100 selection:text-red-900">
