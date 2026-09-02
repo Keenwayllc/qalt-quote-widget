@@ -9,6 +9,7 @@ import QaltLogo from "@/components/shared/QaltLogo";
 
 const NAV_LINKS = [
   { label: "Features",     href: "/#features" },
+  { label: "Live Demo",    href: "/demo" },
   { label: "How it Works", href: "/#how-it-works" },
   { label: "Use Cases",    href: "/#use-cases" },
   { label: "Pricing",      href: "/pricing" },

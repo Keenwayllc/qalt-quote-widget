@@ -247,10 +247,10 @@ export default function LandingPage() {
                     <ArrowRight size={16} className="group-hover/btn:translate-x-1.5 transition-transform" />
                   </Link>
                   <Link
-                    href="/pricing"
+                    href="/demo"
                     className="w-full sm:w-auto px-8 py-4 bg-white/5 border border-white/10 text-white/80 font-black rounded-none hover:bg-white/10 hover:border-white/20 transition-all text-center text-sm tracking-wide"
                   >
-                    View Pricing
+                    View Live Demo
                   </Link>
                 </motion.div>
 
