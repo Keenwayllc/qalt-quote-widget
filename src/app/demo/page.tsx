@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import PublicNav from "@/components/shared/PublicNav";
 import QaltLogo from "@/components/shared/QaltLogo";
 import DemoLeadForm from "@/components/landing/DemoLeadForm";
+import QuoteWidgetForm from "@/components/widget/QuoteWidgetForm";
 import {
   ArrowRight, Zap, Globe, ReceiptText, CreditCard, ClipboardCheck,
   SlidersHorizontal, PackageCheck, Check, X, Mail,
@@ -20,15 +21,21 @@ export const metadata: Metadata = {
 // Points ONLY at a dedicated demo merchant configured via env, and only if that
 // company actually exists with a widget. It must NEVER fall back to a real
 // customer's widget — a missing OR invalid id just shows the neutral placeholder.
-async function resolveDemoCompanyId(): Promise<string | null> {
+// Returns the full company (pricing + widget settings) so the widget can render
+// inline on this page, exactly like the standalone /widget/[id] embed does — no
+// iframe, so the route map and address autocomplete load as normal in-page elements.
+async function resolveDemoCompany() {
   const id = (process.env.DEMO_COMPANY_ID || process.env.NEXT_PUBLIC_DEMO_COMPANY_ID)?.trim();
   if (!id) return null;
   const company = await prisma.company.findUnique({
     where: { id },
-    select: { id: true, widgetSettings: { select: { id: true }, take: 1 } },
+    include: { pricingProfiles: true, widgetSettings: true },
   });
   if (!company || company.widgetSettings.length === 0) return null;
-  return company.id;
+
+  const widgetSettings = company.widgetSettings[0];
+  const pricingProfile = company.pricingProfiles.find((p) => p.widgetSettingsId === null);
+  return { ...company, widgetSettings, pricingProfile };
 }
 
 const VALUE_STRIP: { icon: React.ComponentType<{ size?: number; className?: string }>; label: string }[] = [
@@ -71,7 +78,7 @@ const PRICING_RULES = [
 ];
 
 export default async function DemoPage() {
-  const demoId = await resolveDemoCompanyId();
+  const demoCompany = await resolveDemoCompany();
 
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-red-100 selection:text-red-900">
@@ -152,13 +159,13 @@ export default async function DemoPage() {
                 yourdeliverycompany.com
               </div>
             </div>
-            {demoId ? (
-              <iframe
-                src={`/widget/${demoId}`}
-                title="Qalt live delivery quote demo"
-                loading="lazy"
-                className="w-full h-[820px] block bg-slate-100"
-              />
+            {demoCompany ? (
+              // Rendered inline (not iframed) so the route map and address
+              // autocomplete load as normal in-page elements.
+              <div className="bg-slate-100 px-4 py-8 sm:px-6 sm:py-10">
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                <QuoteWidgetForm company={demoCompany as any} />
+              </div>
             ) : (
               <div className="h-[420px] flex flex-col items-center justify-center text-center px-8 bg-slate-50 gap-3">
                 <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center">
