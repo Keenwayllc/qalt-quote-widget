@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import PublicNav from "@/components/shared/PublicNav";
 import QaltLogo from "@/components/shared/QaltLogo";
 import DemoLeadForm from "@/components/landing/DemoLeadForm";
-import QuoteWidgetForm from "@/components/widget/QuoteWidgetForm";
+import GatedDemo from "@/components/landing/GatedDemo";
 import {
   ArrowRight, Zap, Globe, ReceiptText, CreditCard, ClipboardCheck,
   SlidersHorizontal, PackageCheck, Check, X, Mail,
@@ -162,14 +162,11 @@ export default async function DemoPage() {
             </div>
           </div>
           {demoCompany ? (
-            // Rendered inline (not iframed) so the route map and address
-            // autocomplete load as normal in-page elements. The widget sizes
-            // itself (narrow form on entry, wide side-map view on the quote
-            // step) and is centered with generous padding around it.
-            <div className="bg-slate-100 px-4 py-8 sm:px-8 sm:py-12 lg:px-14 lg:py-16 flex justify-center">
-              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-              <QuoteWidgetForm company={demoCompany as any} />
-            </div>
+            // Gated: the interactive widget (and Google Maps) only mount after a
+            // visitor completes the human-verified access form. Until then a
+            // static, non-interactive preview is shown. Not iframed, so once
+            // unlocked the map and address autocomplete work as in-page elements.
+            <GatedDemo company={demoCompany} />
           ) : (
             <div className="h-[420px] flex flex-col items-center justify-center text-center px-8 bg-slate-50 gap-3">
               <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center">
