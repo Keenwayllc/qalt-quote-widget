@@ -868,19 +868,6 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                       />
                     </div>
 
-                    {/* Route connector */}
-                    <div className="flex items-center justify-center -my-1">
-                      <div className="flex items-center gap-1.5 text-slate-300">
-                        <div className="w-2 h-2 rounded-full bg-slate-200"></div>
-                        <div className="w-1 h-1 rounded-full bg-slate-200"></div>
-                        <div className="w-1 h-1 rounded-full bg-slate-200"></div>
-                        <Truck size={16} className="text-slate-300 mx-1" />
-                        <div className="w-1 h-1 rounded-full bg-slate-200"></div>
-                        <div className="w-1 h-1 rounded-full bg-slate-200"></div>
-                        <div className="w-2 h-2 rounded-full bg-slate-200"></div>
-                      </div>
-                    </div>
-
                     {/* Sections 2 & 3 — revealed once both addresses are set (soft reveal) */}
                     <AnimatePresence initial={false}>
                       {routeComplete ? (
