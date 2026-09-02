@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
-import { estimatePrice } from "@/lib/calculator";
+import { estimatePriceDetailed, type PriceLineItem } from "@/lib/calculator";
 import { calculateDrivingDistance } from "@/lib/google-maps";
 
 type PricingProfileShape = {
@@ -70,9 +70,13 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       return NextResponse.json({ error: "Could not calculate distance. Please check your addresses." }, { status: 400 });
     }
 
-    let estimate = estimatePrice(distance, pricingProfile, extras);
+    const detailed = estimatePriceDetailed(distance, pricingProfile, extras);
+    let estimate = detailed.total;
+    const lineItems: PriceLineItem[] = [...detailed.lineItems];
 
-    // Add vehicle fee if applicable — resolve widget settings same way as pricing profile
+    // Add vehicle fee if applicable — resolve widget settings same way as pricing profile.
+    // Priced in the route (lives in widget settings, not the pricing profile), so the
+    // vehicle line item is appended here in the same spot the fee is added to the total.
     if (vehicleCount && vehicleCount > 0) {
       let widgetSettings = null;
       if (formId) {
@@ -82,11 +86,27 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
         widgetSettings = await prisma.widgetSettings.findFirst({ where: { companyId } });
       }
       if (widgetSettings?.showVehicles && widgetSettings.pricePerVehicle > 0) {
-        estimate += widgetSettings.pricePerVehicle * vehicleCount;
+        const vehicleAmount = widgetSettings.pricePerVehicle * vehicleCount;
+        estimate += vehicleAmount;
+        lineItems.push({
+          key: "vehicles",
+          label: `Vehicles, ${vehicleCount}`,
+          amount: vehicleAmount,
+          detail: `${vehicleCount} × $${widgetSettings.pricePerVehicle.toFixed(2)}`,
+        });
       }
     }
 
-    return NextResponse.json({ estimate, distance, durationMinutes });
+    const breakdown = {
+      total: estimate,
+      lineItems,
+      distanceMiles: detailed.distanceMiles,
+      freeMiles: detailed.freeMiles,
+      billableMiles: detailed.billableMiles,
+      minimumApplied: detailed.minimumApplied,
+    };
+
+    return NextResponse.json({ estimate, distance, durationMinutes, breakdown });
   } catch (error) {
     console.error("Estimate error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

@@ -66,6 +66,15 @@ interface FormData {
   customerPhone: string;
 }
 
+interface QuoteBreakdown {
+  total: number;
+  lineItems: { key: string; label: string; amount: number; detail?: string }[];
+  distanceMiles: number;
+  freeMiles: number;
+  billableMiles: number;
+  minimumApplied: boolean;
+}
+
 const LIBRARIES: ("places" | "geometry" | "drawing" | "visualization")[] = ["places"];
 
 // Shared field styling. Sentence-case labels, lighter borders, branded focus ring
@@ -290,6 +299,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
   const [estimate, setEstimate] = useState<number | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
   const [durationMinutes, setDurationMinutes] = useState<number | null>(null);
+  const [breakdown, setBreakdown] = useState<QuoteBreakdown | null>(null);
   const [routeInfo, setRouteInfo] = useState<{
     distance: string;
     duration: string;
@@ -437,6 +447,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
         setEstimate(data.estimate);
         setDistance(data.distance);
         if (typeof data.durationMinutes === "number") setDurationMinutes(data.durationMinutes);
+        setBreakdown(data.breakdown ?? null);
         setStep(2);
       } else {
         setError(data.error || "Could not calculate estimate. Please check your addresses.");
@@ -556,6 +567,38 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
   // Animated price for the quote card.
   const animatedEstimate = useCountUp(step >= 2 ? estimate : null);
 
+  // ---- Price breakdown presentation (values come straight from the engine) ----
+  const money = (n: number) => `${n < 0 ? "-" : ""}$${Math.abs(n).toFixed(2)}`;
+
+  // Merchant-custom labels for the two configurable add-ons.
+  const relabelLine = (li: { key: string; label: string }) => {
+    if (li.key === "insideDelivery" && widgetSettings.insideDeliveryLabel) return widgetSettings.insideDeliveryLabel;
+    if (li.key === "addon3" && widgetSettings.addon3Label) return widgetSettings.addon3Label;
+    return li.label;
+  };
+
+  // Rows for the visible breakdown. Any sub-cent rounding residual is absorbed
+  // into the base/mileage row so the displayed column reconciles exactly to the
+  // shown total. The charged/stored total is never touched.
+  const priceRows = (() => {
+    if (!breakdown) return [] as { key: string; label: string; amount: number; detail?: string }[];
+    const rows = breakdown.lineItems.map((li) => ({ ...li, label: relabelLine(li) }));
+    const totalCents = Math.round(breakdown.total * 100);
+    const sumCents = rows.reduce((s, r) => s + Math.round(r.amount * 100), 0);
+    const residual = totalCents - sumCents;
+    if (residual !== 0 && rows.length > 0) {
+      const idx = rows.findIndex((r) => r.key === "mileage");
+      const target = idx >= 0 ? idx : 0;
+      rows[target] = { ...rows[target], amount: rows[target].amount + residual / 100 };
+    }
+    return rows;
+  })();
+
+  // key → charged amount, for pricing selections inside the Shipment Details panel.
+  const amountByKey = new Map<string, number>();
+  breakdown?.lineItems.forEach((li) => amountByKey.set(li.key, (amountByKey.get(li.key) || 0) + li.amount));
+  const priced = (key: string): string | null => (amountByKey.has(key) ? money(amountByKey.get(key)!) : null);
+
   // Step body transition. Reduced motion → cross-fade only.
   const bodyKey = step === 2 && showSummary ? "summary" : `step-${step}`;
   const bodyVariants = reduce
@@ -629,16 +672,31 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                   <div key={label} className={`flex items-center ${i < stages.length - 1 ? 'flex-1' : ''}`}>
                     <div className="flex items-center gap-2">
                       <div className="relative">
-                        {status === "active" && !reduce && (
+                        {/* Active: layered continuous ripple for a smooth splash */}
+                        {status === "active" && !reduce && [0, 0.9].map((delay, r) => (
+                          <motion.span
+                            key={`ripple-${r}`}
+                            className="absolute inset-0 rounded-full bg-white/50"
+                            initial={{ opacity: 0.45, scale: 1 }}
+                            animate={{ opacity: 0, scale: 2.3 }}
+                            transition={{ duration: 2, repeat: Infinity, ease: "easeOut", delay }}
+                          />
+                        ))}
+                        {/* Completion: one-shot splash the moment the step turns done */}
+                        {status === "done" && !reduce && (
                           <motion.span
                             className="absolute inset-0 rounded-full bg-white"
-                            initial={{ opacity: 0.5, scale: 1 }}
-                            animate={{ opacity: 0, scale: 1.8 }}
-                            transition={{ duration: 1.6, repeat: Infinity, ease: "easeOut" }}
+                            initial={{ opacity: 0.55, scale: 1 }}
+                            animate={{ opacity: 0, scale: 2 }}
+                            transition={{ duration: 0.7, ease: "easeOut" }}
                           />
                         )}
-                        <div
-                          className={`relative w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold transition-all duration-500 ${
+                        <motion.div
+                          key={status}
+                          initial={reduce ? false : { scale: 0.62 }}
+                          animate={{ scale: 1 }}
+                          transition={{ duration: 0.45, ease: EASE }}
+                          className={`relative w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold transition-colors duration-500 ${
                             status === "todo"
                               ? "bg-white/15 text-white/50 ring-1 ring-white/20"
                               : "bg-white shadow-lg"
@@ -646,7 +704,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                           style={status !== "todo" ? { color: primaryColor } : {}}
                         >
                           {status === "done" ? <Check size={13} strokeWidth={3} /> : i + 1}
-                        </div>
+                        </motion.div>
                       </div>
                       <span className={`text-[11px] font-bold tracking-tight transition-colors duration-500 ${status === "todo" ? "text-white/50" : "text-white"}`}>
                         {label}
@@ -1033,6 +1091,37 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                       )}
                     </motion.div>
 
+                    {/* Transparent price breakdown — every charge from the real calculation */}
+                    {priceRows.length > 0 && (
+                      <motion.div
+                        className="rounded-2xl border border-slate-200 bg-slate-50/50 overflow-hidden"
+                        initial="hidden"
+                        animate="show"
+                        variants={{ hidden: {}, show: { transition: { staggerChildren: reduce ? 0 : 0.06, delayChildren: reduce ? 0 : 0.1 } } }}
+                      >
+                        <motion.p variants={revealItem} transition={{ duration: 0.3, ease: EASE }} className="px-4 pt-3.5 pb-1 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                          Price breakdown
+                        </motion.p>
+                        <div className="px-4 divide-y divide-slate-100">
+                          {priceRows.map((row) => (
+                            <motion.div key={row.key} variants={revealItem} transition={{ duration: 0.3, ease: EASE }} className="flex items-center justify-between gap-3 py-2.5">
+                              <div className="min-w-0">
+                                <p className="text-[13px] font-semibold text-slate-700">{row.label}</p>
+                                {row.detail && <p className="text-[11px] text-slate-400 font-medium mt-0.5">{row.detail}</p>}
+                              </div>
+                              <p className={`text-[13px] font-bold tabular-nums shrink-0 ${row.amount < 0 ? "text-emerald-600" : "text-slate-800"}`}>
+                                {money(row.amount)}
+                              </p>
+                            </motion.div>
+                          ))}
+                        </div>
+                        <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }} className="flex items-center justify-between gap-3 px-4 py-3 border-t border-slate-200 bg-white">
+                          <span className="text-[13px] font-bold text-slate-500">Estimated total</span>
+                          <span className="text-base font-black text-slate-900 tabular-nums">${breakdown!.total.toFixed(2)}</span>
+                        </motion.div>
+                      </motion.div>
+                    )}
+
                     <div className="space-y-4">
                       <div>
                         <label className={LABEL_CLASS}>
@@ -1362,9 +1451,9 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                   </div>
                 )}
 
-                {/* Weight & Item Count */}
-                {(formData.packageWeight || formData.itemCount) && (
-                  <div className="flex items-center gap-3 pt-1">
+                {/* Weight, Items & Vehicles — with charged amount where priced */}
+                {(formData.packageWeight || formData.itemCount || formData.vehicleCount) && (
+                  <div className="flex flex-wrap items-start gap-x-5 gap-y-2 pt-1">
                     {formData.packageWeight && (
                       <div className="flex items-center gap-2">
                         <div className="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
@@ -1373,6 +1462,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                         <div>
                           <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Weight</p>
                           <p className="text-[11px] font-extrabold text-slate-700">{formData.packageWeight} lbs</p>
+                          {priced("weight") && <p className="text-[10px] font-bold text-emerald-600 tabular-nums">{priced("weight")}</p>}
                         </div>
                       </div>
                     )}
@@ -1384,30 +1474,64 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                         <div>
                           <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Items</p>
                           <p className="text-[11px] font-extrabold text-slate-700">{formData.itemCount}</p>
+                          {priced("items") && <p className="text-[10px] font-bold text-emerald-600 tabular-nums">{priced("items")}</p>}
+                        </div>
+                      </div>
+                    )}
+                    {formData.vehicleCount && (
+                      <div className="flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+                          <Truck size={10} className="text-slate-500" />
+                        </div>
+                        <div>
+                          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Vehicles</p>
+                          <p className="text-[11px] font-extrabold text-slate-700">{formData.vehicleCount}</p>
+                          {priced("vehicles") && <p className="text-[10px] font-bold text-emerald-600 tabular-nums">{priced("vehicles")}</p>}
                         </div>
                       </div>
                     )}
                   </div>
                 )}
 
-                {/* Add-ons & Large Items */}
-                {(formData.hasStairs || formData.needsInsideDelivery || formData.needsAddon3 || formData.selectedLargeItems.length > 0) && (
-                  <div className="pt-1">
-                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Add-ons</p>
-                    <div className="flex flex-wrap gap-1.5">
+                {/* Add-ons — label with charged amount where priced */}
+                {(formData.hasStairs || formData.needsInsideDelivery || formData.needsAddon3) && (
+                  <div className="pt-2 space-y-1.5">
+                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Add-ons</p>
+                    <div className="space-y-1">
                       {formData.hasStairs && (
-                        <span className="text-[10px] font-bold px-2.5 py-1 bg-amber-50 text-amber-700 rounded-lg border border-amber-100">
-                          Stairs{(parseInt(formData.stairsFlights) || 1) > 1 ? ` ×${parseInt(formData.stairsFlights)}` : ""}
-                        </span>
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-[11px] font-bold text-slate-600">
+                            Stairs{(parseInt(formData.stairsFlights) || 1) > 1 ? ` ×${parseInt(formData.stairsFlights)}` : ""}
+                          </span>
+                          {priced("stairs") && <span className="text-[11px] font-bold text-emerald-600 tabular-nums shrink-0">{priced("stairs")}</span>}
+                        </div>
                       )}
                       {formData.needsInsideDelivery && (
-                        <span className="text-[10px] font-bold px-2.5 py-1 bg-red-50 text-red-700 rounded-lg border border-red-100">{widgetSettings.insideDeliveryLabel || "Inside Delivery"}</span>
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-[11px] font-bold text-slate-600">{widgetSettings.insideDeliveryLabel || "Inside delivery"}</span>
+                          {priced("insideDelivery") && <span className="text-[11px] font-bold text-emerald-600 tabular-nums shrink-0">{priced("insideDelivery")}</span>}
+                        </div>
                       )}
                       {formData.needsAddon3 && (
-                        <span className="text-[10px] font-bold px-2.5 py-1 bg-red-50 text-red-700 rounded-lg border border-red-100">{widgetSettings.addon3Label || "Add-on"}</span>
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-[11px] font-bold text-slate-600">{widgetSettings.addon3Label || "Add-on"}</span>
+                          {priced("addon3") && <span className="text-[11px] font-bold text-emerald-600 tabular-nums shrink-0">{priced("addon3")}</span>}
+                        </div>
                       )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Large items — merchant category name with charged amount */}
+                {formData.selectedLargeItems.length > 0 && (
+                  <div className="pt-2 space-y-1.5">
+                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Large items</p>
+                    <div className="space-y-1">
                       {formData.selectedLargeItems.map((item) => (
-                        <span key={item} className="text-[10px] font-bold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg border border-slate-200">{item}</span>
+                        <div key={item} className="flex items-center justify-between gap-2">
+                          <span className="text-[11px] font-bold text-slate-600">{item}</span>
+                          {priced(`large:${item}`) && <span className="text-[11px] font-bold text-emerald-600 tabular-nums shrink-0">{priced(`large:${item}`)}</span>}
+                        </div>
                       ))}
                     </div>
                   </div>

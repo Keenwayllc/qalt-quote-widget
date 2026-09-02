@@ -62,103 +62,228 @@ export function isPickupAfterHours(
   return false;
 }
 
-/**
- * Estimates the price based on distance and company pricing rules.
- */
-export function estimatePrice(
-  distance: number,
-  rules: {
-    baseRatePerMile: number;
-    minimumCharge: number;
-    useMinimumCharge: boolean;
-    minMilesThreshold: number;
-    weightFee: number;
-    itemCountFee: number;
-    stairsFee: number;
-    insideDeliveryFee: number;
-    addon3Fee: number;
-    afterHoursFee: number;
-    businessHoursStart?: string;
-    businessHoursEnd?: string;
-    businessDays?: string;
-    largeItemFee: number;
-    largeItemsEnabled?: boolean;
-    largeItemCategories?: LargeItemCategory[];
-  },
-  extras: {
-    hasStairs: boolean;
-    needsInsideDelivery: boolean;
-    needsAddon3: boolean;
-    isAfterHours?: boolean;
-    pickupDateTime?: string;
-    isLargeItem?: boolean;
-    selectedLargeItems?: string[];
-    packageWeight?: number;
-    itemCount?: number;
-    stairsFlights?: number;
-  }
-): number {
-  const distanceToCharge = Math.max(0, distance - rules.minMilesThreshold);
-  let total = distanceToCharge * rules.baseRatePerMile;
+export interface EstimateRules {
+  baseRatePerMile: number;
+  minimumCharge: number;
+  useMinimumCharge: boolean;
+  minMilesThreshold: number;
+  weightFee: number;
+  itemCountFee: number;
+  stairsFee: number;
+  insideDeliveryFee: number;
+  addon3Fee: number;
+  afterHoursFee: number;
+  businessHoursStart?: string;
+  businessHoursEnd?: string;
+  businessDays?: string;
+  largeItemFee: number;
+  largeItemsEnabled?: boolean;
+  largeItemCategories?: LargeItemCategory[];
+}
 
+export interface EstimateExtras {
+  hasStairs: boolean;
+  needsInsideDelivery: boolean;
+  needsAddon3: boolean;
+  isAfterHours?: boolean;
+  pickupDateTime?: string;
+  isLargeItem?: boolean;
+  selectedLargeItems?: string[];
+  packageWeight?: number;
+  itemCount?: number;
+  stairsFlights?: number;
+}
+
+/**
+ * One transparent charge that contributed to the quote. `key` is stable so
+ * callers can relabel (e.g. merchant's Inside Delivery label) or look up the
+ * amount for a specific selection. `detail` is an optional unit-pricing string.
+ */
+export interface PriceLineItem {
+  key: string;
+  label: string;
+  amount: number;
+  detail?: string;
+}
+
+export interface PriceBreakdown {
+  total: number;
+  lineItems: PriceLineItem[];
+  distanceMiles: number;
+  freeMiles: number;
+  billableMiles: number;
+  minimumApplied: boolean;
+}
+
+/**
+ * Estimates the price AND records every charge that contributed to it.
+ * The additions happen in exactly the same order and with the same guards as
+ * the historical single-number calculation, so `total` is identical to what
+ * estimatePrice() has always returned, and the line items always sum to it.
+ * Vehicle pricing is applied by the estimate route (it lives in widget
+ * settings, not the pricing profile) and appended there.
+ */
+export function estimatePriceDetailed(
+  distance: number,
+  rules: EstimateRules,
+  extras: EstimateExtras
+): PriceBreakdown {
+  const lineItems: PriceLineItem[] = [];
+
+  const freeMiles = rules.minMilesThreshold || 0;
+  const billableMiles = Math.max(0, distance - freeMiles);
+  const mileageSubtotal = billableMiles * rules.baseRatePerMile;
+
+  let total = mileageSubtotal;
+  let minimumApplied = false;
   if (rules.useMinimumCharge && total < rules.minimumCharge) {
     total = rules.minimumCharge;
+    minimumApplied = true;
+  }
+
+  // Base / mileage anchors the quote — always shown.
+  lineItems.push({
+    key: "mileage",
+    label: "Base / mileage",
+    amount: mileageSubtotal,
+    detail:
+      rules.baseRatePerMile > 0
+        ? `${billableMiles.toFixed(1)} billable mi × $${rules.baseRatePerMile.toFixed(2)}`
+        : undefined,
+  });
+  if (minimumApplied) {
+    // Transparent: the minimum lifts the mileage subtotal up to the floor.
+    lineItems.push({
+      key: "minimumAdjustment",
+      label: "Minimum job adjustment",
+      amount: rules.minimumCharge - mileageSubtotal,
+    });
   }
 
   if (extras.packageWeight && extras.packageWeight > 0 && rules.weightFee > 0) {
-    total += extras.packageWeight * rules.weightFee;
+    const amount = extras.packageWeight * rules.weightFee;
+    total += amount;
+    lineItems.push({
+      key: "weight",
+      label: `Weight, ${extras.packageWeight} lbs`,
+      amount,
+      detail: `${extras.packageWeight} lbs × $${rules.weightFee.toFixed(2)}`,
+    });
   }
 
   if (extras.itemCount && extras.itemCount > 0 && rules.itemCountFee > 0) {
-    total += extras.itemCount * rules.itemCountFee;
+    const amount = extras.itemCount * rules.itemCountFee;
+    total += amount;
+    lineItems.push({
+      key: "items",
+      label: `Items, ${extras.itemCount}`,
+      amount,
+      detail: `${extras.itemCount} × $${rules.itemCountFee.toFixed(2)}`,
+    });
   }
 
   if (extras.hasStairs) {
     // stairsFee is charged per flight of stairs; default to 1 flight when unspecified
     const flights =
-      extras.stairsFlights && extras.stairsFlights > 0
-        ? extras.stairsFlights
-        : 1;
-    total += rules.stairsFee * flights;
+      extras.stairsFlights && extras.stairsFlights > 0 ? extras.stairsFlights : 1;
+    const amount = rules.stairsFee * flights;
+    total += amount;
+    if (amount > 0) {
+      lineItems.push({
+        key: "stairs",
+        label: `Stairs ×${flights}`,
+        amount,
+        detail: `${flights} flights × $${rules.stairsFee.toFixed(2)}`,
+      });
+    }
   }
-  if (extras.needsInsideDelivery) total += rules.insideDeliveryFee;
-  if (extras.needsAddon3) total += rules.addon3Fee;
+
+  if (extras.needsInsideDelivery) {
+    total += rules.insideDeliveryFee;
+    if (rules.insideDeliveryFee > 0) {
+      lineItems.push({ key: "insideDelivery", label: "Inside delivery", amount: rules.insideDeliveryFee });
+    }
+  }
+
+  if (extras.needsAddon3) {
+    total += rules.addon3Fee;
+    if (rules.addon3Fee > 0) {
+      lineItems.push({ key: "addon3", label: "Add-on", amount: rules.addon3Fee });
+    }
+  }
 
   // After-hours: auto-detect via pickup datetime if provided, else use manual flag
+  let isAfterHours = false;
   if (
     extras.pickupDateTime &&
     rules.businessHoursStart &&
     rules.businessHoursEnd &&
     rules.businessDays
   ) {
-    if (
-      isPickupAfterHours(
-        extras.pickupDateTime,
-        rules.businessHoursStart,
-        rules.businessHoursEnd,
-        rules.businessDays
-      )
-    ) {
-      total += rules.afterHoursFee;
-    }
+    isAfterHours = isPickupAfterHours(
+      extras.pickupDateTime,
+      rules.businessHoursStart,
+      rules.businessHoursEnd,
+      rules.businessDays
+    );
   } else if (extras.isAfterHours) {
+    isAfterHours = true;
+  }
+  if (isAfterHours) {
     total += rules.afterHoursFee;
+    if (rules.afterHoursFee > 0) {
+      lineItems.push({ key: "afterHours", label: "After-hours delivery", amount: rules.afterHoursFee });
+    }
   }
 
-  // Large items: sum category prices if enabled, else fall back to single fee
+  // Large items: sum category prices if enabled, else fall back to single fee.
+  // Total accumulates in the original sequential order; rows are grouped for display.
   if (
     extras.selectedLargeItems &&
     extras.selectedLargeItems.length > 0 &&
     rules.largeItemsEnabled &&
     rules.largeItemCategories
   ) {
+    const counts = new Map<string, number>();
     for (const itemName of extras.selectedLargeItems) {
       const cat = rules.largeItemCategories.find((c) => c.name === itemName);
-      if (cat) total += cat.price;
+      if (cat) {
+        total += cat.price;
+        counts.set(itemName, (counts.get(itemName) || 0) + 1);
+      }
+    }
+    for (const [name, count] of counts) {
+      const cat = rules.largeItemCategories.find((c) => c.name === name);
+      if (!cat) continue;
+      const amount = cat.price * count;
+      if (amount !== 0) {
+        lineItems.push({
+          key: `large:${name}`,
+          label: count > 1 ? `${name} ×${count}` : name,
+          amount,
+          detail: count > 1 ? `${count} × $${cat.price.toFixed(2)}` : undefined,
+        });
+      }
     }
   } else if (extras.isLargeItem) {
     total += rules.largeItemFee;
+    if (rules.largeItemFee > 0) {
+      lineItems.push({ key: "largeItem", label: "Large item", amount: rules.largeItemFee });
+    }
   }
 
-  return total;
+  return { total, lineItems, distanceMiles: distance, freeMiles, billableMiles, minimumApplied };
+}
+
+/**
+ * Estimates the price based on distance and company pricing rules.
+ * Single source of truth for the charged total; delegates to the detailed
+ * calculation so the number can never drift from the breakdown.
+ */
+export function estimatePrice(
+  distance: number,
+  rules: EstimateRules,
+  extras: EstimateExtras
+): number {
+  return estimatePriceDetailed(distance, rules, extras).total;
 }
