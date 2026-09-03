@@ -1,6 +1,5 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { MapPin, Zap, CheckCircle2, ShieldCheck, Calculator, Send } from "lucide-react";
@@ -262,18 +261,43 @@ export default function HowItWorksAnimation() {
             {/* Right Panel: Light Google Maps-style Map */}
             <div className="flex-1 bg-[#e8eaed] relative overflow-hidden border-l border-slate-200 hidden sm:block">
 
-              {/* Light map tiles */}
-              <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute top-1/2 left-1/2 -translate-x-[28%] -translate-y-[64%] flex flex-wrap w-[1024px] h-[512px]">
-                  <img src="https://a.basemaps.cartocdn.com/rastertiles/voyager/4/2/5.png" className="w-[256px] h-[256px]" alt="" />
-                  <img src="https://a.basemaps.cartocdn.com/rastertiles/voyager/4/3/5.png" className="w-[256px] h-[256px]" alt="" />
-                  <img src="https://a.basemaps.cartocdn.com/rastertiles/voyager/4/4/5.png" className="w-[256px] h-[256px]" alt="" />
-                  <img src="https://a.basemaps.cartocdn.com/rastertiles/voyager/4/5/5.png" className="w-[256px] h-[256px]" alt="" />
-                  <img src="https://a.basemaps.cartocdn.com/rastertiles/voyager/4/2/6.png" className="w-[256px] h-[256px]" alt="" />
-                  <img src="https://a.basemaps.cartocdn.com/rastertiles/voyager/4/3/6.png" className="w-[256px] h-[256px]" alt="" />
-                  <img src="https://a.basemaps.cartocdn.com/rastertiles/voyager/4/4/6.png" className="w-[256px] h-[256px]" alt="" />
-                  <img src="https://a.basemaps.cartocdn.com/rastertiles/voyager/4/5/6.png" className="w-[256px] h-[256px]" alt="" />
-                </div>
+              {/* CSS mock map — self-contained, no external tiles, no API key, no network calls */}
+              <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+                {/* Land base */}
+                <div className="absolute inset-0 bg-[#eaecef]" />
+
+                {/* Parks / green space */}
+                <div className="absolute top-[6%] left-[4%] w-[32%] h-[30%] bg-[#d7e8d0] rounded-[38%_62%_58%_42%]" />
+                <div className="absolute bottom-[8%] left-[12%] w-[20%] h-[22%] bg-[#dcead6] rounded-[52%_48%_44%_56%]" />
+
+                {/* Water */}
+                <div className="absolute -bottom-[10%] -right-[8%] w-[48%] h-[52%] bg-[#cfe0ec] rounded-[58%_42%_46%_54%]" />
+
+                {/* Fine street grid */}
+                <div
+                  className="absolute inset-0 opacity-70"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(rgba(255,255,255,0.75) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(255,255,255,0.75) 1.5px, transparent 1.5px)",
+                    backgroundSize: "34px 34px",
+                  }}
+                />
+
+                {/* Arterial roads */}
+                <div className="absolute left-0 right-0 top-[34%] h-[4px] bg-white/90" />
+                <div className="absolute left-0 right-0 top-[66%] h-[3px] bg-white/80" />
+                <div className="absolute top-0 bottom-0 left-[30%] w-[4px] bg-white/90" />
+                <div className="absolute top-0 bottom-0 left-[70%] w-[3px] bg-white/80" />
+
+                {/* Diagonal avenue */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(34deg, transparent 0 47.6%, rgba(255,255,255,0.85) 47.6% 49%, transparent 49%)",
+                  }}
+                />
+
                 {/* Soft vignette edges */}
                 <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(232,234,237,0.7) 100%)' }} />
               </div>
