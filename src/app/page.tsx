@@ -446,7 +446,7 @@ export default function LandingPage() {
                   One booked job pays for<br className="hidden sm:block" /> a full month.
                 </h2>
                 <p className="text-lg sm:text-xl text-red-100 max-w-2xl mx-auto font-medium mb-10">
-                  The Pro plan is $14/mo. A single delivery booking worth $50–$200 covers it entirely. Every lead after that is pure profit. No manual quoting required.
+                  The Pro plan starts at $29/mo. A single delivery booking worth $50 to $200 covers it entirely. Every lead after that is pure profit. No manual quoting required.
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                   <Link href="/register" className="px-8 py-4 bg-white text-red-700 rounded-xl font-black text-sm hover:bg-red-50 hover:scale-[1.03] active:scale-[0.98] transition-all shadow-xl">
@@ -499,7 +499,7 @@ export default function LandingPage() {
                   Get Started Free
                 </Link>
                 <ul className="space-y-3 mt-auto">
-                  {["1 Quote Widget", "25 Quotes/month", "Basic Customization", "Email Support"].map((item) => (
+                  {["1 Quote Widget", "50 Quotes / month", "Lead capture & storage", "Email support"].map((item) => (
                     <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
                       <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
                     </li>
@@ -515,19 +515,19 @@ export default function LandingPage() {
                       <h3 className="text-2xl font-black text-white">Pro</h3>
                       <span className="px-2 py-0.5 bg-white/10 text-white/80 rounded-full text-[10px] font-black uppercase tracking-widest border border-white/20">Most Popular</span>
                     </div>
-                    <p className="text-slate-400 text-sm font-medium">For delivery companies running daily jobs with the full Ops Console.</p>
+                    <p className="text-slate-400 text-sm font-medium">Everything to run your quoting and capture unlimited leads.</p>
                   </div>
                   <div className="mb-1 flex items-end gap-1">
-                    <span className="text-5xl font-black text-white">$19</span>
+                    <span className="text-5xl font-black text-white">$39</span>
                     <span className="text-slate-400 font-medium text-lg mb-1">/mo</span>
                   </div>
-                  <p className="text-slate-500 text-sm font-medium">$14/mo billed annually · <Link href="/pricing" className="text-red-400 hover:text-red-300 underline underline-offset-2">save 25%</Link></p>
+                  <p className="text-slate-500 text-sm font-medium">$29/mo billed annually · <Link href="/pricing" className="text-red-400 hover:text-red-300 underline underline-offset-2">save 25%</Link></p>
                 </div>
                 <Link href="/register" className="block w-full text-center py-4 bg-red-600 text-white rounded-xl font-bold text-sm hover:bg-red-700 hover:-translate-y-0.5 active:scale-95 transition-all mb-8 shadow-lg shadow-red-900/20">
                   Upgrade to Pro
                 </Link>
                 <ul className="space-y-3 mt-auto">
-                  {["Unlimited Quotes", "Up to 5 Quote Forms", "Ops Console (Jobs, Stops, Readiness, Exceptions)", "Full White-Label", "Analytics Dashboard", "Priority Support"].map((item) => (
+                  {["Unlimited quotes", "Up to 5 quote forms", "Full Ops Console", "White-label — no Qalt branding", "Analytics dashboard", "Priority support"].map((item) => (
                     <li key={item} className="flex items-start gap-3 text-slate-300 font-medium text-sm">
                       <CheckCircle2 size={16} className="text-red-400 shrink-0 mt-0.5" />{item}
                     </li>
@@ -540,21 +540,27 @@ export default function LandingPage() {
                 <div className="h-[240px]">
                   <div className="mb-8 p-0">
                     <h3 className="text-2xl font-black mb-2">Enterprise</h3>
-                    <p className="text-slate-500 text-sm font-medium">For high-volume operators, agencies, and teams that need more control.</p>
+                    <p className="text-slate-500 text-sm font-medium">Get paid through your widget and scale.</p>
                   </div>
                   <div className="mb-0 flex items-end gap-1">
-                    <span className="text-5xl font-black">$39</span>
+                    <span className="text-5xl font-black">$99</span>
                     <span className="text-slate-400 font-medium text-lg mb-1">/mo</span>
                   </div>
-                  <p className="text-slate-400 text-sm font-medium">$29/mo billed annually · <Link href="/pricing" className="text-red-600 hover:text-red-700 underline underline-offset-2">save 25%</Link></p>
+                  <p className="text-slate-400 text-sm font-medium">$79/mo billed annually · <Link href="/pricing" className="text-red-600 hover:text-red-700 underline underline-offset-2">save 25%</Link></p>
                 </div>
                 <Link href="/register" className="block w-full text-center py-4 bg-slate-900 text-white rounded-xl font-bold text-sm hover:opacity-90 hover:-translate-y-0.5 active:scale-95 transition-all mb-8">
                   Upgrade to Enterprise
                 </Link>
                 <ul className="space-y-3 mt-auto">
-                  {["Everything in Pro", "Unlimited Quote Forms", "Team Management (Multi-user)", "Advanced Webhooks & API", "Success Manager & SLA"].map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
-                      <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
+                  {[
+                    { t: "Everything in Pro", hl: false },
+                    { t: "Accept payments in your widget", hl: true },
+                    { t: "Multi-vehicle & fleet quoting", hl: false },
+                    { t: "Unlimited quote forms", hl: false },
+                    { t: "Advanced webhooks", hl: false },
+                  ].map((item) => (
+                    <li key={item.t} className={`flex items-start gap-3 text-sm ${item.hl ? "text-slate-900 font-bold" : "text-slate-600 font-medium"}`}>
+                      <CheckCircle2 size={16} className={`shrink-0 mt-0.5 ${item.hl ? "text-red-600" : "text-slate-400"}`} />{item.t}
                     </li>
                   ))}
                 </ul>

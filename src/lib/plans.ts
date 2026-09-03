@@ -15,7 +15,7 @@ export interface PlanEntitlements {
 
 export const PLANS: Record<SubscriptionPlan, PlanEntitlements> = {
   STARTER: {
-    maxQuotesPerMonth: 25,
+    maxQuotesPerMonth: 50,
     maxForms: 1,
     isWhiteLabelEnabled: false,
     isAdvancedCustomizationEnabled: false,
@@ -33,7 +33,9 @@ export const PLANS: Record<SubscriptionPlan, PlanEntitlements> = {
     isAdvancedCustomizationEnabled: true,
     isAnalyticsDashboardEnabled: true,
     isCustomCSSEnabled: false,
-    isWebhookEnabled: true,
+    // Webhooks are an Enterprise integration feature (matches the pricing page
+    // and gives Enterprise a clear technical differentiator over Pro).
+    isWebhookEnabled: false,
     isPaymentsEnabled: false,
     isVehicleQuotingEnabled: false,
     supportTier: "priority",

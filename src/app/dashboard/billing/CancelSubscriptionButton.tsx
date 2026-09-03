@@ -43,7 +43,7 @@ export default function CancelSubscriptionButton() {
             </div>
             <div className="px-6 py-6 space-y-4">
               <p className="text-slate-600 dark:text-zinc-300 text-sm leading-relaxed">
-                You&apos;ll be taken to the Stripe billing portal where you can cancel your subscription. Your account stays active on the <strong>free plan</strong> with up to 25 quotes/month. Your data is never deleted.
+                You&apos;ll be taken to the Stripe billing portal where you can cancel your subscription. Your account stays active on the <strong>free plan</strong> with up to 50 quotes/month. Your data is never deleted.
               </p>
               {error && <p className="text-xs font-bold text-red-600">{error}</p>}
               <div className="flex gap-3 pt-1">

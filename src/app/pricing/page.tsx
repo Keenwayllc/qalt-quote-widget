@@ -45,13 +45,21 @@ const FEATURE_SECTIONS: FeatureSection[] = [
     title: "Quote Widget",
     rows: [
       { name: "Quote Forms (unique embed codes)",       starter: "1",      pro: "5",         enterprise: "Unlimited" },
-      { name: "Quotes per month",                      starter: "25",     pro: "Unlimited", enterprise: "Unlimited" },
+      { name: "Quotes per month",                      starter: "50",     pro: "Unlimited", enterprise: "Unlimited" },
       { name: "Multi-step quote form",                 starter: true,     pro: true,        enterprise: true        },
       { name: "Instant price calculation",             starter: true,     pro: true,        enterprise: true        },
       { name: "Lead capture & storage",                starter: true,     pro: true,        enterprise: true        },
       { name: "Custom pricing rules",                  starter: false,    pro: true,        enterprise: true        },
       { name: "Distance-based pricing (Google Maps)",  starter: false,    pro: true,        enterprise: true        },
       { name: "Weight & dimension pricing",            starter: false,    pro: true,        enterprise: true        },
+      { name: "Multi-vehicle & fleet quoting",         starter: false,    pro: false,       enterprise: true        },
+    ],
+  },
+  {
+    title: "Payments & Checkout",
+    rows: [
+      { name: "Accept payment in your widget (Stripe)", starter: false, pro: false, enterprise: true },
+      { name: "Take a deposit or full amount at booking", starter: false, pro: false, enterprise: true },
     ],
   },
   {
@@ -65,21 +73,11 @@ const FEATURE_SECTIONS: FeatureSection[] = [
     ],
   },
   {
-    title: "Team & Collaboration",
-    rows: [
-      { name: "Team members",            starter: "1",   pro: "1",   enterprise: "Unlimited" },
-      { name: "Role-based permissions",  starter: false, pro: false, enterprise: true        },
-      { name: "Activity audit logs",     starter: false, pro: false, enterprise: true        },
-      { name: "Multi-branch support",    starter: false, pro: false, enterprise: true        },
-    ],
-  },
-  {
     title: "Branding & Customization",
     rows: [
       { name: "White-label (no Qalt branding)", starter: false, pro: true,  enterprise: true  },
       { name: "Custom colors & fonts",          starter: false, pro: true,  enterprise: true  },
       { name: "Custom logo",                    starter: false, pro: true,  enterprise: true  },
-      { name: "Custom domain embed",            starter: true,  pro: true,  enterprise: true  },
       { name: "Custom success messages",        starter: false, pro: true,  enterprise: true  },
       { name: "Fully custom CSS",               starter: false, pro: false, enterprise: true  },
     ],
@@ -91,19 +89,18 @@ const FEATURE_SECTIONS: FeatureSection[] = [
       { name: "Lead conversion tracking",   starter: false, pro: true,  enterprise: true  },
       { name: "Drop-off funnel analysis",   starter: false, pro: true,  enterprise: true  },
       { name: "Revenue pipeline estimates", starter: false, pro: true,  enterprise: true  },
-      { name: "Custom report builder",      starter: false, pro: false, enterprise: true  },
-      { name: "Data export (CSV / API)",    starter: false, pro: true,  enterprise: true  },
     ],
   },
   {
     title: "Integrations & Support",
     rows: [
       { name: "Email notifications",   starter: true,  pro: true,  enterprise: true             },
-      { name: "Advanced Webhooks",     starter: false, pro: false, enterprise: true             },
-      { name: "Full Developer API",    starter: false, pro: false, enterprise: "Coming Soon"    },
+      { name: "Advanced webhooks",     starter: false, pro: false, enterprise: true             },
+      { name: "Full developer API",    starter: false, pro: false, enterprise: "Coming Soon"    },
+      { name: "Team members (multi-user)", starter: "1", pro: "1",  enterprise: "Coming Soon"   },
       { name: "Email support",         starter: true,  pro: true,  enterprise: true             },
       { name: "Priority support",      starter: false, pro: true,  enterprise: true             },
-      { name: "Success Manager & SLA", starter: false, pro: false, enterprise: true             },
+      { name: "Dedicated support",     starter: false, pro: false, enterprise: true             },
     ],
   },
 ];
@@ -112,6 +109,9 @@ const FEATURE_SECTIONS: FeatureSection[] = [
 
 function FeatureCell({ value }: { value: FeatureValue }) {
   if (typeof value === "string") {
+    if (value === "Coming Soon") {
+      return <span className="text-[11px] font-bold uppercase tracking-wide text-slate-400 italic">Soon</span>;
+    }
     return <span className="text-sm font-bold text-slate-700">{value}</span>;
   }
   if (value === true) {
@@ -198,7 +198,7 @@ export default function PricingPage() {
             >
               Annually
               <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-[10px] font-black uppercase tracking-widest">
-                Save 25%
+                Save up to 25%
               </span>
             </button>
           </div>
@@ -232,7 +232,7 @@ export default function PricingPage() {
                 Get Started Free
               </Link>
               <ul className="space-y-3">
-                {["1 Quote Widget", "25 Quotes/month", "Basic Customization", "Email Support"].map((item) => (
+                {["1 Quote Widget", "50 Quotes / month", "Instant quote calculator", "Lead capture & storage", "Email notifications", "Email support"].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
                     <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
                   </li>
@@ -248,21 +248,21 @@ export default function PricingPage() {
                     <h3 className="text-2xl font-black tracking-tight text-white">Pro</h3>
                     <span className="px-2 py-0.5 bg-white text-slate-900 rounded-full text-[10px] font-black uppercase tracking-widest">Most Popular</span>
                   </div>
-                  <p className="text-slate-300 text-sm font-medium leading-relaxed">For delivery companies running daily jobs with the full Ops Console.</p>
+                  <p className="text-slate-300 text-sm font-medium leading-relaxed">Everything to run your quoting, look professional, and capture unlimited leads.</p>
                 </div>
                 <div className="mb-1 flex items-end gap-2">
-                  <span className="text-5xl font-black text-white">{annual ? "$14" : "$19"}</span>
+                  <span className="text-5xl font-black text-white">{annual ? "$29" : "$39"}</span>
                   <span className="text-slate-300 font-medium text-lg mb-1">/mo</span>
                 </div>
                 <p className="text-slate-400 text-sm font-medium mb-8">
-                  {annual ? "Billed $168 annually · save $60" : "Switch to annual & save $60/yr"}
+                  {annual ? "Billed $348 annually · save $120" : "Switch to annual & save $120/yr"}
                 </p>
               </div>
               <Link href="/register" className="block w-full text-center py-4 bg-red-600 text-white rounded-xl font-bold text-sm hover:bg-red-700 active:scale-[0.98] transition-all mb-8 shadow-lg shadow-red-900/20">
                 Upgrade to Pro
               </Link>
               <ul className="space-y-3">
-                {["Unlimited Quotes", "Up to 5 Quote Forms", "Full Ops Console", "Jobs, Stops, Readiness, Exceptions", "Full White-Label", "Advanced Customization", "Analytics Dashboard", "Priority Support"].map((item) => (
+                {["Unlimited quotes", "Up to 5 quote forms", "Full Ops Console (Jobs, Stops, Readiness)", "White-label — no Qalt branding", "Custom colors, fonts & logo", "Analytics dashboard", "Priority support"].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-300 font-medium text-sm">
                     <CheckCircle2 size={16} className="text-red-400 shrink-0 mt-0.5" />{item}
                   </li>
@@ -277,23 +277,31 @@ export default function PricingPage() {
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-2xl font-black tracking-tight text-slate-900">Enterprise</h3>
                   </div>
-                  <p className="text-slate-500 text-sm font-medium leading-relaxed">For high-volume operators, agencies, and teams that need more control.</p>
+                  <p className="text-slate-500 text-sm font-medium leading-relaxed">For operators who want to get paid through their widget and scale.</p>
                 </div>
                 <div className="mb-1 flex items-end gap-2">
-                  <span className="text-5xl font-black text-slate-900">{annual ? "$29" : "$39"}</span>
+                  <span className="text-5xl font-black text-slate-900">{annual ? "$79" : "$99"}</span>
                   <span className="text-slate-400 font-medium text-lg mb-1">/mo</span>
                 </div>
                 <p className="text-slate-500 text-sm font-medium mb-8">
-                  {annual ? "Billed $348 annually · save $120" : "Billed monthly"}
+                  {annual ? "Billed $948 annually · save $240" : "Billed monthly"}
                 </p>
               </div>
               <Link href="/register" className="block w-full text-center py-4 bg-slate-900 text-white rounded-xl font-bold text-sm hover:opacity-90 active:scale-[0.98] transition-all mb-8">
                 Upgrade to Enterprise
               </Link>
               <ul className="space-y-3">
-                {["Everything in Pro", "Unlimited Quote Forms", "Team Management (Multi-user)", "Advanced Webhooks & API", "Success Manager & SLA"].map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
-                    <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
+                {[
+                  { t: "Everything in Pro", hl: false },
+                  { t: "Accept payments in your widget", hl: true },
+                  { t: "Multi-vehicle & fleet quoting", hl: false },
+                  { t: "Unlimited quote forms", hl: false },
+                  { t: "Custom CSS & domain embed", hl: false },
+                  { t: "Advanced webhooks", hl: false },
+                  { t: "Dedicated priority support", hl: false },
+                ].map((item) => (
+                  <li key={item.t} className={`flex items-start gap-3 text-sm ${item.hl ? "text-slate-900 font-bold" : "text-slate-600 font-medium"}`}>
+                    <CheckCircle2 size={16} className={`shrink-0 mt-0.5 ${item.hl ? "text-red-600" : "text-slate-400"}`} />{item.t}
                   </li>
                 ))}
               </ul>
@@ -374,7 +382,7 @@ export default function PricingPage() {
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-6">A single booked job can cover the monthly cost</h2>
           <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto mb-10">
-            Qalt helps reduce manual quoting, capture leads around the clock, and move customers from pricing to inquiry faster. For many teams, one extra booked delivery more than pays for the plan.
+            Qalt helps reduce manual quoting, capture leads around the clock, and move customers from pricing to inquiry faster. On Enterprise you can collect payment at booking. For most teams, one extra booked delivery more than pays for the plan.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mx-auto">
             {[
@@ -403,13 +411,13 @@ export default function PricingPage() {
           <h2 className="text-3xl font-black tracking-tight text-center mb-12">Common Questions</h2>
           <div className="space-y-3">
             {[
+              { q: "What's the difference between Pro and Enterprise?", a: "Pro gives you everything to quote and capture unlimited leads with your own branding — unlimited quotes, up to 5 forms, the full Ops Console, white-label, and analytics. Enterprise adds the ability to accept payment in your widget, multi-vehicle and fleet quoting, custom CSS and domain embedding, and webhooks — for operators who want to get paid through Qalt and scale." },
+              { q: "Can customers pay through the widget?", a: "Yes, on Enterprise. Customers can pay a deposit or the full amount at booking through Stripe, so you capture payment up front instead of chasing invoices." },
               { q: "Is the Ops Console included in Pro?", a: "Yes. Every Pro plan includes the full Ops Console — Jobs, Saved Stop Notes, Delivery Readiness, and Exception Logging — at no extra cost." },
-              { q: "Can I cancel at any time?", a: "Yes. You can change or cancel your plan at any time." },
-              { q: "Can I try Pro features before upgrading?", a: "Qalt is free to start on our Starter plan. You can test your workflow and upgrade to Pro whenever you need more volume and advanced features." },
-              { q: "What happens if I exceed my limit on Starter?", a: "Once you reach the Starter limit, you can upgrade to keep collecting quotes without interruption." },
-              { q: "Can I switch plans at any time?", a: "Yes. You can move between plans as your business needs change." },
-              { q: "Do I need code to use Qalt?", a: "No custom build is required. Qalt is designed to be embedded on your site quickly." },
-              { q: "Can I remove Qalt branding?", a: "Yes. White-label options are included on higher plans." },
+              { q: "What happens if I exceed my limit on the free plan?", a: "The free Starter plan includes 50 quotes per month. Once you reach it, upgrade to Pro for unlimited quotes without interruption." },
+              { q: "Can I cancel or switch plans at any time?", a: "Yes. You can change, upgrade, downgrade, or cancel your plan at any time as your business needs change." },
+              { q: "Do I need code to use Qalt?", a: "No custom build is required. Qalt is designed to be embedded on your site quickly with a simple snippet." },
+              { q: "Can I remove Qalt branding?", a: "Yes. White-label — with no Qalt branding — is included on Pro and Enterprise." },
             ].map((item, i) => (
               <FAQItem key={i} question={item.q} answer={item.a} />
             ))}

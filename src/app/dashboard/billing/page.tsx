@@ -133,7 +133,7 @@ function AccountDangerZone({ hasPaidPlan }: { hasPaidPlan: boolean }) {
             <div>
               <p className="font-bold text-slate-900 dark:text-white text-sm">Cancel Subscription</p>
               <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5 leading-relaxed">
-                Downgrade to the free plan. Your widget stays active with up to 25 quotes per month. Your data is kept.
+                Downgrade to the free plan. Your widget stays active with up to 50 quotes per month. Your data is kept.
               </p>
             </div>
             <CancelSubscriptionButton />
