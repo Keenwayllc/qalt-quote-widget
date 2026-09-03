@@ -43,6 +43,10 @@ interface WidgetProps {
       serviceZips?: string[];
     };
   };
+  // Set on the public /demo page, where the widget renders inline on qalt.site
+  // itself. Hides the "Back to <merchant site>" links, which are meaningless
+  // (and confusing) when there is no separate merchant site to return to.
+  demoMode?: boolean;
 }
 
 interface FormData {
@@ -231,7 +235,7 @@ const AutocompleteInput = ({
   );
 };
 
-export default function QuoteWidgetForm({ company }: WidgetProps) {
+export default function QuoteWidgetForm({ company, demoMode = false }: WidgetProps) {
   const entitlements = getEntitlements(company.subscriptionPlan);
   const reduce = useReducedMotion();
 
@@ -1375,7 +1379,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
                       </p>
                     </div>
                     <div className="space-y-3 pt-2">
-                      {parentUrl && (() => {
+                      {!demoMode && parentUrl && (() => {
                         let hostname = "";
                         try { hostname = new URL(parentUrl).hostname.replace(/^www\./, ""); } catch { hostname = ""; }
                         return hostname ? (
@@ -1433,7 +1437,7 @@ export default function QuoteWidgetForm({ company }: WidgetProps) {
           {/* Footer */}
           <div className="px-8 py-5 bg-slate-50/80 border-t border-slate-100/80">
             <p className="text-[10px] text-slate-400 text-center leading-relaxed font-medium">{widgetSettings.disclaimerText}</p>
-            {parentUrl && step !== 3 && (() => {
+            {!demoMode && parentUrl && step !== 3 && (() => {
               let hostname = "";
               try { hostname = new URL(parentUrl).hostname.replace(/^www\./, ""); } catch { hostname = ""; }
               return hostname ? (

@@ -153,7 +153,7 @@ export default function GatedDemo({ company }: { company: any }) {
           className="w-full flex justify-center"
         >
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-          <QuoteWidgetForm company={company as any} />
+          <QuoteWidgetForm company={company as any} demoMode />
         </motion.div>
       </div>
     );
