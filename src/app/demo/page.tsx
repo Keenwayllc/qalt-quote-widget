@@ -124,9 +124,9 @@ export default async function DemoPage() {
 
       {/* 2. Value strip */}
       <section className="border-b border-slate-100 bg-white">
-        <div className="max-w-5xl mx-auto px-6 sm:px-8 py-8 grid grid-cols-2 sm:grid-cols-4 gap-6">
+        <div className="max-w-5xl mx-auto px-6 sm:px-8 py-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-5">
           {VALUE_STRIP.map((v) => (
-            <div key={v.label} className="flex items-center gap-3 justify-center sm:justify-start">
+            <div key={v.label} className="inline-flex items-center gap-3 whitespace-nowrap">
               <div className="w-9 h-9 rounded-lg bg-red-50 text-red-600 flex items-center justify-center shrink-0">
                 <v.icon size={17} />
               </div>

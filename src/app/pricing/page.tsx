@@ -384,13 +384,13 @@ export default function PricingPage() {
           <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto mb-10">
             Qalt helps reduce manual quoting, capture leads around the clock, and move customers from pricing to inquiry faster. On Enterprise you can collect payment at booking. For most teams, one extra booked delivery more than pays for the plan.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-x-10 gap-y-4">
             {[
               "Cut down manual quote calls",
               "Capture leads 24/7",
               "Help customers price jobs faster",
             ].map((item) => (
-              <div key={item} className="flex items-center gap-3 justify-center sm:justify-start">
+              <div key={item} className="inline-flex items-center gap-2.5 whitespace-nowrap">
                 <CheckCircle2 size={16} className="text-red-600 shrink-0" />
                 <span className="text-sm font-medium text-slate-700">{item}</span>
               </div>
