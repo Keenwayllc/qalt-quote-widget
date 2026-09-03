@@ -10,7 +10,11 @@ import QaltLogo from "@/components/shared/QaltLogo";
 
 declare global {
   interface Window {
-    turnstile?: { reset: (widgetId?: string) => void };
+    turnstile?: {
+      render: (el: HTMLElement, opts: Record<string, unknown>) => string;
+      reset: (widgetId?: string) => void;
+      remove: (widgetId?: string) => void;
+    };
   }
 }
 

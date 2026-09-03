@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Script from "next/script";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
@@ -16,7 +16,11 @@ const LABEL = "block text-[13px] font-bold text-slate-700 mb-1.5";
 
 declare global {
   interface Window {
-    turnstile?: { reset: (widgetId?: string) => void };
+    turnstile?: {
+      render: (el: HTMLElement, opts: Record<string, unknown>) => string;
+      reset: (widgetId?: string) => void;
+      remove: (widgetId?: string) => void;
+    };
   }
 }
 
@@ -29,8 +33,11 @@ export default function GatedDemo({ company }: { company: any }) {
   const reduce = useReducedMotion();
   const [unlocked, setUnlocked] = useState(false);
   const [justUnlocked, setJustUnlocked] = useState(false);
-  const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "submitting">("idle");
   const [error, setError] = useState("");
+  const [token, setToken] = useState("");
+  const turnstileBoxRef = useRef<HTMLDivElement>(null);
+  const widgetIdRef = useRef<string | null>(null);
 
   // Restore access for the current browser session only. Deferred out of the
   // effect body (rAF) so we never set state synchronously during hydration.
@@ -46,6 +53,32 @@ export default function GatedDemo({ company }: { company: any }) {
     return () => cancelAnimationFrame(id);
   }, []);
 
+  // Render Turnstile explicitly once the script is ready. Auto-rendering via the
+  // `cf-turnstile` class races with React hydration and often leaves the widget
+  // unmounted (no iframe, no token), which silently blocks the form. Explicit
+  // render into our ref is deterministic and gives us the token via callback.
+  useEffect(() => {
+    if (!TURNSTILE_SITE_KEY) return;
+    let cancelled = false;
+    const render = () => {
+      if (cancelled) return;
+      const box = turnstileBoxRef.current;
+      if (window.turnstile && box && widgetIdRef.current === null) {
+        widgetIdRef.current = window.turnstile.render(box, {
+          sitekey: TURNSTILE_SITE_KEY,
+          theme: "light",
+          callback: (t: string) => setToken(t),
+          "error-callback": () => setToken(""),
+          "expired-callback": () => setToken(""),
+        });
+      } else if (!window.turnstile || !box) {
+        setTimeout(render, 200);
+      }
+    };
+    render();
+    return () => { cancelled = true; };
+  }, [unlocked]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
@@ -54,13 +87,12 @@ export default function GatedDemo({ company }: { company: any }) {
     const email = (fd.get("email") as string)?.trim();
     const website = (fd.get("website") as string)?.trim();
     const honeypot = (fd.get("company_fax") as string) || "";
-    const turnstileToken = fd.get("cf-turnstile-response");
 
     if (!companyName || !contactName || !email) {
       setError("Please fill in your company, name, and work email.");
       return;
     }
-    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+    if (TURNSTILE_SITE_KEY && !token) {
       setError('Please complete the "I am human" check below.');
       return;
     }
@@ -71,7 +103,7 @@ export default function GatedDemo({ company }: { company: any }) {
       const res = await fetch("/api/demo-access", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ companyName, contactName, email, website, honeypot, turnstileToken }),
+        body: JSON.stringify({ companyName, contactName, email, website, honeypot, turnstileToken: token }),
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok && data?.success) {
@@ -84,14 +116,16 @@ export default function GatedDemo({ company }: { company: any }) {
         setUnlocked(true);
         setStatus("idle");
       } else {
-        setStatus("error");
+        setStatus("idle");
         setError(data?.error || "Something went wrong. Please try again.");
-        window.turnstile?.reset();
+        setToken("");
+        window.turnstile?.reset(widgetIdRef.current ?? undefined);
       }
     } catch {
-      setStatus("error");
+      setStatus("idle");
       setError("Something went wrong. Please try again.");
-      window.turnstile?.reset();
+      setToken("");
+      window.turnstile?.reset(widgetIdRef.current ?? undefined);
     }
   };
 
@@ -180,12 +214,12 @@ export default function GatedDemo({ company }: { company: any }) {
 
             {TURNSTILE_SITE_KEY && (
               <>
-                <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" />
-                <div className="cf-turnstile flex justify-center pt-1" data-sitekey={TURNSTILE_SITE_KEY} data-theme="light" />
+                <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" />
+                <div ref={turnstileBoxRef} className="flex justify-center pt-1" />
               </>
             )}
 
-            {status === "error" && (
+            {error && (
               <p className="text-sm font-semibold text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">{error}</p>
             )}
 
