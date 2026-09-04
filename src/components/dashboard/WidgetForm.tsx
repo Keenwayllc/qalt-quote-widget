@@ -191,7 +191,7 @@ export default function WidgetSettingsForm({
   };
 
   return (
-    <div className="p-4 sm:p-8 max-w-6xl flex flex-col lg:flex-row gap-8 lg:gap-12">
+    <div className="p-4 sm:p-8 max-w-6xl flex flex-col xl:flex-row gap-8 xl:gap-12">
       <div className="flex-1">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Widget Appearance</h1>
@@ -748,8 +748,8 @@ export default function WidgetSettingsForm({
       </div>
 
       {/* Live Preview */}
-      <div className="w-full lg:w-96 shrink-0">
-        <div className="sticky top-8">
+      <div className="w-full xl:w-96 shrink-0">
+        <div className="xl:sticky xl:top-8">
           <div className="mb-4 flex items-center gap-2">
             <Eye className="text-slate-400" size={20} />
             <h2 className="text-lg font-bold text-slate-900 dark:text-white">Widget Live Preview</h2>

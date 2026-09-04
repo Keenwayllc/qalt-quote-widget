@@ -35,6 +35,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
+    // Store and match emails case-insensitively: normalize to lowercase.
+    const normalizedEmail = String(email).trim().toLowerCase();
+
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || null;
     if (!(await verifyTurnstile(turnstileToken, ip))) {
       return NextResponse.json(
@@ -43,7 +46,9 @@ export async function POST(req: Request) {
       );
     }
 
-    const existingUser = await prisma.company.findUnique({ where: { email } });
+    const existingUser = await prisma.company.findFirst({
+      where: { email: { equals: normalizedEmail, mode: "insensitive" } },
+    });
     if (existingUser) {
       return NextResponse.json({ error: "Email already exists" }, { status: 400 });
     }
@@ -56,7 +61,7 @@ export async function POST(req: Request) {
 
     await prisma.company.create({
       data: {
-        email,
+        email: normalizedEmail,
         passwordHash,
         name,
         subscriptionPlan: "PRO",
@@ -82,7 +87,7 @@ export async function POST(req: Request) {
     const verifyUrl = `${appUrl}/api/auth/verify-email?token=${emailVerificationToken}`;
 
     const emailResult = await sendEmail({
-      to: email,
+      to: normalizedEmail,
       subject: "Confirm your Qalt account",
       react: React.createElement(VerifyEmail, { companyName: name, verifyUrl }),
     });

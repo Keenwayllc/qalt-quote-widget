@@ -48,8 +48,11 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ error: "Name and email are required" }, { status: 400 });
     }
 
+    // Store and match emails case-insensitively: normalize to lowercase.
+    const normalizedEmail = String(email).trim().toLowerCase();
+
     const existing = await prisma.company.findFirst({
-      where: { email, NOT: { id: payload.companyId } },
+      where: { email: { equals: normalizedEmail, mode: "insensitive" }, NOT: { id: payload.companyId } },
     });
     if (existing) return NextResponse.json({ error: "Email already in use" }, { status: 400 });
 
@@ -57,7 +60,7 @@ export async function PATCH(req: Request) {
     if (!currentCompany) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
     const updateData: Record<string, unknown> = {
-      name, email,
+      name, email: normalizedEmail,
       phone: phone || null,
       website: website || null,
       address: address || null,

@@ -35,7 +35,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing credentials" }, { status: 400 });
     }
 
-    const company = await prisma.company.findUnique({ where: { email } });
+    // Email match is case-insensitive so "User@X.com" and "user@x.com" are the same account.
+    const company = await prisma.company.findFirst({
+      where: { email: { equals: email, mode: "insensitive" } },
+    });
     if (!company) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }
