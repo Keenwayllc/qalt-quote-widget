@@ -21,6 +21,7 @@ type ProfileData = {
   state: string;
   zip: string;
   contactName: string;
+  isSuperAdmin?: boolean;
 };
 
 function ImageUploader({
@@ -153,7 +154,7 @@ export default function SettingsPage() {
     name: "", email: "", subscriptionPlan: "",
     logoUrl: "", profilePicUrl: "",
     phone: "", website: "", address: "",
-    city: "", state: "", zip: "", contactName: "",
+    city: "", state: "", zip: "", contactName: "", isSuperAdmin: false,
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -314,8 +315,8 @@ export default function SettingsPage() {
         <EmailDomainSection />
       </div>
 
-      {/* ── Admin Plan Override ─────────────────────────── */}
-      {data.email.toLowerCase() === "emmanuel@gokeenway.com" && (
+      {/* ── Super-Admin Plan Override (God Mode) ─────────── */}
+      {data.isSuperAdmin && (
         <div className="mt-6 bg-slate-50 dark:bg-[#1e1e1e] rounded-none border border-red-200 dark:border-red-500/30 shadow-sm dark:shadow-none p-6 relative overflow-hidden">
           <div className="absolute top-0 right-0 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-none uppercase tracking-wider">
             Admin Only

@@ -37,8 +37,14 @@ model Company {
   emailDomainVerified   Boolean          @default(false)
   emailDomainDnsRecords Json?
   isAdmin              Boolean          @default(false)
+  // God Mode / Qalt Data Operations. Separate from isAdmin so normal platform
+  // admins do NOT get super-admin powers (e.g. self plan override).
+  isSuperAdmin         Boolean          @default(false)
   lastLoginAt          DateTime?
   createdAt            DateTime         @default(now())
+  // NOTE: a DB-level functional unique index "Company_email_lower_key" on
+  // lower(email) enforces case-insensitive email uniqueness. Prisma cannot model
+  // functional indexes, so it lives in the DB only (applied via manual migration).
   pricingProfiles      PricingProfile[]
   quoteRequests        QuoteRequest[]
   widgetSettings       WidgetSettings[]

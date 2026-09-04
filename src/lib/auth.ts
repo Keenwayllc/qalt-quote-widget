@@ -1,6 +1,16 @@
 import * as jose from "jose";
 import bcrypt from "bcryptjs";
 
+/**
+ * Canonical email form used everywhere an email is stored or compared:
+ * trim surrounding whitespace and lowercase. Never mutate passwords or other
+ * user-entered values with this. Use for every account email flow so login,
+ * registration, password reset, verification, and email changes agree.
+ */
+export function normalizeEmail(email: unknown): string {
+  return String(email ?? "").trim().toLowerCase();
+}
+
 function getSecret() {
   const secret = process.env.JWT_SECRET || "dev-fallback-secret-key-only-for-local-use";
   return new TextEncoder().encode(secret);

@@ -1,16 +1,18 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
+import { normalizeEmail } from "@/lib/auth";
 import { ResetPassword } from "@/components/emails/ResetPassword";
 import crypto from "crypto";
 import React from "react";
 
 export async function POST(req: Request) {
   try {
-    const { email } = await req.json();
-    if (!email) return NextResponse.json({ error: "Missing email" }, { status: 400 });
+    const { email: rawEmail } = await req.json();
+    if (!rawEmail) return NextResponse.json({ error: "Missing email" }, { status: 400 });
 
-    // Case-insensitive email match so any casing reaches the right account.
+    // Normalize + case-insensitive match so any casing reaches the right account.
+    const email = normalizeEmail(rawEmail);
     const company = await prisma.company.findFirst({
       where: { email: { equals: email, mode: "insensitive" } },
     });

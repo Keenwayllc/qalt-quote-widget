@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { verifyToken } from "@/lib/auth";
+import { verifyToken, normalizeEmail } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
 const PROFILE_FIELDS = {
@@ -8,6 +8,7 @@ const PROFILE_FIELDS = {
   logoUrl: true, profilePicUrl: true,
   phone: true, website: true, address: true,
   city: true, state: true, zip: true, contactName: true,
+  isSuperAdmin: true,
 } as const;
 
 export async function GET() {
@@ -49,7 +50,7 @@ export async function PATCH(req: Request) {
     }
 
     // Store and match emails case-insensitively: normalize to lowercase.
-    const normalizedEmail = String(email).trim().toLowerCase();
+    const normalizedEmail = normalizeEmail(email);
 
     const existing = await prisma.company.findFirst({
       where: { email: { equals: normalizedEmail, mode: "insensitive" }, NOT: { id: payload.companyId } },
@@ -72,7 +73,9 @@ export async function PATCH(req: Request) {
       profilePicUrl: profilePicUrl || null,
     };
 
-    if (subscriptionPlan && currentCompany.email.toLowerCase() === "emmanuel@gokeenway.com") {
+    // God Mode / Qalt Data Operations: only super-admins may override their own
+    // plan. Authorization is the isSuperAdmin flag on the account, never an email.
+    if (subscriptionPlan && currentCompany.isSuperAdmin) {
       updateData.subscriptionPlan = subscriptionPlan;
     }
 

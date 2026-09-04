@@ -150,6 +150,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   emailDomainVerified: 'emailDomainVerified',
   emailDomainDnsRecords: 'emailDomainDnsRecords',
   isAdmin: 'isAdmin',
+  isSuperAdmin: 'isSuperAdmin',
   lastLoginAt: 'lastLoginAt',
   createdAt: 'createdAt'
 };

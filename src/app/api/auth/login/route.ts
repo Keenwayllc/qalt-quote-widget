@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
-import { verifyPassword, signToken } from "@/lib/auth";
+import { verifyPassword, signToken, normalizeEmail } from "@/lib/auth";
 import { sendEmail } from "@/lib/email";
 import React from "react";
 
@@ -29,13 +29,14 @@ async function notifyAdminsOfFirstLogin(company: { name: string; email: string }
 
 export async function POST(req: Request) {
   try {
-    const { email, password } = await req.json();
+    const { email: rawEmail, password } = await req.json();
 
-    if (!email || !password) {
+    if (!rawEmail || !password) {
       return NextResponse.json({ error: "Missing credentials" }, { status: 400 });
     }
 
-    // Email match is case-insensitive so "User@X.com" and "user@x.com" are the same account.
+    // Normalize + match case-insensitively so "User@X.com" and "user@x.com" are the same account.
+    const email = normalizeEmail(rawEmail);
     const company = await prisma.company.findFirst({
       where: { email: { equals: email, mode: "insensitive" } },
     });

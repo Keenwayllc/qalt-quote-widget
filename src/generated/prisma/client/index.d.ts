@@ -2119,6 +2119,7 @@ export namespace Prisma {
     resendDomainId: string | null
     emailDomainVerified: boolean | null
     isAdmin: boolean | null
+    isSuperAdmin: boolean | null
     lastLoginAt: Date | null
     createdAt: Date | null
   }
@@ -2152,6 +2153,7 @@ export namespace Prisma {
     resendDomainId: string | null
     emailDomainVerified: boolean | null
     isAdmin: boolean | null
+    isSuperAdmin: boolean | null
     lastLoginAt: Date | null
     createdAt: Date | null
   }
@@ -2186,6 +2188,7 @@ export namespace Prisma {
     emailDomainVerified: number
     emailDomainDnsRecords: number
     isAdmin: number
+    isSuperAdmin: number
     lastLoginAt: number
     createdAt: number
     _all: number
@@ -2221,6 +2224,7 @@ export namespace Prisma {
     resendDomainId?: true
     emailDomainVerified?: true
     isAdmin?: true
+    isSuperAdmin?: true
     lastLoginAt?: true
     createdAt?: true
   }
@@ -2254,6 +2258,7 @@ export namespace Prisma {
     resendDomainId?: true
     emailDomainVerified?: true
     isAdmin?: true
+    isSuperAdmin?: true
     lastLoginAt?: true
     createdAt?: true
   }
@@ -2288,6 +2293,7 @@ export namespace Prisma {
     emailDomainVerified?: true
     emailDomainDnsRecords?: true
     isAdmin?: true
+    isSuperAdmin?: true
     lastLoginAt?: true
     createdAt?: true
     _all?: true
@@ -2395,6 +2401,7 @@ export namespace Prisma {
     emailDomainVerified: boolean
     emailDomainDnsRecords: JsonValue | null
     isAdmin: boolean
+    isSuperAdmin: boolean
     lastLoginAt: Date | null
     createdAt: Date
     _count: CompanyCountAggregateOutputType | null
@@ -2446,6 +2453,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: boolean
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: boolean
     createdAt?: boolean
     pricingProfiles?: boolean | Company$pricingProfilesArgs<ExtArgs>
@@ -2488,6 +2496,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: boolean
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["company"]>
@@ -2522,6 +2531,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: boolean
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["company"]>
@@ -2556,11 +2566,12 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: boolean
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: boolean
     createdAt?: boolean
   }
 
-  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "logoUrl" | "profilePicUrl" | "phone" | "website" | "address" | "city" | "state" | "zip" | "contactName" | "timezone" | "subscriptionPlan" | "stripeCustomerId" | "stripeSubscriptionId" | "stripeConnectAccountId" | "trialEndsAt" | "emailVerified" | "emailVerificationToken" | "passwordResetToken" | "passwordResetExpires" | "customEmailDomain" | "customEmailFromName" | "resendDomainId" | "emailDomainVerified" | "emailDomainDnsRecords" | "isAdmin" | "lastLoginAt" | "createdAt", ExtArgs["result"]["company"]>
+  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "logoUrl" | "profilePicUrl" | "phone" | "website" | "address" | "city" | "state" | "zip" | "contactName" | "timezone" | "subscriptionPlan" | "stripeCustomerId" | "stripeSubscriptionId" | "stripeConnectAccountId" | "trialEndsAt" | "emailVerified" | "emailVerificationToken" | "passwordResetToken" | "passwordResetExpires" | "customEmailDomain" | "customEmailFromName" | "resendDomainId" | "emailDomainVerified" | "emailDomainDnsRecords" | "isAdmin" | "isSuperAdmin" | "lastLoginAt" | "createdAt", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     pricingProfiles?: boolean | Company$pricingProfilesArgs<ExtArgs>
     quoteRequests?: boolean | Company$quoteRequestsArgs<ExtArgs>
@@ -2615,6 +2626,7 @@ export namespace Prisma {
       emailDomainVerified: boolean
       emailDomainDnsRecords: Prisma.JsonValue | null
       isAdmin: boolean
+      isSuperAdmin: boolean
       lastLoginAt: Date | null
       createdAt: Date
     }, ExtArgs["result"]["company"]>
@@ -3076,6 +3088,7 @@ export namespace Prisma {
     readonly emailDomainVerified: FieldRef<"Company", 'Boolean'>
     readonly emailDomainDnsRecords: FieldRef<"Company", 'Json'>
     readonly isAdmin: FieldRef<"Company", 'Boolean'>
+    readonly isSuperAdmin: FieldRef<"Company", 'Boolean'>
     readonly lastLoginAt: FieldRef<"Company", 'DateTime'>
     readonly createdAt: FieldRef<"Company", 'DateTime'>
   }
@@ -16866,6 +16879,7 @@ export namespace Prisma {
     emailDomainVerified: 'emailDomainVerified',
     emailDomainDnsRecords: 'emailDomainDnsRecords',
     isAdmin: 'isAdmin',
+    isSuperAdmin: 'isSuperAdmin',
     lastLoginAt: 'lastLoginAt',
     createdAt: 'createdAt'
   };
@@ -17236,6 +17250,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFilter<"Company"> | boolean
     emailDomainDnsRecords?: JsonNullableFilter<"Company">
     isAdmin?: BoolFilter<"Company"> | boolean
+    isSuperAdmin?: BoolFilter<"Company"> | boolean
     lastLoginAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     createdAt?: DateTimeFilter<"Company"> | Date | string
     pricingProfiles?: PricingProfileListRelationFilter
@@ -17277,6 +17292,7 @@ export namespace Prisma {
     emailDomainVerified?: SortOrder
     emailDomainDnsRecords?: SortOrderInput | SortOrder
     isAdmin?: SortOrder
+    isSuperAdmin?: SortOrder
     lastLoginAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     pricingProfiles?: PricingProfileOrderByRelationAggregateInput
@@ -17321,6 +17337,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFilter<"Company"> | boolean
     emailDomainDnsRecords?: JsonNullableFilter<"Company">
     isAdmin?: BoolFilter<"Company"> | boolean
+    isSuperAdmin?: BoolFilter<"Company"> | boolean
     lastLoginAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     createdAt?: DateTimeFilter<"Company"> | Date | string
     pricingProfiles?: PricingProfileListRelationFilter
@@ -17362,6 +17379,7 @@ export namespace Prisma {
     emailDomainVerified?: SortOrder
     emailDomainDnsRecords?: SortOrderInput | SortOrder
     isAdmin?: SortOrder
+    isSuperAdmin?: SortOrder
     lastLoginAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: CompanyCountOrderByAggregateInput
@@ -17402,6 +17420,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolWithAggregatesFilter<"Company"> | boolean
     emailDomainDnsRecords?: JsonNullableWithAggregatesFilter<"Company">
     isAdmin?: BoolWithAggregatesFilter<"Company"> | boolean
+    isSuperAdmin?: BoolWithAggregatesFilter<"Company"> | boolean
     lastLoginAt?: DateTimeNullableWithAggregatesFilter<"Company"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
   }
@@ -18465,6 +18484,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
@@ -18506,6 +18526,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
@@ -18547,6 +18568,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
@@ -18588,6 +18610,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
@@ -18629,6 +18652,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
   }
@@ -18663,6 +18687,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18697,6 +18722,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20051,6 +20077,7 @@ export namespace Prisma {
     emailDomainVerified?: SortOrder
     emailDomainDnsRecords?: SortOrder
     isAdmin?: SortOrder
+    isSuperAdmin?: SortOrder
     lastLoginAt?: SortOrder
     createdAt?: SortOrder
   }
@@ -20084,6 +20111,7 @@ export namespace Prisma {
     resendDomainId?: SortOrder
     emailDomainVerified?: SortOrder
     isAdmin?: SortOrder
+    isSuperAdmin?: SortOrder
     lastLoginAt?: SortOrder
     createdAt?: SortOrder
   }
@@ -20117,6 +20145,7 @@ export namespace Prisma {
     resendDomainId?: SortOrder
     emailDomainVerified?: SortOrder
     isAdmin?: SortOrder
+    isSuperAdmin?: SortOrder
     lastLoginAt?: SortOrder
     createdAt?: SortOrder
   }
@@ -22737,6 +22766,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -22777,6 +22807,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -22892,6 +22923,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -22932,6 +22964,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -23037,6 +23070,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
@@ -23077,6 +23111,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
@@ -23180,6 +23215,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
@@ -23220,6 +23256,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
@@ -23313,6 +23350,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
@@ -23353,6 +23391,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
@@ -23443,6 +23482,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
@@ -23483,6 +23523,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
@@ -23539,6 +23580,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
@@ -23579,6 +23621,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
@@ -23635,6 +23678,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
@@ -23675,6 +23719,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
@@ -23715,6 +23760,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
@@ -23755,6 +23801,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
@@ -23811,6 +23858,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
@@ -23851,6 +23899,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
@@ -23891,6 +23940,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
@@ -23931,6 +23981,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
@@ -24071,6 +24122,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
@@ -24111,6 +24163,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
@@ -24550,6 +24603,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
@@ -24590,6 +24644,7 @@ export namespace Prisma {
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
+    isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
@@ -24785,6 +24840,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
@@ -24825,6 +24881,7 @@ export namespace Prisma {
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput

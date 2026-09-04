@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { hashPassword } from "@/lib/auth";
+import { hashPassword, normalizeEmail } from "@/lib/auth";
 import { sendEmail } from "@/lib/email";
 import { VerifyEmail } from "@/components/emails/VerifyEmail";
 import crypto from "crypto";
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     }
 
     // Store and match emails case-insensitively: normalize to lowercase.
-    const normalizedEmail = String(email).trim().toLowerCase();
+    const normalizedEmail = normalizeEmail(email);
 
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || null;
     if (!(await verifyTurnstile(turnstileToken, ip))) {
