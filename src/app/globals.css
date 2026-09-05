@@ -24,9 +24,11 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-space-grotesk), var(--font-geist-sans), sans-serif;
+
+  /* Astra reference typography: one Inter system across Qalt. */
+  --font-sans: var(--font-inter), Inter, Arial, Helvetica, sans-serif;
+  --font-display: var(--font-inter), Inter, Arial, Helvetica, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Global Sharp Design Override */
   --radius-sm: 0px;
@@ -41,16 +43,31 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+html,
+body {
+  font-family: var(--font-inter), Inter, Arial, Helvetica, sans-serif;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Headings use Space Grotesk (techy, characterful) for a branded feel.
-   Body text stays in the sans stack for readability. The embedded quote
-   widget sets its own font inline, so it is unaffected.
-   --font-space-grotesk is a real CSS var emitted by next/font on <body>. */
-h1, h2, h3 {
-  font-family: var(--font-space-grotesk), var(--font-geist-sans), system-ui, sans-serif;
+/* Native controls do not consistently inherit typography in every browser. */
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+/* Headings, dashboard labels, navigation, forms, and marketing copy all use
+   the same Inter family from the approved Astra design system. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: inherit;
 }
