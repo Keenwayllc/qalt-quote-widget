@@ -51,6 +51,11 @@ body {
 body {
   background: var(--background);
   color: var(--foreground);
+
+  /* Compatibility aliases for older components that referenced the previous
+     Geist/Space Grotesk tokens directly. They now resolve to Astra's Inter. */
+  --font-geist-sans: var(--font-inter);
+  --font-space-grotesk: var(--font-inter);
 }
 
 /* Native controls do not consistently inherit typography in every browser. */
