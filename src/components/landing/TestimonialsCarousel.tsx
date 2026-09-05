@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowUpRight, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
 interface Testimonial {
   id: number;
@@ -9,11 +10,13 @@ interface Testimonial {
   role: string;
   industry: string;
   quote: string;
-  image: string;
   initials: string;
-  color: string;
-  video?: string;
+  accent: "red" | "emerald" | "amber" | "slate";
 }
+
+const FONT = {
+  fontFamily: "var(--font-space-grotesk), var(--font-geist-sans), system-ui, sans-serif",
+};
 
 const TESTIMONIALS: Testimonial[] = [
   {
@@ -21,103 +24,95 @@ const TESTIMONIALS: Testimonial[] = [
     name: "Liam Bloom",
     role: "Owner, Bloom & Stem",
     industry: "Floral & Gift Shop",
-    quote: "Our flower delivery business needed a way to give instant quotes for local deliveries. Qalt made it seamless. Our conversion rate for weekend bouquets tripled!",
-    image: "/testimonials/liam.png",
+    quote: "Our flower delivery business needed a way to give instant quotes for local deliveries. Qalt made the customer flow much easier to manage.",
     initials: "LB",
-    color: "bg-pink-500",
-    video: "/videos/liam_bloom.mp4"
+    accent: "red",
   },
   {
     id: 2,
     name: "Sophia Rossi",
     role: "Founder, Rossi Bakery",
     industry: "Boutique Bakery",
-    quote: "Custom cakes are hard to price on the fly. With the Qalt widget, customers get a delivery estimate immediately, and we save hours of back-and-forth emails.",
-    image: "/testimonials/sophia.png",
+    quote: "Delivery estimates used to mean back-and-forth messages. The quote widget gives customers a much clearer path from delivery details to a decision.",
     initials: "SR",
-    color: "bg-amber-500",
-    video: "/videos/sophia_rossi.mp4"
+    accent: "amber",
   },
   {
     id: 3,
     name: "David Chen",
     role: "Operations, CorePulse",
     industry: "Tech Hardware",
-    quote: "We deliver high-end servers. Precision and reliability are key. Qalt's pricing engine handles our weight-based variables perfectly. It's transformed our B2B game.",
-    image: "/testimonials/david.png",
+    quote: "The pricing rules are what matter for us. Weight, distance, and service options can all be reflected in one customer-facing quote flow.",
     initials: "DC",
-    color: "bg-red-600",
-    video: "/videos/david_chen.mp4"
+    accent: "emerald",
   },
   {
     id: 4,
     name: "Marcus Thorne",
     role: "Director, Thorne Express",
     industry: "Last-Mile Courier",
-    quote: "Scaling a courier service is all about transparency. Qalt gives our customers the confidence they need to book instantly. Best tech investment we've ever made.",
-    image: "/testimonials/marcus.png",
+    quote: "The biggest improvement is consistency. Customers see the same structured quote experience every time instead of depending on who answers the phone.",
     initials: "MT",
-    color: "bg-slate-700",
-    video: "/videos/marcus_thorne.mp4"
+    accent: "slate",
   },
   {
     id: 5,
     name: "Elena Vance",
     role: "Manager, Vance Interiors",
     industry: "Modern Furniture",
-    quote: "Delivery and assembly quotes used to be a bottleneck. Now, it's a 30-second process for our clients. Qalt's white-labeling matches our luxury aesthetic perfectly.",
-    image: "/testimonials/elena.png",
+    quote: "Delivery and assembly quotes were a bottleneck. A branded quote form makes the process easier for customers to understand before they book.",
     initials: "EV",
-    color: "bg-red-600",
-    video: "/videos/elena_vance.mp4"
+    accent: "red",
   },
   {
     id: 6,
     name: "Samira Joudi",
     role: "Founder, Velour",
     industry: "Retail Boutique",
-    quote: "We added Qalt's widget to our boutique site and now customers can book our local delivery and pay online instantly. It made us look like a much bigger operation.",
-    image: "/testimonials/samira.png",
+    quote: "Keeping the quote experience on our own site makes the business feel more polished and keeps the customer journey in our brand.",
     initials: "SJ",
-    color: "bg-emerald-500",
-    video: "/videos/samira_joudi.mp4"
+    accent: "emerald",
   },
   {
     id: 7,
     name: "James Miller",
     role: "Lead Pharmacist, City Meds",
     industry: "Pharmacy & Healthcare",
-    quote: "We run our own medical courier service. Qalt's widget sits on our site and lets clients instantly price and book a delivery run. It removed a huge amount of manual back-and-forth.",
-    image: "/testimonials/james.png",
+    quote: "A structured quote and booking flow removes a lot of repetitive questions and gives us better information before a delivery is scheduled.",
     initials: "JM",
-    color: "bg-cyan-600",
-    video: "/videos/james_miller.mp4"
-  }
+    accent: "slate",
+  },
 ];
 
 const COUNT = TESTIMONIALS.length;
-// 3 copies for seamless infinite loop
 const SLIDES = [...TESTIMONIALS, ...TESTIMONIALS, ...TESTIMONIALS];
 
+const accentClasses = {
+  red: "bg-red-50 text-red-700 border-red-100",
+  emerald: "bg-emerald-50 text-emerald-700 border-emerald-100",
+  amber: "bg-amber-50 text-amber-700 border-amber-100",
+  slate: "bg-slate-100 text-slate-700 border-slate-200",
+};
+
 export default function TestimonialsCarousel() {
-  const [index, setIndex] = useState(COUNT); // start at middle copy
+  const [index, setIndex] = useState(COUNT);
   const [animate, setAnimate] = useState(true);
   const [paused, setPaused] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [dragX, setDragX] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const [visible, setVisible] = useState(3);
   const startRef = useRef(0);
-  const trackRef = useRef<HTMLDivElement>(null);
+  const reducedMotion = useReducedMotion();
 
-  // Detect mobile once on mount
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    const handleResize = () => {
+      setVisible(window.innerWidth < 768 ? 1 : window.innerWidth < 1100 ? 2 : 3);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Seamless wrap: after transition ends, silently jump to the middle copy
   const handleTransitionEnd = useCallback(() => {
     if (index >= COUNT * 2) {
       setAnimate(false);
@@ -128,112 +123,98 @@ export default function TestimonialsCarousel() {
     }
   }, [index]);
 
-  // Re-enable animation after a silent jump
   useEffect(() => {
     if (!animate) {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => setAnimate(true));
-      });
+      requestAnimationFrame(() => requestAnimationFrame(() => setAnimate(true)));
     }
   }, [animate]);
 
-  // Auto-advance
   useEffect(() => {
-    if (paused || dragging) return;
-    const id = setInterval(() => {
+    if (paused || dragging || reducedMotion) return;
+    const timer = window.setInterval(() => {
       setAnimate(true);
-      setIndex((i) => i + 1);
-    }, 4500);
-    return () => clearInterval(id);
-  }, [paused, dragging]);
+      setIndex((value) => value + 1);
+    }, 5200);
+    return () => window.clearInterval(timer);
+  }, [paused, dragging, reducedMotion]);
 
-  const go = (dir: 1 | -1) => {
+  const go = (direction: 1 | -1) => {
     setAnimate(true);
-    setIndex((i) => i + dir);
+    setIndex((value) => value + direction);
   };
 
-  // --- drag / touch ---
   const onPointerDown = (x: number) => {
     setDragging(true);
     setAnimate(false);
     startRef.current = x;
     setDragX(0);
   };
+
   const onPointerMove = (x: number) => {
     if (!dragging) return;
     setDragX(x - startRef.current);
   };
+
   const onPointerUp = () => {
     if (!dragging) return;
     setDragging(false);
-    const threshold = 80;
-    if (dragX < -threshold) go(1);
-    else if (dragX > threshold) go(-1);
+    if (dragX < -70) go(1);
+    else if (dragX > 70) go(-1);
     else setAnimate(true);
     setDragX(0);
   };
-
-  const [visible, setVisible] = useState(3);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setVisible(window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const total = SLIDES.length;
   const slideW = 100 / total;
   const trackW = (total * 100) / visible;
   const tx = -(index * slideW);
 
-  // Only render video for slides near the current viewport (±1 slide)
-  // This prevents 21 simultaneous <video> elements from crashing mobile GPUs
-  const isSlideNearViewport = (slideIdx: number) => {
-    if (isMobile) return false; // No videos on mobile at all — prevents GPU crash
-    const distance = Math.abs(slideIdx - index);
-    return distance <= visible; // Only load videos for visible slides + 1 buffer
-  };
-
   return (
     <div
-      className="relative w-full group overflow-hidden"
+      className="relative w-full overflow-hidden"
+      style={FONT}
       onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => { setPaused(false); if (dragging) onPointerUp(); }}
+      onMouseLeave={() => {
+        setPaused(false);
+        if (dragging) onPointerUp();
+      }}
     >
-      {/* Arrows */}
-      <button
-        onClick={() => go(-1)}
-        className="absolute left-8 top-1/2 -translate-y-1/2 z-40 p-3 bg-slate-900/80 hover:bg-slate-900 border border-white/10 rounded-full text-white backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-2xl"
-        aria-label="Previous testimonial"
-      >
-        <ChevronLeft size={24} />
-      </button>
-      <button
-        onClick={() => go(1)}
-        className="absolute right-8 top-1/2 -translate-y-1/2 z-40 p-3 bg-slate-900/80 hover:bg-slate-900 border border-white/10 rounded-full text-white backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-2xl"
-        aria-label="Next testimonial"
-      >
-        <ChevronRight size={24} />
-      </button>
+      <div className="mx-auto mb-2 flex max-w-7xl items-center justify-end gap-2 px-6">
+        <button
+          type="button"
+          onClick={() => go(-1)}
+          className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-white transition hover:bg-white/10"
+          aria-label="Previous testimonial"
+        >
+          <ChevronLeft size={18} />
+        </button>
+        <button
+          type="button"
+          onClick={() => go(1)}
+          className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-white transition hover:bg-white/10"
+          aria-label="Next testimonial"
+        >
+          <ChevronRight size={18} />
+        </button>
+      </div>
 
-      {/* Track */}
       <div
-        className="relative overflow-hidden cursor-grab active:cursor-grabbing px-4 py-20"
-        onMouseDown={(e) => onPointerDown(e.pageX)}
-        onMouseMove={(e) => { if (dragging) { e.preventDefault(); onPointerMove(e.pageX); } }}
+        className="cursor-grab overflow-hidden px-3 pb-20 pt-5 active:cursor-grabbing"
+        onMouseDown={(event) => onPointerDown(event.pageX)}
+        onMouseMove={(event) => {
+          if (dragging) {
+            event.preventDefault();
+            onPointerMove(event.pageX);
+          }
+        }}
         onMouseUp={onPointerUp}
-        onMouseLeave={() => { if (dragging) onPointerUp(); }}
-        onTouchStart={(e) => onPointerDown(e.touches[0].pageX)}
-        onTouchMove={(e) => onPointerMove(e.touches[0].pageX)}
+        onTouchStart={(event) => onPointerDown(event.touches[0].pageX)}
+        onTouchMove={(event) => onPointerMove(event.touches[0].pageX)}
         onTouchEnd={onPointerUp}
       >
         <div
-          ref={trackRef}
           onTransitionEnd={handleTransitionEnd}
-          className={animate ? "transition-transform duration-800 ease-[cubic-bezier(0.22,1,0.36,1)]" : ""}
+          className={animate ? "transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)]" : ""}
           style={{
             display: "flex",
             width: `${trackW}%`,
@@ -241,59 +222,46 @@ export default function TestimonialsCarousel() {
             willChange: "transform",
           }}
         >
-          {SLIDES.map((t, idx) => {
-            const shouldShowVideo = t.video && isSlideNearViewport(idx);
+          {SLIDES.map((testimonial, slideIndex) => {
+            const distance = Math.abs(slideIndex - index);
+            const active = distance < visible;
 
             return (
-              <div
-                key={`${t.id}-${idx}`}
-                className="flex-none px-4"
-                style={{ width: `${slideW}%` }}
-              >
-                <div className="h-[380px] relative overflow-hidden p-8 bg-[#0a0f1e] border border-white/5 rounded-[28px] hover:border-white/20 transition-all duration-500 flex flex-col justify-between group/card select-none shadow-2xl">
-                  {/* Video background — only rendered for nearby slides on desktop */}
-                  {shouldShowVideo && (
-                    <>
-                      <video
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="none"
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full w-auto h-auto object-cover z-0 opacity-30 group-hover/card:opacity-50 transition-opacity duration-700 block bg-black"
-                      >
-                        <source src={t.video} type="video/mp4" />
-                      </video>
-                      <div className="absolute inset-0 bg-linear-to-b from-slate-950/20 via-slate-950/60 to-slate-950/90 z-10" />
-                    </>
-                  )}
-
-                  {/* Static gradient overlay for slides without video (including all mobile) */}
-                  {!shouldShowVideo && (
-                    <div className="absolute inset-0 bg-linear-to-b from-slate-900/0 via-slate-900/20 to-slate-900/60 z-10" />
-                  )}
-
-                  <div className="relative z-20">
-                    <div className="mb-6">
-                      <span className="px-3 py-1.5 bg-red-500/10 text-red-400 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border border-red-500/20 backdrop-blur-sm">
-                        {t.industry}
+              <div key={`${testimonial.id}-${slideIndex}`} className="flex-none px-3.5" style={{ width: `${slideW}%` }}>
+                <motion.article
+                  animate={reducedMotion ? undefined : { y: active ? 0 : 8, opacity: active ? 1 : 0.7 }}
+                  transition={{ duration: 0.45 }}
+                  className="relative min-h-[350px] overflow-hidden rounded-[26px] border border-white/10 bg-white p-7 shadow-2xl shadow-black/20 sm:p-8"
+                >
+                  <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-red-50 blur-3xl" />
+                  <div className="relative flex h-full min-h-[294px] flex-col">
+                    <div className="flex items-start justify-between gap-4">
+                      <span className={`inline-flex rounded-full border px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.16em] ${accentClasses[testimonial.accent]}`}>
+                        {testimonial.industry}
                       </span>
+                      <div className="grid h-10 w-10 place-items-center rounded-xl bg-slate-950 text-white shadow-lg">
+                        <Quote size={16} />
+                      </div>
                     </div>
-                    <p className="text-lg md:text-xl font-medium text-white/95 mb-6 italic leading-relaxed tracking-tight text-shadow-md">
-                      &quot;{t.quote}&quot;
-                    </p>
-                  </div>
 
-                  <div className="relative z-20 flex items-center gap-4 pt-6 border-t border-white/5">
-                    <div className={`w-12 h-12 ${t.color} rounded-xl flex items-center justify-center shadow-lg group-hover/card:scale-110 transition-transform duration-500 ring-1 ring-white/10`}>
-                      <span className="text-white font-black text-base">{t.initials}</span>
-                    </div>
-                    <div>
-                      <div className="font-bold text-white text-base tracking-tight">{t.name}</div>
-                      <div className="text-red-400 text-[9px] font-black uppercase tracking-[0.15em] mt-1 opacity-80">{t.role}</div>
+                    <p className="mt-8 text-lg font-bold leading-relaxed tracking-[-0.02em] text-slate-800 sm:text-xl">
+                      “{testimonial.quote}”
+                    </p>
+
+                    <div className="mt-auto border-t border-slate-100 pt-6">
+                      <div className="flex items-center gap-3">
+                        <div className="grid h-11 w-11 place-items-center rounded-xl bg-slate-950 text-sm font-black text-white">
+                          {testimonial.initials}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="text-sm font-black text-slate-950">{testimonial.name}</div>
+                          <div className="mt-0.5 text-[9px] font-black uppercase tracking-[0.14em] text-slate-400">{testimonial.role}</div>
+                        </div>
+                        <ArrowUpRight size={15} className="text-slate-300" />
+                      </div>
                     </div>
                   </div>
-                </div>
+                </motion.article>
               </div>
             );
           })}
