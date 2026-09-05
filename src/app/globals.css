@@ -76,3 +76,283 @@ h5,
 h6 {
   font-family: inherit;
 }
+
+/* -------------------------------------------------------------------------- */
+/* Qalt quote widget: minimal, product-led treatment used by the homepage.     */
+/* -------------------------------------------------------------------------- */
+
+.qalt-widget-stage {
+  background-color: #f7f8fa;
+  background-image:
+    linear-gradient(rgba(34, 37, 43, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 37, 43, 0.035) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
+.qalt-widget-stage > div {
+  font-family: var(--font-inter), Inter, Arial, Helvetica, sans-serif !important;
+}
+
+.qalt-widget-stage > div > div {
+  border: 1px solid #e2e4e9 !important;
+  border-radius: 24px !important;
+  box-shadow: 0 26px 70px -38px rgba(34, 37, 43, 0.34) !important;
+  background: #ffffff;
+}
+
+.qalt-widget-stage > div > div > div:first-child > div:first-child {
+  padding: 24px 26px 22px !important;
+}
+
+.qalt-widget-stage > div > div > div:first-child > div:nth-child(2) {
+  padding: 24px 26px 26px !important;
+}
+
+.qalt-widget-stage form {
+  gap: 18px;
+}
+
+.qalt-widget-stage input,
+.qalt-widget-stage select,
+.qalt-widget-stage textarea {
+  border-radius: 12px !important;
+  border-color: #dfe3e8 !important;
+  background: #ffffff !important;
+  box-shadow: 0 1px 2px rgba(34, 37, 43, 0.02) !important;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease !important;
+}
+
+.qalt-widget-stage input:hover,
+.qalt-widget-stage select:hover,
+.qalt-widget-stage textarea:hover {
+  border-color: #cdd2d9 !important;
+}
+
+.qalt-widget-stage input:focus,
+.qalt-widget-stage select:focus,
+.qalt-widget-stage textarea:focus {
+  border-color: transparent !important;
+  box-shadow: 0 0 0 3px var(--ring) !important;
+}
+
+.qalt-widget-stage form button:not([class*="rounded-full"]),
+.qalt-widget-stage form label[class*="rounded-2xl"],
+.qalt-widget-stage form [class*="rounded-[20px]"],
+.qalt-widget-stage form [class*="rounded-2xl"] {
+  border-radius: 14px !important;
+}
+
+.qalt-widget-stage form button {
+  transition:
+    transform 180ms cubic-bezier(.22, 1, .36, 1),
+    opacity 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease !important;
+}
+
+.qalt-widget-stage form button:not(:disabled):active {
+  transform: scale(0.985);
+}
+
+.qalt-widget-stage form [class*="from-emerald-50"] {
+  background: #f7f8fa !important;
+  border-color: #e2e4e9 !important;
+  box-shadow: none !important;
+}
+
+.qalt-widget-stage form [class*="from-emerald-50"] [class*="bg-white/70"] {
+  background: #ffffff !important;
+  border-color: #e2e4e9 !important;
+}
+
+.qalt-widget-stage [class*="shadow-[0_30px_100px"] {
+  box-shadow: 0 26px 70px -38px rgba(34, 37, 43, 0.34) !important;
+}
+
+.qalt-widget-stage [class*="border-l"] {
+  border-color: #e2e4e9 !important;
+}
+
+.qalt-widget-stage [class*="bg-slate-50/80"] {
+  background: #f7f8fa !important;
+}
+
+.qalt-widget-stage [class*="bg-slate-50"] [class*="Route"] {
+  letter-spacing: 0.06em;
+}
+
+.qalt-widget-stage * {
+  scrollbar-width: thin;
+  scrollbar-color: #cdd2d9 transparent;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Merchant Console > Widget Appearance: same calm visual language.            */
+/* -------------------------------------------------------------------------- */
+
+.qalt-widget-studio {
+  --studio-line: #e2e4e9;
+  --studio-paper: #f7f8fa;
+  --studio-ink: #22252b;
+  --studio-muted: #646b76;
+}
+
+.qalt-widget-studio > div {
+  max-width: 1280px !important;
+  gap: 32px !important;
+}
+
+.qalt-widget-studio h1 {
+  color: var(--studio-ink);
+  font-weight: 750;
+  letter-spacing: -0.035em;
+}
+
+.qalt-widget-studio h2,
+.qalt-widget-studio h3,
+.qalt-widget-studio h4 {
+  letter-spacing: -0.018em;
+}
+
+.qalt-widget-studio form > div[class*="bg-white"],
+.qalt-widget-studio form > div[class*="dark:bg"] {
+  border: 1px solid var(--studio-line) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 12px 34px -28px rgba(34, 37, 43, 0.28) !important;
+  padding: 24px !important;
+}
+
+.qalt-widget-studio .rounded-none {
+  border-radius: 12px !important;
+}
+
+.qalt-widget-studio input,
+.qalt-widget-studio select,
+.qalt-widget-studio textarea {
+  min-height: 44px;
+  border-radius: 12px !important;
+  border-color: var(--studio-line) !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease !important;
+}
+
+.qalt-widget-studio textarea {
+  min-height: 92px;
+}
+
+.qalt-widget-studio input:focus,
+.qalt-widget-studio select:focus,
+.qalt-widget-studio textarea:focus {
+  border-color: rgba(223, 23, 49, 0.45) !important;
+  box-shadow: 0 0 0 3px rgba(223, 23, 49, 0.09) !important;
+}
+
+.qalt-widget-studio button,
+.qalt-widget-studio label {
+  transition:
+    transform 180ms cubic-bezier(.22, 1, .36, 1),
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease !important;
+}
+
+.qalt-widget-studio button:not(:disabled):active {
+  transform: scale(0.985);
+}
+
+.qalt-widget-studio form > div:last-of-type button[type="submit"] {
+  border-radius: 12px !important;
+  min-height: 46px;
+  box-shadow: 0 10px 24px -18px rgba(223, 23, 49, 0.75);
+}
+
+.qalt-widget-studio a[href^="/widget/"] {
+  border-radius: 12px !important;
+  border-color: var(--studio-line) !important;
+  min-height: 46px;
+}
+
+.qalt-widget-studio .xl\:sticky {
+  top: 24px !important;
+}
+
+.qalt-widget-studio .pointer-events-none.opacity-80 {
+  opacity: 1 !important;
+  transform: none !important;
+  border: 1px solid var(--studio-line) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 24px 64px -38px rgba(34, 37, 43, 0.34) !important;
+  background: #ffffff;
+}
+
+.qalt-widget-studio .pointer-events-none.opacity-80 > div:first-child {
+  border-radius: 23px 23px 0 0 !important;
+}
+
+.qalt-widget-studio .pointer-events-none.opacity-80 > div:last-child {
+  position: relative;
+  background: #ffffff;
+}
+
+.qalt-widget-studio .pointer-events-none.opacity-80 > div:last-child > div:first-child > div {
+  height: 42px !important;
+  border: 1px solid var(--studio-line) !important;
+  border-radius: 12px !important;
+  background: #f7f8fa !important;
+}
+
+.qalt-widget-studio .pointer-events-none.opacity-80 > div:last-child::before {
+  content: "ROUTE PREVIEW";
+  display: block;
+  margin: 2px 0 14px;
+  color: #8a919c;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.qalt-widget-studio .pointer-events-none.opacity-80 > div:last-child::after {
+  content: "";
+  display: block;
+  height: 112px;
+  margin: 0 0 16px;
+  border: 1px solid var(--studio-line);
+  border-radius: 14px;
+  background-color: #f7f8fa;
+  background-image:
+    radial-gradient(circle at 18% 70%, #ffffff 0 4px, #087c68 4px 6px, transparent 6.5px),
+    radial-gradient(circle at 82% 28%, #087c68 0 6px, #ffffff 6px 8px, transparent 8.5px),
+    linear-gradient(28deg, transparent 0 42%, rgba(8, 124, 104, 0.92) 42.5% 44%, transparent 44.5% 100%),
+    linear-gradient(rgba(34, 37, 43, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 37, 43, 0.035) 1px, transparent 1px);
+  background-size: auto, auto, auto, 24px 24px, 24px 24px;
+}
+
+.dark .qalt-widget-studio {
+  --studio-line: rgba(255,255,255,0.08);
+  --studio-paper: #151515;
+  --studio-ink: #f4f4f5;
+  --studio-muted: #a1a1aa;
+}
+
+.dark .qalt-widget-studio input,
+.dark .qalt-widget-studio select,
+.dark .qalt-widget-studio textarea,
+.dark .qalt-widget-studio .pointer-events-none.opacity-80 {
+  background: #171717 !important;
+  color: #f4f4f5 !important;
+}
+
+.dark .qalt-widget-studio .pointer-events-none.opacity-80 > div:last-child {
+  background: #171717;
+}
