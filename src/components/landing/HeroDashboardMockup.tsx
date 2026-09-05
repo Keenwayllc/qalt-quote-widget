@@ -1,443 +1,569 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Users, DollarSign, Zap, CheckCircle2, Clock, TrendingUp, Package, Truck, Weight } from "lucide-react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import {
+  ArrowRight,
+  Calculator,
+  Check,
+  CheckCircle2,
+  CreditCard,
+  MapPin,
+  Package,
+  Palette,
+  Route,
+  Sparkles,
+  Truck,
+} from "lucide-react";
 
-const SCREENS = [
-  {
-    id: "overview",
-    label: "Dashboard",
-    content: <OverviewScreen />,
-  },
-  {
-    id: "analytics",
-    label: "Analytics",
-    content: <AnalyticsScreen />,
-  },
-  {
-    id: "route",
-    label: "Route & Book",
-    content: <RouteQuoteScreen />,
-  },
+const STAGES = [
+  { label: "Details", icon: MapPin },
+  { label: "Route", icon: Route },
+  { label: "Quote", icon: Calculator },
+  { label: "Paid", icon: CreditCard },
 ];
 
-function OverviewScreen() {
+const ACCENTS = [
+  { name: "Qalt Red", value: "#ef4444" },
+  { name: "Electric Blue", value: "#3b82f6" },
+  { name: "Emerald", value: "#10b981" },
+];
+
+const STEP_MS = 4200;
+
+function Field({
+  label,
+  value,
+  delay = 0,
+  accent,
+  reduceMotion,
+}: {
+  label: string;
+  value: string;
+  delay?: number;
+  accent: string;
+  reduceMotion: boolean | null;
+}) {
   return (
-    <div className="p-4 space-y-3 h-full overflow-hidden">
-      {/* Header */}
-      <div className="flex items-start justify-between mb-1">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-[8px] font-black uppercase tracking-widest text-red-500 bg-red-500/10 px-2 py-0.5 rounded-sm">Enterprise Plan</span>
-          </div>
-          <h2 className="text-sm font-black text-slate-900">Dashboard</h2>
-          <p className="text-[9px] text-slate-500">Welcome back, <span className="font-bold text-slate-700">Your Company</span>. Here's your performance.</p>
-        </div>
-        <div className="px-3 py-1.5 bg-slate-900 text-white text-[8px] font-black rounded-sm">Customize Widget ↗</div>
-      </div>
-
-      {/* KPI Cards */}
-      <div className="grid grid-cols-3 gap-2">
-        {[
-          { icon: <Package size={10} className="text-red-500" />, label: "TOTAL QUOTES", value: "18", badge: "+12%", badgeColor: "text-emerald-600 bg-emerald-50" },
-          { icon: <DollarSign size={10} className="text-emerald-500" />, label: "BASE RATE", value: "$3.00", sub: "per mile" },
-          { icon: <Zap size={10} className="text-blue-500" />, label: "ACTIVE STATUS", value: "Online", sub: "Widget live" },
-        ].map((card, i) => (
-          <div key={i} className="bg-white border border-slate-100 rounded-sm p-2 relative">
-            <div className="flex items-center justify-between mb-1">
-              <div className="w-5 h-5 bg-slate-50 rounded-sm flex items-center justify-center">{card.icon}</div>
-              {card.badge && <span className={`text-[7px] font-black px-1.5 py-0.5 rounded-full ${card.badgeColor}`}>{card.badge}</span>}
-            </div>
-            <p className="text-[7px] font-black text-slate-400 uppercase tracking-wider">{card.label}</p>
-            <p className="text-sm font-black text-slate-900 leading-tight">{card.value}</p>
-            {card.sub && <p className="text-[7px] text-slate-400">{card.sub}</p>}
-          </div>
-        ))}
-      </div>
-
-      {/* Unlimited quotes banner */}
-      <div className="flex items-center gap-2 bg-white border border-slate-100 rounded-sm px-3 py-2">
-        <CheckCircle2 size={10} className="text-emerald-500 shrink-0" />
-        <div>
-          <p className="text-[8px] font-black text-slate-800">Unlimited Quotes</p>
-          <p className="text-[7px] text-slate-400">1 sent this month · No limit on Enterprise</p>
-        </div>
-      </div>
-
-      {/* Active Jobs */}
-      <div>
-        <div className="flex items-center justify-between mb-1.5">
-          <div className="flex items-center gap-1">
-            <Package size={9} className="text-amber-500" />
-            <p className="text-[8px] font-black text-slate-700 uppercase tracking-wider">Active Jobs</p>
-          </div>
-          <span className="text-[7px] font-bold text-red-500">View all →</span>
-        </div>
-        <div className="bg-white border border-slate-100 rounded-sm p-2 flex items-center gap-2">
-          <div className="w-6 h-6 bg-amber-50 rounded-sm flex items-center justify-center">
-            <Clock size={9} className="text-amber-500" />
-          </div>
-          <div>
-            <p className="text-[7px] font-black text-slate-400">#18NL2K</p>
-            <p className="text-[9px] font-bold text-slate-800">Test Warehouse A</p>
-            <p className="text-[7px] text-slate-400">Apr 18</p>
-          </div>
-        </div>
+    <div>
+      <p className="mb-1.5 text-[8px] font-black uppercase tracking-[0.18em] text-slate-400">
+        {label}
+      </p>
+      <div className="relative overflow-hidden rounded-lg border border-slate-200 bg-white px-3 py-2.5 shadow-sm">
+        <motion.div
+          initial={reduceMotion ? false : { width: 0 }}
+          animate={{ width: "100%" }}
+          transition={{ duration: 1.1, delay }}
+          className="overflow-hidden whitespace-nowrap text-[10px] font-bold text-slate-700"
+        >
+          {value}
+        </motion.div>
+        <MapPin
+          size={12}
+          className="absolute right-3 top-1/2 -translate-y-1/2"
+          style={{ color: accent }}
+        />
       </div>
     </div>
   );
 }
 
-function AnalyticsScreen() {
+function StagePanel({
+  stage,
+  accent,
+  reduceMotion,
+}: {
+  stage: number;
+  accent: string;
+  reduceMotion: boolean | null;
+}) {
   return (
-    <div className="p-4 space-y-3 h-full overflow-hidden">
-      {/* Header */}
-      <div className="mb-1">
-        <div className="flex items-center gap-1.5 mb-1">
-          <span className="text-[7px] font-black uppercase tracking-widest text-red-500 bg-red-500/10 px-2 py-0.5 rounded-sm">⚡ QALT · SMART QUOTES</span>
-        </div>
-        <h2 className="text-sm font-black text-slate-900">Analytics Overview</h2>
-        <p className="text-[8px] text-slate-500">Instant insights for your logistics pipeline. <span className="font-bold text-slate-700">Your rates. Embedded. Anywhere.</span></p>
-      </div>
-
-      {/* KPI Cards */}
-      <div className="grid grid-cols-3 gap-2">
-        {[
-          { icon: <Users size={9} className="text-red-500" />, label: "TOTAL LEADS", value: "11", sub: "0 today" },
-          { icon: <DollarSign size={9} className="text-emerald-500" />, label: "PIPELINE VALUE", value: "$7,275", sub: "$0 today" },
-          { icon: <TrendingUp size={9} className="text-blue-500" />, label: "AVG. DEAL SIZE", value: "$661", sub: "Lifetime avg" },
-        ].map((card, i) => (
-          <div key={i} className="bg-white border border-slate-100 rounded-sm p-2">
-            <div className="w-5 h-5 bg-slate-50 rounded-sm flex items-center justify-center mb-1">{card.icon}</div>
-            <p className="text-[7px] font-black text-slate-400 uppercase tracking-wider">{card.label}</p>
-            <p className="text-sm font-black text-slate-900 leading-tight">{card.value}</p>
-            <p className="text-[7px] text-slate-400">{card.sub}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Chart */}
-      <div className="bg-white border border-slate-100 rounded-sm p-3">
-        <div className="flex items-center justify-between mb-2">
-          <div>
-            <p className="text-[9px] font-black text-slate-800">Lead Velocity</p>
-            <p className="text-[7px] text-slate-400">Quote volume over the last 30 days.</p>
-          </div>
-          <span className="flex items-center gap-1 text-[7px] font-bold text-red-500">
-            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-            REAL-TIME
-          </span>
-        </div>
-        {/* Mini bar chart */}
-        <div className="flex items-end gap-1 h-10">
-          {[1, 2, 7, 3, 1, 4, 2, 1, 3, 2, 1, 2, 3, 1, 2].map((h, i) => (
-            <div key={i} className="flex-1 bg-blue-500/20 rounded-sm" style={{ height: `${(h / 7) * 100}%` }} />
-          ))}
-        </div>
-      </div>
-
-      {/* Insights card */}
-      <div className="bg-slate-900 rounded-sm p-3">
-        <div className="flex items-center gap-1.5 mb-2">
-          <div className="w-5 h-5 bg-red-600 rounded-sm flex items-center justify-center">
-            <Zap size={9} className="text-white fill-white" />
-          </div>
-          <p className="text-[9px] font-black text-white">Qalt Insights</p>
-        </div>
-        <div className="space-y-1.5">
-          <div>
-            <p className="text-[7px] font-black text-slate-400 uppercase tracking-wider">BUSIEST TIME</p>
-            <p className="text-[8px] font-black text-red-400">Thursdays @ 3AM</p>
-          </div>
-          <div>
-            <p className="text-[7px] font-black text-slate-400 uppercase tracking-wider">TOP REGION</p>
-            <p className="text-[8px] font-black text-emerald-400">916</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function RouteQuoteScreen() {
-  return (
-    <div className="flex h-full overflow-hidden">
-      {/* Left — quote form */}
-      <div className="w-[45%] border-r border-slate-100 flex flex-col overflow-hidden shrink-0">
-        {/* Widget hero banner — real highway photo */}
-        <div className="relative h-20 shrink-0 overflow-hidden">
-          <Image
-            src="/images/hero_banner_van_wide.png"
-            alt="Delivery Quote Calculator"
-            fill
-            className="object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-black/40" />
-          <div className="absolute inset-0 flex items-center px-3 gap-2 z-10">
-            <p className="text-[10px] font-black text-white drop-shadow">Delivery Quote Calculator</p>
-          </div>
-          {/* Step indicators */}
-          <div className="absolute bottom-2 left-3 flex items-center gap-1.5 z-10">
-            <div className="w-4 h-4 rounded-full bg-white/20 border border-white/30 flex items-center justify-center">
-              <CheckCircle2 size={8} className="text-white" />
-            </div>
-            <div className="w-10 h-px bg-white/30" />
-            <div className="w-4 h-4 rounded-full bg-white text-slate-900 flex items-center justify-center text-[7px] font-black">2</div>
-          </div>
-        </div>
-
-        {/* Estimated rate */}
-        <div className="px-3 py-2 bg-emerald-50 border-b border-emerald-100 text-center shrink-0">
-          <p className="text-[7px] font-black text-emerald-700 uppercase tracking-widest mb-0.5">Your Estimated Rate</p>
-          <p className="text-xl font-black text-emerald-600 leading-none">$5,724.42</p>
-          <p className="text-[7px] text-emerald-500 mt-0.5 flex items-center justify-center gap-1">
-            <CheckCircle2 size={7} /> 550.1 miles
-          </p>
-        </div>
-
-        {/* Contact form */}
-        <div className="flex-1 px-3 py-2 space-y-2 overflow-hidden">
-          {[
-            { label: "FULL NAME", placeholder: "John Doe" },
-            { label: "EMAIL", placeholder: "john@example.com" },
-            { label: "PHONE", placeholder: "(555) 000-0000" },
-          ].map((f, i) => (
-            <div key={i}>
-              <p className="text-[6px] font-black text-slate-400 uppercase tracking-wider mb-0.5">{f.label}</p>
-              <div className="border border-slate-200 rounded-sm px-2 py-1.5 bg-white">
-                <p className="text-[8px] text-slate-400">{f.placeholder}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <div className="px-3 pb-3 shrink-0">
-          <div className="bg-emerald-600 text-white text-[8px] font-black py-2 rounded-sm flex items-center justify-center gap-1.5">
-            Pay &amp; Book <span>→</span>
-          </div>
-          <p className="text-[6px] text-slate-400 text-center mt-1.5">Estimate only. Final price confirmed at booking.</p>
-        </div>
-      </div>
-
-      {/* Right — route overview */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Map placeholder */}
-        <div className="relative flex-1 bg-[#e8ecf0] overflow-hidden">
-          <div className="absolute top-2 left-2 flex items-center gap-1 bg-white border border-slate-200 rounded-sm px-2 py-1 z-10">
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-            <p className="text-[7px] font-bold text-slate-700">Route Overview</p>
-          </div>
-          {/* Simplified map grid */}
-          <div className="absolute inset-0 opacity-20"
-            style={{
-              backgroundImage: "linear-gradient(rgba(0,0,0,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.2) 1px, transparent 1px)",
-              backgroundSize: "16px 16px",
-            }}
-          />
-          {/* Route line */}
-          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 200 120" preserveAspectRatio="none">
-            <path d="M 40 30 Q 80 50 100 70 Q 130 90 170 95" stroke="#22c55e" strokeWidth="2" fill="none" strokeDasharray="4 2" />
-          </svg>
-          {/* Pin A */}
-          <div className="absolute top-[22%] left-[18%] w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-[7px] font-black shadow-md">A</div>
-          {/* Pin B */}
-          <div className="absolute top-[72%] right-[12%] w-5 h-5 bg-red-600 rounded-full flex items-center justify-center text-white text-[7px] font-black shadow-md">B</div>
-        </div>
-
-        {/* Route stats */}
-        <div className="px-3 py-2 border-t border-slate-100 bg-white shrink-0">
-          <div className="grid grid-cols-2 gap-2 mb-2">
+    <AnimatePresence mode="wait">
+      {stage === 0 && (
+        <motion.div
+          key="details"
+          initial={reduceMotion ? false : { opacity: 0, x: -18 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={reduceMotion ? undefined : { opacity: 0, x: 18 }}
+          transition={{ duration: 0.45 }}
+          className="space-y-3"
+        >
+          <div className="mb-1 flex items-center justify-between">
             <div>
-              <p className="text-[6px] font-black text-slate-400 uppercase tracking-wider">Distance</p>
-              <p className="text-[9px] font-black text-slate-800">550 mi</p>
+              <p className="text-[9px] font-black uppercase tracking-[0.18em] text-slate-400">
+                Instant quote
+              </p>
+              <h3 className="text-base font-black text-slate-900">Where is it going?</h3>
             </div>
+            <div className="rounded-full bg-slate-100 px-2.5 py-1 text-[8px] font-black text-slate-500">
+              1 of 4
+            </div>
+          </div>
+
+          <Field
+            label="Pickup"
+            value="Downtown Los Angeles, CA"
+            accent={accent}
+            delay={0.15}
+            reduceMotion={reduceMotion}
+          />
+          <Field
+            label="Dropoff"
+            value="Santa Monica, CA"
+            accent={accent}
+            delay={0.65}
+            reduceMotion={reduceMotion}
+          />
+
+          <div className="grid grid-cols-2 gap-2">
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+              <Package size={13} className="mb-2 text-slate-500" />
+              <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">Shipment</p>
+              <p className="mt-0.5 text-[10px] font-black text-slate-800">2 boxes · 85 lb</p>
+            </div>
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+              <Truck size={13} className="mb-2 text-slate-500" />
+              <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">Service</p>
+              <p className="mt-0.5 text-[10px] font-black text-slate-800">Same day</p>
+            </div>
+          </div>
+
+          <motion.div
+            animate={reduceMotion ? undefined : { scale: [1, 1.015, 1] }}
+            transition={{ duration: 1.8, repeat: Infinity }}
+            className="flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-[10px] font-black text-white"
+            style={{ backgroundColor: accent }}
+          >
+            Calculate route <ArrowRight size={12} />
+          </motion.div>
+        </motion.div>
+      )}
+
+      {stage === 1 && (
+        <motion.div
+          key="route"
+          initial={reduceMotion ? false : { opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={reduceMotion ? undefined : { opacity: 0, scale: 1.03 }}
+          transition={{ duration: 0.45 }}
+          className="space-y-3"
+        >
+          <div className="flex items-start justify-between">
             <div>
-              <p className="text-[6px] font-black text-slate-400 uppercase tracking-wider">Drive Time</p>
-              <p className="text-[9px] font-black text-slate-800">8h 31 mins</p>
+              <p className="text-[9px] font-black uppercase tracking-[0.18em]" style={{ color: accent }}>
+                Route ready
+              </p>
+              <h3 className="text-base font-black text-slate-900">Distance calculated.</h3>
+            </div>
+            <motion.div
+              initial={reduceMotion ? false : { scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", delay: 0.25 }}
+              className="flex h-8 w-8 items-center justify-center rounded-full text-white"
+              style={{ backgroundColor: accent }}
+            >
+              <Check size={15} />
+            </motion.div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+              <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">Distance</p>
+              <motion.p
+                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35 }}
+                className="mt-1 text-xl font-black text-slate-900"
+              >
+                16.8 mi
+              </motion.p>
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+              <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">Drive time</p>
+              <motion.p
+                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="mt-1 text-xl font-black text-slate-900"
+              >
+                29 min
+              </motion.p>
             </div>
           </div>
-          <p className="text-[6px] font-black text-slate-400 uppercase tracking-wider mb-1">Shipment Details</p>
-          <div className="space-y-1">
-            <div className="flex items-start gap-1.5">
-              <div className="w-3 h-3 rounded-full bg-emerald-500 flex items-center justify-center shrink-0 mt-0.5">
-                <span className="text-[5px] font-black text-white">A</span>
+
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+            <div className="flex items-center gap-2">
+              <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: accent }} />
+              <div>
+                <p className="text-[9px] font-black text-slate-800">Pickup confirmed</p>
+                <p className="text-[8px] text-slate-400">Downtown Los Angeles</p>
               </div>
-              <p className="text-[7px] text-slate-600 leading-tight">San Francisco Bay Trail,<br />San Mateo, CA</p>
             </div>
-            <div className="flex items-start gap-1.5">
-              <div className="w-3 h-3 rounded-full bg-red-500 flex items-center justify-center shrink-0 mt-0.5">
-                <span className="text-[5px] font-black text-white">B</span>
+            <div className="ml-[5px] h-5 w-px border-l border-dashed border-slate-300" />
+            <div className="flex items-center gap-2">
+              <div className="h-2.5 w-2.5 rounded-full bg-slate-900" />
+              <div>
+                <p className="text-[9px] font-black text-slate-800">Dropoff confirmed</p>
+                <p className="text-[8px] text-slate-400">Santa Monica</p>
               </div>
-              <p className="text-[7px] text-slate-600 leading-tight">Blue Diamond Road,<br />Las Vegas, NV</p>
             </div>
           </div>
-          <div className="flex items-center gap-3 mt-2">
-            <div className="flex items-center gap-1">
-              <Weight size={7} className="text-slate-400" />
-              <p className="text-[7px] text-slate-500">185 lbs · 2 items</p>
-            </div>
-            <span className="text-[7px] font-black text-emerald-600 bg-emerald-50 border border-emerald-100 px-1.5 py-0.5 rounded-sm">Inside Delivery</span>
+
+          <div className="flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 py-3 text-[10px] font-black text-white">
+            Price this job <Calculator size={12} />
           </div>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      )}
+
+      {stage === 2 && (
+        <motion.div
+          key="quote"
+          initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={reduceMotion ? undefined : { opacity: 0, y: -18 }}
+          transition={{ duration: 0.45 }}
+          className="space-y-3"
+        >
+          <div>
+            <p className="text-[9px] font-black uppercase tracking-[0.18em]" style={{ color: accent }}>
+              Instant price
+            </p>
+            <h3 className="text-base font-black text-slate-900">Your rates did the math.</h3>
+          </div>
+
+          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div className="space-y-2.5 text-[10px]">
+              {[
+                ["Base delivery", "$49.00"],
+                ["Mileage", "$33.60"],
+                ["Same-day service", "$15.00"],
+              ].map(([label, price], index) => (
+                <motion.div
+                  key={label}
+                  initial={reduceMotion ? false : { opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 + index * 0.22 }}
+                  className="flex items-center justify-between"
+                >
+                  <span className="font-medium text-slate-500">{label}</span>
+                  <span className="font-black text-slate-800">{price}</span>
+                </motion.div>
+              ))}
+            </div>
+            <div className="my-3 border-t border-dashed border-slate-200" />
+            <motion.div
+              initial={reduceMotion ? false : { opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.95, type: "spring" }}
+              className="flex items-end justify-between"
+            >
+              <div>
+                <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">Customer total</p>
+                <p className="text-[9px] font-bold text-slate-500">Ready to book</p>
+              </div>
+              <p className="text-3xl font-black" style={{ color: accent }}>$97.60</p>
+            </motion.div>
+          </div>
+
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2 }}
+            className="flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-[10px] font-black text-white"
+            style={{ backgroundColor: accent }}
+          >
+            Book & pay <CreditCard size={12} />
+          </motion.div>
+        </motion.div>
+      )}
+
+      {stage === 3 && (
+        <motion.div
+          key="paid"
+          initial={reduceMotion ? false : { opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={reduceMotion ? undefined : { opacity: 0, scale: 1.05 }}
+          transition={{ duration: 0.5 }}
+          className="flex min-h-[255px] flex-col items-center justify-center text-center"
+        >
+          <motion.div
+            initial={reduceMotion ? false : { scale: 0, rotate: -20 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ type: "spring", stiffness: 180, damping: 13, delay: 0.1 }}
+            className="mb-4 flex h-16 w-16 items-center justify-center rounded-full text-white shadow-xl"
+            style={{ backgroundColor: accent, boxShadow: `0 18px 45px ${accent}45` }}
+          >
+            <CheckCircle2 size={32} />
+          </motion.div>
+          <motion.p
+            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className="text-[9px] font-black uppercase tracking-[0.2em]"
+            style={{ color: accent }}
+          >
+            Payment complete
+          </motion.p>
+          <motion.h3
+            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45 }}
+            className="mt-1 text-xl font-black text-slate-900"
+          >
+            New delivery booked.
+          </motion.h3>
+          <motion.p
+            initial={reduceMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="mt-2 max-w-[220px] text-[10px] font-medium leading-relaxed text-slate-500"
+          >
+            The customer gets confirmation. Your team gets the job details and payment status.
+          </motion.p>
+
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="mt-5 flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-3 text-left"
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 text-white">
+                <Truck size={15} />
+              </div>
+              <div>
+                <p className="text-[9px] font-black text-slate-800">Job #Q-1084</p>
+                <p className="text-[8px] text-slate-400">Ready for operations</p>
+              </div>
+            </div>
+            <span className="rounded-full bg-emerald-50 px-2 py-1 text-[8px] font-black text-emerald-600">PAID</span>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
-
 
 export default function HeroDashboardMockup() {
-  const [activeScreen, setActiveScreen] = useState(0);
+  const [stage, setStage] = useState(0);
+  const [accent, setAccent] = useState(ACCENTS[0].value);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveScreen((prev) => (prev + 1) % SCREENS.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
+    if (reduceMotion) return;
+    const timer = window.setInterval(() => {
+      setStage((current) => (current + 1) % STAGES.length);
+    }, STEP_MS);
+    return () => window.clearInterval(timer);
+  }, [reduceMotion]);
 
   return (
-    <div className="relative w-full max-w-[520px] select-none">
-      {/* Glow behind mockup */}
-      <div className="absolute -inset-4 bg-red-600/20 blur-3xl rounded-full pointer-events-none" />
-      <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-3/4 h-16 bg-red-500/15 blur-2xl pointer-events-none" />
+    <div className="relative w-full max-w-[570px] select-none">
+      <motion.div
+        animate={reduceMotion ? undefined : { opacity: [0.35, 0.7, 0.35], scale: [0.96, 1.04, 0.96] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        className="pointer-events-none absolute -inset-8 rounded-full blur-3xl"
+        style={{ background: `radial-gradient(circle, ${accent}2e 0%, transparent 66%)` }}
+      />
 
-      {/* Browser chrome */}
-      <div className="relative bg-[#1a1a2e] rounded-xl overflow-hidden shadow-2xl shadow-black/60 border border-white/10">
-        {/* Top bar */}
-        <div className="flex items-center gap-2 px-4 py-2.5 bg-[#12121f] border-b border-white/[0.06]">
-          {/* Traffic lights */}
-          <div className="flex items-center gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-            <div className="w-2.5 h-2.5 rounded-full bg-amber-400/80" />
-            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+      <div
+        className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#10131d] shadow-2xl shadow-black/50"
+        style={{ boxShadow: `0 28px 90px rgba(0,0,0,.48), 0 0 55px ${accent}18` }}
+      >
+        <div className="flex items-center gap-2 border-b border-white/[0.07] bg-black/20 px-4 py-3">
+          <div className="flex gap-1.5">
+            <div className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
+            <div className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
+            <div className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" />
           </div>
-          {/* URL bar */}
-          <div className="flex-1 mx-3 bg-white/[0.06] border border-white/[0.08] rounded-md px-3 py-1 flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-emerald-500/60 shrink-0" />
-            <span className="text-[10px] text-white/40 font-mono truncate">app.qalt.site/dashboard</span>
+          <div className="mx-2 flex min-w-0 flex-1 items-center gap-2 rounded-md border border-white/[0.07] bg-white/[0.05] px-3 py-1.5">
+            <div className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
+            <span className="truncate font-mono text-[9px] text-white/35">yourcompany.com/quote</span>
           </div>
-          {/* Tab labels */}
-          <div className="hidden sm:flex items-center gap-1">
-            {SCREENS.map((s, i) => (
-              <button
-                key={s.id}
-                onClick={() => setActiveScreen(i)}
-                className={`text-[8px] px-2 py-0.5 rounded font-bold transition-all ${
-                  i === activeScreen
-                    ? "bg-white/10 text-white"
-                    : "text-white/30 hover:text-white/60"
-                }`}
-              >
-                {s.label}
-              </button>
-            ))}
+          <div className="hidden items-center gap-1 text-[8px] font-black text-white/30 sm:flex">
+            <Sparkles size={10} style={{ color: accent }} /> LIVE
           </div>
         </div>
 
-        {/* Sidebar + content */}
-        <div className="flex bg-[#f8f9fb]" style={{ height: "380px" }}>
-          {/* Mini sidebar */}
-          <div className="w-28 bg-white border-r border-slate-100 flex flex-col py-3 shrink-0">
-            <div className="px-3 mb-3">
-              <Image src="/images/qalt-logo-main-2026.png" alt="Qalt" width={56} height={20} className="object-contain" />
+        <div className="grid min-h-[390px] grid-cols-1 sm:grid-cols-[48%_52%]">
+          <div className="relative z-10 border-b border-white/[0.06] bg-white p-4 sm:border-b-0 sm:border-r">
+            <div className="mb-4 flex items-center justify-between">
+              <Image
+                src="/images/qalt-logo-main-2026.png"
+                alt="Qalt"
+                width={58}
+                height={21}
+                className="object-contain"
+              />
+              <span className="text-[7px] font-black uppercase tracking-[0.18em] text-slate-400">Powered by Qalt</span>
             </div>
-            <p className="text-[6px] font-black text-slate-400 uppercase tracking-widest px-3 mb-1">Merchant Console</p>
-            {[
-              { label: "Overview", active: activeScreen === 0 },
-              { label: "Analytics", active: activeScreen === 1 },
-              { label: "Pricing Settings", active: false },
-              { label: "My Forms", active: false },
-              { label: "Webhooks", active: false },
-              { label: "Widget Appearance", active: false },
-              { label: "Quotes", active: false, badge: "18" },
-              { label: "Subscription", active: false },
-            ].map((item, i) => (
-              <div
-                key={i}
-                className={`flex items-center justify-between px-3 py-1 mx-1 rounded-sm text-[7px] font-bold cursor-default ${
-                  item.active ? "bg-red-600 text-white" : "text-slate-500"
-                }`}
-              >
-                {item.label}
-                {item.badge && (
-                  <span className="bg-red-500 text-white text-[6px] font-black rounded-full w-3.5 h-3.5 flex items-center justify-center">{item.badge}</span>
-                )}
-              </div>
-            ))}
-            <div className="mt-auto px-3 pt-3 border-t border-slate-100 mx-1">
-              <div className="flex items-center gap-1.5">
-                <div className="w-4 h-4 bg-red-100 rounded-sm flex items-center justify-center">
-                  <Zap size={7} className="text-red-600 fill-red-600" />
-                </div>
+
+            <StagePanel stage={stage} accent={accent} reduceMotion={reduceMotion} />
+          </div>
+
+          <div className="relative min-h-[300px] overflow-hidden bg-[#171b26] p-4 text-white sm:min-h-0">
+            <div
+              className="absolute inset-0 opacity-[0.12]"
+              style={{
+                backgroundImage:
+                  "linear-gradient(rgba(255,255,255,.14) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.14) 1px, transparent 1px)",
+                backgroundSize: "28px 28px",
+              }}
+            />
+
+            <div className="relative z-10 flex h-full flex-col">
+              <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-[6px] font-black text-slate-700">Pro Plan</p>
-                  <p className="text-[5px] text-slate-400">qalt.site</p>
+                  <p className="text-[8px] font-black uppercase tracking-[0.2em] text-white/35">Customer journey</p>
+                  <p className="mt-0.5 text-xs font-black text-white">Quote to paid, on your site.</p>
+                </div>
+                <div className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[8px] font-black text-white/50">
+                  Auto
+                </div>
+              </div>
+
+              <div className="mt-4 flex items-center gap-1.5">
+                {STAGES.map((item, index) => {
+                  const Icon = item.icon;
+                  const active = index === stage;
+                  const complete = index < stage;
+                  return (
+                    <button
+                      key={item.label}
+                      type="button"
+                      aria-label={`Show ${item.label} step`}
+                      onClick={() => setStage(index)}
+                      className="flex min-w-0 flex-1 flex-col items-center gap-1"
+                    >
+                      <div
+                        className="flex h-7 w-7 items-center justify-center rounded-full border transition-all duration-300"
+                        style={
+                          active || complete
+                            ? { backgroundColor: accent, borderColor: accent, color: "white" }
+                            : { borderColor: "rgba(255,255,255,.1)", color: "rgba(255,255,255,.3)" }
+                        }
+                      >
+                        {complete ? <Check size={11} /> : <Icon size={11} />}
+                      </div>
+                      <span className={`truncate text-[7px] font-black ${active ? "text-white" : "text-white/30"}`}>
+                        {item.label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="relative mt-5 min-h-[190px] flex-1 overflow-hidden rounded-xl border border-white/[0.08] bg-[#202633]">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_22%,rgba(255,255,255,.08),transparent_25%),radial-gradient(circle_at_80%_72%,rgba(255,255,255,.05),transparent_28%)]" />
+                <div className="absolute left-[8%] top-[18%] h-[20%] w-[35%] rounded-[45%] bg-emerald-500/10 blur-[1px]" />
+                <div className="absolute bottom-[-12%] right-[-8%] h-[48%] w-[46%] rounded-full bg-blue-400/10" />
+
+                <svg className="absolute inset-0 h-full w-full" viewBox="0 0 300 190" preserveAspectRatio="none" aria-hidden="true">
+                  <path
+                    d="M 48 40 C 88 52, 80 93, 132 100 S 202 112, 250 150"
+                    stroke="rgba(255,255,255,.09)"
+                    strokeWidth="9"
+                    fill="none"
+                    strokeLinecap="round"
+                  />
+                  <motion.path
+                    d="M 48 40 C 88 52, 80 93, 132 100 S 202 112, 250 150"
+                    stroke={accent}
+                    strokeWidth="3"
+                    fill="none"
+                    strokeLinecap="round"
+                    initial={reduceMotion ? false : { pathLength: 0 }}
+                    animate={{ pathLength: stage >= 1 ? 1 : 0.2 }}
+                    transition={{ duration: reduceMotion ? 0 : 1.5, ease: "easeInOut" }}
+                  />
+                </svg>
+
+                <motion.div
+                  animate={
+                    reduceMotion
+                      ? undefined
+                      : stage >= 1
+                        ? { left: ["15%", "42%", "62%", "80%"], top: ["18%", "46%", "54%", "72%"] }
+                        : { y: [0, -3, 0] }
+                  }
+                  transition={stage >= 1 ? { duration: 2.2, ease: "easeInOut" } : { duration: 2, repeat: Infinity }}
+                  className="absolute left-[15%] top-[18%] z-20 flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-slate-900 shadow-lg"
+                  style={{ color: accent }}
+                >
+                  <Truck size={13} />
+                </motion.div>
+
+                <div className="absolute left-[11%] top-[12%] z-10 flex items-center gap-1.5 rounded-md border border-white/10 bg-black/30 px-2 py-1 backdrop-blur">
+                  <div className="h-2 w-2 rounded-full" style={{ backgroundColor: accent }} />
+                  <span className="text-[7px] font-black text-white/70">Pickup</span>
+                </div>
+                <div className="absolute bottom-[12%] right-[7%] z-10 flex items-center gap-1.5 rounded-md border border-white/10 bg-black/30 px-2 py-1 backdrop-blur">
+                  <div className="h-2 w-2 rounded-full bg-white" />
+                  <span className="text-[7px] font-black text-white/70">Dropoff</span>
+                </div>
+
+                <AnimatePresence>
+                  {stage === 3 && (
+                    <motion.div
+                      initial={reduceMotion ? false : { opacity: 0, scale: 0.85, y: 8 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      className="absolute inset-x-5 top-1/2 z-30 -translate-y-1/2 rounded-xl border border-white/10 bg-[#111722]/95 p-4 text-center shadow-2xl backdrop-blur"
+                    >
+                      <CheckCircle2 size={25} className="mx-auto mb-2" style={{ color: accent }} />
+                      <p className="text-[9px] font-black uppercase tracking-[0.18em]" style={{ color: accent }}>
+                        Booking confirmed
+                      </p>
+                      <p className="mt-1 text-xs font-black text-white">$97.60 collected</p>
+                      <p className="mt-1 text-[8px] text-white/40">Job sent to your Qalt dashboard</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <div className="mt-4 flex items-center justify-between gap-3">
+                <div className="flex min-w-0 items-center gap-2">
+                  <Palette size={12} className="shrink-0 text-white/35" />
+                  <div className="flex items-center gap-1.5">
+                    {ACCENTS.map((color) => (
+                      <button
+                        key={color.value}
+                        type="button"
+                        aria-label={`Use ${color.name} accent`}
+                        onClick={() => setAccent(color.value)}
+                        className="relative h-4 w-4 rounded-full border border-white/20 transition-transform hover:scale-110"
+                        style={{ backgroundColor: color.value }}
+                      >
+                        {accent === color.value && (
+                          <span className="absolute inset-[-3px] rounded-full border border-white/60" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex items-center gap-1 text-[7px] font-black text-white/30">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  YOUR BRAND
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Main content area */}
-          <div className="flex-1 overflow-hidden bg-[#f8f9fb] relative">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeScreen}
-                initial={{ opacity: 0, x: 16 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -12 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="absolute inset-0"
-              >
-                {SCREENS[activeScreen].content}
-              </motion.div>
-            </AnimatePresence>
+        {!reduceMotion && (
+          <div className="h-[3px] bg-white/5">
+            <motion.div
+              key={`${stage}-${accent}`}
+              initial={{ width: "0%" }}
+              animate={{ width: "100%" }}
+              transition={{ duration: STEP_MS / 1000, ease: "linear" }}
+              className="h-full"
+              style={{ backgroundColor: accent }}
+            />
           </div>
-        </div>
-
-        {/* Progress bar */}
-        <div className="h-[2px] bg-white/5">
-          <motion.div
-            key={activeScreen}
-            initial={{ width: "0%" }}
-            animate={{ width: "100%" }}
-            transition={{ duration: 5, ease: "linear" }}
-            className="h-full bg-red-500"
-          />
-        </div>
+        )}
       </div>
-
-      {/* Floating metric pill */}
-      <motion.div
-        animate={{ y: [0, -6, 0] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -bottom-4 -left-6 bg-white border border-slate-100 shadow-xl shadow-black/10 rounded-xl px-3 py-2 flex items-center gap-2"
-      >
-        <div className="w-6 h-6 bg-emerald-50 rounded-full flex items-center justify-center">
-          <TrendingUp size={11} className="text-emerald-600" />
-        </div>
-        <div>
-          <p className="text-[8px] font-black text-slate-900">$7,275</p>
-          <p className="text-[7px] text-slate-400">Pipeline Value</p>
-        </div>
-      </motion.div>
-
-      {/* Floating notification pill */}
-      <motion.div
-        animate={{ y: [0, -8, 0] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-        className="absolute -top-3 -right-4 bg-white border border-slate-100 shadow-xl shadow-black/10 rounded-xl px-3 py-2 flex items-center gap-2"
-      >
-        <div className="w-6 h-6 bg-red-50 rounded-full flex items-center justify-center">
-          <Package size={11} className="text-red-600" />
-        </div>
-        <div>
-          <p className="text-[8px] font-black text-slate-900">New quote request</p>
-          <p className="text-[7px] text-slate-400">$127 · Los Angeles, CA</p>
-        </div>
-      </motion.div>
     </div>
   );
 }
