@@ -16,13 +16,15 @@ export default async function WidgetSettingsPage({
   widgetSettings = widgetSettings ?? null;
 
   return (
-    <WidgetForm
-      initialData={widgetSettings!}
-      companyLogoUrl={company.logoUrl}
-      subscriptionPlan={company.subscriptionPlan}
-      companyId={company.id}
-      formId={formId}
-      stripeConnectAccountId={company.stripeConnectAccountId}
-    />
+    <div className="qalt-widget-studio">
+      <WidgetForm
+        initialData={widgetSettings!}
+        companyLogoUrl={company.logoUrl}
+        subscriptionPlan={company.subscriptionPlan}
+        companyId={company.id}
+        formId={formId}
+        stripeConnectAccountId={company.stripeConnectAccountId}
+      />
+    </div>
   );
 }
