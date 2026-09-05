@@ -1,423 +1,426 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
-import { MapPin, Zap, CheckCircle2, ShieldCheck, Calculator, Send } from "lucide-react";
-import QaltAnimatedLogo from "@/components/shared/QaltAnimatedLogo";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
+import {
+  ArrowRight,
+  CheckCircle2,
+  Clock3,
+  CreditCard,
+  MapPin,
+  Package,
+  Pencil,
+  ReceiptText,
+  Route,
+  Zap,
+} from "lucide-react";
 
-const steps = [
+const STAGE_MS = 4800;
+
+const stages = [
   {
-    id: "address",
-    title: "Enter the delivery details",
-    description: "Customers enter pickup and dropoff addresses, item details, and any service extras you require.",
-    icon: <MapPin className="text-red-500" />,
-    color: "blue"
+    id: "details",
+    eyebrow: "01 · Delivery details",
+    title: "Customer enters the job",
+    description: "Pickup, delivery, shipment details, date, and service add-ons stay in one branded flow.",
+    icon: MapPin,
   },
   {
     id: "quote",
-    title: "Show the price instantly",
-    description: "Qalt calculates the quote using your pricing rules, distance, and delivery options.",
-    icon: <Calculator className="text-emerald-500" />,
-    color: "emerald"
+    eyebrow: "02 · Instant quote",
+    title: "Your pricing appears clearly",
+    description: "Distance, service charges, and the final estimate are shown before the customer books.",
+    icon: ReceiptText,
   },
   {
-    id: "booked",
-    title: "Capture the request",
-    description: "The customer submits the quote request and your team gets the lead right away.",
-    icon: <Send className="text-rose-500" />,
-    color: "violet"
-  }
+    id: "pay",
+    eyebrow: "03 · Pay & book",
+    title: "The customer confirms the job",
+    description: "Contact details, route information, and the booking move forward without starting over.",
+    icon: CreditCard,
+  },
 ];
 
-export default function HowItWorksAnimation() {
-  const [currentStep, setCurrentStep] = useState(0);
+const FONT = {
+  fontFamily: "var(--font-space-grotesk), var(--font-geist-sans), system-ui, sans-serif",
+};
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentStep((prev) => (prev + 1) % steps.length);
-    }, 4500);
-    return () => clearInterval(timer);
-  }, []);
-
+function StageProgress({ currentStep }: { currentStep: number }) {
   return (
-    <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-      {/* Left: Info Blurb & Steps */}
-      <div className="space-y-8">
-        <div className="space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-50 text-red-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-red-100">
-            <Zap size={12} className="fill-red-600" />
-            How it works
+    <div className="flex items-center gap-2">
+      {stages.map((stage, index) => (
+        <div key={stage.id} className="flex items-center gap-2">
+          <div
+            className={`grid h-7 w-7 place-items-center rounded-full border text-[10px] font-black transition-all duration-500 ${
+              index < currentStep
+                ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                : index === currentStep
+                  ? "border-slate-900 bg-slate-900 text-white shadow-lg shadow-slate-900/15"
+                  : "border-slate-200 bg-white text-slate-400"
+            }`}
+          >
+            {index < currentStep ? <CheckCircle2 size={13} /> : index + 1}
           </div>
-          <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-slate-900 leading-[1.1]">
-            From website visitor to<br />
-            <span className="text-red-600">delivery lead in 3 steps.</span>
-          </h2>
-          <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-xl">
-            Qalt gives customers a fast way to price delivery jobs without calling or waiting for a reply.
-          </p>
+          {index < stages.length - 1 && (
+            <div className={`h-px w-7 sm:w-10 ${index < currentStep ? "bg-emerald-300" : "bg-slate-200"}`} />
+          )}
         </div>
+      ))}
+    </div>
+  );
+}
 
-        <div className="space-y-4">
-          {steps.map((step, idx) => (
-            <div 
-              key={step.id}
-              className={`p-5 rounded-2xl border transition-all duration-500 ${
-                idx === currentStep 
-                  ? "bg-white border-slate-200 shadow-xl shadow-slate-200/50 scale-[1.02]" 
-                  : "bg-transparent border-transparent opacity-40 grayscale"
-              }`}
-            >
-              <div className="flex items-start gap-4">
-                <div className={`p-3 rounded-xl bg-${step.color}-50 border border-${step.color}-100`}>
-                  {step.icon}
-                </div>
-                <div>
-                  <h3 className="text-lg font-black text-slate-900">{step.title}</h3>
-                  <p className="text-sm text-slate-500 font-medium mt-1 leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
-              </div>
+function RouteMap({ active }: { active: boolean }) {
+  return (
+    <div className="relative min-h-[260px] flex-1 overflow-hidden bg-[#eef0f2]">
+      <div className="absolute inset-0 bg-[#edf0f2]" />
+      <div className="absolute left-[4%] top-[8%] h-[34%] w-[36%] rounded-[42%_58%_55%_45%] bg-[#d8ead6]" />
+      <div className="absolute bottom-[10%] right-[-4%] h-[42%] w-[38%] rounded-[52%_48%_46%_54%] bg-[#d9e8f2]" />
+      <div
+        className="absolute inset-0 opacity-80"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,.95) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(255,255,255,.95) 1.5px, transparent 1.5px)",
+          backgroundSize: "38px 38px",
+        }}
+      />
+      <div className="absolute inset-x-0 top-[32%] h-[4px] bg-white/95" />
+      <div className="absolute inset-x-0 top-[68%] h-[3px] bg-white/90" />
+      <div className="absolute inset-y-0 left-[34%] w-[4px] bg-white/95" />
+      <div className="absolute inset-y-0 left-[72%] w-[3px] bg-white/90" />
+      <div className="absolute left-4 top-4 z-20 flex items-center gap-2 rounded-full border border-slate-200 bg-white/95 px-3 py-2 shadow-sm backdrop-blur">
+        <span className="h-2 w-2 rounded-full bg-emerald-500" />
+        <span className="text-[9px] font-black uppercase tracking-[0.18em] text-slate-700">Route overview</span>
+      </div>
+
+      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <motion.path
+          d="M 22 68 C 30 58, 39 50, 48 54 C 58 58, 63 43, 77 35"
+          fill="none"
+          stroke="white"
+          strokeLinecap="round"
+          strokeWidth="6"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: active ? 1 : 0.25, opacity: 1 }}
+          transition={{ duration: 1.4, ease: "easeInOut" }}
+        />
+        <motion.path
+          d="M 22 68 C 30 58, 39 50, 48 54 C 58 58, 63 43, 77 35"
+          fill="none"
+          stroke="#50a875"
+          strokeLinecap="round"
+          strokeWidth="3"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: active ? 1 : 0.25, opacity: 1 }}
+          transition={{ duration: 1.4, ease: "easeInOut" }}
+        />
+      </svg>
+
+      {[{ label: "A", left: "22%", top: "68%" }, { label: "B", left: "77%", top: "35%" }].map((pin, index) => (
+        <motion.div
+          key={pin.label}
+          className="absolute z-20"
+          style={{ left: pin.left, top: pin.top, transform: "translate(-50%, -100%)" }}
+          initial={{ opacity: 0, scale: 0.4, y: 8 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ delay: 0.25 + index * 0.35, type: "spring", stiffness: 220, damping: 18 }}
+        >
+          <div className="grid h-9 w-9 place-items-center rounded-full rounded-bl-none bg-[#d9503f] text-xs font-black text-white shadow-lg -rotate-45">
+            <span className="rotate-45">{pin.label}</span>
+          </div>
+        </motion.div>
+      ))}
+
+      <motion.div
+        className="absolute bottom-4 left-4 right-4 z-20 grid grid-cols-2 gap-3 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-lg backdrop-blur"
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: active ? 1 : 0.65, y: 0 }}
+      >
+        <div>
+          <div className="text-[8px] font-black uppercase tracking-widest text-slate-400">Distance</div>
+          <div className="mt-0.5 text-sm font-black text-slate-900">20.8 mi</div>
+        </div>
+        <div>
+          <div className="text-[8px] font-black uppercase tracking-widest text-slate-400">Drive time</div>
+          <div className="mt-0.5 text-sm font-black text-slate-900">34 min</div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+function QuotePanel({ currentStep }: { currentStep: number }) {
+  return (
+    <div className="flex w-full flex-col bg-white lg:w-[46%]">
+      <div className="relative overflow-hidden bg-slate-900 px-5 py-5 text-white sm:px-6">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(220,38,38,.28),transparent_46%)]" />
+        <div className="relative">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <div className="text-[9px] font-black uppercase tracking-[0.2em] text-white/50">Northline Delivery Co.</div>
+              <div className="mt-1 text-lg font-black tracking-tight">Delivery Quote Calculator</div>
             </div>
-          ))}
+            <div className="grid h-9 w-9 place-items-center rounded-xl border border-white/15 bg-white/10 font-black">N</div>
+          </div>
+          <div className="mt-5"><StageProgress currentStep={currentStep} /></div>
         </div>
       </div>
 
-      {/* Right: The Animated Mock Widget with Map */}
-      <div className="relative lg:col-span-1">
-        {/* Background glow */}
-        <div className="absolute -inset-4 bg-linear-to-tr from-red-500/10 via-emerald-500/5 to-rose-600/10 rounded-[2.5rem] blur-2xl" />
-        
-        <div className="relative bg-slate-900 rounded-[2rem] border border-white/10 shadow-2xl shadow-red-900/30 overflow-hidden min-h-[400px] h-auto sm:h-auto aspect-auto sm:aspect-square lg:aspect-16/11">
-          {/* Mock Browser Header */}
-          <div className="h-8 sm:h-10 border-b border-white/5 bg-white/5 flex items-center px-4 gap-1.5 shrink-0">
-            <div className="w-2.5 h-2.5 rounded-full bg-slate-600/50" />
-            <div className="w-2.5 h-2.5 rounded-full bg-slate-600/50" />
-            <div className="w-2.5 h-2.5 rounded-full bg-slate-600/50" />
-            <div className="mx-auto w-32 h-4 bg-white/5 rounded-full" />
-          </div>
-
-          <div className="h-auto pb-4 sm:pb-0 sm:h-[calc(100%-2.5rem)] flex flex-col sm:flex-row relative">
-            
-            {/* Left Panel: The Form */}
-            <div className="flex-1 p-5 sm:p-6 flex flex-col z-10 sm:max-w-[320px] bg-slate-900 shadow-2xl sm:shadow-none border-b sm:border-b-0 sm:border-r border-white/5">
-              <div className="flex items-center justify-between mb-6 shrink-0">
-                <div className="flex items-center gap-2">
-                  <QaltAnimatedLogo white iconOnly noAnimate className="w-6 h-6 object-contain" />
-                  <div className="h-3 w-10 bg-white/10 rounded" />
-                </div>
-                <div className="flex gap-1">
-                  {[0, 1, 2].map((i) => (
-                    <div key={i} className={`h-1 w-4 rounded-full ${i <= currentStep ? 'bg-red-500' : 'bg-white/10'} transition-colors duration-500`} />
+      <div className="flex-1 p-5 sm:p-6">
+        <AnimatePresence mode="wait">
+          {currentStep === 0 && (
+            <motion.div
+              key="details"
+              initial={{ opacity: 0, x: -12 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 12 }}
+              transition={{ duration: 0.35 }}
+              className="space-y-4"
+            >
+              <div>
+                <div className="text-[9px] font-black uppercase tracking-[0.18em] text-slate-400">Where are we going?</div>
+                <div className="mt-3 space-y-2.5">
+                  {[
+                    ["Pickup", "North Hollywood, CA"],
+                    ["Delivery", "Downtown Los Angeles, CA"],
+                  ].map(([label, value], index) => (
+                    <motion.div
+                      key={label}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.15 + index * 0.2 }}
+                      className="rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-3"
+                    >
+                      <div className="flex items-center gap-2">
+                        <MapPin size={13} className={index === 0 ? "text-emerald-600" : "text-red-500"} />
+                        <div>
+                          <div className="text-[8px] font-black uppercase tracking-widest text-slate-400">{label}</div>
+                          <div className="mt-0.5 text-xs font-bold text-slate-800">{value}</div>
+                        </div>
+                      </div>
+                    </motion.div>
                   ))}
                 </div>
               </div>
 
-              <div className="flex-1 relative overflow-hidden flex flex-col justify-center">
-                <AnimatePresence mode="wait">
-                  {currentStep === 0 && (
-                    <motion.div 
-                      key="step-0"
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 10 }}
-                      className="space-y-4"
-                    >
-                      <div className="space-y-1.5">
-                          <div className="text-[9px] font-black uppercase tracking-widest text-white/40 ml-1">Pickup Address</div>
-                          <div className="w-full p-3 bg-white/5 border border-white/10 rounded-xl relative">
-                              <motion.span 
-                                  initial={{ width: 0 }}
-                                  animate={{ width: "100%" }}
-                                  transition={{ duration: 1.5, delay: 0.2 }}
-                                  className="block h-4 bg-white/5 whitespace-nowrap overflow-hidden text-white font-bold text-xs"
-                              >
-                                  789 Freight Blvd, TX
-                              </motion.span>
-                              <MapPin className="absolute right-3 top-1/2 -translate-y-1/2 text-white/20" size={14} />
-                          </div>
-                      </div>
-                      <div className="space-y-1.5">
-                          <div className="text-[9px] font-black uppercase tracking-widest text-white/40 ml-1">Delivery Address</div>
-                          <div className="w-full p-3 bg-white/5 border border-white/10 rounded-xl relative">
-                              <motion.span 
-                                  initial={{ width: 0 }}
-                                  animate={{ width: "100%" }}
-                                  transition={{ duration: 1.5, delay: 1 }}
-                                  className="block h-4 bg-white/5 whitespace-nowrap overflow-hidden text-white font-bold text-xs"
-                              >
-                                  456 Delivery Ave, CA
-                              </motion.span>
-                              <MapPin className="absolute right-3 top-1/2 -translate-y-1/2 text-white/20" size={14} />
-                          </div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-3">
-                          <div className="p-3 bg-white/5 border border-white/10 rounded-xl">
-                              <div className="text-[7px] font-black uppercase tracking-widest text-white/40 mb-1">Items</div>
-                              <div className="text-white font-bold text-sm">1x Pallet</div>
-                          </div>
-                          <div className="p-3 bg-white/5 border border-white/10 rounded-xl">
-                              <div className="text-[7px] font-black uppercase tracking-widest text-white/40 mb-1">Extras</div>
-                              <div className="text-white font-bold text-[10px] leading-tight flex flex-col items-start gap-0.5">
-                                <span className="bg-white/10 px-1.5 py-0.5 rounded">Inside Delivery</span>
-                                <span className="bg-white/10 px-1.5 py-0.5 rounded">Stairs</span>
-                              </div>
-                          </div>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {currentStep === 1 && (
-                    <motion.div 
-                      key="step-1"
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 1.05 }}
-                      className="flex flex-col justify-center h-full space-y-4"
-                    >
-                      <div className="space-y-3">
-                          <div className="text-[9px] font-black uppercase tracking-widest text-emerald-400 text-center">Calculation Complete</div>
-                          
-                          {/* Receipt Breakdown */}
-                          <div className="bg-white/5 border border-white/10 rounded-xl p-4 space-y-3">
-                            <motion.div 
-                              initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
-                              className="flex justify-between items-center text-xs"
-                            >
-                              <span className="text-white/60 font-medium tracking-wide">Base Rate (1,550 mi)</span>
-                              <span className="text-white font-bold">$3,875.00</span>
-                            </motion.div>
-                            <motion.div 
-                              initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 }}
-                              className="flex justify-between items-center text-xs"
-                            >
-                              <span className="text-white/60 font-medium tracking-wide">1x Pallet</span>
-                              <span className="text-white font-bold">$150.00</span>
-                            </motion.div>
-                            <motion.div 
-                              initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.0 }}
-                              className="flex justify-between items-center text-xs"
-                            >
-                              <span className="text-white/60 font-medium tracking-wide">Inside Delivery + Stairs</span>
-                              <span className="text-white font-bold">$75.00</span>
-                            </motion.div>
-                            
-                            <motion.div 
-                              initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.8, type: "spring" }}
-                              className="pt-3 mt-3 border-t border-white/10 flex justify-between items-end"
-                            >
-                              <span className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">Total Quote</span>
-                              <span className="text-2xl font-black text-emerald-400">$4,100<span className="text-emerald-400/50 text-base">.00</span></span>
-                            </motion.div>
-                          </div>
-                      </div>
-
-                      <motion.div 
-                        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.2 }}
-                        className="p-2.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg w-full flex items-center justify-center gap-2"
-                      >
-                          <ShieldCheck className="text-emerald-500" size={14} />
-                          <div className="text-[9px] font-black text-emerald-500 uppercase tracking-wider">Plan Active</div>
-                      </motion.div>
-                    </motion.div>
-                  )}
-
-                  {currentStep === 2 && (
-                    <motion.div 
-                      key="step-2"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="space-y-4"
-                    >
-                      <div className="bg-red-600/10 border border-red-500/20 rounded-xl p-4 text-center space-y-3">
-                          <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-red-500/40">
-                              <CheckCircle2 className="text-white" size={24} />
-                          </div>
-                          <div>
-                              <h4 className="text-base font-black text-white">Booking Requested!</h4>
-                              <p className="text-white/40 text-xs font-medium leading-relaxed mt-1">
-                                  Confirmation sent.
-                              </p>
-                          </div>
-                      </div>
-                      <div className="bg-white/5 border border-white/10 rounded-xl p-3 flex items-center gap-2">
-                          <div className="w-6 h-6 rounded-full bg-linear-to-br from-red-500 to-rose-600 shrink-0" />
-                          <div className="overflow-hidden">
-                              <div className="text-xs font-black text-white truncate">John Doe Logistics</div>
-                              <div className="text-[9px] text-white/40 font-medium truncate">john@example.com</div>
-                          </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+              <div className="grid grid-cols-2 gap-2.5">
+                <div className="rounded-xl border border-slate-200 p-3">
+                  <Package size={14} className="text-slate-400" />
+                  <div className="mt-2 text-[8px] font-black uppercase tracking-widest text-slate-400">Shipment</div>
+                  <div className="mt-0.5 text-xs font-black text-slate-900">1 pallet · 400 lb</div>
+                </div>
+                <div className="rounded-xl border border-slate-200 p-3">
+                  <Clock3 size={14} className="text-slate-400" />
+                  <div className="mt-2 text-[8px] font-black uppercase tracking-widest text-slate-400">Pickup</div>
+                  <div className="mt-0.5 text-xs font-black text-slate-900">Today · 3:30 PM</div>
+                </div>
               </div>
 
-              <div className="h-10 w-full bg-linear-to-r from-red-600 to-[#4f515b] rounded-xl mt-6 flex items-center justify-center gap-2 shadow-lg shadow-red-900/30 shrink-0">
-                  <div className="h-2.5 w-16 bg-white/20 rounded-full" />
-              </div>
-            </div>
-
-            {/* Right Panel: Light Google Maps-style Map */}
-            <div className="flex-1 bg-[#e8eaed] relative overflow-hidden border-l border-slate-200 hidden sm:block">
-
-              {/* CSS mock map — self-contained, no external tiles, no API key, no network calls */}
-              <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-                {/* Land base */}
-                <div className="absolute inset-0 bg-[#eaecef]" />
-
-                {/* Parks / green space */}
-                <div className="absolute top-[6%] left-[4%] w-[32%] h-[30%] bg-[#d7e8d0] rounded-[38%_62%_58%_42%]" />
-                <div className="absolute bottom-[8%] left-[12%] w-[20%] h-[22%] bg-[#dcead6] rounded-[52%_48%_44%_56%]" />
-
-                {/* Water */}
-                <div className="absolute -bottom-[10%] -right-[8%] w-[48%] h-[52%] bg-[#cfe0ec] rounded-[58%_42%_46%_54%]" />
-
-                {/* Fine street grid */}
-                <div
-                  className="absolute inset-0 opacity-70"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(rgba(255,255,255,0.75) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(255,255,255,0.75) 1.5px, transparent 1.5px)",
-                    backgroundSize: "34px 34px",
-                  }}
-                />
-
-                {/* Arterial roads */}
-                <div className="absolute left-0 right-0 top-[34%] h-[4px] bg-white/90" />
-                <div className="absolute left-0 right-0 top-[66%] h-[3px] bg-white/80" />
-                <div className="absolute top-0 bottom-0 left-[30%] w-[4px] bg-white/90" />
-                <div className="absolute top-0 bottom-0 left-[70%] w-[3px] bg-white/80" />
-
-                {/* Diagonal avenue */}
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(34deg, transparent 0 47.6%, rgba(255,255,255,0.85) 47.6% 49%, transparent 49%)",
-                  }}
-                />
-
-                {/* Soft vignette edges */}
-                <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(232,234,237,0.7) 100%)' }} />
+              <div className="flex flex-wrap gap-2">
+                <span className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-[9px] font-black text-amber-700">Stairs</span>
+                <span className="rounded-full border border-red-100 bg-red-50 px-3 py-1.5 text-[9px] font-black text-red-700">Inside Delivery</span>
               </div>
 
-              {/* Route SVG overlay */}
-              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                <defs>
-                  <filter id="routeGlow">
-                    <feGaussianBlur stdDeviation="1" result="blur" />
-                    <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-                  </filter>
-                </defs>
-                {/* Route shadow/outline */}
-                <motion.path
-                  d="M 14 52 C 26 44, 38 40, 50 42 C 62 44, 74 50, 85 72"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: currentStep >= 1 ? 1 : 0, opacity: currentStep >= 1 ? 1 : 0 }}
-                  transition={{ duration: 1.8, ease: "easeInOut" }}
-                />
-                {/* Main green route line */}
-                <motion.path
-                  d="M 14 52 C 26 44, 38 40, 50 42 C 62 44, 74 50, 85 72"
-                  fill="none"
-                  stroke="#4CAF50"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  filter="url(#routeGlow)"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: currentStep >= 1 ? 1 : 0, opacity: currentStep >= 1 ? 1 : 0 }}
-                  transition={{ duration: 1.8, ease: "easeInOut" }}
-                />
-              </svg>
-
-              {/* Pin A — Pickup (CA, left) */}
               <motion.div
-                className="absolute flex flex-col items-center z-10"
-                style={{ top: "52%", left: "14%", transform: "translate(-50%, -100%)" }}
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: currentStep >= 0 ? 1 : 0, opacity: currentStep >= 0 ? 1 : 0 }}
-                transition={{ type: "spring", delay: 0.4 }}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.75 }}
+                className="flex h-11 items-center justify-center gap-2 rounded-xl bg-slate-900 text-xs font-black text-white shadow-lg"
               >
-                <div className="w-7 h-7 bg-[#EA4335] rounded-full rounded-bl-none rotate-[-45deg] shadow-lg flex items-center justify-center">
-                  <span className="rotate-45 text-white text-[8px] font-black">A</span>
-                </div>
+                Get instant quote <ArrowRight size={14} />
               </motion.div>
+            </motion.div>
+          )}
 
-              {/* Pin B — Delivery (TX, right) */}
-              <motion.div
-                className="absolute flex flex-col items-center z-10"
-                style={{ top: "72%", left: "85%", transform: "translate(-50%, -100%)" }}
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: currentStep >= 0 ? 1 : 0, opacity: currentStep >= 0 ? 1 : 0 }}
-                transition={{ type: "spring", delay: 1.2 }}
-              >
-                <div className="w-7 h-7 bg-[#EA4335] rounded-full rounded-bl-none rotate-[-45deg] shadow-lg flex items-center justify-center">
-                  <span className="rotate-45 text-white text-[8px] font-black">B</span>
-                </div>
-              </motion.div>
-
-              {/* Route Overview label — top */}
-              <div className="absolute top-3 left-3 right-3 flex items-center gap-2 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1.5 shadow-sm border border-slate-200/80 z-10">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
-                <span className="text-[9px] font-black text-slate-700 uppercase tracking-widest">Route Overview</span>
+          {currentStep === 1 && (
+            <motion.div
+              key="quote"
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.02 }}
+              transition={{ duration: 0.35 }}
+              className="space-y-4"
+            >
+              <div className="rounded-2xl border border-emerald-100 bg-emerald-50/70 p-5 text-center">
+                <div className="text-[9px] font-black uppercase tracking-[0.2em] text-emerald-700">Your estimated rate</div>
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.92 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ delay: 0.2, type: "spring", stiffness: 180, damping: 18 }}
+                  className="mt-2 text-4xl font-black tracking-tight text-emerald-800"
+                >
+                  $127<span className="text-xl text-emerald-700/50">.00</span>
+                </motion.div>
+                <div className="mt-1 text-[10px] font-bold text-emerald-700/70">20.8 miles</div>
               </div>
 
-              {/* Distance & Time card — bottom */}
-              <motion.div
-                className="absolute bottom-3 left-3 right-3 bg-white/90 backdrop-blur-sm rounded-lg p-2.5 shadow-sm border border-slate-200/80 z-10 flex gap-4"
-                initial={{ y: 16, opacity: 0 }}
-                animate={{ y: currentStep >= 1 ? 0 : 16, opacity: currentStep >= 1 ? 1 : 0 }}
-                transition={{ delay: 1.8 }}
-              >
-                <div>
-                  <div className="text-[7px] font-bold text-slate-400 uppercase tracking-wider">Distance</div>
-                  <div className="text-[11px] font-black text-slate-800">1,550 mi</div>
+              <div className="space-y-2 rounded-2xl border border-slate-200 bg-white p-4">
+                {[
+                  ["Base service", "$60.00"],
+                  ["20.8 mi × $2.50", "$52.00"],
+                  ["Inside delivery", "$15.00"],
+                ].map(([label, value], index) => (
+                  <motion.div
+                    key={label}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.25 + index * 0.18 }}
+                    className="flex items-center justify-between text-[11px]"
+                  >
+                    <span className="font-medium text-slate-500">{label}</span>
+                    <span className="font-black text-slate-900">{value}</span>
+                  </motion.div>
+                ))}
+                <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-3">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Estimated delivery</span>
+                  <span className="text-lg font-black text-slate-900">$127.00</span>
                 </div>
-                <div className="w-px bg-slate-200" />
-                <div>
-                  <div className="text-[7px] font-bold text-slate-400 uppercase tracking-wider">Drive Time</div>
-                  <div className="text-[11px] font-black text-slate-800">22 hrs</div>
-                </div>
-              </motion.div>
-            </div>
+              </div>
 
+              <div className="flex h-11 items-center justify-center gap-2 rounded-xl bg-emerald-600 text-xs font-black text-white shadow-lg shadow-emerald-600/15">
+                Pay & Book <ArrowRight size={14} />
+              </div>
+              <div className="flex items-center justify-center gap-1.5 text-[9px] font-bold text-slate-400"><Pencil size={11} /> Edit details</div>
+            </motion.div>
+          )}
+
+          {currentStep === 2 && (
+            <motion.div
+              key="paid"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.35 }}
+              className="flex min-h-[325px] flex-col justify-center"
+            >
+              <motion.div
+                initial={{ scale: 0.5, rotate: -12 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: "spring", stiffness: 180, damping: 14 }}
+                className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-emerald-100 text-emerald-700"
+              >
+                <CheckCircle2 size={32} />
+              </motion.div>
+              <div className="mt-5 text-center">
+                <div className="text-[9px] font-black uppercase tracking-[0.2em] text-emerald-600">Payment complete</div>
+                <h4 className="mt-1 text-2xl font-black tracking-tight text-slate-900">Delivery booked</h4>
+                <p className="mx-auto mt-2 max-w-[260px] text-xs font-medium leading-relaxed text-slate-500">The customer is done. Qalt keeps the quote, route, and booking details together.</p>
+              </div>
+              <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-[8px] font-black uppercase tracking-widest text-slate-400">Booking</div>
+                    <div className="mt-1 text-sm font-black text-slate-900">North Hollywood → Downtown LA</div>
+                  </div>
+                  <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-[9px] font-black text-emerald-700">PAID</span>
+                </div>
+                <div className="mt-3 flex items-center justify-between border-t border-slate-200 pt-3 text-xs">
+                  <span className="font-medium text-slate-500">1 pallet · Inside delivery</span>
+                  <span className="font-black text-slate-900">$127.00</span>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+export default function HowItWorksAnimation() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const reducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (reducedMotion) return;
+    const timer = window.setInterval(() => {
+      setCurrentStep((step) => (step + 1) % stages.length);
+    }, STAGE_MS);
+    return () => window.clearInterval(timer);
+  }, [reducedMotion]);
+
+  return (
+    <div className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16" style={FONT}>
+      <div>
+        <div className="inline-flex items-center gap-2 rounded-full border border-red-100 bg-red-50 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-red-700">
+          <Zap size={12} className="fill-red-600" />
+          How it works
+        </div>
+        <h2 className="mt-5 text-4xl font-black leading-[1.02] tracking-[-0.04em] text-slate-950 sm:text-5xl">
+          The same Qalt flow your customer actually sees.
+        </h2>
+        <p className="mt-5 max-w-xl text-base font-medium leading-relaxed text-slate-500 sm:text-lg">
+          No abstract software mockup. The homepage now demonstrates the real quote experience: delivery details, transparent pricing, and Pay & Book.
+        </p>
+
+        <div className="mt-8 space-y-3">
+          {stages.map((stage, index) => {
+            const Icon = stage.icon;
+            const active = currentStep === index;
+            return (
+              <button
+                key={stage.id}
+                type="button"
+                onClick={() => setCurrentStep(index)}
+                className={`w-full rounded-2xl border p-4 text-left transition-all duration-300 ${
+                  active
+                    ? "border-slate-200 bg-white shadow-xl shadow-slate-200/55"
+                    : "border-transparent bg-transparent hover:border-slate-100 hover:bg-white/60"
+                }`}
+              >
+                <div className="flex items-start gap-3.5">
+                  <div className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${active ? "bg-red-50 text-red-600" : "bg-slate-100 text-slate-400"}`}>
+                    <Icon size={17} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className={`text-[9px] font-black uppercase tracking-[0.18em] ${active ? "text-red-600" : "text-slate-400"}`}>{stage.eyebrow}</div>
+                    <div className="mt-1 text-base font-black tracking-tight text-slate-900">{stage.title}</div>
+                    <div className="mt-1 text-sm font-medium leading-relaxed text-slate-500">{stage.description}</div>
+                  </div>
+                  <ArrowRight size={15} className={`mt-1 shrink-0 transition-all ${active ? "translate-x-0 text-slate-900" : "-translate-x-1 text-slate-300"}`} />
+                </div>
+                {active && !reducedMotion && (
+                  <div className="mt-3 h-1 overflow-hidden rounded-full bg-slate-100">
+                    <motion.div
+                      key={currentStep}
+                      initial={{ width: 0 }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: STAGE_MS / 1000, ease: "linear" }}
+                      className="h-full bg-red-600"
+                    />
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="relative">
+        <div className="absolute -inset-5 rounded-[36px] bg-gradient-to-br from-red-100/70 via-white to-emerald-100/50 blur-2xl" />
+        <div className="relative overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-[0_30px_80px_-34px_rgba(15,23,42,0.42)]">
+          <div className="flex h-10 items-center gap-1.5 border-b border-slate-200 bg-slate-50 px-4">
+            <span className="h-2.5 w-2.5 rounded-full bg-slate-300" />
+            <span className="h-2.5 w-2.5 rounded-full bg-slate-300" />
+            <span className="h-2.5 w-2.5 rounded-full bg-slate-300" />
+            <div className="mx-auto rounded-full border border-slate-200 bg-white px-5 py-1 text-[8px] font-bold text-slate-400">northline-delivery.com/quote</div>
+          </div>
+          <div className="flex min-h-[520px] flex-col lg:flex-row">
+            <QuotePanel currentStep={currentStep} />
+            <RouteMap active={currentStep >= 1} />
           </div>
         </div>
 
-        {/* Floating cards */}
-        <motion.div 
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-6 -right-6 h-16 w-40 bg-white shadow-2xl rounded-2xl border border-slate-100 p-3 hidden lg:flex items-center gap-3 z-30"
+        <motion.div
+          animate={reducedMotion ? undefined : { y: [0, -7, 0] }}
+          transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -right-3 -top-4 hidden items-center gap-2 rounded-2xl border border-slate-200 bg-white px-3.5 py-3 shadow-xl lg:flex"
         >
-            <div className="w-8 h-8 bg-emerald-100 rounded-xl flex items-center justify-center shrink-0">
-                <Calculator className="text-emerald-600" size={16} />
-            </div>
-            <div>
-                <div className="text-[7px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Calculation</div>
-                <div className="text-[10px] font-black text-slate-900 leading-none">Automated</div>
-            </div>
-        </motion.div>
-
-        <motion.div 
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute -bottom-6 -left-6 h-16 w-40 bg-white shadow-2xl rounded-2xl border border-slate-100 p-3 hidden lg:flex items-center gap-3 z-30"
-        >
-            <div className="w-8 h-8 bg-red-100 rounded-xl flex items-center justify-center shrink-0">
-                <MapPin className="text-red-600" size={16} />
-            </div>
-            <div>
-                <div className="text-[7px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Route Sync</div>
-                <div className="text-[10px] font-black text-slate-900 leading-none">Google Maps API</div>
-            </div>
+          <Route size={15} className="text-emerald-600" />
+          <div>
+            <div className="text-[7px] font-black uppercase tracking-widest text-slate-400">Live route</div>
+            <div className="text-[10px] font-black text-slate-900">20.8 mi calculated</div>
+          </div>
         </motion.div>
       </div>
     </div>
