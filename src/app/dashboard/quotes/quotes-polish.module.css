@@ -1,0 +1,182 @@
+.studio {
+  --quotes-ink: #22252b;
+  --quotes-muted: #646b76;
+  --quotes-line: #e2e4e9;
+  --quotes-paper: #f7f8fa;
+  --quotes-red: #df1731;
+}
+
+.studio :global(h1),
+.studio :global(h2),
+.studio :global(h3) {
+  letter-spacing: -0.03em;
+}
+
+.studio :global(.rounded-4xl),
+.studio :global(.rounded-3xl),
+.studio :global(.rounded-2xl),
+.studio :global(.rounded-xl) {
+  border-radius: 16px !important;
+}
+
+.studio :global(.shadow-2xl),
+.studio :global(.shadow-xl),
+.studio :global(.shadow-lg),
+.studio :global(.shadow-md),
+.studio :global(.shadow-sm) {
+  box-shadow: 0 18px 50px -36px rgba(34, 37, 43, 0.42) !important;
+}
+
+.studio :global(table) {
+  background: #fff;
+}
+
+.studio :global(thead tr) {
+  background: #f7f8fa !important;
+  border-color: var(--quotes-line) !important;
+}
+
+.studio :global(thead th) {
+  color: #7c838e !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  letter-spacing: .11em !important;
+}
+
+.studio :global(tbody tr) {
+  border-color: #edf0f3 !important;
+}
+
+.studio :global(tbody tr:hover) {
+  background: #fbfbfc !important;
+}
+
+.studio :global(tbody td) {
+  padding-top: 18px !important;
+  padding-bottom: 18px !important;
+}
+
+.studio :global(input[type="checkbox"]) {
+  accent-color: var(--quotes-red);
+  border-radius: 4px !important;
+}
+
+.studio :global(button),
+.studio :global(a) {
+  transition: background-color 170ms ease, border-color 170ms ease, color 170ms ease, transform 170ms cubic-bezier(.22,1,.36,1), box-shadow 170ms ease !important;
+}
+
+.studio :global(button:not(:disabled):active),
+.studio :global(a:active) {
+  transform: scale(.985);
+}
+
+.studio :global(button[class*="bg-slate-900"]),
+.studio :global(a[class*="bg-slate-900"]) {
+  background: #22252b !important;
+}
+
+.studio :global(button[class*="bg-red-600"]),
+.studio :global(a[class*="bg-red-600"]) {
+  background: var(--quotes-red) !important;
+}
+
+.studio :global([class*="bg-white"][class*="border"]) {
+  border-color: var(--quotes-line) !important;
+}
+
+.studio :global([class*="bg-slate-50"][class*="border"]) {
+  border-color: var(--quotes-line) !important;
+}
+
+.studio :global(.fixed.top-0.right-0) {
+  max-width: 520px !important;
+  border-left: 1px solid var(--quotes-line);
+  box-shadow: -30px 0 80px -56px rgba(34, 37, 43, .55) !important;
+}
+
+.studio :global(.fixed.top-0.right-0 > div:first-child) {
+  min-height: 72px;
+  border-color: var(--quotes-line) !important;
+}
+
+.studio :global(.fixed.top-0.right-0 [class*="bg-slate-50"]) {
+  background: #f8f9fb !important;
+  border: 1px solid var(--quotes-line) !important;
+}
+
+.studio :global(.fixed.top-0.right-0 textarea) {
+  border-radius: 12px !important;
+  border-color: var(--quotes-line) !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+
+.studio :global(.fixed.top-0.right-0 textarea:focus) {
+  border-color: rgba(223, 23, 49, .4) !important;
+  box-shadow: 0 0 0 3px rgba(223, 23, 49, .08) !important;
+}
+
+.studio :global([class*="bg-linear-to-br"]) {
+  background-image: none !important;
+}
+
+.studio :global([class*="blur-[120px]"]),
+.studio :global([class*="blur-[100px]"]) {
+  display: none !important;
+}
+
+.studio :global(.flex.gap-4.overflow-x-auto > div) {
+  background: #f7f8fa !important;
+  border-color: var(--quotes-line) !important;
+  border-radius: 18px !important;
+}
+
+.studio :global(.flex.gap-4.overflow-x-auto > div > div:first-child) {
+  border-color: var(--quotes-line) !important;
+}
+
+.studio :global(.flex.gap-4.overflow-x-auto [class*="bg-white"]) {
+  background: #fff !important;
+  border-color: var(--quotes-line) !important;
+  box-shadow: none !important;
+}
+
+.studio :global(.flex.gap-4.overflow-x-auto [class*="bg-white"]:hover) {
+  border-color: #cdd2d9 !important;
+  box-shadow: 0 12px 30px -24px rgba(34, 37, 43, .28) !important;
+}
+
+.studio :global(.md\:hidden > div) {
+  border-color: var(--quotes-line) !important;
+  box-shadow: 0 12px 30px -26px rgba(34, 37, 43, .3) !important;
+}
+
+.studio :global([class*="uppercase"][class*="tracking-widest"]) {
+  letter-spacing: .08em !important;
+}
+
+.studio :global([class*="bg-amber-50"]),
+.studio :global([class*="bg-emerald-50"]),
+.studio :global([class*="bg-rose-50"]),
+.studio :global([class*="bg-red-50"]) {
+  box-shadow: none !important;
+}
+
+:global(.dark) .studio {
+  --quotes-ink: #f4f4f5;
+  --quotes-muted: #a1a1aa;
+  --quotes-line: rgba(255,255,255,.08);
+  --quotes-paper: #151515;
+}
+
+:global(.dark) .studio :global(table),
+:global(.dark) .studio :global(.fixed.top-0.right-0 textarea) {
+  background: #171717 !important;
+}
+
+:global(.dark) .studio :global(thead tr),
+:global(.dark) .studio :global(.flex.gap-4.overflow-x-auto > div),
+:global(.dark) .studio :global(.fixed.top-0.right-0 [class*="bg-slate-50"]) {
+  background: #1b1b1b !important;
+}
