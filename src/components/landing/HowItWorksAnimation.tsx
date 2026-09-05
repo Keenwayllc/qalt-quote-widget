@@ -42,7 +42,7 @@ const stages = [
 ];
 
 const FONT = {
-  fontFamily: "var(--font-space-grotesk), var(--font-geist-sans), system-ui, sans-serif",
+  fontFamily: "var(--font-inter), Inter, Arial, Helvetica, sans-serif",
 };
 
 function StageProgress({ currentStep }: { currentStep: number }) {
@@ -70,66 +70,88 @@ function StageProgress({ currentStep }: { currentStep: number }) {
   );
 }
 
-function RouteMap({ active }: { active: boolean }) {
+function RouteMap({ active, reduceMotion }: { active: boolean; reduceMotion: boolean | null }) {
+  const route = "M72 52 V108 Q72 124 88 124 H174 Q193 124 193 143 V199 Q193 218 212 218 H292";
+  const accent = "#50a875";
+
   return (
-    <div className="relative min-h-[260px] flex-1 overflow-hidden bg-[#eef0f2]">
-      <div className="absolute inset-0 bg-[#edf0f2]" />
-      <div className="absolute left-[4%] top-[8%] h-[34%] w-[36%] rounded-[42%_58%_55%_45%] bg-[#d8ead6]" />
-      <div className="absolute bottom-[10%] right-[-4%] h-[42%] w-[38%] rounded-[52%_48%_46%_54%] bg-[#d9e8f2]" />
-      <div
-        className="absolute inset-0 opacity-80"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,.95) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(255,255,255,.95) 1.5px, transparent 1.5px)",
-          backgroundSize: "38px 38px",
-        }}
-      />
-      <div className="absolute inset-x-0 top-[32%] h-[4px] bg-white/95" />
-      <div className="absolute inset-x-0 top-[68%] h-[3px] bg-white/90" />
-      <div className="absolute inset-y-0 left-[34%] w-[4px] bg-white/95" />
-      <div className="absolute inset-y-0 left-[72%] w-[3px] bg-white/90" />
+    <div className="relative min-h-[260px] flex-1 overflow-hidden bg-[#f7f8fa]">
+      <div className="absolute inset-0 bg-[#f7f8fa]" />
+      <div className="absolute left-[4%] top-[8%] h-[34%] w-[36%] rounded-[42%_58%_55%_45%] bg-[#dcebd9]/80" />
+      <div className="absolute bottom-[10%] right-[-4%] h-[42%] w-[38%] rounded-[52%_48%_46%_54%] bg-[#dfeaf3]/85" />
+
       <div className="absolute left-4 top-4 z-20 flex items-center gap-2 rounded-full border border-slate-200 bg-white/95 px-3 py-2 shadow-sm backdrop-blur">
         <span className="h-2 w-2 rounded-full bg-emerald-500" />
         <span className="text-[9px] font-black uppercase tracking-[0.18em] text-slate-700">Route overview</span>
       </div>
 
-      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-        <motion.path
-          d="M 22 68 C 30 58, 39 50, 48 54 C 58 58, 63 43, 77 35"
-          fill="none"
-          stroke="white"
-          strokeLinecap="round"
-          strokeWidth="6"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: active ? 1 : 0.25, opacity: 1 }}
-          transition={{ duration: 1.4, ease: "easeInOut" }}
-        />
-        <motion.path
-          d="M 22 68 C 30 58, 39 50, 48 54 C 58 58, 63 43, 77 35"
-          fill="none"
-          stroke="#50a875"
-          strokeLinecap="round"
-          strokeWidth="3"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: active ? 1 : 0.25, opacity: 1 }}
-          transition={{ duration: 1.4, ease: "easeInOut" }}
-        />
-      </svg>
+      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 360 270" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <pattern id="customer-flow-route-grid" width="34" height="34" patternUnits="userSpaceOnUse">
+            <path d="M34 0H0V34" fill="none" stroke="#e4e7eb" strokeWidth="0.8" />
+          </pattern>
+          <filter id="customer-flow-route-shadow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="2" stdDeviation="2.2" floodColor={accent} floodOpacity="0.24" />
+          </filter>
+        </defs>
 
-      {[{ label: "A", left: "22%", top: "68%" }, { label: "B", left: "77%", top: "35%" }].map((pin, index) => (
-        <motion.div
-          key={pin.label}
-          className="absolute z-20"
-          style={{ left: pin.left, top: pin.top, transform: "translate(-50%, -100%)" }}
-          initial={{ opacity: 0, scale: 0.4, y: 8 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ delay: 0.25 + index * 0.35, type: "spring", stiffness: 220, damping: 18 }}
-        >
-          <div className="grid h-9 w-9 place-items-center rounded-full rounded-bl-none bg-[#d9503f] text-xs font-black text-white shadow-lg -rotate-45">
-            <span className="rotate-45">{pin.label}</span>
-          </div>
-        </motion.div>
-      ))}
+        <rect width="360" height="270" fill="url(#customer-flow-route-grid)" />
+
+        <path d="M-25 212 C65 178 172 146 388 62" fill="none" stroke="#d8dde4" strokeWidth="1.2" strokeLinecap="round" />
+        <path d="M18 -8 C90 63 180 150 325 292" fill="none" stroke="#d8dde4" strokeWidth="1.2" strokeLinecap="round" />
+        <path d="M-12 77 C104 108 220 154 382 245" fill="none" stroke="#d8dde4" strokeWidth="1.2" strokeLinecap="round" />
+        <path d="M123 -20 C144 66 147 157 132 298" fill="none" stroke="#e1e4e9" strokeWidth="1" strokeLinecap="round" />
+
+        <text x="24" y="28" fill="#a3a9b3" fontSize="10" letterSpacing="1.7" style={{ fontFamily: "var(--font-inter), Inter, Arial, sans-serif" }}>
+          LOS ANGELES
+        </text>
+
+        <motion.path
+          d={route}
+          pathLength={1}
+          fill="none"
+          stroke={accent}
+          strokeWidth="4.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          filter="url(#customer-flow-route-shadow)"
+          initial={reduceMotion ? false : { pathLength: 0, opacity: 0.25 }}
+          animate={{ pathLength: active ? 1 : 0.38, opacity: 1 }}
+          transition={{ duration: 1.7, ease: [0.22, 1, 0.36, 1] }}
+        />
+
+        {active && !reduceMotion && (
+          <motion.circle
+            r="5"
+            fill={accent}
+            stroke="white"
+            strokeWidth="2"
+            initial={{ cx: 72, cy: 52 }}
+            animate={{
+              cx: [72, 72, 88, 174, 193, 193, 212, 292],
+              cy: [52, 108, 124, 124, 143, 199, 218, 218],
+            }}
+            transition={{ duration: 3.3, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.8 }}
+          />
+        )}
+
+        <circle cx="72" cy="52" r="8" fill="white" stroke={accent} strokeWidth="3" />
+        <circle cx="292" cy="218" r="8" fill={accent} />
+        <circle cx="292" cy="218" r="3" fill="white" />
+
+        <g>
+          <rect x="87" y="34" width="122" height="27" rx="5" fill="white" stroke="#e6e8ed" />
+          <text x="97" y="51" fill="#525967" fontSize="9" fontWeight="600" style={{ fontFamily: "var(--font-inter), Inter, Arial, sans-serif" }}>
+            North Hollywood
+          </text>
+        </g>
+        <g>
+          <rect x="171" y="229" width="155" height="27" rx="5" fill="white" stroke="#e6e8ed" />
+          <text x="181" y="246" fill="#525967" fontSize="9" fontWeight="600" style={{ fontFamily: "var(--font-inter), Inter, Arial, sans-serif" }}>
+            Downtown Los Angeles
+          </text>
+        </g>
+      </svg>
 
       <motion.div
         className="absolute bottom-4 left-4 right-4 z-20 grid grid-cols-2 gap-3 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-lg backdrop-blur"
@@ -407,7 +429,7 @@ export default function HowItWorksAnimation() {
           </div>
           <div className="flex min-h-[520px] flex-col lg:flex-row">
             <QuotePanel currentStep={currentStep} />
-            <RouteMap active={currentStep >= 1} />
+            <RouteMap active={currentStep >= 1} reduceMotion={reducedMotion} />
           </div>
         </div>
 
