@@ -1,5 +1,6 @@
 import { getCurrentCompany } from "@/lib/session";
 import WidgetForm from "@/components/dashboard/WidgetForm";
+import BrandColorPresets from "@/components/dashboard/BrandColorPresets";
 
 export default async function WidgetSettingsPage({
   searchParams,
@@ -17,6 +18,7 @@ export default async function WidgetSettingsPage({
 
   return (
     <div className="qalt-widget-studio">
+      <BrandColorPresets />
       <WidgetForm
         initialData={widgetSettings!}
         companyLogoUrl={company.logoUrl}
