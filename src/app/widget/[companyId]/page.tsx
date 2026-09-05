@@ -23,7 +23,7 @@ export default async function PublicWidgetPage({ params }: { params: { companyId
   const defaultPricing = company.pricingProfiles.find((p) => p.widgetSettingsId === null);
 
   return (
-    <div className="min-h-screen bg-slate-100 p-4 sm:p-8 flex items-center justify-center">
+    <div className="qalt-widget-stage min-h-screen p-4 sm:p-8 flex items-center justify-center">
       <QuoteWidgetForm company={{ ...company, widgetSettings, pricingProfile: defaultPricing } as any} />
     </div>
   );
