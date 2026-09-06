@@ -1,5 +1,7 @@
 import { getCurrentCompany, isTrialExpired, trialDaysRemaining, wasTrialDowngraded } from "@/lib/session";
 import DashboardClientLayout from "./DashboardClientLayout";
+import DashboardRouteStyler from "./DashboardRouteStyler";
+import "./dashboard-polish.css";
 import prisma from "@/lib/prisma";
 
 export default async function DashboardLayout({
@@ -37,20 +39,23 @@ export default async function DashboardLayout({
   const trialEnded = wasTrialDowngraded(company);
 
   return (
-    <DashboardClientLayout
-      subscriptionPlan={company.subscriptionPlan}
-      pendingCount={pendingCount}
-      quoteCount={quoteCount}
-      companyId={company.id}
-      trialDaysLeft={daysLeft}
-      trialEnded={trialEnded}
-      incompleteHrefs={incompleteHrefs}
-      companyName={company.name}
-      logoUrl={company.logoUrl ?? undefined}
-      profilePicUrl={company.profilePicUrl ?? undefined}
-      isAdmin={company.isAdmin}
-    >
-      {children}
-    </DashboardClientLayout>
+    <>
+      <DashboardRouteStyler />
+      <DashboardClientLayout
+        subscriptionPlan={company.subscriptionPlan}
+        pendingCount={pendingCount}
+        quoteCount={quoteCount}
+        companyId={company.id}
+        trialDaysLeft={daysLeft}
+        trialEnded={trialEnded}
+        incompleteHrefs={incompleteHrefs}
+        companyName={company.name}
+        logoUrl={company.logoUrl ?? undefined}
+        profilePicUrl={company.profilePicUrl ?? undefined}
+        isAdmin={company.isAdmin}
+      >
+        {children}
+      </DashboardClientLayout>
+    </>
   );
 }
