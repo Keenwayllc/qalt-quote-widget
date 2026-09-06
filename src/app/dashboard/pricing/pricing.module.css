@@ -1,0 +1,197 @@
+.stage {
+  --pricing-ink: #22252b;
+  --pricing-muted: #646b76;
+  --pricing-line: #e2e4e9;
+  --pricing-paper: #f7f8fa;
+  --pricing-red: #df1731;
+}
+
+.stage > div {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+.stage > div > div:first-child {
+  margin-bottom: 28px;
+}
+
+.stage h1 {
+  color: var(--pricing-ink);
+  font-size: clamp(2rem, 3vw, 2.7rem);
+  line-height: 1.05;
+  font-weight: 760;
+  letter-spacing: -0.045em;
+  margin-bottom: 10px;
+}
+
+.stage > div > div:first-child p {
+  max-width: 700px;
+  color: var(--pricing-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.stage > div > div:nth-child(2) {
+  display: grid;
+  gap: 20px;
+}
+
+.stage form {
+  border: 1px solid var(--pricing-line) !important;
+  border-radius: 20px !important;
+  background: #fff !important;
+  box-shadow: 0 14px 34px -30px rgba(34, 37, 43, 0.34) !important;
+  padding: 24px !important;
+}
+
+.stage form h2 {
+  color: var(--pricing-ink);
+  font-size: 1rem;
+  line-height: 1.25;
+  font-weight: 750;
+  letter-spacing: -0.018em;
+  margin-bottom: 20px;
+}
+
+.stage form h2 svg {
+  color: var(--pricing-red) !important;
+  width: 18px;
+  height: 18px;
+}
+
+.stage label {
+  color: #4e5560 !important;
+  font-size: 0.82rem !important;
+  font-weight: 650 !important;
+}
+
+.stage input[type="number"],
+.stage input[type="text"],
+.stage input[type="time"],
+.stage select {
+  min-height: 44px;
+  border: 1px solid var(--pricing-line) !important;
+  border-radius: 12px !important;
+  background: #fff !important;
+  color: var(--pricing-ink) !important;
+  box-shadow: none !important;
+  padding: 10px 12px !important;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.stage input:hover,
+.stage select:hover {
+  border-color: #cfd4da !important;
+}
+
+.stage input:focus,
+.stage select:focus {
+  outline: none !important;
+  border-color: rgba(223, 23, 49, 0.45) !important;
+  box-shadow: 0 0 0 3px rgba(223, 23, 49, 0.09) !important;
+}
+
+.stage button {
+  border-radius: 11px !important;
+  transition: transform 160ms cubic-bezier(.22, 1, .36, 1), background-color 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease !important;
+}
+
+.stage button:not(:disabled):active {
+  transform: scale(0.985);
+}
+
+.stage button[type="submit"] {
+  min-height: 42px;
+  padding-inline: 18px !important;
+  background: var(--pricing-red) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+.stage button[type="submit"]:hover {
+  background: #c9142b !important;
+}
+
+.stage form > div:last-child {
+  border-color: #eef0f3 !important;
+}
+
+.stage :global(.peer) + div {
+  box-shadow: none !important;
+}
+
+.stage :global(.peer:checked) + div {
+  background: var(--pricing-red) !important;
+}
+
+.stage button[aria-label="More info"] {
+  color: #a0a6ae !important;
+}
+
+.stage button[aria-label="More info"]:hover {
+  color: var(--pricing-red) !important;
+}
+
+.stage :global([class*="bg-slate-50"]),
+.stage :global([class*="bg-zinc-800"]) {
+  box-shadow: none;
+}
+
+.stage :global([class*="rounded-full"]) {
+  border-radius: 999px !important;
+}
+
+.stage :global([class*="bg-red-50"]) {
+  border-color: rgba(223, 23, 49, 0.13) !important;
+}
+
+.stage :global([class*="border-dashed"]) {
+  border-color: #d9dde3 !important;
+}
+
+.stage :global([class*="text-slate-500"]),
+.stage :global([class*="text-zinc-400"]) {
+  color: var(--pricing-muted) !important;
+}
+
+.stage :global([class*="shadow-lg"]),
+.stage :global([class*="shadow-xl"]),
+.stage :global([class*="shadow-2xl"]) {
+  box-shadow: none !important;
+}
+
+@media (max-width: 767px) {
+  .stage > div {
+    padding: 22px 16px 48px;
+  }
+
+  .stage form {
+    padding: 20px !important;
+    border-radius: 16px !important;
+  }
+
+  .stage > div > div:nth-child(2) {
+    gap: 16px;
+  }
+}
+
+:global(.dark) .stage {
+  --pricing-ink: #f4f4f5;
+  --pricing-muted: #a1a1aa;
+  --pricing-line: rgba(255, 255, 255, 0.08);
+  --pricing-paper: #151515;
+}
+
+:global(.dark) .stage form,
+:global(.dark) .stage input[type="number"],
+:global(.dark) .stage input[type="text"],
+:global(.dark) .stage input[type="time"],
+:global(.dark) .stage select {
+  background: #171717 !important;
+  color: #f4f4f5 !important;
+}
+
+:global(.dark) .stage form > div:last-child {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}

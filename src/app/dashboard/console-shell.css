@@ -1,0 +1,183 @@
+/* Final Merchant Console shell pass: shared visual rhythm across every dashboard route. */
+
+html.qalt-console-shell {
+  --console-ink: #22252b;
+  --console-muted: #646b76;
+  --console-line: #e2e4e9;
+  --console-paper: #f7f8fa;
+  --console-red: #df1731;
+  --console-night: #080b14;
+}
+
+html.qalt-console-shell .font-sans.flex.h-screen {
+  background:
+    radial-gradient(circle at 92% 4%, rgba(223, 23, 49, 0.045), transparent 24%),
+    var(--console-paper) !important;
+}
+
+html.qalt-console-shell .font-sans.flex.h-screen > aside {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-color: var(--console-line) !important;
+  box-shadow: 18px 0 56px -48px rgba(34, 37, 43, 0.48);
+}
+
+html.qalt-console-shell .font-sans.flex.h-screen > aside > div > div:first-child {
+  min-height: 92px;
+  border-bottom: 1px solid rgba(226, 228, 233, 0.62);
+}
+
+html.qalt-console-shell .font-sans.flex.h-screen > aside nav {
+  padding-top: 18px !important;
+  scrollbar-width: thin;
+  scrollbar-color: #cfd4dc transparent;
+}
+
+html.qalt-console-shell .font-sans.flex.h-screen > aside nav > div[class*="uppercase"] {
+  color: #969ca5 !important;
+  letter-spacing: 0.16em !important;
+}
+
+html.qalt-console-shell .font-sans.flex.h-screen > aside nav a {
+  border: 1px solid transparent;
+  border-radius: 13px !important;
+  min-height: 43px;
+  transform-origin: center;
+  transition:
+    transform 180ms cubic-bezier(.22, 1, .36, 1),
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease !important;
+}
+
+html.qalt-console-shell .font-sans.flex.h-screen > aside nav a:hover:not([class*="cursor-not-allowed"]) {
+  transform: translateX(2px);
+  border-color: rgba(226, 228, 233, 0.78);
+}
+
+html.qalt-console-shell .font-sans.flex.h-screen > aside nav a[class*="bg-red-600"] {
+  background: linear-gradient(135deg, #df1731 0%, #c9142c 100%) !important;
+  border-color: rgba(185, 15, 39, 0.55) !important;
+  box-shadow: 0 12px 26px -20px rgba(223, 23, 49, 0.9) !important;
+}
+
+html.qalt-console-shell .font-sans.flex.h-screen > aside nav a[class*="bg-slate-900"] {
+  background: linear-gradient(135deg, #22252b 0%, #101217 100%) !important;
+  border-color: rgba(34, 37, 43, 0.58) !important;
+  box-shadow: 0 12px 26px -22px rgba(34, 37, 43, 0.7) !important;
+}
+
+html.qalt-console-shell .font-sans.flex.h-screen > aside nav + div {
+  border-color: rgba(226, 228, 233, 0.76) !important;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.35), rgba(247,248,250,0.78));
+}
+
+html.qalt-console-shell .font-sans.flex.h-screen > aside nav + div a,
+html.qalt-console-shell .font-sans.flex.h-screen > aside nav + div button {
+  border-radius: 13px !important;
+  transition:
+    transform 170ms cubic-bezier(.22, 1, .36, 1),
+    background-color 170ms ease,
+    color 170ms ease,
+    box-shadow 170ms ease !important;
+}
+
+html.qalt-console-shell .font-sans.flex.h-screen > aside nav + div a:hover,
+html.qalt-console-shell .font-sans.flex.h-screen > aside nav + div button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+html.qalt-console-shell .font-sans.flex.h-screen > main {
+  background:
+    linear-gradient(rgba(34,37,43,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,37,43,0.018) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+html.qalt-console-shell .font-sans.flex.h-screen > main > div.flex-1.overflow-auto {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #c9ced6 transparent;
+}
+
+html.qalt-console-shell .font-sans.flex.h-screen > main > div.flex-1.overflow-auto > * {
+  position: relative;
+}
+
+html.qalt-console-shell .font-sans.flex.h-screen > main > header {
+  border-color: rgba(226, 228, 233, 0.82) !important;
+  box-shadow: 0 12px 34px -30px rgba(34, 37, 43, 0.38);
+}
+
+html.qalt-console-shell :is(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid rgba(223, 23, 49, 0.16) !important;
+  outline-offset: 2px;
+}
+
+html.qalt-console-shell button:not(:disabled):active,
+html.qalt-console-shell a:active {
+  transform: scale(0.985);
+}
+
+html.dark.qalt-console-shell {
+  --console-ink: #f4f4f5;
+  --console-muted: #a1a1aa;
+  --console-line: rgba(255,255,255,0.075);
+  --console-paper: #0a0a0a;
+}
+
+html.dark.qalt-console-shell .font-sans.flex.h-screen {
+  background:
+    radial-gradient(circle at 92% 4%, rgba(223, 23, 49, 0.06), transparent 25%),
+    #0a0a0a !important;
+}
+
+html.dark.qalt-console-shell .font-sans.flex.h-screen > aside {
+  background: rgba(15, 15, 16, 0.97) !important;
+  border-color: rgba(255,255,255,0.07) !important;
+  box-shadow: 18px 0 60px -48px rgba(0,0,0,0.9);
+}
+
+html.dark.qalt-console-shell .font-sans.flex.h-screen > aside > div > div:first-child,
+html.dark.qalt-console-shell .font-sans.flex.h-screen > aside nav + div {
+  border-color: rgba(255,255,255,0.06) !important;
+}
+
+html.dark.qalt-console-shell .font-sans.flex.h-screen > aside nav + div {
+  background: linear-gradient(to bottom, rgba(17,17,17,0.2), rgba(8,8,8,0.82));
+}
+
+html.dark.qalt-console-shell .font-sans.flex.h-screen > aside nav a:hover:not([class*="cursor-not-allowed"]) {
+  border-color: rgba(255,255,255,0.07);
+}
+
+html.dark.qalt-console-shell .font-sans.flex.h-screen > main {
+  background:
+    linear-gradient(rgba(255,255,255,0.014) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.014) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+html.dark.qalt-console-shell .font-sans.flex.h-screen > main > header {
+  border-color: rgba(255,255,255,0.07) !important;
+  box-shadow: 0 14px 36px -30px rgba(0,0,0,0.9);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.qalt-console-shell *,
+  html.qalt-console-shell *::before,
+  html.qalt-console-shell *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html.qalt-console-shell .font-sans.flex.h-screen > aside nav a:hover,
+  html.qalt-console-shell .font-sans.flex.h-screen > aside nav + div a:hover,
+  html.qalt-console-shell .font-sans.flex.h-screen > aside nav + div button:hover,
+  html.qalt-console-shell button:active,
+  html.qalt-console-shell a:active {
+    transform: none !important;
+  }
+}

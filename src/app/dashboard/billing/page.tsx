@@ -2,9 +2,12 @@ import { getCurrentCompany } from "@/lib/session";
 import { getEntitlements } from "@/lib/plans";
 import prisma from "@/lib/prisma";
 import BillingClient from "./BillingClient";
+import SubscriptionOverview from "./SubscriptionOverview";
 import SuccessBanner from "./SuccessBanner";
+import CancelSubscriptionButton from "./CancelSubscriptionButton";
+import DeleteAccountButton from "./DeleteAccountButton";
 import Link from "next/link";
-import { Zap, Clock } from "lucide-react";
+import { ArrowRight, Clock, Sparkles, Zap } from "lucide-react";
 
 export default async function BillingPage({
   searchParams,
@@ -23,136 +26,127 @@ export default async function BillingPage({
 
   const entitlements = getEntitlements(company.subscriptionPlan);
   const limit = entitlements.maxQuotesPerMonth;
-  const isUnlimited = limit === "unlimited";
   const isStarter = company.subscriptionPlan === "STARTER";
 
   return (
-    <div className="p-8 max-w-6xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Subscription</h1>
-        <p className="text-slate-500 dark:text-slate-400 mt-1">Manage your plan and feature access.</p>
-      </div>
+    <div className="mx-auto max-w-7xl space-y-8 p-4 pb-20 sm:p-6 lg:p-10">
+      <header className="max-w-3xl">
+        <div className="mb-3 inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.16em] text-red-600 dark:text-red-400">
+          <Sparkles size={12} /> Billing & Subscription
+        </div>
+        <h1 className="text-3xl font-[800] tracking-[-0.04em] text-slate-900 dark:text-white sm:text-4xl">
+          Your Qalt plan, without the guesswork.
+        </h1>
+        <p className="mt-3 text-sm font-medium leading-6 text-slate-500 dark:text-zinc-400 sm:text-base">
+          The same clean plan story customers see on Qalt&apos;s public site now continues inside the Merchant Console. Review usage, compare plans, and manage billing in one place.
+        </p>
+      </header>
 
       {showSuccess && <SuccessBanner plan={company.subscriptionPlan} />}
 
-      {/* ── Trial Expired Hard Paywall ─────────────────────────────────────── */}
       {trialExpired && (
-        <div className="mb-8 bg-slate-900 dark:bg-[#1e1e1e] rounded-none p-8 border border-red-500/30 dark:border-white/6 shadow-2xl shadow-red-900/20 dark:shadow-none">
-          <div className="flex items-start gap-5">
-            <div className="w-12 h-12 bg-red-600 rounded-none flex items-center justify-center shrink-0">
-              <Clock size={22} className="text-white" />
-            </div>
-            <div className="flex-1">
-              <h2 className="text-white font-black text-xl mb-1">Your free trial has ended</h2>
-              <p className="text-slate-400 text-sm font-medium mb-4">
-                Your 14-day trial is over. Upgrade below to keep your widget live and continue receiving quote requests. Your settings and data are safe.
-              </p>
-              <a
-                href="#pro"
-                className="inline-flex items-center px-6 py-3 bg-red-600 text-white rounded-none font-black text-sm hover:bg-red-500 transition-all shadow-lg shadow-red-900/30 dark:shadow-none"
-              >
-                Choose a plan →
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ── 7-Day Pro Trial Banner (Starter only) ─────────────────────────── */}
-      {isStarter && (
-        <div className="mb-6 bg-linear-to-r from-red-700 to-[#4f515b] rounded-none p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl shadow-red-200 dark:shadow-none">
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 bg-white/20 rounded-none flex items-center justify-center shrink-0">
-              <Zap size={20} className="text-white fill-white" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-white font-black text-base">Try Pro free for 7 days</span>
-                <span className="flex items-center gap-1 px-2 py-0.5 bg-white/20 rounded-full text-[10px] font-black text-white uppercase tracking-widest">
-                  <Clock size={10} />
-                  Limited offer
-                </span>
+        <section className="relative overflow-hidden rounded-[24px] border border-red-500/20 bg-[#0b0d14] p-6 text-white shadow-[0_24px_60px_-38px_rgba(8,11,20,.85)] sm:p-7">
+          <div className="pointer-events-none absolute -left-16 bottom-[-55%] h-52 w-52 rounded-full bg-red-600/25 blur-[70px]" />
+          <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-4">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] border border-white/10 bg-white/5 text-red-400">
+                <Clock size={20} />
               </div>
-              <p className="text-red-100 text-sm font-medium">
-                Unlock unlimited quotes, full white-label, analytics, and priority support. No charge for 7 days. Cancel before your trial ends and you will never be charged. You can upgrade, downgrade, or cancel anytime from your{" "}
-                <Link href="/dashboard/billing#account-management" className="underline underline-offset-2 hover:text-white transition-colors">billing settings</Link>.
-              </p>
+              <div>
+                <h2 className="text-lg font-[800] tracking-[-0.02em]">Your free trial has ended</h2>
+                <p className="mt-1 max-w-2xl text-sm font-medium leading-6 text-white/45">
+                  Upgrade below to keep your widget live and continue receiving quote requests. Your settings and data remain safe.
+                </p>
+              </div>
             </div>
+            <a
+              href="#plans"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-[14px] bg-red-600 px-5 py-3 text-sm font-black text-white transition-all hover:bg-red-500 active:scale-[0.985]"
+            >
+              Choose a plan <ArrowRight size={15} />
+            </a>
           </div>
-          <a
-            href="#pro"
-            className="shrink-0 px-6 py-3 bg-white text-red-700 rounded-none font-black text-sm hover:bg-red-50 transition-all shadow-lg dark:shadow-none whitespace-nowrap"
-          >
-            Start Free Trial →
-          </a>
-        </div>
+        </section>
       )}
 
-      {/* Current plan summary card */}
-      <div className="bg-white dark:bg-[#1e1e1e] rounded-none border border-slate-200 dark:border-white/6 shadow-sm dark:shadow-none p-6 mb-10 flex items-center justify-between">
-        <div>
-          <p className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Current Plan</p>
-          <div className="flex items-center gap-3 mt-1">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">{company.subscriptionPlan}</h2>
-            <span className="px-2 py-0.5 bg-red-100 dark:bg-red-500/15 text-red-700 dark:text-red-400 text-xs font-bold rounded-full border border-red-200 dark:border-red-500/30 uppercase tracking-wide">Active</span>
+      {isStarter && !trialExpired && (
+        <section className="rounded-[22px] border border-red-100 bg-red-50/70 p-5 dark:border-red-500/15 dark:bg-red-500/8 sm:p-6">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-4">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[13px] bg-red-600 text-white shadow-sm">
+                <Zap size={18} className="fill-white" />
+              </div>
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <h2 className="text-sm font-[800] text-slate-900 dark:text-white">Try Pro free for 7 days</h2>
+                  <span className="rounded-full border border-red-200 bg-white px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.12em] text-red-600 dark:border-red-500/20 dark:bg-red-500/10 dark:text-red-400">
+                    No charge for 7 days
+                  </span>
+                </div>
+                <p className="mt-1 max-w-3xl text-xs font-medium leading-5 text-slate-600 dark:text-zinc-400">
+                  Unlock unlimited quotes, white-label branding, analytics, and the full Ops Console. Cancel before the trial ends and you will not be charged. You can manage everything from your{" "}
+                  <Link href="/dashboard/billing#account-management" className="font-bold text-red-600 underline underline-offset-2 dark:text-red-400">billing settings</Link>.
+                </p>
+              </div>
+            </div>
+            <a
+              href="#plans"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-[13px] bg-slate-900 px-5 py-3 text-xs font-black text-white transition-all hover:bg-slate-800 active:scale-[0.985] dark:bg-white dark:text-slate-900 dark:hover:bg-zinc-100"
+            >
+              Start Free Trial <ArrowRight size={14} />
+            </a>
           </div>
-        </div>
-        <div className="text-right">
-          <p className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Quotes This Month</p>
-          {isUnlimited ? (
-            <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{monthlyQuotes} <span className="text-sm text-slate-400 dark:text-slate-500 font-medium">· Unlimited</span></p>
-          ) : (
-            <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
-              {monthlyQuotes}
-              <span className="text-sm text-slate-400 dark:text-slate-500 font-medium"> / {limit}</span>
-            </p>
-          )}
-        </div>
-      </div>
+        </section>
+      )}
 
-      <div id="pro">
+      <SubscriptionOverview
+        plan={company.subscriptionPlan}
+        monthlyQuotes={monthlyQuotes}
+        limit={limit}
+      />
+
+      <div id="plans" className="scroll-mt-24 pt-2">
         <BillingClient currentPlan={company.subscriptionPlan} />
       </div>
 
-      <div id="account-management">
-        <AccountDangerZone hasPaidPlan={!isStarter} />
+      <div id="account-management" className="scroll-mt-24">
+        <AccountManagement hasPaidPlan={!isStarter} />
       </div>
     </div>
   );
 }
 
-function AccountDangerZone({ hasPaidPlan }: { hasPaidPlan: boolean }) {
+function AccountManagement({ hasPaidPlan }: { hasPaidPlan: boolean }) {
   return (
-    <div className="mt-16 border border-red-200 dark:border-red-500/30 rounded-none overflow-hidden">
-      <div className="bg-red-50 dark:bg-red-500/10 px-6 py-4 border-b border-red-200 dark:border-red-500/30">
-        <h2 className="text-sm font-black text-red-700 dark:text-red-400 uppercase tracking-widest">Account Management</h2>
+    <section className="mt-12 overflow-hidden rounded-[22px] border border-slate-200 bg-white shadow-[0_18px_44px_-38px_rgba(34,37,43,.5)] dark:border-white/8 dark:bg-[#141414] dark:shadow-none">
+      <div className="border-b border-slate-200 bg-slate-50 px-5 py-4 dark:border-white/8 dark:bg-white/[0.035] sm:px-6">
+        <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400 dark:text-zinc-500">Account management</p>
+        <h2 className="mt-1 text-lg font-[800] tracking-[-0.02em] text-slate-900 dark:text-white">Subscription controls</h2>
       </div>
-      <div className="bg-white dark:bg-[#1e1e1e] divide-y divide-slate-100 dark:divide-white/4">
+
+      <div className="divide-y divide-slate-100 dark:divide-white/6">
         {hasPaidPlan && (
-          <div className="flex items-start justify-between gap-6 px-6 py-5">
-            <div>
-              <p className="font-bold text-slate-900 dark:text-white text-sm">Cancel Subscription</p>
-              <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5 leading-relaxed">
-                Downgrade to the free plan. Your widget stays active with up to 50 quotes per month. Your data is kept.
+          <div className="flex flex-col gap-4 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+            <div className="max-w-2xl">
+              <p className="text-sm font-bold text-slate-900 dark:text-white">Cancel subscription</p>
+              <p className="mt-1 text-xs font-medium leading-5 text-slate-500 dark:text-zinc-400">
+                Downgrade to Starter. Your widget remains active with the free-plan quote limit, and your data is kept.
               </p>
             </div>
             <CancelSubscriptionButton />
           </div>
         )}
-        <div className="flex items-start justify-between gap-6 px-6 py-5">
-          <div>
-            <p className="font-bold text-red-700 dark:text-red-400 text-sm">Close Account</p>
-            <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5 leading-relaxed">
-              Permanently delete your account, all quotes, widget settings, and cancel any active subscription. This cannot be undone.
+
+        <div className="flex flex-col gap-4 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <div className="max-w-2xl">
+            <p className="text-sm font-bold text-red-700 dark:text-red-400">Close account</p>
+            <p className="mt-1 text-xs font-medium leading-5 text-slate-500 dark:text-zinc-400">
+              Permanently delete your account, quotes, widget settings, and any active subscription. This cannot be undone.
             </p>
           </div>
           <DeleteAccountButton />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
-
-// These must be client components — import them
-import CancelSubscriptionButton from "./CancelSubscriptionButton";
-import DeleteAccountButton from "./DeleteAccountButton";

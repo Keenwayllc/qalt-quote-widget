@@ -1,6 +1,7 @@
 import { getCurrentCompany, getDefaultPricing } from "@/lib/session";
 import PricingForm from "@/components/dashboard/PricingForm";
 import { getEntitlements } from "@/lib/plans";
+import styles from "./pricing.module.css";
 
 export default async function PricingRulesPage({
   searchParams,
@@ -28,10 +29,14 @@ export default async function PricingRulesPage({
   const entitlements = getEntitlements(company.subscriptionPlan);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return <PricingForm
-    initialData={pricingData as any}
-    formId={formId}
-    widgetSettings={widgetSettings}
-    entitlements={entitlements}
-  />;
+  return (
+    <div className={styles.stage}>
+      <PricingForm
+        initialData={pricingData as any}
+        formId={formId}
+        widgetSettings={widgetSettings}
+        entitlements={entitlements}
+      />
+    </div>
+  );
 }

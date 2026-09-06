@@ -1,0 +1,417 @@
+/* Focused Merchant Console polish for Account Settings + Webhooks. */
+
+html[data-qalt-dashboard-route="settings"],
+html[data-qalt-dashboard-route="webhooks"] {
+  --qalt-polish-ink: #22252b;
+  --qalt-polish-muted: #646b76;
+  --qalt-polish-line: #e2e4e9;
+  --qalt-polish-paper: #f7f8fa;
+  --qalt-polish-red: #df1731;
+  --qalt-polish-night: #080b14;
+}
+
+html[data-qalt-dashboard-route="settings"] [class*="max-w-3xl"],
+html[data-qalt-dashboard-route="webhooks"] [class*="max-w-4xl"],
+html[data-qalt-dashboard-route="webhooks"] [class*="max-w-2xl"] {
+  position: relative;
+  width: 100%;
+}
+
+html[data-qalt-dashboard-route="settings"] [class*="max-w-3xl"] {
+  max-width: 1040px !important;
+  margin-inline: auto;
+}
+
+html[data-qalt-dashboard-route="webhooks"] [class*="max-w-4xl"] {
+  max-width: 1080px !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Account Settings                                                            */
+/* -------------------------------------------------------------------------- */
+
+html[data-qalt-dashboard-route="settings"] [class*="max-w-3xl"] > div:first-child {
+  position: relative;
+  overflow: hidden;
+  padding: 30px 32px;
+  margin-bottom: 28px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px !important;
+  background:
+    radial-gradient(circle at 14% 18%, rgba(223, 23, 49, 0.28), transparent 34%),
+    radial-gradient(circle at 88% 12%, rgba(121, 80, 191, 0.18), transparent 30%),
+    linear-gradient(135deg, #080b14 0%, #11131b 54%, #171018 100%);
+  box-shadow: 0 30px 70px -42px rgba(8, 11, 20, 0.72);
+  animation: qalt-polish-hero-in 520ms cubic-bezier(.22, 1, .36, 1) both;
+  isolation: isolate;
+}
+
+html[data-qalt-dashboard-route="settings"] [class*="max-w-3xl"] > div:first-child::before,
+html[data-qalt-dashboard-route="webhooks"] [class*="max-w-4xl"] > div:first-child::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.22;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: linear-gradient(to bottom right, black, transparent 76%);
+}
+
+html[data-qalt-dashboard-route="settings"] [class*="max-w-3xl"] > div:first-child h1 {
+  color: #fff !important;
+  font-size: clamp(2rem, 4vw, 2.7rem) !important;
+  font-weight: 780 !important;
+  letter-spacing: -0.045em !important;
+  line-height: 1 !important;
+}
+
+html[data-qalt-dashboard-route="settings"] [class*="max-w-3xl"] > div:first-child p {
+  color: rgba(255, 255, 255, 0.58) !important;
+  margin-top: 10px !important;
+  font-size: 0.95rem !important;
+  line-height: 1.6 !important;
+  max-width: 700px;
+}
+
+html[data-qalt-dashboard-route="settings"] form > section {
+  border: 1px solid var(--qalt-polish-line) !important;
+  border-radius: 22px !important;
+  background: rgba(255,255,255,0.96) !important;
+  box-shadow: 0 22px 55px -46px rgba(34, 37, 43, 0.48) !important;
+  padding: 26px !important;
+  transition:
+    transform 220ms cubic-bezier(.22, 1, .36, 1),
+    border-color 220ms ease,
+    box-shadow 220ms ease !important;
+  animation: qalt-polish-card-in 520ms cubic-bezier(.22, 1, .36, 1) both;
+}
+
+html[data-qalt-dashboard-route="settings"] form > section:nth-of-type(2) { animation-delay: 55ms; }
+html[data-qalt-dashboard-route="settings"] form > section:nth-of-type(3) { animation-delay: 100ms; }
+html[data-qalt-dashboard-route="settings"] form > section:nth-of-type(4) { animation-delay: 145ms; }
+
+html[data-qalt-dashboard-route="settings"] form > section:hover {
+  transform: translateY(-2px);
+  border-color: #d5d9df !important;
+  box-shadow: 0 26px 64px -48px rgba(34, 37, 43, 0.56) !important;
+}
+
+html[data-qalt-dashboard-route="settings"] form > section h2,
+html[data-qalt-dashboard-route="settings"] [class*="mt-6"] h2 {
+  color: var(--qalt-polish-ink) !important;
+  font-weight: 780 !important;
+  letter-spacing: -0.02em !important;
+}
+
+html[data-qalt-dashboard-route="settings"] form > section > h2 {
+  font-size: 0.72rem !important;
+  letter-spacing: 0.15em !important;
+  color: #8a919c !important;
+}
+
+html[data-qalt-dashboard-route="settings"] input,
+html[data-qalt-dashboard-route="settings"] select,
+html[data-qalt-dashboard-route="settings"] textarea {
+  min-height: 46px;
+  border: 1px solid var(--qalt-polish-line) !important;
+  border-radius: 13px !important;
+  background: #fff !important;
+  color: var(--qalt-polish-ink) !important;
+  box-shadow: 0 1px 2px rgba(34, 37, 43, 0.02) !important;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease !important;
+}
+
+html[data-qalt-dashboard-route="settings"] input:hover,
+html[data-qalt-dashboard-route="settings"] select:hover,
+html[data-qalt-dashboard-route="settings"] textarea:hover {
+  border-color: #cfd4dc !important;
+}
+
+html[data-qalt-dashboard-route="settings"] input:focus,
+html[data-qalt-dashboard-route="settings"] select:focus,
+html[data-qalt-dashboard-route="settings"] textarea:focus {
+  border-color: rgba(223, 23, 49, 0.42) !important;
+  box-shadow: 0 0 0 4px rgba(223, 23, 49, 0.08) !important;
+}
+
+html[data-qalt-dashboard-route="settings"] .rounded-none {
+  border-radius: 14px !important;
+}
+
+html[data-qalt-dashboard-route="settings"] [class*="border-dashed"] {
+  min-height: 110px;
+  border-radius: 18px !important;
+  border-color: #d7dbe2 !important;
+  background:
+    linear-gradient(180deg, rgba(247,248,250,0.94), rgba(255,255,255,0.98)) !important;
+  transition:
+    transform 180ms cubic-bezier(.22, 1, .36, 1),
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease !important;
+}
+
+html[data-qalt-dashboard-route="settings"] [class*="border-dashed"]:hover {
+  transform: translateY(-1px);
+  border-color: rgba(223, 23, 49, 0.42) !important;
+  box-shadow: 0 14px 34px -28px rgba(223, 23, 49, 0.36) !important;
+}
+
+html[data-qalt-dashboard-route="settings"] button {
+  transition:
+    transform 180ms cubic-bezier(.22, 1, .36, 1),
+    box-shadow 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease !important;
+}
+
+html[data-qalt-dashboard-route="settings"] button:not(:disabled):active {
+  transform: scale(0.985);
+}
+
+html[data-qalt-dashboard-route="settings"] button[type="submit"] {
+  min-height: 46px;
+  border-radius: 14px !important;
+  background: var(--qalt-polish-red) !important;
+  box-shadow: 0 16px 30px -22px rgba(223, 23, 49, 0.85) !important;
+}
+
+html[data-qalt-dashboard-route="settings"] button[type="submit"]:not(:disabled):hover {
+  transform: translateY(-1px);
+  background: #c9142c !important;
+  box-shadow: 0 20px 34px -22px rgba(223, 23, 49, 0.95) !important;
+}
+
+html[data-qalt-dashboard-route="settings"] [class*="mt-6"] > [class*="bg-white"],
+html[data-qalt-dashboard-route="settings"] [class*="mt-6"] > [class*="dark:bg"],
+html[data-qalt-dashboard-route="settings"] [class*="mt-6"][class*="border"] {
+  border-radius: 22px !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Webhooks                                                                    */
+/* -------------------------------------------------------------------------- */
+
+html[data-qalt-dashboard-route="webhooks"] [class*="max-w-4xl"] > div:first-child {
+  position: relative;
+  overflow: hidden;
+  padding: 28px 30px;
+  border-radius: 28px !important;
+  border: 1px solid rgba(255,255,255,0.08);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(223, 23, 49, 0.3), transparent 34%),
+    radial-gradient(circle at 88% 10%, rgba(49, 89, 202, 0.16), transparent 32%),
+    linear-gradient(135deg, #080b14 0%, #11131b 55%, #171018 100%);
+  box-shadow: 0 30px 70px -42px rgba(8, 11, 20, 0.72);
+  isolation: isolate;
+}
+
+html[data-qalt-dashboard-route="webhooks"] [class*="max-w-4xl"] > div:first-child h1 {
+  color: #fff !important;
+  font-size: clamp(2rem, 4vw, 2.7rem) !important;
+  font-weight: 780 !important;
+  letter-spacing: -0.045em !important;
+}
+
+html[data-qalt-dashboard-route="webhooks"] [class*="max-w-4xl"] > div:first-child p {
+  color: rgba(255,255,255,0.58) !important;
+  line-height: 1.55 !important;
+}
+
+html[data-qalt-dashboard-route="webhooks"] [class*="max-w-4xl"] > div:first-child [class*="bg-red-50"] {
+  background: rgba(223, 23, 49, 0.14) !important;
+  border-color: rgba(255,255,255,0.12) !important;
+  color: #fff !important;
+  border-radius: 16px !important;
+  backdrop-filter: blur(10px);
+}
+
+html[data-qalt-dashboard-route="webhooks"] [class*="max-w-4xl"] > div:nth-child(2),
+html[data-qalt-dashboard-route="webhooks"] [class*="max-w-4xl"] > div[class*="space-y-4"],
+html[data-qalt-dashboard-route="webhooks"] [class*="max-w-4xl"] > div:last-child {
+  border-radius: 24px !important;
+}
+
+html[data-qalt-dashboard-route="webhooks"] [class*="max-w-4xl"] > div:nth-child(2) {
+  border: 1px solid var(--qalt-polish-line) !important;
+  background: rgba(255,255,255,0.97) !important;
+  box-shadow: 0 24px 60px -48px rgba(34, 37, 43, 0.52) !important;
+}
+
+html[data-qalt-dashboard-route="webhooks"] input,
+html[data-qalt-dashboard-route="webhooks"] select,
+html[data-qalt-dashboard-route="webhooks"] textarea {
+  min-height: 46px;
+  border: 1px solid var(--qalt-polish-line) !important;
+  border-radius: 13px !important;
+  background: #fff !important;
+  color: var(--qalt-polish-ink) !important;
+  box-shadow: none !important;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease !important;
+}
+
+html[data-qalt-dashboard-route="webhooks"] input:focus,
+html[data-qalt-dashboard-route="webhooks"] select:focus,
+html[data-qalt-dashboard-route="webhooks"] textarea:focus {
+  border-color: rgba(223, 23, 49, 0.42) !important;
+  box-shadow: 0 0 0 4px rgba(223, 23, 49, 0.08) !important;
+}
+
+html[data-qalt-dashboard-route="webhooks"] label[class*="cursor-pointer"] {
+  border-radius: 15px !important;
+  border-width: 1px !important;
+  box-shadow: none !important;
+}
+
+html[data-qalt-dashboard-route="webhooks"] label[class*="cursor-pointer"]:hover {
+  transform: translateY(-1px);
+}
+
+html[data-qalt-dashboard-route="webhooks"] .rounded-none {
+  border-radius: 12px !important;
+}
+
+html[data-qalt-dashboard-route="webhooks"] button,
+html[data-qalt-dashboard-route="webhooks"] a {
+  transition:
+    transform 180ms cubic-bezier(.22, 1, .36, 1),
+    box-shadow 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease !important;
+}
+
+html[data-qalt-dashboard-route="webhooks"] button:not(:disabled):active,
+html[data-qalt-dashboard-route="webhooks"] a:active {
+  transform: scale(0.985);
+}
+
+html[data-qalt-dashboard-route="webhooks"] button[type="submit"],
+html[data-qalt-dashboard-route="webhooks"] a[href="/dashboard/billing"] {
+  border-radius: 14px !important;
+  box-shadow: 0 16px 30px -22px rgba(223, 23, 49, 0.82) !important;
+}
+
+html[data-qalt-dashboard-route="webhooks"] [class*="space-y-4"] > div[class*="bg-white"] {
+  border-radius: 20px !important;
+  border-color: var(--qalt-polish-line) !important;
+  box-shadow: 0 18px 50px -44px rgba(34, 37, 43, 0.48) !important;
+  transition:
+    transform 200ms cubic-bezier(.22, 1, .36, 1),
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    opacity 200ms ease !important;
+}
+
+html[data-qalt-dashboard-route="webhooks"] [class*="space-y-4"] > div[class*="bg-white"]:hover {
+  transform: translateY(-2px);
+  border-color: #d3d8df !important;
+  box-shadow: 0 26px 58px -46px rgba(34, 37, 43, 0.58) !important;
+}
+
+html[data-qalt-dashboard-route="webhooks"] pre {
+  border-radius: 16px !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  background:
+    linear-gradient(180deg, #0d111b 0%, #090c13 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03) !important;
+}
+
+html[data-qalt-dashboard-route="webhooks"] [class*="max-w-2xl"] > div:first-child {
+  overflow: hidden;
+  border-radius: 26px !important;
+  border: 1px solid rgba(223, 23, 49, 0.2) !important;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(223, 23, 49, 0.18), transparent 42%),
+    linear-gradient(180deg, #fff 0%, #fbfbfc 100%) !important;
+  box-shadow: 0 30px 70px -46px rgba(34, 37, 43, 0.48) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Dark mode                                                                   */
+/* -------------------------------------------------------------------------- */
+
+.dark[data-qalt-dashboard-route="settings"] form > section,
+.dark[data-qalt-dashboard-route="webhooks"] [class*="max-w-4xl"] > div:nth-child(2),
+.dark[data-qalt-dashboard-route="webhooks"] [class*="space-y-4"] > div[class*="bg-white"] {
+  background: #141414 !important;
+  border-color: rgba(255,255,255,0.08) !important;
+  box-shadow: none !important;
+}
+
+.dark[data-qalt-dashboard-route="settings"] input,
+.dark[data-qalt-dashboard-route="settings"] select,
+.dark[data-qalt-dashboard-route="settings"] textarea,
+.dark[data-qalt-dashboard-route="webhooks"] input,
+.dark[data-qalt-dashboard-route="webhooks"] select,
+.dark[data-qalt-dashboard-route="webhooks"] textarea {
+  background: #191919 !important;
+  color: #f4f4f5 !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+
+.dark[data-qalt-dashboard-route="settings"] [class*="border-dashed"] {
+  background: #171717 !important;
+  border-color: rgba(255,255,255,0.09) !important;
+}
+
+.dark[data-qalt-dashboard-route="settings"] form > section h2,
+.dark[data-qalt-dashboard-route="settings"] [class*="mt-6"] h2 {
+  color: #f4f4f5 !important;
+}
+
+.dark[data-qalt-dashboard-route="webhooks"] [class*="max-w-2xl"] > div:first-child {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(223, 23, 49, 0.14), transparent 42%),
+    linear-gradient(180deg, #141414 0%, #101010 100%) !important;
+  border-color: rgba(223, 23, 49, 0.24) !important;
+  box-shadow: none !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Motion                                                                       */
+/* -------------------------------------------------------------------------- */
+
+@keyframes qalt-polish-hero-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.992); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes qalt-polish-card-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  html[data-qalt-dashboard-route="settings"] [class*="max-w-3xl"] > div:first-child,
+  html[data-qalt-dashboard-route="webhooks"] [class*="max-w-4xl"] > div:first-child {
+    padding: 24px 22px;
+    border-radius: 22px !important;
+  }
+
+  html[data-qalt-dashboard-route="settings"] form > section,
+  html[data-qalt-dashboard-route="webhooks"] [class*="max-w-4xl"] > div:nth-child(2) {
+    padding: 22px !important;
+    border-radius: 18px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-qalt-dashboard-route="settings"] *,
+  html[data-qalt-dashboard-route="webhooks"] * {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+}
