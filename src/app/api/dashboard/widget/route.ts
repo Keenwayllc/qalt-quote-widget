@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { getEntitlements } from "@/lib/plans";
+import { sanitizeHex } from "@/lib/color";
 
 export async function GET(req: Request) {
   try {
@@ -71,6 +72,22 @@ export async function POST(req: Request) {
     const data = await req.json();
     const formId: string | undefined = data.formId;
 
+    // Brand color: empty/missing -> canonical default; a valid hex is normalized
+    // and saved; a malformed value is rejected (never silently replaced).
+    const rawColor = data.primaryColor;
+    const hasColor = rawColor !== undefined && rawColor !== null && String(rawColor).trim() !== "";
+    let primaryColor = "#1E40AF";
+    if (hasColor) {
+      const normalized = sanitizeHex(rawColor);
+      if (!normalized) {
+        return NextResponse.json(
+          { error: "Invalid brand color. Use a 6-digit hex value like #DF1731." },
+          { status: 400 }
+        );
+      }
+      primaryColor = normalized;
+    }
+
     const settingsData = {
       name:          data.name || "Default Form",
       showWeight:       Boolean(data.showWeight),
@@ -81,7 +98,7 @@ export async function POST(req: Request) {
       showVehicles:     entitlements.isVehicleQuotingEnabled ? Boolean(data.showVehicles) : false,
       pricePerVehicle:  entitlements.isVehicleQuotingEnabled ? (parseFloat(data.pricePerVehicle) || 0) : 0,
       showAwb:          entitlements.isVehicleQuotingEnabled ? Boolean(data.showAwb) : false,
-      primaryColor:  data.primaryColor   || "#3B82F6",
+      primaryColor,
       buttonText:    data.buttonText     || "Get Instant Quote",
       headerText:    data.headerText     || "Delivery Quote Calculator",
       disclaimerText: (entitlements.isAdvancedCustomizationEnabled && data.disclaimerText)

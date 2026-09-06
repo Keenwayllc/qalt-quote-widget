@@ -241,7 +241,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
   const widgetSettings = {
     ...(company.widgetSettings || {
-      primaryColor: "#3B82F6",
+      primaryColor: "#1E40AF",
       headerText: "Delivery Quote Calculator",
       buttonText: "Get Instant Quote",
       showWeight: false,
@@ -653,7 +653,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     setStep(1);
   };
 
-  const primaryColor = (widgetSettings.primaryColor && widgetSettings.primaryColor.length >= 4) ? widgetSettings.primaryColor : "#3B82F6";
+  const primaryColor = (widgetSettings.primaryColor && widgetSettings.primaryColor.length >= 4) ? widgetSettings.primaryColor : "#1E40AF";
 
   // Progress: Route (addresses) → Details (everything else) → Quote (estimate shown).
   const routeComplete = Boolean(formData.pickupAddress && formData.dropoffAddress);
@@ -756,10 +756,11 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                     <Truck size={22} className="text-white" />
                   </div>
                 )}
-                <h2 className="text-xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">{widgetSettings.headerText}</h2>
+                <h2 {...(!widgetSettings.backgroundImageUrl ? { "data-qalt-brand-title": "" } : {})} className="text-xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">{widgetSettings.headerText}</h2>
               </div>
               {!logoUrlToUse && (
                 <p
+                  {...(!widgetSettings.backgroundImageUrl ? { "data-qalt-brand-title": "" } : {})}
                   className="text-white/90 text-sm font-medium pl-1"
                   style={{ fontFamily: widgetSettings.companyNameFont || "Inter" }}
                 >
@@ -1110,6 +1111,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                     <button
                       type="submit"
                       disabled={loading}
+                      data-qalt-brand-cta
                       className="w-full py-4 rounded-2xl text-white font-bold text-sm shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2.5 disabled:opacity-50 relative overflow-hidden group"
                       style={{ backgroundColor: primaryColor }}
                     >
@@ -1249,6 +1251,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
                     <div className="space-y-3 pt-1">
                       <button type="submit" disabled={loading}
+                        data-qalt-brand-cta
                         className="w-full py-4 rounded-2xl text-white font-bold text-sm shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2.5 disabled:opacity-50 relative overflow-hidden group bg-emerald-600"
                         style={{ boxShadow: '0 8px 24px -4px rgba(16,185,129,0.35)' }}>
                         <span className="absolute inset-0 bg-linear-to-t from-black/10 to-transparent"></span>
@@ -1343,6 +1346,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                         type="button"
                         onClick={() => submitQuote()}
                         disabled={loading}
+                        data-qalt-brand-cta
                         className="w-full py-4 rounded-2xl text-white font-bold text-sm shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2.5 disabled:opacity-50 relative overflow-hidden group"
                         style={{ backgroundColor: primaryColor, boxShadow: `0 8px 24px -4px ${primaryColor}55` }}
                       >
