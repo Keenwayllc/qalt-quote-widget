@@ -7,14 +7,13 @@
 export const DEFAULT_BRAND = "#1E40AF";
 
 /**
- * Validate + normalize a hex color. Accepts #RGB or #RRGGBB (# optional,
+ * Validate + normalize a hex color. Accepts strict #RRGGBB only (# optional,
  * case-insensitive). Returns a normalized #RRGGBB (uppercase) string, or null
- * when the value is not a valid hex color.
+ * when the value is not a valid 6-digit hex color. Shorthand #RGB is rejected.
  */
 export function sanitizeHex(input: unknown): string | null {
   if (typeof input !== "string") return null;
-  let v = input.trim().replace(/^#/, "");
-  if (/^[0-9a-fA-F]{3}$/.test(v)) v = v.split("").map((c) => c + c).join("");
+  const v = input.trim().replace(/^#/, "");
   if (!/^[0-9a-fA-F]{6}$/.test(v)) return null;
   return "#" + v.toUpperCase();
 }
