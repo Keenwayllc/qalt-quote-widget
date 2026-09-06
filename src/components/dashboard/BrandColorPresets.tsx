@@ -20,7 +20,20 @@ function setReactInputValue(input: HTMLInputElement, value: string) {
   if (valueSetter) valueSetter.call(input, value);
   else input.value = value;
 
-  input.dispatchEvent(new Event("input", { bubbles: true }));
+  // React's controlled inputs listen to the bubbled input/change events. Using
+  // InputEvent here makes preset clicks behave the same way as a real user edit,
+  // so WidgetForm's previewData updates and the selected color is actually saved.
+  try {
+    input.dispatchEvent(
+      new InputEvent("input", {
+        bubbles: true,
+        inputType: "insertText",
+        data: value,
+      })
+    );
+  } catch {
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+  }
   input.dispatchEvent(new Event("change", { bubbles: true }));
 }
 
@@ -71,13 +84,20 @@ export default function BrandColorPresets() {
   if (!portalHost) return null;
 
   const applyPreset = (value: string) => {
-    const colorInput = document.querySelector<HTMLInputElement>(
+    const inputs = Array.from(
+      document.querySelectorAll<HTMLInputElement>('input[name="primaryColor"]')
+    );
+    if (inputs.length === 0) return;
+
+    // Update both the visible hex field and native color picker. This keeps the
+    // DOM, React controlled state, live preview, and submitted payload in sync.
+    inputs.forEach((input) => setReactInputValue(input, value));
+    setSelectedColor(value.toLowerCase());
+
+    const textInput = document.querySelector<HTMLInputElement>(
       'input#primaryColor[name="primaryColor"]'
     );
-    if (!colorInput) return;
-
-    setReactInputValue(colorInput, value);
-    colorInput.focus({ preventScroll: true });
+    textInput?.focus({ preventScroll: true });
   };
 
   return createPortal(
