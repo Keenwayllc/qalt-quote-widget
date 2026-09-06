@@ -41,11 +41,16 @@ export default function BrandColorPresets() {
 
     const fieldRow = colorInput.parentElement;
     const fieldSection = fieldRow?.parentElement;
-    if (!fieldRow || !fieldSection) return;
+    const settingsGrid = fieldSection?.parentElement;
+    if (!fieldRow || !fieldSection || !settingsGrid) return;
 
+    // Keep the preset picker as its own full-width grid row. Previously it was
+    // injected inside the left Primary Brand Color field, which made that field
+    // much taller than Button Text and caused the two controls to look misaligned.
     const host = document.createElement("div");
     host.dataset.qaltBrandPresets = "true";
-    fieldSection.insertBefore(host, fieldRow);
+    host.style.gridColumn = "1 / -1";
+    settingsGrid.insertBefore(host, fieldSection);
     setPortalHost(host);
 
     const syncSelectedColor = () => {
@@ -76,8 +81,8 @@ export default function BrandColorPresets() {
   };
 
   return createPortal(
-    <div className="mb-3 rounded-2xl border border-slate-200/80 bg-slate-50/80 p-3.5 dark:border-white/[0.07] dark:bg-white/[0.025]">
-      <div className="mb-3 flex items-center justify-between gap-3">
+    <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4 dark:border-white/[0.07] dark:bg-white/[0.025]">
+      <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
         <div className="flex items-center gap-2">
           <Palette size={15} className="text-slate-400" />
           <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
@@ -100,7 +105,7 @@ export default function BrandColorPresets() {
               onClick={() => applyPreset(preset.value)}
               aria-pressed={isSelected}
               aria-label={`Use ${preset.name} brand color ${preset.value}`}
-              className={`group flex items-center gap-2.5 rounded-xl border px-3 py-2.5 text-left transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/40 ${
+              className={`group flex min-w-0 items-center gap-2.5 rounded-xl border px-3 py-2.5 text-left transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/40 ${
                 isSelected
                   ? "border-slate-900 bg-white shadow-sm dark:border-white/40 dark:bg-white/[0.08]"
                   : "border-slate-200 bg-white/70 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white hover:shadow-sm dark:border-white/[0.07] dark:bg-white/[0.025] dark:hover:border-white/[0.14] dark:hover:bg-white/[0.05]"
@@ -112,11 +117,11 @@ export default function BrandColorPresets() {
                 }`}
                 style={{ backgroundColor: preset.value }}
               />
-              <span className="min-w-0">
+              <span className="min-w-0 flex-1">
                 <span className="block truncate text-xs font-semibold text-slate-700 dark:text-slate-200">
                   {preset.name}
                 </span>
-                <span className="block text-[10px] font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">
+                <span className="block truncate text-[10px] font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">
                   {preset.value}
                 </span>
               </span>
