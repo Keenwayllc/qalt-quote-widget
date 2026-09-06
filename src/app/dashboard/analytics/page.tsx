@@ -17,6 +17,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { KPICard, PremiumChart, InsightsCard, PremiumTable } from "./AnalyticsClientComponents";
+import styles from "./analytics.module.css";
 
 export default async function AnalyticsPage() {
   const company = await getCurrentCompany();
@@ -24,8 +25,8 @@ export default async function AnalyticsPage() {
 
   if (!entitlements.isAnalyticsDashboardEnabled) {
     return (
-      <div className="qalt-analytics p-4 lg:p-10 max-w-7xl mx-auto">
-        <div className="analytics-gate min-h-[620px] flex items-center justify-center px-6 py-16">
+      <div className={`${styles.root} p-4 lg:p-10 max-w-7xl mx-auto`}>
+        <div className={`${styles.analyticsGate} min-h-[620px] flex items-center justify-center px-6 py-16`}>
           <div className="max-w-3xl w-full grid lg:grid-cols-[1fr_0.9fr] gap-10 items-center">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-red-100 bg-red-50 text-red-700 text-[10px] font-black uppercase tracking-[0.16em] mb-5">
@@ -45,7 +46,7 @@ export default async function AnalyticsPage() {
               </Link>
             </div>
 
-            <div className="analytics-preview-card">
+            <div className={styles.analyticsPreviewCard}>
               <div className="flex items-center justify-between mb-5">
                 <div>
                   <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">Preview</p>
@@ -62,7 +63,7 @@ export default async function AnalyticsPage() {
                   { icon: Users, label: "Lead behavior", value: "See patterns" },
                   { icon: TrendingUp, label: "Pipeline", value: "Watch growth" },
                 ].map((item) => (
-                  <div key={item.label} className="analytics-mini-card">
+                  <div key={item.label} className={styles.analyticsMiniCard}>
                     <item.icon size={16} className="text-[#df1731]" />
                     <p className="text-xs font-bold text-slate-800 dark:text-zinc-100 mt-3">{item.label}</p>
                     <p className="text-[11px] text-slate-400 dark:text-zinc-500 mt-1">{item.value}</p>
@@ -117,7 +118,7 @@ export default async function AnalyticsPage() {
   const latestQuotes = recentQuotesData.slice(0, 5);
 
   return (
-    <div className="qalt-analytics p-4 lg:p-10 space-y-8 max-w-7xl mx-auto pb-20">
+    <div className={`${styles.root} p-4 lg:p-10 space-y-8 max-w-7xl mx-auto pb-20`}>
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-red-50 text-red-700 rounded-full text-[10px] font-black uppercase tracking-[0.16em] mb-4 border border-red-100">
@@ -131,7 +132,7 @@ export default async function AnalyticsPage() {
           </p>
         </div>
 
-        <div className="analytics-period-card">
+        <div className={styles.analyticsPeriodCard}>
           <Calendar size={16} className="text-slate-400" />
           <div>
             <p className="text-[10px] uppercase tracking-[0.14em] font-black text-slate-400">Reporting window</p>
