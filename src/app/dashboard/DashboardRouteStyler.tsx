@@ -10,6 +10,8 @@ export default function DashboardRouteStyler() {
     const root = document.documentElement;
     let route = "";
 
+    root.classList.add("qalt-console-shell");
+
     if (pathname.startsWith("/dashboard/settings")) route = "settings";
     if (pathname.startsWith("/dashboard/webhooks")) route = "webhooks";
 
@@ -20,6 +22,7 @@ export default function DashboardRouteStyler() {
       if (root.dataset.qaltDashboardRoute === route) {
         delete root.dataset.qaltDashboardRoute;
       }
+      root.classList.remove("qalt-console-shell");
     };
   }, [pathname]);
 
