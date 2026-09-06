@@ -1,0 +1,348 @@
+/* Premium Overview pass — scoped to the dashboard home route only. */
+
+html[data-qalt-dashboard-route="overview"] .font-sans.flex.h-screen > main {
+  background:
+    radial-gradient(circle at 76% 0%, rgba(223, 23, 49, 0.075), transparent 28%),
+    linear-gradient(rgba(34, 37, 43, 0.016) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 37, 43, 0.016) 1px, transparent 1px),
+    #f7f8fa !important;
+  background-size: auto, 44px 44px, 44px 44px, auto !important;
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full {
+  background: transparent !important;
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl {
+  max-width: 1380px !important;
+  padding: 24px 28px 64px !important;
+}
+
+/* Command-center hero */
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > header {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 34px 36px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 28px !important;
+  background:
+    radial-gradient(circle at 88% 18%, rgba(223, 23, 49, 0.24), transparent 27%),
+    radial-gradient(circle at 66% 105%, rgba(121, 80, 191, 0.13), transparent 34%),
+    linear-gradient(135deg, #080b14 0%, #11131b 54%, #170a10 100%) !important;
+  box-shadow: 0 34px 80px -48px rgba(8, 11, 20, 0.92);
+  animation: qalt-overview-rise 520ms cubic-bezier(.22, 1, .36, 1) both;
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0.34;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: linear-gradient(to left, #000 0%, rgba(0,0,0,.7) 50%, transparent 92%);
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > header::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 260px;
+  height: 260px;
+  right: -80px;
+  top: -110px;
+  border-radius: 999px;
+  background: rgba(223, 23, 49, 0.18);
+  filter: blur(62px);
+  pointer-events: none;
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > header h1 {
+  color: #fff !important;
+  font-size: clamp(2.35rem, 3.2vw, 3.65rem) !important;
+  letter-spacing: -0.055em !important;
+  line-height: .96 !important;
+  text-wrap: balance;
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > header p {
+  color: rgba(255,255,255,.58) !important;
+  max-width: 660px;
+  font-size: 0.95rem !important;
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > header p span {
+  color: #fff !important;
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > header > div:first-child > span:first-child {
+  border-color: rgba(255, 119, 137, 0.25) !important;
+  background: rgba(223, 23, 49, 0.12) !important;
+  color: #ff9eab !important;
+  border-radius: 999px !important;
+  padding: 7px 11px !important;
+  letter-spacing: .14em !important;
+  backdrop-filter: blur(12px);
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > header > div:last-child {
+  position: relative;
+  z-index: 2;
+  align-self: center;
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > header > div:last-child a {
+  min-height: 46px;
+  padding-inline: 18px !important;
+  border-radius: 13px !important;
+  transition:
+    transform 180ms cubic-bezier(.22, 1, .36, 1),
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease !important;
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > header > div:last-child a:first-child {
+  color: rgba(255,255,255,.88) !important;
+  background: rgba(255,255,255,.07) !important;
+  border-color: rgba(255,255,255,.13) !important;
+  backdrop-filter: blur(12px);
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > header > div:last-child a:first-child:hover {
+  background: rgba(255,255,255,.12) !important;
+  border-color: rgba(255,255,255,.2) !important;
+  transform: translateY(-2px);
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > header > div:last-child a:last-child {
+  background: linear-gradient(135deg, #ea1f3a 0%, #c90f2a 100%) !important;
+  box-shadow: 0 18px 34px -20px rgba(223, 23, 49, .92);
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > header > div:last-child a:last-child:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 38px -20px rgba(223, 23, 49, 1);
+}
+
+/* Section rhythm */
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section,
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section ~ div {
+  animation: qalt-overview-rise 480ms cubic-bezier(.22, 1, .36, 1) both;
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section:nth-of-type(1) { animation-delay: 70ms; }
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section:nth-of-type(2) { animation-delay: 120ms; }
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section:nth-of-type(3) { animation-delay: 170ms; }
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section:nth-of-type(4) { animation-delay: 220ms; }
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section > div:first-child > div > p:first-child,
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section > div:first-child > p:first-child {
+  color: #9a6070 !important;
+  letter-spacing: .16em !important;
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section h2 {
+  letter-spacing: -.03em !important;
+}
+
+/* Business snapshot cards */
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section:first-of-type > .grid > .group {
+  position: relative;
+  overflow: hidden;
+  min-height: 218px;
+  border-radius: 22px !important;
+  border-color: #e4e6eb !important;
+  background:
+    linear-gradient(150deg, rgba(255,255,255,1) 0%, rgba(252,252,253,1) 68%, rgba(247,248,250,1) 100%) !important;
+  box-shadow: 0 22px 54px -42px rgba(34, 37, 43, .52);
+  transition:
+    transform 220ms cubic-bezier(.22, 1, .36, 1),
+    box-shadow 220ms ease,
+    border-color 220ms ease !important;
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section:first-of-type > .grid > .group::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, #df1731, rgba(223,23,49,.08));
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section:first-of-type > .grid > .group:nth-child(2)::before {
+  background: linear-gradient(90deg, #087c68, rgba(8,124,104,.08));
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section:first-of-type > .grid > .group:nth-child(3)::before {
+  background: linear-gradient(90deg, #7950bf, rgba(121,80,191,.08));
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section:first-of-type > .grid > .group:hover {
+  transform: translateY(-5px);
+  border-color: #d5d8df !important;
+  box-shadow: 0 30px 68px -42px rgba(34, 37, 43, .68);
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section:first-of-type > .grid > .group > div:first-child > div:first-child {
+  width: 46px !important;
+  height: 46px !important;
+  border-radius: 14px !important;
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section:first-of-type > .grid > .group p[class*="text-[32px]"] {
+  font-size: 2.35rem !important;
+  letter-spacing: -.045em !important;
+}
+
+/* Quota / health strip */
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section:first-of-type > .mt-4 > div {
+  border-radius: 18px !important;
+  border-color: #e3e6ea !important;
+  box-shadow: 0 16px 46px -42px rgba(34, 37, 43, .52);
+  background: rgba(255,255,255,.88) !important;
+  backdrop-filter: blur(14px);
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section:first-of-type > .mt-4 > div > div:first-child > div:first-child {
+  border-radius: 12px !important;
+}
+
+/* Analytics cards */
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section:nth-of-type(2) .bg-white {
+  border-radius: 22px !important;
+  border-color: #e3e6ea !important;
+  box-shadow: 0 24px 60px -46px rgba(34, 37, 43, .58);
+  overflow: hidden;
+}
+
+/* Job cards */
+html[data-qalt-dashboard-route="overview"] a[href^="/dashboard/ops/jobs/"] {
+  border-radius: 18px !important;
+  box-shadow: 0 18px 48px -44px rgba(34, 37, 43, .52);
+  transition:
+    transform 200ms cubic-bezier(.22, 1, .36, 1),
+    box-shadow 200ms ease,
+    border-color 200ms ease !important;
+}
+
+html[data-qalt-dashboard-route="overview"] a[href^="/dashboard/ops/jobs/"]:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 60px -42px rgba(34, 37, 43, .64);
+}
+
+html[data-qalt-dashboard-route="overview"] a[href^="/dashboard/ops/jobs/"] > div:first-child > div:first-child,
+html[data-qalt-dashboard-route="overview"] a[href^="/dashboard/ops/jobs/"] > div:first-child > span {
+  border-radius: 10px !important;
+}
+
+/* Recent requests + next action */
+html[data-qalt-dashboard-route="overview"] [class~="lg:col-span-2"][class~="bg-white"] {
+  border-radius: 22px !important;
+  border-color: #e3e6ea !important;
+  box-shadow: 0 24px 58px -46px rgba(34, 37, 43, .56);
+}
+
+html[data-qalt-dashboard-route="overview"] [class~="lg:col-span-2"][class~="bg-white"] > div > div {
+  transition: background-color 160ms ease, padding-left 160ms ease !important;
+}
+
+html[data-qalt-dashboard-route="overview"] [class~="lg:col-span-2"][class~="bg-white"] > div > div:hover {
+  padding-left: 28px !important;
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl section aside {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px !important;
+  background:
+    radial-gradient(circle at 82% 4%, rgba(223,23,49,.26), transparent 34%),
+    linear-gradient(145deg, #22252b 0%, #101217 100%) !important;
+  box-shadow: 0 28px 64px -42px rgba(8, 11, 20, .78);
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl section aside > div:first-child {
+  border-radius: 13px !important;
+}
+
+html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl section aside a {
+  border-radius: 12px !important;
+  box-shadow: 0 18px 34px -24px rgba(223, 23, 49, .9);
+}
+
+/* Dark mode */
+html.dark[data-qalt-dashboard-route="overview"] .font-sans.flex.h-screen > main {
+  background:
+    radial-gradient(circle at 76% 0%, rgba(223, 23, 49, 0.09), transparent 30%),
+    linear-gradient(rgba(255,255,255,.014) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.014) 1px, transparent 1px),
+    #0a0a0a !important;
+}
+
+html.dark[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section:first-of-type > .grid > .group,
+html.dark[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section:first-of-type > .mt-4 > div,
+html.dark[data-qalt-dashboard-route="overview"] [class~="lg:col-span-2"][class~="bg-white"],
+html.dark[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > section:nth-of-type(2) .bg-white {
+  background: linear-gradient(145deg, #151516 0%, #111112 100%) !important;
+  border-color: rgba(255,255,255,.075) !important;
+  box-shadow: 0 28px 68px -48px rgba(0,0,0,.9);
+}
+
+@keyframes qalt-overview-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 900px) {
+  html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl {
+    padding: 18px 18px 48px !important;
+  }
+
+  html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > header {
+    padding: 28px 24px !important;
+    border-radius: 22px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl {
+    padding: 14px 14px 40px !important;
+  }
+
+  html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > header {
+    padding: 24px 20px !important;
+    border-radius: 20px !important;
+  }
+
+  html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > header h1 {
+    font-size: 2.35rem !important;
+  }
+
+  html[data-qalt-dashboard-route="overview"] .flex-1.overflow-auto > .min-h-full > .max-w-7xl > header > div:last-child a {
+    width: 100%;
+  }
+
+  html[data-qalt-dashboard-route="overview"] [class~="lg:col-span-2"][class~="bg-white"] > div > div:hover {
+    padding-left: 20px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-qalt-dashboard-route="overview"] *,
+  html[data-qalt-dashboard-route="overview"] *::before,
+  html[data-qalt-dashboard-route="overview"] *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html[data-qalt-dashboard-route="overview"] a:hover,
+  html[data-qalt-dashboard-route="overview"] .group:hover {
+    transform: none !important;
+  }
+}

@@ -12,6 +12,7 @@ export default function DashboardRouteStyler() {
 
     root.classList.add("qalt-console-shell");
 
+    if (pathname === "/dashboard" || pathname === "/dashboard/") route = "overview";
     if (pathname.startsWith("/dashboard/settings")) route = "settings";
     if (pathname.startsWith("/dashboard/webhooks")) route = "webhooks";
 
