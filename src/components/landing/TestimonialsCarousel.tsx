@@ -13,6 +13,7 @@ interface Testimonial {
   initials: string;
   accent: "red" | "emerald" | "amber" | "slate";
   video: string;
+  videoPosition?: string;
 }
 
 const FONT = {
@@ -69,6 +70,7 @@ const TESTIMONIALS: Testimonial[] = [
     initials: "EV",
     accent: "red",
     video: "/videos/elena_vance.mp4",
+    videoPosition: "50% 12%",
   },
   {
     id: 6,
@@ -89,6 +91,7 @@ const TESTIMONIALS: Testimonial[] = [
     initials: "JM",
     accent: "slate",
     video: "/videos/james_miller.mp4",
+    videoPosition: "50% 10%",
   },
 ];
 
@@ -240,9 +243,9 @@ export default function TestimonialsCarousel() {
                 <motion.article
                   animate={reducedMotion ? undefined : { y: active ? 0 : 8, opacity: active ? 1 : 0.7 }}
                   transition={{ duration: 0.45 }}
-                  className="group/card relative min-h-[430px] overflow-hidden rounded-[26px] border border-white/10 bg-white shadow-2xl shadow-black/20"
+                  className="group/card relative min-h-[458px] overflow-hidden rounded-[26px] border border-white/10 bg-white shadow-2xl shadow-black/20"
                 >
-                  <div className="relative h-[148px] overflow-hidden bg-slate-950">
+                  <div className="relative h-[176px] overflow-hidden bg-slate-950">
                     {shouldRenderVideo ? (
                       <video
                         autoPlay
@@ -252,6 +255,7 @@ export default function TestimonialsCarousel() {
                         preload="none"
                         aria-hidden="true"
                         className="absolute inset-0 h-full w-full object-cover opacity-80 transition duration-700 group-hover/card:scale-[1.04] group-hover/card:opacity-95"
+                        style={{ objectPosition: testimonial.videoPosition ?? "50% 50%" }}
                       >
                         <source src={testimonial.video} type="video/mp4" />
                       </video>
