@@ -3,6 +3,7 @@ import { Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import CookieBanner from "@/components/shared/CookieBanner";
 import GlobalScrollToTop from "@/components/shared/GlobalScrollToTop";
+import MarketingDemoDiversity from "@/components/shared/MarketingDemoDiversity";
 
 // Inter is the typography used by the approved Astra reference. It is loaded
 // once at the root so the public site, authentication screens, Merchant
@@ -50,6 +51,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <MarketingDemoDiversity />
           <GlobalScrollToTop />
           <CookieBanner />
         </ThemeProvider>
