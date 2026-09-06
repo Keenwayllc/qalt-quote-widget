@@ -6,17 +6,17 @@
   --pricing-red: #df1731;
 }
 
-.stage :global(> div) {
+.stage > div {
   max-width: 1180px;
   margin: 0 auto;
   padding: 32px 24px 64px;
 }
 
-.stage :global(> div > div:first-child) {
+.stage > div > div:first-child {
   margin-bottom: 28px;
 }
 
-.stage :global(h1) {
+.stage h1 {
   color: var(--pricing-ink);
   font-size: clamp(2rem, 3vw, 2.7rem);
   line-height: 1.05;
@@ -25,19 +25,19 @@
   margin-bottom: 10px;
 }
 
-.stage :global(> div > div:first-child p) {
+.stage > div > div:first-child p {
   max-width: 700px;
   color: var(--pricing-muted);
   font-size: 0.95rem;
   line-height: 1.65;
 }
 
-.stage :global(> div > div:nth-child(2)) {
+.stage > div > div:nth-child(2) {
   display: grid;
   gap: 20px;
 }
 
-.stage :global(form) {
+.stage form {
   border: 1px solid var(--pricing-line) !important;
   border-radius: 20px !important;
   background: #fff !important;
@@ -45,7 +45,7 @@
   padding: 24px !important;
 }
 
-.stage :global(form h2) {
+.stage form h2 {
   color: var(--pricing-ink);
   font-size: 1rem;
   line-height: 1.25;
@@ -54,22 +54,22 @@
   margin-bottom: 20px;
 }
 
-.stage :global(form h2 svg) {
+.stage form h2 svg {
   color: var(--pricing-red) !important;
   width: 18px;
   height: 18px;
 }
 
-.stage :global(label) {
+.stage label {
   color: #4e5560 !important;
   font-size: 0.82rem !important;
   font-weight: 650 !important;
 }
 
-.stage :global(input[type="number"]),
-.stage :global(input[type="text"]),
-.stage :global(input[type="time"]),
-.stage :global(select) {
+.stage input[type="number"],
+.stage input[type="text"],
+.stage input[type="time"],
+.stage select {
   min-height: 44px;
   border: 1px solid var(--pricing-line) !important;
   border-radius: 12px !important;
@@ -80,28 +80,28 @@
   transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
 }
 
-.stage :global(input:hover),
-.stage :global(select:hover) {
+.stage input:hover,
+.stage select:hover {
   border-color: #cfd4da !important;
 }
 
-.stage :global(input:focus),
-.stage :global(select:focus) {
+.stage input:focus,
+.stage select:focus {
   outline: none !important;
   border-color: rgba(223, 23, 49, 0.45) !important;
   box-shadow: 0 0 0 3px rgba(223, 23, 49, 0.09) !important;
 }
 
-.stage :global(button) {
+.stage button {
   border-radius: 11px !important;
   transition: transform 160ms cubic-bezier(.22, 1, .36, 1), background-color 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease !important;
 }
 
-.stage :global(button:not(:disabled):active) {
+.stage button:not(:disabled):active {
   transform: scale(0.985);
 }
 
-.stage :global(button[type="submit"]) {
+.stage button[type="submit"] {
   min-height: 42px;
   padding-inline: 18px !important;
   background: var(--pricing-red) !important;
@@ -109,27 +109,27 @@
   box-shadow: none !important;
 }
 
-.stage :global(button[type="submit"]:hover) {
+.stage button[type="submit"]:hover {
   background: #c9142b !important;
 }
 
-.stage :global(form > div:last-child) {
+.stage form > div:last-child {
   border-color: #eef0f3 !important;
 }
 
-.stage :global(.peer + div) {
+.stage :global(.peer) + div {
   box-shadow: none !important;
 }
 
-.stage :global(.peer:checked + div) {
+.stage :global(.peer:checked) + div {
   background: var(--pricing-red) !important;
 }
 
-.stage :global(button[aria-label="More info"]) {
+.stage button[aria-label="More info"] {
   color: #a0a6ae !important;
 }
 
-.stage :global(button[aria-label="More info"]:hover) {
+.stage button[aria-label="More info"]:hover {
   color: var(--pricing-red) !important;
 }
 
@@ -162,16 +162,16 @@
 }
 
 @media (max-width: 767px) {
-  .stage :global(> div) {
+  .stage > div {
     padding: 22px 16px 48px;
   }
 
-  .stage :global(form) {
+  .stage form {
     padding: 20px !important;
     border-radius: 16px !important;
   }
 
-  .stage :global(> div > div:nth-child(2)) {
+  .stage > div > div:nth-child(2) {
     gap: 16px;
   }
 }
@@ -183,15 +183,15 @@
   --pricing-paper: #151515;
 }
 
-:global(.dark) .stage :global(form),
-:global(.dark) .stage :global(input[type="number"]),
-:global(.dark) .stage :global(input[type="text"]),
-:global(.dark) .stage :global(input[type="time"]),
-:global(.dark) .stage :global(select) {
+:global(.dark) .stage form,
+:global(.dark) .stage input[type="number"],
+:global(.dark) .stage input[type="text"],
+:global(.dark) .stage input[type="time"],
+:global(.dark) .stage select {
   background: #171717 !important;
   color: #f4f4f5 !important;
 }
 
-:global(.dark) .stage :global(form > div:last-child) {
+:global(.dark) .stage form > div:last-child {
   border-color: rgba(255, 255, 255, 0.06) !important;
 }
