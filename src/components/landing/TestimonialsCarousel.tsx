@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight, Quote, VolumeX } from "lucide-react";
 
 interface Testimonial {
   id: number;
@@ -12,6 +12,7 @@ interface Testimonial {
   quote: string;
   initials: string;
   accent: "red" | "emerald" | "amber" | "slate";
+  video: string;
 }
 
 const FONT = {
@@ -27,6 +28,7 @@ const TESTIMONIALS: Testimonial[] = [
     quote: "Our flower delivery business needed a way to give instant quotes for local deliveries. Qalt made the customer flow much easier to manage.",
     initials: "LB",
     accent: "red",
+    video: "/videos/liam_bloom.mp4",
   },
   {
     id: 2,
@@ -36,6 +38,7 @@ const TESTIMONIALS: Testimonial[] = [
     quote: "Delivery estimates used to mean back-and-forth messages. The quote widget gives customers a much clearer path from delivery details to a decision.",
     initials: "SR",
     accent: "amber",
+    video: "/videos/sophia_rossi.mp4",
   },
   {
     id: 3,
@@ -45,6 +48,7 @@ const TESTIMONIALS: Testimonial[] = [
     quote: "The pricing rules are what matter for us. Weight, distance, and service options can all be reflected in one customer-facing quote flow.",
     initials: "DC",
     accent: "emerald",
+    video: "/videos/david_chen.mp4",
   },
   {
     id: 4,
@@ -54,6 +58,7 @@ const TESTIMONIALS: Testimonial[] = [
     quote: "The biggest improvement is consistency. Customers see the same structured quote experience every time instead of depending on who answers the phone.",
     initials: "MT",
     accent: "slate",
+    video: "/videos/marcus_thorne.mp4",
   },
   {
     id: 5,
@@ -63,6 +68,7 @@ const TESTIMONIALS: Testimonial[] = [
     quote: "Delivery and assembly quotes were a bottleneck. A branded quote form makes the process easier for customers to understand before they book.",
     initials: "EV",
     accent: "red",
+    video: "/videos/elena_vance.mp4",
   },
   {
     id: 6,
@@ -72,6 +78,7 @@ const TESTIMONIALS: Testimonial[] = [
     quote: "Keeping the quote experience on our own site makes the business feel more polished and keeps the customer journey in our brand.",
     initials: "SJ",
     accent: "emerald",
+    video: "/videos/samira_joudi.mp4",
   },
   {
     id: 7,
@@ -81,6 +88,7 @@ const TESTIMONIALS: Testimonial[] = [
     quote: "A structured quote and booking flow removes a lot of repetitive questions and gives us better information before a delivery is scheduled.",
     initials: "JM",
     accent: "slate",
+    video: "/videos/james_miller.mp4",
   },
 ];
 
@@ -225,39 +233,60 @@ export default function TestimonialsCarousel() {
           {SLIDES.map((testimonial, slideIndex) => {
             const distance = Math.abs(slideIndex - index);
             const active = distance < visible;
+            const shouldRenderVideo = slideIndex >= index && slideIndex < index + visible;
 
             return (
               <div key={`${testimonial.id}-${slideIndex}`} className="flex-none px-3.5" style={{ width: `${slideW}%` }}>
                 <motion.article
                   animate={reducedMotion ? undefined : { y: active ? 0 : 8, opacity: active ? 1 : 0.7 }}
                   transition={{ duration: 0.45 }}
-                  className="relative min-h-[350px] overflow-hidden rounded-[26px] border border-white/10 bg-white p-7 shadow-2xl shadow-black/20 sm:p-8"
+                  className="group/card relative min-h-[430px] overflow-hidden rounded-[26px] border border-white/10 bg-white shadow-2xl shadow-black/20"
                 >
-                  <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-red-50 blur-3xl" />
-                  <div className="relative flex h-full min-h-[294px] flex-col">
-                    <div className="flex items-start justify-between gap-4">
-                      <span className={`inline-flex rounded-full border px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.16em] ${accentClasses[testimonial.accent]}`}>
+                  <div className="relative h-[148px] overflow-hidden bg-slate-950">
+                    {shouldRenderVideo ? (
+                      <video
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="none"
+                        aria-hidden="true"
+                        className="absolute inset-0 h-full w-full object-cover opacity-80 transition duration-700 group-hover/card:scale-[1.04] group-hover/card:opacity-95"
+                      >
+                        <source src={testimonial.video} type="video/mp4" />
+                      </video>
+                    ) : (
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(223,23,49,0.28),transparent_42%),linear-gradient(135deg,#171923,#05060a)]" />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent" />
+                    <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-4 p-5">
+                      <span className={`inline-flex rounded-full border px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.16em] backdrop-blur-md ${accentClasses[testimonial.accent]}`}>
                         {testimonial.industry}
                       </span>
-                      <div className="grid h-10 w-10 place-items-center rounded-xl bg-slate-950 text-white shadow-lg">
+                      <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-slate-950/80 text-white shadow-lg backdrop-blur-md">
                         <Quote size={16} />
                       </div>
                     </div>
+                    <div className="absolute bottom-4 right-5 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/35 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-white/75 backdrop-blur-md">
+                      <VolumeX size={11} /> Muted video
+                    </div>
+                  </div>
 
-                    <p className="mt-8 text-lg font-bold leading-relaxed tracking-[-0.02em] text-slate-800 sm:text-xl">
+                  <div className="flex min-h-[282px] flex-col p-7 sm:p-8">
+                    <p className="text-lg font-bold leading-relaxed tracking-[-0.02em] text-slate-800 sm:text-xl">
                       “{testimonial.quote}”
                     </p>
 
                     <div className="mt-auto border-t border-slate-100 pt-6">
                       <div className="flex items-center gap-3">
-                        <div className="grid h-11 w-11 place-items-center rounded-xl bg-slate-950 text-sm font-black text-white">
+                        <div className="grid h-11 w-11 place-items-center rounded-xl bg-slate-950 text-sm font-black text-white transition-transform duration-300 group-hover/card:-translate-y-0.5">
                           {testimonial.initials}
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className="text-sm font-black text-slate-950">{testimonial.name}</div>
                           <div className="mt-0.5 text-[9px] font-black uppercase tracking-[0.14em] text-slate-400">{testimonial.role}</div>
                         </div>
-                        <ArrowUpRight size={15} className="text-slate-300" />
+                        <ArrowUpRight size={15} className="text-slate-300 transition duration-300 group-hover/card:-translate-y-0.5 group-hover/card:translate-x-0.5 group-hover/card:text-red-500" />
                       </div>
                     </div>
                   </div>
