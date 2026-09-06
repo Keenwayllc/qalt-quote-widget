@@ -1,0 +1,185 @@
+.qalt-forms-studio {
+  --forms-ink: #22252b;
+  --forms-muted: #646b76;
+  --forms-line: #e2e4e9;
+  --forms-paper: #f7f8fa;
+  --forms-red: #df1731;
+  max-width: 1120px;
+}
+
+.qalt-forms-studio > header {
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--forms-line);
+}
+
+.qalt-forms-studio h1 {
+  color: var(--forms-ink);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 750;
+  letter-spacing: -0.04em;
+}
+
+.qalt-forms-studio > header p:first-of-type {
+  max-width: 560px;
+  color: var(--forms-muted);
+  line-height: 1.6;
+}
+
+.qalt-forms-studio > header > a,
+.qalt-forms-studio > header > button {
+  min-height: 44px;
+  border-radius: 12px !important;
+  padding-inline: 18px;
+  box-shadow: none !important;
+}
+
+.qalt-forms-studio > header > button {
+  background: var(--forms-ink) !important;
+}
+
+.qalt-forms-studio > header > button:hover {
+  background: #30343b !important;
+}
+
+.qalt-forms-studio > header > a {
+  background: var(--forms-red) !important;
+}
+
+.qalt-forms-studio > .mb-6,
+.qalt-forms-studio > div.space-y-4 > div {
+  border-radius: 18px !important;
+  border-color: var(--forms-line) !important;
+  box-shadow: 0 14px 34px -30px rgba(34, 37, 43, 0.32) !important;
+}
+
+.qalt-forms-studio > .mb-6 {
+  background: #fff;
+}
+
+.qalt-forms-studio > .mb-6 input,
+.qalt-forms-studio input[type="text"] {
+  min-height: 42px;
+  border-radius: 10px !important;
+}
+
+.qalt-forms-studio button,
+.qalt-forms-studio a {
+  transition: transform 180ms cubic-bezier(.22, 1, .36, 1), background-color 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease !important;
+}
+
+.qalt-forms-studio button:not(:disabled):active,
+.qalt-forms-studio a:active {
+  transform: scale(.985);
+}
+
+.qalt-forms-studio > div.space-y-4 > div {
+  padding: 24px !important;
+}
+
+.qalt-forms-studio > div.space-y-4 > div > div:first-of-type {
+  margin-bottom: 18px;
+}
+
+.qalt-forms-studio [class*="bg-slate-900"][class*="font-mono"] {
+  border-radius: 12px !important;
+  background: #22252b !important;
+  color: #f3b3bc !important;
+  border: 1px solid #30343b !important;
+  box-shadow: none !important;
+  padding: 16px 18px !important;
+}
+
+.qalt-forms-studio [class*="Copy Embed Code"],
+.qalt-forms-studio [href*="/dashboard/widget?formId="],
+.qalt-forms-studio [href*="/dashboard/pricing?formId="] {
+  border-radius: 10px !important;
+}
+
+.qalt-forms-studio [href*="/dashboard/widget?formId="],
+.qalt-forms-studio [href*="/dashboard/pricing?formId="] {
+  background: #f7f8fa !important;
+  color: var(--forms-ink) !important;
+  border: 1px solid var(--forms-line) !important;
+}
+
+.qalt-forms-studio [href*="/dashboard/widget?formId="]:hover,
+.qalt-forms-studio [href*="/dashboard/pricing?formId="]:hover {
+  background: #fff !important;
+  border-color: #cfd4da !important;
+}
+
+.qalt-forms-studio .border-dashed {
+  background: var(--forms-paper) !important;
+  border-style: solid !important;
+}
+
+.qalt-forms-studio .border-dashed > div:first-child {
+  border-radius: 14px !important;
+  background: #fff !important;
+  border-color: var(--forms-line) !important;
+}
+
+.qalt-forms-studio .border-dashed h3 {
+  color: var(--forms-ink);
+  font-weight: 750;
+  letter-spacing: -0.025em;
+}
+
+.qalt-forms-studio .border-dashed button,
+.qalt-forms-studio .border-dashed a {
+  min-height: 44px;
+  border-radius: 11px !important;
+  box-shadow: none !important;
+}
+
+.qalt-forms-studio [class*="bg-amber-50"] {
+  border-radius: 12px !important;
+}
+
+.qalt-forms-studio .rounded-full {
+  border-radius: 999px !important;
+}
+
+.dark .qalt-forms-studio {
+  --forms-ink: #f4f4f5;
+  --forms-muted: #a1a1aa;
+  --forms-line: rgba(255,255,255,.08);
+  --forms-paper: #151515;
+}
+
+.dark .qalt-forms-studio > .mb-6,
+.dark .qalt-forms-studio > div.space-y-4 > div {
+  background: #171717 !important;
+}
+
+.dark .qalt-forms-studio [href*="/dashboard/widget?formId="],
+.dark .qalt-forms-studio [href*="/dashboard/pricing?formId="] {
+  background: #1c1c1c !important;
+  color: #f4f4f5 !important;
+}
+
+.dark .qalt-forms-studio .border-dashed > div:first-child {
+  background: #1c1c1c !important;
+}
+
+@media (max-width: 640px) {
+  .qalt-forms-studio > header {
+    flex-direction: column;
+  }
+
+  .qalt-forms-studio > header > a,
+  .qalt-forms-studio > header > button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .qalt-forms-studio > .mb-6 {
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+
+  .qalt-forms-studio > .mb-6 input {
+    flex-basis: calc(100% - 34px);
+  }
+}
