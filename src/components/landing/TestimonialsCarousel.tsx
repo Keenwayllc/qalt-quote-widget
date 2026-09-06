@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, ChevronLeft, ChevronRight, Quote, VolumeX } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
 interface Testimonial {
   id: number;
@@ -270,9 +270,6 @@ export default function TestimonialsCarousel() {
                       <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-slate-950/80 text-white shadow-lg backdrop-blur-md">
                         <Quote size={16} />
                       </div>
-                    </div>
-                    <div className="absolute bottom-4 right-5 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/35 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-white/75 backdrop-blur-md">
-                      <VolumeX size={11} /> Muted video
                     </div>
                   </div>
 
