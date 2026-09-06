@@ -1,0 +1,279 @@
+.qalt-secondary-shell {
+  --qalt-red: #df1731;
+  --qalt-ink: #22252b;
+  --qalt-muted: #646b76;
+  --qalt-line: #e2e4e9;
+  --qalt-paper: #f7f8fa;
+}
+
+.qalt-secondary-shell > div:first-child {
+  width: 100%;
+  margin-inline: auto;
+}
+
+.qalt-secondary-admin > div:first-child,
+.qalt-secondary-embed > div:first-child,
+.qalt-secondary-whatsnew > div:first-child,
+.qalt-secondary-support > div:first-child {
+  max-width: 1180px !important;
+}
+
+.qalt-secondary-admin > div:first-child > div:first-child,
+.qalt-secondary-embed > div:first-child > header:first-child,
+.qalt-secondary-whatsnew > div:first-child > div:first-child,
+.qalt-secondary-support > div:first-child > div:first-child {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-bottom: 28px !important;
+  padding: 28px 30px !important;
+  border: 1px solid rgba(255,255,255,.08) !important;
+  border-radius: 26px !important;
+  background:
+    radial-gradient(circle at 12% 110%, rgba(223,23,49,.32), transparent 34%),
+    radial-gradient(circle at 86% -20%, rgba(223,23,49,.16), transparent 30%),
+    linear-gradient(135deg, #11141b 0%, #17151a 56%, #0d1016 100%) !important;
+  box-shadow: 0 30px 70px -48px rgba(16,18,24,.85) !important;
+}
+
+.qalt-secondary-admin > div:first-child > div:first-child::before,
+.qalt-secondary-embed > div:first-child > header:first-child::before,
+.qalt-secondary-whatsnew > div:first-child > div:first-child::before,
+.qalt-secondary-support > div:first-child > div:first-child::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .16;
+  background-image:
+    linear-gradient(rgba(255,255,255,.24) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.24) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: linear-gradient(to right, rgba(0,0,0,.9), transparent 82%);
+}
+
+.qalt-secondary-admin > div:first-child > div:first-child h1,
+.qalt-secondary-embed > div:first-child > header:first-child h1,
+.qalt-secondary-whatsnew > div:first-child > div:first-child h1,
+.qalt-secondary-support > div:first-child > div:first-child h1 {
+  color: #fff !important;
+  font-weight: 800 !important;
+  letter-spacing: -.035em !important;
+}
+
+.qalt-secondary-admin > div:first-child > div:first-child p,
+.qalt-secondary-embed > div:first-child > header:first-child p,
+.qalt-secondary-whatsnew > div:first-child > div:first-child p,
+.qalt-secondary-support > div:first-child > div:first-child p {
+  color: #aeb4be !important;
+  max-width: 720px;
+}
+
+.qalt-secondary-shell .rounded-none {
+  border-radius: 16px !important;
+}
+
+.qalt-secondary-shell pre.rounded-none {
+  border-radius: 18px !important;
+}
+
+.qalt-secondary-shell input,
+.qalt-secondary-shell select,
+.qalt-secondary-shell textarea {
+  border-radius: 13px !important;
+  border-color: var(--qalt-line) !important;
+  transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease, transform 180ms ease !important;
+}
+
+.qalt-secondary-shell input:focus,
+.qalt-secondary-shell select:focus,
+.qalt-secondary-shell textarea:focus {
+  border-color: rgba(223,23,49,.45) !important;
+  box-shadow: 0 0 0 3px rgba(223,23,49,.09) !important;
+}
+
+.qalt-secondary-shell button,
+.qalt-secondary-shell a {
+  transition: transform 180ms cubic-bezier(.22,1,.36,1), background-color 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease !important;
+}
+
+.qalt-secondary-shell button:not(:disabled):active,
+.qalt-secondary-shell a:active {
+  transform: scale(.985);
+}
+
+/* Admin */
+.qalt-secondary-admin .grid.grid-cols-1.sm\:grid-cols-3 > div {
+  border: 1px solid var(--qalt-line) !important;
+  border-radius: 20px !important;
+  background: #fff !important;
+  box-shadow: 0 16px 36px -30px rgba(34,37,43,.38) !important;
+}
+
+.qalt-secondary-admin .grid.grid-cols-1.sm\:grid-cols-3 > div:hover {
+  transform: translateY(-3px);
+  border-color: #cfd4db !important;
+  box-shadow: 0 22px 44px -30px rgba(34,37,43,.42) !important;
+}
+
+.qalt-secondary-admin table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.qalt-secondary-admin table thead tr {
+  background: var(--qalt-paper) !important;
+}
+
+.qalt-secondary-admin table tbody tr {
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.qalt-secondary-admin table tbody tr:hover {
+  background: #fafafa !important;
+}
+
+.qalt-secondary-admin > div:first-child > div:last-child {
+  border-radius: 22px !important;
+  box-shadow: 0 18px 44px -34px rgba(34,37,43,.42) !important;
+}
+
+/* Embed / installation */
+.qalt-secondary-embed > div:first-child > div.grid > div:first-child > div,
+.qalt-secondary-embed > div:first-child > div.grid > div:last-child > div {
+  border-color: var(--qalt-line) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 18px 44px -34px rgba(34,37,43,.34) !important;
+}
+
+.qalt-secondary-embed pre {
+  background: linear-gradient(135deg, #11141b, #0d1016) !important;
+  box-shadow: 0 24px 50px -34px rgba(13,16,22,.9) !important;
+}
+
+.qalt-secondary-embed iframe {
+  border-radius: 14px;
+}
+
+.qalt-secondary-embed [class*="bg-red-50"] {
+  background-color: #fff7f8 !important;
+}
+
+.qalt-secondary-embed [class*="border-red-100"] {
+  border-color: #f3d4d9 !important;
+}
+
+/* What's New */
+.qalt-secondary-whatsnew .grid > div {
+  border: 1px solid var(--qalt-line) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 16px 38px -32px rgba(34,37,43,.38) !important;
+  transition: transform 220ms cubic-bezier(.22,1,.36,1), border-color 180ms ease, box-shadow 220ms ease !important;
+}
+
+.qalt-secondary-whatsnew .grid > div:hover {
+  transform: translateY(-5px);
+  border-color: #ccd2da !important;
+  box-shadow: 0 28px 54px -34px rgba(34,37,43,.44) !important;
+}
+
+.qalt-secondary-whatsnew > div:first-child > div:last-child {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px !important;
+  background:
+    radial-gradient(circle at 82% 20%, rgba(223,23,49,.18), transparent 34%),
+    #11141b !important;
+  border: 1px solid rgba(255,255,255,.08) !important;
+}
+
+/* Support */
+.qalt-secondary-support [id].scroll-mt-20 > button {
+  border: 1px solid var(--qalt-line) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 12px 34px -30px rgba(34,37,43,.34);
+}
+
+.qalt-secondary-support [id].scroll-mt-20 > button:hover {
+  transform: translateY(-2px);
+  border-color: #cfd4dc !important;
+  box-shadow: 0 18px 38px -30px rgba(34,37,43,.4);
+}
+
+.qalt-secondary-support [id].scroll-mt-20 > div {
+  animation: qaltSecondaryAccordion 260ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.qalt-secondary-support > div:first-child > div:last-child {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px !important;
+  background:
+    radial-gradient(circle at 90% 20%, rgba(223,23,49,.2), transparent 34%),
+    #11141b !important;
+  border: 1px solid rgba(255,255,255,.08) !important;
+  box-shadow: 0 24px 58px -42px rgba(17,20,27,.85) !important;
+}
+
+/* Soft stagger for secondary screens. */
+.qalt-secondary-shell > div:first-child > * {
+  animation: qaltSecondaryRise 520ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.qalt-secondary-shell > div:first-child > *:nth-child(2) { animation-delay: 55ms; }
+.qalt-secondary-shell > div:first-child > *:nth-child(3) { animation-delay: 100ms; }
+.qalt-secondary-shell > div:first-child > *:nth-child(4) { animation-delay: 145ms; }
+.qalt-secondary-shell > div:first-child > *:nth-child(5) { animation-delay: 190ms; }
+
+@keyframes qaltSecondaryRise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes qaltSecondaryAccordion {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dark .qalt-secondary-shell {
+  --qalt-line: rgba(255,255,255,.08);
+  --qalt-paper: #171717;
+}
+
+.dark .qalt-secondary-admin .grid.grid-cols-1.sm\:grid-cols-3 > div,
+.dark .qalt-secondary-whatsnew .grid > div {
+  background: #171717 !important;
+  border-color: rgba(255,255,255,.08) !important;
+  box-shadow: none !important;
+}
+
+.dark .qalt-secondary-admin table tbody tr:hover {
+  background: rgba(255,255,255,.035) !important;
+}
+
+.dark .qalt-secondary-support [id].scroll-mt-20 > button {
+  border-color: rgba(255,255,255,.08) !important;
+  box-shadow: none;
+}
+
+@media (max-width: 640px) {
+  .qalt-secondary-admin > div:first-child > div:first-child,
+  .qalt-secondary-embed > div:first-child > header:first-child,
+  .qalt-secondary-whatsnew > div:first-child > div:first-child,
+  .qalt-secondary-support > div:first-child > div:first-child {
+    padding: 24px 22px !important;
+    border-radius: 22px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qalt-secondary-shell,
+  .qalt-secondary-shell *,
+  .qalt-secondary-shell *::before,
+  .qalt-secondary-shell *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
