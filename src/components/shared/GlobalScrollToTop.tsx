@@ -27,13 +27,14 @@ export default function GlobalScrollToTop() {
     }
 
     let target: Window | HTMLElement | null = null;
+    let updateVisibility: (() => void) | null = null;
 
     const frame = requestAnimationFrame(() => {
       target = pathname.startsWith("/dashboard")
         ? getDashboardScroller() ?? window
         : window;
 
-      const updateVisibility = () => {
+      updateVisibility = () => {
         const top = target === window
           ? window.scrollY
           : (target as HTMLElement).scrollTop;
@@ -46,32 +47,10 @@ export default function GlobalScrollToTop() {
 
     return () => {
       cancelAnimationFrame(frame);
-      if (target) {
-        const noop = () => {};
-        // Listener cleanup is handled below by replacing with a fresh route-bound
-        // listener; this branch only exists when the target was created.
-        target.removeEventListener("scroll", noop);
+      if (target && updateVisibility) {
+        target.removeEventListener("scroll", updateVisibility);
       }
     };
-  }, [pathname, shouldSkip]);
-
-  useEffect(() => {
-    if (shouldSkip) return;
-
-    const target = pathname.startsWith("/dashboard")
-      ? getDashboardScroller() ?? window
-      : window;
-
-    const updateVisibility = () => {
-      const top = target === window
-        ? window.scrollY
-        : (target as HTMLElement).scrollTop;
-      setVisible(top > SHOW_AFTER_PX);
-    };
-
-    updateVisibility();
-    target.addEventListener("scroll", updateVisibility, { passive: true });
-    return () => target.removeEventListener("scroll", updateVisibility);
   }, [pathname, shouldSkip]);
 
   const scrollToTop = () => {
