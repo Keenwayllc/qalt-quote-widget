@@ -1,0 +1,427 @@
+.qalt-ops {
+  --ops-ink: #22252b;
+  --ops-muted: #646b76;
+  --ops-line: #e2e4e9;
+  --ops-paper: #f7f8fa;
+  --ops-red: #df1731;
+  --ops-green: #087c68;
+  --ops-shadow: 0 20px 54px -38px rgba(34, 37, 43, 0.34);
+  min-height: 100%;
+  position: relative;
+  isolation: isolate;
+}
+
+.qalt-ops::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(34, 37, 43, 0.024) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 37, 43, 0.024) 1px, transparent 1px);
+  background-size: 38px 38px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,.72), transparent 38%);
+}
+
+.qalt-ops-commandbar-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 16px 0;
+}
+
+.qalt-ops-commandbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 12px 14px 12px 18px;
+  border: 1px solid var(--ops-line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 34px -30px rgba(34, 37, 43, 0.5);
+}
+
+.qalt-ops-branding {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 132px;
+}
+
+.qalt-ops-kicker {
+  color: var(--ops-red);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.qalt-ops-command-copy {
+  color: var(--ops-muted);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.qalt-ops-nav {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  flex: 1;
+  max-width: 690px;
+}
+
+.qalt-ops-nav-item {
+  position: relative;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  color: #777e88;
+  text-decoration: none;
+  overflow: hidden;
+  transition: color 180ms ease, transform 180ms cubic-bezier(.22,1,.36,1);
+}
+
+.qalt-ops-nav-item:hover {
+  color: var(--ops-ink);
+  transform: translateY(-1px);
+}
+
+.qalt-ops-nav-item.is-active {
+  color: var(--ops-ink);
+}
+
+.qalt-ops-nav-active {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border: 1px solid #dfe2e7;
+  border-radius: 12px;
+  background: #f7f8fa;
+  box-shadow: 0 6px 16px -14px rgba(34, 37, 43, 0.45);
+}
+
+.qalt-ops-nav-icon {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #e3e5e9;
+  border-radius: 9px;
+  background: #fff;
+  transition: transform 200ms cubic-bezier(.22,1,.36,1), border-color 180ms ease, color 180ms ease;
+}
+
+.qalt-ops-nav-item:hover .qalt-ops-nav-icon,
+.qalt-ops-nav-item.is-active .qalt-ops-nav-icon {
+  transform: scale(1.05);
+  border-color: rgba(223, 23, 49, 0.24);
+  color: var(--ops-red);
+}
+
+.qalt-ops-nav-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.qalt-ops-nav-copy strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 780;
+  letter-spacing: -0.01em;
+}
+
+.qalt-ops-nav-copy small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #959ba4;
+  font-size: 9px;
+  font-weight: 620;
+}
+
+.qalt-ops-page > div {
+  padding-top: 28px !important;
+}
+
+.qalt-ops-page h1 {
+  color: var(--ops-ink) !important;
+  font-weight: 780 !important;
+  letter-spacing: -0.035em !important;
+}
+
+.qalt-ops-page h2,
+.qalt-ops-page h3,
+.qalt-ops-page h4 {
+  letter-spacing: -0.022em;
+}
+
+.qalt-ops-page p {
+  text-wrap: pretty;
+}
+
+/* Calm product surfaces: remove the old oversized card treatment while keeping hierarchy. */
+.qalt-ops-page [class*="bg-white"][class*="border"],
+.qalt-ops-page form[class*="bg-white"],
+.qalt-ops-page [class*="dark:bg"][class*="border"] {
+  border-color: var(--ops-line) !important;
+  box-shadow: var(--ops-shadow) !important;
+}
+
+.qalt-ops-page [class*="rounded-[2.5rem]"],
+.qalt-ops-page [class*="rounded-[32px]"],
+.qalt-ops-page [class*="rounded-4xl"] {
+  border-radius: 20px !important;
+}
+
+.qalt-ops-page [class*="rounded-3xl"] {
+  border-radius: 18px !important;
+}
+
+.qalt-ops-page [class*="rounded-2xl"] {
+  border-radius: 14px !important;
+}
+
+.qalt-ops-page [class*="rounded-xl"] {
+  border-radius: 11px !important;
+}
+
+.qalt-ops-page [class*="rounded-full"] {
+  border-radius: 999px !important;
+}
+
+.qalt-ops-page input,
+.qalt-ops-page select,
+.qalt-ops-page textarea {
+  border-radius: 12px !important;
+  border-color: #dde1e6 !important;
+  background: #fff !important;
+  box-shadow: 0 1px 2px rgba(34, 37, 43, 0.025) !important;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease !important;
+}
+
+.qalt-ops-page input:hover,
+.qalt-ops-page select:hover,
+.qalt-ops-page textarea:hover {
+  border-color: #cbd0d7 !important;
+}
+
+.qalt-ops-page input:focus,
+.qalt-ops-page select:focus,
+.qalt-ops-page textarea:focus {
+  border-color: rgba(223, 23, 49, 0.38) !important;
+  box-shadow: 0 0 0 3px rgba(223, 23, 49, 0.08) !important;
+}
+
+.qalt-ops-page button,
+.qalt-ops-page a {
+  transition:
+    transform 180ms cubic-bezier(.22, 1, .36, 1),
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease !important;
+}
+
+.qalt-ops-page button:not(:disabled):active,
+.qalt-ops-page a:active {
+  transform: scale(0.985);
+}
+
+/* Jobs: give each dispatch card a premium lift and staggered entry. */
+.qalt-ops-page [class*="cursor-pointer"][class*="group"][class*="bg-white"] {
+  position: relative;
+  overflow: hidden;
+  animation: qalt-ops-card-in 420ms both cubic-bezier(.22, 1, .36, 1);
+}
+
+.qalt-ops-page [class*="cursor-pointer"][class*="group"][class*="bg-white"]::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--ops-red);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 220ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.qalt-ops-page [class*="cursor-pointer"][class*="group"][class*="bg-white"]:hover {
+  transform: translateY(-3px);
+  border-color: #d5d9df !important;
+  box-shadow: 0 24px 50px -34px rgba(34, 37, 43, 0.48) !important;
+}
+
+.qalt-ops-page [class*="cursor-pointer"][class*="group"][class*="bg-white"]:hover::before {
+  transform: scaleY(1);
+}
+
+.qalt-ops-page [class*="space-y-4"] > [class*="cursor-pointer"]:nth-child(2) { animation-delay: 45ms; }
+.qalt-ops-page [class*="space-y-4"] > [class*="cursor-pointer"]:nth-child(3) { animation-delay: 90ms; }
+.qalt-ops-page [class*="space-y-4"] > [class*="cursor-pointer"]:nth-child(4) { animation-delay: 135ms; }
+.qalt-ops-page [class*="space-y-4"] > [class*="cursor-pointer"]:nth-child(5) { animation-delay: 180ms; }
+.qalt-ops-page [class*="space-y-4"] > [class*="cursor-pointer"]:nth-child(6) { animation-delay: 225ms; }
+
+/* Readiness: visually separate the confirmation grid without making it noisy. */
+.qalt-ops-page button[class*="border-2"][class*="text-left"] {
+  border-width: 1px !important;
+  box-shadow: 0 8px 24px -24px rgba(34, 37, 43, 0.5) !important;
+}
+
+.qalt-ops-page button[class*="border-2"][class*="text-left"]:hover {
+  transform: translateY(-2px);
+}
+
+.qalt-ops-page button[class*="bg-slate-900"][class*="border-slate-900"] {
+  box-shadow: 0 16px 30px -24px rgba(34, 37, 43, 0.65) !important;
+}
+
+/* Saved-stop cards and operational forms get a small amount of responsive polish. */
+.qalt-ops-page [class*="grid"] > [class*="border"][class*="bg-white"] {
+  animation: qalt-ops-soft-in 360ms both ease-out;
+}
+
+.qalt-ops-page [class*="grid"] > [class*="border"][class*="bg-white"]:hover {
+  border-color: #d5d9df !important;
+}
+
+/* Modal panels retain the existing Framer Motion behavior but match the product language. */
+.qalt-ops-page [class*="fixed"][class*="z-50"] [class*="relative"][class*="bg-white"] {
+  border: 1px solid var(--ops-line) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 40px 90px -38px rgba(19, 22, 27, 0.46) !important;
+}
+
+@keyframes qalt-ops-card-in {
+  from { opacity: 0; transform: translateY(10px) scale(.995); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes qalt-ops-soft-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dark .qalt-ops {
+  --ops-ink: #f4f4f5;
+  --ops-muted: #a1a1aa;
+  --ops-line: rgba(255, 255, 255, 0.08);
+  --ops-paper: #151515;
+  --ops-shadow: 0 18px 44px -34px rgba(0, 0, 0, 0.7);
+}
+
+.dark .qalt-ops::before {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+}
+
+.dark .qalt-ops-commandbar {
+  border-color: var(--ops-line);
+  background: rgba(20, 20, 20, 0.88);
+  box-shadow: 0 14px 34px -28px rgba(0, 0, 0, 0.85);
+}
+
+.dark .qalt-ops-nav-active {
+  border-color: rgba(255,255,255,.08);
+  background: #1c1c1c;
+  box-shadow: none;
+}
+
+.dark .qalt-ops-nav-icon {
+  border-color: rgba(255,255,255,.08);
+  background: #171717;
+}
+
+.dark .qalt-ops-page input,
+.dark .qalt-ops-page select,
+.dark .qalt-ops-page textarea {
+  border-color: rgba(255,255,255,.08) !important;
+  background: #171717 !important;
+  color: #f4f4f5 !important;
+}
+
+.dark .qalt-ops-page [class*="bg-white"][class*="border"],
+.dark .qalt-ops-page form[class*="bg-white"] {
+  background: #141414 !important;
+  border-color: rgba(255,255,255,.08) !important;
+}
+
+@media (max-width: 840px) {
+  .qalt-ops-commandbar-wrap {
+    padding-top: 14px;
+  }
+
+  .qalt-ops-commandbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .qalt-ops-branding {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3px;
+  }
+
+  .qalt-ops-nav {
+    width: 100%;
+    max-width: none;
+  }
+
+  .qalt-ops-nav-item {
+    justify-content: center;
+    padding: 9px 7px;
+  }
+
+  .qalt-ops-nav-copy small {
+    display: none;
+  }
+}
+
+@media (max-width: 540px) {
+  .qalt-ops-command-copy {
+    display: none;
+  }
+
+  .qalt-ops-nav-copy strong {
+    font-size: 10px;
+  }
+
+  .qalt-ops-nav-icon {
+    width: 26px;
+    height: 26px;
+    flex-basis: 26px;
+  }
+
+  .qalt-ops-page > div {
+    padding-top: 20px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qalt-ops *,
+  .qalt-ops *::before,
+  .qalt-ops *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
