@@ -2,6 +2,7 @@ import { getCurrentCompany, isTrialExpired, trialDaysRemaining, wasTrialDowngrad
 import DashboardClientLayout from "./DashboardClientLayout";
 import DashboardRouteStyler from "./DashboardRouteStyler";
 import "./dashboard-polish.css";
+import "./console-shell.css";
 import prisma from "@/lib/prisma";
 
 export default async function DashboardLayout({
