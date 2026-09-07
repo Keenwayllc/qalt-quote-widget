@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { readableForeground } from "@/lib/color";
 
 function parseBrandColor(raw: string) {
   const value = raw.trim();
@@ -51,6 +52,21 @@ export default function WidgetBrandRuntime() {
         background-color: var(--qalt-brand) !important;
         box-shadow: 0 8px 24px -4px var(--qalt-brand-shadow) !important;
       }
+
+      /* Readable foreground on any surface whose background IS the brand color:
+         the Pay & Book button and the explicitly-marked brand CTAs / header
+         title. Keeps white text off light accents and dark text off dark ones. */
+      [style*="--ring"] button[class*="bg-emerald-600"],
+      [style*="--ring"] [data-qalt-brand-cta],
+      [style*="--ring"] [data-qalt-brand-title] {
+        color: var(--qalt-brand-ink) !important;
+      }
+
+      /* Keep the button loading spinner visible on light accents too. */
+      [style*="--ring"] button[class*="bg-emerald-600"] .animate-spin,
+      [style*="--ring"] [data-qalt-brand-cta] .animate-spin {
+        border-top-color: var(--qalt-brand-ink) !important;
+      }
     `;
     document.head.appendChild(style);
 
@@ -64,6 +80,7 @@ export default function WidgetBrandRuntime() {
 
         const { r, g, b } = hexToRgb(brand);
         root.style.setProperty("--qalt-brand", brand);
+        root.style.setProperty("--qalt-brand-ink", readableForeground(brand));
         root.style.setProperty("--qalt-brand-soft", `rgba(${r}, ${g}, ${b}, 0.10)`);
         root.style.setProperty("--qalt-brand-soft-2", `rgba(${r}, ${g}, ${b}, 0.045)`);
         root.style.setProperty("--qalt-brand-border", `rgba(${r}, ${g}, ${b}, 0.20)`);

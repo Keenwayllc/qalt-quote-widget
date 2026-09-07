@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw, ExternalLink, Lock, Sparkles, Info, Globe, Trash2, CheckCircle, XCircle } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
+import { isValidHex } from "@/lib/color";
 import Link from 'next/link';
 
 import Image from "next/image";
@@ -141,6 +142,14 @@ export default function WidgetSettingsForm({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Never send a malformed brand color to the server.
+    if (!isValidHex(previewData.primaryColor)) {
+      setMessage({ type: "", text: "" });
+      setErrorStatus("Enter a valid 6-digit hex brand color like #DF1731 before saving.");
+      return;
+    }
+
     setLoading(true);
     setMessage({ type: "", text: "" });
     setErrorStatus(null);
@@ -367,7 +376,7 @@ export default function WidgetSettingsForm({
                      <input
                       type="color"
                       name="primaryColor"
-                      value={previewData.primaryColor.length === 7 && previewData.primaryColor.startsWith('#') ? previewData.primaryColor : '#3B82F6'}
+                      value={previewData.primaryColor.length === 7 && previewData.primaryColor.startsWith('#') ? previewData.primaryColor : '#1E40AF'}
                       onChange={handleChange}
                       className="absolute inset-[-10px] w-20 h-20 opacity-0 cursor-pointer"
                       title="Pick a color"
@@ -378,7 +387,7 @@ export default function WidgetSettingsForm({
                     name="primaryColor"
                     type="text"
                     required
-                    placeholder="#3B82F6"
+                    placeholder="#1E40AF"
                     value={previewData.primaryColor}
                     onChange={handleChange}
                     className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 font-mono text-sm uppercase transition-all shadow-sm"
@@ -386,13 +395,18 @@ export default function WidgetSettingsForm({
                   />
                   <button
                     type="button"
-                    onClick={() => setPreviewData((prev) => ({ ...prev, primaryColor: '#3B82F6' }))}
+                    onClick={() => setPreviewData((prev) => ({ ...prev, primaryColor: '#1E40AF' }))}
                     className="shrink-0 flex items-center justify-center px-3 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5 transition-colors shadow-sm dark:shadow-none"
                     title="Reset to default color"
                   >
                      <RotateCcw size={18} />
                   </button>
                 </div>
+                {previewData.primaryColor.trim() !== "" && !isValidHex(previewData.primaryColor) && (
+                  <p className="mt-1.5 text-xs font-medium text-rose-600 dark:text-rose-400">
+                    Enter a valid 6-digit hex color, e.g. #DF1731.
+                  </p>
+                )}
               </div>
               <div>
                 <label htmlFor="buttonText" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Button Text</label>
