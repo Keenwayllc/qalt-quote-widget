@@ -8,13 +8,13 @@ import { Menu, X } from "lucide-react";
 import QaltLogo from "@/components/shared/QaltLogo";
 
 const NAV_LINKS = [
-  { label: "Features",     href: "/#features" },
-  { label: "Live Demo",    href: "/demo" },
-  { label: "How it Works", href: "/#how-it-works" },
-  { label: "Use Cases",    href: "/#use-cases" },
-  { label: "Pricing",      href: "/pricing" },
-  { label: "Blog",         href: "/blog" },
-  { label: "Partners",     href: "/partners" },
+  { label: "Features",       href: "/#features" },
+  { label: "Live Demo",      href: "/demo" },
+  { label: "How it Works",   href: "/#how-it-works" },
+  { label: "What Qalt Does", href: "/what-qalt-does" },
+  { label: "Pricing",        href: "/pricing" },
+  { label: "Blog",           href: "/blog" },
+  { label: "Partners",       href: "/partners" },
 ];
 
 export default function PublicNav() {
