@@ -1,6 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import prisma from "@/lib/prisma";
+import {
+  publicCompanySelect,
+  publicWidgetSettingsSelect,
+  publicPricingProfileSelect,
+} from "@/lib/publicWidget";
 import PublicNav from "@/components/shared/PublicNav";
 import QaltLogo from "@/components/shared/QaltLogo";
 import DemoLeadForm from "@/components/landing/DemoLeadForm";
@@ -27,15 +32,27 @@ export const metadata: Metadata = {
 async function resolveDemoCompany() {
   const id = (process.env.DEMO_COMPANY_ID || process.env.NEXT_PUBLIC_DEMO_COMPANY_ID)?.trim();
   if (!id) return null;
+  // Strict public select — never the full Company row (see lib/publicWidget).
   const company = await prisma.company.findUnique({
     where: { id },
-    include: { pricingProfiles: true, widgetSettings: true },
+    select: {
+      ...publicCompanySelect,
+      widgetSettings: { select: publicWidgetSettingsSelect },
+      pricingProfiles: { select: publicPricingProfileSelect },
+    },
   });
   if (!company || company.widgetSettings.length === 0) return null;
 
   const widgetSettings = company.widgetSettings[0];
   const pricingProfile = company.pricingProfiles.find((p) => p.widgetSettingsId === null);
-  return { ...company, widgetSettings, pricingProfile };
+  return {
+    id: company.id,
+    name: company.name,
+    logoUrl: company.logoUrl,
+    subscriptionPlan: company.subscriptionPlan,
+    widgetSettings,
+    pricingProfile,
+  };
 }
 
 const VALUE_STRIP: { icon: React.ComponentType<{ size?: number; className?: string }>; label: string }[] = [
