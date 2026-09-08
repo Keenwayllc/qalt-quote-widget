@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
+import { isValidShopDomain } from "@/lib/shopify";
 
 // POST /api/shopify/connect — links a Shopify install to the logged-in Qalt company
 // and injects the widget script tag into the Shopify store
@@ -24,13 +25,23 @@ export async function POST(req: Request) {
     }
     const { shop } = await req.json();
 
-    if (!shop) {
-      return NextResponse.json({ error: "Missing shop" }, { status: 400 });
+    // Validate the shop hostname before it is used in any Shopify Admin API URL.
+    if (!isValidShopDomain(shop)) {
+      return NextResponse.json({ error: "Invalid shop" }, { status: 400 });
     }
 
     const install = await prisma.shopifyInstall.findUnique({ where: { shop } });
     if (!install) {
       return NextResponse.json({ error: "Shop not installed" }, { status: 404 });
+    }
+
+    // Tenant-ownership guard — enforced BEFORE any Shopify API mutation. An
+    // install already linked to another Qalt company can never be relinked,
+    // script-tag-mutated, or token-touched here. Same-tenant reconnect and
+    // first-time linking of an unlinked (null) install are allowed. Response is
+    // non-revealing about which company owns it.
+    if (install.companyId !== null && install.companyId !== company.companyId) {
+      return NextResponse.json({ error: "Shop is already connected." }, { status: 409 });
     }
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL!;
@@ -90,7 +101,13 @@ export async function DELETE(req: Request) {
     }
     const { shop } = await req.json();
 
+    if (!isValidShopDomain(shop)) {
+      return NextResponse.json({ error: "Invalid shop" }, { status: 400 });
+    }
+
     const install = await prisma.shopifyInstall.findUnique({ where: { shop } });
+    // Ownership check preserved: only the linked tenant may unlink/remove the
+    // script tag. Foreign or unlinked installs are not found.
     if (!install || install.companyId !== company.companyId) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }

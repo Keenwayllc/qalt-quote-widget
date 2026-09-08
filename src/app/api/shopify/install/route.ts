@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
+import { isValidShopDomain } from "@/lib/shopify";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const shop = searchParams.get("shop");
 
-  if (!shop || !shop.endsWith(".myshopify.com")) {
+  if (!isValidShopDomain(shop)) {
     return NextResponse.json({ error: "Invalid shop" }, { status: 400 });
   }
 
