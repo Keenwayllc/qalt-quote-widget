@@ -41,6 +41,13 @@ export async function GET(req: Request) {
     let profile = null;
 
     if (formId) {
+      // Verify the form belongs to this company before returning its pricing.
+      // A foreign or nonexistent formId must 404 and must NOT fall back to the
+      // company default (which would leak the existence of another tenant's form).
+      const form = await prisma.widgetSettings.findUnique({ where: { id: formId } });
+      if (!form || form.companyId !== payload.companyId) {
+        return NextResponse.json({ error: "Form not found" }, { status: 404 });
+      }
       // Form-specific pricing
       profile = await prisma.pricingProfile.findUnique({ where: { widgetSettingsId: formId } });
     }
@@ -151,6 +158,14 @@ export async function PATCH(req: Request) {
     // Resolve which profile to update
     let profile = null;
     if (formId) {
+      // Verify the form belongs to this company before touching its pricing.
+      // A foreign or nonexistent formId must 404 and must NOT fall back to the
+      // company default (which would let one tenant edit another's pricing, or
+      // create a profile against a form it does not own).
+      const form = await prisma.widgetSettings.findUnique({ where: { id: formId } });
+      if (!form || form.companyId !== payload.companyId) {
+        return NextResponse.json({ error: "Form not found" }, { status: 404 });
+      }
       profile = await prisma.pricingProfile.findUnique({ where: { widgetSettingsId: formId } });
     }
     if (!profile) {
