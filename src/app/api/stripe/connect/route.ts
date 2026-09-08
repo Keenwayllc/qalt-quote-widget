@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { getStripe } from "@/lib/stripe";
+import { verifyToken } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -7,20 +9,29 @@ export const dynamic = "force-dynamic";
 /**
  * GET /api/stripe/connect
  * Initiates Stripe Connect onboarding using Account Links (Pivot from OAuth).
+ *
+ * The connected account ALWAYS belongs to the authenticated merchant. The
+ * company is derived from the signed Qalt session cookie — never from a
+ * browser-supplied companyId — so a merchant cannot onboard, read, or mutate
+ * another tenant's Stripe Connect account by changing a query/body parameter.
  */
-export async function GET(req: Request) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(req.url);
-    const companyId = searchParams.get("companyId");
+    // 0. Authenticate from the signed session (same pattern as dashboard APIs).
+    const cookieStore = await cookies();
+    const token = cookieStore.get("qalt_token")?.value;
+    if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const payload = await verifyToken(token);
+    if (!payload) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    if (!companyId) {
-      return NextResponse.json({ error: "companyId is required." }, { status: 400 });
-    }
+    // The ONLY trusted company identity. Any companyId in the query/body is
+    // ignored entirely.
+    const companyId = payload.companyId;
 
     const stripe = getStripe();
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.qalt.site";
 
-    // 1. Fetch the company to see if they already have an account ID
+    // 1. Fetch the authenticated company to see if they already have an account ID
     const company = await prisma.company.findUnique({
       where: { id: companyId },
       select: { stripeConnectAccountId: true, email: true, name: true }
@@ -44,10 +55,10 @@ export async function GET(req: Request) {
           companyId: companyId
         }
       });
-      
+
       accountId = account.id;
 
-      // Save it immediately
+      // Save it immediately — only to the authenticated company
       await prisma.company.update({
         where: { id: companyId },
         data: { stripeConnectAccountId: accountId }
