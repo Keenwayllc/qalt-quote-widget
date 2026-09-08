@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import { validateWebhookUrl } from "@/lib/webhook-security";
 
 async function getAuth() {
   const cookieStore = await cookies();
@@ -30,10 +31,20 @@ export async function PATCH(
     if (!hook) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
     const body = await req.json();
+
+    // If a URL is being set, it must pass central SSRF-safe validation BEFORE
+    // any field is updated. An invalid/unsafe URL updates nothing.
+    if ("url" in body) {
+      const check = await validateWebhookUrl(body.url);
+      if (!check.ok) {
+        return NextResponse.json({ error: "Invalid webhook URL" }, { status: 400 });
+      }
+    }
+
     const update: Record<string, unknown> = {};
 
     if ("enabled" in body) update.enabled = Boolean(body.enabled);
-    if ("url" in body && typeof body.url === "string") update.url = body.url;
+    if ("url" in body) update.url = body.url as string;
     if ("events" in body && Array.isArray(body.events)) update.events = body.events;
 
     const updated = await prisma.webhook.update({ where: { id }, data: update });

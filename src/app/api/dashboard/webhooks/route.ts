@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { getEntitlements } from "@/lib/plans";
+import { validateWebhookUrl } from "@/lib/webhook-security";
 import crypto from "crypto";
 
 async function getAuth() {
@@ -52,11 +53,13 @@ export async function POST(req: Request) {
 
     const { url, events } = await req.json();
 
-    if (!url || typeof url !== "string" || !url.startsWith("http")) {
-      return NextResponse.json({ error: "Valid URL required" }, { status: 400 });
-    }
     if (!Array.isArray(events) || events.length === 0) {
       return NextResponse.json({ error: "At least one event required" }, { status: 400 });
+    }
+    // Central SSRF-safe validation (scheme, credentials, hostname, DNS/IP).
+    const check = await validateWebhookUrl(url);
+    if (!check.ok) {
+      return NextResponse.json({ error: "Invalid webhook URL" }, { status: 400 });
     }
 
     const secret = crypto.randomBytes(32).toString("hex");

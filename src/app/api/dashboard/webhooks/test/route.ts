@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import { deliverWebhook } from "@/lib/webhook-security";
 import crypto from "crypto";
 
 export async function POST(req: Request) {
@@ -47,29 +48,25 @@ export async function POST(req: Request) {
       .update(testPayload)
       .digest("hex");
 
-    let status = 0;
-    let ok = false;
-    try {
-      const res = await fetch(hook.url, {
-        method: "POST",
+    // Revalidates destination against current DNS, refuses redirects, applies a
+    // timeout. Failures return a generic message (no internal IPs disclosed).
+    const result = await deliverWebhook(
+      hook.url,
+      {
         headers: {
-          "Content-Type": "application/json",
           "X-Qalt-Event": "quote.created",
           "X-Qalt-Signature": `sha256=${sig}`,
         },
         body: testPayload,
-        signal: AbortSignal.timeout(8000),
-      });
-      status = res.status;
-      ok = res.ok;
-    } catch (fetchErr) {
-      return NextResponse.json({
-        success: false,
-        error: `Delivery failed: ${(fetchErr as Error).message}`,
-      });
+      },
+      { timeoutMs: 8000, webhookId: hook.id }
+    );
+
+    if (!result.delivered) {
+      return NextResponse.json({ success: false, error: "Delivery failed" });
     }
 
-    return NextResponse.json({ success: ok, httpStatus: status });
+    return NextResponse.json({ success: result.ok, httpStatus: result.status });
   } catch (err) {
     console.error("POST /webhooks/test error:", err);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
