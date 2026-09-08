@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import prisma from "@/lib/prisma";
+import { isValidShopDomain } from "@/lib/shopify";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -25,6 +26,11 @@ export async function GET(req: Request) {
 
   if (!shop || !code || !hmac) {
     return NextResponse.json({ error: "Missing params" }, { status: 400 });
+  }
+
+  // Validate the shop hostname before it is used in the token-exchange URL.
+  if (!isValidShopDomain(shop)) {
+    return NextResponse.json({ error: "Invalid shop" }, { status: 400 });
   }
 
   // Verify HMAC
@@ -59,7 +65,10 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Failed to get access token" }, { status: 500 });
   }
 
-  // Save or update install record
+  // Save or update install record. INVARIANT: `update` refreshes ONLY the
+  // accessToken and never writes companyId, so re-running OAuth for an already
+  // linked shop can never detach or reassign it to another Qalt tenant. Linking
+  // happens exclusively in the authenticated /api/shopify/connect route.
   await prisma.shopifyInstall.upsert({
     where: { shop },
     update: { accessToken },
