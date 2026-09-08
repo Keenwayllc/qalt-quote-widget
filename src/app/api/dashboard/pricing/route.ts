@@ -38,19 +38,24 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const formId = searchParams.get("formId");
 
-    let profile = null;
-
     if (formId) {
-      // Form-specific pricing
-      profile = await prisma.pricingProfile.findUnique({ where: { widgetSettingsId: formId } });
+      // Verify the form belongs to this company before returning its pricing.
+      // A foreign or nonexistent formId must 404 and must NOT fall back to the
+      // company default (which would leak the existence of another tenant's form).
+      const form = await prisma.widgetSettings.findUnique({ where: { id: formId } });
+      if (!form || form.companyId !== payload.companyId) {
+        return NextResponse.json({ error: "Form not found" }, { status: 404 });
+      }
+      // Owned form: return its dedicated pricing, or null if it has none yet.
+      // An explicit formId never falls back to the company default.
+      const formProfile = await prisma.pricingProfile.findUnique({ where: { widgetSettingsId: formId } });
+      return NextResponse.json({ profile: formProfile });
     }
 
-    if (!profile) {
-      // Company default pricing (widgetSettingsId is null)
-      profile = await prisma.pricingProfile.findFirst({
-        where: { companyId: payload.companyId, widgetSettingsId: null },
-      });
-    }
+    // No formId: company default pricing (widgetSettingsId is null)
+    const profile = await prisma.pricingProfile.findFirst({
+      where: { companyId: payload.companyId, widgetSettingsId: null },
+    });
 
     return NextResponse.json({ profile });
   } catch (error) {
@@ -148,25 +153,48 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ error: "No fields to update" }, { status: 400 });
     }
 
-    // Resolve which profile to update
-    let profile = null;
     if (formId) {
-      profile = await prisma.pricingProfile.findUnique({ where: { widgetSettingsId: formId } });
+      // Verify the form belongs to this company before touching its pricing.
+      // A foreign or nonexistent formId must 404 and must NOT fall back to the
+      // company default (which would let one tenant edit another's pricing, or
+      // create a profile against a form it does not own).
+      const form = await prisma.widgetSettings.findUnique({ where: { id: formId } });
+      if (!form || form.companyId !== payload.companyId) {
+        return NextResponse.json({ error: "Form not found" }, { status: 404 });
+      }
+
+      // Owned form: update its dedicated profile, or create one bound to this
+      // form. An explicit formId never reads or writes the company default.
+      const dedicated = await prisma.pricingProfile.findUnique({ where: { widgetSettingsId: formId } });
+      if (dedicated) {
+        await prisma.pricingProfile.update({ where: { id: dedicated.id }, data: patch as any });
+      } else {
+        await prisma.pricingProfile.create({
+          data: {
+            companyId: payload.companyId,
+            widgetSettingsId: formId,
+            baseRatePerMile: 2.5,
+            minimumCharge: 35,
+            ...patch,
+          } as any,
+        });
+      }
+
+      return NextResponse.json({ success: true });
     }
-    if (!profile) {
-      profile = await prisma.pricingProfile.findFirst({
-        where: { companyId: payload.companyId, widgetSettingsId: null },
-      });
-    }
+
+    // No formId: company default pricing (widgetSettingsId is null)
+    const profile = await prisma.pricingProfile.findFirst({
+      where: { companyId: payload.companyId, widgetSettingsId: null },
+    });
 
     if (profile) {
       await prisma.pricingProfile.update({ where: { id: profile.id }, data: patch as any });
     } else {
-      // No profile exists yet — create one with defaults overridden by the patch
+      // No default profile yet — create one with defaults overridden by the patch
       await prisma.pricingProfile.create({
         data: {
           companyId: payload.companyId,
-          ...(formId ? { widgetSettingsId: formId } : {}),
           baseRatePerMile: 2.5,
           minimumCharge: 35,
           ...patch,
