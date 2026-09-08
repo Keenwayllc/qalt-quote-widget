@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
 import prisma from "@/lib/prisma";
+import { signCustomerQuoteToken } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -38,6 +39,13 @@ export async function POST(req: Request) {
 
     const amountInCents = Math.round(quote.estimatedPrice * 100);
 
+    // Signed, expiring capability for the customer-facing success page. The raw
+    // quote id never appears in the public success URL.
+    const successToken = await signCustomerQuoteToken({
+      quoteId: quote.id,
+      companyId: quote.company.id,
+    });
+
     // Stripe Connect: Use the company's connected account
     const connectedAccountId = quote.company.stripeConnectAccountId;
     
@@ -67,7 +75,7 @@ export async function POST(req: Request) {
           quantity: 1,
         },
       ],
-      success_url: `${baseUrl}/widget/payment-success?quoteId=${quote.id}`,
+      success_url: `${baseUrl}/widget/payment-success?token=${successToken}`,
       cancel_url: `${baseUrl}/widget/${quote.companyId}?cancelled=1`,
       payment_intent_data: {
         metadata: {
