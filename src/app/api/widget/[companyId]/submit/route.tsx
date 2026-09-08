@@ -7,6 +7,7 @@ import { PLANS, SubscriptionPlan } from "@/lib/plans";
 import { fireWebhooks } from "@/lib/webhooks";
 import type { EstimateExtras } from "@/lib/calculator";
 import { computeAuthoritativeQuote } from "@/lib/serverQuotePricing";
+import { geocodeAddress } from "@/lib/google-maps";
 
 export const dynamic = "force-dynamic";
 
@@ -60,6 +61,42 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       }
     }
 
+    // Address <-> ZIP integrity. The address (used for driving distance) and
+    // the ZIP (persisted, geo-fenced, emailed) are independently browser-
+    // supplied, so a tampered request could price a cheap route while storing a
+    // different ZIP. We geocode each address server-side and require its
+    // structured postal_code to match the submitted ZIP. Everything downstream
+    // then uses the server-verified address + ZIP. Geocoding failure fails
+    // closed (422) — we never fall back to an unverified browser ZIP.
+    const pickupAddress = typeof data.pickupAddress === "string" ? data.pickupAddress.trim() : "";
+    const dropoffAddress = typeof data.dropoffAddress === "string" ? data.dropoffAddress.trim() : "";
+    const submittedPickupZip = typeof data.pickupZip === "string" ? data.pickupZip.trim() : "";
+    const submittedDropoffZip = typeof data.dropoffZip === "string" ? data.dropoffZip.trim() : "";
+
+    const zip5 = (z: string | null | undefined) => (z ?? "").replace(/\D/g, "").slice(0, 5);
+
+    if (!pickupAddress || !dropoffAddress) {
+      return NextResponse.json({ error: "Address and ZIP code do not match" }, { status: 422 });
+    }
+
+    const [pickupGeo, dropoffGeo] = await Promise.all([
+      geocodeAddress(pickupAddress),
+      geocodeAddress(dropoffAddress),
+    ]);
+
+    if (
+      !pickupGeo || !dropoffGeo ||
+      !pickupGeo.postalCode || !dropoffGeo.postalCode ||
+      zip5(pickupGeo.postalCode) !== zip5(submittedPickupZip) ||
+      zip5(dropoffGeo.postalCode) !== zip5(submittedDropoffZip)
+    ) {
+      return NextResponse.json({ error: "Address and ZIP code do not match" }, { status: 422 });
+    }
+
+    // Server-verified values used everywhere from here on.
+    const verifiedPickupZip = zip5(pickupGeo.postalCode);
+    const verifiedDropoffZip = zip5(dropoffGeo.postalCode);
+
     // Server-authoritative price + distance. Browser-supplied estimatedPrice
     // and distanceMiles are NEVER trusted for the persisted quote. Pricing is
     // resolved the same way the estimate preview did (formId parity) so the
@@ -79,8 +116,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
     const priced = await computeAuthoritativeQuote({
       companyId,
       formId: data.formId ?? null,
-      startLocation: data.pickupAddress || data.pickupZip,
-      endLocation: data.dropoffAddress || data.dropoffZip,
+      // Verified, canonical addresses — never the raw browser strings.
+      startLocation: pickupGeo.formattedAddress,
+      endLocation: dropoffGeo.formattedAddress,
       extras,
       vehicleCount: parseInt(data.vehicleCount) || 0,
       // Final submission: server distance is authoritative, no client fallback.
@@ -123,8 +161,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       // Server-side geo-fence enforcement
       if (widgetSettings?.geoFencingEnabled && widgetSettings.serviceZips.length > 0) {
         const allowed = widgetSettings.serviceZips;
-        const pickupOk = allowed.includes(data.pickupZip?.trim());
-        const dropoffOk = allowed.includes(data.dropoffZip?.trim());
+        const pickupOk = allowed.includes(verifiedPickupZip);
+        const dropoffOk = allowed.includes(verifiedDropoffZip);
         if (!pickupOk && !dropoffOk) {
           return NextResponse.json(
             { error: "This location is outside our current service area." },
@@ -140,8 +178,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
         customerName: data.customerName,
         customerEmail: data.customerEmail,
         customerPhone: data.customerPhone || null,
-        pickupZip: data.pickupZip,
-        dropoffZip: data.dropoffZip,
+        pickupZip: verifiedPickupZip,
+        dropoffZip: verifiedDropoffZip,
         distanceMiles: authoritativeDistance,
         estimatedPrice: authoritativePrice,
         serviceType: (data.selectedLargeItems?.length > 0) ? "Large Item Delivery" : "Standard Delivery",
@@ -174,8 +212,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
             customerName={data.customerName}
             customerEmail={data.customerEmail}
             customerPhone={data.customerPhone}
-            pickupZip={data.pickupZip}
-            dropoffZip={data.dropoffZip}
+            pickupZip={verifiedPickupZip}
+            dropoffZip={verifiedDropoffZip}
             distanceMiles={authoritativeDistance}
             estimatedPrice={authoritativePrice}
             serviceType={(data.selectedLargeItems?.length > 0) ? "Large Item Delivery" : "Standard Delivery"}
@@ -203,8 +241,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
           react: (
             <CustomerQuoteEmail
               customerName={data.customerName}
-              pickupZip={data.pickupZip}
-              dropoffZip={data.dropoffZip}
+              pickupZip={verifiedPickupZip}
+              dropoffZip={verifiedDropoffZip}
               distanceMiles={authoritativeDistance}
               estimatedPrice={authoritativePrice}
               serviceType={serviceType}
