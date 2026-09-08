@@ -11,6 +11,54 @@ function getPlanFromPriceId(priceId: string): string {
   return "STARTER";
 }
 
+type QuoteBinding = {
+  id: string;
+  companyId: string;
+  paymentStatus: string | null;
+  stripePaymentIntentId: string | null;
+  company: { stripeConnectAccountId: string | null };
+};
+
+/**
+ * A signed Stripe event is not enough to mutate a quote: the event must be
+ * bound to THIS quote's tenant. All three signals below must be consistent
+ * before a payment_intent.* event may touch the quote. Quote payments are
+ * created on the company's Connected account with quoteId + companyId in the
+ * PaymentIntent metadata and the expected PaymentIntent id persisted up front,
+ * so every legitimate event carries all three. Any mismatch fails closed.
+ */
+function isQuoteEventBound(
+  event: Stripe.Event,
+  intent: Stripe.PaymentIntent,
+  quote: QuoteBinding
+): boolean {
+  // 1. Metadata company binding — when present it must be this quote's company.
+  const metaCompanyId = intent.metadata?.companyId;
+  if (metaCompanyId && metaCompanyId !== quote.companyId) {
+    console.error(`[Webhook][security] companyId metadata mismatch for quote ${quote.id}: intent=${metaCompanyId} quote=${quote.companyId}`);
+    return false;
+  }
+
+  // 2. Connected-account binding — quote payments run on the company's
+  // Connected account, so when both are present they must match. This blocks an
+  // event for Merchant A's account from altering Merchant B's quote.
+  const eventAccount = event.account;
+  const connectedAccountId = quote.company.stripeConnectAccountId;
+  if (eventAccount && connectedAccountId && eventAccount !== connectedAccountId) {
+    console.error(`[Webhook][security] connected account mismatch for quote ${quote.id}: event=${eventAccount} company=${connectedAccountId}`);
+    return false;
+  }
+
+  // 3. Expected-PaymentIntent binding — once the quote recorded its expected PI
+  // id, only that PaymentIntent may update it.
+  if (quote.stripePaymentIntentId && quote.stripePaymentIntentId !== intent.id) {
+    console.error(`[Webhook][security] payment intent mismatch for quote ${quote.id}: intent=${intent.id} expected=${quote.stripePaymentIntentId}`);
+    return false;
+  }
+
+  return true;
+}
+
 export async function POST(req: Request) {
   const body = await req.text();
   const sig = req.headers.get("stripe-signature");
@@ -110,8 +158,35 @@ export async function POST(req: Request) {
         const quoteId = intent.metadata?.quoteId;
         if (!quoteId) break; // Not a quote payment — ignore
 
-        await prisma.quoteRequest.update({
+        const quote = await prisma.quoteRequest.findUnique({
           where: { id: quoteId },
+          select: {
+            id: true,
+            companyId: true,
+            paymentStatus: true,
+            stripePaymentIntentId: true,
+            company: { select: { stripeConnectAccountId: true } },
+          },
+        });
+
+        // Unknown quote — ignore safely (ack so Stripe stops retrying). No 500,
+        // no cross-tenant existence revealed.
+        if (!quote) {
+          console.warn(`[Webhook] payment_intent.succeeded for unknown quote ${quoteId} — ignored`);
+          break;
+        }
+
+        // Tenant binding must hold before any mutation.
+        if (!isQuoteEventBound(event, intent, quote)) break;
+
+        // Idempotent: a repeat delivery of the same successful PI is a no-op.
+        if (quote.paymentStatus === "PAID") {
+          console.log(`[Webhook] Quote ${quote.id} already PAID — idempotent ack`);
+          break;
+        }
+
+        await prisma.quoteRequest.update({
+          where: { id: quote.id },
           data: {
             paymentStatus: "PAID",
             stripePaymentIntentId: intent.id,
@@ -119,7 +194,7 @@ export async function POST(req: Request) {
             status: "CONFIRMED", // Elevate quote status to confirmed
           },
         });
-        console.log(`[Webhook] Quote ${quoteId} marked as PAID via payment intent ${intent.id}`);
+        console.log(`[Webhook] Quote ${quote.id} marked as PAID via payment intent ${intent.id}`);
         break;
       }
 
@@ -128,11 +203,37 @@ export async function POST(req: Request) {
         const quoteId = intent.metadata?.quoteId;
         if (!quoteId) break;
 
-        await prisma.quoteRequest.update({
+        const quote = await prisma.quoteRequest.findUnique({
           where: { id: quoteId },
+          select: {
+            id: true,
+            companyId: true,
+            paymentStatus: true,
+            stripePaymentIntentId: true,
+            company: { select: { stripeConnectAccountId: true } },
+          },
+        });
+
+        if (!quote) {
+          console.warn(`[Webhook] payment_intent.payment_failed for unknown quote ${quoteId} — ignored`);
+          break;
+        }
+
+        // Same tenant binding as success — an unrelated failed intent must never
+        // mark another quote FAILED.
+        if (!isQuoteEventBound(event, intent, quote)) break;
+
+        // Never overwrite an already-paid quote due to a stale/duplicate failure.
+        if (quote.paymentStatus === "PAID") {
+          console.warn(`[Webhook] Ignoring failure for already-PAID quote ${quote.id}`);
+          break;
+        }
+
+        await prisma.quoteRequest.update({
+          where: { id: quote.id },
           data: { paymentStatus: "FAILED" },
         });
-        console.log(`[Webhook] Quote ${quoteId} payment FAILED: ${intent.last_payment_error?.message}`);
+        console.log(`[Webhook] Quote ${quote.id} payment FAILED: ${intent.last_payment_error?.message}`);
         break;
       }
 
