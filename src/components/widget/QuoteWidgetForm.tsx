@@ -562,6 +562,10 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
             ? `${formData.pickupDate}T${formData.pickupTime}`
             : undefined,
           selectedLargeItems: formData.selectedLargeItems,
+          // Same pricing key the estimate used, so the server recalculates the
+          // exact price the customer was quoted. estimatedPrice/distanceMiles
+          // above are ignored by the server (recomputed authoritatively).
+          formId: company.formId || null,
           widgetSettingsId: widgetSettings.id,
         }),
       });

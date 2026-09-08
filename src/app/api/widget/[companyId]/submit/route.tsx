@@ -5,6 +5,9 @@ import { NewQuoteEmail } from "@/components/emails/NewQuoteEmail";
 import { CustomerQuoteEmail } from "@/components/emails/CustomerQuoteEmail";
 import { PLANS, SubscriptionPlan } from "@/lib/plans";
 import { fireWebhooks } from "@/lib/webhooks";
+import type { EstimateExtras } from "@/lib/calculator";
+import { computeAuthoritativeQuote } from "@/lib/serverQuotePricing";
+import { geocodeAddress } from "@/lib/google-maps";
 
 export const dynamic = "force-dynamic";
 
@@ -58,13 +61,117 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       }
     }
 
+    // Address <-> ZIP integrity. The address (used for driving distance) and
+    // the ZIP (persisted, geo-fenced, emailed) are independently browser-
+    // supplied, so a tampered request could price a cheap route while storing a
+    // different ZIP. We geocode each address server-side and require its
+    // structured postal_code to match the submitted ZIP. Everything downstream
+    // then uses the server-verified address + ZIP. Geocoding failure fails
+    // closed (422) — we never fall back to an unverified browser ZIP.
+    const pickupAddress = typeof data.pickupAddress === "string" ? data.pickupAddress.trim() : "";
+    const dropoffAddress = typeof data.dropoffAddress === "string" ? data.dropoffAddress.trim() : "";
+    const submittedPickupZip = typeof data.pickupZip === "string" ? data.pickupZip.trim() : "";
+    const submittedDropoffZip = typeof data.dropoffZip === "string" ? data.dropoffZip.trim() : "";
+
+    const zip5 = (z: string | null | undefined) => (z ?? "").replace(/\D/g, "").slice(0, 5);
+
+    if (!pickupAddress || !dropoffAddress) {
+      return NextResponse.json({ error: "Address and ZIP code do not match" }, { status: 422 });
+    }
+
+    const [pickupGeo, dropoffGeo] = await Promise.all([
+      geocodeAddress(pickupAddress),
+      geocodeAddress(dropoffAddress),
+    ]);
+
+    // Reject ONLY on a contradictory postal code: Google resolved the address
+    // and returned a postal_code whose 5 digits differ from the submitted ZIP.
+    // A missing postal_code (Google resolved the address but attached none, or
+    // geocoding was unavailable) is NOT a contradiction, so a legitimate
+    // Google-selected address is never rejected solely for a missing postal
+    // code. Distance/pricing remain bound to the verified canonical address.
+    const resolveZip = (
+      geo: Awaited<ReturnType<typeof geocodeAddress>>,
+      submitted: string
+    ): { contradiction: true } | { contradiction: false; zip: string } => {
+      const geoZip = zip5(geo?.postalCode);
+      const submittedZip = zip5(submitted);
+      if (geoZip && submittedZip && geoZip !== submittedZip) {
+        return { contradiction: true };
+      }
+      // No contradiction: prefer Google's postal code, else the submitted ZIP.
+      return { contradiction: false, zip: geoZip || submittedZip };
+    };
+
+    const pickupZipResult = resolveZip(pickupGeo, submittedPickupZip);
+    const dropoffZipResult = resolveZip(dropoffGeo, submittedDropoffZip);
+
+    if (pickupZipResult.contradiction || dropoffZipResult.contradiction) {
+      return NextResponse.json({ error: "Address and ZIP code do not match" }, { status: 422 });
+    }
+
+    // Server-verified values used everywhere from here on.
+    const verifiedPickupZip = pickupZipResult.zip;
+    const verifiedDropoffZip = dropoffZipResult.zip;
+
+    // Server-authoritative price + distance. Browser-supplied estimatedPrice
+    // and distanceMiles are NEVER trusted for the persisted quote. Pricing is
+    // resolved the same way the estimate preview did (formId parity) so the
+    // saved amount equals what the customer was legitimately quoted. A foreign
+    // formId 404s here before anything is created or read cross-tenant.
+    const extras: EstimateExtras = {
+      hasStairs: Boolean(data.hasStairs),
+      stairsFlights: data.hasStairs ? (parseInt(data.stairsFlights) || 1) : 0,
+      needsInsideDelivery: Boolean(data.needsInsideDelivery),
+      needsAddon3: Boolean(data.needsAddon3),
+      pickupDateTime: data.pickupDateTime || undefined,
+      selectedLargeItems: data.selectedLargeItems || [],
+      packageWeight: parseFloat(data.packageWeight) || 0,
+      itemCount: parseInt(data.itemCount) || 0,
+    };
+
+    const priced = await computeAuthoritativeQuote({
+      companyId,
+      formId: data.formId ?? null,
+      // Verified canonical addresses when geocoding resolved them; otherwise
+      // the raw address string (still address-based, never the ZIP), so pricing
+      // stays bound to the address even if geocoding was unavailable.
+      startLocation: pickupGeo?.formattedAddress || pickupAddress,
+      endLocation: dropoffGeo?.formattedAddress || dropoffAddress,
+      extras,
+      vehicleCount: parseInt(data.vehicleCount) || 0,
+      // Final submission: server distance is authoritative, no client fallback.
+      clientDistanceFallback: null,
+    });
+
+    if (!priced.ok) {
+      return NextResponse.json({ error: priced.error }, { status: priced.status });
+    }
+
+    const authoritativePrice = priced.quote.total;
+    const authoritativeDistance = priced.quote.distance;
+
+    // Integrity: when a form drives pricing, payment/geo settings must come from
+    // that SAME form. Each ID is verified to belong to this company, but they
+    // must also match each other so a tampered request cannot combine one owned
+    // form's pricing with another owned form's payment/geo settings. When formId
+    // is null (/widget/[companyId], /demo) this check is skipped.
+    if (data.formId && data.widgetSettingsId !== data.formId) {
+      return NextResponse.json({ error: "Form not found" }, { status: 404 });
+    }
+
     // Determine if this widget has payments enabled and check geo-fencing
     let paymentsEnabled = false;
     if (data.widgetSettingsId) {
       const widgetSettings = await prisma.widgetSettings.findUnique({
         where: { id: data.widgetSettingsId },
-        select: { paymentsEnabled: true, geoFencingEnabled: true, serviceZips: true },
+        select: { companyId: true, paymentsEnabled: true, geoFencingEnabled: true, serviceZips: true },
       });
+
+      // Ownership: a supplied widget ID must belong to this company.
+      if (!widgetSettings || widgetSettings.companyId !== companyId) {
+        return NextResponse.json({ error: "Form not found" }, { status: 404 });
+      }
 
       if (entitlements.isPaymentsEnabled) {
         paymentsEnabled = widgetSettings?.paymentsEnabled ?? false;
@@ -73,8 +180,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       // Server-side geo-fence enforcement
       if (widgetSettings?.geoFencingEnabled && widgetSettings.serviceZips.length > 0) {
         const allowed = widgetSettings.serviceZips;
-        const pickupOk = allowed.includes(data.pickupZip?.trim());
-        const dropoffOk = allowed.includes(data.dropoffZip?.trim());
+        const pickupOk = allowed.includes(verifiedPickupZip);
+        const dropoffOk = allowed.includes(verifiedDropoffZip);
         if (!pickupOk && !dropoffOk) {
           return NextResponse.json(
             { error: "This location is outside our current service area." },
@@ -90,10 +197,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
         customerName: data.customerName,
         customerEmail: data.customerEmail,
         customerPhone: data.customerPhone || null,
-        pickupZip: data.pickupZip,
-        dropoffZip: data.dropoffZip,
-        distanceMiles: data.distanceMiles,
-        estimatedPrice: data.estimatedPrice,
+        pickupZip: verifiedPickupZip,
+        dropoffZip: verifiedDropoffZip,
+        distanceMiles: authoritativeDistance,
+        estimatedPrice: authoritativePrice,
         serviceType: (data.selectedLargeItems?.length > 0) ? "Large Item Delivery" : "Standard Delivery",
         status: "PENDING",
         packageWeight: data.packageWeight ? String(data.packageWeight) : null,
@@ -124,10 +231,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
             customerName={data.customerName}
             customerEmail={data.customerEmail}
             customerPhone={data.customerPhone}
-            pickupZip={data.pickupZip}
-            dropoffZip={data.dropoffZip}
-            distanceMiles={data.distanceMiles}
-            estimatedPrice={data.estimatedPrice}
+            pickupZip={verifiedPickupZip}
+            dropoffZip={verifiedDropoffZip}
+            distanceMiles={authoritativeDistance}
+            estimatedPrice={authoritativePrice}
             serviceType={(data.selectedLargeItems?.length > 0) ? "Large Item Delivery" : "Standard Delivery"}
           />
         ),
@@ -153,10 +260,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
           react: (
             <CustomerQuoteEmail
               customerName={data.customerName}
-              pickupZip={data.pickupZip}
-              dropoffZip={data.dropoffZip}
-              distanceMiles={data.distanceMiles}
-              estimatedPrice={data.estimatedPrice}
+              pickupZip={verifiedPickupZip}
+              dropoffZip={verifiedDropoffZip}
+              distanceMiles={authoritativeDistance}
+              estimatedPrice={authoritativePrice}
               serviceType={serviceType}
               companyName={company.name}
               logoUrl={company.logoUrl ?? undefined}
@@ -173,6 +280,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       success: true,
       quoteId: quote.id,
       paymentRequired: paymentsEnabled,
+      // Additive: the authoritative server values that were persisted.
+      estimatedPrice: authoritativePrice,
+      distanceMiles: authoritativeDistance,
     });
   } catch (error) {
     console.error("Quote submission error:", error);
