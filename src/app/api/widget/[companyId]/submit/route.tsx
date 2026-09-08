@@ -94,6 +94,15 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
     const authoritativePrice = priced.quote.total;
     const authoritativeDistance = priced.quote.distance;
 
+    // Integrity: when a form drives pricing, payment/geo settings must come from
+    // that SAME form. Each ID is verified to belong to this company, but they
+    // must also match each other so a tampered request cannot combine one owned
+    // form's pricing with another owned form's payment/geo settings. When formId
+    // is null (/widget/[companyId], /demo) this check is skipped.
+    if (data.formId && data.widgetSettingsId !== data.formId) {
+      return NextResponse.json({ error: "Form not found" }, { status: 404 });
+    }
+
     // Determine if this widget has payments enabled and check geo-fencing
     let paymentsEnabled = false;
     if (data.widgetSettingsId) {
