@@ -84,18 +84,35 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       geocodeAddress(dropoffAddress),
     ]);
 
-    if (
-      !pickupGeo || !dropoffGeo ||
-      !pickupGeo.postalCode || !dropoffGeo.postalCode ||
-      zip5(pickupGeo.postalCode) !== zip5(submittedPickupZip) ||
-      zip5(dropoffGeo.postalCode) !== zip5(submittedDropoffZip)
-    ) {
+    // Reject ONLY on a contradictory postal code: Google resolved the address
+    // and returned a postal_code whose 5 digits differ from the submitted ZIP.
+    // A missing postal_code (Google resolved the address but attached none, or
+    // geocoding was unavailable) is NOT a contradiction, so a legitimate
+    // Google-selected address is never rejected solely for a missing postal
+    // code. Distance/pricing remain bound to the verified canonical address.
+    const resolveZip = (
+      geo: Awaited<ReturnType<typeof geocodeAddress>>,
+      submitted: string
+    ): { contradiction: true } | { contradiction: false; zip: string } => {
+      const geoZip = zip5(geo?.postalCode);
+      const submittedZip = zip5(submitted);
+      if (geoZip && submittedZip && geoZip !== submittedZip) {
+        return { contradiction: true };
+      }
+      // No contradiction: prefer Google's postal code, else the submitted ZIP.
+      return { contradiction: false, zip: geoZip || submittedZip };
+    };
+
+    const pickupZipResult = resolveZip(pickupGeo, submittedPickupZip);
+    const dropoffZipResult = resolveZip(dropoffGeo, submittedDropoffZip);
+
+    if (pickupZipResult.contradiction || dropoffZipResult.contradiction) {
       return NextResponse.json({ error: "Address and ZIP code do not match" }, { status: 422 });
     }
 
     // Server-verified values used everywhere from here on.
-    const verifiedPickupZip = zip5(pickupGeo.postalCode);
-    const verifiedDropoffZip = zip5(dropoffGeo.postalCode);
+    const verifiedPickupZip = pickupZipResult.zip;
+    const verifiedDropoffZip = dropoffZipResult.zip;
 
     // Server-authoritative price + distance. Browser-supplied estimatedPrice
     // and distanceMiles are NEVER trusted for the persisted quote. Pricing is
@@ -116,9 +133,11 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
     const priced = await computeAuthoritativeQuote({
       companyId,
       formId: data.formId ?? null,
-      // Verified, canonical addresses — never the raw browser strings.
-      startLocation: pickupGeo.formattedAddress,
-      endLocation: dropoffGeo.formattedAddress,
+      // Verified canonical addresses when geocoding resolved them; otherwise
+      // the raw address string (still address-based, never the ZIP), so pricing
+      // stays bound to the address even if geocoding was unavailable.
+      startLocation: pickupGeo?.formattedAddress || pickupAddress,
+      endLocation: dropoffGeo?.formattedAddress || dropoffAddress,
       extras,
       vehicleCount: parseInt(data.vehicleCount) || 0,
       // Final submission: server distance is authoritative, no client fallback.
