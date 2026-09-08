@@ -5,6 +5,8 @@ import { NewQuoteEmail } from "@/components/emails/NewQuoteEmail";
 import { CustomerQuoteEmail } from "@/components/emails/CustomerQuoteEmail";
 import { PLANS, SubscriptionPlan } from "@/lib/plans";
 import { fireWebhooks } from "@/lib/webhooks";
+import type { EstimateExtras } from "@/lib/calculator";
+import { computeAuthoritativeQuote } from "@/lib/serverQuotePricing";
 
 export const dynamic = "force-dynamic";
 
@@ -58,13 +60,52 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       }
     }
 
+    // Server-authoritative price + distance. Browser-supplied estimatedPrice
+    // and distanceMiles are NEVER trusted for the persisted quote. Pricing is
+    // resolved the same way the estimate preview did (formId parity) so the
+    // saved amount equals what the customer was legitimately quoted. A foreign
+    // formId 404s here before anything is created or read cross-tenant.
+    const extras: EstimateExtras = {
+      hasStairs: Boolean(data.hasStairs),
+      stairsFlights: data.hasStairs ? (parseInt(data.stairsFlights) || 1) : 0,
+      needsInsideDelivery: Boolean(data.needsInsideDelivery),
+      needsAddon3: Boolean(data.needsAddon3),
+      pickupDateTime: data.pickupDateTime || undefined,
+      selectedLargeItems: data.selectedLargeItems || [],
+      packageWeight: parseFloat(data.packageWeight) || 0,
+      itemCount: parseInt(data.itemCount) || 0,
+    };
+
+    const priced = await computeAuthoritativeQuote({
+      companyId,
+      formId: data.formId ?? null,
+      startLocation: data.pickupAddress || data.pickupZip,
+      endLocation: data.dropoffAddress || data.dropoffZip,
+      extras,
+      vehicleCount: parseInt(data.vehicleCount) || 0,
+      // Final submission: server distance is authoritative, no client fallback.
+      clientDistanceFallback: null,
+    });
+
+    if (!priced.ok) {
+      return NextResponse.json({ error: priced.error }, { status: priced.status });
+    }
+
+    const authoritativePrice = priced.quote.total;
+    const authoritativeDistance = priced.quote.distance;
+
     // Determine if this widget has payments enabled and check geo-fencing
     let paymentsEnabled = false;
     if (data.widgetSettingsId) {
       const widgetSettings = await prisma.widgetSettings.findUnique({
         where: { id: data.widgetSettingsId },
-        select: { paymentsEnabled: true, geoFencingEnabled: true, serviceZips: true },
+        select: { companyId: true, paymentsEnabled: true, geoFencingEnabled: true, serviceZips: true },
       });
+
+      // Ownership: a supplied widget ID must belong to this company.
+      if (!widgetSettings || widgetSettings.companyId !== companyId) {
+        return NextResponse.json({ error: "Form not found" }, { status: 404 });
+      }
 
       if (entitlements.isPaymentsEnabled) {
         paymentsEnabled = widgetSettings?.paymentsEnabled ?? false;
@@ -92,8 +133,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
         customerPhone: data.customerPhone || null,
         pickupZip: data.pickupZip,
         dropoffZip: data.dropoffZip,
-        distanceMiles: data.distanceMiles,
-        estimatedPrice: data.estimatedPrice,
+        distanceMiles: authoritativeDistance,
+        estimatedPrice: authoritativePrice,
         serviceType: (data.selectedLargeItems?.length > 0) ? "Large Item Delivery" : "Standard Delivery",
         status: "PENDING",
         packageWeight: data.packageWeight ? String(data.packageWeight) : null,
@@ -126,8 +167,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
             customerPhone={data.customerPhone}
             pickupZip={data.pickupZip}
             dropoffZip={data.dropoffZip}
-            distanceMiles={data.distanceMiles}
-            estimatedPrice={data.estimatedPrice}
+            distanceMiles={authoritativeDistance}
+            estimatedPrice={authoritativePrice}
             serviceType={(data.selectedLargeItems?.length > 0) ? "Large Item Delivery" : "Standard Delivery"}
           />
         ),
@@ -155,8 +196,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
               customerName={data.customerName}
               pickupZip={data.pickupZip}
               dropoffZip={data.dropoffZip}
-              distanceMiles={data.distanceMiles}
-              estimatedPrice={data.estimatedPrice}
+              distanceMiles={authoritativeDistance}
+              estimatedPrice={authoritativePrice}
               serviceType={serviceType}
               companyName={company.name}
               logoUrl={company.logoUrl ?? undefined}
@@ -173,6 +214,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       success: true,
       quoteId: quote.id,
       paymentRequired: paymentsEnabled,
+      // Additive: the authoritative server values that were persisted.
+      estimatedPrice: authoritativePrice,
+      distanceMiles: authoritativeDistance,
     });
   } catch (error) {
     console.error("Quote submission error:", error);
