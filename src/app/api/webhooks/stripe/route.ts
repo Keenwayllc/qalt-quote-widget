@@ -5,10 +5,16 @@ import type Stripe from "stripe";
 
 export const dynamic = "force-dynamic";
 
-function getPlanFromPriceId(priceId: string): string {
-  if (priceId === process.env.STRIPE_PRO_PRICE_ID) return "PRO";
-  if (priceId === process.env.STRIPE_ENTERPRISE_PRICE_ID) return "ENTERPRISE";
-  return "STARTER";
+// Map a trusted Stripe Price ID to a paid plan. Recognizes BOTH monthly and
+// annual price IDs for each tier. Returns null for any unknown price — callers
+// MUST fail closed on null (never grant a paid tier, never rewrite an existing
+// plan) so a mis/unconfigured price can't silently escalate or downgrade.
+function getPaidPlanFromPriceId(priceId: string): "PRO" | "ENTERPRISE" | null {
+  const proIds = [process.env.STRIPE_PRO_PRICE_ID, process.env.STRIPE_PRO_ANNUAL_PRICE_ID].filter(Boolean);
+  const enterpriseIds = [process.env.STRIPE_ENTERPRISE_PRICE_ID, process.env.STRIPE_ENTERPRISE_ANNUAL_PRICE_ID].filter(Boolean);
+  if (proIds.includes(priceId)) return "PRO";
+  if (enterpriseIds.includes(priceId)) return "ENTERPRISE";
+  return null;
 }
 
 type QuoteBinding = {
@@ -101,10 +107,16 @@ export async function POST(req: Request) {
 
         if (!companyId || !subscriptionId) break;
 
-        // Retrieve subscription to determine the price
+        // Retrieve the subscription and resolve the plan from the trusted Stripe
+        // Price ID (never from browser/metadata). An unknown price fails closed:
+        // no paid tier granted, no plan rewrite.
         const subscription = await stripe.subscriptions.retrieve(subscriptionId);
         const priceId = subscription.items.data[0]?.price.id ?? "";
-        const plan = getPlanFromPriceId(priceId);
+        const plan = getPaidPlanFromPriceId(priceId);
+        if (!plan) {
+          console.warn(`[Webhook] checkout.session.completed for company ${companyId} with unknown price ${priceId} — not granting a paid plan`);
+          break;
+        }
 
         await prisma.company.update({
           where: { id: companyId },
@@ -119,18 +131,32 @@ export async function POST(req: Request) {
       case "customer.subscription.updated": {
         const subscription = event.data.object as Stripe.Subscription;
         const priceId = subscription.items.data[0]?.price.id ?? "";
-        const plan = getPlanFromPriceId(priceId);
-        const isActive = subscription.status === "active" || subscription.status === "trialing";
+        const plan = getPaidPlanFromPriceId(priceId);
+        const isEntitled = subscription.status === "active" || subscription.status === "trialing";
 
         const company = await prisma.company.findFirst({
           where: { stripeSubscriptionId: subscription.id },
         });
         if (!company) break;
 
-        await prisma.company.update({
-          where: { id: company.id },
-          data: { subscriptionPlan: isActive ? plan : "STARTER" },
-        });
+        if (isEntitled) {
+          // Active/trialing but unknown price → do NOT grant a paid tier and do
+          // NOT overwrite the existing plan just because the mapper failed.
+          if (!plan) {
+            console.warn(`[Webhook] subscription.updated for company ${company.id} active/trialing with unknown price ${priceId} — leaving plan unchanged`);
+            break;
+          }
+          await prisma.company.update({
+            where: { id: company.id },
+            data: { subscriptionPlan: plan },
+          });
+        } else {
+          // No longer entitled (canceled/past_due/unpaid/etc.) → downgrade.
+          await prisma.company.update({
+            where: { id: company.id },
+            data: { subscriptionPlan: "STARTER" },
+          });
+        }
         break;
       }
 
