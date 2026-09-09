@@ -1,5 +1,7 @@
 import dns from "node:dns/promises";
 import net from "node:net";
+import http from "node:http";
+import https from "node:https";
 
 // Centralized SSRF protection for merchant-supplied outbound webhook URLs.
 // The SAME validation is used at save time (create/update) and immediately
@@ -135,12 +137,17 @@ function isUnsafeIp(ip: string): boolean {
 const BLOCKED_HOSTNAMES = new Set(["localhost", "localhost."]);
 
 export type UrlValidationResult =
-  | { ok: true; url: URL }
+  | { ok: true; url: URL; address: string; family: number }
   | { ok: false; reason: string };
 
 /**
  * Validate a merchant webhook URL. Resolves DNS and rejects if the destination
  * (or any resolved A/AAAA address) is unsafe. Async because of DNS.
+ *
+ * On success it also returns the single validated IP (`address`/`family`) the
+ * outbound connection must be pinned to, so delivery never performs a second,
+ * uncontrolled DNS lookup. Selection rule: the FIRST resolved address (all of
+ * which have already been checked safe) — deterministic and fail-closed.
  */
 export async function validateWebhookUrl(raw: unknown): Promise<UrlValidationResult> {
   if (typeof raw !== "string" || raw.trim() === "") {
@@ -179,14 +186,15 @@ export async function validateWebhookUrl(raw: unknown): Promise<UrlValidationRes
     hostForIp = hostForIp.slice(1, -1);
   }
 
-  // If the host is an IP literal, check it directly — no DNS.
-  if (net.isIP(hostForIp) !== 0) {
+  // If the host is an IP literal, check it directly — no DNS. Pin to that IP.
+  const literalFamily = net.isIP(hostForIp);
+  if (literalFamily !== 0) {
     if (isUnsafeIp(hostForIp)) return { ok: false, reason: "unsafe-ip" };
-    return { ok: true, url };
+    return { ok: true, url, address: hostForIp, family: literalFamily };
   }
 
   // Otherwise resolve DNS and reject if ANY resolved address is unsafe.
-  let addrs: { address: string }[];
+  let addrs: { address: string; family: number }[];
   try {
     addrs = await dns.lookup(hostForIp, { all: true });
   } catch {
@@ -197,7 +205,9 @@ export async function validateWebhookUrl(raw: unknown): Promise<UrlValidationRes
     if (isUnsafeIp(a.address)) return { ok: false, reason: "unsafe-ip" };
   }
 
-  return { ok: true, url };
+  // All resolved addresses are safe. Pin the connection to the first one.
+  const chosen = addrs[0];
+  return { ok: true, url, address: chosen.address, family: chosen.family };
 }
 
 function safeHostLabel(raw: string): string {
@@ -213,10 +223,94 @@ export type DeliveryResult =
   | { delivered: false; status: 0; error: string };
 
 /**
+ * Issue the outbound POST with the socket PINNED to the already-validated IP.
+ * The connection target is fixed via a custom `lookup` that always returns the
+ * validated address, so the network stack performs NO second DNS resolution
+ * (closes the rebinding TOCTOU window). TLS SNI, certificate validation, and
+ * the Host header all still use the original hostname (`options.hostname`),
+ * preserving virtual-host routing and cert checks. Node core `http(s).request`
+ * never auto-follows redirects, so a 3xx is returned and treated as a failed
+ * delivery. Never throws.
+ */
+function pinnedRequest(
+  url: URL,
+  address: string,
+  family: number,
+  init: { headers: Record<string, string>; body: string },
+  timeoutMs: number
+): Promise<DeliveryResult> {
+  return new Promise((resolve) => {
+    const isHttps = url.protocol === "https:";
+    const mod = isHttps ? https : http;
+
+    // Custom lookup: ignore the hostname and always hand back the pre-validated
+    // IP. Supports both callback shapes (all:true → array, else scalar).
+    const lookup = ((
+      _hostname: string,
+      options: { all?: boolean },
+      cb: (
+        err: NodeJS.ErrnoException | null,
+        addressOrList: string | { address: string; family: number }[],
+        family?: number
+      ) => void
+    ) => {
+      if (options && options.all) {
+        cb(null, [{ address, family }]);
+      } else {
+        cb(null, address, family);
+      }
+    }) as unknown as https.RequestOptions["lookup"];
+
+    let settled = false;
+    let timer: NodeJS.Timeout | null = null;
+    const finish = (r: DeliveryResult) => {
+      if (settled) return;
+      settled = true;
+      if (timer) clearTimeout(timer);
+      resolve(r);
+    };
+
+    const req = mod.request(
+      {
+        protocol: url.protocol,
+        hostname: url.hostname, // original hostname → Host header + TLS servername + cert check
+        port: url.port ? Number(url.port) : isHttps ? 443 : 80,
+        path: `${url.pathname}${url.search}`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...init.headers,
+          "Content-Length": Buffer.byteLength(init.body),
+        },
+        lookup,
+      },
+      (res) => {
+        const status = res.statusCode ?? 0;
+        res.resume(); // drain and free the socket; we don't need the body
+        if (status >= 300 && status < 400) {
+          req.destroy();
+          finish({ delivered: false, status: 0, error: "Redirect not allowed" });
+          return;
+        }
+        finish({ delivered: true, status, ok: status >= 200 && status < 300 });
+      }
+    );
+
+    timer = setTimeout(() => {
+      req.destroy();
+      finish({ delivered: false, status: 0, error: "Timeout" });
+    }, timeoutMs);
+
+    req.on("error", (err) => finish({ delivered: false, status: 0, error: err.message }));
+    req.write(init.body);
+    req.end();
+  });
+}
+
+/**
  * Deliver a signed webhook payload safely: re-validate the destination against
- * current DNS (rebinding guard), refuse redirects (redirect: "manual"), and
- * apply a timeout. Never throws. A 3xx is treated as a failed delivery, not
- * followed, so a public URL can't bounce us into a private network.
+ * current DNS (rebinding guard), pin the connection to the validated IP, refuse
+ * redirects, and apply a timeout. Never throws.
  */
 export async function deliverWebhook(
   rawUrl: string,
@@ -234,21 +328,9 @@ export async function deliverWebhook(
   }
 
   try {
-    const res = await fetch(check.url.toString(), {
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...init.headers },
-      body: init.body,
-      redirect: "manual",
-      signal: AbortSignal.timeout(timeoutMs),
-    });
-
-    // Refuse redirects — do not follow into a possibly-internal Location.
-    if (res.type === "opaqueredirect" || (res.status >= 300 && res.status < 400)) {
-      return { delivered: false, status: 0, error: "Redirect not allowed" };
-    }
-
-    return { delivered: true, status: res.status, ok: res.ok };
+    return await pinnedRequest(check.url, check.address, check.family, init, timeoutMs);
   } catch (err) {
+    // pinnedRequest resolves rather than rejects, but guard anyway.
     return { delivered: false, status: 0, error: (err as Error).message };
   }
 }
