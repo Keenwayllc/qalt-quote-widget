@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import prisma from "@/lib/prisma";
+import { deliverWebhook } from "@/lib/webhook-security";
 
 export type WebhookEvent = "quote.created" | "quote.status_changed";
 
@@ -34,17 +35,21 @@ export async function fireWebhooks(
       .update(payload)
       .digest("hex");
 
-    // fire-and-forget — never block the caller
-    fetch(hook.url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Qalt-Event": event,
-        "X-Qalt-Signature": `sha256=${sig}`,
+    // fire-and-forget — never block the caller. deliverWebhook revalidates the
+    // destination against current DNS (rebinding guard), refuses redirects, and
+    // times out. It never throws, so this cannot break quote business logic.
+    deliverWebhook(
+      hook.url,
+      {
+        headers: {
+          "X-Qalt-Event": event,
+          "X-Qalt-Signature": `sha256=${sig}`,
+        },
+        body: payload,
       },
-      body: payload,
-    }).catch((err) =>
-      console.error(`Webhook delivery failed [${hook.id}] → ${hook.url}:`, err)
-    );
+      { timeoutMs: 8000, webhookId: hook.id }
+    ).then((r) => {
+      if (!r.delivered) console.error(`Webhook delivery failed [${hook.id}]: ${r.error}`);
+    });
   }
 }
