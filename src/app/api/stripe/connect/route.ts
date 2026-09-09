@@ -76,6 +76,6 @@ export async function GET() {
     return NextResponse.redirect(accountLink.url);
   } catch (error: unknown) {
     console.error("Stripe Connect Error:", error instanceof Error ? error.message : String(error));
-    return NextResponse.json({ error: "Failed to initiate Stripe Connect.", details: error instanceof Error ? error.message : "" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to initiate Stripe Connect." }, { status: 500 });
   }
 }
