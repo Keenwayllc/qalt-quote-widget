@@ -1,14 +1,21 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import prisma from "@/lib/prisma";
+import { isValidShopDomain, safeTimingEqual } from "@/lib/shopify";
 
 function verifyHmac(body: string, hmacHeader: string): boolean {
-  const secret = process.env.SHOPIFY_CLIENT_SECRET!;
-  const digest = crypto
-    .createHmac("sha256", secret)
-    .update(body, "utf8")
-    .digest("base64");
-  return crypto.timingSafeEqual(Buffer.from(digest), Buffer.from(hmacHeader));
+  const secret = process.env.SHOPIFY_CLIENT_SECRET;
+  if (!secret) return false; // fail closed — never authenticate without a secret
+
+  // Shopify sends the HMAC as standard base64 of a 32-byte SHA-256 digest, which
+  // is always exactly 43 base64 chars + one '=' pad. Enforce that canonical form
+  // so truncated / oversized / malformed headers (or valid-prefix-plus-junk that
+  // base64 would otherwise decode leniently) are rejected cleanly — no throw.
+  if (!/^[A-Za-z0-9+/]{43}=$/.test(hmacHeader)) return false;
+
+  const expected = crypto.createHmac("sha256", secret).update(body, "utf8").digest();
+  const supplied = Buffer.from(hmacHeader, "base64");
+  return safeTimingEqual(expected, supplied);
 }
 
 export async function POST(req: Request) {
@@ -37,27 +44,27 @@ export async function POST(req: Request) {
   if (topic === "customers/redact") {
     const customer = payload.customer as { email?: string } | undefined;
     const email = customer?.email;
-    if (email) {
+    // Validate shop_domain before any DB lookup/delete so a malformed value
+    // cannot be used as a query key. Acknowledge either way (compliance ack).
+    const shopDomain = payload.shop_domain;
+    if (email && isValidShopDomain(shopDomain)) {
       // Delete all quote requests associated with this customer email
       // scoped to the shop's linked Qalt company
-      const shopDomain = payload.shop_domain as string | undefined;
-      if (shopDomain) {
-        const install = await prisma.shopifyInstall.findUnique({
-          where: { shop: shopDomain },
+      const install = await prisma.shopifyInstall.findUnique({
+        where: { shop: shopDomain },
+      });
+      if (install?.companyId) {
+        await prisma.quoteRequest.deleteMany({
+          where: { companyId: install.companyId, customerEmail: email },
         });
-        if (install?.companyId) {
-          await prisma.quoteRequest.deleteMany({
-            where: { companyId: install.companyId, customerEmail: email },
-          });
-        }
       }
     }
     return new NextResponse(null, { status: 200 });
   }
 
   if (topic === "shop/redact") {
-    const shopDomain = payload.shop_domain as string | undefined;
-    if (shopDomain) {
+    const shopDomain = payload.shop_domain;
+    if (isValidShopDomain(shopDomain)) {
       // 48 hours after uninstall — delete the install record entirely
       await prisma.shopifyInstall.deleteMany({ where: { shop: shopDomain } });
     }

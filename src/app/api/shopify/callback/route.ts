@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import prisma from "@/lib/prisma";
-import { isValidShopDomain } from "@/lib/shopify";
+import { isValidShopDomain, safeTimingEqual } from "@/lib/shopify";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -33,18 +33,28 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Invalid shop" }, { status: 400 });
   }
 
-  // Verify HMAC
+  // Fail closed if the signing secret is not configured — never authenticate.
+  const secret = process.env.SHOPIFY_CLIENT_SECRET;
+  if (!secret) {
+    return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
+  }
+
+  // The supplied hmac must be a plausible SHA-256 hex digest (64 hex chars).
+  // Anything malformed is rejected before any comparison, token exchange, or
+  // DB write — and without letting a length/format mismatch throw.
+  if (!/^[0-9a-f]{64}$/i.test(hmac)) {
+    return NextResponse.json({ error: "HMAC verification failed" }, { status: 403 });
+  }
+
+  // Verify HMAC (constant-time over the raw digest bytes).
   const params = Object.fromEntries(searchParams.entries());
   delete params.hmac;
   const message = Object.keys(params)
     .sort()
     .map((k) => `${k}=${params[k]}`)
     .join("&");
-  const digest = crypto
-    .createHmac("sha256", process.env.SHOPIFY_CLIENT_SECRET!)
-    .update(message)
-    .digest("hex");
-  if (digest !== hmac) {
+  const digest = crypto.createHmac("sha256", secret).update(message).digest("hex");
+  if (!safeTimingEqual(Buffer.from(digest, "hex"), Buffer.from(hmac, "hex"))) {
     return NextResponse.json({ error: "HMAC verification failed" }, { status: 403 });
   }
 
