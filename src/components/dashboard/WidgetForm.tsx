@@ -270,7 +270,7 @@ export default function WidgetSettingsForm({
                       <label className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] text-sm font-medium text-slate-700 dark:text-slate-300 rounded-none cursor-pointer hover:bg-slate-50 dark:hover:bg-white/5 transition-colors shadow-sm dark:shadow-none">
                         <Upload size={15} />
                         {logo ? "Replace" : "Upload Logo"}
-                        <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'logo')} />
+                        <input type="file" className="hidden" accept="image/jpeg,image/png,image/webp,image/gif" onChange={(e) => handleFileUpload(e, 'logo')} />
                       </label>
                     )}
                   </div>
@@ -317,7 +317,7 @@ export default function WidgetSettingsForm({
                       <label className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] text-sm font-medium text-slate-700 dark:text-slate-300 rounded-none cursor-pointer hover:bg-slate-50 dark:hover:bg-white/5 transition-colors shadow-sm dark:shadow-none">
                         <Upload size={15} />
                         {previewData.backgroundImageUrl ? "Replace" : "Upload Background"}
-                        <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'background')} />
+                        <input type="file" className="hidden" accept="image/jpeg,image/png,image/webp,image/gif" onChange={(e) => handleFileUpload(e, 'background')} />
                       </label>
                     )}
                   </div>
