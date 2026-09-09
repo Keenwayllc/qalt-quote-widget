@@ -35,12 +35,23 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Shop not installed" }, { status: 404 });
     }
 
-    // Tenant-ownership guard — enforced BEFORE any Shopify API mutation. An
-    // install already linked to another Qalt company can never be relinked,
-    // script-tag-mutated, or token-touched here. Same-tenant reconnect and
-    // first-time linking of an unlinked (null) install are allowed. Response is
-    // non-revealing about which company owns it.
-    if (install.companyId !== null && install.companyId !== company.companyId) {
+    // Atomic tenant claim — performed BEFORE any Shopify Admin API mutation. A
+    // single conditional UPDATE transitions the install from unlinked
+    // (companyId null) to this company, OR confirms it is already ours. If a
+    // different tenant already owns it — or wins a concurrent first-time claim —
+    // this matches zero rows and we stop before touching Shopify. This closes
+    // the read-check-then-write race where two tenants could both observe
+    // companyId === null and both proceed. Security-first: if a later Shopify
+    // call fails, the claim stays with this (legitimate) tenant and can be
+    // retried; ownership is never reassigned by a race.
+    const claim = await prisma.shopifyInstall.updateMany({
+      where: {
+        shop,
+        OR: [{ companyId: null }, { companyId: company.companyId }],
+      },
+      data: { companyId: company.companyId },
+    });
+    if (claim.count === 0) {
       return NextResponse.json({ error: "Shop is already connected." }, { status: 409 });
     }
 
@@ -79,10 +90,11 @@ export async function POST(req: Request) {
     const scriptData = await scriptRes.json();
     const scriptTagId = String(scriptData.script_tag?.id ?? "");
 
-    // Link company to install
+    // Ownership was already claimed atomically above; only persist the new
+    // script tag id here.
     await prisma.shopifyInstall.update({
       where: { shop },
-      data: { companyId: company.companyId, scriptTagId },
+      data: { scriptTagId },
     });
 
     return NextResponse.json({ ok: true });

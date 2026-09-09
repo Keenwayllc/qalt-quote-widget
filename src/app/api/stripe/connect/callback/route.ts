@@ -6,19 +6,14 @@ export const dynamic = "force-dynamic";
  * GET /api/stripe/connect/callback
  * Stripe redirects here after the user completes (or exits) the Account Link onboarding.
  */
-export async function GET(req: Request) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(req.url);
-    const companyId = searchParams.get("companyId");
-
-    if (!companyId) {
-      return NextResponse.json({ error: "Invalid request. Missing companyId." }, { status: 400 });
-    }
-
-    // In the Account Links flow, the account ID was already saved before redirecting to Stripe.
-    // We just need to send the user back to the dashboard.
+    // The connected account was already created and saved against the
+    // authenticated company in /api/stripe/connect (derived from the signed
+    // session, never the browser). This callback only returns the user to the
+    // dashboard, so it does NOT read or trust any browser-supplied companyId.
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.qalt.site";
-    
+
     // We redirect to the widget settings page with a success flag
     return NextResponse.redirect(`${baseUrl}/dashboard/widget?connect=success`);
   } catch (error: unknown) {
