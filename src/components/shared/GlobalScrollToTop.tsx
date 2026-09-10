@@ -16,9 +16,14 @@ export default function GlobalScrollToTop() {
   const reduceMotion = useReducedMotion();
   const [visible, setVisible] = useState(false);
 
-  // The homepage already has its own matching control. Standalone widgets are
-  // customer embeds, so keep Qalt platform chrome out of those surfaces.
-  const shouldSkip = pathname === "/" || pathname.startsWith("/widget/");
+  // The homepage, pricing page, and partners page already have their own
+  // matching scroll-to-top controls. Standalone widgets are customer embeds,
+  // so keep Qalt platform chrome out of those surfaces.
+  const shouldSkip =
+    pathname === "/" ||
+    pathname === "/pricing" ||
+    pathname === "/partners" ||
+    pathname.startsWith("/widget/");
 
   useEffect(() => {
     if (shouldSkip) {
