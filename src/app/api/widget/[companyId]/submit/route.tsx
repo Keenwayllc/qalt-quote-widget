@@ -8,6 +8,7 @@ import { fireWebhooks } from "@/lib/webhooks";
 import type { EstimateExtras } from "@/lib/calculator";
 import { computeAuthoritativeQuote } from "@/lib/serverQuotePricing";
 import { geocodeAddress } from "@/lib/google-maps";
+import type { Prisma } from "@/generated/prisma/client";
 
 export const dynamic = "force-dynamic";
 
@@ -130,16 +131,22 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       itemCount: parseInt(data.itemCount) || 0,
     };
 
+    // Canonical addresses: verified/formatted when geocoding resolved them,
+    // else the raw address string (still address-based, never the ZIP). Defined
+    // ONCE so the exact values used for the authoritative route/distance are the
+    // same ones persisted for future documents.
+    const pickupCanonical = pickupGeo?.formattedAddress || pickupAddress;
+    const dropoffCanonical = dropoffGeo?.formattedAddress || dropoffAddress;
+    // Normalize vehicle count once; reuse for both pricing and persistence.
+    const vehicleCount = parseInt(data.vehicleCount) || 0;
+
     const priced = await computeAuthoritativeQuote({
       companyId,
       formId: data.formId ?? null,
-      // Verified canonical addresses when geocoding resolved them; otherwise
-      // the raw address string (still address-based, never the ZIP), so pricing
-      // stays bound to the address even if geocoding was unavailable.
-      startLocation: pickupGeo?.formattedAddress || pickupAddress,
-      endLocation: dropoffGeo?.formattedAddress || dropoffAddress,
+      startLocation: pickupCanonical,
+      endLocation: dropoffCanonical,
       extras,
-      vehicleCount: parseInt(data.vehicleCount) || 0,
+      vehicleCount,
       // Final submission: server distance is authoritative, no client fallback.
       clientDistanceFallback: null,
     });
@@ -199,19 +206,27 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
         customerPhone: data.customerPhone || null,
         pickupZip: verifiedPickupZip,
         dropoffZip: verifiedDropoffZip,
+        // Canonical addresses that produced the authoritative route (Phase 13).
+        pickupAddress: pickupCanonical,
+        dropoffAddress: dropoffCanonical,
         distanceMiles: authoritativeDistance,
         estimatedPrice: authoritativePrice,
+        // Server-authoritative breakdown snapshot — never a browser value — so
+        // future documents stay accurate even if the merchant changes rates.
+        pricingBreakdown: priced.quote.breakdown as unknown as Prisma.InputJsonValue,
         serviceType: (data.selectedLargeItems?.length > 0) ? "Large Item Delivery" : "Standard Delivery",
         status: "PENDING",
-        packageWeight: data.packageWeight ? String(data.packageWeight) : null,
-        vehicleCount: data.vehicleCount ? parseInt(data.vehicleCount) : null,
+        packageWeight: extras.packageWeight && extras.packageWeight > 0 ? String(extras.packageWeight) : null,
+        itemCount: extras.itemCount && extras.itemCount > 0 ? extras.itemCount : null,
+        vehicleCount: vehicleCount > 0 ? vehicleCount : null,
         awbNumber: data.awbNumber ? String(data.awbNumber).trim() : null,
         selectedExtras: JSON.stringify({
-          hasStairs: data.hasStairs,
-          needsInsideDelivery: data.needsInsideDelivery,
-          needsAddon3: data.needsAddon3,
-          pickupDateTime: data.pickupDateTime || null,
-          selectedLargeItems: data.selectedLargeItems || [],
+          hasStairs: extras.hasStairs,
+          stairsFlights: extras.stairsFlights,
+          needsInsideDelivery: extras.needsInsideDelivery,
+          needsAddon3: extras.needsAddon3,
+          pickupDateTime: extras.pickupDateTime ?? null,
+          selectedLargeItems: extras.selectedLargeItems ?? [],
         }),
         // If payments are enabled, track payment status from the start
         paymentStatus: paymentsEnabled ? "PENDING" : null,
