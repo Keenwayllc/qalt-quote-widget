@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { label: "Live Demo",      href: "/demo" },
   { label: "How it Works",   href: "/#how-it-works" },
   { label: "What Qalt Does", href: "/what-qalt-does" },
+  { label: "Compare",        href: "/compare" },
   { label: "Pricing",        href: "/pricing" },
   { label: "Blog",           href: "/blog" },
   { label: "Partners",       href: "/partners" },
@@ -35,8 +36,8 @@ export default function PublicNav() {
           <QaltLogo size="lg" linked={false} />
         </Link>
 
-        {/* Desktop links — fixed layout, no wrapping. Shown at lg+ where all 7 links + buttons fit. */}
-        <div className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-bold text-slate-500">
+        {/* Desktop links — with 8 links, keep the compact menu until xl to avoid collisions. */}
+        <div className="hidden xl:flex items-center gap-6 text-sm font-bold text-slate-500">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -66,7 +67,7 @@ export default function PublicNav() {
           </Link>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+            className="xl:hidden p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -74,7 +75,7 @@ export default function PublicNav() {
         </div>
       </div>
 
-      {/* Mobile dropdown */}
+      {/* Mobile / tablet dropdown */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -82,7 +83,7 @@ export default function PublicNav() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.22, ease: "easeInOut" }}
-            className="lg:hidden bg-white border-t border-slate-100 shadow-lg overflow-hidden"
+            className="xl:hidden bg-white border-t border-slate-100 shadow-lg overflow-hidden"
           >
             <div className="max-w-7xl mx-auto px-4 py-3 space-y-1">
               {NAV_LINKS.map((link) => (
