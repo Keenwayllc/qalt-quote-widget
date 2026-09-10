@@ -23,15 +23,22 @@ type ComparisonRow = {
   setmore: CellValue;
 };
 
-const vendors = [
+type Vendor = {
+  key: "qalt" | "shipday" | "onfleet" | "tookan" | "onro" | "ontime" | "setmore";
+  label: string;
+  sub: string;
+  highlight: boolean;
+};
+
+const vendors: Vendor[] = [
   { key: "qalt", label: "Qalt", sub: "Quote-to-cash for delivery", highlight: true },
-  { key: "shipday", label: "Shipday", sub: "Delivery management" },
-  { key: "onfleet", label: "Onfleet", sub: "Last-mile operations" },
-  { key: "tookan", label: "Tookan", sub: "Dispatch & delivery" },
-  { key: "onro", label: "Onro", sub: "Courier management" },
-  { key: "ontime", label: "OnTime 360", sub: "Courier TMS" },
-  { key: "setmore", label: "Setmore", sub: "Appointment scheduling" },
-] as const;
+  { key: "shipday", label: "Shipday", sub: "Delivery management", highlight: false },
+  { key: "onfleet", label: "Onfleet", sub: "Last-mile operations", highlight: false },
+  { key: "tookan", label: "Tookan", sub: "Dispatch & delivery", highlight: false },
+  { key: "onro", label: "Onro", sub: "Courier management", highlight: false },
+  { key: "ontime", label: "OnTime 360", sub: "Courier TMS", highlight: false },
+  { key: "setmore", label: "Setmore", sub: "Appointment scheduling", highlight: false },
+];
 
 const rows: ComparisonRow[] = [
   {
