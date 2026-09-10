@@ -115,13 +115,23 @@ model QuoteRequest {
   customerPhone         String?
   pickupZip             String
   dropoffZip            String
+  // Full canonical addresses used for the authoritative route/distance. Nullable
+  // so legacy rows (which only stored ZIPs) stay valid. Preserved so future Quote
+  // PDFs / Invoices show the exact address that produced the quote.
+  pickupAddress         String?
+  dropoffAddress        String?
   distanceMiles         Float
   serviceType           String
   packageSize           String?
   packageWeight         String?
+  itemCount             Int?
   selectedExtras        String?
   status                String    @default("PENDING")
   estimatedPrice        Float
+  // Server-authoritative pricing breakdown snapshot (total, lineItems, freeMiles,
+  // billableMiles, minimumApplied, distanceMiles) captured at quote time so
+  // documents stay historically accurate even if the merchant later changes rates.
+  pricingBreakdown      Json?
   vehicleCount          Int?
   awbNumber             String?
   paymentStatus         String?   // "PENDING" | "PAID" | "FAILED" | null (null = no payment required)
