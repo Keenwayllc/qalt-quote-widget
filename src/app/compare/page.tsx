@@ -247,8 +247,8 @@ export default function ComparePage() {
                 We are constantly adding new features, improvements, and platform updates to help delivery companies quote, book, get paid, and serve customers more professionally.
               </p>
             </div>
-            <Link href="/whats-new" className="inline-flex shrink-0 items-center gap-1.5 text-sm font-black text-red-600 transition hover:text-red-700">
-              See what&apos;s new <ArrowRight size={15} />
+            <Link href="/blog" className="inline-flex shrink-0 items-center gap-1.5 text-sm font-black text-red-600 transition hover:text-red-700">
+              See platform updates <ArrowRight size={15} />
             </Link>
           </div>
         </section>
