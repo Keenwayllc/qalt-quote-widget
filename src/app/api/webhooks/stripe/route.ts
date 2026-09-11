@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
 import prisma from "@/lib/prisma";
+import { issuePaidInvoiceDocument } from "@/lib/customer-invoice-documents";
 import type Stripe from "stripe";
 
 export const dynamic = "force-dynamic";
@@ -178,7 +179,7 @@ export async function POST(req: Request) {
         break;
       }
 
-      // Quote payment: mark QuoteRequest as PAID
+      // Quote payment: mark QuoteRequest PAID and create its immutable paid invoice.
       case "payment_intent.succeeded": {
         const intent = event.data.object as Stripe.PaymentIntent;
         const quoteId = intent.metadata?.quoteId;
@@ -191,6 +192,7 @@ export async function POST(req: Request) {
             companyId: true,
             paymentStatus: true,
             stripePaymentIntentId: true,
+            paidAt: true,
             company: { select: { stripeConnectAccountId: true } },
           },
         });
@@ -202,25 +204,39 @@ export async function POST(req: Request) {
           break;
         }
 
-        // Tenant binding must hold before any mutation.
+        // Tenant binding must hold before any mutation or document issuance.
         if (!isQuoteEventBound(event, intent, quote)) break;
 
-        // Idempotent: a repeat delivery of the same successful PI is a no-op.
-        if (quote.paymentStatus === "PAID") {
-          console.log(`[Webhook] Quote ${quote.id} already PAID — idempotent ack`);
-          break;
+        // Use a stable Stripe event time for first-write semantics. On retries the
+        // persisted quote.paidAt wins, keeping the invoice timestamp deterministic.
+        const paidAt = quote.paidAt ?? new Date(event.created * 1000);
+
+        if (quote.paymentStatus !== "PAID") {
+          await prisma.quoteRequest.update({
+            where: { id: quote.id },
+            data: {
+              paymentStatus: "PAID",
+              stripePaymentIntentId: intent.id,
+              paidAt,
+              status: "CONFIRMED", // Elevate quote status to confirmed
+            },
+          });
+          console.log(`[Webhook] Quote ${quote.id} marked as PAID via payment intent ${intent.id}`);
+        } else {
+          console.log(`[Webhook] Quote ${quote.id} already PAID — ensuring invoice exists`);
         }
 
-        await prisma.quoteRequest.update({
-          where: { id: quote.id },
-          data: {
-            paymentStatus: "PAID",
-            stripePaymentIntentId: intent.id,
-            paidAt: new Date(),
-            status: "CONFIRMED", // Elevate quote status to confirmed
-          },
+        // Idempotent and retry-healing: if quote update succeeded but invoice
+        // creation failed, Stripe receives a 500 and retries. On the retry the
+        // already-PAID branch still calls this helper, which creates/reuses the
+        // single INVOICE record without consuming a second number.
+        const invoice = await issuePaidInvoiceDocument({
+          companyId: quote.companyId,
+          quoteRequestId: quote.id,
+          stripePaymentIntentId: intent.id,
+          paidAt,
         });
-        console.log(`[Webhook] Quote ${quote.id} marked as PAID via payment intent ${intent.id}`);
+        console.log(`[Webhook] Paid invoice ${invoice.number} ready for quote ${quote.id}`);
         break;
       }
 
