@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { Prisma, type CustomerDocument } from "@/generated/prisma/client";
+import { buildQuoteSnapshot, type QuoteSnapshotV1 } from "@/lib/customer-document-snapshots";
 
 // Server-only guard: this module allocates document numbers and creates documents
 // using a trusted, server-supplied companyId. It must never run in the browser.
@@ -176,4 +177,112 @@ export async function createCustomerDocument(
     }
     throw err;
   }
+}
+
+export interface IssueQuoteDocumentInput {
+  /** Trusted, server-authenticated company id. Never a browser-supplied value. */
+  companyId: string;
+  quoteRequestId: string;
+  /** Overrides issue time (tests). Defaults to now. */
+  now?: Date;
+}
+
+/**
+ * Issue (or return the already-issued) immutable QUOTE document for a quote the
+ * company owns. Server-only, tenant-scoped, idempotent:
+ *
+ * - Ownership: the QuoteRequest must satisfy { id, companyId } or QUOTE_NOT_FOUND.
+ * - Idempotent: an existing QUOTE document is returned UNCHANGED (never rebuilt),
+ *   so later quote/branding edits can't alter an already-issued document.
+ * - Otherwise it builds the immutable snapshot from persisted values only (no
+ *   geocode, no pricing recompute), creates the CustomerDocument via
+ *   createCustomerDocument (status ISSUED, issuedAt set, tenant-scoped number
+ *   allocated atomically), then finalizes the snapshot with its allocated number.
+ */
+export async function issueQuoteDocument(
+  input: IssueQuoteDocumentInput
+): Promise<CustomerDocument> {
+  const { companyId, quoteRequestId } = input;
+  const issuedAt = input.now ?? new Date();
+
+  // Ownership + load persisted historical values. A browser-supplied id is an
+  // identifier, never authorization: the { id, companyId } filter is the boundary.
+  const quote = await prisma.quoteRequest.findFirst({
+    where: { id: quoteRequestId, companyId },
+    select: {
+      customerName: true,
+      customerEmail: true,
+      customerPhone: true,
+      pickupAddress: true,
+      dropoffAddress: true,
+      pickupZip: true,
+      dropoffZip: true,
+      distanceMiles: true,
+      serviceType: true,
+      packageWeight: true,
+      itemCount: true,
+      vehicleCount: true,
+      selectedExtras: true,
+      estimatedPrice: true,
+      pricingBreakdown: true,
+      company: {
+        select: {
+          name: true,
+          logoUrl: true,
+          widgetSettings: { take: 1, select: { primaryColor: true } },
+        },
+      },
+    },
+  });
+  if (!quote) {
+    throw new DocumentError("QUOTE_NOT_FOUND", "Quote not found for this company.");
+  }
+
+  // Idempotency: an already-issued QUOTE is returned unchanged (never rebuilt).
+  const existing = await prisma.customerDocument.findUnique({
+    where: { quoteRequestId_type: { quoteRequestId, type: "QUOTE" } },
+  });
+  if (existing) return existing;
+
+  // Build from persisted values only (number filled in after allocation).
+  const preliminary = buildQuoteSnapshot(
+    quote,
+    {
+      name: quote.company.name,
+      logoUrl: quote.company.logoUrl,
+      brandColor: quote.company.widgetSettings[0]?.primaryColor ?? null,
+    },
+    { number: "", issuedAt }
+  );
+
+  const created = await createCustomerDocument({
+    companyId,
+    quoteRequestId,
+    type: "QUOTE",
+    snapshot: preliminary as unknown as Prisma.InputJsonValue,
+    status: "ISSUED",
+    issuedAt,
+    now: issuedAt,
+  });
+
+  // Finalize once: embed the allocated number into the immutable snapshot. Skip if
+  // a concurrent issuance already finalized this document (reuse, never rebuild).
+  const stored = created.snapshot as unknown as QuoteSnapshotV1 | null;
+  const alreadyFinalized =
+    !!stored && typeof stored === "object" && stored.document?.number === created.number;
+  if (alreadyFinalized) return created;
+
+  const base: QuoteSnapshotV1 =
+    stored && typeof stored === "object" && stored.version === 1 ? stored : preliminary;
+  const finalized: QuoteSnapshotV1 = {
+    ...base,
+    document: {
+      number: created.number,
+      issuedAt: base.document.issuedAt || issuedAt.toISOString(),
+    },
+  };
+  return prisma.customerDocument.update({
+    where: { id: created.id },
+    data: { snapshot: finalized as unknown as Prisma.InputJsonValue },
+  });
 }
