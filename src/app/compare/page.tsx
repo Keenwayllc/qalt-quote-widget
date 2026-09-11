@@ -239,6 +239,20 @@ export default function ComparePage() {
           </div>
         </section>
 
+        <section className="border-b border-slate-200 bg-white px-4 py-8 sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-7xl flex-col gap-2 rounded-2xl border border-red-100 bg-red-50/60 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-red-600">Qalt keeps getting better</p>
+              <p className="mt-1 text-sm font-semibold leading-relaxed text-slate-700 sm:text-base">
+                We are constantly adding new features, improvements, and platform updates to help delivery companies quote, book, get paid, and serve customers more professionally.
+              </p>
+            </div>
+            <Link href="/whats-new" className="inline-flex shrink-0 items-center gap-1.5 text-sm font-black text-red-600 transition hover:text-red-700">
+              See what&apos;s new <ArrowRight size={15} />
+            </Link>
+          </div>
+        </section>
+
         <section className="bg-slate-50 py-16 sm:py-24">
           <div className="w-full">
             <div className="mb-10 max-w-3xl px-4 sm:px-6 lg:px-8">
@@ -290,7 +304,7 @@ export default function ComparePage() {
                 </table>
               </div>
               <div className="border-t border-slate-100 bg-slate-50 px-5 py-4 text-xs font-medium leading-relaxed text-slate-500 sm:px-6 lg:px-8">
-                Feature availability, packaging, and pricing can change. Competitor descriptions are based on publicly available vendor information reviewed in September 2026. “Varies” means the capability may depend on workflow, plan, configuration, or was not presented by the vendor as the same quote-document experience Qalt is building.
+                Feature availability, packaging, and pricing can change. Qalt is actively developed and its capabilities are updated as new features are released. Competitor descriptions are based on publicly available vendor information reviewed in September 2026. “Varies” means the capability may depend on workflow, plan, configuration, or was not presented by the vendor as the same quote-document experience Qalt is building.
               </div>
             </div>
           </div>
