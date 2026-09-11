@@ -239,9 +239,9 @@ export default function ComparePage() {
           </div>
         </section>
 
-        <section className="bg-slate-50 px-4 py-16 sm:px-6 sm:py-24">
-          <div className="mx-auto max-w-7xl">
-            <div className="mb-10 max-w-3xl">
+        <section className="bg-slate-50 py-16 sm:py-24">
+          <div className="w-full">
+            <div className="mb-10 max-w-3xl px-4 sm:px-6 lg:px-8">
               <p className="mb-3 text-xs font-black uppercase tracking-[0.18em] text-red-600">Feature matrix</p>
               <h2 className="text-3xl font-black tracking-tight sm:text-4xl">Qalt versus popular alternatives</h2>
               <p className="mt-4 text-sm font-medium leading-relaxed text-slate-500 sm:text-base">
@@ -249,9 +249,9 @@ export default function ComparePage() {
               </p>
             </div>
 
-            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-              <div className="overflow-x-auto">
-                <table className="min-w-[1180px] w-full border-collapse text-left">
+            <div className="w-full overflow-hidden border-y border-slate-200 bg-white shadow-sm">
+              <div className="w-full overflow-x-auto">
+                <table className="w-full min-w-[1180px] border-collapse text-left">
                   <thead>
                     <tr className="border-b border-slate-200 bg-white">
                       <th className="sticky left-0 z-20 w-[260px] bg-white px-5 py-5 text-xs font-black uppercase tracking-wider text-slate-400">
@@ -289,7 +289,7 @@ export default function ComparePage() {
                   </tbody>
                 </table>
               </div>
-              <div className="border-t border-slate-100 bg-slate-50 px-5 py-4 text-xs font-medium leading-relaxed text-slate-500">
+              <div className="border-t border-slate-100 bg-slate-50 px-5 py-4 text-xs font-medium leading-relaxed text-slate-500 sm:px-6 lg:px-8">
                 Feature availability, packaging, and pricing can change. Competitor descriptions are based on publicly available vendor information reviewed in September 2026. “Varies” means the capability may depend on workflow, plan, configuration, or was not presented by the vendor as the same quote-document experience Qalt is building.
               </div>
             </div>
