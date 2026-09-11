@@ -26,7 +26,11 @@ export type DocumentStatus = "DRAFT" | "ISSUED" | "PAID";
 
 const DOCUMENT_TYPES: readonly DocumentType[] = ["QUOTE", "INVOICE"];
 
-export type DocumentErrorCode = "INVALID_TYPE" | "QUOTE_NOT_FOUND" | "ALLOCATION_FAILED";
+export type DocumentErrorCode =
+  | "INVALID_TYPE"
+  | "QUOTE_NOT_FOUND"
+  | "ALLOCATION_FAILED"
+  | "DOCUMENT_NOT_FOUND";
 
 /**
  * Internal domain error. Carries a stable `code` a future API layer can map to an
