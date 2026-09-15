@@ -102,6 +102,26 @@ export async function getPublicCustomerDocument(token: unknown): Promise<Custome
   return document;
 }
 
+/**
+ * Record a successful public view without weakening bearer-token semantics.
+ * The update is conditioned on BOTH document id and the still-current token hash,
+ * so a token rotated/revoked while the PDF was rendering cannot update the record.
+ * This mutates only view metadata; the immutable document snapshot is untouched.
+ */
+export async function markPublicDocumentViewed(input: {
+  documentId: string;
+  token: unknown;
+  viewedAt?: Date;
+}): Promise<boolean> {
+  if (!isValidPublicTokenShape(input.token)) return false;
+  const tokenHash = hashPublicDocumentToken(input.token);
+  const updated = await prisma.customerDocument.updateMany({
+    where: { id: input.documentId, publicTokenHash: tokenHash },
+    data: { lastViewedAt: input.viewedAt ?? new Date() },
+  });
+  return updated.count === 1;
+}
+
 /** Backwards-compatible quote-only resolver for existing callers. */
 export async function getPublicQuoteDocument(token: unknown): Promise<CustomerDocument | null> {
   const document = await getPublicCustomerDocument(token);

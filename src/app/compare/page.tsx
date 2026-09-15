@@ -105,7 +105,7 @@ const rows: ComparisonRow[] = [
   {
     feature: "Branded Quote PDF",
     note: "A customer-ready quote document that preserves the price and quote details at issue time.",
-    qalt: "soon",
+    qalt: "yes",
     shipday: "Varies",
     onfleet: "Varies",
     tookan: "Varies",
@@ -115,7 +115,7 @@ const rows: ComparisonRow[] = [
   },
   {
     feature: "Paid invoice / receipt record",
-    qalt: "soon",
+    qalt: "yes",
     shipday: "Varies",
     onfleet: "Courier Suite invoicing",
     tookan: "Varies",
@@ -304,7 +304,7 @@ export default function ComparePage() {
                 </table>
               </div>
               <div className="border-t border-slate-100 bg-slate-50 px-5 py-4 text-xs font-medium leading-relaxed text-slate-500 sm:px-6 lg:px-8">
-                Feature availability, packaging, and pricing can change. Qalt is actively developed and its capabilities are updated as new features are released. Competitor descriptions are based on publicly available vendor information reviewed in September 2026. “Varies” means the capability may depend on workflow, plan, configuration, or was not presented by the vendor as the same quote-document experience Qalt is building.
+                Feature availability, packaging, and pricing can change. Qalt is actively developed and its capabilities are updated as new features are released. Competitor descriptions are based on publicly available vendor information reviewed in September 2026. “Varies” means the capability may depend on workflow, plan, configuration, or may not be presented by the vendor as the same branded document workflow Qalt provides.
               </div>
             </div>
           </div>

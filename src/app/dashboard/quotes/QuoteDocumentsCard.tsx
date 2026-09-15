@@ -112,18 +112,33 @@ export default function QuoteDocumentsCard({ quoteId }: { quoteId: string }) {
                     <p className="text-xs font-bold text-slate-500 dark:text-zinc-400 mt-1">
                       {quoteDocument.issuedAt ? `Issued ${formatDate(quoteDocument.issuedAt)}` : "Issued"}
                     </p>
-                    <p className="text-[11px] text-slate-400 dark:text-zinc-500 mt-1">Last emailed: {formatDateTime(quoteDocument.lastEmailedAt)}</p>
+                    <div className="mt-1 space-y-0.5 text-[11px] text-slate-400 dark:text-zinc-500">
+                      <p>Last emailed: {formatDateTime(quoteDocument.lastEmailedAt)}</p>
+                      <p>Last viewed: {formatDateTime(quoteDocument.lastViewedAt)}</p>
+                    </div>
                   </div>
                   <span className="shrink-0 inline-flex items-center gap-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
                     <CheckCircle2 size={11} /> {quoteDocument.status}
                   </span>
                 </div>
                 <div className="grid grid-cols-2 gap-2 mt-4">
-                  <button type="button" disabled={action !== null} onClick={() => void runAction("view_quote")} className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 dark:border-white/8 bg-white dark:bg-white/5 px-3 py-2.5 text-xs font-black text-slate-700 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-white/10 disabled:opacity-50 transition-colors">
-                    {action === "view_quote" ? <Loader2 size={13} className="animate-spin" /> : <Eye size={13} />} View PDF
+                  <button
+                    type="button"
+                    disabled={action !== null}
+                    onClick={() => void runAction("view_quote")}
+                    className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 dark:border-white/8 bg-white dark:bg-white/5 px-3 py-2.5 text-xs font-black text-slate-700 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-white/10 disabled:opacity-50 transition-colors"
+                  >
+                    {action === "view_quote" ? <Loader2 size={13} className="animate-spin" /> : <Eye size={13} />}
+                    View PDF
                   </button>
-                  <button type="button" disabled={action !== null} onClick={() => void runAction("email_quote")} className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-red-600 px-3 py-2.5 text-xs font-black text-white hover:bg-red-700 disabled:opacity-50 transition-colors">
-                    {action === "email_quote" ? <Loader2 size={13} className="animate-spin" /> : <Mail size={13} />} {quoteDocument.lastEmailedAt ? "Resend Quote" : "Email Quote"}
+                  <button
+                    type="button"
+                    disabled={action !== null}
+                    onClick={() => void runAction("email_quote")}
+                    className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-red-600 px-3 py-2.5 text-xs font-black text-white hover:bg-red-700 disabled:opacity-50 transition-colors"
+                  >
+                    {action === "email_quote" ? <Loader2 size={13} className="animate-spin" /> : <Mail size={13} />}
+                    {quoteDocument.lastEmailedAt ? "Resend Quote" : "Email Quote"}
                   </button>
                 </div>
               </>
@@ -133,8 +148,14 @@ export default function QuoteDocumentsCard({ quoteId }: { quoteId: string }) {
                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-zinc-500">Quote</p>
                   <p className="text-sm font-bold text-slate-600 dark:text-zinc-300 mt-1">Not issued yet</p>
                 </div>
-                <button type="button" disabled={action !== null} onClick={() => void runAction("issue_quote")} className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 dark:bg-zinc-700 px-3 py-2.5 text-xs font-black text-white hover:bg-slate-700 disabled:opacity-50 transition-colors">
-                  {action === "issue_quote" ? <Loader2 size={13} className="animate-spin" /> : <FileText size={13} />} Issue Quote
+                <button
+                  type="button"
+                  disabled={action !== null}
+                  onClick={() => void runAction("issue_quote")}
+                  className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 dark:bg-zinc-700 px-3 py-2.5 text-xs font-black text-white hover:bg-slate-700 disabled:opacity-50 transition-colors"
+                >
+                  {action === "issue_quote" ? <Loader2 size={13} className="animate-spin" /> : <FileText size={13} />}
+                  Issue Quote
                 </button>
               </div>
             )}
@@ -144,21 +165,37 @@ export default function QuoteDocumentsCard({ quoteId }: { quoteId: string }) {
             <div className="rounded-xl border border-emerald-200/70 dark:border-emerald-500/20 bg-emerald-50/60 dark:bg-emerald-500/5 p-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400"><Receipt size={13} /><p className="text-[10px] font-black uppercase tracking-widest">Paid Invoice</p></div>
+                  <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
+                    <Receipt size={13} />
+                    <p className="text-[10px] font-black uppercase tracking-widest">Paid Invoice</p>
+                  </div>
                   <p className="font-black text-slate-900 dark:text-white mt-1 break-all">{invoiceDocument.number}</p>
-                  <p className="text-xs font-bold text-slate-500 dark:text-zinc-400 mt-1">{invoiceDocument.paidAt ? `Paid ${formatDate(invoiceDocument.paidAt)}` : "Paid"}</p>
+                  <p className="text-xs font-bold text-slate-500 dark:text-zinc-400 mt-1">
+                    {invoiceDocument.paidAt ? `Paid ${formatDate(invoiceDocument.paidAt)}` : "Paid"}
+                  </p>
+                  <p className="mt-1 text-[11px] text-slate-400 dark:text-zinc-500">Last viewed: {formatDateTime(invoiceDocument.lastViewedAt)}</p>
                 </div>
                 <span className="shrink-0 rounded-full bg-emerald-100 dark:bg-emerald-500/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-400">PAID</span>
               </div>
-              <button type="button" disabled={action !== null} onClick={() => void runAction("view_invoice")} className="mt-4 w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-2.5 text-xs font-black text-white hover:bg-emerald-700 disabled:opacity-50 transition-colors">
-                {action === "view_invoice" ? <Loader2 size={13} className="animate-spin" /> : <Eye size={13} />} View Paid Invoice
+              <button
+                type="button"
+                disabled={action !== null}
+                onClick={() => void runAction("view_invoice")}
+                className="mt-4 w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-2.5 text-xs font-black text-white hover:bg-emerald-700 disabled:opacity-50 transition-colors"
+              >
+                {action === "view_invoice" ? <Loader2 size={13} className="animate-spin" /> : <Eye size={13} />}
+                View Paid Invoice
               </button>
             </div>
           )}
         </div>
       )}
 
-      {message && <p className={`mt-3 text-xs font-bold ${message.kind === "success" ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>{message.text}</p>}
+      {message && (
+        <p className={`mt-3 text-xs font-bold ${message.kind === "success" ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+          {message.text}
+        </p>
+      )}
     </div>
   );
 }

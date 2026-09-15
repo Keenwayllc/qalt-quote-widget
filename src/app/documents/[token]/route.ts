@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
-import { getPublicCustomerDocument } from "@/lib/customer-document-access";
+import {
+  getPublicCustomerDocument,
+  markPublicDocumentViewed,
+} from "@/lib/customer-document-access";
 import { renderCustomerDocumentPdf } from "@/lib/customer-document-pdf";
 import { renderPaidInvoiceDocumentPdf } from "@/lib/customer-invoice-pdf";
 
@@ -39,6 +42,15 @@ export async function GET(
         : await renderCustomerDocumentPdf(document);
     } catch {
       return notFound();
+    }
+
+    // Viewing metadata is best-effort and never blocks a valid PDF response.
+    // The helper re-checks the still-current token hash before writing, so a
+    // concurrently rotated/revoked link cannot mark the document as viewed.
+    try {
+      await markPublicDocumentViewed({ documentId: document.id, token });
+    } catch {
+      // Keep public document delivery available if view-metadata persistence fails.
     }
 
     const fallback = document.type === "INVOICE" ? "invoice" : "quote";

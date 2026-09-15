@@ -1,7 +1,16 @@
-import { Mail, Trello, MapPin, Clock, CreditCard } from "lucide-react";
+import { FileText, Mail, Trello, MapPin, Clock, CreditCard } from "lucide-react";
 import WhatsNewCard from "@/components/dashboard/WhatsNewCard";
 
 const whatsnewFeatures = [
+  {
+    id: "customer-documents",
+    name: "Branded Quote & Paid Invoice PDFs",
+    category: "Customer Documents",
+    icon: <FileText size={32} />,
+    description: "Issue branded quote PDFs, email secure document links, and automatically create a paid invoice record after successful Stripe payment. Customers can view their quote and paid invoice from the booking confirmation, while merchants can manage the documents from Quote Details.",
+    readingTime: 5,
+    learnMoreLink: "/dashboard/quotes",
+  },
   {
     id: "white-label-email",
     name: "White-Label Email Domain",
@@ -52,7 +61,6 @@ const whatsnewFeatures = [
 export default function WhatsNewPage() {
   return (
     <div className="p-4 lg:p-10 space-y-8 max-w-6xl mx-auto">
-      {/* Hero Section */}
       <div className="space-y-3">
         <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">
           What's New in Qalt
@@ -62,7 +70,6 @@ export default function WhatsNewPage() {
         </p>
       </div>
 
-      {/* Features Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {whatsnewFeatures.map((feature) => (
           <WhatsNewCard
@@ -78,7 +85,6 @@ export default function WhatsNewPage() {
         ))}
       </div>
 
-      {/* CTA Section */}
       <div className="bg-slate-900 dark:bg-[#1e1e1e] dark:border dark:border-white/[0.06] rounded-none p-8 text-center space-y-4">
         <h2 className="text-2xl font-black text-white">Ready to get started?</h2>
         <p className="text-slate-300 max-w-xl mx-auto">
