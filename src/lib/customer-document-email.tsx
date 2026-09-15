@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import { issueQuoteDocument, DocumentError } from "@/lib/customer-documents";
-import { rotatePublicDocumentToken } from "@/lib/customer-document-access";
+import { rotatePublicDocumentTokenIfCurrent } from "@/lib/customer-document-access";
 import { parseQuoteSnapshot } from "@/lib/customer-document-snapshots";
 import { sendEmail } from "@/lib/email";
 import type { CustomerDocument } from "@/generated/prisma/client";
@@ -118,11 +118,10 @@ function QuoteEmail({
  *
  * Because Phase 16 stores only a one-way token hash, an existing plaintext token
  * cannot be recovered for a resend. Each successful send therefore rotates to a new
- * secure link; older emailed links become invalid. If Resend rejects/throws, the
- * previous hash is restored with a compare-and-swap guard so a previously valid link
- * is not unnecessarily revoked and a concurrent newer rotation is never clobbered.
- *
- * lastEmailedAt is written only after Resend reports success.
+ * secure link; older emailed links become invalid. Email token rotation is guarded by
+ * a compare-and-swap, so simultaneous sends cannot invalidate each other's links.
+ * If Resend rejects/throws, the previous hash is restored only if our token is still
+ * current. lastEmailedAt is written only after Resend reports success.
  */
 export async function sendQuoteDocumentEmail(
   input: SendQuoteDocumentEmailInput
@@ -145,10 +144,14 @@ export async function sendQuoteDocumentEmail(
 
   const merchantName = snapshot.merchant.name || "Your delivery provider";
   const previousTokenHash = document.publicTokenHash;
-  const access = await rotatePublicDocumentToken({
+  const access = await rotatePublicDocumentTokenIfCurrent({
     companyId: input.companyId,
     documentId: document.id,
+    expectedTokenHash: previousTokenHash,
   });
+  if (!access) {
+    throw new Error("Quote document delivery state changed before email send.");
+  }
 
   const currentTokenHash = access.document.publicTokenHash;
   const publicUrl = `${getAppOrigin()}/documents/${access.token}`;
@@ -170,8 +173,6 @@ export async function sendQuoteDocumentEmail(
   });
 
   if (!result.success) {
-    // Restore the previous link only if our token is still current. A concurrent
-    // resend may already have rotated again; never overwrite that newer token.
     await prisma.customerDocument.updateMany({
       where: {
         id: document.id,
@@ -194,8 +195,6 @@ export async function sendQuoteDocumentEmail(
   });
 
   if (updated.count === 0) {
-    // The email was accepted by Resend, but a concurrent rotation changed the
-    // document before bookkeeping completed. Do not claim the stored link is ours.
     throw new Error("Quote email was sent, but document delivery state changed concurrently.");
   }
 
