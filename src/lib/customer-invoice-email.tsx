@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { rotatePublicDocumentToken } from "@/lib/customer-document-access";
+import { rotatePublicDocumentTokenIfCurrent } from "@/lib/customer-document-access";
 import { sendEmail } from "@/lib/email";
 import type { CustomerDocument } from "@/generated/prisma/client";
 import type { InvoiceSnapshotV1 } from "@/lib/customer-invoice-documents";
@@ -182,10 +182,17 @@ export async function sendPaidInvoiceEmail(
 
   const merchantName = snapshot.merchant.name || "Your delivery provider";
   const previousTokenHash = document.publicTokenHash;
-  const access = await rotatePublicDocumentToken({
+  const access = await rotatePublicDocumentTokenIfCurrent({
     companyId: input.companyId,
     documentId: document.id,
+    expectedTokenHash: previousTokenHash,
   });
+  if (!access) {
+    throw new PaidInvoiceEmailError(
+      "STATE_CHANGED",
+      "Paid invoice delivery state changed before email send."
+    );
+  }
 
   const currentTokenHash = access.document.publicTokenHash;
   const publicUrl = `${getAppOrigin()}/documents/${access.token}`;
