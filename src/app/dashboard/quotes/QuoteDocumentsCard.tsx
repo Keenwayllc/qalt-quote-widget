@@ -57,7 +57,9 @@ export default function QuoteDocumentsCard({ quoteId }: { quoteId: string }) {
   const quoteDocument = useMemo(() => documents.find((doc) => doc.type === "QUOTE") ?? null, [documents]);
   const invoiceDocument = useMemo(() => documents.find((doc) => doc.type === "INVOICE") ?? null, [documents]);
 
-  const runAction = async (nextAction: "issue_quote" | "view_quote" | "email_quote" | "view_invoice") => {
+  const runAction = async (
+    nextAction: "issue_quote" | "view_quote" | "email_quote" | "view_invoice" | "email_invoice"
+  ) => {
     setAction(nextAction);
     setMessage(null);
     try {
@@ -74,6 +76,9 @@ export default function QuoteDocumentsCard({ quoteId }: { quoteId: string }) {
       }
       if (nextAction === "email_quote") {
         setMessage({ kind: "success", text: "Quote email sent." });
+      }
+      if (nextAction === "email_invoice") {
+        setMessage({ kind: "success", text: "Paid invoice email sent." });
       }
       await loadDocuments();
     } catch (error) {
@@ -173,19 +178,33 @@ export default function QuoteDocumentsCard({ quoteId }: { quoteId: string }) {
                   <p className="text-xs font-bold text-slate-500 dark:text-zinc-400 mt-1">
                     {invoiceDocument.paidAt ? `Paid ${formatDate(invoiceDocument.paidAt)}` : "Paid"}
                   </p>
-                  <p className="mt-1 text-[11px] text-slate-400 dark:text-zinc-500">Last viewed: {formatDateTime(invoiceDocument.lastViewedAt)}</p>
+                  <div className="mt-1 space-y-0.5 text-[11px] text-slate-400 dark:text-zinc-500">
+                    <p>Last emailed: {formatDateTime(invoiceDocument.lastEmailedAt)}</p>
+                    <p>Last viewed: {formatDateTime(invoiceDocument.lastViewedAt)}</p>
+                  </div>
                 </div>
                 <span className="shrink-0 rounded-full bg-emerald-100 dark:bg-emerald-500/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-400">PAID</span>
               </div>
-              <button
-                type="button"
-                disabled={action !== null}
-                onClick={() => void runAction("view_invoice")}
-                className="mt-4 w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-2.5 text-xs font-black text-white hover:bg-emerald-700 disabled:opacity-50 transition-colors"
-              >
-                {action === "view_invoice" ? <Loader2 size={13} className="animate-spin" /> : <Eye size={13} />}
-                View Paid Invoice
-              </button>
+              <div className="grid grid-cols-2 gap-2 mt-4">
+                <button
+                  type="button"
+                  disabled={action !== null}
+                  onClick={() => void runAction("view_invoice")}
+                  className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-emerald-200 dark:border-emerald-500/20 bg-white dark:bg-white/5 px-3 py-2.5 text-xs font-black text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 disabled:opacity-50 transition-colors"
+                >
+                  {action === "view_invoice" ? <Loader2 size={13} className="animate-spin" /> : <Eye size={13} />}
+                  View Invoice
+                </button>
+                <button
+                  type="button"
+                  disabled={action !== null}
+                  onClick={() => void runAction("email_invoice")}
+                  className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-2.5 text-xs font-black text-white hover:bg-emerald-700 disabled:opacity-50 transition-colors"
+                >
+                  {action === "email_invoice" ? <Loader2 size={13} className="animate-spin" /> : <Mail size={13} />}
+                  {invoiceDocument.lastEmailedAt ? "Resend Invoice" : "Email Invoice"}
+                </button>
+              </div>
             </div>
           )}
         </div>
