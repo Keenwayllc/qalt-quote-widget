@@ -13,6 +13,22 @@ if (typeof window !== "undefined") {
 const DEFAULT_APP_URL = "https://www.qalt.site";
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+export type PaidInvoiceEmailErrorCode =
+  | "INVOICE_NOT_FOUND"
+  | "INVALID_RECIPIENT"
+  | "DELIVERY_FAILED"
+  | "STATE_CHANGED";
+
+export class PaidInvoiceEmailError extends Error {
+  constructor(
+    public readonly code: PaidInvoiceEmailErrorCode,
+    message: string
+  ) {
+    super(message);
+    this.name = "PaidInvoiceEmailError";
+  }
+}
+
 export interface SendPaidInvoiceEmailInput {
   companyId: string;
   quoteRequestId: string;
@@ -152,13 +168,16 @@ export async function sendPaidInvoiceEmail(
   });
 
   if (!document) {
-    throw new Error("Paid invoice not found.");
+    throw new PaidInvoiceEmailError("INVOICE_NOT_FOUND", "Paid invoice not found.");
   }
 
   const snapshot = parseInvoiceSnapshot(document.snapshot);
   const recipient = normalizeRecipient(input.to ?? snapshot.customer.email);
   if (!recipient) {
-    throw new Error("Paid invoice has no valid customer email address.");
+    throw new PaidInvoiceEmailError(
+      "INVALID_RECIPIENT",
+      "Paid invoice has no valid customer email address."
+    );
   }
 
   const merchantName = snapshot.merchant.name || "Your delivery provider";
@@ -198,7 +217,7 @@ export async function sendPaidInvoiceEmail(
       },
       data: { publicTokenHash: previousTokenHash },
     });
-    throw new Error("Paid invoice email could not be sent.");
+    throw new PaidInvoiceEmailError("DELIVERY_FAILED", "Paid invoice email could not be sent.");
   }
 
   const emailedAt = input.now ?? new Date();
@@ -212,14 +231,20 @@ export async function sendPaidInvoiceEmail(
   });
 
   if (updated.count === 0) {
-    throw new Error("Paid invoice email was sent, but document delivery state changed concurrently.");
+    throw new PaidInvoiceEmailError(
+      "STATE_CHANGED",
+      "Paid invoice email was sent, but document delivery state changed concurrently."
+    );
   }
 
   const finalDocument = await prisma.customerDocument.findFirst({
     where: { id: document.id, companyId: input.companyId },
   });
   if (!finalDocument) {
-    throw new Error("Paid invoice not found after email delivery.");
+    throw new PaidInvoiceEmailError(
+      "INVOICE_NOT_FOUND",
+      "Paid invoice not found after email delivery."
+    );
   }
 
   const emailData = result.data as { id?: string } | null | undefined;
