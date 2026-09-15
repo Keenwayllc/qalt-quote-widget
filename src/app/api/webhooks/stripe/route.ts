@@ -2,15 +2,11 @@ import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
 import prisma from "@/lib/prisma";
 import { issuePaidInvoiceDocument } from "@/lib/customer-invoice-documents";
-import { sendPaidInvoiceEmail } from "@/lib/customer-invoice-email";
+import { PaidInvoiceEmailError, sendPaidInvoiceEmail } from "@/lib/customer-invoice-email";
 import type Stripe from "stripe";
 
 export const dynamic = "force-dynamic";
 
-// Map a trusted Stripe Price ID to a paid plan. Recognizes BOTH monthly and
-// annual price IDs for each tier. Returns null for any unknown price — callers
-// MUST fail closed on null (never grant a paid tier, never rewrite an existing
-// plan) so a mis/unconfigured price can't silently escalate or downgrade.
 function getPaidPlanFromPriceId(priceId: string): "PRO" | "ENTERPRISE" | null {
   const proIds = [process.env.STRIPE_PRO_PRICE_ID, process.env.STRIPE_PRO_ANNUAL_PRICE_ID].filter(Boolean);
   const enterpriseIds = [process.env.STRIPE_ENTERPRISE_PRICE_ID, process.env.STRIPE_ENTERPRISE_ANNUAL_PRICE_ID].filter(Boolean);
@@ -27,29 +23,17 @@ type QuoteBinding = {
   company: { stripeConnectAccountId: string | null };
 };
 
-/**
- * A signed Stripe event is not enough to mutate a quote: the event must be
- * bound to THIS quote's tenant. All three signals below must be consistent
- * before a payment_intent.* event may touch the quote. Quote payments are
- * created on the company's Connected account with quoteId + companyId in the
- * PaymentIntent metadata and the expected PaymentIntent id persisted up front,
- * so every legitimate event carries all three. Any mismatch fails closed.
- */
 function isQuoteEventBound(
   event: Stripe.Event,
   intent: Stripe.PaymentIntent,
   quote: QuoteBinding
 ): boolean {
-  // 1. Metadata company binding — when present it must be this quote's company.
   const metaCompanyId = intent.metadata?.companyId;
   if (metaCompanyId && metaCompanyId !== quote.companyId) {
     console.error(`[Webhook][security] companyId metadata mismatch for quote ${quote.id}: intent=${metaCompanyId} quote=${quote.companyId}`);
     return false;
   }
 
-  // 2. Connected-account binding — quote payments run on the company's
-  // Connected account, so when both are present they must match. This blocks an
-  // event for Merchant A's account from altering Merchant B's quote.
   const eventAccount = event.account;
   const connectedAccountId = quote.company.stripeConnectAccountId;
   if (eventAccount && connectedAccountId && eventAccount !== connectedAccountId) {
@@ -57,8 +41,6 @@ function isQuoteEventBound(
     return false;
   }
 
-  // 3. Expected-PaymentIntent binding — once the quote recorded its expected PI
-  // id, only that PaymentIntent may update it.
   if (quote.stripePaymentIntentId && quote.stripePaymentIntentId !== intent.id) {
     console.error(`[Webhook][security] payment intent mismatch for quote ${quote.id}: intent=${intent.id} expected=${quote.stripePaymentIntentId}`);
     return false;
@@ -78,7 +60,6 @@ export async function POST(req: Request) {
   const stripe = getStripe();
   let event: Stripe.Event | undefined;
 
-  // Try both webhook secrets: platform account and connected accounts
   const secrets = [
     process.env.STRIPE_WEBHOOK_SECRET!,
     process.env.STRIPE_CONNECT_WEBHOOK_SECRET!,
@@ -109,9 +90,6 @@ export async function POST(req: Request) {
 
         if (!companyId || !subscriptionId) break;
 
-        // Retrieve the subscription and resolve the plan from the trusted Stripe
-        // Price ID (never from browser/metadata). An unknown price fails closed:
-        // no paid tier granted, no plan rewrite.
         const subscription = await stripe.subscriptions.retrieve(subscriptionId);
         const priceId = subscription.items.data[0]?.price.id ?? "";
         const plan = getPaidPlanFromPriceId(priceId);
@@ -142,8 +120,6 @@ export async function POST(req: Request) {
         if (!company) break;
 
         if (isEntitled) {
-          // Active/trialing but unknown price → do NOT grant a paid tier and do
-          // NOT overwrite the existing plan just because the mapper failed.
           if (!plan) {
             console.warn(`[Webhook] subscription.updated for company ${company.id} active/trialing with unknown price ${priceId} — leaving plan unchanged`);
             break;
@@ -153,7 +129,6 @@ export async function POST(req: Request) {
             data: { subscriptionPlan: plan },
           });
         } else {
-          // No longer entitled (canceled/past_due/unpaid/etc.) → downgrade.
           await prisma.company.update({
             where: { id: company.id },
             data: { subscriptionPlan: "STARTER" },
@@ -180,13 +155,10 @@ export async function POST(req: Request) {
         break;
       }
 
-      // Quote payment: mark QuoteRequest PAID, create its immutable paid invoice,
-      // then deliver that invoice once. A failed email returns 500 so Stripe retry
-      // can heal delivery. Once lastEmailedAt is set, later retries do not resend.
       case "payment_intent.succeeded": {
         const intent = event.data.object as Stripe.PaymentIntent;
         const quoteId = intent.metadata?.quoteId;
-        if (!quoteId) break; // Not a quote payment — ignore
+        if (!quoteId) break;
 
         const quote = await prisma.quoteRequest.findUnique({
           where: { id: quoteId },
@@ -200,18 +172,13 @@ export async function POST(req: Request) {
           },
         });
 
-        // Unknown quote — ignore safely (ack so Stripe stops retrying). No 500,
-        // no cross-tenant existence revealed.
         if (!quote) {
           console.warn(`[Webhook] payment_intent.succeeded for unknown quote ${quoteId} — ignored`);
           break;
         }
 
-        // Tenant binding must hold before any mutation or document issuance.
         if (!isQuoteEventBound(event, intent, quote)) break;
 
-        // Use a stable Stripe event time for first-write semantics. On retries the
-        // persisted quote.paidAt wins, keeping the invoice timestamp deterministic.
         const paidAt = quote.paidAt ?? new Date(event.created * 1000);
 
         if (quote.paymentStatus !== "PAID") {
@@ -221,7 +188,7 @@ export async function POST(req: Request) {
               paymentStatus: "PAID",
               stripePaymentIntentId: intent.id,
               paidAt,
-              status: "CONFIRMED", // Elevate quote status to confirmed
+              status: "CONFIRMED",
             },
           });
           console.log(`[Webhook] Quote ${quote.id} marked as PAID via payment intent ${intent.id}`);
@@ -229,10 +196,6 @@ export async function POST(req: Request) {
           console.log(`[Webhook] Quote ${quote.id} already PAID — ensuring invoice exists`);
         }
 
-        // Idempotent and retry-healing: if quote update succeeded but invoice
-        // creation failed, Stripe receives a 500 and retries. On the retry the
-        // already-PAID branch still calls this helper, which creates/reuses the
-        // single INVOICE record without consuming a second number.
         const invoice = await issuePaidInvoiceDocument({
           companyId: quote.companyId,
           quoteRequestId: quote.id,
@@ -242,12 +205,26 @@ export async function POST(req: Request) {
         console.log(`[Webhook] Paid invoice ${invoice.number} ready for quote ${quote.id}`);
 
         if (!invoice.lastEmailedAt) {
-          const delivered = await sendPaidInvoiceEmail({
-            companyId: quote.companyId,
-            quoteRequestId: quote.id,
-            now: paidAt,
-          });
-          console.log(`[Webhook] Paid invoice ${invoice.number} emailed to ${delivered.recipient}`);
+          try {
+            await sendPaidInvoiceEmail({
+              companyId: quote.companyId,
+              quoteRequestId: quote.id,
+              now: paidAt,
+            });
+            console.log(`[Webhook] Paid invoice ${invoice.number} emailed successfully`);
+          } catch (error: unknown) {
+            if (error instanceof PaidInvoiceEmailError && error.code === "INVALID_RECIPIENT") {
+              // Permanent data issue. A Stripe retry cannot repair an invalid or
+              // missing customer email, so acknowledge the payment and leave the
+              // invoice available in Merchant Console for manual follow-up.
+              console.warn(`[Webhook] Paid invoice ${invoice.number} not emailed: invalid customer recipient`);
+            } else {
+              // Transient delivery or state failures remain retryable. Returning
+              // 500 causes Stripe to retry the signed payment event, while invoice
+              // issuance stays idempotent and lastEmailedAt prevents repeat sends.
+              throw error;
+            }
+          }
         } else {
           console.log(`[Webhook] Paid invoice ${invoice.number} already emailed — skipping resend`);
         }
@@ -275,11 +252,8 @@ export async function POST(req: Request) {
           break;
         }
 
-        // Same tenant binding as success — an unrelated failed intent must never
-        // mark another quote FAILED.
         if (!isQuoteEventBound(event, intent, quote)) break;
 
-        // Never overwrite an already-paid quote due to a stale/duplicate failure.
         if (quote.paymentStatus === "PAID") {
           console.warn(`[Webhook] Ignoring failure for already-PAID quote ${quote.id}`);
           break;
@@ -292,7 +266,6 @@ export async function POST(req: Request) {
         console.log(`[Webhook] Quote ${quote.id} payment FAILED: ${intent.last_payment_error?.message}`);
         break;
       }
-
     }
   } catch (error: unknown) {
     console.error("Webhook handler error:", error instanceof Error ? error.message : String(error));
