@@ -5,6 +5,7 @@ import { fireWebhooks } from "@/lib/webhooks";
 import { issueQuoteDocument } from "@/lib/customer-documents";
 import { createPublicDocumentAccess } from "@/lib/customer-document-access";
 import { sendQuoteDocumentEmail } from "@/lib/customer-document-email";
+import { sendPaidInvoiceEmail } from "@/lib/customer-invoice-email";
 import type { CustomerDocument } from "@/generated/prisma/client";
 
 function documentDto(document: CustomerDocument) {
@@ -121,6 +122,17 @@ export async function POST(
         documentId: invoice.id,
       });
       return NextResponse.json({ url: `/documents/${access.token}` });
+    }
+
+    if (action === "email_invoice") {
+      const result = await sendPaidInvoiceEmail({
+        companyId: company.id,
+        quoteRequestId: quote.id,
+      });
+      return NextResponse.json({
+        success: true,
+        lastEmailedAt: result.document.lastEmailedAt,
+      });
     }
 
     return NextResponse.json({ error: "Unsupported action" }, { status: 400 });
