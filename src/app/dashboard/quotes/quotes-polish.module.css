@@ -180,3 +180,8 @@
 :global(.dark) .studio :global(.fixed.top-0.right-0 [class*="bg-slate-50"]) {
   background: #1b1b1b !important;
 }
+
+/* Preserve readable contrast when quote rows are hovered in dark mode. */
+:global(.dark) .studio :global(tbody tr:hover) {
+  background: #202020 !important;
+}
