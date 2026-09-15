@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
 import prisma from "@/lib/prisma";
 import { issuePaidInvoiceDocument } from "@/lib/customer-invoice-documents";
+import { sendPaidInvoiceEmail } from "@/lib/customer-invoice-email";
 import type Stripe from "stripe";
 
 export const dynamic = "force-dynamic";
@@ -179,7 +180,9 @@ export async function POST(req: Request) {
         break;
       }
 
-      // Quote payment: mark QuoteRequest PAID and create its immutable paid invoice.
+      // Quote payment: mark QuoteRequest PAID, create its immutable paid invoice,
+      // then deliver that invoice once. A failed email returns 500 so Stripe retry
+      // can heal delivery. Once lastEmailedAt is set, later retries do not resend.
       case "payment_intent.succeeded": {
         const intent = event.data.object as Stripe.PaymentIntent;
         const quoteId = intent.metadata?.quoteId;
@@ -237,6 +240,17 @@ export async function POST(req: Request) {
           paidAt,
         });
         console.log(`[Webhook] Paid invoice ${invoice.number} ready for quote ${quote.id}`);
+
+        if (!invoice.lastEmailedAt) {
+          const delivered = await sendPaidInvoiceEmail({
+            companyId: quote.companyId,
+            quoteRequestId: quote.id,
+            now: paidAt,
+          });
+          console.log(`[Webhook] Paid invoice ${invoice.number} emailed to ${delivered.recipient}`);
+        } else {
+          console.log(`[Webhook] Paid invoice ${invoice.number} already emailed — skipping resend`);
+        }
         break;
       }
 
