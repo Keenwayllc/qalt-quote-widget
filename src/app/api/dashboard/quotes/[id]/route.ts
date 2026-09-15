@@ -90,8 +90,6 @@ export async function POST(
         companyId: company.id,
         documentId: document.id,
       });
-      // Only the one-time plaintext bearer token is returned. The database stores
-      // only its SHA-256 hash. Creating a fresh view link invalidates an older one.
       return NextResponse.json({ url: `/documents/${access.token}` });
     }
 
@@ -107,9 +105,22 @@ export async function POST(
     }
 
     if (action === "view_invoice") {
-      // Phase 18 creates the immutable paid invoice record, but the current public
-      // renderer is quote-only. Do not pretend the invoice is downloadable yet.
-      return NextResponse.json({ error: "Invoice PDF coming next" }, { status: 409 });
+      const invoice = await prisma.customerDocument.findFirst({
+        where: {
+          quoteRequestId: quote.id,
+          companyId: company.id,
+          type: "INVOICE",
+          status: "PAID",
+        },
+      });
+      if (!invoice) {
+        return NextResponse.json({ error: "Paid invoice not found" }, { status: 404 });
+      }
+      const access = await createPublicDocumentAccess({
+        companyId: company.id,
+        documentId: invoice.id,
+      });
+      return NextResponse.json({ url: `/documents/${access.token}` });
     }
 
     return NextResponse.json({ error: "Unsupported action" }, { status: 400 });
@@ -128,7 +139,6 @@ export async function PATCH(
     const resolvedParams = await params;
     const body = await request.json();
 
-    // Ensure the quote belongs to the company
     const existingQuote = await prisma.quoteRequest.findUnique({
       where: { id: resolvedParams.id }
     });
@@ -173,8 +183,6 @@ export async function PATCH(
   }
 }
 
-// Soft-delete (archive) a quote: hide it from the merchant's views without
-// erasing the record or breaking any linked Job.
 export async function DELETE(
   _request: Request,
   { params }: { params: Promise<{ id: string }> }
