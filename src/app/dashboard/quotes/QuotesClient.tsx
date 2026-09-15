@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import KanbanBoard from "./KanbanBoard";
+import QuoteDocumentsCard from "./QuoteDocumentsCard";
 
 interface Quote {
   id: string;
@@ -110,7 +111,6 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
   return (
     <AnimatePresence>
       <>
-        {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -119,7 +119,6 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
           className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50"
         />
 
-        {/* Drawer */}
         <motion.div
           initial={{ x: "100%", opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -127,7 +126,6 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
           transition={{ type: "spring", damping: 28, stiffness: 260 }}
           className="fixed top-0 right-0 h-full w-full max-w-md bg-white dark:bg-[#141414] z-50 shadow-2xl dark:shadow-black/60 overflow-y-auto"
         >
-          {/* Header */}
           <div className="sticky top-0 bg-white/95 dark:bg-[#141414]/95 backdrop-blur-md border-b border-slate-100 dark:border-white/6 px-6 py-4 flex items-center justify-between z-10">
             <div>
               <h2 className="font-black text-slate-900 dark:text-white text-lg tracking-tight">Quote Details</h2>
@@ -142,7 +140,6 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
           </div>
 
           <div className="px-6 py-6 space-y-5">
-            {/* Customer */}
             <div className="bg-slate-50 dark:bg-[#1c1c1c] rounded-2xl p-5 border border-transparent dark:border-white/6">
               <p className="text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-3">Customer</p>
               <div className="flex items-center gap-3 mb-4">
@@ -174,7 +171,6 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
               </div>
             </div>
 
-            {/* Route */}
             <div className="bg-slate-50 dark:bg-[#1c1c1c] rounded-2xl p-5 border border-transparent dark:border-white/6">
               <p className="text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-3">Route</p>
               <div className="flex items-center gap-3 text-slate-700 dark:text-white font-black text-lg mb-2">
@@ -190,7 +186,6 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
               </div>
             </div>
 
-            {/* Package */}
             {(quote.packageSize || quote.packageWeight || extras.length > 0) && (
               <div className="bg-slate-50 dark:bg-[#1c1c1c] rounded-2xl p-5 border border-transparent dark:border-white/6">
                 <p className="text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-3">Package Details</p>
@@ -221,7 +216,6 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
               </div>
             )}
 
-            {/* AWB */}
             {quote.awbNumber && (
               <div className="bg-slate-50 dark:bg-[#1c1c1c] rounded-2xl p-5 border border-transparent dark:border-white/6">
                 <p className="text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-2">AWB Number</p>
@@ -233,7 +227,6 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
               </div>
             )}
 
-            {/* Payment */}
             <div className="bg-slate-50 dark:bg-[#1c1c1c] rounded-2xl p-5 border border-transparent dark:border-white/6">
               <p className="text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-3">Payment</p>
               <div className="flex items-center justify-between">
@@ -257,7 +250,8 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
               </div>
             </div>
 
-            {/* CRM Status & Notes */}
+            <QuoteDocumentsCard quoteId={quote.id} />
+
             <div className="bg-slate-50 dark:bg-[#1c1c1c] rounded-2xl p-5 mt-5 border border-transparent dark:border-white/6">
               <div className="flex items-center gap-1.5 mb-3">
                 <p className="text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest">Internal Status</p>
@@ -324,7 +318,6 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
               />
             </div>
 
-            {/* Quick actions */}
             <div className="grid grid-cols-2 gap-3">
               <a
                 href={`mailto:${quote.customerEmail}?subject=Your Delivery Quote - $${quote.estimatedPrice.toFixed(2)}`}
@@ -344,7 +337,6 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
               )}
             </div>
 
-            {/* Delete (archive) quote */}
             <div className="pt-2 border-t border-slate-100 dark:border-white/6">
               {confirmDelete ? (
                 <div className="flex items-center gap-2">
@@ -405,7 +397,7 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
         setQuotes((prev) => prev.filter((q) => q.id !== id));
         setSelected((cur) => (cur?.id === id ? null : cur));
         setSelectedIds((prev) => { const next = new Set(prev); next.delete(id); return next; });
-        router.refresh(); // re-run the layout so the sidebar quote badge updates
+        router.refresh();
       }
     } finally {
       setDeletingId(null);
@@ -442,7 +434,7 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
         setQuotes((prev) => prev.filter((q) => !idSet.has(q.id)));
         setSelected((cur) => (cur && idSet.has(cur.id) ? null : cur));
         clearSelection();
-        router.refresh(); // re-run the layout so the sidebar quote badge updates
+        router.refresh();
       }
     } finally {
       setBulkDeleting(false);
@@ -479,263 +471,105 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
         </div>
       ) : (
         <>
-          {/* View Toggle */}
           <div className="flex items-center justify-end gap-2 mb-4">
             <button
               onClick={() => setView("list")}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-black transition-all ${view === "list" ? "bg-slate-900 dark:bg-zinc-700 text-white shadow" : "bg-white dark:bg-[#1c1c1c] border border-slate-200 dark:border-white/6 text-slate-500 dark:text-zinc-400 hover:bg-slate-50 dark:hover:bg-white/10"}`}
             >
-              <LayoutList size={14} />
-              List
+              <LayoutList size={14} /> List
             </button>
             <button
               onClick={() => setView("kanban")}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-black transition-all ${view === "kanban" ? "bg-slate-900 dark:bg-zinc-700 text-white shadow" : "bg-white dark:bg-[#1c1c1c] border border-slate-200 dark:border-white/6 text-slate-500 dark:text-zinc-400 hover:bg-slate-50 dark:hover:bg-white/10"}`}
             >
-              <Kanban size={14} />
-              Kanban
+              <Kanban size={14} /> Kanban
             </button>
           </div>
 
-          {/* Kanban View */}
-          {view === "kanban" && (
-            <KanbanBoard quotes={quotes} onSelectQuote={setSelected} />
-          )}
+          {view === "kanban" && <KanbanBoard quotes={quotes} onSelectQuote={setSelected} />}
 
-          {/* List View */}
           {view === "list" && <>
-
-          {/* Bulk action bar */}
-          {selectedIds.size > 0 && (
-            <div className="sticky top-2 z-20 mb-3 flex items-center justify-between gap-3 bg-slate-900 dark:bg-zinc-800 text-white rounded-2xl px-5 py-3 shadow-lg shadow-slate-900/20">
-              <span className="text-sm font-black">{selectedIds.size} selected</span>
-              <div className="flex items-center gap-2">
-                {bulkConfirm ? (
-                  <>
-                    <button
-                      onClick={handleBulkDelete}
-                      disabled={bulkDeleting}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-red-600 rounded-xl text-xs font-black hover:bg-red-700 active:scale-95 transition-all disabled:opacity-60"
-                    >
-                      {bulkDeleting ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
-                      Delete {selectedIds.size} quote{selectedIds.size > 1 ? "s" : ""}
-                    </button>
-                    <button
-                      onClick={() => setBulkConfirm(false)}
-                      disabled={bulkDeleting}
-                      className="px-3.5 py-2 bg-white/10 rounded-xl text-xs font-bold hover:bg-white/20 transition-all disabled:opacity-60"
-                    >
-                      Cancel
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => setBulkConfirm(true)}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-red-600 rounded-xl text-xs font-black hover:bg-red-700 active:scale-95 transition-all"
-                    >
-                      <Trash2 size={14} /> Delete selected
-                    </button>
-                    <button
-                      onClick={clearSelection}
-                      className="px-3.5 py-2 bg-white/10 rounded-xl text-xs font-bold hover:bg-white/20 transition-all"
-                    >
-                      Clear
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Desktop Table */}
-          <div className="hidden md:block bg-white dark:bg-[#141414] rounded-4xl border border-slate-200/60 dark:border-white/6 shadow-2xl shadow-slate-200/50 dark:shadow-none overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse text-left min-w-[800px]">
-                <thead>
-                  <tr className="bg-slate-50 dark:bg-[#1c1c1c] border-b border-slate-100 dark:border-white/6">
-                    <th className="pl-8 pr-2 py-5 w-px">
-                      <input
-                        type="checkbox"
-                        checked={quotes.length > 0 && selectedIds.size === quotes.length}
-                        onChange={toggleSelectAll}
-                        aria-label="Select all quotes"
-                        className="h-4 w-4 rounded border-slate-300 dark:border-white/20 cursor-pointer accent-red-600"
-                      />
-                    </th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest">Customer &amp; Date</th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest">Route Details</th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest text-center">Value</th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest">Contact Information</th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest text-right">Action</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-50 dark:divide-white/4">
-                  {quotes.map((quote) => (
-                    <tr key={quote.id} className={`group transition-all duration-300 ${selectedIds.has(quote.id) ? "bg-red-50/60 dark:bg-red-500/5" : "hover:bg-slate-50/80 dark:hover:bg-white/3"}`}>
-                      <td className="pl-8 pr-2 py-6">
-                        <input
-                          type="checkbox"
-                          checked={selectedIds.has(quote.id)}
-                          onChange={() => toggleSelect(quote.id)}
-                          aria-label={`Select quote from ${quote.customerName}`}
-                          className="h-4 w-4 rounded border-slate-300 dark:border-white/20 cursor-pointer accent-red-600"
-                        />
-                      </td>
-                      <td className="px-8 py-6">
-                        <div className="flex items-center gap-4">
-                          <div className="h-10 w-10 rounded-xl bg-slate-900 dark:bg-zinc-700 flex items-center justify-center text-white font-black text-xs shrink-0">
-                            {quote.customerName.charAt(0).toUpperCase()}
-                          </div>
-                          <div>
-                            <p className="text-sm font-black text-slate-900 dark:text-white tracking-tight leading-none mb-1.5 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
-                              {quote.customerName}
-                            </p>
-                            <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-tighter">
-                              <Calendar size={10} />
-                              {new Date(quote.createdAt).toLocaleDateString()}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-8 py-6">
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-zinc-200">
-                            <MapPin size={12} className="text-red-500" />
-                            <span>{quote.pickupZip}</span>
-                            <ChevronRight size={10} className="text-slate-300 dark:text-zinc-600" />
-                            <span>{quote.dropoffZip}</span>
-                          </div>
-                          <div className="flex items-center gap-3 text-xs text-slate-400 dark:text-zinc-500 font-bold">
-                            <span className="px-2 py-0.5 bg-slate-100 dark:bg-white/5 rounded text-slate-600 dark:text-zinc-400">{quote.serviceType}</span>
-                            <span>{quote.distanceMiles.toFixed(1)} miles</span>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-8 py-6 text-center">
-                        <div className="inline-flex flex-col">
-                          <span className="text-lg font-black text-slate-900 dark:text-white tracking-tighter">${quote.estimatedPrice.toFixed(2)}</span>
-                          <span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mt-0.5">ESTIMATED</span>
-                        </div>
-                      </td>
-                      <td className="px-8 py-6">
-                        <div className="space-y-1.5">
-                          <div className="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-zinc-300">
-                            <Mail size={12} className="text-slate-300 dark:text-zinc-600" />
-                            {quote.customerEmail}
-                          </div>
-                          <div className="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-zinc-300">
-                            <Phone size={12} className="text-slate-300 dark:text-zinc-600" />
-                            {quote.customerPhone || "No phone provided"}
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-8 py-6 text-right">
-                        <div className="inline-flex items-center justify-end gap-2">
-                          {confirmingId === quote.id ? (
-                            <>
-                              <button
-                                onClick={() => handleDelete(quote.id)}
-                                disabled={deletingId === quote.id}
-                                className="inline-flex items-center gap-1.5 h-10 px-3 rounded-xl bg-red-600 text-white text-xs font-black hover:bg-red-700 active:scale-90 transition-all disabled:opacity-60"
-                                title="Confirm delete"
-                              >
-                                {deletingId === quote.id ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
-                                Delete
-                              </button>
-                              <button
-                                onClick={() => setConfirmingId(null)}
-                                disabled={deletingId === quote.id}
-                                className="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-zinc-400 hover:bg-slate-200 dark:hover:bg-white/10 active:scale-90 transition-all disabled:opacity-60"
-                                title="Cancel"
-                              >
-                                <X size={16} />
-                              </button>
-                            </>
-                          ) : (
-                            <>
-                              <button
-                                onClick={() => setSelected(quote)}
-                                className="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-zinc-400 hover:bg-slate-900 dark:hover:bg-zinc-700 hover:text-white active:scale-90 transition-all shadow-sm dark:shadow-none"
-                                title="View quote details"
-                              >
-                                <FileText size={16} />
-                              </button>
-                              <button
-                                onClick={() => setConfirmingId(quote.id)}
-                                className="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-400 dark:text-zinc-500 hover:bg-red-600 hover:text-white active:scale-90 transition-all shadow-sm dark:shadow-none"
-                                title="Delete quote"
-                              >
-                                <Trash2 size={16} />
-                              </button>
-                            </>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Mobile Cards */}
-          <div className="md:hidden space-y-3">
-            {quotes.map((quote) => (
-              <div
-                key={quote.id}
-                className="bg-white dark:bg-[#141414] rounded-2xl border border-slate-200/60 dark:border-white/6 shadow-sm dark:shadow-none p-5 cursor-pointer hover:shadow-md dark:hover:border-white/10 transition-all"
-                onClick={() => setSelected(quote)}
-              >
-                <div className="flex items-start justify-between gap-3 mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-xl bg-slate-900 dark:bg-zinc-700 flex items-center justify-center text-white font-black text-xs shrink-0">
-                      {quote.customerName.charAt(0).toUpperCase()}
-                    </div>
-                    <div>
-                      <p className="text-sm font-black text-slate-900 dark:text-white tracking-tight leading-none mb-1">{quote.customerName}</p>
-                      <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-tighter">
-                        <Calendar size={9} />
-                        {new Date(quote.createdAt).toLocaleDateString()}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-right shrink-0">
-                    <p className="text-lg font-black text-slate-900 dark:text-white tracking-tighter leading-none">${quote.estimatedPrice.toFixed(2)}</p>
-                    <p className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mt-0.5">estimated</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-zinc-200 mb-2">
-                  <MapPin size={12} className="text-red-500 shrink-0" />
-                  <span>{quote.pickupZip}</span>
-                  <ChevronRight size={10} className="text-slate-300 dark:text-zinc-600" />
-                  <span>{quote.dropoffZip}</span>
-                  <span className="ml-auto text-xs text-slate-400 dark:text-zinc-500 font-bold">{quote.distanceMiles.toFixed(1)} mi</span>
-                </div>
-                <div className="border-t border-slate-100 dark:border-white/6 pt-3 mt-3 space-y-1.5">
-                  <div className="flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-zinc-400">
-                    <Mail size={11} className="text-slate-300 dark:text-zinc-600 shrink-0" />
-                    <span className="truncate">{quote.customerEmail}</span>
-                  </div>
-                  {quote.customerPhone && (
-                    <div className="flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-zinc-400">
-                      <Phone size={11} className="text-slate-300 dark:text-zinc-600 shrink-0" />
-                      {quote.customerPhone}
-                    </div>
+            {selectedIds.size > 0 && (
+              <div className="sticky top-2 z-20 mb-3 flex items-center justify-between gap-3 bg-slate-900 dark:bg-zinc-800 text-white rounded-2xl px-5 py-3 shadow-lg shadow-slate-900/20">
+                <span className="text-sm font-black">{selectedIds.size} selected</span>
+                <div className="flex items-center gap-2">
+                  {bulkConfirm ? (
+                    <>
+                      <button onClick={handleBulkDelete} disabled={bulkDeleting} className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-red-600 rounded-xl text-xs font-black hover:bg-red-700 active:scale-95 transition-all disabled:opacity-60">
+                        {bulkDeleting ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
+                        Delete {selectedIds.size} quote{selectedIds.size > 1 ? "s" : ""}
+                      </button>
+                      <button onClick={() => setBulkConfirm(false)} disabled={bulkDeleting} className="px-3.5 py-2 bg-white/10 rounded-xl text-xs font-bold hover:bg-white/20 transition-all disabled:opacity-60">Cancel</button>
+                    </>
+                  ) : (
+                    <>
+                      <button onClick={() => setBulkConfirm(true)} className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-red-600 rounded-xl text-xs font-black hover:bg-red-700 active:scale-95 transition-all"><Trash2 size={14} /> Delete selected</button>
+                      <button onClick={clearSelection} className="px-3.5 py-2 bg-white/10 rounded-xl text-xs font-bold hover:bg-white/20 transition-all">Clear</button>
+                    </>
                   )}
                 </div>
-                <div className="mt-3 text-right">
-                  <span className="text-xs font-black text-red-600 dark:text-red-400">Tap to view details →</span>
-                </div>
               </div>
-            ))}
-          </div>
-          </>}
+            )}
 
+            <div className="hidden md:block bg-white dark:bg-[#141414] rounded-4xl border border-slate-200/60 dark:border-white/6 shadow-2xl shadow-slate-200/50 dark:shadow-none overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse text-left min-w-[800px]">
+                  <thead>
+                    <tr className="bg-slate-50 dark:bg-[#1c1c1c] border-b border-slate-100 dark:border-white/6">
+                      <th className="pl-8 pr-2 py-5 w-px"><input type="checkbox" checked={quotes.length > 0 && selectedIds.size === quotes.length} onChange={toggleSelectAll} aria-label="Select all quotes" className="h-4 w-4 rounded border-slate-300 dark:border-white/20 cursor-pointer accent-red-600" /></th>
+                      <th className="px-8 py-5 text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest">Customer &amp; Date</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest">Route Details</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest text-center">Value</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest">Contact Information</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-50 dark:divide-white/4">
+                    {quotes.map((quote) => (
+                      <tr key={quote.id} className={`group transition-all duration-300 ${selectedIds.has(quote.id) ? "bg-red-50/60 dark:bg-red-500/5" : "hover:bg-slate-50/80 dark:hover:bg-white/3"}`}>
+                        <td className="pl-8 pr-2 py-6"><input type="checkbox" checked={selectedIds.has(quote.id)} onChange={() => toggleSelect(quote.id)} aria-label={`Select quote from ${quote.customerName}`} className="h-4 w-4 rounded border-slate-300 dark:border-white/20 cursor-pointer accent-red-600" /></td>
+                        <td className="px-8 py-6">
+                          <div className="flex items-center gap-4">
+                            <div className="h-10 w-10 rounded-xl bg-slate-900 dark:bg-zinc-700 flex items-center justify-center text-white font-black text-xs shrink-0">{quote.customerName.charAt(0).toUpperCase()}</div>
+                            <div><p className="text-sm font-black text-slate-900 dark:text-white tracking-tight leading-none mb-1.5 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">{quote.customerName}</p><div className="flex items-center gap-2 text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-tighter"><Calendar size={10} />{new Date(quote.createdAt).toLocaleDateString()}</div></div>
+                          </div>
+                        </td>
+                        <td className="px-8 py-6"><div className="space-y-2"><div className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-zinc-200"><MapPin size={12} className="text-red-500" /><span>{quote.pickupZip}</span><ChevronRight size={10} className="text-slate-300 dark:text-zinc-600" /><span>{quote.dropoffZip}</span></div><div className="flex items-center gap-3 text-xs text-slate-400 dark:text-zinc-500 font-bold"><span className="px-2 py-0.5 bg-slate-100 dark:bg-white/5 rounded text-slate-600 dark:text-zinc-400">{quote.serviceType}</span><span>{quote.distanceMiles.toFixed(1)} miles</span></div></div></td>
+                        <td className="px-8 py-6 text-center"><div className="inline-flex flex-col"><span className="text-lg font-black text-slate-900 dark:text-white tracking-tighter">${quote.estimatedPrice.toFixed(2)}</span><span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mt-0.5">ESTIMATED</span></div></td>
+                        <td className="px-8 py-6"><div className="space-y-1.5"><div className="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-zinc-300"><Mail size={12} className="text-slate-300 dark:text-zinc-600" />{quote.customerEmail}</div><div className="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-zinc-300"><Phone size={12} className="text-slate-300 dark:text-zinc-600" />{quote.customerPhone || "No phone provided"}</div></div></td>
+                        <td className="px-8 py-6 text-right">
+                          <div className="inline-flex items-center justify-end gap-2">
+                            {confirmingId === quote.id ? (
+                              <><button onClick={() => handleDelete(quote.id)} disabled={deletingId === quote.id} className="inline-flex items-center gap-1.5 h-10 px-3 rounded-xl bg-red-600 text-white text-xs font-black hover:bg-red-700 active:scale-90 transition-all disabled:opacity-60" title="Confirm delete">{deletingId === quote.id ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}Delete</button><button onClick={() => setConfirmingId(null)} disabled={deletingId === quote.id} className="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-zinc-400 hover:bg-slate-200 dark:hover:bg-white/10 active:scale-90 transition-all disabled:opacity-60" title="Cancel"><X size={16} /></button></>
+                            ) : (
+                              <><button onClick={() => setSelected(quote)} className="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-zinc-400 hover:bg-slate-900 dark:hover:bg-zinc-700 hover:text-white active:scale-90 transition-all shadow-sm dark:shadow-none" title="View quote details"><FileText size={16} /></button><button onClick={() => setConfirmingId(quote.id)} className="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-400 dark:text-zinc-500 hover:bg-red-600 hover:text-white active:scale-90 transition-all shadow-sm dark:shadow-none" title="Delete quote"><Trash2 size={16} /></button></>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="md:hidden space-y-3">
+              {quotes.map((quote) => (
+                <div key={quote.id} className="bg-white dark:bg-[#141414] rounded-2xl border border-slate-200/60 dark:border-white/6 shadow-sm dark:shadow-none p-5 cursor-pointer hover:shadow-md dark:hover:border-white/10 transition-all" onClick={() => setSelected(quote)}>
+                  <div className="flex items-start justify-between gap-3 mb-4">
+                    <div className="flex items-center gap-3"><div className="h-10 w-10 rounded-xl bg-slate-900 dark:bg-zinc-700 flex items-center justify-center text-white font-black text-xs shrink-0">{quote.customerName.charAt(0).toUpperCase()}</div><div><p className="text-sm font-black text-slate-900 dark:text-white tracking-tight leading-none mb-1">{quote.customerName}</p><div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-tighter"><Calendar size={9} />{new Date(quote.createdAt).toLocaleDateString()}</div></div></div>
+                    <div className="text-right shrink-0"><p className="text-lg font-black text-slate-900 dark:text-white tracking-tighter leading-none">${quote.estimatedPrice.toFixed(2)}</p><p className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mt-0.5">estimated</p></div>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-zinc-200 mb-2"><MapPin size={12} className="text-red-500 shrink-0" /><span>{quote.pickupZip}</span><ChevronRight size={10} className="text-slate-300 dark:text-zinc-600" /><span>{quote.dropoffZip}</span><span className="ml-auto text-xs text-slate-400 dark:text-zinc-500 font-bold">{quote.distanceMiles.toFixed(1)} mi</span></div>
+                  <div className="border-t border-slate-100 dark:border-white/6 pt-3 mt-3 space-y-1.5"><div className="flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-zinc-400"><Mail size={11} className="text-slate-300 dark:text-zinc-600 shrink-0" /><span className="truncate">{quote.customerEmail}</span></div>{quote.customerPhone && <div className="flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-zinc-400"><Phone size={11} className="text-slate-300 dark:text-zinc-600 shrink-0" />{quote.customerPhone}</div>}</div>
+                  <div className="mt-3 text-right"><span className="text-xs font-black text-red-600 dark:text-red-400">Tap to view details →</span></div>
+                </div>
+              ))}
+            </div>
+          </>}
         </>
       )}
 
-      {/* Detail Drawer */}
       <AnimatePresence>
         {selected && <QuoteDrawer quote={selected} onClose={() => setSelected(null)} onUpdate={handleUpdate} onDelete={handleDelete} insideDeliveryLabel={insideDeliveryLabel} addon3Label={addon3Label} />}
       </AnimatePresence>
