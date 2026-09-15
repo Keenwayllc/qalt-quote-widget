@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
-import { CheckCircle, Calendar, MapPin, ArrowRight, Truck, Clock, FileText, Receipt } from "lucide-react";
+import { CheckCircle, Calendar, MapPin, ArrowRight, Truck, Clock, FileText, Receipt, Mail } from "lucide-react";
 import { notFound } from "next/navigation";
 import ConfettiBurst from "@/components/widget/ConfettiBurst";
 import { verifyCustomerQuoteToken } from "@/lib/auth";
@@ -98,23 +98,28 @@ export default async function PaymentSuccessPage({
     }
   }
 
-  // Customer-document actions are authorized by the signed payment-success
-  // capability above, then tenant-bound again with quoteId + companyId. Fresh
-  // bearer links are generated for this confirmation view; only token hashes are
-  // persisted. A refresh rotates the links and invalidates the prior ones.
+  // Preserve any secure link that has already been emailed. Only create a fresh
+  // payment-success link when the document has no active public token yet. Because
+  // Qalt stores only token hashes, rotating here would invalidate the customer's
+  // latest emailed link and the previous plaintext token cannot be recovered.
   let quotePdfUrl: string | null = null;
   let invoicePdfUrl: string | null = null;
   let invoiceNumber: string | null = null;
+  let documentsAvailableByEmail = false;
   try {
     const quoteDocument = await issueQuoteDocument({
       companyId: claims.companyId,
       quoteRequestId: claims.quoteId,
     });
-    const quoteAccess = await createPublicDocumentAccess({
-      companyId: claims.companyId,
-      documentId: quoteDocument.id,
-    });
-    quotePdfUrl = `/documents/${quoteAccess.token}`;
+    if (quoteDocument.publicTokenHash) {
+      documentsAvailableByEmail = true;
+    } else {
+      const quoteAccess = await createPublicDocumentAccess({
+        companyId: claims.companyId,
+        documentId: quoteDocument.id,
+      });
+      quotePdfUrl = `/documents/${quoteAccess.token}`;
+    }
 
     const invoice = await prisma.customerDocument.findFirst({
       where: {
@@ -126,11 +131,15 @@ export default async function PaymentSuccessPage({
     });
     if (invoice) {
       invoiceNumber = invoice.number;
-      const invoiceAccess = await createPublicDocumentAccess({
-        companyId: claims.companyId,
-        documentId: invoice.id,
-      });
-      invoicePdfUrl = `/documents/${invoiceAccess.token}`;
+      if (invoice.publicTokenHash) {
+        documentsAvailableByEmail = true;
+      } else {
+        const invoiceAccess = await createPublicDocumentAccess({
+          companyId: claims.companyId,
+          documentId: invoice.id,
+        });
+        invoicePdfUrl = `/documents/${invoiceAccess.token}`;
+      }
     }
   } catch {
     // Payment confirmation must still render if document-link generation is
@@ -192,12 +201,21 @@ export default async function PaymentSuccessPage({
             </div>
           </div>
 
-          {(quotePdfUrl || invoicePdfUrl) && (
+          {(quotePdfUrl || invoicePdfUrl || documentsAvailableByEmail) && (
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-3">
               <div>
                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Your documents</p>
-                <p className="text-xs text-slate-500 mt-1">Secure PDFs for your booking.</p>
+                <p className="text-xs text-slate-500 mt-1">
+                  {documentsAvailableByEmail
+                    ? "Use the latest secure document links sent to your email. Any document not yet emailed is available below."
+                    : "Secure PDFs for your booking."}
+                </p>
               </div>
+              {documentsAvailableByEmail && (
+                <div className="w-full py-3.5 bg-white border border-slate-200 text-slate-700 rounded-xl font-bold flex items-center justify-center gap-2">
+                  <Mail size={17} /> Secure documents sent by email
+                </div>
+              )}
               {quotePdfUrl && (
                 <Link
                   href={quotePdfUrl}
