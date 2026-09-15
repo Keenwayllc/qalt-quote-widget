@@ -71,6 +71,39 @@ export function rotatePublicDocumentToken(input: {
   return assignPublicToken(input.companyId, input.documentId);
 }
 
+/**
+ * Rotate a document bearer token only if the stored token hash is still exactly
+ * what the caller previously read. This is the email-delivery concurrency guard:
+ * two simultaneous sends may read the same document, but only one wins this CAS
+ * and receives a plaintext token. The loser returns null before sending an email,
+ * so it cannot invalidate the winner's link.
+ */
+export async function rotatePublicDocumentTokenIfCurrent(input: {
+  companyId: string;
+  documentId: string;
+  expectedTokenHash: string | null;
+}): Promise<PublicDocumentAccessResult | null> {
+  const token = generatePublicDocumentToken();
+  const tokenHash = hashPublicDocumentToken(token);
+  const updated = await prisma.customerDocument.updateMany({
+    where: {
+      id: input.documentId,
+      companyId: input.companyId,
+      publicTokenHash: input.expectedTokenHash,
+    },
+    data: { publicTokenHash: tokenHash },
+  });
+  if (updated.count === 0) return null;
+
+  const document = await prisma.customerDocument.findFirst({
+    where: { id: input.documentId, companyId: input.companyId },
+  });
+  if (!document) {
+    throw new DocumentError("DOCUMENT_NOT_FOUND", "Document not found after token rotation.");
+  }
+  return { token, document };
+}
+
 export async function revokePublicDocumentAccess(input: {
   companyId: string;
   documentId: string;
