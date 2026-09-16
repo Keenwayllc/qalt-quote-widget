@@ -112,5 +112,50 @@
 }
 
 .qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) > div:nth-child(2) p {
-  color: #94a3b8 !important;
+  color: #cbd5e1 !important;
+}
+
+/* Keep the estimate card high-contrast in Dark Form preview. */
+.qalt-widget-studio[data-widget-preview-theme="dark"] p.text-5xl.font-black.text-emerald-700 {
+  color: #ffffff !important;
+  text-shadow: 0 1px 12px rgba(255, 255, 255, 0.08);
+}
+
+.qalt-widget-studio[data-widget-preview-theme="dark"] p.text-\[10px\].text-emerald-600\/80 {
+  color: rgba(255, 255, 255, 0.76) !important;
+}
+
+.qalt-widget-studio[data-widget-preview-theme="dark"] span.bg-white\/70.text-emerald-700 {
+  background: #ffffff !important;
+  color: #172033 !important;
+  border-color: rgba(15, 23, 42, 0.16) !important;
+}
+
+.qalt-widget-studio[data-widget-preview-theme="dark"] span.bg-white\/70.text-emerald-700 svg {
+  color: #334155 !important;
+}
+
+/* Header progress circles must remain visible over dark/photo backgrounds. */
+.qalt-widget-studio[data-widget-preview-theme="dark"] div.w-6.h-6.rounded-full.bg-white {
+  background: #ffffff !important;
+  color: #111827 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28) !important;
+}
+
+.qalt-widget-studio[data-widget-preview-theme="dark"] div.w-6.h-6.rounded-full.bg-white\/15 {
+  background: rgba(255, 255, 255, 0.24) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.44) !important;
+}
+
+.qalt-widget-studio[data-widget-preview-theme="dark"] .text-white\/50 {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.qalt-widget-studio[data-widget-preview-theme="dark"] div.flex-1.h-0\.5.bg-white\/15 {
+  background: rgba(255, 255, 255, 0.38) !important;
+}
+
+.qalt-widget-studio[data-widget-preview-theme="dark"] div.flex-1.h-0\.5.bg-white\/15 > div.bg-white\/70 {
+  background: rgba(255, 255, 255, 0.95) !important;
 }
