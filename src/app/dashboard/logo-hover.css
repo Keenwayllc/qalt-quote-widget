@@ -1,0 +1,30 @@
+/* Subtle, premium motion for the Qalt sidebar logo. */
+button[aria-label="Go to dashboard home"] {
+  transform-origin: 42% 52%;
+  transition:
+    transform 520ms cubic-bezier(.22, 1, .36, 1),
+    filter 520ms cubic-bezier(.22, 1, .36, 1),
+    opacity 360ms ease !important;
+}
+
+button[aria-label="Go to dashboard home"]:hover {
+  transform: translateY(-1px) scale(1.025) rotate(-0.45deg) !important;
+  filter: drop-shadow(0 6px 14px rgba(223, 23, 49, 0.10));
+}
+
+button[aria-label="Go to dashboard home"]:active {
+  transform: translateY(0) scale(0.985) rotate(0deg) !important;
+  transition-duration: 140ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button[aria-label="Go to dashboard home"] {
+    transition: none !important;
+  }
+
+  button[aria-label="Go to dashboard home"]:hover,
+  button[aria-label="Go to dashboard home"]:active {
+    transform: none !important;
+    filter: none !important;
+  }
+}
