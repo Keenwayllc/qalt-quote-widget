@@ -24,12 +24,12 @@ export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
   <div style={{ fontFamily: 'Arial, Helvetica, sans-serif', maxWidth: '640px', margin: '0 auto', backgroundColor: '#f7f7f5', padding: '24px 12px' }}>
     <div style={{ backgroundColor: '#ffffff', border: '1px solid #e7e7e4', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 10px 30px rgba(20,20,20,0.04)' }}>
       {/* Header */}
-      <div style={{ padding: '30px 32px 24px', textAlign: 'center', backgroundColor: '#ffffff', borderBottom: '1px solid #eeeeeb' }}>
+      <div style={{ padding: '32px 32px 24px', textAlign: 'center', backgroundColor: '#ffffff', borderBottom: '1px solid #eeeeeb' }}>
         <img
           src="https://qalt.site/images/qalt-logo-main-2026.png"
           alt="Qalt"
-          height="40"
-          style={{ display: 'block', margin: '0 auto 14px', maxWidth: '160px', objectFit: 'contain' }}
+          height="64"
+          style={{ display: 'block', margin: '0 auto 16px', width: 'auto', maxWidth: '240px', objectFit: 'contain' }}
         />
         <p style={{ margin: '0', color: '#8b8f97', fontSize: '11px', fontWeight: '700', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
           New quote notification
