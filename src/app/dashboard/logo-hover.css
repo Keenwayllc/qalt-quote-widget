@@ -17,6 +17,29 @@ button[aria-label="Go to dashboard home"]:active {
   transition-duration: 140ms !important;
 }
 
+/* White-label dashboard branding: keep the merchant mark primary and the
+   Qalt platform credit intentionally quiet. */
+button[aria-label="Go to dashboard home"] > div[class*="max-w-[190px]"] {
+  max-width: 176px !important;
+}
+
+button[aria-label="Go to dashboard home"] > div[class*="max-w-[190px]"] > img {
+  height: 54px !important;
+  width: auto !important;
+  max-width: 176px !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+}
+
+button[aria-label="Go to dashboard home"] > div[class*="max-w-[190px]"] > div {
+  margin-top: 6px !important;
+  font-size: 7px !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.14em !important;
+  font-weight: 600 !important;
+  opacity: 0.76;
+}
+
 @media (prefers-reduced-motion: reduce) {
   button[aria-label="Go to dashboard home"] {
     transition: none !important;
