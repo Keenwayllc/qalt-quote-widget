@@ -143,7 +143,7 @@ export default function CustomerContactSettingsPage() {
                 {contact.website && <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">{contact.website}</div>}
               </div>
             ) : (
-              <p className="mt-4 text-xs font-semibold leading-5 text-amber-700 dark:text-amber-300">No customer contact is configured yet. Qalt will not expose your login email.</p>
+              <p className="mt-4 text-xs font-semibold leading-5 text-slate-500 dark:text-slate-400">Add a customer-facing contact so customers know who to reach with questions about their quote.</p>
             )}
           </div>
         </aside>
