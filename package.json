@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma migrate deploy && prisma generate && next build",
+    "build": "prisma migrate resolve --rolled-back 20260916001500_phase27_onboarding && prisma migrate deploy && prisma generate && next build",
     "start": "next start",
     "lint": "eslint"
   },
@@ -46,7 +46,6 @@
     "@prisma/client": "^7.7.0",
     "@tailwindcss/postcss": "^4",
     "@types/bcryptjs": "^2.4.6",
-    "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^20",
     "@types/pg": "^8.20.0",
     "@types/react": "^19",
