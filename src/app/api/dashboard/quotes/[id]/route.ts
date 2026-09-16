@@ -3,7 +3,6 @@ import { getCurrentCompany } from "@/lib/session";
 import prisma from "@/lib/prisma";
 import { fireWebhooks } from "@/lib/webhooks";
 import { issueQuoteDocument } from "@/lib/customer-documents";
-import { createPublicDocumentAccess } from "@/lib/customer-document-access";
 import { sendQuoteDocumentEmail } from "@/lib/customer-document-email";
 import { sendPaidInvoiceEmail } from "@/lib/customer-invoice-email";
 import type { CustomerDocument } from "@/generated/prisma/client";
@@ -87,11 +86,7 @@ export async function POST(
         companyId: company.id,
         quoteRequestId: quote.id,
       });
-      const access = await createPublicDocumentAccess({
-        companyId: company.id,
-        documentId: document.id,
-      });
-      return NextResponse.json({ url: `/documents/${access.token}` });
+      return NextResponse.json({ url: `/api/dashboard/documents/${document.id}` });
     }
 
     if (action === "email_quote") {
@@ -117,11 +112,7 @@ export async function POST(
       if (!invoice) {
         return NextResponse.json({ error: "Paid invoice not found" }, { status: 404 });
       }
-      const access = await createPublicDocumentAccess({
-        companyId: company.id,
-        documentId: invoice.id,
-      });
-      return NextResponse.json({ url: `/documents/${access.token}` });
+      return NextResponse.json({ url: `/api/dashboard/documents/${invoice.id}` });
     }
 
     if (action === "email_invoice") {
