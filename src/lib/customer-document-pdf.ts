@@ -342,7 +342,7 @@ function drawShipmentStrip(ctx: Ctx, snap: QuoteSnapshotV1): void {
     ["Vehicles", snap.shipment.vehicleCount !== null && snap.shipment.vehicleCount > 0 ? String(snap.shipment.vehicleCount) : null],
     ["Pickup", snap.shipment.date ? `${formatShipDate(snap.shipment.date)}${snap.shipment.time ? ` • ${snap.shipment.time}` : ""}` : snap.shipment.time],
     ["Add-ons", snap.shipment.addOns.length ? snap.shipment.addOns.join(", ") : null],
-  ].filter((entry): entry is [string, string] => Boolean(entry[1]));
+  ].filter((entry): entry is [string, string] => entry[1] !== null);
 
   if (!values.length) return;
   const cols = Math.min(3, values.length);
