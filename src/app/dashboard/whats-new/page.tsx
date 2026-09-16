@@ -7,54 +7,54 @@ const whatsnewFeatures = [
     name: "Branded Quote & Paid Invoice PDFs",
     category: "Customer Documents",
     icon: <FileText size={32} />,
-    description: "Issue branded quote PDFs, email secure document links, and automatically create a paid invoice record after successful Stripe payment. Customers can view their quote and paid invoice from the booking confirmation, while merchants can manage the documents from Quote Details.",
+    description: "Issue branded Quote PDFs, email secure customer document links, and manage paid invoice records from Quote Details after successful payment.",
     readingTime: 5,
-    learnMoreLink: "/dashboard/quotes",
+    learnMoreLink: "/dashboard/support/articles/customer-documents",
   },
   {
     id: "white-label-email",
     name: "White-Label Email Domain",
     category: "Pro/Enterprise",
     icon: <Mail size={32} />,
-    description: "Send customer confirmation emails from your own domain instead of Qalt's. Configure a custom sender name and verify DNS records to establish brand trust.",
+    description: "Send customer quote emails from your own verified sending domain. Configure a sender name, add the required DNS records, and verify the domain in Qalt.",
     readingTime: 5,
-    learnMoreLink: "/dashboard/support#customer-communication",
+    learnMoreLink: "/dashboard/support/articles/white-label-email",
   },
   {
     id: "kanban-crm",
     name: "Kanban CRM Board",
     category: "All Plans",
     icon: <Trello size={32} />,
-    description: "Organize and manage quote requests in a visual Kanban board. Drag quotes through 6 status columns (PENDING, CONFIRMED, WON, LOST, CANCELLED, PAID) to track progress at a glance.",
+    description: "Organize quote requests in a visual Kanban board and drag them through PENDING, CONFIRMED, WON, LOST, CANCELLED, and PAID statuses.",
     readingTime: 4,
-    learnMoreLink: "/dashboard/support#pricing-quotes",
+    learnMoreLink: "/dashboard/support/articles/kanban-crm",
   },
   {
     id: "geo-fencing",
     name: "Geo-Fencing & Service Areas",
     category: "Pro/Enterprise",
     icon: <MapPin size={32} />,
-    description: "Restrict quote requests to specific service areas by ZIP code. Customers outside your service zone see a message explaining your coverage area.",
+    description: "Define supported ZIP codes and use geo-fencing to stop unsupported customer routes before they move through the normal quote flow.",
     readingTime: 6,
-    learnMoreLink: "/dashboard/support#advanced-features",
+    learnMoreLink: "/dashboard/support/articles/geo-fencing",
   },
   {
     id: "transit-time",
     name: "Transit Time Estimation",
     category: "All Plans",
     icon: <Clock size={32} />,
-    description: "Show customers estimated transit time for their quote. Calculated based on distance and automatically displayed in the quote confirmation.",
+    description: "Show estimated driving time with the quote when route-duration data is available. Qalt displays it beside distance and carries it into booking review.",
     readingTime: 4,
-    learnMoreLink: "/dashboard/support#advanced-features",
+    learnMoreLink: "/dashboard/support/articles/transit-time",
   },
   {
     id: "payments",
     name: "Payment Processing",
-    category: "Pro/Enterprise",
+    category: "Enterprise",
     icon: <CreditCard size={32} />,
-    description: "Accept customer payments directly through Qalt. Customers can pay upfront for quotes, streamlining your quote-to-payment workflow.",
+    description: "Enable Pay & Book for eligible Enterprise widgets so customers can review a quote and continue into hosted checkout.",
     readingTime: 8,
-    learnMoreLink: "/dashboard/support#advanced-features",
+    learnMoreLink: "/dashboard/support/articles/payments",
   },
 ];
 
@@ -66,7 +66,7 @@ export default function WhatsNewPage() {
           What's New in Qalt
         </h1>
         <p className="text-lg text-slate-600 dark:text-slate-400 font-medium max-w-2xl">
-          Discover the latest features to help you manage quote requests and grow your business. Each feature includes a brief description and a link to the complete guide.
+          Discover the latest features to help you manage quote requests and grow your business. Each feature includes a brief description and a link to its complete guide.
         </p>
       </div>
 
