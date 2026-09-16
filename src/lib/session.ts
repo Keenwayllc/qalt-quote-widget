@@ -4,6 +4,22 @@ import { verifyToken } from "./auth";
 import prisma from "./prisma";
 import { redirect } from "next/navigation";
 
+let onboardingSchemaPromise: Promise<void> | null = null;
+
+async function ensureOnboardingSchema() {
+  if (!onboardingSchemaPromise) {
+    onboardingSchemaPromise = (async () => {
+      await prisma.$executeRawUnsafe('ALTER TABLE "Company" ADD COLUMN IF NOT EXISTS "businessType" TEXT');
+      await prisma.$executeRawUnsafe('ALTER TABLE "Company" ADD COLUMN IF NOT EXISTS "onboardingStep" INTEGER NOT NULL DEFAULT 1');
+      await prisma.$executeRawUnsafe('ALTER TABLE "Company" ADD COLUMN IF NOT EXISTS "onboardingCompletedAt" TIMESTAMP(3)');
+    })().catch((error) => {
+      onboardingSchemaPromise = null;
+      throw error;
+    });
+  }
+  await onboardingSchemaPromise;
+}
+
 export const getCurrentCompany = cache(async function getCurrentCompany() {
   const cookieStore = await cookies();
   const token = cookieStore.get("qalt_token")?.value;
@@ -16,6 +32,12 @@ export const getCurrentCompany = cache(async function getCurrentCompany() {
   if (!payload || !payload.companyId) {
     redirect("/login");
   }
+
+  // Some existing production databases were created before the Phase 27
+  // onboarding migration was applied. Prisma selects all Company columns by
+  // default, so a missing onboarding column crashes every authenticated page.
+  // Heal that schema drift once per server instance before reading Company.
+  await ensureOnboardingSchema();
 
   const company = await prisma.company.findUnique({
     where: { id: payload.companyId },
