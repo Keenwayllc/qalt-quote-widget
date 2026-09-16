@@ -54,7 +54,7 @@ function isTypingTarget(target: EventTarget | null) {
   return tag === "input" || tag === "textarea" || tag === "select" || element.isContentEditable;
 }
 
-export default function DashboardTips() {
+export default function DashboardTips({ showCard = false }: { showCard?: boolean }) {
   const router = useRouter();
   const { resolvedTheme, setTheme } = useTheme();
   const [tipIndex, setTipIndex] = useState(0);
@@ -121,21 +121,25 @@ export default function DashboardTips() {
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => currentTip.key === "F" ? setFinderOpen(true) : setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-        className="fixed bottom-4 right-4 z-30 hidden sm:flex max-w-[310px] items-center gap-3 rounded-xl border border-slate-200/80 bg-white/95 px-3.5 py-3 text-left shadow-lg shadow-slate-900/5 backdrop-blur transition hover:border-slate-300 hover:shadow-xl dark:border-white/10 dark:bg-[#171717]/95 dark:shadow-black/30 dark:hover:border-white/20"
-        aria-label={`Tip: Press ${currentTip.key} to ${currentTip.text}`}
-      >
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 dark:bg-white/7 dark:text-zinc-400">
-          <Lightbulb size={15} />
-        </span>
-        <span className="min-w-0 text-xs font-semibold text-slate-500 dark:text-zinc-400">
-          <span className="mr-1 text-slate-400 dark:text-zinc-500">Tip:</span>
-          Press <kbd className="mx-1 inline-flex min-w-6 items-center justify-center rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 font-mono text-[10px] font-black text-slate-700 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-zinc-200">{currentTip.key}</kbd>
-          to {currentTip.text}.
-        </span>
-      </button>
+      {showCard && (
+        <div className="mx-auto w-full max-w-7xl px-4 pt-4 sm:px-6 lg:px-8">
+          <button
+            type="button"
+            onClick={() => currentTip.key === "F" ? setFinderOpen(true) : setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+            className="ml-auto flex max-w-[340px] items-center gap-3 rounded-xl border border-slate-200/80 bg-white px-3.5 py-3 text-left shadow-sm transition hover:border-slate-300 hover:shadow-md dark:border-white/10 dark:bg-[#141414] dark:hover:border-white/20"
+            aria-label={`Tip: Press ${currentTip.key} to ${currentTip.text}`}
+          >
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 dark:bg-white/7 dark:text-zinc-400">
+              <Lightbulb size={15} />
+            </span>
+            <span className="min-w-0 text-xs font-semibold text-slate-500 dark:text-zinc-400">
+              <span className="mr-1 text-slate-400 dark:text-zinc-500">Tip:</span>
+              Press <kbd className="mx-1 inline-flex min-w-6 items-center justify-center rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 font-mono text-[10px] font-black text-slate-700 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-zinc-200">{currentTip.key}</kbd>
+              to {currentTip.text}.
+            </span>
+          </button>
+        </div>
+      )}
 
       {finderOpen && (
         <div className="fixed inset-0 z-[80] flex items-start justify-center bg-slate-950/35 px-4 pt-[12vh] backdrop-blur-sm" onMouseDown={() => setFinderOpen(false)}>
