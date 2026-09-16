@@ -14,6 +14,28 @@ function rpcError(id: unknown, code: number, message: string) {
   return NextResponse.json({ jsonrpc: "2.0", id, error: { code, message } });
 }
 
+function oauthChallenge(request: Request) {
+  const origin = new URL(request.url).origin;
+  return `Bearer resource_metadata="${origin}/.well-known/oauth-protected-resource/api/mcp", scope="quotes:read analytics:read"`;
+}
+
+function oauthUnauthorized(request: Request, id: unknown = null) {
+  return NextResponse.json(
+    {
+      jsonrpc: "2.0",
+      id,
+      error: { code: -32001, message: "OAuth authorization is required for this Qalt MCP connection." },
+    },
+    {
+      status: 401,
+      headers: {
+        "WWW-Authenticate": oauthChallenge(request),
+        "Cache-Control": "no-store",
+      },
+    }
+  );
+}
+
 async function listQuotes(connection: IntegrationConnectionRow, args: Record<string, unknown>) {
   const status = typeof args.status === "string" && args.status.trim() ? args.status.trim().toUpperCase() : null;
   const requestedLimit = typeof args.limit === "number" ? Math.floor(args.limit) : 20;
@@ -120,16 +142,13 @@ async function analyticsSummary(connection: IntegrationConnectionRow) {
 
 export async function GET(request: Request) {
   const connection = await authenticateIntegration(request);
-  if (!connection) {
-    return NextResponse.json(
-      { error: "Unauthorized", message: "Use a valid Qalt integration token in the Authorization: Bearer header." },
-      { status: 401 }
-    );
-  }
+  if (!connection) return oauthUnauthorized(request);
+
   return NextResponse.json({
     name: "Qalt MCP Server",
-    version: "1.0.0",
+    version: "1.1.0",
     mode: "read-only",
+    authentication: "oauth2",
     tools: ["list_quotes", "get_quote", "analytics_summary"],
   });
 }
@@ -141,13 +160,13 @@ export async function POST(request: Request) {
   }
 
   const connection = await authenticateIntegration(request);
-  if (!connection) return rpcError(body.id ?? null, -32001, "Unauthorized Qalt integration connection");
+  if (!connection) return oauthUnauthorized(request, body.id ?? null);
 
   if (body.method === "initialize") {
     return rpcResult(body.id, {
       protocolVersion: "2025-06-18",
       capabilities: { tools: {} },
-      serverInfo: { name: "Qalt", version: "1.0.0" },
+      serverInfo: { name: "Qalt", version: "1.1.0" },
       instructions: "Qalt provides merchant-scoped, read-only quote and analytics tools. The connection only sees data for the authorized Qalt merchant.",
     });
   }
