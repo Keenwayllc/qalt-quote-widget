@@ -13,14 +13,18 @@
 }
 
 /* Uploaded logos are artwork, not cards. Never add a glass/background treatment
-   behind them. A transparent PNG (or an SVG safely converted to PNG) should sit
-   directly over the merchant's header image/color. */
+   behind them. This applies globally to both Light Form and Dark Form. */
+.shell :global(img.object-contain.object-left),
 .shell :global(img[class~="bg-white/10"]) {
   background: transparent !important;
+  background-color: transparent !important;
   padding: 0 !important;
+  border: 0 !important;
   border-radius: 0 !important;
+  box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  filter: none !important;
   object-fit: contain !important;
   object-position: left center !important;
 }
