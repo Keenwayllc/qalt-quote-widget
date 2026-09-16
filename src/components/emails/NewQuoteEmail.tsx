@@ -21,96 +21,98 @@ export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
   estimatedPrice,
   serviceType,
 }) => (
-  <div style={{ fontFamily: 'system-ui, -apple-system, sans-serif', maxWidth: '600px', margin: '0 auto', backgroundColor: '#f8fafc' }}>
-
-    {/* Header — table layout for email client compatibility */}
-    <div style={{ backgroundColor: '#1e3a5f', borderRadius: '12px 12px 0 0', padding: '48px 32px', textAlign: 'center' }}>
-      <img
-        src="https://qalt.site/images/qalt-logo-main-2026.png"
-        alt="Qalt"
-        height="44"
-        style={{ display: 'block', margin: '0 auto 16px', borderRadius: '8px', padding: '6px 16px', backgroundColor: '#ffffff' }}
-      />
-      <p style={{ margin: '0', color: '#93c5fd', fontSize: '13px', fontWeight: '800', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-        Your rates. Embedded. Anywhere.
-      </p>
-    </div>
-
-    {/* Body */}
-    <div style={{ padding: '28px 32px 20px' }}>
-      <h1 style={{ color: '#0f172a', fontSize: '22px', fontWeight: '700', margin: '0 0 6px' }}>
-        New Quote Request
-      </h1>
-      <p style={{ color: '#64748b', fontSize: '14px', margin: '0 0 24px' }}>
-        A customer submitted a quote through your widget.
-      </p>
-
-      {/* Price */}
-      <div style={{ backgroundColor: '#1e3a5f', borderRadius: '10px', padding: '20px 24px', marginBottom: '20px', textAlign: 'center' }}>
-        <p style={{ margin: '0 0 2px', fontSize: '11px', color: '#93c5fd', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: '700' }}>
-          Estimated Price
-        </p>
-        <p style={{ margin: '0', fontSize: '42px', fontWeight: '800', color: '#ffffff', lineHeight: '1.1' }}>
-          ${estimatedPrice.toFixed(2)}
-        </p>
-        <p style={{ margin: '6px 0 0', fontSize: '13px', color: '#93c5fd' }}>
-          {serviceType} &nbsp;·&nbsp; {distanceMiles.toFixed(1)} miles
+  <div style={{ fontFamily: 'Arial, Helvetica, sans-serif', maxWidth: '640px', margin: '0 auto', backgroundColor: '#f7f7f5', padding: '24px 12px' }}>
+    <div style={{ backgroundColor: '#ffffff', border: '1px solid #e7e7e4', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 10px 30px rgba(20,20,20,0.04)' }}>
+      {/* Header */}
+      <div style={{ padding: '30px 32px 24px', textAlign: 'center', backgroundColor: '#ffffff', borderBottom: '1px solid #eeeeeb' }}>
+        <img
+          src="https://qalt.site/images/qalt-logo-main-2026.png"
+          alt="Qalt"
+          height="40"
+          style={{ display: 'block', margin: '0 auto 14px', maxWidth: '160px', objectFit: 'contain' }}
+        />
+        <p style={{ margin: '0', color: '#8b8f97', fontSize: '11px', fontWeight: '700', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+          New quote notification
         </p>
       </div>
 
-      {/* Customer */}
-      <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', marginBottom: '12px', overflow: 'hidden' }}>
-        <div style={{ padding: '10px 20px', backgroundColor: '#f1f5f9', borderBottom: '1px solid #e2e8f0' }}>
-          <p style={{ margin: '0', fontSize: '10px', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.12em' }}>Customer</p>
+      {/* Body */}
+      <div style={{ padding: '30px 32px 24px', backgroundColor: '#fcfcfb' }}>
+        <h1 style={{ color: '#171717', fontSize: '24px', fontWeight: '700', margin: '0 0 8px', letterSpacing: '-0.02em' }}>
+          New Quote Request
+        </h1>
+        <p style={{ color: '#6f737b', fontSize: '14px', lineHeight: '1.6', margin: '0 0 24px' }}>
+          A customer submitted a new delivery quote through your Qalt form.
+        </p>
+
+        {/* Price */}
+        <div style={{ backgroundColor: '#ffffff', border: '1px solid #e6e6e2', borderRadius: '14px', padding: '24px', marginBottom: '16px', textAlign: 'center' }}>
+          <p style={{ margin: '0 0 8px', fontSize: '10px', color: '#9a9da3', textTransform: 'uppercase', letterSpacing: '0.16em', fontWeight: '700' }}>
+            Estimated Price
+          </p>
+          <p style={{ margin: '0', fontSize: '40px', fontWeight: '800', color: '#171717', lineHeight: '1.05', letterSpacing: '-0.03em' }}>
+            ${estimatedPrice.toFixed(2)}
+          </p>
+          <p style={{ margin: '10px 0 0', fontSize: '13px', color: '#73777f' }}>
+            {serviceType} &nbsp;·&nbsp; {distanceMiles.toFixed(1)} miles
+          </p>
+          <div style={{ width: '36px', height: '3px', borderRadius: '999px', backgroundColor: '#df1731', margin: '18px auto 0' }} />
         </div>
-        <div style={{ padding: '16px 20px' }}>
-          <p style={{ margin: '0 0 4px', fontSize: '16px', fontWeight: '700', color: '#0f172a' }}>{customerName}</p>
-          <p style={{ margin: '0 0 2px', fontSize: '14px', color: '#475569' }}>{customerEmail}</p>
-          {customerPhone && <p style={{ margin: '0', fontSize: '14px', color: '#475569' }}>{customerPhone}</p>}
+
+        {/* Customer */}
+        <div style={{ backgroundColor: '#ffffff', border: '1px solid #e6e6e2', borderRadius: '14px', marginBottom: '12px', overflow: 'hidden' }}>
+          <div style={{ padding: '12px 20px', backgroundColor: '#fafaf8', borderBottom: '1px solid #ecece8' }}>
+            <p style={{ margin: '0', fontSize: '10px', fontWeight: '700', color: '#9a9da3', textTransform: 'uppercase', letterSpacing: '0.14em' }}>Customer</p>
+          </div>
+          <div style={{ padding: '18px 20px' }}>
+            <p style={{ margin: '0 0 6px', fontSize: '16px', fontWeight: '700', color: '#1f1f1f' }}>{customerName}</p>
+            <p style={{ margin: '0 0 3px', fontSize: '14px', color: '#5f636b' }}>{customerEmail}</p>
+            {customerPhone && <p style={{ margin: '0', fontSize: '14px', color: '#5f636b' }}>{customerPhone}</p>}
+          </div>
+        </div>
+
+        {/* Route */}
+        <div style={{ backgroundColor: '#ffffff', border: '1px solid #e6e6e2', borderRadius: '14px', overflow: 'hidden' }}>
+          <div style={{ padding: '12px 20px', backgroundColor: '#fafaf8', borderBottom: '1px solid #ecece8' }}>
+            <p style={{ margin: '0', fontSize: '10px', fontWeight: '700', color: '#9a9da3', textTransform: 'uppercase', letterSpacing: '0.14em' }}>Route</p>
+          </div>
+          <div style={{ padding: '18px 20px' }}>
+            <table cellPadding="0" cellSpacing="0" border={0}>
+              <tbody>
+                <tr>
+                  <td style={{ paddingRight: '10px', verticalAlign: 'middle' }}>
+                    <div style={{ width: '9px', height: '9px', borderRadius: '50%', backgroundColor: '#b9bdc4' }} />
+                  </td>
+                  <td style={{ fontSize: '14px', color: '#1f1f1f', paddingBottom: '7px' }}>
+                    <strong>From:</strong> <span style={{ color: '#5f636b' }}>{pickupZip}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ paddingRight: '10px' }}>
+                    <div style={{ width: '1px', height: '14px', backgroundColor: '#e0e1e3', margin: '0 auto' }} />
+                  </td>
+                  <td />
+                </tr>
+                <tr>
+                  <td style={{ paddingRight: '10px', verticalAlign: 'middle' }}>
+                    <div style={{ width: '9px', height: '9px', borderRadius: '50%', backgroundColor: '#df1731' }} />
+                  </td>
+                  <td style={{ fontSize: '14px', color: '#1f1f1f', paddingTop: '7px' }}>
+                    <strong>To:</strong> <span style={{ color: '#5f636b' }}>{dropoffZip}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
-      {/* Route */}
-      <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', overflow: 'hidden' }}>
-        <div style={{ padding: '10px 20px', backgroundColor: '#f1f5f9', borderBottom: '1px solid #e2e8f0' }}>
-          <p style={{ margin: '0', fontSize: '10px', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.12em' }}>Route</p>
-        </div>
-        <div style={{ padding: '16px 20px' }}>
-          <table cellPadding="0" cellSpacing="0" border={0}>
-            <tbody>
-              <tr>
-                <td style={{ paddingRight: '10px', verticalAlign: 'middle' }}>
-                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#22c55e' }} />
-                </td>
-                <td style={{ fontSize: '14px', color: '#0f172a', paddingBottom: '6px' }}>
-                  <strong>From:</strong> <span style={{ color: '#475569' }}>{pickupZip}</span>
-                </td>
-              </tr>
-              <tr>
-                <td style={{ paddingRight: '10px' }}>
-                  <div style={{ width: '2px', height: '14px', backgroundColor: '#e2e8f0', margin: '0 auto' }} />
-                </td>
-                <td />
-              </tr>
-              <tr>
-                <td style={{ paddingRight: '10px', verticalAlign: 'middle' }}>
-                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ef4444' }} />
-                </td>
-                <td style={{ fontSize: '14px', color: '#0f172a', paddingTop: '6px' }}>
-                  <strong>To:</strong> <span style={{ color: '#475569' }}>{dropoffZip}</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      {/* Footer */}
+      <div style={{ padding: '18px 32px', borderTop: '1px solid #eeeeeb', textAlign: 'center', backgroundColor: '#ffffff' }}>
+        <p style={{ margin: '0', fontSize: '11px', color: '#a0a3a9' }}>
+          Sent via Qalt &nbsp;·&nbsp; Real-time Delivery Quotes &nbsp;·&nbsp; qalt.site
+        </p>
       </div>
-    </div>
-
-    {/* Footer */}
-    <div style={{ padding: '16px 32px', borderTop: '1px solid #e2e8f0', textAlign: 'center' }}>
-      <p style={{ margin: '0', fontSize: '12px', color: '#94a3b8' }}>
-        Sent via Qalt &nbsp;·&nbsp; Real-time Delivery Quotes &nbsp;·&nbsp; qalt.site
-      </p>
     </div>
   </div>
 );
