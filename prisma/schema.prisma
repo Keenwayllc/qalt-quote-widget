@@ -39,6 +39,9 @@ model Company {
   resendDomainId        String?
   emailDomainVerified   Boolean          @default(false)
   emailDomainDnsRecords Json?
+  customWidgetDomain    String?          @unique
+  customWidgetDomainVerified Boolean     @default(false)
+  customWidgetDomainVerification Json?
   isAdmin              Boolean          @default(false)
   // God Mode / Qalt Data Operations. Separate from isAdmin so normal platform
   // admins do NOT get super-admin powers (e.g. self plan override).
