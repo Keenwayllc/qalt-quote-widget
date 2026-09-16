@@ -75,21 +75,18 @@ function ImageUploader({
     <div>
       <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">{label}</label>
       <div className="flex items-start gap-5">
-        {/* Preview */}
         <div
           className={`shrink-0 bg-slate-100 dark:bg-white/5 border-2 border-slate-200 dark:border-white/[0.06] overflow-hidden flex items-center justify-center ${
             shape === "circle" ? "w-20 h-20 rounded-full" : "w-20 h-20 rounded-none"
           }`}
         >
           {value ? (
-            // eslint-disable-next-line @next/next/no-img-element
             <img src={value} alt={label} className="w-full h-full object-cover" />
           ) : (
             <Camera size={22} className="text-slate-400 dark:text-slate-500" />
           )}
         </div>
 
-        {/* Drop zone */}
         <div
           onDragOver={(e) => e.preventDefault()}
           onDrop={handleDrop}
@@ -233,8 +230,6 @@ export default function SettingsPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-
-        {/* ── Profile Images ──────────────────────────────── */}
         <section className="bg-white dark:bg-[#1e1e1e] rounded-none border border-slate-200 dark:border-white/[0.06] shadow-sm dark:shadow-none p-6 space-y-6">
           <h2 className="text-sm font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Profile Images</h2>
 
@@ -255,7 +250,6 @@ export default function SettingsPage() {
           />
         </section>
 
-        {/* ── Company Info ────────────────────────────────── */}
         <section className="bg-white dark:bg-[#1e1e1e] rounded-none border border-slate-200 dark:border-white/[0.06] shadow-sm dark:shadow-none p-6 space-y-5">
           <h2 className="text-sm font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Company Information</h2>
 
@@ -263,18 +257,16 @@ export default function SettingsPage() {
             <Field label="Company Name" icon={Building2} value={data.name} onChange={set("name")} placeholder="Acme Delivery Co." />
             <Field label="Phone Number" icon={Phone} value={data.phone} onChange={set("phone")} placeholder="+1 (555) 000-0000" type="tel" />
             <Field label="Website" icon={Globe} value={data.website} onChange={set("website")} placeholder="https://yoursite.com" />
-            <Field label="Notification Email" icon={Mail} value={data.email} onChange={set("email")} type="email"
-              hint="Quote requests are sent here." />
+            <Field label="Internal Notification Email" icon={Mail} value={data.email} onChange={set("email")} type="email"
+              hint="Qalt sends new quote requests and account notifications here. Customers will not see this email." />
           </div>
         </section>
 
-        {/* ── Contact Person ──────────────────────────────── */}
         <section className="bg-white dark:bg-[#1e1e1e] rounded-none border border-slate-200 dark:border-white/[0.06] shadow-sm dark:shadow-none p-6 space-y-5">
           <h2 className="text-sm font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Primary Contact</h2>
           <Field label="Contact Name" icon={User} value={data.contactName} onChange={set("contactName")} placeholder="Jane Smith" />
         </section>
 
-        {/* ── Business Address ────────────────────────────── */}
         <section className="bg-white dark:bg-[#1e1e1e] rounded-none border border-slate-200 dark:border-white/[0.06] shadow-sm dark:shadow-none p-6 space-y-5">
           <h2 className="text-sm font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Business Address</h2>
 
@@ -288,7 +280,6 @@ export default function SettingsPage() {
           </div>
         </section>
 
-        {/* ── Status / Save ───────────────────────────────── */}
         {status === "error" && (
           <div className="flex items-center gap-2 text-sm text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-500/10 border border-rose-100 dark:border-rose-500/30 rounded-none px-4 py-3">
             <AlertCircle size={15} /> {errorMsg}
@@ -310,12 +301,10 @@ export default function SettingsPage() {
         </button>
       </form>
 
-      {/* ── Custom Email Domain ─────────────────────────── */}
       <div className="mt-6">
         <EmailDomainSection />
       </div>
 
-      {/* ── Super-Admin Plan Override (God Mode) ─────────── */}
       {data.isSuperAdmin && (
         <div className="mt-6 bg-slate-50 dark:bg-[#1e1e1e] rounded-none border border-red-200 dark:border-red-500/30 shadow-sm dark:shadow-none p-6 relative overflow-hidden">
           <div className="absolute top-0 right-0 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-none uppercase tracking-wider">
@@ -348,7 +337,6 @@ export default function SettingsPage() {
         </div>
       )}
 
-      {/* ── Test Email ──────────────────────────────────── */}
       <div className="mt-6 bg-white dark:bg-[#1e1e1e] rounded-none border border-slate-200 dark:border-white/[0.06] shadow-sm dark:shadow-none p-6">
         <h2 className="text-base font-bold text-slate-900 dark:text-white mb-1">Test Email Notifications</h2>
         <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Send a test email to verify notifications are working.</p>
