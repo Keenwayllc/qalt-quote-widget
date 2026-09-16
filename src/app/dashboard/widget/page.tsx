@@ -3,6 +3,7 @@ import { getCurrentCompany } from "@/lib/session";
 import WidgetForm from "@/components/dashboard/WidgetForm";
 import BrandColorPresets from "@/components/dashboard/BrandColorPresets";
 import WidgetThemeSelector from "@/components/dashboard/WidgetThemeSelector";
+import LogoUploadPolicy from "@/components/dashboard/LogoUploadPolicy";
 import { getWidgetTheme } from "@/lib/widget-theme";
 import "./widget-preview-theme.css";
 
@@ -33,6 +34,7 @@ export default async function WidgetSettingsPage({
       data-widget-preview-theme={themeMode}
       style={previewStyle}
     >
+      <LogoUploadPolicy />
       {widgetSettings && (
         <WidgetThemeSelector formId={widgetSettings.id} initialTheme={themeMode} />
       )}
