@@ -1,0 +1,3 @@
+ALTER TABLE "WidgetSettings"
+  ADD COLUMN IF NOT EXISTS "logoDarkUrl" TEXT,
+  ADD COLUMN IF NOT EXISTS "autoContrastLogo" BOOLEAN NOT NULL DEFAULT false;
