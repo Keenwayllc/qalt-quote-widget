@@ -1,7 +1,7 @@
-import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
+import { PDFDocument, StandardFonts, rgb, type PDFImage, type PDFFont, type PDFPage } from "pdf-lib";
 import { sanitizeHex, DEFAULT_BRAND } from "@/lib/color";
+import { getCustomerFacingContact, type CustomerFacingContact } from "@/lib/customer-contact";
 import type { CustomerDocument } from "@/generated/prisma/client";
-import type { QuoteSnapshotLineItem } from "@/lib/customer-document-snapshots";
 import type { InvoiceSnapshotV1 } from "@/lib/customer-invoice-documents";
 
 if (typeof window !== "undefined") {
@@ -10,23 +10,26 @@ if (typeof window !== "undefined") {
 
 const PAGE_W = 612;
 const PAGE_H = 792;
-const MARGIN = 54;
+const MARGIN = 50;
 const CONTENT_W = PAGE_W - MARGIN * 2;
-const BOTTOM_LIMIT = 78;
-const INK = rgb(0.07, 0.086, 0.145);
-const MUTED = rgb(0.42, 0.45, 0.5);
-const RULE = rgb(0.85, 0.87, 0.9);
-const PAID = rgb(0.02, 0.48, 0.35);
+const BOTTOM = 58;
+const INK = rgb(0.08, 0.08, 0.09);
+const BODY = rgb(0.18, 0.19, 0.21);
+const MUTED = rgb(0.43, 0.45, 0.49);
+const LIGHT = rgb(0.90, 0.91, 0.93);
+const SOFT = rgb(0.975, 0.977, 0.98);
+const GREEN = rgb(0.02, 0.46, 0.29);
+const WHITE = rgb(1, 1, 1);
 const usd = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
 
-function winAnsi(text: string): string {
+function safeText(text: string): string {
   const normalized = String(text ?? "")
     .replace(/[‘’‚′]/g, "'")
     .replace(/[“”„″]/g, '"')
     .replace(/[–—]/g, "-")
     .replace(/…/g, "...");
   let out = "";
-  for (let i = 0; i < normalized.length; i++) {
+  for (let i = 0; i < normalized.length; i += 1) {
     const code = normalized.charCodeAt(i);
     out += (code >= 0x20 && code <= 0x7e) || (code >= 0xa0 && code <= 0xff) ? normalized[i] : " ";
   }
@@ -35,13 +38,26 @@ function winAnsi(text: string): string {
 
 function color(hex: string) {
   const h = sanitizeHex(hex) ?? DEFAULT_BRAND;
-  return rgb(parseInt(h.slice(1, 3), 16) / 255, parseInt(h.slice(3, 5), 16) / 255, parseInt(h.slice(5, 7), 16) / 255);
+  return rgb(
+    parseInt(h.slice(1, 3), 16) / 255,
+    parseInt(h.slice(3, 5), 16) / 255,
+    parseInt(h.slice(5, 7), 16) / 255
+  );
 }
 
-function formatDate(iso: string): string {
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return iso;
-  return new Intl.DateTimeFormat("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" }).format(d);
+function money(value: number): string {
+  return usd.format(Number.isFinite(value) ? value : 0);
+}
+
+function formatDate(value: string): string {
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return value;
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(d);
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -72,21 +88,45 @@ function parseInvoiceSnapshot(raw: unknown): InvoiceSnapshotV1 {
 }
 
 function wrap(text: string, font: PDFFont, size: number, maxWidth: number): string[] {
-  const words = winAnsi(text).split(/\s+/).filter(Boolean);
+  const words = safeText(text).split(/\s+/).filter(Boolean);
   if (!words.length) return [""];
   const lines: string[] = [];
   let line = "";
   for (const word of words) {
-    const next = line ? `${line} ${word}` : word;
-    if (font.widthOfTextAtSize(next, size) <= maxWidth) {
-      line = next;
-      continue;
+    const candidate = line ? `${line} ${word}` : word;
+    if (font.widthOfTextAtSize(candidate, size) <= maxWidth) line = candidate;
+    else {
+      if (line) lines.push(line);
+      line = word;
     }
-    if (line) lines.push(line);
-    line = word;
   }
   if (line) lines.push(line);
   return lines;
+}
+
+function centerText(page: PDFPage, text: string, y: number, font: PDFFont, size: number, textColor = BODY) {
+  const safe = safeText(text);
+  const width = font.widthOfTextAtSize(safe, size);
+  page.drawText(safe, { x: (PAGE_W - width) / 2, y, size, font, color: textColor });
+}
+
+async function embedLogo(doc: PDFDocument, url: string | null): Promise<PDFImage | null> {
+  if (!url) return null;
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== "https:") return null;
+    const response = await fetch(parsed.toString(), { cache: "force-cache" });
+    if (!response.ok) return null;
+    const bytes = new Uint8Array(await response.arrayBuffer());
+    if (!bytes.length || bytes.length > 2_500_000) return null;
+    const png = bytes.length >= 4 && bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47;
+    const jpg = bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
+    if (png) return doc.embedPng(bytes);
+    if (jpg) return doc.embedJpg(bytes);
+  } catch {
+    return null;
+  }
+  return null;
 }
 
 type Ctx = {
@@ -96,68 +136,167 @@ type Ctx = {
   bold: PDFFont;
   accent: ReturnType<typeof rgb>;
   y: number;
-  pageIndex: number;
+  pageNo: number;
   number: string;
 };
 
 function footer(ctx: Ctx) {
-  ctx.page.drawText(winAnsi(ctx.number || "Invoice"), { x: MARGIN, y: 34, size: 8, font: ctx.font, color: MUTED });
-  const label = `Page ${ctx.pageIndex}`;
-  const width = ctx.font.widthOfTextAtSize(label, 8);
-  ctx.page.drawText(label, { x: PAGE_W - MARGIN - width, y: 34, size: 8, font: ctx.font, color: MUTED });
+  ctx.page.drawLine({ start: { x: MARGIN, y: 45 }, end: { x: PAGE_W - MARGIN, y: 45 }, thickness: 0.6, color: LIGHT });
+  ctx.page.drawText(safeText(`Generated securely with Qalt  |  ${ctx.number}`), { x: MARGIN, y: 29, size: 7.5, font: ctx.font, color: MUTED });
+  const p = `Page ${ctx.pageNo}`;
+  const pw = ctx.font.widthOfTextAtSize(p, 7.5);
+  ctx.page.drawText(p, { x: PAGE_W - MARGIN - pw, y: 29, size: 7.5, font: ctx.font, color: MUTED });
 }
 
 function addPage(ctx: Ctx) {
   ctx.page = ctx.doc.addPage([PAGE_W, PAGE_H]);
-  ctx.pageIndex += 1;
-  ctx.y = PAGE_H - MARGIN;
+  ctx.pageNo += 1;
+  ctx.y = PAGE_H - 64;
   footer(ctx);
+  ctx.page.drawText("PAID INVOICE CONTINUED", { x: MARGIN, y: ctx.y, size: 9, font: ctx.bold, color: MUTED });
+  ctx.y -= 28;
 }
 
-function ensure(ctx: Ctx, needed: number) {
-  if (ctx.y - needed < BOTTOM_LIMIT) addPage(ctx);
+function ensure(ctx: Ctx, height: number) {
+  if (ctx.y - height < BOTTOM) addPage(ctx);
 }
 
-function section(ctx: Ctx, title: string) {
-  ctx.y -= 12;
-  ensure(ctx, 28);
-  ctx.page.drawText(winAnsi(title), { x: MARGIN, y: ctx.y - 12, size: 12, font: ctx.bold, color: ctx.accent });
-  ctx.y -= 18;
-  ctx.page.drawRectangle({ x: MARGIN, y: ctx.y + 4, width: CONTENT_W, height: 0.8, color: RULE });
-  ctx.y -= 8;
-}
-
-function field(ctx: Ctx, label: string, value: string | number | null) {
-  if (value === null || value === "") return;
-  const text = typeof value === "number" ? String(value) : value;
-  const lines = wrap(text, ctx.font, 10.5, CONTENT_W - 100);
-  ensure(ctx, lines.length * 15 + 4);
-  ctx.page.drawText(label.toUpperCase(), { x: MARGIN, y: ctx.y - 10.5, size: 8.5, font: ctx.bold, color: MUTED });
-  for (const line of lines) {
-    ctx.page.drawText(line, { x: MARGIN + 100, y: ctx.y - 10.5, size: 10.5, font: ctx.font, color: INK });
-    ctx.y -= 14.5;
+function drawHeader(ctx: Ctx, snap: InvoiceSnapshotV1, logo: PDFImage | null) {
+  let y = PAGE_H - 72;
+  if (logo) {
+    const maxW = 150;
+    const maxH = 48;
+    const scale = Math.min(maxW / logo.width, maxH / logo.height, 1);
+    const w = logo.width * scale;
+    const h = logo.height * scale;
+    ctx.page.drawImage(logo, { x: (PAGE_W - w) / 2, y: y - h + 10, width: w, height: h });
+    y -= h + 14;
+  } else {
+    centerText(ctx.page, snap.merchant.name || "Paid Invoice", y - 4, ctx.bold, 22, INK);
+    y -= 32;
   }
-  ctx.y -= 3;
+
+  ctx.page.drawLine({ start: { x: MARGIN, y }, end: { x: PAGE_W - MARGIN, y }, thickness: 2.2, color: ctx.accent });
+  y -= 27;
+  centerText(ctx.page, "PAID INVOICE", y, ctx.bold, 12, INK);
+  y -= 18;
+  centerText(ctx.page, `${snap.document.number}  |  Paid ${formatDate(snap.document.paidAt)}`, y, ctx.font, 9.5, MUTED);
+  y -= 27;
+  centerText(ctx.page, `Thank you for choosing ${snap.merchant.name || "us"}.`, y, ctx.font, 10.5, BODY);
+  y -= 28;
+  ctx.page.drawLine({ start: { x: MARGIN, y }, end: { x: PAGE_W - MARGIN, y }, thickness: 0.8, color: LIGHT });
+  ctx.y = y - 25;
 }
 
-function priceRow(ctx: Ctx, item: QuoteSnapshotLineItem) {
-  const amount = usd.format(Number.isFinite(item.amount) ? item.amount : 0);
-  const amountW = ctx.font.widthOfTextAtSize(amount, 10.5);
-  const lines = wrap(item.description, ctx.font, 10.5, CONTENT_W - 100);
-  const details = item.detail ? wrap(item.detail, ctx.font, 9, CONTENT_W - 100) : [];
-  ensure(ctx, lines.length * 14 + details.length * 11 + 10);
-  const top = ctx.y - 10.5;
-  for (const line of lines) {
-    ctx.page.drawText(line, { x: MARGIN, y: ctx.y - 10.5, size: 10.5, font: ctx.font, color: INK });
-    ctx.y -= 14.5;
+function drawRoute(ctx: Ctx, snap: InvoiceSnapshotV1) {
+  ensure(ctx, 108);
+  ctx.page.drawText("DELIVERY", { x: MARGIN, y: ctx.y, size: 8, font: ctx.bold, color: MUTED });
+  ctx.y -= 24;
+  const xDot = MARGIN + 9;
+  const xText = MARGIN + 31;
+  const pickupY = ctx.y;
+  const pickup = wrap(snap.route.pickupAddress || "Pickup location", ctx.font, 10.5, CONTENT_W - 45).slice(0, 2);
+  ctx.page.drawCircle({ x: xDot, y: pickupY + 2, size: 6, borderColor: INK, borderWidth: 1.2, color: WHITE });
+  pickup.forEach((line, i) => ctx.page.drawText(line, { x: xText, y: pickupY - i * 13, size: 10.5, font: ctx.font, color: INK }));
+  const dropY = pickupY - 47;
+  ctx.page.drawLine({ start: { x: xDot, y: pickupY - 4 }, end: { x: xDot, y: dropY + 7 }, thickness: 1.1, color: INK });
+  ctx.page.drawCircle({ x: xDot, y: dropY + 2, size: 6, color: INK });
+  const drop = wrap(snap.route.dropoffAddress || "Drop-off location", ctx.font, 10.5, CONTENT_W - 45).slice(0, 2);
+  drop.forEach((line, i) => ctx.page.drawText(line, { x: xText, y: dropY - i * 13, size: 10.5, font: ctx.font, color: INK }));
+  if (snap.route.distanceMiles !== null) {
+    const dist = `${snap.route.distanceMiles.toFixed(1)} miles`;
+    const dw = ctx.font.widthOfTextAtSize(dist, 9);
+    ctx.page.drawText(dist, { x: PAGE_W - MARGIN - dw, y: dropY - 2, size: 9, font: ctx.font, color: MUTED });
   }
-  for (const detail of details) {
-    ctx.page.drawText(detail, { x: MARGIN, y: ctx.y - 9, size: 9, font: ctx.font, color: MUTED });
-    ctx.y -= 11;
+  ctx.y = dropY - Math.max(28, drop.length * 13 + 13);
+  ctx.page.drawLine({ start: { x: MARGIN, y: ctx.y }, end: { x: PAGE_W - MARGIN, y: ctx.y }, thickness: 0.7, color: LIGHT });
+  ctx.y -= 22;
+}
+
+function drawMeta(ctx: Ctx, snap: InvoiceSnapshotV1) {
+  const rows: Array<[string, string | null]> = [
+    ["Customer", snap.customer.name || snap.customer.email],
+    ["Service", snap.shipment.serviceType],
+    ["Items", snap.shipment.itemCount !== null ? String(snap.shipment.itemCount) : null],
+    ["Weight", snap.shipment.weight ? `${snap.shipment.weight} lb` : null],
+    ["Vehicles", snap.shipment.vehicleCount !== null && snap.shipment.vehicleCount > 0 ? String(snap.shipment.vehicleCount) : null],
+    ["Add-ons", snap.shipment.addOns.length ? snap.shipment.addOns.join(", ") : null],
+  ].filter((row): row is [string, string] => !!row[1]);
+
+  if (!rows.length) return;
+  ensure(ctx, rows.length * 19 + 28);
+  ctx.page.drawText("SUMMARY", { x: MARGIN, y: ctx.y, size: 8, font: ctx.bold, color: MUTED });
+  ctx.y -= 21;
+  for (const [label, value] of rows) {
+    ctx.page.drawText(label, { x: MARGIN, y: ctx.y, size: 9.5, font: ctx.font, color: MUTED });
+    const val = wrap(value, ctx.font, 9.5, 300)[0] || "";
+    const vw = ctx.font.widthOfTextAtSize(val, 9.5);
+    ctx.page.drawText(val, { x: PAGE_W - MARGIN - vw, y: ctx.y, size: 9.5, font: ctx.font, color: BODY });
+    ctx.y -= 19;
   }
-  ctx.page.drawText(amount, { x: PAGE_W - MARGIN - amountW, y: top, size: 10.5, font: ctx.font, color: INK });
-  ctx.y -= 4;
-  ctx.page.drawRectangle({ x: MARGIN, y: ctx.y + 2, width: CONTENT_W, height: 0.4, color: RULE });
+  ctx.y -= 2;
+  ctx.page.drawLine({ start: { x: MARGIN, y: ctx.y }, end: { x: PAGE_W - MARGIN, y: ctx.y }, thickness: 0.7, color: LIGHT });
+  ctx.y -= 22;
+}
+
+function drawCharges(ctx: Ctx, snap: InvoiceSnapshotV1) {
+  ctx.page.drawText("PAYMENT SUMMARY", { x: MARGIN, y: ctx.y, size: 8, font: ctx.bold, color: MUTED });
+  ctx.y -= 23;
+  const items = snap.pricing.lineItems.length
+    ? snap.pricing.lineItems
+    : [{ description: "Delivery service", detail: null, amount: snap.pricing.total }];
+
+  for (const item of items) {
+    const descLines = wrap(item.description, ctx.font, 10, CONTENT_W - 110).slice(0, 2);
+    const detailLines = item.detail ? wrap(item.detail, ctx.font, 8.3, CONTENT_W - 110).slice(0, 1) : [];
+    const rowH = Math.max(26, descLines.length * 13 + detailLines.length * 11 + 7);
+    ensure(ctx, rowH + 2);
+    const top = ctx.y;
+    descLines.forEach((line, i) => ctx.page.drawText(line, { x: MARGIN + 2, y: top - i * 13, size: 10, font: ctx.font, color: BODY }));
+    detailLines.forEach((line) => ctx.page.drawText(line, { x: MARGIN + 2, y: top - descLines.length * 13, size: 8.3, font: ctx.font, color: MUTED }));
+    const amount = money(item.amount);
+    const aw = ctx.font.widthOfTextAtSize(amount, 10);
+    ctx.page.drawText(amount, { x: PAGE_W - MARGIN - aw, y: top, size: 10, font: ctx.font, color: BODY });
+    ctx.y -= rowH;
+  }
+
+  ctx.page.drawLine({ start: { x: MARGIN, y: ctx.y + 4 }, end: { x: PAGE_W - MARGIN, y: ctx.y + 4 }, thickness: 1, color: INK });
+  ctx.y -= 15;
+  ensure(ctx, 44);
+  ctx.page.drawText("TOTAL PAID", { x: MARGIN + 2, y: ctx.y, size: 13, font: ctx.bold, color: INK });
+  const total = money(snap.pricing.total);
+  const tw = ctx.bold.widthOfTextAtSize(total, 16);
+  ctx.page.drawText(total, { x: PAGE_W - MARGIN - tw, y: ctx.y - 1, size: 16, font: ctx.bold, color: INK });
+  ctx.y -= 31;
+  ctx.page.drawLine({ start: { x: MARGIN, y: ctx.y }, end: { x: PAGE_W - MARGIN, y: ctx.y }, thickness: 0.7, color: LIGHT });
+  ctx.y -= 20;
+}
+
+function drawPaidConfirmation(ctx: Ctx, snap: InvoiceSnapshotV1, contact?: CustomerFacingContact | null) {
+  const note = `Payment received on ${formatDate(snap.document.paidAt)}. This paid invoice reflects the delivery and pricing details recorded for this transaction.`;
+  const noteLines = wrap(note, ctx.font, 8.4, CONTENT_W - 24);
+  const contactBits = contact ? [contact.department, contact.email, contact.phone, contact.hours].filter(Boolean) as string[] : [];
+  const contactLines = contactBits.length ? wrap(contactBits.join("  |  "), ctx.font, 8.2, CONTENT_W - 24) : [];
+  const h = 34 + noteLines.length * 10 + (contactLines.length ? 24 + contactLines.length * 10 : 0);
+  ensure(ctx, h + 8);
+  ctx.page.drawRectangle({ x: MARGIN, y: ctx.y - h, width: CONTENT_W, height: h, color: SOFT, borderColor: LIGHT, borderWidth: 0.7 });
+  let y = ctx.y - 16;
+  ctx.page.drawText("PAID", { x: MARGIN + 12, y, size: 8, font: ctx.bold, color: GREEN });
+  y -= 15;
+  for (const line of noteLines) {
+    ctx.page.drawText(line, { x: MARGIN + 12, y, size: 8.4, font: ctx.font, color: MUTED });
+    y -= 10;
+  }
+  if (contactLines.length) {
+    y -= 7;
+    ctx.page.drawText("QUESTIONS?", { x: MARGIN + 12, y, size: 7, font: ctx.bold, color: MUTED });
+    y -= 14;
+    for (const line of contactLines) {
+      ctx.page.drawText(line, { x: MARGIN + 12, y, size: 8.2, font: ctx.font, color: BODY });
+      y -= 10;
+    }
+  }
+  ctx.y -= h + 8;
 }
 
 export async function renderPaidInvoiceDocumentPdf(document: CustomerDocument): Promise<Uint8Array> {
@@ -168,64 +307,41 @@ export async function renderPaidInvoiceDocumentPdf(document: CustomerDocument): 
   const pdf = await PDFDocument.create();
   const font = await pdf.embedFont(StandardFonts.Helvetica);
   const bold = await pdf.embedFont(StandardFonts.HelveticaBold);
+  const logo = await embedLogo(pdf, snap.merchant.logoUrl);
   const stamp = new Date(snap.document.issuedAt);
   const deterministicDate = Number.isNaN(stamp.getTime()) ? new Date(0) : stamp;
+
   pdf.setTitle(`Paid Invoice ${snap.document.number}`.trim());
   pdf.setProducer("Qalt");
   pdf.setCreator("Qalt");
   pdf.setCreationDate(deterministicDate);
   pdf.setModificationDate(deterministicDate);
 
-  const page = pdf.addPage([PAGE_W, PAGE_H]);
-  const ctx: Ctx = { doc: pdf, page, font, bold, accent: color(snap.merchant.brandColor), y: PAGE_H - MARGIN, pageIndex: 1, number: snap.document.number };
-  footer(ctx);
-
-  const top = PAGE_H - MARGIN;
-  ctx.page.drawText(winAnsi(snap.merchant.name || "Invoice"), { x: MARGIN, y: top - 18, size: 18, font: bold, color: INK });
-  const label = "PAID INVOICE";
-  const labelW = bold.widthOfTextAtSize(label, 24);
-  ctx.page.drawText(label, { x: PAGE_W - MARGIN - labelW, y: top - 24, size: 24, font: bold, color: PAID });
-  const numberW = font.widthOfTextAtSize(snap.document.number, 10);
-  ctx.page.drawText(snap.document.number, { x: PAGE_W - MARGIN - numberW, y: top - 42, size: 10, font, color: MUTED });
-  const paidLabel = `Paid ${formatDate(snap.document.paidAt)}`;
-  const paidW = font.widthOfTextAtSize(paidLabel, 9);
-  ctx.page.drawText(paidLabel, { x: PAGE_W - MARGIN - paidW, y: top - 57, size: 9, font, color: PAID });
-  ctx.page.drawRectangle({ x: MARGIN, y: top - 32, width: CONTENT_W, height: 2.5, color: ctx.accent });
-  ctx.y = top - 62;
-
-  section(ctx, "Billed to");
-  field(ctx, "Name", snap.customer.name);
-  field(ctx, "Email", snap.customer.email);
-  field(ctx, "Phone", snap.customer.phone);
-
-  section(ctx, "Delivery");
-  field(ctx, "Pickup", snap.route.pickupAddress);
-  field(ctx, "Dropoff", snap.route.dropoffAddress);
-  if (snap.route.distanceMiles !== null) field(ctx, "Distance", `${snap.route.distanceMiles} mi`);
-  field(ctx, "Service", snap.shipment.serviceType);
-  if (snap.shipment.itemCount !== null) field(ctx, "Items", snap.shipment.itemCount);
-  if (snap.shipment.weight) field(ctx, "Weight", `${snap.shipment.weight} lb`);
-  if (snap.shipment.vehicleCount !== null && snap.shipment.vehicleCount > 0) field(ctx, "Vehicles", snap.shipment.vehicleCount);
-  if (snap.shipment.date) field(ctx, "Pickup date", snap.shipment.date);
-  if (snap.shipment.time) field(ctx, "Pickup time", snap.shipment.time);
-  if (snap.shipment.addOns.length) field(ctx, "Add-ons", snap.shipment.addOns.join(", "));
-
-  section(ctx, "Payment summary");
-  for (const item of snap.pricing.lineItems) priceRow(ctx, item);
-  ensure(ctx, 34);
-  ctx.y -= 8;
-  const total = usd.format(Number.isFinite(snap.pricing.total) ? snap.pricing.total : 0);
-  const totalW = bold.widthOfTextAtSize(total, 14);
-  ctx.page.drawText("Total paid", { x: MARGIN, y: ctx.y - 14, size: 14, font: bold, color: PAID });
-  ctx.page.drawText(total, { x: PAGE_W - MARGIN - totalW, y: ctx.y - 14, size: 14, font: bold, color: PAID });
-  ctx.y -= 32;
-
-  ensure(ctx, 28);
-  const note = "Payment received. This invoice reflects the immutable delivery and pricing details captured for this transaction.";
-  for (const line of wrap(note, font, 8.5, CONTENT_W)) {
-    ctx.page.drawText(line, { x: MARGIN, y: ctx.y - 8.5, size: 8.5, font, color: MUTED });
-    ctx.y -= 11.5;
+  let contact: CustomerFacingContact | null = null;
+  try {
+    contact = await getCustomerFacingContact(document.companyId);
+  } catch {
+    contact = null;
   }
+
+  const page = pdf.addPage([PAGE_W, PAGE_H]);
+  const ctx: Ctx = {
+    doc: pdf,
+    page,
+    font,
+    bold,
+    accent: color(snap.merchant.brandColor),
+    y: PAGE_H - MARGIN,
+    pageNo: 1,
+    number: snap.document.number,
+  };
+
+  footer(ctx);
+  drawHeader(ctx, snap, logo);
+  drawRoute(ctx, snap);
+  drawMeta(ctx, snap);
+  drawCharges(ctx, snap);
+  drawPaidConfirmation(ctx, snap, contact);
 
   return pdf.save();
 }
