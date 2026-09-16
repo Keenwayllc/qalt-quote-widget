@@ -25,14 +25,14 @@ export const CustomerQuoteEmail: React.FC<Readonly<CustomerQuoteEmailProps>> = (
 }) => (
   <div style={{ margin: '0', padding: '32px 12px', backgroundColor: '#f4f4f5', fontFamily: 'Arial, Helvetica, sans-serif', color: '#18181b' }}>
     <div style={{ maxWidth: '620px', margin: '0 auto', backgroundColor: '#ffffff', border: '1px solid #e4e4e7', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 16px 40px rgba(24,24,27,0.08)' }}>
-      <div style={{ backgroundColor: '#171717', padding: '30px 32px 28px', textAlign: 'center', borderTop: `4px solid ${primaryColor}` }}>
+      <div style={{ backgroundColor: '#171717', padding: '32px 32px 28px', textAlign: 'center', borderTop: `4px solid ${primaryColor}` }}>
         {logoUrl ? (
-          <div style={{ display: 'inline-block', backgroundColor: '#ffffff', borderRadius: '12px', padding: '9px 18px', marginBottom: '14px' }}>
+          <div style={{ display: 'inline-block', backgroundColor: '#ffffff', borderRadius: '14px', padding: '12px 22px', marginBottom: '16px' }}>
             <img
               src={logoUrl}
               alt={companyName}
-              height="46"
-              style={{ display: 'block', maxWidth: '180px', objectFit: 'contain' }}
+              height="64"
+              style={{ display: 'block', width: 'auto', maxWidth: '240px', objectFit: 'contain' }}
             />
           </div>
         ) : (
