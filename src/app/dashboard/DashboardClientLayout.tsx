@@ -25,6 +25,7 @@ import {
   Briefcase,
   Star,
   Shield,
+  Mail,
 } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
 import ThemeToggle from "@/components/shared/ThemeToggle";
@@ -103,6 +104,7 @@ function DashboardLayoutInner({
     },
     { name: "Subscription", href: "/dashboard/billing", icon: CreditCard },
     { name: "Account Settings", href: "/dashboard/settings", icon: UserCircle },
+    { name: "Customer Contact", href: "/dashboard/settings/customer-contact", icon: Mail },
     { name: "What's New", href: "/dashboard/whats-new", icon: Star },
     { name: "Help & FAQ", href: "/dashboard/support", icon: HelpCircle },
   ];
