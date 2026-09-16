@@ -1,25 +1,16 @@
 /* Widget studio preview theme parity.
    The customer form theme is independent from the Qalt dashboard theme.
-   Dark Form changes colors only and never changes the preview layout. */
+   Light and Dark Form change colors only and never change the preview layout. */
 
-.qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) {
-  background: #171717 !important;
-  border-color: rgba(255, 255, 255, 0.12) !important;
-  box-shadow: none !important;
-  opacity: 1 !important;
-}
-
-/* Keep the saved widget background visible without changing the header's flex
-   layout or the logo/title positioning. */
-.qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) > div:first-child {
+/* ---------- Shared header image treatment ---------- */
+.qalt-widget-studio[data-widget-preview-theme] > div > div:last-child > div > div:nth-child(2) > div:first-child {
   position: relative;
   isolation: isolate;
   overflow: hidden;
   background-image: none !important;
-  border-color: rgba(255, 255, 255, 0.12) !important;
 }
 
-.qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) > div:first-child::before {
+.qalt-widget-studio[data-widget-preview-theme] > div > div:last-child > div > div:nth-child(2) > div:first-child::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -32,17 +23,63 @@
   pointer-events: none;
 }
 
-/* Only lift the actual content layer above the background image. */
-.qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) > div:first-child > .relative.z-10 {
+.qalt-widget-studio[data-widget-preview-theme] > div > div:last-child > div > div:nth-child(2) > div:first-child > .relative.z-10 {
   position: relative;
   z-index: 2;
 }
 
-/* Preserve the original absolute overlay so logo and title stay left aligned. */
-.qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) > div:first-child > .absolute.inset-0 {
+.qalt-widget-studio[data-widget-preview-theme] > div > div:last-child > div > div:nth-child(2) > div:first-child > .absolute.inset-0 {
   position: absolute;
   inset: 0;
   z-index: 1;
+}
+
+/* ---------- Light Form ---------- */
+.qalt-widget-studio[data-widget-preview-theme="light"] > div > div:last-child > div > div:nth-child(2) {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 18px 50px -24px rgba(15, 23, 42, 0.24) !important;
+  opacity: 1 !important;
+}
+
+.qalt-widget-studio[data-widget-preview-theme="light"] > div > div:last-child > div > div:nth-child(2) > div:first-child {
+  border-color: #e2e8f0 !important;
+}
+
+.qalt-widget-studio[data-widget-preview-theme="light"] > div > div:last-child > div > div:nth-child(2) > div:first-child > .absolute.inset-0 {
+  background: rgba(15, 23, 42, 0.32) !important;
+}
+
+.qalt-widget-studio[data-widget-preview-theme="light"] > div > div:last-child > div > div:nth-child(2) > div:nth-child(2) {
+  background: #fbfcfe !important;
+}
+
+.qalt-widget-studio[data-widget-preview-theme="light"] > div > div:last-child > div > div:nth-child(2) > div:nth-child(2) .bg-slate-200 {
+  background: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.qalt-widget-studio[data-widget-preview-theme="light"] > div > div:last-child > div > div:nth-child(2) > div:nth-child(2) .border-slate-100 {
+  border-color: #e2e8f0 !important;
+}
+
+.qalt-widget-studio[data-widget-preview-theme="light"] > div > div:last-child > div > div:nth-child(2) > div:nth-child(2) p {
+  color: #64748b !important;
+}
+
+/* ---------- Dark Form ---------- */
+.qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) {
+  background: #171717 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+.qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) > div:first-child {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) > div:first-child > .absolute.inset-0 {
   background: rgba(2, 6, 23, 0.28) !important;
 }
 
@@ -52,7 +89,7 @@
 
 .qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) > div:nth-child(2) .bg-slate-200 {
   background: #292929 !important;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 .qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) > div:nth-child(2) .border-slate-100 {
