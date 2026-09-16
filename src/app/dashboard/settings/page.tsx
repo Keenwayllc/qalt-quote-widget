@@ -7,6 +7,7 @@ import {
   Phone, Globe, MapPin, Building2, Camera, Upload,
 } from "lucide-react";
 import EmailDomainSection from "@/components/dashboard/EmailDomainSection";
+import CustomWidgetDomainSection from "@/components/dashboard/CustomWidgetDomainSection";
 
 type ProfileData = {
   name: string;
@@ -177,6 +178,7 @@ export default function SettingsPage() {
           state: d.state ?? "",
           zip: d.zip ?? "",
           contactName: d.contactName ?? "",
+          isSuperAdmin: Boolean(d.isSuperAdmin),
         });
         setLoading(false);
       });
@@ -300,6 +302,10 @@ export default function SettingsPage() {
           {saving ? "Saving…" : "Save Changes"}
         </button>
       </form>
+
+      <div className="mt-6">
+        <CustomWidgetDomainSection />
+      </div>
 
       <div className="mt-6">
         <EmailDomainSection />
