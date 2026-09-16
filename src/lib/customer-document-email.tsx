@@ -98,11 +98,11 @@ function QuoteEmail({
             href={publicUrl}
             style={{ display: "inline-block", backgroundColor: brandColor, color: "#ffffff", textDecoration: "none", fontSize: 15, fontWeight: 700, padding: "13px 20px", borderRadius: 10 }}
           >
-            View Quote PDF
+            View Quote
           </a>
 
           <p style={{ fontSize: 13, lineHeight: 1.6, color: "#646b76", margin: "24px 0 0" }}>
-            This secure link opens the issued quote PDF. If you received a newer quote email later, use the newest link.
+            This secure link opens your quote portal, where you can review the price, accept the quote, pay when online payment is enabled, and open your documents. If you received a newer quote email later, use the newest link.
           </p>
         </div>
         <div style={{ borderTop: "1px solid #e2e4e9", padding: "18px 30px", fontSize: 12, lineHeight: 1.5, color: "#8a9099" }}>
@@ -154,7 +154,7 @@ export async function sendQuoteDocumentEmail(
   }
 
   const currentTokenHash = access.document.publicTokenHash;
-  const publicUrl = `${getAppOrigin()}/documents/${access.token}`;
+  const publicUrl = `${getAppOrigin()}/quote/${access.token}`;
   const subject = `${merchantName} sent you quote ${snapshot.document.number || document.number}`;
 
   const result = await sendEmail({
