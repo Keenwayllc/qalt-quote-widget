@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowLeft, Building2, CheckCircle2, Clock3, Mail, Phone, Save } from "lucide-react";
+import { ArrowLeft, Building2, CheckCircle2, Clock3, FileText, Mail, Phone, Save } from "lucide-react";
 
 type Contact = {
   department: string;
@@ -93,19 +93,31 @@ export default function CustomerContactSettingsPage() {
         <div className="text-[10px] font-black uppercase tracking-[0.2em] text-red-600">Customer-facing details</div>
         <h1 className="mt-2 text-3xl font-black tracking-[-0.04em] text-slate-950 dark:text-white">Customer Contact</h1>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500 dark:text-slate-400">
-          Choose exactly what customers see when they need help with a quote. Your Qalt login and notification email stay private unless you intentionally enter that same address here.
+          Choose exactly what customers see when they need help. Your Qalt login and notification email stay private unless you intentionally enter that same address here.
         </p>
+      </div>
+
+      <div className="mb-6 rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 dark:border-white/[0.07] dark:bg-white/[0.03]">
+        <div className="flex items-start gap-3">
+          <FileText size={18} className="mt-0.5 shrink-0 text-red-600" />
+          <div>
+            <div className="text-sm font-black text-slate-900 dark:text-white">Where this contact appears</div>
+            <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">
+              Qalt uses these customer-facing details on the secure quote portal, quote emails, paid invoice emails, Quote PDFs, and Paid Invoice PDFs. If you enter a customer-facing email, replies to Qalt quote and invoice emails will also go to that address.
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
         <form onSubmit={save} className="space-y-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-white/[0.07] dark:bg-[#151515] sm:p-7">
           <div>
-            <h2 className="text-base font-black text-slate-900 dark:text-white">Default quote contact</h2>
-            <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">Used on the customer quote portal and customer documents. You can change it at any time.</p>
+            <h2 className="text-base font-black text-slate-900 dark:text-white">Default customer contact</h2>
+            <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">This is the contact identity customers see across quote and payment communications. You can change it at any time.</p>
           </div>
 
           <Field icon={Building2} label="Department or team" value={contact.department} onChange={set("department")} placeholder="Quotes & Customer Service" />
-          <Field icon={Mail} label="Customer-facing email" value={contact.email} onChange={set("email")} placeholder="quotes@yourcompany.com" type="email" hint="This is separate from the email you use to log in to Qalt." />
+          <Field icon={Mail} label="Customer-facing email" value={contact.email} onChange={set("email")} placeholder="quotes@yourcompany.com" type="email" hint="Separate from your Qalt login email. This address is also used as Reply-To on customer quote and invoice emails." />
           <Field icon={Phone} label="Customer-facing phone" value={contact.phone} onChange={set("phone")} placeholder="(555) 555-0123" type="tel" />
           <Field icon={Clock3} label="Support hours" value={contact.hours} onChange={set("hours")} placeholder="Mon-Fri, 8 AM-6 PM" />
 
