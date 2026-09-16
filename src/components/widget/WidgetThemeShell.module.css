@@ -1,0 +1,97 @@
+.shell {
+  min-height: 100vh;
+  width: 100%;
+}
+
+.light {
+  background: transparent;
+}
+
+.dark {
+  background: #0b0b0b;
+  color: #f8fafc;
+}
+
+.dark :global([class*="bg-white"]) {
+  background-color: #171717 !important;
+}
+
+.dark :global([class*="bg-slate-50"]),
+.dark :global([class*="bg-slate-100"]) {
+  background-color: #1f1f1f !important;
+}
+
+.dark :global([class*="border-slate-100"]),
+.dark :global([class*="border-slate-200"]),
+.dark :global([class*="border-slate-300"]) {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.dark :global([class*="text-slate-900"]),
+.dark :global([class*="text-slate-800"]),
+.dark :global([class*="text-slate-700"]) {
+  color: #f8fafc !important;
+}
+
+.dark :global([class*="text-slate-600"]),
+.dark :global([class*="text-slate-500"]) {
+  color: #cbd5e1 !important;
+}
+
+.dark :global([class*="text-slate-400"]) {
+  color: #94a3b8 !important;
+}
+
+.dark :global(input),
+.dark :global(textarea),
+.dark :global(select) {
+  background: #202020 !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  color: #f8fafc !important;
+  color-scheme: dark;
+}
+
+.dark :global(input::placeholder),
+.dark :global(textarea::placeholder) {
+  color: #7c8799 !important;
+}
+
+.dark :global(input:focus),
+.dark :global(textarea:focus),
+.dark :global(select:focus) {
+  background: #242424 !important;
+}
+
+.dark :global(button[class*="bg-slate-200"]),
+.dark :global(button[class*="bg-slate-100"]) {
+  background: #2a2a2a !important;
+  color: #e2e8f0 !important;
+}
+
+.dark :global([role="listbox"]),
+.dark :global([class*="shadow-xl"][class*="bg-white"]) {
+  background: #1b1b1b !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.dark :global([class*="hover:bg-slate-50"]:hover),
+.dark :global([class*="hover:bg-slate-100"]:hover) {
+  background-color: #262626 !important;
+}
+
+.dark :global(hr),
+.dark :global([class*="divide-slate"] > *) {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark :global([class*="shadow-"]) {
+  --tw-shadow-color: rgba(0, 0, 0, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell *,
+  .shell *::before,
+  .shell *::after {
+    scroll-behavior: auto !important;
+  }
+}
