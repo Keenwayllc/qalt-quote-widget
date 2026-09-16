@@ -4,6 +4,7 @@ import DashboardRouteStyler from "./DashboardRouteStyler";
 import "./dashboard-polish.css";
 import "./console-shell.css";
 import "./overview-premium.css";
+import "./logo-hover.css";
 import prisma from "@/lib/prisma";
 
 export default async function DashboardLayout({
