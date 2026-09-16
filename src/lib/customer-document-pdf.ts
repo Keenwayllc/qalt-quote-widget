@@ -335,14 +335,17 @@ function drawDetailsGrid(ctx: Ctx, snap: QuoteSnapshotV1): void {
 
 function drawShipmentStrip(ctx: Ctx, snap: QuoteSnapshotV1): void {
   drawSectionLabel(ctx, "Shipment summary");
-  const values: Array<[string, string | null]> = [
+  const rawValues: Array<[string, string | null]> = [
     ["Service", snap.shipment.serviceType],
     ["Items", snap.shipment.itemCount !== null ? String(snap.shipment.itemCount) : null],
     ["Weight", snap.shipment.weight ? `${snap.shipment.weight} lb` : null],
     ["Vehicles", snap.shipment.vehicleCount !== null && snap.shipment.vehicleCount > 0 ? String(snap.shipment.vehicleCount) : null],
     ["Pickup", snap.shipment.date ? `${formatShipDate(snap.shipment.date)}${snap.shipment.time ? ` • ${snap.shipment.time}` : ""}` : snap.shipment.time],
     ["Add-ons", snap.shipment.addOns.length ? snap.shipment.addOns.join(", ") : null],
-  ].filter((entry): entry is [string, string] => entry[1] !== null);
+  ];
+  const values: Array<[string, string]> = rawValues.flatMap(([label, value]) =>
+    value === null ? [] : [[label, value] as [string, string]]
+  );
 
   if (!values.length) return;
   const cols = Math.min(3, values.length);
