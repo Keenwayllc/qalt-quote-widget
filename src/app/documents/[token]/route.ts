@@ -5,6 +5,8 @@ import {
 } from "@/lib/customer-document-access";
 import { renderCustomerDocumentPdf } from "@/lib/customer-document-pdf";
 import { renderPaidInvoiceDocumentPdf } from "@/lib/customer-invoice-pdf";
+import { getCustomerFacingContact } from "@/lib/customer-contact";
+import { decoratePdfWithCustomerContact } from "@/lib/customer-contact-pdf";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -37,20 +39,19 @@ export async function GET(
 
     let pdf: Uint8Array;
     try {
-      pdf = document.type === "INVOICE"
+      const basePdf = document.type === "INVOICE"
         ? await renderPaidInvoiceDocumentPdf(document)
         : await renderCustomerDocumentPdf(document);
+      const contact = await getCustomerFacingContact(document.companyId);
+      pdf = await decoratePdfWithCustomerContact(basePdf, contact);
     } catch {
       return notFound();
     }
 
-    // Viewing metadata is best-effort and never blocks a valid PDF response.
-    // The helper re-checks the still-current token hash before writing, so a
-    // concurrently rotated/revoked link cannot mark the document as viewed.
     try {
       await markPublicDocumentViewed({ documentId: document.id, token });
     } catch {
-      // Keep public document delivery available if view-metadata persistence fails.
+      // Viewing metadata never blocks customer access.
     }
 
     const fallback = document.type === "INVOICE" ? "invoice" : "quote";
