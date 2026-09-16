@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import QuoteWidgetForm from "@/components/widget/QuoteWidgetForm";
+import AbandonedQuoteTracker from "@/components/widget/AbandonedQuoteTracker";
 import { notFound } from "next/navigation";
 import {
   publicCompanySelect,
@@ -12,7 +13,6 @@ export const dynamic = "force-dynamic";
 export default async function PublicWidgetFormPage({ params }: { params: { formId: string } }) {
   const { formId } = await params;
 
-  // Strict public select — never the full Company row (see lib/publicWidget).
   const form = await prisma.widgetSettings.findUnique({
     where: { id: formId },
     select: {
@@ -27,14 +27,9 @@ export default async function PublicWidgetFormPage({ params }: { params: { formI
     },
   });
 
-  if (!form) {
-    notFound();
-  }
+  if (!form) notFound();
 
   const { company, pricingProfile: formPricing, ...widgetSettings } = form;
-
-  // Use the form-specific pricing profile if it exists,
-  // otherwise fall back to the company-level default (widgetSettingsId === null).
   const pricingProfile =
     formPricing ??
     company.pricingProfiles.find((p) => p.widgetSettingsId === null) ??
@@ -42,6 +37,7 @@ export default async function PublicWidgetFormPage({ params }: { params: { formI
 
   return (
     <div className="qalt-widget-stage min-h-screen p-4 sm:p-8 flex items-center justify-center">
+      <AbandonedQuoteTracker companyId={company.id} formId={formId} />
       <QuoteWidgetForm
         company={{
           id: company.id,
