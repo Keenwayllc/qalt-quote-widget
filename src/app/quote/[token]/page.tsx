@@ -4,6 +4,7 @@ import { CheckCircle2, Download, FileText, MapPin, ReceiptText, ShieldCheck } fr
 import prisma from "@/lib/prisma";
 import { getPublicQuoteDocument, markPublicDocumentViewed } from "@/lib/customer-document-access";
 import { parseQuoteSnapshot } from "@/lib/customer-document-snapshots";
+import { getCustomerFacingContact } from "@/lib/customer-contact";
 import QuotePortalActions from "./QuotePortalActions";
 
 export const dynamic = "force-dynamic";
@@ -32,26 +33,23 @@ export default async function CustomerQuotePortal({ params }: { params: Promise<
     notFound();
   }
 
-  const quote = await prisma.quoteRequest.findFirst({
-    where: { id: document.quoteRequestId, companyId: document.companyId, deletedAt: null },
-    select: {
-      status: true,
-      paymentStatus: true,
-      paidAt: true,
-      company: {
-        select: {
-          phone: true,
-          website: true,
-          email: true,
+  const [quote, customerContact] = await Promise.all([
+    prisma.quoteRequest.findFirst({
+      where: { id: document.quoteRequestId, companyId: document.companyId, deletedAt: null },
+      select: {
+        status: true,
+        paymentStatus: true,
+        paidAt: true,
+        company: { select: { website: true } },
+        customerDocuments: {
+          where: { type: "INVOICE", status: "PAID" },
+          select: { id: true, number: true, paidAt: true },
+          take: 1,
         },
       },
-      customerDocuments: {
-        where: { type: "INVOICE", status: "PAID" },
-        select: { id: true, number: true, paidAt: true },
-        take: 1,
-      },
-    },
-  });
+    }),
+    getCustomerFacingContact(document.companyId),
+  ]);
   if (!quote) notFound();
 
   try {
@@ -66,6 +64,9 @@ export default async function CustomerQuotePortal({ params }: { params: Promise<
   const invoice = quote.customerDocuments[0] ?? null;
   const brand = snapshot.merchant.brandColor || "#df1731";
   const issuedDate = prettyDate(snapshot.document.issuedAt);
+  const hasCustomerContact = !!(
+    customerContact.department || customerContact.email || customerContact.phone || customerContact.hours || customerContact.website
+  );
 
   return (
     <main className="min-h-screen bg-[#f6f7f9] text-slate-950">
@@ -172,11 +173,17 @@ export default async function CustomerQuotePortal({ params }: { params: Promise<
             <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
               <div className="text-sm font-black">Need help?</div>
               <p className="mt-2 text-xs font-medium leading-5 text-slate-500">Contact {snapshot.merchant.name} about this quote.</p>
-              <div className="mt-3 space-y-2 text-xs font-bold text-slate-700">
-                {quote.company.phone && <div>{quote.company.phone}</div>}
-                {quote.company.email && <div>{quote.company.email}</div>}
-                {quote.company.website && <Link href={quote.company.website} className="block" target="_blank">{quote.company.website}</Link>}
-              </div>
+              {hasCustomerContact ? (
+                <div className="mt-3 space-y-2 text-xs font-bold text-slate-700">
+                  {customerContact.department && <div className="text-sm text-slate-900">{customerContact.department}</div>}
+                  {customerContact.email && <a href={`mailto:${customerContact.email}`} className="block hover:underline">{customerContact.email}</a>}
+                  {customerContact.phone && <a href={`tel:${customerContact.phone}`} className="block hover:underline">{customerContact.phone}</a>}
+                  {customerContact.hours && <div className="font-semibold text-slate-500">{customerContact.hours}</div>}
+                  {customerContact.website && <Link href={customerContact.website} className="block font-semibold text-slate-500 hover:underline" target="_blank">{customerContact.website}</Link>}
+                </div>
+              ) : (
+                <p className="mt-3 text-xs font-semibold leading-5 text-slate-400">Customer contact details have not been provided yet.</p>
+              )}
             </div>
 
             <p className="px-2 text-center text-[10px] font-semibold leading-4 text-slate-400">This private link provides access to your quote. Do not forward it unless you want another person to view the quote.</p>
