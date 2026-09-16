@@ -81,6 +81,7 @@ function DashboardLayoutInner({
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const entitlements = getEntitlements(subscriptionPlan);
+  const showMerchantDashboardBrand = entitlements.isWhiteLabelEnabled && Boolean(logoUrl);
 
   const navItems = [
     ...(isAdmin ? [{ name: "Admin", href: "/dashboard/admin", icon: Shield }] : []),
@@ -157,14 +158,27 @@ function DashboardLayoutInner({
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <div className="flex flex-col h-full">
-          <div className="p-6 sm:p-8 flex items-center justify-between">
+          <div className="px-6 py-6 sm:px-8 sm:py-7 flex items-start justify-between min-h-[128px]">
             <button
               ref={logoRef}
               onClick={handleLogoClick}
-              className="focus:outline-none will-change-transform transition-transform duration-200 hover:scale-105 hover:-rotate-2 active:scale-95"
+              className="min-w-0 focus:outline-none will-change-transform transition-transform duration-300 hover:scale-[1.025] active:scale-[0.98]"
               aria-label="Go to dashboard home"
             >
-              <QaltLogo size="lg" />
+              {showMerchantDashboardBrand ? (
+                <div className="flex max-w-[190px] flex-col items-start">
+                  <img
+                    src={logoUrl}
+                    alt={`${displayName || "Company"} logo`}
+                    className="h-[62px] w-auto max-w-[190px] object-contain object-left"
+                  />
+                  <div className="mt-2 text-left text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">
+                    Powered by <span className="font-black text-slate-500 dark:text-slate-400">Qalt Systems</span>
+                  </div>
+                </div>
+              ) : (
+                <QaltLogo size="lg" />
+              )}
             </button>
             <button
               onClick={closeSidebar}
@@ -369,7 +383,14 @@ function DashboardLayoutInner({
         <div className="absolute bottom-[-10%] left-[-10%] w-[30%] h-[30%] bg-red-400/5 blur-[100px] rounded-full pointer-events-none" />
 
         <header className="lg:hidden bg-white/80 dark:bg-[#111111]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/6 h-16 flex items-center justify-between px-4 sm:px-6 shrink-0 relative z-10 transition-colors">
-          <QaltLogo size="md" />
+          {showMerchantDashboardBrand ? (
+            <div className="flex min-w-0 items-center gap-2.5">
+              <img src={logoUrl} alt={`${displayName || "Company"} logo`} className="h-9 w-auto max-w-[138px] object-contain object-left" />
+              <span className="hidden text-[8px] font-bold uppercase tracking-[0.12em] text-slate-400 sm:inline">Powered by Qalt Systems</span>
+            </div>
+          ) : (
+            <QaltLogo size="md" />
+          )}
           <button
             onClick={() => setIsSidebarOpen(true)}
             className="p-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
