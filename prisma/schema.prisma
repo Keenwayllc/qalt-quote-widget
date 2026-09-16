@@ -22,6 +22,9 @@ model Company {
   zip                  String?
   contactName          String?
   timezone             String           @default("UTC")
+  businessType         String?
+  onboardingStep       Int              @default(1)
+  onboardingCompletedAt DateTime?
   subscriptionPlan     String           @default("STARTER")
   stripeCustomerId     String?
   stripeSubscriptionId String?
