@@ -27,7 +27,7 @@ function money(value: number) {
   return usd.format(Number.isFinite(value) ? value : 0);
 }
 
-function safeText(text: string): string {
+function safeText(text: string | null | undefined): string {
   const normalized = String(text ?? "")
     .replace(/[‘’‚′]/g, "'")
     .replace(/[“”„″]/g, '"')
@@ -77,7 +77,7 @@ function formatShipDate(value: string | null): string | null {
   return value;
 }
 
-function wrap(text: string, font: PDFFont, size: number, maxWidth: number): string[] {
+function wrap(text: string | null | undefined, font: PDFFont, size: number, maxWidth: number): string[] {
   const words = safeText(text).split(/\s+/).filter(Boolean);
   if (!words.length) return [""];
   const lines: string[] = [];
@@ -225,13 +225,14 @@ function drawSummary(ctx: Ctx, snap: QuoteSnapshotV1) {
     ["Weight", snap.shipment.weight ? `${snap.shipment.weight} lb` : null],
     ["Vehicles", snap.shipment.vehicleCount !== null && snap.shipment.vehicleCount > 0 ? String(snap.shipment.vehicleCount) : null],
     ["Add-ons", snap.shipment.addOns.length ? snap.shipment.addOns.join(", ") : null],
-  ].filter((row): row is [string, string] => !!row[1]);
+  ];
 
-  if (!rows.length) return;
-  ensure(ctx, rows.length * 19 + 34);
+  const visibleRows = rows.filter((row) => typeof row[1] === "string" && row[1].length > 0);
+  if (!visibleRows.length) return;
+  ensure(ctx, visibleRows.length * 19 + 34);
   ctx.page.drawText("DETAILS", { x: MARGIN, y: ctx.y, size: 8, font: ctx.bold, color: MUTED });
   ctx.y -= 21;
-  for (const [label, value] of rows) {
+  for (const [label, value] of visibleRows) {
     ctx.page.drawText(label, { x: MARGIN, y: ctx.y, size: 9.5, font: ctx.font, color: MUTED });
     const max = 310;
     const val = wrap(value, ctx.font, 9.5, max)[0] || "";
