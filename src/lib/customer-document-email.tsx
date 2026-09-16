@@ -2,6 +2,7 @@ import prisma from "@/lib/prisma";
 import { issueQuoteDocument, DocumentError } from "@/lib/customer-documents";
 import { rotatePublicDocumentTokenIfCurrent } from "@/lib/customer-document-access";
 import { parseQuoteSnapshot } from "@/lib/customer-document-snapshots";
+import { getCustomerFacingContact, type CustomerFacingContact } from "@/lib/customer-contact";
 import { sendEmail } from "@/lib/email";
 import type { CustomerDocument } from "@/generated/prisma/client";
 
@@ -71,6 +72,7 @@ function QuoteEmail({
   amount,
   publicUrl,
   brandColor,
+  contact,
 }: {
   merchantName: string;
   customerName: string | null;
@@ -78,8 +80,10 @@ function QuoteEmail({
   amount: string;
   publicUrl: string;
   brandColor: string;
+  contact: CustomerFacingContact | null;
 }) {
   const greeting = customerName ? `Hi ${customerName},` : "Hello,";
+  const hasContact = !!(contact?.department || contact?.email || contact?.phone || contact?.hours);
 
   return (
     <div style={{ margin: 0, padding: "28px 12px", backgroundColor: "#f7f8fa", fontFamily: "Arial, Helvetica, sans-serif", color: "#22252b" }}>
@@ -104,6 +108,16 @@ function QuoteEmail({
           <p style={{ fontSize: 13, lineHeight: 1.6, color: "#646b76", margin: "24px 0 0" }}>
             This secure link opens your quote portal, where you can review the price, accept the quote, pay when online payment is enabled, and open your documents. If you received a newer quote email later, use the newest link.
           </p>
+
+          {hasContact && (
+            <div style={{ marginTop: 24, padding: "16px 18px", backgroundColor: "#f7f8fa", border: "1px solid #e2e4e9", borderRadius: 12 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: "#646b76", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 8 }}>Need help?</div>
+              {contact?.department && <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 4 }}>{contact.department}</div>}
+              {contact?.email && <div style={{ fontSize: 13, lineHeight: 1.6, color: "#4b525c" }}>{contact.email}</div>}
+              {contact?.phone && <div style={{ fontSize: 13, lineHeight: 1.6, color: "#4b525c" }}>{contact.phone}</div>}
+              {contact?.hours && <div style={{ fontSize: 12, lineHeight: 1.6, color: "#7b828c", marginTop: 4 }}>{contact.hours}</div>}
+            </div>
+          )}
         </div>
         <div style={{ borderTop: "1px solid #e2e4e9", padding: "18px 30px", fontSize: 12, lineHeight: 1.5, color: "#8a9099" }}>
           Quote prepared by {merchantName} using Qalt.
@@ -143,6 +157,13 @@ export async function sendQuoteDocumentEmail(
   }
 
   const merchantName = snapshot.merchant.name || "Your delivery provider";
+  let contact: CustomerFacingContact | null = null;
+  try {
+    contact = await getCustomerFacingContact(input.companyId);
+  } catch {
+    contact = null;
+  }
+
   const previousTokenHash = document.publicTokenHash;
   const access = await rotatePublicDocumentTokenIfCurrent({
     companyId: input.companyId,
@@ -160,6 +181,7 @@ export async function sendQuoteDocumentEmail(
   const result = await sendEmail({
     to: recipient,
     subject,
+    replyTo: normalizeRecipient(contact?.email) ?? undefined,
     react: (
       <QuoteEmail
         merchantName={merchantName}
@@ -168,6 +190,7 @@ export async function sendQuoteDocumentEmail(
         amount={formatUsd(snapshot.pricing.total)}
         publicUrl={publicUrl}
         brandColor={snapshot.merchant.brandColor}
+        contact={contact}
       />
     ),
   });
