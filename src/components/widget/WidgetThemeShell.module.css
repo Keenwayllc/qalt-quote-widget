@@ -12,6 +12,19 @@
   color: #f8fafc;
 }
 
+/* Uploaded logos are artwork, not cards. Never add a glass/background treatment
+   behind them. A transparent PNG (or an SVG safely converted to PNG) should sit
+   directly over the merchant's header image/color. */
+.shell :global(img[class~="bg-white/10"]) {
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+}
+
 .dark :global([class*="bg-white"]) {
   background-color: #171717 !important;
 }
@@ -86,6 +99,42 @@
 
 .dark :global([class*="shadow-"]) {
   --tw-shadow-color: rgba(0, 0, 0, 0.4);
+}
+
+/* The quote card uses emerald styling in light mode. In the dark form, preserve
+   the semantic accent but bring the label and price up to accessible contrast. */
+.dark :global([class~="from-emerald-50"]) {
+  background: #17211d !important;
+}
+
+.dark :global([class*="text-emerald"]) {
+  color: #d1fae5 !important;
+}
+
+.dark :global([class*="border-emerald"]) {
+  border-color: rgba(110, 231, 183, 0.3) !important;
+}
+
+/* Progress navigation lives over the header image. Increase contrast in the
+   dark customer-form theme without changing spacing or positioning. */
+.dark :global([class~="bg-white/15"]) {
+  background-color: rgba(255, 255, 255, 0.28) !important;
+}
+
+.dark :global([class~="bg-white/25"]) {
+  background-color: rgba(255, 255, 255, 0.36) !important;
+}
+
+.dark :global([class~="bg-white/70"]) {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.dark :global([class~="text-white/50"]) {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+.dark :global([class~="ring-white/20"]) {
+  --tw-ring-color: rgba(255, 255, 255, 0.38) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
