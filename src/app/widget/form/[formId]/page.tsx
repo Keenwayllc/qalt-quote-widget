@@ -1,6 +1,8 @@
 import prisma from "@/lib/prisma";
 import QuoteWidgetForm from "@/components/widget/QuoteWidgetForm";
 import AbandonedQuoteTracker from "@/components/widget/AbandonedQuoteTracker";
+import WidgetThemeShell from "@/components/widget/WidgetThemeShell";
+import { getWidgetTheme } from "@/lib/widget-theme";
 import { notFound } from "next/navigation";
 import {
   publicCompanySelect,
@@ -34,21 +36,24 @@ export default async function PublicWidgetFormPage({ params }: { params: { formI
     formPricing ??
     company.pricingProfiles.find((p) => p.widgetSettingsId === null) ??
     undefined;
+  const themeMode = await getWidgetTheme(formId);
 
   return (
-    <div className="qalt-widget-stage min-h-screen p-4 sm:p-8 flex items-center justify-center">
-      <AbandonedQuoteTracker companyId={company.id} formId={formId} />
-      <QuoteWidgetForm
-        company={{
-          id: company.id,
-          name: company.name,
-          logoUrl: company.logoUrl,
-          subscriptionPlan: company.subscriptionPlan,
-          widgetSettings,
-          formId,
-          pricingProfile,
-        } as any}
-      />
-    </div>
+    <WidgetThemeShell theme={themeMode}>
+      <div className="qalt-widget-stage min-h-screen p-4 sm:p-8 flex items-center justify-center">
+        <AbandonedQuoteTracker companyId={company.id} formId={formId} />
+        <QuoteWidgetForm
+          company={{
+            id: company.id,
+            name: company.name,
+            logoUrl: company.logoUrl,
+            subscriptionPlan: company.subscriptionPlan,
+            widgetSettings,
+            formId,
+            pricingProfile,
+          } as any}
+        />
+      </div>
+    </WidgetThemeShell>
   );
 }
