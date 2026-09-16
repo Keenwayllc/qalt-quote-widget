@@ -25,7 +25,7 @@ export async function GET(req: Request) {
 
   const authToken = await signToken({ companyId: company.id, email: company.email });
 
-  const res = NextResponse.redirect(new URL("/dashboard?welcome=1", req.url));
+  const res = NextResponse.redirect(new URL("/dashboard/onboarding?welcome=1", req.url));
   res.cookies.set({
     name: "qalt_token",
     value: authToken,
