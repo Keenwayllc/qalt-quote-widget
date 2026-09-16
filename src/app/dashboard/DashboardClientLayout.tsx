@@ -30,6 +30,7 @@ import { getEntitlements } from "@/lib/plans";
 import ThemeToggle from "@/components/shared/ThemeToggle";
 import { CompanyProfileProvider, useCompanyProfile } from "@/context/CompanyProfileContext";
 import WelcomeToast from "@/components/dashboard/WelcomeToast";
+import DashboardTips from "@/components/dashboard/DashboardTips";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -81,9 +82,7 @@ function DashboardLayoutInner({
   const entitlements = getEntitlements(subscriptionPlan);
 
   const navItems = [
-    // Admin — only visible to platform admins
     ...(isAdmin ? [{ name: "Admin", href: "/dashboard/admin", icon: Shield }] : []),
-    // Monitor — your day-to-day
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { name: "Quotes", href: "/dashboard/quotes", icon: FileText, showBadge: true },
     {
@@ -92,12 +91,10 @@ function DashboardLayoutInner({
       icon: BarChart3,
       isLocked: !entitlements.isAnalyticsDashboardEnabled
     },
-    // Build your widget — configure, price, style, then ship it
     { name: "My Forms", href: "/dashboard/forms", icon: FormInput },
     { name: "Pricing Settings", href: "/dashboard/pricing", icon: DollarSign },
     { name: "Widget Appearance", href: "/dashboard/widget", icon: Settings },
     { name: "Get Embed Code", href: "/dashboard/embed", icon: Code },
-    // Advanced & account
     {
       name: "Webhooks",
       href: "/dashboard/webhooks",
@@ -146,8 +143,6 @@ function DashboardLayoutInner({
 
   return (
     <div className="flex h-screen bg-slate-50 dark:bg-[#0a0a0a] font-sans selection:bg-red-100 selection:text-red-900 transition-colors duration-300">
-
-      {/* Mobile backdrop overlay — closes sidebar on tap outside */}
       {isSidebarOpen && (
         <div
           className="lg:hidden fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-sm"
@@ -155,13 +150,11 @@ function DashboardLayoutInner({
         />
       )}
 
-      {/* Sidebar */}
       <aside className={`
         fixed inset-y-0 left-0 z-40 w-72 bg-white/95 dark:bg-[#111111] backdrop-blur-xl border-r border-slate-200/60 dark:border-white/6 transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <div className="flex flex-col h-full">
-          {/* Sidebar logo row — includes close button on mobile */}
           <div className="p-6 sm:p-8 flex items-center justify-between">
             <button
               ref={logoRef}
@@ -180,7 +173,6 @@ function DashboardLayoutInner({
             </button>
           </div>
 
-          {/* Post-trial downgrade banner — hide on billing itself */}
           {trialEnded && !pathname.startsWith("/dashboard/billing") && (
             <div className="mx-4 mb-2 rounded-xl px-4 py-3 text-sm font-bold bg-slate-900 text-white">
               <div className="flex items-center gap-2 mb-1">
@@ -194,7 +186,6 @@ function DashboardLayoutInner({
             </div>
           )}
 
-          {/* Trial countdown banner */}
           {trialDaysLeft !== null && trialDaysLeft !== undefined && (
             <div className={`mx-4 mb-2 rounded-xl px-4 py-3 text-sm font-bold ${
               trialDaysLeft <= 3
@@ -251,8 +242,6 @@ function DashboardLayoutInner({
                     `}
                   />
                   <span className="flex-1">{item.name}</span>
-
-                  {/* Quote count badge */}
                   {showBadge && !isLocked && quoteCount > 0 && (
                     <span
                       className={`
@@ -263,8 +252,6 @@ function DashboardLayoutInner({
                       {quoteCount > 99 ? "99+" : quoteCount}
                     </span>
                   )}
-
-
                   {isLocked && (
                     <Lock size={12} className="text-amber-500 ml-2" />
                   )}
@@ -278,7 +265,6 @@ function DashboardLayoutInner({
               );
             })}
 
-            {/* Field Operations Section */}
             <div className="mt-4 mb-3 px-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
               Field Operations
             </div>
@@ -310,14 +296,12 @@ function DashboardLayoutInner({
 
           <div className="p-4 mt-auto border-t border-slate-100/60 dark:border-white/6 space-y-1">
             <ThemeToggle />
-            {/* Company identity card */}
             {(displayName || logoUrl || profilePicUrl) && (
               <Link
                 href="/dashboard/settings"
                 onClick={closeSidebar}
                 className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-100/80 dark:hover:bg-white/5 transition-all group mb-1"
               >
-                {/* Avatar: profile pic > logo initial > letter */}
                 <div className="relative shrink-0">
                   {profilePicUrl ? (
                     <img
@@ -338,7 +322,6 @@ function DashboardLayoutInner({
                       </span>
                     </div>
                   )}
-                  {/* Small logo badge overlaid on profile pic */}
                   {profilePicUrl && logoUrl && (
                     <img
                       src={logoUrl}
@@ -379,13 +362,10 @@ function DashboardLayoutInner({
         </div>
       </aside>
 
-      {/* Main content */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
-        {/* Subtle Background Glows */}
         <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-red-400/5 blur-[120px] rounded-full pointer-events-none" />
         <div className="absolute bottom-[-10%] left-[-10%] w-[30%] h-[30%] bg-red-400/5 blur-[100px] rounded-full pointer-events-none" />
 
-        {/* Mobile header with hamburger */}
         <header className="lg:hidden bg-white/80 dark:bg-[#111111]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/6 h-16 flex items-center justify-between px-4 sm:px-6 shrink-0 relative z-10 transition-colors">
           <QaltLogo size="md" />
           <button
@@ -398,6 +378,7 @@ function DashboardLayoutInner({
         </header>
 
         <div className="flex-1 overflow-auto relative z-10 custom-scrollbar">
+          <DashboardTips showCard={pathname === "/dashboard"} />
           {children}
         </div>
       </main>
