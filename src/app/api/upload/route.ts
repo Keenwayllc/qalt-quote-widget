@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 import { getAdminStorage } from "@/lib/firebase-admin";
 import crypto from "crypto";
+import sharp from "sharp";
 
 // This endpoint is only for PUBLIC merchant branding assets (logos, widget
 // backgrounds). Do not use for private customer documents or PDFs — those need
@@ -10,10 +11,22 @@ import crypto from "crypto";
 
 const MAX_BYTES = 5 * 1024 * 1024; // 5 MiB
 
-// Server-authoritative image types. SVG is intentionally NOT supported (it can
-// carry active content / XSS and is not sanitized here). The magic bytes are
-// the source of truth; the browser-supplied MIME/filename are never trusted.
-type ImageFormat = { mime: string; ext: string };
+// Raster images are detected by magic bytes. SVG is handled as text and is never
+// served back raw: it is rasterized to PNG before storage so embedded script or
+// active SVG content cannot execute in a customer's browser.
+type ImageFormat = { mime: string; ext: string; isSvg?: boolean };
+
+function looksLikeSvg(bytes: Uint8Array): boolean {
+  try {
+    const head = new TextDecoder("utf-8", { fatal: false })
+      .decode(bytes.slice(0, Math.min(bytes.length, 8192)))
+      .replace(/^\uFEFF/, "")
+      .trimStart();
+    return /^(?:<\?xml[\s\S]*?\?>\s*)?<svg(?:\s|>)/i.test(head);
+  } catch {
+    return false;
+  }
+}
 
 function detectImageFormat(bytes: Uint8Array): ImageFormat | null {
   // JPEG: FF D8 FF
@@ -43,7 +56,31 @@ function detectImageFormat(bytes: Uint8Array): ImageFormat | null {
       return { mime: "image/webp", ext: "webp" };
     }
   }
+  if (looksLikeSvg(bytes)) {
+    return { mime: "image/svg+xml", ext: "svg", isSvg: true };
+  }
   return null;
+}
+
+function svgFailsSafetyPreflight(bytes: Uint8Array): boolean {
+  const svg = new TextDecoder("utf-8", { fatal: false }).decode(bytes);
+
+  // Reject active/embedded content and external resource references before the
+  // server rasterizer sees the SVG. Fragment-only hrefs (e.g. #shape) are fine.
+  const unsafe = [
+    /<!DOCTYPE/i,
+    /<!ENTITY/i,
+    /<script\b/i,
+    /<foreignObject\b/i,
+    /<(?:iframe|object|embed|audio|video)\b/i,
+    /\son[a-z0-9_-]+\s*=/i,
+    /javascript\s*:/i,
+    /@import/i,
+    /url\s*\(\s*["']?\s*(?:https?:|data:|\/\/)/i,
+    /(?:href|xlink:href)\s*=\s*["']\s*(?!#)/i,
+  ];
+
+  return unsafe.some((pattern) => pattern.test(svg));
 }
 
 export async function POST(req: Request) {
@@ -80,13 +117,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "File must be 5 MB or smaller" }, { status: 413 });
     }
 
-    // 4. Detect the actual image type from magic bytes (authoritative).
-    const bytes = new Uint8Array(await upload.arrayBuffer());
+    // 4. Detect the actual image type from file contents (authoritative).
+    let bytes = new Uint8Array(await upload.arrayBuffer());
     if (bytes.length > MAX_BYTES) {
       return NextResponse.json({ error: "File must be 5 MB or smaller" }, { status: 413 });
     }
 
-    const format = detectImageFormat(bytes);
+    let format = detectImageFormat(bytes);
     if (!format) {
       return NextResponse.json({ error: "Unsupported image type" }, { status: 400 });
     }
@@ -98,7 +135,29 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid image file" }, { status: 400 });
     }
 
-    // 6. Server-controlled object name. The original filename is never used —
+    // 6. SVGs are accepted as an upload format but never stored or served raw.
+    // Preflight them, then rasterize to a transparent PNG using the server-side
+    // image pipeline. This preserves transparency and removes active SVG code.
+    if (format.isSvg) {
+      if (svgFailsSafetyPreflight(bytes)) {
+        return NextResponse.json(
+          { error: "This SVG contains unsupported active or external content. Use a simple logo SVG." },
+          { status: 400 }
+        );
+      }
+
+      try {
+        const png = await sharp(Buffer.from(bytes), { density: 192, limitInputPixels: 25_000_000 })
+          .png({ compressionLevel: 9 })
+          .toBuffer();
+        bytes = new Uint8Array(png);
+        format = { mime: "image/png", ext: "png" };
+      } catch {
+        return NextResponse.json({ error: "Invalid SVG logo" }, { status: 400 });
+      }
+    }
+
+    // 7. Server-controlled object name. The original filename is never used —
     // the tenant cannot inject a path, "..", extension, or bucket segment.
     const objectName = `uploads/${companyId}/${crypto.randomUUID()}.${format.ext}`;
 
@@ -107,7 +166,7 @@ export async function POST(req: Request) {
 
     await fileRef.save(Buffer.from(bytes), {
       metadata: {
-        contentType: format.mime, // server-detected, never the browser value
+        contentType: format.mime,
         cacheControl: "public, max-age=31536000, immutable",
       },
     });
