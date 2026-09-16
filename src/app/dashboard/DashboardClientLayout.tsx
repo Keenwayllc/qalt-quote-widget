@@ -172,9 +172,6 @@ function DashboardLayoutInner({
                     alt={`${displayName || "Company"} logo`}
                     className="h-[62px] w-auto max-w-[190px] object-contain object-left"
                   />
-                  <div className="mt-2 text-left text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">
-                    Powered by <span className="font-black text-slate-500 dark:text-slate-400">Qalt Systems</span>
-                  </div>
                 </div>
               ) : (
                 <QaltLogo size="lg" />
@@ -384,10 +381,7 @@ function DashboardLayoutInner({
 
         <header className="lg:hidden bg-white/80 dark:bg-[#111111]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/6 h-16 flex items-center justify-between px-4 sm:px-6 shrink-0 relative z-10 transition-colors">
           {showMerchantDashboardBrand ? (
-            <div className="flex min-w-0 items-center gap-2.5">
-              <img src={logoUrl} alt={`${displayName || "Company"} logo`} className="h-9 w-auto max-w-[138px] object-contain object-left" />
-              <span className="hidden text-[8px] font-bold uppercase tracking-[0.12em] text-slate-400 sm:inline">Powered by Qalt Systems</span>
-            </div>
+            <img src={logoUrl} alt={`${displayName || "Company"} logo`} className="h-9 w-auto max-w-[138px] object-contain object-left" />
           ) : (
             <QaltLogo size="md" />
           )}
@@ -403,6 +397,11 @@ function DashboardLayoutInner({
         <div className="flex-1 overflow-auto relative z-10 custom-scrollbar">
           <DashboardTips showCard={pathname === "/dashboard"} />
           {children}
+          {entitlements.isWhiteLabelEnabled && displayName && (
+            <footer className="px-6 pb-5 pt-10 text-center text-[10px] font-medium tracking-[0.02em] text-slate-400 dark:text-slate-600">
+              © {new Date().getFullYear()} {displayName} · Powered by Qalt Systems
+            </footer>
+          )}
         </div>
       </main>
 
