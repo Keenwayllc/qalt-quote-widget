@@ -84,6 +84,43 @@
   box-shadow: 0 10px 28px -26px rgba(34, 37, 43, 0.36);
 }
 
+/* Qalt Insights follows the active dashboard theme. The component keeps its
+   premium dark treatment in dark mode; these overrides provide the matching
+   light treatment without changing the analytics data or behavior. */
+:global(html:not(.dark)) .root :global(div[class*="bg-[linear-gradient(180deg,#111827_0%,#0f172a_100%)]"]) {
+  background: #ffffff !important;
+  border-color: #e2e4e9 !important;
+  color: #22252b !important;
+  box-shadow: 0 18px 48px -36px rgba(34, 37, 43, 0.34) !important;
+}
+
+:global(html:not(.dark)) .root :global(div[class*="bg-[linear-gradient(180deg,#111827_0%,#0f172a_100%)]") :global(.text-white) {
+  color: #22252b !important;
+}
+
+:global(html:not(.dark)) .root :global(div[class*="bg-[linear-gradient(180deg,#111827_0%,#0f172a_100%)]") :global(.text-slate-400) {
+  color: #646b76 !important;
+}
+
+:global(html:not(.dark)) .root :global(div[class*="bg-[linear-gradient(180deg,#111827_0%,#0f172a_100%)]") :global(.text-slate-500) {
+  color: #8a9099 !important;
+}
+
+:global(html:not(.dark)) .root :global(div[class*="bg-[linear-gradient(180deg,#111827_0%,#0f172a_100%)]") :global([class*="bg-white/[0.035]"]),
+:global(html:not(.dark)) .root :global(div[class*="bg-[linear-gradient(180deg,#111827_0%,#0f172a_100%)]") :global([class*="bg-white/[0.04]"]),
+:global(html:not(.dark)) .root :global(div[class*="bg-[linear-gradient(180deg,#111827_0%,#0f172a_100%)]") :global([class*="bg-white/[0.045]"]) {
+  background: #f7f8fa !important;
+  border-color: #e2e4e9 !important;
+}
+
+:global(html:not(.dark)) .root :global(div[class*="bg-[linear-gradient(180deg,#111827_0%,#0f172a_100%)]") :global(button) {
+  color: #22252b !important;
+}
+
+:global(html:not(.dark)) .root :global(div[class*="bg-[linear-gradient(180deg,#111827_0%,#0f172a_100%)]") :global(button:hover) {
+  background: #f0f2f5 !important;
+}
+
 :global(.dark) .root {
   --analytics-ink: #f4f4f5;
   --analytics-muted: #a1a1aa;
