@@ -37,11 +37,13 @@ function integrationMetadata(origin: string) {
       apiBase: `${origin}/api/v1`,
     },
     authentication: {
-      current: "bearer_token",
-      tokenPrefix: "qalt_int_",
+      current: "oauth2_or_bearer_token",
+      tokenPrefix: "qalt_live_",
       oauth: {
-        status: "planned",
+        status: "live",
         design: "authorization_code_pkce",
+        discovery: `${origin}/.well-known/oauth-authorization-server`,
+        protectedResource: `${origin}/.well-known/oauth-protected-resource/api/mcp`,
       },
     },
     transports: {
@@ -51,11 +53,11 @@ function integrationMetadata(origin: string) {
       },
       sse: {
         status: "not_enabled",
-        note: "Qalt will enable SSE only after end-to-end client compatibility and authorization behavior are validated.",
+        note: "Qalt uses remote HTTP JSON-RPC for its current MCP connection.",
       },
     },
     platforms: {
-      CHATGPT: { preferred: "mcp", status: "manual_token_setup" },
+      CHATGPT: { preferred: "mcp_oauth", status: "live" },
       CLAUDE: { preferred: "mcp", status: "manual_token_setup" },
       MANUS: { preferred: "mcp", status: "manual_token_setup" },
       PERPLEXITY: { preferred: "api_function_calling", status: "supported_backend_pattern" },
