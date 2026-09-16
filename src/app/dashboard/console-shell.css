@@ -163,6 +163,41 @@ html.dark.qalt-console-shell .font-sans.flex.h-screen > main > header {
   box-shadow: 0 14px 36px -30px rgba(0,0,0,0.9);
 }
 
+/* Dark mode uses one neutral charcoal surface language across the merchant console.
+   This normalizes legacy slate/blue/navy cards without touching Qalt red accents. */
+html.dark.qalt-console-shell .font-sans.flex.h-screen > main :is(
+  [class*="bg-slate-900"],
+  [class*="bg-slate-950"],
+  [class*="bg-gray-900"],
+  [class*="bg-gray-950"],
+  [class*="bg-zinc-900"],
+  [class*="bg-zinc-950"],
+  [class*="bg-blue-900"],
+  [class*="bg-blue-950"],
+  [class*="bg-indigo-900"],
+  [class*="bg-indigo-950"],
+  [class*="from-slate-900"][class*="to-slate-800"],
+  [class*="from-slate-950"][class*="to-slate-900"],
+  [class*="from-blue-950"],
+  [class*="from-indigo-950"],
+  [class*="bg-[linear-gradient(180deg,#111827_0%,#0f172a_100%)]"]
+) {
+  background: #141414 !important;
+  background-image: none !important;
+  border-color: rgba(255, 255, 255, 0.075) !important;
+}
+
+html.dark.qalt-console-shell .font-sans.flex.h-screen > main :is(
+  [style*="background-color: rgb(15, 23, 42)"],
+  [style*="background-color: rgb(17, 24, 39)"],
+  [style*="background-color:#0f172a"],
+  [style*="background-color:#111827"]
+) {
+  background-color: #141414 !important;
+  background-image: none !important;
+  border-color: rgba(255, 255, 255, 0.075) !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html.qalt-console-shell *,
   html.qalt-console-shell *::before,
