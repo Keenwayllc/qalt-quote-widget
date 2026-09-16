@@ -32,7 +32,7 @@ const whatsnewFeatures = [
   {
     id: "geo-fencing",
     name: "Geo-Fencing & Service Areas",
-    category: "Pro/Enterprise",
+    category: "All Plans",
     icon: <MapPin size={32} />,
     description: "Define supported ZIP codes and use geo-fencing to stop unsupported customer routes before they move through the normal quote flow.",
     readingTime: 6,
