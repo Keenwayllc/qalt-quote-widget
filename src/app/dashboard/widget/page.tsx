@@ -1,6 +1,8 @@
+import type { CSSProperties } from "react";
 import { getCurrentCompany } from "@/lib/session";
 import WidgetForm from "@/components/dashboard/WidgetForm";
 import BrandColorPresets from "@/components/dashboard/BrandColorPresets";
+import "./widget-preview-theme.css";
 
 export default async function WidgetSettingsPage({
   searchParams,
@@ -16,8 +18,14 @@ export default async function WidgetSettingsPage({
 
   widgetSettings = widgetSettings ?? null;
 
+  const previewStyle = {
+    "--qalt-widget-preview-bg-image": widgetSettings?.backgroundImageUrl
+      ? `url("${widgetSettings.backgroundImageUrl}")`
+      : "none",
+  } as CSSProperties;
+
   return (
-    <div className="qalt-widget-studio">
+    <div className="qalt-widget-studio" style={previewStyle}>
       <BrandColorPresets />
       <WidgetForm
         initialData={widgetSettings!}
