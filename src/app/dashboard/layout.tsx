@@ -1,8 +1,6 @@
 import { getCurrentCompany, isTrialExpired, trialDaysRemaining, wasTrialDowngraded } from "@/lib/session";
 import DashboardClientLayout from "./DashboardClientLayout";
 import DashboardRouteStyler from "./DashboardRouteStyler";
-import DashboardSupportLauncher from "@/components/dashboard/DashboardSupportLauncher";
-import DashboardTips from "@/components/dashboard/DashboardTips";
 import "./dashboard-polish.css";
 import "./console-shell.css";
 import "./overview-premium.css";
@@ -45,8 +43,6 @@ export default async function DashboardLayout({
   return (
     <>
       <DashboardRouteStyler />
-      <DashboardSupportLauncher />
-      <DashboardTips />
       <DashboardClientLayout
         subscriptionPlan={company.subscriptionPlan}
         pendingCount={pendingCount}
