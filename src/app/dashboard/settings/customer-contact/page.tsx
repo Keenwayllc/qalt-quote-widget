@@ -93,7 +93,7 @@ export default function CustomerContactSettingsPage() {
         <div className="text-[10px] font-black uppercase tracking-[0.2em] text-red-600">Customer-facing details</div>
         <h1 className="mt-2 text-3xl font-black tracking-[-0.04em] text-slate-950 dark:text-white">Customer Contact</h1>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500 dark:text-slate-400">
-          Choose exactly what customers see when they need help. Your Qalt login and notification email stay private unless you intentionally enter that same address here.
+          Choose the contact details your customers can see and use. Your Internal Notification Email in Account Settings remains private unless you intentionally use the same address here.
         </p>
       </div>
 
@@ -103,7 +103,7 @@ export default function CustomerContactSettingsPage() {
           <div>
             <div className="text-sm font-black text-slate-900 dark:text-white">Where this contact appears</div>
             <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">
-              Qalt uses these customer-facing details on the secure quote portal, quote emails, paid invoice emails, Quote PDFs, and Paid Invoice PDFs. If you enter a customer-facing email, replies to Qalt quote and invoice emails will also go to that address.
+              Qalt uses these customer-facing details on the secure quote portal, quote emails, paid invoice emails, Quote PDFs, and Paid Invoice PDFs. Customer replies to Qalt quote and invoice emails go to the customer-facing email you enter here.
             </p>
           </div>
         </div>
@@ -117,7 +117,7 @@ export default function CustomerContactSettingsPage() {
           </div>
 
           <Field icon={Building2} label="Department or team" value={contact.department} onChange={set("department")} placeholder="Quotes & Customer Service" />
-          <Field icon={Mail} label="Customer-facing email" value={contact.email} onChange={set("email")} placeholder="quotes@yourcompany.com" type="email" hint="Separate from your Qalt login email. This address is also used as Reply-To on customer quote and invoice emails." />
+          <Field icon={Mail} label="Customer-facing email" value={contact.email} onChange={set("email")} placeholder="quotes@yourcompany.com" type="email" hint="Shown to customers on quotes, emails, invoices, and PDFs. Customer replies are sent here." />
           <Field icon={Phone} label="Customer-facing phone" value={contact.phone} onChange={set("phone")} placeholder="(555) 555-0123" type="tel" />
           <Field icon={Clock3} label="Support hours" value={contact.hours} onChange={set("hours")} placeholder="Mon-Fri, 8 AM-6 PM" />
 
