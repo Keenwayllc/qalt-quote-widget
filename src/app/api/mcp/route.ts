@@ -71,7 +71,11 @@ async function listQuotes(connection: IntegrationConnectionRow, args: Record<str
     resource: "list_quotes",
     metadata: { status, limit },
   });
-  return quotes;
+
+  return {
+    quotes,
+    count: quotes.length,
+  };
 }
 
 async function getQuote(connection: IntegrationConnectionRow, args: Record<string, unknown>) {
@@ -146,7 +150,7 @@ export async function GET(request: Request) {
 
   return NextResponse.json({
     name: "Qalt MCP Server",
-    version: "1.1.0",
+    version: "1.1.1",
     mode: "read-only",
     authentication: "oauth2",
     tools: ["list_quotes", "get_quote", "analytics_summary"],
@@ -166,7 +170,7 @@ export async function POST(request: Request) {
     return rpcResult(body.id, {
       protocolVersion: "2025-06-18",
       capabilities: { tools: {} },
-      serverInfo: { name: "Qalt", version: "1.1.0" },
+      serverInfo: { name: "Qalt", version: "1.1.1" },
       instructions: "Qalt provides merchant-scoped, read-only quote and analytics tools. The connection only sees data for the authorized Qalt merchant.",
     });
   }
@@ -187,6 +191,15 @@ export async function POST(request: Request) {
               status: { type: "string", description: "Optional quote status such as PENDING, WON, or LOST." },
               limit: { type: "number", minimum: 1, maximum: 50, default: 20 },
             },
+            additionalProperties: false,
+          },
+          outputSchema: {
+            type: "object",
+            properties: {
+              quotes: { type: "array", items: { type: "object" } },
+              count: { type: "number" },
+            },
+            required: ["quotes", "count"],
             additionalProperties: false,
           },
         },
