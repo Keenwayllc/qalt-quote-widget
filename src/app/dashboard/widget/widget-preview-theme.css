@@ -1,16 +1,17 @@
 /* Widget studio preview theme parity.
-   Dark mode changes colors only. It must not change the merchant preview layout. */
+   The customer form theme is independent from the Qalt dashboard theme.
+   Dark Form changes colors only and never changes the preview layout. */
 
-.dark .qalt-widget-studio > div > div:last-child > div > div:nth-child(2) {
+.qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) {
   background: #171717 !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
   box-shadow: none !important;
   opacity: 1 !important;
 }
 
-/* Keep the saved widget background visible in dark mode without changing the
-   header's flex layout or the logo/title positioning. */
-.dark .qalt-widget-studio > div > div:last-child > div > div:nth-child(2) > div:first-child {
+/* Keep the saved widget background visible without changing the header's flex
+   layout or the logo/title positioning. */
+.qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) > div:first-child {
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -18,7 +19,7 @@
   border-color: rgba(255, 255, 255, 0.12) !important;
 }
 
-.dark .qalt-widget-studio > div > div:last-child > div > div:nth-child(2) > div:first-child::before {
+.qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) > div:first-child::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -31,36 +32,33 @@
   pointer-events: none;
 }
 
-/* Only lift the actual content layer above the background image.
-   Do not touch the absolute contrast overlay or it becomes a flex item and moves
-   the logo/title toward the center. */
-.dark .qalt-widget-studio > div > div:last-child > div > div:nth-child(2) > div:first-child > .relative.z-10 {
+/* Only lift the actual content layer above the background image. */
+.qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) > div:first-child > .relative.z-10 {
   position: relative;
   z-index: 2;
 }
 
-/* Preserve the original absolute overlay and keep it subtle enough to show the photo. */
-.dark .qalt-widget-studio > div > div:last-child > div > div:nth-child(2) > div:first-child > .absolute.inset-0 {
+/* Preserve the original absolute overlay so logo and title stay left aligned. */
+.qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) > div:first-child > .absolute.inset-0 {
   position: absolute;
   inset: 0;
   z-index: 1;
   background: rgba(2, 6, 23, 0.28) !important;
 }
 
-/* Preview body and route placeholders should visually belong to dark mode. */
-.dark .qalt-widget-studio > div > div:last-child > div > div:nth-child(2) > div:nth-child(2) {
+.qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) > div:nth-child(2) {
   background: #171717 !important;
 }
 
-.dark .qalt-widget-studio > div > div:last-child > div > div:nth-child(2) > div:nth-child(2) .bg-slate-200 {
+.qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) > div:nth-child(2) .bg-slate-200 {
   background: #292929 !important;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.dark .qalt-widget-studio > div > div:last-child > div > div:nth-child(2) > div:nth-child(2) .border-slate-100 {
+.qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) > div:nth-child(2) .border-slate-100 {
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.dark .qalt-widget-studio > div > div:last-child > div > div:nth-child(2) > div:nth-child(2) p {
+.qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) > div:nth-child(2) p {
   color: #94a3b8 !important;
 }
