@@ -213,7 +213,6 @@ function buildRecommendations(data: InsightsData) {
     });
   }
 
-  // Always include a general best-practice tip
   tips.push({
     icon: <Lightbulb size={18} className="text-yellow-400" />,
     priority: "quick",
@@ -243,7 +242,6 @@ export function InsightsCard() {
       .catch(() => {});
   }, []);
 
-  // Close on Escape
   useEffect(() => {
     if (!modalOpen) return;
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setModalOpen(false); };
@@ -253,14 +251,14 @@ export function InsightsCard() {
 
   const items = data
     ? [
-        { label: "Busiest Time", value: data.busiestTime, color: "text-red-400" },
-        { label: "Top Region", value: data.topRegion, color: "text-emerald-400" },
-        { label: "Conv. Rate", value: `${data.conversionRate.toFixed(1)}%`, color: "text-rose-400" },
+        { label: "Busiest Time", value: data.busiestTime },
+        { label: "Top Region", value: data.topRegion },
+        { label: "Conv. Rate", value: `${data.conversionRate.toFixed(1)}%` },
       ]
     : [
-        { label: "Busiest Time", value: "Loading…", color: "text-red-400" },
-        { label: "Top Region", value: "Loading…", color: "text-emerald-400" },
-        { label: "Conv. Rate", value: "Loading…", color: "text-rose-400" },
+        { label: "Busiest Time", value: "Loading…" },
+        { label: "Top Region", value: "Loading…" },
+        { label: "Conv. Rate", value: "Loading…" },
       ];
 
   const recommendations = data ? buildRecommendations(data) : [];
@@ -271,51 +269,52 @@ export function InsightsCard() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8 }}
-        className="bg-linear-to-br from-slate-900 to-slate-800 rounded-[32px] p-8 text-white h-full relative overflow-hidden"
+        className="h-full overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,#111827_0%,#0f172a_100%)] p-8 text-white shadow-[0_24px_70px_rgba(0,0,0,0.28)]"
       >
-        <div className="absolute top-0 right-0 w-40 h-40 bg-red-500 rounded-full blur-[80px] opacity-20 translate-x-10 -translate-y-10" />
-        <div className="relative z-10 flex flex-col h-full">
+        <div className="flex h-full flex-col">
           <div className="mb-8">
-            <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-6 border border-white/10">
-              <Zap size={22} className="text-red-400" />
+            <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] shadow-inner shadow-white/[0.03]">
+              <Zap size={21} className="text-red-400" />
             </div>
-            <h3 className="text-2xl font-black tracking-tight mb-2">Qalt Insights</h3>
-            <p className="text-slate-400 font-medium leading-relaxed font-['Outfit']">Live metrics from your last 90 days of quote activity.</p>
+            <h3 className="mb-2 text-2xl font-black tracking-tight text-white">Qalt Insights</h3>
+            <p className="font-['Outfit'] font-medium leading-relaxed text-slate-400">Live metrics from your last 90 days of quote activity.</p>
           </div>
-          <div className="space-y-4 flex-1">
-            {items.map((item, i) => (
-              <div key={i} className="bg-white/5 border border-white/5 rounded-2xl p-4">
-                <p className="text-[10px] uppercase font-black text-slate-500 tracking-widest mb-1">{item.label}</p>
-                <p className={`text-sm font-bold ${item.color}`}>{item.value}</p>
+
+          <div className="flex-1 space-y-3">
+            {items.map((item) => (
+              <div key={item.label} className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-4">
+                <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-slate-500">{item.label}</p>
+                <p className="text-[15px] font-bold tracking-tight text-white">{item.value}</p>
               </div>
             ))}
           </div>
+
           {data && (
-            <div className="mt-4 grid grid-cols-2 gap-3">
-              <div className="bg-white/5 border border-white/5 rounded-2xl p-3">
-                <p className="text-[10px] uppercase font-black text-slate-500 tracking-widest mb-1">Avg Value</p>
-                <p className="text-sm font-bold text-amber-400">${data.avgQuoteValue.toFixed(0)}</p>
+            <div className="mt-3 grid grid-cols-2 gap-3">
+              <div className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-3.5">
+                <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-slate-500">Avg Value</p>
+                <p className="text-[15px] font-bold tracking-tight text-white">${data.avgQuoteValue.toFixed(0)}</p>
               </div>
-              <div className="bg-white/5 border border-white/5 rounded-2xl p-3">
-                <p className="text-[10px] uppercase font-black text-slate-500 tracking-widest mb-1">This Week</p>
-                <p className="text-sm font-bold text-sky-400">{data.thisWeekCount} quotes</p>
+              <div className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-3.5">
+                <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-slate-500">This Week</p>
+                <p className="text-[15px] font-bold tracking-tight text-white">{data.thisWeekCount} quotes</p>
               </div>
             </div>
           )}
+
           <button
             onClick={() => setModalOpen(true)}
-            className="mt-6 group flex items-center justify-between w-full p-4 bg-white/10 hover:bg-white/20 active:scale-95 rounded-2xl border border-white/10 transition-all font-bold text-sm"
+            className="group mt-6 flex w-full items-center justify-between rounded-2xl border border-white/10 bg-white/[0.045] p-4 text-sm font-bold text-white transition-all hover:bg-white/[0.075] active:scale-[0.99]"
           >
-            Optimize Conversion <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            <span>Optimize Conversion</span>
+            <ChevronRight size={18} className="text-red-400 transition-transform group-hover:translate-x-1" />
           </button>
         </div>
       </motion.div>
 
-      {/* Optimize Conversion Modal */}
       <AnimatePresence>
         {modalOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -324,7 +323,6 @@ export function InsightsCard() {
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
             />
 
-            {/* Panel */}
             <motion.div
               initial={{ opacity: 0, x: "100%" }}
               animate={{ opacity: 1, x: 0 }}
@@ -332,7 +330,6 @@ export function InsightsCard() {
               transition={{ type: "spring", damping: 28, stiffness: 260 }}
               className="fixed top-0 right-0 h-full w-full max-w-lg bg-slate-950 z-50 overflow-y-auto shadow-2xl"
             >
-              {/* Header */}
               <div className="sticky top-0 bg-slate-950/95 backdrop-blur-md border-b border-white/10 px-6 py-5 flex items-center justify-between z-10">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 bg-red-600 rounded-xl flex items-center justify-center">
@@ -351,23 +348,21 @@ export function InsightsCard() {
                 </button>
               </div>
 
-              {/* Summary strip */}
               {data && (
                 <div className="px-6 py-4 grid grid-cols-3 gap-3 border-b border-white/5">
                   {[
-                    { label: "Conv. Rate", value: `${data.conversionRate.toFixed(1)}%`, color: "text-rose-400" },
-                    { label: "Avg Value",  value: `$${data.avgQuoteValue.toFixed(0)}`,   color: "text-amber-400" },
-                    { label: "This Week",  value: `${data.thisWeekCount} quotes`,         color: "text-sky-400" },
+                    { label: "Conv. Rate", value: `${data.conversionRate.toFixed(1)}%` },
+                    { label: "Avg Value", value: `$${data.avgQuoteValue.toFixed(0)}` },
+                    { label: "This Week", value: `${data.thisWeekCount} quotes` },
                   ].map((s) => (
-                    <div key={s.label} className="bg-white/5 rounded-2xl p-3 text-center">
-                      <p className="text-[9px] uppercase font-black text-slate-500 tracking-widest mb-1">{s.label}</p>
-                      <p className={`text-sm font-black ${s.color}`}>{s.value}</p>
+                    <div key={s.label} className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-3 text-center">
+                      <p className="mb-1 text-[9px] font-black uppercase tracking-widest text-slate-500">{s.label}</p>
+                      <p className="text-sm font-black text-white">{s.value}</p>
                     </div>
                   ))}
                 </div>
               )}
 
-              {/* Recommendations */}
               <div className="px-6 py-6 space-y-4">
                 <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-2">
                   {recommendations.length} recommendation{recommendations.length !== 1 ? "s" : ""} for your account
