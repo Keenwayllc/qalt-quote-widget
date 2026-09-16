@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import {
   Bot,
   Check,
+  ChevronDown,
+  ChevronUp,
   Copy,
   KeyRound,
   Link2,
@@ -44,13 +46,108 @@ interface WebhookRow {
   createdAt: string;
 }
 
-const AI_PLATFORMS = [
-  { name: "ChatGPT", provider: "CHATGPT", note: "Primary MCP target" },
-  { name: "Claude", provider: "CLAUDE", note: "Primary MCP target" },
-  { name: "Manus", provider: "MANUS", note: "Primary MCP target" },
-  { name: "Perplexity", provider: "PERPLEXITY", note: "API / compatibility path" },
-  { name: "Qwen", provider: "QWEN", note: "API / compatibility path" },
-  { name: "DeepSeek", provider: "DEEPSEEK", note: "API / compatibility path" },
+interface PlatformGuide {
+  name: string;
+  provider: string;
+  method: string;
+  badge: string;
+  summary: string;
+  steps: string[];
+  usesMcp: boolean;
+  note?: string;
+}
+
+const AI_PLATFORMS: PlatformGuide[] = [
+  {
+    name: "ChatGPT",
+    provider: "CHATGPT",
+    method: "Remote MCP",
+    badge: "MCP",
+    summary: "Use Qalt's remote MCP server so ChatGPT can call approved Qalt tools.",
+    steps: [
+      "Create a ChatGPT connection in Qalt and copy the token when it appears.",
+      "In ChatGPT, add a custom app or MCP connector and enter the Qalt MCP server URL.",
+      "Configure the connection to send the Qalt token as a Bearer authorization token.",
+      "After ChatGPT discovers the tools, ask it to list quotes or summarize quote analytics.",
+    ],
+    usesMcp: true,
+    note: "For a public one-click Qalt app, OAuth will replace manual token entry.",
+  },
+  {
+    name: "Claude",
+    provider: "CLAUDE",
+    method: "Remote MCP",
+    badge: "MCP",
+    summary: "Claude can use Qalt through a remote MCP connector with approved read-only tools.",
+    steps: [
+      "Create a Claude connection in Qalt and copy the one-time token.",
+      "In Claude, open Settings and add a custom connector / remote MCP server.",
+      "Use the Qalt MCP URL and the Qalt token for authorization.",
+      "Confirm Claude can see list_quotes, get_quote, and analytics_summary before using it with live work.",
+    ],
+    usesMcp: true,
+    note: "OAuth is the preferred long-term public connector experience.",
+  },
+  {
+    name: "Manus",
+    provider: "MANUS",
+    method: "MCP connector",
+    badge: "MCP",
+    summary: "Connect Manus to Qalt as an MCP-backed connector for merchant-scoped quote workflows.",
+    steps: [
+      "Create a Manus connection in Qalt and copy the token.",
+      "In Manus connectors, add a custom MCP or API connection.",
+      "Use the Qalt MCP URL and Bearer token.",
+      "Test with a read-only task such as showing today's recent quotes.",
+    ],
+    usesMcp: true,
+    note: "Keep the connection read-only until write-action permissions are released.",
+  },
+  {
+    name: "Perplexity",
+    provider: "PERPLEXITY",
+    method: "Qalt API + tools",
+    badge: "API",
+    summary: "Use Perplexity function tools that call Qalt's secure REST API on the merchant's behalf.",
+    steps: [
+      "Create a Perplexity connection in Qalt and copy the token.",
+      "In your Perplexity Agent API integration, define functions such as qalt_list_quotes and qalt_analytics_summary.",
+      "When Perplexity requests a function, your backend calls the matching Qalt API endpoint with the Bearer token.",
+      "Return the Qalt response to Perplexity so it can answer the merchant.",
+    ],
+    usesMcp: false,
+    note: "This is an API tool-calling path, not a claim of native Qalt MCP support inside Perplexity.",
+  },
+  {
+    name: "Qwen",
+    provider: "QWEN",
+    method: "MCP / API compatibility",
+    badge: "MCP + API",
+    summary: "Qwen can use Qalt through a compatible MCP transport or the Qalt REST API.",
+    steps: [
+      "Create a Qwen connection in Qalt and copy the token.",
+      "If your Qwen client supports Qalt's remote HTTP MCP transport, use the Qalt MCP URL and Bearer token.",
+      "If the Qwen environment requires a different MCP transport, use the Qalt REST API until that transport is enabled.",
+      "Start with list/read operations only and verify the connection in Qalt's activity log.",
+    ],
+    usesMcp: true,
+    note: "Qalt will only label a Qwen transport as native after that exact client flow is tested end to end.",
+  },
+  {
+    name: "DeepSeek",
+    provider: "DEEPSEEK",
+    method: "Qalt API + function calling",
+    badge: "API",
+    summary: "Use DeepSeek function calling while your application securely executes the Qalt API request.",
+    steps: [
+      "Create a DeepSeek connection in Qalt and copy the token.",
+      "Define Qalt functions in your DeepSeek application, such as qalt_list_quotes and qalt_get_quote.",
+      "When DeepSeek selects a function, your backend calls Qalt's REST API with the Bearer token.",
+      "Pass the Qalt result back to DeepSeek for the final response.",
+    ],
+    usesMcp: false,
+    note: "The Qalt token belongs on your server, not in a browser or public prompt.",
+  },
 ];
 
 function CopyButton({ value, label = "Copy" }: { value: string; label?: string }) {
@@ -83,6 +180,7 @@ export default function IntegrationsPage() {
   const [creating, setCreating] = useState(false);
   const [newToken, setNewToken] = useState<string | null>(null);
   const [newTokenName, setNewTokenName] = useState("");
+  const [openGuide, setOpenGuide] = useState<string | null>("CHATGPT");
   const [error, setError] = useState("");
 
   const [webhooks, setWebhooks] = useState<WebhookRow[]>([]);
@@ -106,7 +204,6 @@ export default function IntegrationsPage() {
         setMcpUrl(integrationData.endpoints?.mcp ?? "");
         setApiBase(integrationData.endpoints?.apiBase ?? "");
       }
-
       if (webhookRes.ok) {
         const webhookData = await webhookRes.json();
         setWebhooks(webhookData.webhooks ?? []);
@@ -192,7 +289,7 @@ export default function IntegrationsPage() {
           <div>
             <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Integrations & AI Connections</h1>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-3xl leading-relaxed">
-              Connect Qalt to AI assistants and business systems without giving them direct database access. Qalt controls the permissions, keeps every connection merchant-scoped, and records important activity.
+              Connect Qalt to AI assistants and business systems without giving them direct database access. Qalt controls permissions, keeps every connection merchant-scoped, and records important activity.
             </p>
           </div>
         </div>
@@ -207,7 +304,7 @@ export default function IntegrationsPage() {
           <div>
             <h2 className="text-xl font-black text-slate-900 dark:text-white">Secure Qalt connection center</h2>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-              The first live connection layer is read-only. Connected tools can view approved quotes and analytics, but they cannot change pricing, send money, delete data, or perform payment actions.
+              Live connections are read-only in this phase. Connected tools can view approved quotes and analytics, but they cannot change pricing, send money, delete data, or perform payment actions.
             </p>
           </div>
         </div>
@@ -228,10 +325,20 @@ export default function IntegrationsPage() {
               <div>
                 <p className="text-xs font-black uppercase tracking-widest text-slate-400">New secure connection</p>
                 <h3 className="text-lg font-black text-slate-900 dark:text-white mt-1">Create a Qalt access token</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">This token is the working connection method today. OAuth sign-in will replace manual token entry for supported public connectors later.</p>
               </div>
               <div>
                 <label className="block text-xs font-black text-slate-500 dark:text-slate-400 mb-2">Platform</label>
-                <select value={provider} onChange={(e) => setProvider(e.target.value)} className="w-full border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#141414] px-3 py-3 text-sm text-slate-800 dark:text-white">
+                <select
+                  value={provider}
+                  onChange={(e) => {
+                    setProvider(e.target.value);
+                    setOpenGuide(e.target.value);
+                    const selected = AI_PLATFORMS.find((item) => item.provider === e.target.value);
+                    if (selected) setConnectionName(`My ${selected.name} connection`);
+                  }}
+                  className="w-full border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#141414] px-3 py-3 text-sm text-slate-800 dark:text-white"
+                >
                   {AI_PLATFORMS.map((item) => <option key={item.provider} value={item.provider}>{item.name}</option>)}
                   <option value="CUSTOM">Other / custom integration</option>
                 </select>
@@ -274,6 +381,9 @@ export default function IntegrationsPage() {
                         <span className="text-[10px] font-black uppercase tracking-wide px-2 py-0.5 bg-slate-100 dark:bg-white/5 text-slate-500">{item.provider}</span>
                       </div>
                       <p className="font-mono text-xs text-slate-400 mt-2">{item.tokenPrefix}</p>
+                      <div className="flex flex-wrap gap-1.5 mt-2">
+                        {item.scopes.map((scope) => <span key={scope} className="text-[10px] px-2 py-0.5 bg-slate-100 dark:bg-white/5 text-slate-500">{scope}</span>)}
+                      </div>
                       <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">Last used: {item.lastUsedAt ? new Date(item.lastUsedAt).toLocaleString() : "Not used yet"}</p>
                     </div>
                     <button onClick={() => revokeConnection(item.id)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors" title="Revoke connection"><Trash2 size={16} /></button>
@@ -305,8 +415,10 @@ export default function IntegrationsPage() {
         <div className="flex items-start gap-3 mb-6">
           <Bot size={20} className="text-red-600 dark:text-red-400 mt-0.5" />
           <div>
-            <h2 className="text-xl font-black text-slate-900 dark:text-white">How AI tools connect to Qalt</h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Create a secure connection above, copy the token once, then give a supported client the Qalt MCP address and that token.</p>
+            <h2 className="text-xl font-black text-slate-900 dark:text-white">Connect your AI platform</h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-3xl">
+              Pick the AI your team uses and follow Qalt's setup steps. MCP platforms use the Qalt MCP server. Function-calling platforms use the Qalt API.
+            </p>
           </div>
         </div>
 
@@ -314,34 +426,91 @@ export default function IntegrationsPage() {
           <div className="border border-slate-200 dark:border-white/[0.07] p-5">
             <div className="flex items-center gap-2 mb-2"><Link2 size={16} className="text-red-600" /><p className="font-black text-slate-900 dark:text-white">Qalt MCP server</p></div>
             <code className="text-xs text-slate-500 dark:text-slate-300 break-all">{mcpUrl || "Loading…"}</code>
+            <p className="text-xs text-slate-400 mt-2">Authentication: Authorization: Bearer YOUR_QALT_TOKEN</p>
             {mcpUrl && <div className="mt-3"><CopyButton value={mcpUrl} label="Copy MCP URL" /></div>}
           </div>
           <div className="border border-slate-200 dark:border-white/[0.07] p-5">
             <div className="flex items-center gap-2 mb-2"><PlugZap size={16} className="text-red-600" /><p className="font-black text-slate-900 dark:text-white">Qalt API base</p></div>
             <code className="text-xs text-slate-500 dark:text-slate-300 break-all">{apiBase || "Loading…"}</code>
+            <p className="text-xs text-slate-400 mt-2">Use the same Bearer token from the secure connection above.</p>
             {apiBase && <div className="mt-3"><CopyButton value={apiBase} label="Copy API URL" /></div>}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
           {["list_quotes", "get_quote", "analytics_summary"].map((tool) => (
             <div key={tool} className="border border-slate-200 dark:border-white/[0.07] bg-slate-50/60 dark:bg-white/[0.02] p-4">
               <code className="text-xs font-black text-slate-800 dark:text-slate-200">{tool}</code>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">Live read-only Qalt MCP tool</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">Live read-only Qalt tool</p>
             </div>
           ))}
         </div>
 
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-          {AI_PLATFORMS.map((item) => (
-            <div key={item.name} className="border border-slate-200 dark:border-white/[0.07] p-4">
-              <div className="flex items-center justify-between gap-3">
-                <p className="font-black text-slate-900 dark:text-white">{item.name}</p>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-wide">{item.note}</span>
+        <div className="space-y-3">
+          {AI_PLATFORMS.map((item) => {
+            const isOpen = openGuide === item.provider;
+            return (
+              <div key={item.provider} className="border border-slate-200 dark:border-white/[0.07] bg-white dark:bg-[#141414]">
+                <button
+                  type="button"
+                  onClick={() => setOpenGuide(isOpen ? null : item.provider)}
+                  className="w-full flex items-center justify-between gap-4 p-5 text-left hover:bg-slate-50 dark:hover:bg-white/[0.025] transition-colors"
+                >
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="font-black text-slate-900 dark:text-white">{item.name}</p>
+                      <span className="text-[10px] font-black uppercase tracking-wide px-2 py-0.5 bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-300">{item.badge}</span>
+                      <span className="text-[10px] font-black uppercase tracking-wide text-slate-400">{item.method}</span>
+                    </div>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">{item.summary}</p>
+                  </div>
+                  {isOpen ? <ChevronUp size={17} className="text-slate-400 shrink-0" /> : <ChevronDown size={17} className="text-slate-400 shrink-0" />}
+                </button>
+
+                {isOpen && (
+                  <div className="border-t border-slate-100 dark:border-white/[0.06] p-5">
+                    <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">How to connect</p>
+                    <ol className="space-y-3">
+                      {item.steps.map((step, index) => (
+                        <li key={step} className="flex gap-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                          <span className="w-6 h-6 shrink-0 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center text-[11px] font-black text-slate-500">{index + 1}</span>
+                          <span>{step}</span>
+                        </li>
+                      ))}
+                    </ol>
+                    <div className="mt-4 flex flex-wrap gap-3">
+                      {item.usesMcp && mcpUrl && <CopyButton value={mcpUrl} label="Copy MCP URL" />}
+                      {!item.usesMcp && apiBase && <CopyButton value={apiBase} label="Copy API URL" />}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setProvider(item.provider);
+                          setConnectionName(`My ${item.name} connection`);
+                          window.scrollTo({ top: 0, behavior: "smooth" });
+                        }}
+                        className="text-xs font-black text-red-600 hover:text-red-500"
+                      >
+                        Create {item.name} connection
+                      </button>
+                    </div>
+                    {item.note && <p className="mt-4 text-xs text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 p-3">{item.note}</p>}
+                  </div>
+                )}
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">Use the secure Qalt connection layer when that platform supports the required MCP or API connection method.</p>
+            );
+          })}
+        </div>
+
+        <div className="mt-6 border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.025] p-5">
+          <div className="flex items-start gap-3">
+            <ShieldCheck size={18} className="text-emerald-600 dark:text-emerald-400 mt-0.5" />
+            <div>
+              <p className="text-sm font-black text-slate-900 dark:text-white">OAuth is the next authentication upgrade</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                Qalt's current bearer-token flow is live and revocable. A future OAuth + PKCE consent flow will let supported assistants show a simple “Sign in to Qalt” experience without merchants manually copying secrets.
+              </p>
             </div>
-          ))}
+          </div>
         </div>
       </section>
 
@@ -380,7 +549,7 @@ export default function IntegrationsPage() {
         <div className="flex items-center justify-between gap-4 mb-5">
           <div>
             <h2 className="text-lg font-black text-slate-900 dark:text-white">Integration activity</h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">A recent audit trail of connection creation, revocation, API reads, and MCP tool calls.</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Recent connection creation, revocation, API reads, and MCP tool calls.</p>
           </div>
           <ShieldCheck size={19} className="text-emerald-600 dark:text-emerald-400" />
         </div>

@@ -30,6 +30,41 @@ async function getEnterpriseCompany(companyId: string) {
   };
 }
 
+function integrationMetadata(origin: string) {
+  return {
+    endpoints: {
+      mcp: `${origin}/api/mcp`,
+      apiBase: `${origin}/api/v1`,
+    },
+    authentication: {
+      current: "bearer_token",
+      tokenPrefix: "qalt_int_",
+      oauth: {
+        status: "planned",
+        design: "authorization_code_pkce",
+      },
+    },
+    transports: {
+      mcpHttpJsonRpc: {
+        status: "live",
+        endpoint: `${origin}/api/mcp`,
+      },
+      sse: {
+        status: "not_enabled",
+        note: "Qalt will enable SSE only after end-to-end client compatibility and authorization behavior are validated.",
+      },
+    },
+    platforms: {
+      CHATGPT: { preferred: "mcp", status: "manual_token_setup" },
+      CLAUDE: { preferred: "mcp", status: "manual_token_setup" },
+      MANUS: { preferred: "mcp", status: "manual_token_setup" },
+      PERPLEXITY: { preferred: "api_function_calling", status: "supported_backend_pattern" },
+      QWEN: { preferred: "mcp_or_api", status: "transport_validation_required" },
+      DEEPSEEK: { preferred: "api_function_calling", status: "supported_backend_pattern" },
+    },
+  };
+}
+
 export async function GET(request: Request) {
   try {
     const auth = await getDashboardAuth();
@@ -82,10 +117,7 @@ export async function GET(request: Request) {
       enterpriseEnabled: company.allowed,
       connections,
       activity,
-      endpoints: {
-        mcp: `${origin}/api/mcp`,
-        apiBase: `${origin}/api/v1`,
-      },
+      ...integrationMetadata(origin),
     });
   } catch (error) {
     console.error("GET /api/dashboard/integrations error:", error);
@@ -147,10 +179,7 @@ export async function POST(request: Request) {
       },
       token: secret.token,
       warning: "Copy this token now. Qalt stores only its hash and cannot show it again.",
-      endpoints: {
-        mcp: `${origin}/api/mcp`,
-        apiBase: `${origin}/api/v1`,
-      },
+      ...integrationMetadata(origin),
     });
   } catch (error) {
     console.error("POST /api/dashboard/integrations error:", error);
