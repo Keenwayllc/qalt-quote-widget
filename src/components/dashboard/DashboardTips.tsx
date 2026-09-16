@@ -208,9 +208,15 @@ export default function DashboardTips({ showCard = false }: { showCard?: boolean
                   placeholder="Find"
                   className="h-full flex-1 bg-transparent text-[15px] font-medium text-slate-900 outline-none placeholder:text-slate-400 dark:text-zinc-100 dark:placeholder:text-zinc-500"
                 />
-                <kbd className="inline-flex h-7 min-w-9 items-center justify-center rounded-md border border-slate-200 bg-slate-50 px-2 font-mono text-[11px] font-bold text-slate-500 shadow-sm dark:border-white/10 dark:bg-white/[0.04] dark:text-zinc-400">
+                <button
+                  type="button"
+                  onClick={() => setFinderOpen(false)}
+                  aria-label="Close finder"
+                  title="Close finder"
+                  className="inline-flex h-7 min-w-9 items-center justify-center rounded-md border border-slate-200 bg-slate-50 px-2 font-mono text-[11px] font-bold text-slate-500 shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white hover:text-slate-700 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/40 active:translate-y-0 active:scale-95 dark:border-white/10 dark:bg-white/[0.04] dark:text-zinc-400 dark:hover:border-white/20 dark:hover:bg-white/[0.08] dark:hover:text-zinc-200"
+                >
                   Esc
-                </kbd>
+                </button>
               </div>
 
               <div className="max-h-[min(560px,72vh)] overflow-y-auto p-2 custom-scrollbar">
