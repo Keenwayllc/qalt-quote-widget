@@ -3,6 +3,8 @@ import { getCurrentCompany } from "@/lib/session";
 import prisma from "@/lib/prisma";
 import { renderCustomerDocumentPdf } from "@/lib/customer-document-pdf";
 import { renderPaidInvoiceDocumentPdf } from "@/lib/customer-invoice-pdf";
+import { getCustomerFacingContact } from "@/lib/customer-contact";
+import { decoratePdfWithCustomerContact } from "@/lib/customer-contact-pdf";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -42,9 +44,11 @@ export async function GET(
       return new NextResponse("Not found", { status: 404, headers: PRIVATE_HEADERS });
     }
 
-    const pdf = document.type === "INVOICE"
+    const basePdf = document.type === "INVOICE"
       ? await renderPaidInvoiceDocumentPdf(document)
       : await renderCustomerDocumentPdf(document);
+    const contact = await getCustomerFacingContact(company.id);
+    const pdf = await decoratePdfWithCustomerContact(basePdf, contact);
 
     const fallback = document.type === "INVOICE" ? "invoice" : "quote";
     const filename = `${safeFilename(document.number, fallback)}.pdf`;
