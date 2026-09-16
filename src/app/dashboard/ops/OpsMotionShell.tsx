@@ -8,20 +8,20 @@ import { BadgeCheck, BriefcaseBusiness, MapPinned } from "lucide-react";
 const navItems = [
   {
     href: "/dashboard/ops/jobs",
-    label: "Jobs",
-    description: "Plan & dispatch",
+    label: "Jobs & Dispatch",
+    description: "Plan deliveries and assign work",
     icon: BriefcaseBusiness,
   },
   {
     href: "/dashboard/ops/readiness",
-    label: "Readiness",
-    description: "Verify before launch",
+    label: "Delivery Checklist",
+    description: "Confirm details before heading out",
     icon: BadgeCheck,
   },
   {
     href: "/dashboard/ops/stops",
-    label: "Saved Stops",
-    description: "Reusable location notes",
+    label: "Saved Locations",
+    description: "Remember instructions for repeat places",
     icon: MapPinned,
   },
 ];
@@ -30,9 +30,7 @@ export default function OpsMotionShell({ children }: { children: React.ReactNode
   const pathname = usePathname();
 
   const isActive = (href: string) =>
-    href === "/dashboard/ops/jobs"
-      ? pathname === href || pathname.startsWith(`${href}/`)
-      : pathname === href || pathname.startsWith(`${href}/`);
+    pathname === href || pathname.startsWith(`${href}/`);
 
   return (
     <div className="qalt-ops">
@@ -44,11 +42,11 @@ export default function OpsMotionShell({ children }: { children: React.ReactNode
           transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="qalt-ops-branding">
-            <span className="qalt-ops-kicker">Field Operations</span>
-            <span className="qalt-ops-command-copy">Dispatch workspace</span>
+            <span className="qalt-ops-kicker">Delivery Operations</span>
+            <span className="qalt-ops-command-copy">Tools that help you prepare, dispatch, and repeat deliveries</span>
           </div>
 
-          <nav className="qalt-ops-nav" aria-label="Field Operations">
+          <nav className="qalt-ops-nav" aria-label="Delivery Operations">
             {navItems.map((item) => {
               const active = isActive(item.href);
               const Icon = item.icon;
