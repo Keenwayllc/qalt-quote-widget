@@ -179,11 +179,11 @@ function drawHeader(ctx: Ctx, snap: QuoteSnapshotV1, logo: PDFImage | null) {
   centerText(ctx.page, "DELIVERY QUOTE", y, ctx.bold, 12, INK);
   y -= 18;
   centerText(ctx.page, `${snap.document.number}  |  Issued ${formatDate(snap.document.issuedAt)}`, y, ctx.font, 9.5, MUTED);
-  y -= 28;
+  y -= 24;
 
-  const customer = snap.customer.name || snap.customer.email || "Customer";
-  centerText(ctx.page, `Prepared for ${customer}`, y, ctx.font, 10.5, BODY);
-  y -= 28;
+  // Keep the document header merchant-focused. Customer identity belongs in the
+  // dedicated CUSTOMER section below and must never be confused with the Qalt
+  // account owner, an admin user, or an optional document preparer.
   ctx.page.drawLine({ start: { x: MARGIN, y }, end: { x: PAGE_W - MARGIN, y }, thickness: 0.8, color: LIGHT });
   ctx.y = y - 26;
 }
