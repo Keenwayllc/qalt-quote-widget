@@ -119,6 +119,28 @@ html.qalt-console-shell a:active {
   transform: scale(0.985);
 }
 
+/* Friendly names for the Delivery Operations sidebar. The routes stay unchanged. */
+html.qalt-console-shell aside nav a[href="/dashboard/ops/jobs"] span.flex-1,
+html.qalt-console-shell aside nav a[href="/dashboard/ops/stops"] span.flex-1,
+html.qalt-console-shell aside nav a[href="/dashboard/ops/readiness"] span.flex-1 {
+  font-size: 0;
+}
+
+html.qalt-console-shell aside nav a[href="/dashboard/ops/jobs"] span.flex-1::after {
+  content: "Jobs & Dispatch";
+  font-size: 0.875rem;
+}
+
+html.qalt-console-shell aside nav a[href="/dashboard/ops/stops"] span.flex-1::after {
+  content: "Saved Locations";
+  font-size: 0.875rem;
+}
+
+html.qalt-console-shell aside nav a[href="/dashboard/ops/readiness"] span.flex-1::after {
+  content: "Delivery Checklist";
+  font-size: 0.875rem;
+}
+
 html.dark.qalt-console-shell {
   --console-ink: #f4f4f5;
   --console-muted: #a1a1aa;
