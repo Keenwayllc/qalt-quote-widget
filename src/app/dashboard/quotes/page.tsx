@@ -1,17 +1,22 @@
+import Link from "next/link";
+import { RotateCcw } from "lucide-react";
 import { getCurrentCompany } from "@/lib/session";
 import prisma from "@/lib/prisma";
+import { listOpenAbandonedQuotes } from "@/lib/abandoned-quotes";
 import QuotesClient from "./QuotesClient";
 import styles from "./quotes-polish.module.css";
 
 export default async function QuotesListPage() {
   const company = await getCurrentCompany();
 
-  const quotes = await prisma.quoteRequest.findMany({
-    where: { companyId: company.id, deletedAt: null },
-    orderBy: { createdAt: "desc" },
-  });
+  const [quotes, abandoned] = await Promise.all([
+    prisma.quoteRequest.findMany({
+      where: { companyId: company.id, deletedAt: null },
+      orderBy: { createdAt: "desc" },
+    }),
+    listOpenAbandonedQuotes(company.id),
+  ]);
 
-  // Primary form's add-on labels, used to render human-readable extras badges.
   const widget = await prisma.widgetSettings.findFirst({
     where: { companyId: company.id },
     select: { insideDeliveryLabel: true, addon3Label: true },
@@ -29,9 +34,15 @@ export default async function QuotesListPage() {
             </p>
           </div>
         </div>
-        <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#e2e4e9] dark:border-white/10 bg-white dark:bg-[#171717] px-3 py-1.5 text-xs font-bold text-[#646b76] dark:text-zinc-300 shadow-sm">
-          <span className="h-2 w-2 rounded-full bg-emerald-500" />
-          {quotes.length} active quote{quotes.length === 1 ? "" : "s"}
+        <div className="flex flex-wrap items-center gap-2">
+          <Link href="/dashboard/quotes/abandoned" className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-black text-amber-800 transition hover:bg-amber-100 dark:border-amber-900/40 dark:bg-amber-950/20 dark:text-amber-300">
+            <RotateCcw size={14} />
+            {abandoned.length} abandoned
+          </Link>
+          <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#e2e4e9] dark:border-white/10 bg-white dark:bg-[#171717] px-3 py-1.5 text-xs font-bold text-[#646b76] dark:text-zinc-300 shadow-sm">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            {quotes.length} active quote{quotes.length === 1 ? "" : "s"}
+          </div>
         </div>
       </div>
 
