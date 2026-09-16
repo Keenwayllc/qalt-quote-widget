@@ -5,6 +5,7 @@ import CookieBanner from "@/components/shared/CookieBanner";
 import GlobalScrollToTop from "@/components/shared/GlobalScrollToTop";
 import MarketingDemoDiversity from "@/components/shared/MarketingDemoDiversity";
 import WidgetBrandRuntime from "@/components/shared/WidgetBrandRuntime";
+import NavigationBoost from "@/components/shared/NavigationBoost";
 
 // Inter is the typography used by the approved Astra reference. It is loaded
 // once at the root so the public site, authentication screens, Merchant
@@ -51,6 +52,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <NavigationBoost />
           {children}
           <MarketingDemoDiversity />
           <WidgetBrandRuntime />
