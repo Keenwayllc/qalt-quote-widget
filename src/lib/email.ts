@@ -13,11 +13,13 @@ export const sendEmail = async ({
   subject,
   react,
   from,
+  replyTo,
 }: {
   to: string | string[];
   subject: string;
   react: React.ReactNode;
   from?: string;
+  replyTo?: string;
 }) => {
   try {
     const resend = getResend();
@@ -26,6 +28,7 @@ export const sendEmail = async ({
       to,
       subject,
       react,
+      ...(replyTo ? { replyTo } : {}),
     });
     // Resend v6 resolves with an { error } object on API rejections instead of
     // throwing — must inspect it or failures get silently reported as success.
