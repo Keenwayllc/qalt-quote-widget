@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import QuoteWidgetForm from "@/components/widget/QuoteWidgetForm";
 import AbandonedQuoteTracker from "@/components/widget/AbandonedQuoteTracker";
+import CustomDomainAddressBridge from "@/components/widget/CustomDomainAddressBridge";
 import WidgetThemeShell from "@/components/widget/WidgetThemeShell";
 import { getWidgetTheme } from "@/lib/widget-theme";
 import { getEntitlements } from "@/lib/plans";
@@ -51,6 +52,7 @@ export default async function CustomDomainWidgetPage({ params }: { params: Promi
   return (
     <WidgetThemeShell theme={themeMode}>
       <div className="qalt-widget-stage min-h-screen p-4 sm:p-8 flex items-center justify-center">
+        <CustomDomainAddressBridge />
         <AbandonedQuoteTracker companyId={company.id} formId={widgetSettings.id} />
         <QuoteWidgetForm
           company={{
