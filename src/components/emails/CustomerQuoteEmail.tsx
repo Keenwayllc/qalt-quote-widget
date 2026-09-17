@@ -27,7 +27,16 @@ export const CustomerQuoteEmail: React.FC<Readonly<CustomerQuoteEmailProps>> = (
     <div style={{ maxWidth: '620px', margin: '0 auto', backgroundColor: '#ffffff', border: '1px solid #e4e4e7', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 16px 40px rgba(24,24,27,0.08)' }}>
       <div style={{ backgroundColor: '#171717', padding: '32px 32px 28px', textAlign: 'center', borderTop: `4px solid ${primaryColor}` }}>
         {logoUrl ? (
-          <div style={{ display: 'inline-block', backgroundColor: '#ffffff', borderRadius: '14px', padding: '12px 22px', marginBottom: '16px' }}>
+          <div
+            style={{
+              display: 'inline-block',
+              backgroundColor: '#737373',
+              border: '1px solid rgba(255,255,255,0.22)',
+              borderRadius: '14px',
+              padding: '12px 22px',
+              marginBottom: '16px',
+            }}
+          >
             <img
               src={logoUrl}
               alt={companyName}
