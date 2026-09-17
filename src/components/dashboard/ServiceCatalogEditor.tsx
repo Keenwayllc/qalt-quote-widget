@@ -157,7 +157,7 @@ export default function ServiceCatalogEditor({
           )}
 
           {options.map((option, index) => (
-            <div key={`${index}-${option.name}`} className="grid grid-cols-1 md:grid-cols-[1fr_1.4fr_130px_40px] gap-3 items-end rounded-xl border border-slate-200 dark:border-zinc-700 p-4">
+            <div key={index} className="grid grid-cols-1 md:grid-cols-[1fr_1.4fr_130px_40px] gap-3 items-end rounded-xl border border-slate-200 dark:border-zinc-700 p-4">
               <div>
                 <label className="block text-xs font-bold text-slate-500 dark:text-zinc-400 mb-1.5">Service name</label>
                 <input
