@@ -247,8 +247,13 @@ export default function ServiceCatalogEditor({
                 </div>
                 <div>
                   <label htmlFor={`service-fee-${option.key}`} className="block text-xs font-bold text-slate-500 dark:text-zinc-400 mb-1.5">Service fee</label>
-                  <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">$</span>
+                  <div className="flex w-full overflow-hidden rounded-lg border border-slate-300 bg-white transition focus-within:ring-2 focus-within:ring-red-500 dark:border-zinc-600 dark:bg-zinc-800">
+                    <span
+                      className="flex shrink-0 items-center justify-center border-r border-slate-200 px-3 text-sm font-semibold text-slate-400 dark:border-zinc-600"
+                      aria-hidden="true"
+                    >
+                      $
+                    </span>
                     <input
                       id={`service-fee-${option.key}`}
                       type="text"
@@ -257,7 +262,7 @@ export default function ServiceCatalogEditor({
                       onChange={(e) => updateOption(option.key, "fee", e.target.value)}
                       placeholder="0.00"
                       autoComplete="off"
-                      className="w-full pl-7 pr-3 py-2.5 rounded-lg border border-slate-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+                      className="min-w-0 flex-1 bg-transparent px-3 py-2.5 text-sm font-semibold text-slate-900 outline-none placeholder:text-slate-400 dark:text-white dark:placeholder:text-zinc-500"
                     />
                   </div>
                 </div>
