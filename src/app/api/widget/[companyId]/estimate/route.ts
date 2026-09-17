@@ -7,7 +7,7 @@ import { computeAuthoritativeQuote } from "@/lib/serverQuotePricing";
 export async function POST(req: Request, { params }: { params: Promise<{ companyId: string }> }) {
   try {
     const { companyId } = await params;
-    const { origin, destination, pickupZip, dropoffZip, clientDistance, extras, formId, vehicleCount, serviceType } = await req.json();
+    const { origin, destination, pickupZip, dropoffZip, clientDistance, extras, formId, vehicleCount, vehicleType, serviceType } = await req.json();
 
     const startLocation = origin || pickupZip;
     const endLocation = destination || dropoffZip;
@@ -33,6 +33,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
         needsAddon3: false,
       }) as EstimateExtras,
       vehicleCount: typeof vehicleCount === "number" ? vehicleCount : parseInt(vehicleCount) || 0,
+      vehicleType: typeof vehicleType === "string" ? vehicleType : null,
       clientDistanceFallback: typeof clientDistance === "number" ? clientDistance : null,
       serviceType: typeof serviceType === "string" ? serviceType : null,
     });
@@ -41,8 +42,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       return NextResponse.json({ error: result.error }, { status: result.status });
     }
 
-    const { total, distance, durationMinutes, breakdown, serviceType: resolvedServiceType } = result.quote;
-    return NextResponse.json({ estimate: total, distance, durationMinutes, breakdown, serviceType: resolvedServiceType });
+    const { total, distance, durationMinutes, breakdown, serviceType: resolvedServiceType, vehicleType: resolvedVehicleType } = result.quote;
+    return NextResponse.json({ estimate: total, distance, durationMinutes, breakdown, serviceType: resolvedServiceType, vehicleType: resolvedVehicleType });
   } catch (error) {
     console.error("Estimate error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
