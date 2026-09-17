@@ -7,7 +7,7 @@ import { computeAuthoritativeQuote } from "@/lib/serverQuotePricing";
 export async function POST(req: Request, { params }: { params: Promise<{ companyId: string }> }) {
   try {
     const { companyId } = await params;
-    const { origin, destination, pickupZip, dropoffZip, clientDistance, extras, formId, vehicleCount } = await req.json();
+    const { origin, destination, pickupZip, dropoffZip, clientDistance, extras, formId, vehicleCount, serviceType } = await req.json();
 
     const startLocation = origin || pickupZip;
     const endLocation = destination || dropoffZip;
@@ -22,8 +22,6 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       );
     }
 
-    // Shared server pricing. The estimate is a preview, so a client-supplied
-    // distance may be used as a fallback when routing is unavailable.
     const result = await computeAuthoritativeQuote({
       companyId,
       formId: formId ?? null,
@@ -36,14 +34,15 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       }) as EstimateExtras,
       vehicleCount: typeof vehicleCount === "number" ? vehicleCount : parseInt(vehicleCount) || 0,
       clientDistanceFallback: typeof clientDistance === "number" ? clientDistance : null,
+      serviceType: typeof serviceType === "string" ? serviceType : null,
     });
 
     if (!result.ok) {
       return NextResponse.json({ error: result.error }, { status: result.status });
     }
 
-    const { total, distance, durationMinutes, breakdown } = result.quote;
-    return NextResponse.json({ estimate: total, distance, durationMinutes, breakdown });
+    const { total, distance, durationMinutes, breakdown, serviceType: resolvedServiceType } = result.quote;
+    return NextResponse.json({ estimate: total, distance, durationMinutes, breakdown, serviceType: resolvedServiceType });
   } catch (error) {
     console.error("Estimate error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
