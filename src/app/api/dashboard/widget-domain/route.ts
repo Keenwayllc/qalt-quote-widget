@@ -5,7 +5,6 @@ import prisma from "@/lib/prisma";
 import { getEntitlements } from "@/lib/plans";
 
 const PROJECT_ID = process.env.VERCEL_PROJECT_ID || "prj_nwf5Amew7l9ktOOriOrCPQGVlyVi";
-const TEAM_ID = process.env.VERCEL_TEAM_ID || "team_ra8EWPKLB71VWf4AcmQonEbg";
 const VERCEL_API = "https://api.vercel.com";
 
 type DomainRow = {
@@ -74,7 +73,7 @@ function vercelHeaders() {
 async function addVercelDomain(domain: string): Promise<VercelDomain> {
   const headers = vercelHeaders();
   if (!headers) throw new Error("Qalt custom-domain hosting is not configured yet.");
-  const res = await fetch(`${VERCEL_API}/v10/projects/${PROJECT_ID}/domains?teamId=${encodeURIComponent(TEAM_ID)}`, {
+  const res = await fetch(`${VERCEL_API}/v10/projects/${PROJECT_ID}/domains`, {
     method: "POST",
     headers,
     body: JSON.stringify({ name: domain }),
@@ -92,7 +91,7 @@ async function verifyVercelDomain(domain: string): Promise<VercelDomain> {
   const headers = vercelHeaders();
   if (!headers) throw new Error("Qalt custom-domain hosting is not configured yet.");
   const res = await fetch(
-    `${VERCEL_API}/v9/projects/${PROJECT_ID}/domains/${encodeURIComponent(domain)}/verify?teamId=${encodeURIComponent(TEAM_ID)}`,
+    `${VERCEL_API}/v9/projects/${PROJECT_ID}/domains/${encodeURIComponent(domain)}/verify`,
     { method: "POST", headers, cache: "no-store" }
   );
   const data = (await res.json().catch(() => ({}))) as VercelDomain;
@@ -107,7 +106,7 @@ async function removeVercelDomain(domain: string) {
   const headers = vercelHeaders();
   if (!headers) return;
   await fetch(
-    `${VERCEL_API}/v9/projects/${PROJECT_ID}/domains/${encodeURIComponent(domain)}?teamId=${encodeURIComponent(TEAM_ID)}`,
+    `${VERCEL_API}/v9/projects/${PROJECT_ID}/domains/${encodeURIComponent(domain)}`,
     { method: "DELETE", headers, cache: "no-store" }
   ).catch(() => undefined);
 }
