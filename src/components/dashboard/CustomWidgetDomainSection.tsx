@@ -102,6 +102,19 @@ export default function CustomWidgetDomainSection() {
         </div>
       ) : (
         <>
+          <div className="border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.025] p-4">
+            <h3 className="text-sm font-black text-slate-900 dark:text-white">How to connect your branded domain</h3>
+            <div className="mt-3 grid gap-3 text-sm text-slate-600 dark:text-slate-300">
+              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">1</span><p><strong>Choose a subdomain</strong>, for example <code className="text-xs">quote.yourcompany.com</code>. Enter it below and click <strong>Connect Domain</strong>.</p></div>
+              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">2</span><p><strong>Open your domain provider's DNS settings</strong> (GoDaddy, Cloudflare, Namecheap, Squarespace, etc.). Add the CNAME record Qalt shows after you connect the domain.</p></div>
+              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">3</span><p><strong>Save the DNS record.</strong> Leave TTL at your provider's default unless you know you need something different. DNS updates often appear within minutes but can take longer to propagate globally.</p></div>
+              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">4</span><p><strong>Return to Qalt and click Verify DNS.</strong> Once verified, your branded domain becomes the customer-facing address for your quote form.</p></div>
+            </div>
+            <div className="mt-4 border-t border-slate-200 dark:border-white/[0.06] pt-3 text-xs text-slate-500 dark:text-slate-400">
+              <strong>GoDaddy example:</strong> create a <strong>CNAME</strong> record, set <strong>Name</strong> to the subdomain portion only (for example <code>quote</code>), and set <strong>Value / Points to</strong> to the target Qalt gives you.
+            </div>
+          </div>
+
           <div className="space-y-2">
             <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Custom subdomain</label>
             <div className="flex flex-col sm:flex-row gap-2">
@@ -124,7 +137,7 @@ export default function CustomWidgetDomainSection() {
           {state.domain && state.dns && !state.verified && (
             <div className="border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.025] p-4 space-y-3">
               <div className="flex items-center gap-2"><ShieldCheck size={16} className="text-slate-500" /><h3 className="text-sm font-black text-slate-900 dark:text-white">DNS setup</h3></div>
-              <p className="text-xs text-slate-500 dark:text-slate-400">At your DNS provider, create this CNAME record. DNS changes can take a few minutes to propagate.</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">At your DNS provider, create this CNAME record exactly as shown. DNS changes can take a few minutes to propagate.</p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
                 {[['Type', state.dns.type], ['Name / Host', state.dns.name], ['Target', state.dns.value]].map(([label, value]) => (
                   <div key={label} className="bg-white dark:bg-[#151515] border border-slate-200 dark:border-white/[0.06] p-3">
@@ -133,6 +146,7 @@ export default function CustomWidgetDomainSection() {
                   </div>
                 ))}
               </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Tip: at providers such as GoDaddy, use only the host portion for the Name field. For <code>quote.yourcompany.com</code>, enter <code>quote</code>.</p>
               <button type="button" onClick={verify} disabled={busy} className="px-4 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-sm disabled:opacity-50">{busy ? "Checking..." : "Verify DNS"}</button>
             </div>
           )}
