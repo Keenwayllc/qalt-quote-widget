@@ -39,7 +39,21 @@ export default function CustomWidgetDomainSection() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Could not connect domain.");
-      setMessage(data.verified ? "Domain connected and verified." : "Domain added. Qalt generated the DNS record below. Add that record at your domain provider, then return here to verify it.");
+
+      const connectedDomain = typeof data.domain === "string" ? data.domain : domain.trim().toLowerCase();
+      setDomain(connectedDomain);
+      setState((current) => current ? {
+        ...current,
+        domain: connectedDomain,
+        verified: data.verified === true,
+        dns: data.dns ?? current.dns,
+      } : current);
+
+      setMessage(
+        data.verified
+          ? "Domain connected and verified. Your branded address is ready."
+          : "Domain connected. The DNS instructions are shown below. Add that record at your domain provider, then return here to verify it."
+      );
       await load();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Could not connect domain.");
@@ -105,16 +119,16 @@ export default function CustomWidgetDomainSection() {
           <div className="border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.025] p-4">
             <h3 className="text-sm font-black text-slate-900 dark:text-white">How to connect your branded domain</h3>
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-              Start here in Qalt. You do not need to change anything at your domain provider until Qalt generates the DNS record for you.
+              Start in Qalt by telling us the branded address you want to use. What happens next depends on whether that address is already pointing to Qalt.
             </p>
             <div className="mt-4 grid gap-3 text-sm text-slate-600 dark:text-slate-300">
-              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">1</span><p><strong>Enter the branded address you want to use in Qalt</strong>, for example <code className="text-xs">quote.yourcompany.com</code>, then click <strong>Connect Domain</strong>. This tells Qalt which address to prepare. Do not add a DNS record yet.</p></div>
-              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">2</span><p><strong>Qalt will generate the exact DNS record for you.</strong> After you click Connect Domain, a DNS Setup box appears below with the required <strong>Type</strong>, <strong>Name / Host</strong>, and <strong>Target</strong>. Use those exact values.</p></div>
-              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">3</span><p><strong>Now open your domain provider's DNS settings</strong> such as GoDaddy, Cloudflare, Namecheap, or Squarespace. Add a new record using the values Qalt generated, save it, and leave TTL at the provider's default unless you have a reason to change it.</p></div>
-              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">4</span><p><strong>Return to Qalt and click Verify DNS.</strong> DNS may update within minutes, but some providers can take longer. Once verified, Qalt marks the branded address live and customers can use it.</p></div>
+              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">1</span><p><strong>Enter the branded address you want to use</strong>, for example <code className="text-xs">quote.yourcompany.com</code>, then click <strong>Connect Domain</strong>. Enter only the hostname, without <code>https://</code> or a page path.</p></div>
+              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">2</span><p><strong>Qalt checks the domain.</strong> If the DNS is already pointing correctly to Qalt, the domain may verify immediately and no DNS Setup box is needed. If DNS still needs to be configured, Qalt will show a DNS Setup box below with the required <strong>Type</strong>, <strong>Name / Host</strong>, and <strong>Target</strong>.</p></div>
+              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">3</span><p><strong>If Qalt shows DNS instructions, open your domain provider's DNS settings</strong> such as GoDaddy, Cloudflare, Namecheap, or Squarespace. Add a new record using the exact values shown by Qalt, save it, and leave TTL at the provider's default unless you have a reason to change it.</p></div>
+              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">4</span><p><strong>Return to Qalt and click Verify DNS</strong> if verification is still pending. DNS may update within minutes, but some providers can take longer. Once verified, Qalt marks the branded address live and customers can use it.</p></div>
             </div>
             <div className="mt-4 border-t border-slate-200 dark:border-white/[0.06] pt-3 text-xs text-slate-500 dark:text-slate-400">
-              <strong>GoDaddy example:</strong> after Qalt shows the DNS values, click <strong>Add New Record</strong> in GoDaddy DNS. Choose <strong>CNAME</strong>. For an address such as <code>quote.yourcompany.com</code>, the <strong>Name</strong> is usually <code>quote</code>. Put the exact Qalt <strong>Target</strong> into GoDaddy's <strong>Value / Points to</strong> field, then save.
+              <strong>GoDaddy example:</strong> if Qalt asks you to add a DNS record, open GoDaddy DNS and click <strong>Add New Record</strong>. Choose the record type Qalt shows. For a hostname such as <code>quote.yourcompany.com</code>, GoDaddy will normally use <code>quote</code> in the <strong>Name</strong> field. Put Qalt's exact <strong>Target</strong> into GoDaddy's <strong>Value / Points to</strong> field, then save.
             </div>
           </div>
 
@@ -140,7 +154,7 @@ export default function CustomWidgetDomainSection() {
           {state.domain && state.dns && !state.verified && (
             <div className="border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.025] p-4 space-y-3">
               <div className="flex items-center gap-2"><ShieldCheck size={16} className="text-slate-500" /><h3 className="text-sm font-black text-slate-900 dark:text-white">DNS setup</h3></div>
-              <p className="text-xs text-slate-500 dark:text-slate-400">Qalt has prepared the record below. Now add this record at the company that manages your domain's DNS, exactly as shown.</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Your domain still needs a DNS record before it can be verified. Add the record below at the company that manages your domain's DNS, exactly as shown.</p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
                 {[['Type', state.dns.type], ['Name / Host', state.dns.name], ['Target', state.dns.value]].map(([label, value]) => (
                   <div key={label} className="bg-white dark:bg-[#151515] border border-slate-200 dark:border-white/[0.06] p-3">
