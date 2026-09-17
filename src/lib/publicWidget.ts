@@ -57,4 +57,5 @@ export const publicPricingProfileSelect = {
   largeItemFee: true,
   largeItemsEnabled: true,
   largeItemCategories: true,
+  serviceOptions: true,
 } satisfies Prisma.PricingProfileSelect;
