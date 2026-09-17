@@ -81,6 +81,7 @@ model PricingProfile {
   largeItemFee       Float          @default(0)
   largeItemsEnabled  Boolean        @default(false)
   largeItemCategories Json          @default("[]")
+  serviceOptions      Json           @default("[]")
   company            Company        @relation(fields: [companyId], references: [id])
   widgetSettings     WidgetSettings? @relation(fields: [widgetSettingsId], references: [id])
 }
