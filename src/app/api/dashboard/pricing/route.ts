@@ -8,6 +8,40 @@ const safeNum = (val: unknown, fallback: number) => {
   return isNaN(n) ? fallback : n;
 };
 
+type ServiceOption = {
+  name: string;
+  description: string;
+  fee: number;
+};
+
+const normalizeServiceOptions = (value: unknown): ServiceOption[] => {
+  if (!Array.isArray(value)) return [];
+
+  const seen = new Set<string>();
+  const result: ServiceOption[] = [];
+
+  for (const raw of value.slice(0, 30)) {
+    if (!raw || typeof raw !== "object") continue;
+    const item = raw as Record<string, unknown>;
+    const name = String(item.name ?? "").trim().slice(0, 80);
+    if (!name) continue;
+
+    const key = name.toLocaleLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+
+    const description = String(item.description ?? "").trim().slice(0, 180);
+    const feeValue = Number(item.fee);
+    const fee = Number.isFinite(feeValue)
+      ? Math.min(Math.max(feeValue, 0), 100000)
+      : 0;
+
+    result.push({ name, description, fee });
+  }
+
+  return result;
+};
+
 const pricingFields = (data: Record<string, unknown>) => ({
   baseRatePerMile:    safeNum(data.baseRatePerMile,   2.5),
   minimumCharge:      safeNum(data.minimumCharge,     35),
@@ -25,6 +59,7 @@ const pricingFields = (data: Record<string, unknown>) => ({
   businessDays:       String(data.businessDays        || "1,2,3,4,5"),
   largeItemsEnabled:  Boolean(data.largeItemsEnabled),
   largeItemCategories: (data.largeItemCategories as unknown[]) ?? [],
+  serviceOptions: normalizeServiceOptions(data.serviceOptions),
 });
 
 export async function GET(req: Request) {
@@ -39,20 +74,14 @@ export async function GET(req: Request) {
     const formId = searchParams.get("formId");
 
     if (formId) {
-      // Verify the form belongs to this company before returning its pricing.
-      // A foreign or nonexistent formId must 404 and must NOT fall back to the
-      // company default (which would leak the existence of another tenant's form).
       const form = await prisma.widgetSettings.findUnique({ where: { id: formId } });
       if (!form || form.companyId !== payload.companyId) {
         return NextResponse.json({ error: "Form not found" }, { status: 404 });
       }
-      // Owned form: return its dedicated pricing, or null if it has none yet.
-      // An explicit formId never falls back to the company default.
       const formProfile = await prisma.pricingProfile.findUnique({ where: { widgetSettingsId: formId } });
       return NextResponse.json({ profile: formProfile });
     }
 
-    // No formId: company default pricing (widgetSettingsId is null)
     const profile = await prisma.pricingProfile.findFirst({
       where: { companyId: payload.companyId, widgetSettingsId: null },
     });
@@ -77,7 +106,6 @@ export async function POST(req: Request) {
     const fields = pricingFields(data);
 
     if (formId) {
-      // Verify the form belongs to this company
       const form = await prisma.widgetSettings.findUnique({ where: { id: formId } });
       if (!form || form.companyId !== payload.companyId) {
         return NextResponse.json({ error: "Form not found" }, { status: 404 });
@@ -89,7 +117,6 @@ export async function POST(req: Request) {
         create: { companyId: payload.companyId, widgetSettingsId: formId, ...fields } as any,
       });
     } else {
-      // Update company default pricing
       const existing = await prisma.pricingProfile.findFirst({
         where: { companyId: payload.companyId, widgetSettingsId: null },
       });
@@ -121,8 +148,6 @@ export async function PATCH(req: Request) {
 
     const data = await req.json();
     const formId: string | null = data.formId ?? null;
-
-    // Build partial patch — only include fields explicitly present in the request body
     const patch: Record<string, unknown> = {};
 
     const NUMERIC_DEFAULTS: Record<string, number> = {
@@ -138,33 +163,27 @@ export async function PATCH(req: Request) {
       largeItemFee: 0,
     };
     for (const [field, fallback] of Object.entries(NUMERIC_DEFAULTS)) {
-      if (field in data) {
-        patch[field] = safeNum(data[field], fallback);
-      }
+      if (field in data) patch[field] = safeNum(data[field], fallback);
     }
-    if ("useMinimumCharge"   in data) patch.useMinimumCharge   = Boolean(data.useMinimumCharge);
+
+    if ("useMinimumCharge" in data) patch.useMinimumCharge = Boolean(data.useMinimumCharge);
     if ("businessHoursStart" in data) patch.businessHoursStart = String(data.businessHoursStart || "08:00");
-    if ("businessHoursEnd"   in data) patch.businessHoursEnd   = String(data.businessHoursEnd   || "18:00");
-    if ("businessDays"       in data) patch.businessDays       = String(data.businessDays       || "1,2,3,4,5");
-    if ("largeItemsEnabled"  in data) patch.largeItemsEnabled  = Boolean(data.largeItemsEnabled);
+    if ("businessHoursEnd" in data) patch.businessHoursEnd = String(data.businessHoursEnd || "18:00");
+    if ("businessDays" in data) patch.businessDays = String(data.businessDays || "1,2,3,4,5");
+    if ("largeItemsEnabled" in data) patch.largeItemsEnabled = Boolean(data.largeItemsEnabled);
     if ("largeItemCategories" in data) patch.largeItemCategories = data.largeItemCategories ?? [];
+    if ("serviceOptions" in data) patch.serviceOptions = normalizeServiceOptions(data.serviceOptions);
 
     if (Object.keys(patch).length === 0) {
       return NextResponse.json({ error: "No fields to update" }, { status: 400 });
     }
 
     if (formId) {
-      // Verify the form belongs to this company before touching its pricing.
-      // A foreign or nonexistent formId must 404 and must NOT fall back to the
-      // company default (which would let one tenant edit another's pricing, or
-      // create a profile against a form it does not own).
       const form = await prisma.widgetSettings.findUnique({ where: { id: formId } });
       if (!form || form.companyId !== payload.companyId) {
         return NextResponse.json({ error: "Form not found" }, { status: 404 });
       }
 
-      // Owned form: update its dedicated profile, or create one bound to this
-      // form. An explicit formId never reads or writes the company default.
       const dedicated = await prisma.pricingProfile.findUnique({ where: { widgetSettingsId: formId } });
       if (dedicated) {
         await prisma.pricingProfile.update({ where: { id: dedicated.id }, data: patch as any });
@@ -183,7 +202,6 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ success: true });
     }
 
-    // No formId: company default pricing (widgetSettingsId is null)
     const profile = await prisma.pricingProfile.findFirst({
       where: { companyId: payload.companyId, widgetSettingsId: null },
     });
@@ -191,7 +209,6 @@ export async function PATCH(req: Request) {
     if (profile) {
       await prisma.pricingProfile.update({ where: { id: profile.id }, data: patch as any });
     } else {
-      // No default profile yet — create one with defaults overridden by the patch
       await prisma.pricingProfile.create({
         data: {
           companyId: payload.companyId,
