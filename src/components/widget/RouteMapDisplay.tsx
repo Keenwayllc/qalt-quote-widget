@@ -88,6 +88,16 @@ const cleanHex = (value: string) => {
   return "#087c68";
 };
 
+function isQaltHostedHostname(hostname: string) {
+  const host = hostname.toLowerCase();
+  return (
+    host === "qalt.site" ||
+    host === "www.qalt.site" ||
+    host === "localhost" ||
+    host.endsWith(".vercel.app")
+  );
+}
+
 export default function RouteMapDisplay({
   pickupAddress,
   dropoffAddress,
@@ -98,6 +108,11 @@ export default function RouteMapDisplay({
   const [routeColor, setRouteColor] = useState("#087c68");
   const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
   const [lastRoute, setLastRoute] = useState({ origin: "", destination: "" });
+  const [hostname, setHostname] = useState<string | null>(null);
+
+  useEffect(() => {
+    setHostname(window.location.hostname);
+  }, []);
 
   useEffect(() => {
     if (!shellRef.current) return;
@@ -130,7 +145,29 @@ export default function RouteMapDisplay({
     dropoffAddress &&
     (lastRoute.origin !== pickupAddress || lastRoute.destination !== dropoffAddress);
 
-  if (!isLoaded || !pickupAddress || !dropoffAddress) return null;
+  if (!pickupAddress || !dropoffAddress) return null;
+
+  if (hostname && !isQaltHostedHostname(hostname)) {
+    const src = `https://www.qalt.site/widget-map?origin=${encodeURIComponent(
+      pickupAddress
+    )}&destination=${encodeURIComponent(dropoffAddress)}`;
+
+    return (
+      <div ref={shellRef} className="h-full w-full bg-[#f7f8fa]">
+        <iframe
+          src={src}
+          title="Delivery route map"
+          className="h-full w-full border-0"
+          loading="eager"
+          referrerPolicy="strict-origin-when-cross-origin"
+        />
+      </div>
+    );
+  }
+
+  if (!isLoaded) {
+    return <div ref={shellRef} className="h-full w-full bg-[#f7f8fa]" />;
+  }
 
   const leg = directions?.routes[0]?.legs[0];
   const markerIcon =
