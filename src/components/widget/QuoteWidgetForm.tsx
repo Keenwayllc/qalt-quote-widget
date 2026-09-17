@@ -9,6 +9,7 @@ import usePlacesAutocomplete, { getGeocode } from "use-places-autocomplete";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import RouteMapDisplay from "./RouteMapDisplay";
 import PickupDateTime from "./PickupDateTime";
+import ServiceSelector, { type ServiceOption } from "./ServiceSelector";
 
 interface WidgetProps {
   company: {
@@ -51,6 +52,7 @@ interface FormData {
   dropoffAddress: string;
   pickupZip: string;
   dropoffZip: string;
+  serviceType: string;
   hasStairs: boolean;
   stairsFlights: string;
   needsInsideDelivery: boolean;
@@ -87,6 +89,7 @@ const EMPTY_FORM: FormData = {
   dropoffAddress: "",
   pickupZip: "",
   dropoffZip: "",
+  serviceType: "",
   hasStairs: false,
   stairsFlights: "1",
   needsInsideDelivery: false,
@@ -245,6 +248,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     addon3Fee?: number;
     largeItemsEnabled?: boolean;
     largeItemCategories?: Array<{ name: string; price: number }>;
+    serviceOptions?: ServiceOption[];
     businessHoursStart?: string;
     businessHoursEnd?: string;
     businessDays?: string;
@@ -254,6 +258,9 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     pricingProfile?.largeItemCategories
   )
     ? (pricingProfile.largeItemCategories as Array<{ name: string; price: number }>)
+    : [];
+  const serviceOptions: ServiceOption[] = Array.isArray(pricingProfile?.serviceOptions)
+    ? pricingProfile.serviceOptions.filter((option) => option && typeof option.name === "string" && Number(option.fee) >= 0)
     : [];
 
   useEffect(() => {
@@ -442,6 +449,12 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     setError("");
 
     try {
+      if (serviceOptions.length > 0 && !formData.serviceType) {
+        setError("Please select a delivery service.");
+        setLoading(false);
+        return;
+      }
+
       const geoEnabled = company.widgetSettings.geoFencingEnabled;
       const serviceZips = company.widgetSettings.serviceZips ?? [];
       if (geoEnabled && serviceZips.length > 0) {
@@ -468,6 +481,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
           dropoffZip: formData.dropoffZip,
           clientDistance,
           formId: company.formId || null,
+          serviceType: formData.serviceType,
           extras: {
             hasStairs: formData.hasStairs,
             stairsFlights: formData.hasStairs ? (parseInt(formData.stairsFlights) || 1) : 0,
@@ -490,6 +504,9 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
         setDistance(data.distance);
         if (typeof data.durationMinutes === "number") setDurationMinutes(data.durationMinutes);
         setBreakdown(data.breakdown ?? null);
+        if (typeof data.serviceType === "string" && data.serviceType) {
+          setFormData((prev) => ({ ...prev, serviceType: data.serviceType }));
+        }
         setStep(2);
       } else {
         setError(data.error || "Could not calculate estimate. Please check your addresses.");
@@ -610,7 +627,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     return "todo";
   };
 
-  const serviceType = formData.awbNumber?.trim() ? "Airport pickup" : "Standard delivery";
+  const serviceType = formData.serviceType || (formData.awbNumber?.trim() ? "Airport pickup" : "Standard delivery");
   const hasAnyAddon = formData.hasStairs || formData.needsInsideDelivery || formData.needsAddon3 || formData.selectedLargeItems.length > 0;
   const animatedEstimate = useCountUp(step >= 2 ? estimate : null);
   const money = (n: number) => `${n < 0 ? "-" : ""}$${Math.abs(n).toFixed(2)}`;
@@ -758,6 +775,17 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                             exit={{ opacity: 0, height: 0 }} transition={{ duration: reduce ? 0 : 0.35, ease: EASE }} style={{ overflow: "hidden" }}>
                             <motion.div className="space-y-5" initial="hidden" animate="show"
                               transition={{ staggerChildren: reduce ? 0 : 0.05, delayChildren: reduce ? 0 : 0.08 }}>
+                              {serviceOptions.length > 0 && (
+                                <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }}>
+                                  <ServiceSelector
+                                    options={serviceOptions}
+                                    value={formData.serviceType}
+                                    onChange={(serviceType) => setFormData((prev) => ({ ...prev, serviceType }))}
+                                    primaryColor={primaryColor}
+                                  />
+                                </motion.div>
+                              )}
+
                               <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }}>
                                 <p className="text-xs font-semibold text-slate-500 flex items-center gap-1.5 mb-2 ml-0.5">
                                   <Clock size={12} className="text-slate-400" /> Pickup date &amp; time
@@ -1001,6 +1029,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
               </div>
               <div className="pt-3 space-y-2">
                 <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.15em] mb-3">Shipment Details</p>
+                {formData.serviceType && <div className="flex items-center justify-between gap-2 pb-1"><span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Service</span><span className="text-[11px] font-extrabold text-slate-700 text-right">{formData.serviceType}</span></div>}
                 <div className="flex items-start gap-2.5"><div className="mt-0.5 w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center shrink-0"><MapPin size={10} className="text-emerald-600" /></div><div className="flex-1 min-w-0"><p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">From</p><p className="text-[11px] font-extrabold text-slate-700 leading-tight">{formData.pickupAddress}</p></div></div>
                 <div className="ml-[9px] w-px h-3 bg-slate-200" />
                 <div className="flex items-start gap-2.5"><div className="mt-0.5 w-5 h-5 rounded-full bg-red-100 flex items-center justify-center shrink-0"><MapPin size={10} className="text-red-500" /></div><div className="flex-1 min-w-0"><p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">To</p><p className="text-[11px] font-extrabold text-slate-700 leading-tight">{formData.dropoffAddress}</p></div></div>
