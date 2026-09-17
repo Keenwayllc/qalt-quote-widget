@@ -39,7 +39,7 @@ export default function CustomWidgetDomainSection() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Could not connect domain.");
-      setMessage(data.verified ? "Domain connected and verified." : "Domain added. Update DNS, then verify it here.");
+      setMessage(data.verified ? "Domain connected and verified." : "Domain added. Qalt generated the DNS record below. Add that record at your domain provider, then return here to verify it.");
       await load();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Could not connect domain.");
@@ -104,14 +104,17 @@ export default function CustomWidgetDomainSection() {
         <>
           <div className="border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.025] p-4">
             <h3 className="text-sm font-black text-slate-900 dark:text-white">How to connect your branded domain</h3>
-            <div className="mt-3 grid gap-3 text-sm text-slate-600 dark:text-slate-300">
-              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">1</span><p><strong>Choose a subdomain</strong>, for example <code className="text-xs">quote.yourcompany.com</code>. Enter it below and click <strong>Connect Domain</strong>.</p></div>
-              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">2</span><p><strong>Open your domain provider's DNS settings</strong> (GoDaddy, Cloudflare, Namecheap, Squarespace, etc.). Add the CNAME record Qalt shows after you connect the domain.</p></div>
-              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">3</span><p><strong>Save the DNS record.</strong> Leave TTL at your provider's default unless you know you need something different. DNS updates often appear within minutes but can take longer to propagate globally.</p></div>
-              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">4</span><p><strong>Return to Qalt and click Verify DNS.</strong> Once verified, your branded domain becomes the customer-facing address for your quote form.</p></div>
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+              Start here in Qalt. You do not need to change anything at your domain provider until Qalt generates the DNS record for you.
+            </p>
+            <div className="mt-4 grid gap-3 text-sm text-slate-600 dark:text-slate-300">
+              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">1</span><p><strong>Enter the branded address you want to use in Qalt</strong>, for example <code className="text-xs">quote.yourcompany.com</code>, then click <strong>Connect Domain</strong>. This tells Qalt which address to prepare. Do not add a DNS record yet.</p></div>
+              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">2</span><p><strong>Qalt will generate the exact DNS record for you.</strong> After you click Connect Domain, a DNS Setup box appears below with the required <strong>Type</strong>, <strong>Name / Host</strong>, and <strong>Target</strong>. Use those exact values.</p></div>
+              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">3</span><p><strong>Now open your domain provider's DNS settings</strong> such as GoDaddy, Cloudflare, Namecheap, or Squarespace. Add a new record using the values Qalt generated, save it, and leave TTL at the provider's default unless you have a reason to change it.</p></div>
+              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">4</span><p><strong>Return to Qalt and click Verify DNS.</strong> DNS may update within minutes, but some providers can take longer. Once verified, Qalt marks the branded address live and customers can use it.</p></div>
             </div>
             <div className="mt-4 border-t border-slate-200 dark:border-white/[0.06] pt-3 text-xs text-slate-500 dark:text-slate-400">
-              <strong>GoDaddy example:</strong> create a <strong>CNAME</strong> record, set <strong>Name</strong> to the subdomain portion only (for example <code>quote</code>), and set <strong>Value / Points to</strong> to the target Qalt gives you.
+              <strong>GoDaddy example:</strong> after Qalt shows the DNS values, click <strong>Add New Record</strong> in GoDaddy DNS. Choose <strong>CNAME</strong>. For an address such as <code>quote.yourcompany.com</code>, the <strong>Name</strong> is usually <code>quote</code>. Put the exact Qalt <strong>Target</strong> into GoDaddy's <strong>Value / Points to</strong> field, then save.
             </div>
           </div>
 
@@ -137,7 +140,7 @@ export default function CustomWidgetDomainSection() {
           {state.domain && state.dns && !state.verified && (
             <div className="border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.025] p-4 space-y-3">
               <div className="flex items-center gap-2"><ShieldCheck size={16} className="text-slate-500" /><h3 className="text-sm font-black text-slate-900 dark:text-white">DNS setup</h3></div>
-              <p className="text-xs text-slate-500 dark:text-slate-400">At your DNS provider, create this CNAME record exactly as shown. DNS changes can take a few minutes to propagate.</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Qalt has prepared the record below. Now add this record at the company that manages your domain's DNS, exactly as shown.</p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
                 {[['Type', state.dns.type], ['Name / Host', state.dns.name], ['Target', state.dns.value]].map(([label, value]) => (
                   <div key={label} className="bg-white dark:bg-[#151515] border border-slate-200 dark:border-white/[0.06] p-3">
@@ -146,7 +149,7 @@ export default function CustomWidgetDomainSection() {
                   </div>
                 ))}
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400">Tip: at providers such as GoDaddy, use only the host portion for the Name field. For <code>quote.yourcompany.com</code>, enter <code>quote</code>.</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">For providers such as GoDaddy, the Name / Host field normally uses only the subdomain portion. Example: for <code>quote.yourcompany.com</code>, enter <code>quote</code>. Use the Target exactly as Qalt shows it.</p>
               <button type="button" onClick={verify} disabled={busy} className="px-4 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-sm disabled:opacity-50">{busy ? "Checking..." : "Verify DNS"}</button>
             </div>
           )}
