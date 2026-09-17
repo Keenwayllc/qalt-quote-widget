@@ -52,7 +52,7 @@ export default function CustomWidgetDomainSection() {
       setMessage(
         data.verified
           ? "Domain connected and verified. Your branded address is ready."
-          : "Domain connected. The DNS instructions are shown below. Add that record at your domain provider, then return here to verify it."
+          : "Domain connected. Follow the DNS instructions shown below, then use the verification button to check the domain again."
       );
       await load();
     } catch (e) {
@@ -70,7 +70,7 @@ export default function CustomWidgetDomainSection() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Verification failed.");
-      setMessage(data.verified ? "Domain verified. Your branded widget domain is live." : "DNS is not verified yet. Check the record below and try again shortly.");
+      setMessage(data.verified ? "Domain verified. Your branded widget domain is live." : "DNS is not verified yet. Check your DNS record and try again shortly.");
       await load();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Verification failed.");
@@ -119,13 +119,13 @@ export default function CustomWidgetDomainSection() {
           <div className="border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.025] p-4">
             <h3 className="text-sm font-black text-slate-900 dark:text-white">How to connect your branded domain</h3>
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-              Start in Qalt by telling us the branded address you want to use. What happens next depends on whether that address is already pointing to Qalt.
+              Start in Qalt by entering the branded address you want to use. Qalt will tell you what to do next based on the domain's current DNS status.
             </p>
             <div className="mt-4 grid gap-3 text-sm text-slate-600 dark:text-slate-300">
-              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">1</span><p><strong>Enter the branded address you want to use</strong>, for example <code className="text-xs">quote.yourcompany.com</code>, then click <strong>Connect Domain</strong>. Enter only the hostname, without <code>https://</code> or a page path.</p></div>
-              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">2</span><p><strong>Qalt checks the domain.</strong> If the DNS is already pointing correctly to Qalt, the domain may verify immediately and no DNS Setup box is needed. If DNS still needs to be configured, Qalt will show a DNS Setup box below with the required <strong>Type</strong>, <strong>Name / Host</strong>, and <strong>Target</strong>.</p></div>
-              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">3</span><p><strong>If Qalt shows DNS instructions, open your domain provider's DNS settings</strong> such as GoDaddy, Cloudflare, Namecheap, or Squarespace. Add a new record using the exact values shown by Qalt, save it, and leave TTL at the provider's default unless you have a reason to change it.</p></div>
-              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">4</span><p><strong>Return to Qalt and click Verify DNS</strong> if verification is still pending. DNS may update within minutes, but some providers can take longer. Once verified, Qalt marks the branded address live and customers can use it.</p></div>
+              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">1</span><p><strong>Enter your branded address</strong>, for example <code className="text-xs">quote.yourcompany.com</code>, then click <strong>Connect Domain</strong>. Enter only the hostname, without <code>https://</code> or a page path.</p></div>
+              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">2</span><p><strong>Check the status Qalt shows.</strong> If the domain is already configured correctly, Qalt may mark it live immediately. If it still needs DNS work, Qalt will show the required DNS values below.</p></div>
+              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">3</span><p><strong>If DNS changes are required, open your DNS provider</strong> such as GoDaddy, Cloudflare, Namecheap, or Squarespace. Add the record exactly as Qalt shows it and save the change.</p></div>
+              <div className="flex gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-xs font-black text-white dark:text-slate-900">4</span><p><strong>Use the verification button shown with your pending domain.</strong> It will say <strong>Verify DNS</strong> when Qalt has DNS instructions to display, or <strong>Check DNS Status</strong> when it just needs to re-check the domain. If the domain is already live, this button is not needed and Qalt shows a green live confirmation instead.</p></div>
             </div>
             <div className="mt-4 border-t border-slate-200 dark:border-white/[0.06] pt-3 text-xs text-slate-500 dark:text-slate-400">
               <strong>GoDaddy example:</strong> if Qalt asks you to add a DNS record, open GoDaddy DNS and click <strong>Add New Record</strong>. Choose the record type Qalt shows. For a hostname such as <code>quote.yourcompany.com</code>, GoDaddy will normally use <code>quote</code> in the <strong>Name</strong> field. Put Qalt's exact <strong>Target</strong> into GoDaddy's <strong>Value / Points to</strong> field, then save.
@@ -151,20 +151,28 @@ export default function CustomWidgetDomainSection() {
             <p className="text-xs text-slate-400 dark:text-slate-500">Enter only the hostname. Do not include https:// or a page path.</p>
           </div>
 
-          {state.domain && state.dns && !state.verified && (
+          {state.domain && !state.verified && (
             <div className="border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.025] p-4 space-y-3">
-              <div className="flex items-center gap-2"><ShieldCheck size={16} className="text-slate-500" /><h3 className="text-sm font-black text-slate-900 dark:text-white">DNS setup</h3></div>
-              <p className="text-xs text-slate-500 dark:text-slate-400">Your domain still needs a DNS record before it can be verified. Add the record below at the company that manages your domain's DNS, exactly as shown.</p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
-                {[['Type', state.dns.type], ['Name / Host', state.dns.name], ['Target', state.dns.value]].map(([label, value]) => (
-                  <div key={label} className="bg-white dark:bg-[#151515] border border-slate-200 dark:border-white/[0.06] p-3">
-                    <p className="text-[10px] uppercase tracking-widest font-black text-slate-400">{label}</p>
-                    <div className="mt-1 flex items-center gap-2"><code className="text-xs text-slate-800 dark:text-slate-200 break-all">{value}</code><button type="button" onClick={() => navigator.clipboard.writeText(value)} className="ml-auto text-slate-400 hover:text-slate-700 dark:hover:text-white" title={`Copy ${label}`}><Copy size={13} /></button></div>
+              <div className="flex items-center gap-2"><ShieldCheck size={16} className="text-slate-500" /><h3 className="text-sm font-black text-slate-900 dark:text-white">Domain verification pending</h3></div>
+
+              {state.dns ? (
+                <>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Your domain still needs a DNS record before it can be verified. Add the record below at the company that manages your domain's DNS, exactly as shown.</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+                    {[['Type', state.dns.type], ['Name / Host', state.dns.name], ['Target', state.dns.value]].map(([label, value]) => (
+                      <div key={label} className="bg-white dark:bg-[#151515] border border-slate-200 dark:border-white/[0.06] p-3">
+                        <p className="text-[10px] uppercase tracking-widest font-black text-slate-400">{label}</p>
+                        <div className="mt-1 flex items-center gap-2"><code className="text-xs text-slate-800 dark:text-slate-200 break-all">{value}</code><button type="button" onClick={() => navigator.clipboard.writeText(value)} className="ml-auto text-slate-400 hover:text-slate-700 dark:hover:text-white" title={`Copy ${label}`}><Copy size={13} /></button></div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400">For providers such as GoDaddy, the Name / Host field normally uses only the subdomain portion. Example: for <code>quote.yourcompany.com</code>, enter <code>quote</code>. Use the Target exactly as Qalt shows it.</p>
-              <button type="button" onClick={verify} disabled={busy} className="px-4 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-sm disabled:opacity-50">{busy ? "Checking..." : "Verify DNS"}</button>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">For providers such as GoDaddy, the Name / Host field normally uses only the subdomain portion. Example: for <code>quote.yourcompany.com</code>, enter <code>quote</code>. Use the Target exactly as Qalt shows it.</p>
+                </>
+              ) : (
+                <p className="text-xs text-slate-500 dark:text-slate-400">Qalt has your domain saved, but it is not marked live yet. Use the button below to check its current DNS status.</p>
+              )}
+
+              <button type="button" onClick={verify} disabled={busy} className="px-4 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-sm disabled:opacity-50">{busy ? "Checking..." : state.dns ? "Verify DNS" : "Check DNS Status"}</button>
             </div>
           )}
 
