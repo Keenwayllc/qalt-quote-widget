@@ -97,16 +97,18 @@ export async function POST(req: Request) {
       addon3Label:      data.addon3Label ? String(data.addon3Label).trim() : "",
       showVehicles:     entitlements.isVehicleQuotingEnabled ? Boolean(data.showVehicles) : false,
       pricePerVehicle:  entitlements.isVehicleQuotingEnabled ? (parseFloat(data.pricePerVehicle) || 0) : 0,
-      vehicleOptions: entitlements.isVehicleQuotingEnabled && Array.isArray(data.vehicleOptions)
-        ? data.vehicleOptions.slice(0, 40).flatMap((raw: unknown) => {
-            if (!raw || typeof raw !== "object") return [];
-            const item = raw as Record<string, unknown>;
-            const name = String(item.name ?? "").trim().slice(0, 80);
-            const fee = Number(item.fee);
-            if (!name || !Number.isFinite(fee) || fee < 0) return [];
-            return [{ name, fee: Math.min(fee, 100000) }];
-          })
-        : [],
+      ...((entitlements.isVehicleQuotingEnabled && "vehicleOptions" in data) ? {
+        vehicleOptions: Array.isArray(data.vehicleOptions)
+          ? data.vehicleOptions.slice(0, 40).flatMap((raw: unknown) => {
+              if (!raw || typeof raw !== "object") return [];
+              const item = raw as Record<string, unknown>;
+              const name = String(item.name ?? "").trim().slice(0, 80);
+              const fee = Number(item.fee);
+              if (!name || !Number.isFinite(fee) || fee < 0) return [];
+              return [{ name, fee: Math.min(fee, 100000) }];
+            })
+          : [],
+      } : {}),
       showAwb:          entitlements.isVehicleQuotingEnabled ? Boolean(data.showAwb) : false,
       primaryColor,
       buttonText:    data.buttonText     || "Get Instant Quote",
