@@ -202,6 +202,16 @@
   background: rgba(255, 255, 255, 0.95) !important;
 }
 
+/* Final hard override for the small uppercase estimated-rate caption.
+   Use text fill as well as color so browser/Tailwind text rendering cannot
+   leave it dark on the dark form. */
+.dark :global(p[class*="uppercase"][class*="font-extrabold"][class*="tracking-"]) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: 1 !important;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5) !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .shell *,
   .shell *::before,
