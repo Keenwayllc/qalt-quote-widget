@@ -122,6 +122,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       endLocation: dropoffCanonical,
       extras,
       vehicleCount,
+      vehicleType: typeof data.vehicleType === "string" ? data.vehicleType : null,
       clientDistanceFallback: null,
       serviceType: typeof data.serviceType === "string" ? data.serviceType : null,
     });
@@ -133,6 +134,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
     const authoritativePrice = priced.quote.total;
     const authoritativeDistance = priced.quote.distance;
     const authoritativeServiceType = priced.quote.serviceType;
+    const authoritativeVehicleType = priced.quote.vehicleType;
 
     if (data.formId && data.widgetSettingsId !== data.formId) {
       return NextResponse.json({ error: "Form not found" }, { status: 404 });
@@ -184,6 +186,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
         packageWeight: extras.packageWeight && extras.packageWeight > 0 ? String(extras.packageWeight) : null,
         itemCount: extras.itemCount && extras.itemCount > 0 ? extras.itemCount : null,
         vehicleCount: vehicleCount > 0 ? vehicleCount : null,
+        vehicleType: authoritativeVehicleType,
         awbNumber: data.awbNumber ? String(data.awbNumber).trim() : null,
         selectedExtras: JSON.stringify({
           hasStairs: extras.hasStairs,
@@ -193,6 +196,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
           pickupDateTime: extras.pickupDateTime ?? null,
           selectedLargeItems: extras.selectedLargeItems ?? [],
           serviceType: authoritativeServiceType,
+          vehicleType: authoritativeVehicleType,
+          vehicleCount: vehicleCount > 0 ? vehicleCount : null,
         }),
         paymentStatus: paymentsEnabled ? "PENDING" : null,
       },
@@ -259,6 +264,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       estimatedPrice: authoritativePrice,
       distanceMiles: authoritativeDistance,
       serviceType: authoritativeServiceType,
+      vehicleType: authoritativeVehicleType,
     });
   } catch (error) {
     console.error("Quote submission error:", error);
