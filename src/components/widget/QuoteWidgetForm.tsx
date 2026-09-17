@@ -10,6 +10,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import RouteMapDisplay from "./RouteMapDisplay";
 import PickupDateTime from "./PickupDateTime";
 import ServiceSelector, { type ServiceOption } from "./ServiceSelector";
+import VehicleSelector, { type VehicleOption as VehicleTypeOption } from "./VehicleSelector";
 
 interface WidgetProps {
   company: {
@@ -39,6 +40,7 @@ interface WidgetProps {
       paymentsEnabled?: boolean;
       showVehicles?: boolean;
       pricePerVehicle?: number;
+      vehicleOptions?: VehicleTypeOption[];
       showAwb?: boolean;
       geoFencingEnabled?: boolean;
       serviceZips?: string[];
@@ -63,6 +65,7 @@ interface FormData {
   packageWeight: string;
   itemCount: string;
   vehicleCount: string;
+  vehicleType: string;
   awbNumber: string;
   customerName: string;
   customerEmail: string;
@@ -100,6 +103,7 @@ const EMPTY_FORM: FormData = {
   packageWeight: "",
   itemCount: "",
   vehicleCount: "",
+  vehicleType: "",
   awbNumber: "",
   customerName: "",
   customerEmail: "",
@@ -261,6 +265,9 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     : [];
   const serviceOptions: ServiceOption[] = Array.isArray(pricingProfile?.serviceOptions)
     ? pricingProfile.serviceOptions.filter((option) => option && typeof option.name === "string" && Number(option.fee) >= 0)
+    : [];
+  const vehicleOptions: VehicleTypeOption[] = Array.isArray(widgetSettings.vehicleOptions)
+    ? widgetSettings.vehicleOptions.filter((option) => option && typeof option.name === "string" && Number(option.fee) >= 0)
     : [];
 
   useEffect(() => {
@@ -454,6 +461,11 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
         setLoading(false);
         return;
       }
+      if (widgetSettings.showVehicles && vehicleOptions.length > 0 && (parseInt(formData.vehicleCount) || 0) > 0 && !formData.vehicleType) {
+        setError("Please select a vehicle type.");
+        setLoading(false);
+        return;
+      }
 
       const geoEnabled = company.widgetSettings.geoFencingEnabled;
       const serviceZips = company.widgetSettings.serviceZips ?? [];
@@ -495,6 +507,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
             itemCount: parseInt(formData.itemCount) || 0,
           },
           vehicleCount: parseInt(formData.vehicleCount) || 0,
+          vehicleType: formData.vehicleType,
         }),
       });
 
@@ -798,11 +811,26 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                                   businessDays={pricingProfile?.businessDays} primaryColor={primaryColor} />
                               </motion.div>
 
+                              {widgetSettings.showVehicles && vehicleOptions.length > 0 && (
+                                <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }}>
+                                  <VehicleSelector
+                                    options={vehicleOptions}
+                                    value={formData.vehicleType}
+                                    onChange={(vehicleType) => setFormData((prev) => ({
+                                      ...prev,
+                                      vehicleType,
+                                      vehicleCount: prev.vehicleCount || "1",
+                                    }))}
+                                    primaryColor={primaryColor}
+                                  />
+                                </motion.div>
+                              )}
+
                               {(widgetSettings.showWeight || widgetSettings.showItemCount || widgetSettings.showVehicles) && (
                                 <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }} className="grid grid-cols-2 gap-4">
                                   {widgetSettings.showWeight && <div><label className={LABEL_CLASS}><Weight size={12} className="text-slate-400" /> Weight (lbs)</label><input type="number" name="packageWeight" placeholder="0" value={formData.packageWeight} onChange={handleInputChange} className={INPUT_CLASS} /></div>}
                                   {widgetSettings.showItemCount && <div><label className={LABEL_CLASS}><Hash size={12} className="text-slate-400" /> Items</label><input type="number" name="itemCount" placeholder="1" min="1" value={formData.itemCount} onChange={handleInputChange} className={INPUT_CLASS} /></div>}
-                                  {widgetSettings.showVehicles && <div><label className={LABEL_CLASS}><Truck size={12} className="text-slate-400" /> Vehicles</label><input type="number" name="vehicleCount" placeholder="1" min="1" value={formData.vehicleCount} onChange={handleInputChange} className={INPUT_CLASS} /></div>}
+                                  {widgetSettings.showVehicles && <div><label className={LABEL_CLASS}><Truck size={12} className="text-slate-400" /> {vehicleOptions.length > 0 ? "Vehicle quantity" : "Vehicles"}</label><input type="number" name="vehicleCount" placeholder="1" min="1" value={formData.vehicleCount} onChange={handleInputChange} className={INPUT_CLASS} /></div>}
                                 </motion.div>
                               )}
 
@@ -965,6 +993,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                         <div className="flex items-center justify-between gap-3 px-4 py-3"><span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0">Distance</span><span className="text-[13px] font-bold text-slate-800 text-right">{distance?.toFixed(1)} miles{durationMinutes !== null ? ` · ${formatDuration(durationMinutes)}` : ""}</span></div>
                         <div className="flex items-start justify-between gap-3 px-4 py-3"><span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0 mt-0.5">Pickup</span><span className="text-[13px] font-semibold text-slate-800 text-right leading-snug">{formData.pickupAddress}</span></div>
                         <div className="flex items-start justify-between gap-3 px-4 py-3"><span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0 mt-0.5">Dropoff</span><span className="text-[13px] font-semibold text-slate-800 text-right leading-snug">{formData.dropoffAddress}</span></div>
+                        {formData.vehicleType && <div className="flex items-center justify-between gap-3 px-4 py-3"><span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0">Vehicle</span><span className="text-[13px] font-bold text-slate-800 text-right">{formData.vehicleType}{formData.vehicleCount ? ` × ${formData.vehicleCount}` : ""}</span></div>}
                         {formData.pickupDate && <div className="flex items-center justify-between gap-3 px-4 py-3"><span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0">When</span><span className="text-[13px] font-bold text-slate-800 text-right">{new Date(formData.pickupDate).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}{formData.pickupTime && ` · ${formData.pickupTime}`}</span></div>}
                         {hasAnyAddon && (
                           <div className="flex items-start justify-between gap-3 px-4 py-3"><span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0 mt-1">Add-ons</span><div className="flex flex-wrap gap-1.5 justify-end">
