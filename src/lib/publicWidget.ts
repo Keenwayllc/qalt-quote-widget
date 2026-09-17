@@ -33,6 +33,7 @@ export const publicWidgetSettingsSelect = {
   paymentsEnabled: true,
   showVehicles: true,
   pricePerVehicle: true,
+  vehicleOptions: true,
   showAwb: true,
   geoFencingEnabled: true,
   serviceZips: true,
