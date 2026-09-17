@@ -14,6 +14,7 @@ import {
   Save,
 } from "lucide-react";
 import type { PlanEntitlements } from "@/lib/plans";
+import VehicleCatalogEditor from "./VehicleCatalogEditor";
 
 interface LargeItemCategory {
   name: string;
@@ -46,6 +47,7 @@ interface WidgetSettingsSnapshot {
   showExtras: boolean;
   showVehicles: boolean;
   pricePerVehicle: number;
+  vehicleOptions?: unknown;
   showAwb: boolean;
 }
 
@@ -875,8 +877,12 @@ export default function PricingPage({
                 className="w-40 px-4 py-2 bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-600 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500 shadow-sm"
               />
               <p className="text-xs text-slate-500 dark:text-zinc-400 mt-1">
-                Flat fee added per vehicle the customer selects in the widget.
+                Default flat fee per vehicle. A vehicle-specific charge below overrides this default when it is greater than $0.
               </p>
+              <VehicleCatalogEditor
+                initialOptions={widgetSettings?.vehicleOptions}
+                formId={widgetSettings?.id || formId}
+              />
             </div>
           )}
           <div className="flex justify-end pt-4 border-t border-slate-100 dark:border-zinc-700">
