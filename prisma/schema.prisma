@@ -113,6 +113,7 @@ model WidgetSettings {
   paymentsEnabled    Boolean         @default(false) // Enterprise only
   showVehicles       Boolean         @default(false)
   pricePerVehicle    Float           @default(0)
+  vehicleOptions     Json            @default("[]")
   showAwb            Boolean         @default(false)
   geoFencingEnabled  Boolean         @default(false)
   serviceZips        String[]        @default([])
@@ -146,6 +147,7 @@ model QuoteRequest {
   // documents stay historically accurate even if the merchant later changes rates.
   pricingBreakdown      Json?
   vehicleCount          Int?
+  vehicleType           String?
   awbNumber             String?
   paymentStatus         String?   // "PENDING" | "PAID" | "FAILED" | null (null = no payment required)
   stripePaymentIntentId String?
