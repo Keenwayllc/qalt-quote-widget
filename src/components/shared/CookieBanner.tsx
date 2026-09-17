@@ -4,6 +4,16 @@ import { useState, useEffect } from "react";
 import CookiePreferenceModal from "./CookiePreferenceModal";
 import QaltLogo from "@/components/shared/QaltLogo";
 
+function isQaltOwnedHost(hostname: string) {
+  const host = hostname.toLowerCase();
+  return (
+    host === "qalt.site" ||
+    host === "www.qalt.site" ||
+    host === "localhost" ||
+    host.endsWith(".vercel.app")
+  );
+}
+
 export default function CookieBanner() {
   const [isVisible, setIsVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,8 +24,11 @@ export default function CookieBanner() {
     setMounted(true);
 
     // Embedded widget/map surfaces should never render the full-site cookie
-    // banner inside an iframe. Consent remains handled by the top-level site.
+    // banner inside an iframe. Merchant custom domains should not show Qalt's
+    // first-party marketing banner either; the merchant controls consent on
+    // their own branded surface.
     if (window.self !== window.top) return;
+    if (!isQaltOwnedHost(window.location.hostname)) return;
 
     try {
       const consent = localStorage.getItem("cookieConsent");
@@ -23,7 +36,7 @@ export default function CookieBanner() {
         setIsVisible(true);
       }
     } catch {
-      // localStorage blocked in cross-origin iframes — hide banner
+      // localStorage blocked — leave the banner hidden.
     }
   }, []);
 
