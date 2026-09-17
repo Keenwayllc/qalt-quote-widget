@@ -12,6 +12,11 @@ export default function CookieBanner() {
 
   useEffect(() => {
     setMounted(true);
+
+    // Embedded widget/map surfaces should never render the full-site cookie
+    // banner inside an iframe. Consent remains handled by the top-level site.
+    if (window.self !== window.top) return;
+
     try {
       const consent = localStorage.getItem("cookieConsent");
       if (!consent) {
