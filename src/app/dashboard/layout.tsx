@@ -1,6 +1,7 @@
 import { getCurrentCompany, isTrialExpired, trialDaysRemaining, wasTrialDowngraded } from "@/lib/session";
 import DashboardClientLayout from "./DashboardClientLayout";
 import DashboardRouteStyler from "./DashboardRouteStyler";
+import VerifiedWidgetLinkRewriter from "./VerifiedWidgetLinkRewriter";
 import "./dashboard-polish.css";
 import "./console-shell.css";
 import "./overview-premium.css";
@@ -44,6 +45,11 @@ export default async function DashboardLayout({
   return (
     <>
       <DashboardRouteStyler />
+      <VerifiedWidgetLinkRewriter
+        companyId={company.id}
+        customWidgetDomain={company.customWidgetDomain}
+        customWidgetDomainVerified={company.customWidgetDomainVerified}
+      />
       <DashboardClientLayout
         subscriptionPlan={company.subscriptionPlan}
         pendingCount={pendingCount}
