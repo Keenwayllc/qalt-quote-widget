@@ -122,23 +122,29 @@
   border-color: rgba(110, 231, 183, 0.3) !important;
 }
 
+/* Estimated-rate card: use structural selectors so the caption and decorative
+   sparkle stay readable even if Tailwind changes generated color class syntax. */
+.dark :global([class*="from-emerald-50"] p) {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+.dark :global([class*="from-emerald-50"] > p) {
+  color: rgba(255, 255, 255, 0.88) !important;
+  opacity: 1 !important;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+}
+
+.dark :global([class*="from-emerald-50"] > .absolute svg) {
+  color: rgba(255, 255, 255, 0.82) !important;
+  stroke: rgba(255, 255, 255, 0.82) !important;
+  opacity: 1 !important;
+}
+
 /* Keep the estimated-rate amount as the strongest element in dark mode. */
 .dark :global(p.text-5xl.font-black.text-emerald-700) {
   color: #ffffff !important;
   text-shadow: 0 1px 12px rgba(255, 255, 255, 0.08);
-}
-
-/* Target the rate-card label by its card, not Tailwind's escaped opacity class.
-   This stays reliable across Tailwind builds and keeps the caption readable. */
-.dark :global([class*="from-emerald-50"] > p) {
-  color: rgba(255, 255, 255, 0.82) !important;
-  opacity: 1 !important;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
-}
-
-.dark :global([class*="from-emerald-50"] > div[class*="absolute"] svg) {
-  color: rgba(255, 255, 255, 0.58) !important;
-  opacity: 1 !important;
 }
 
 /* Distance/time chips intentionally stay light in dark mode for crisp contrast. */
