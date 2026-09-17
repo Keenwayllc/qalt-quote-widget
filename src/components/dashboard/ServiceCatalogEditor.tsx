@@ -4,42 +4,56 @@ import { useMemo, useState } from "react";
 import { BriefcaseBusiness, Check, Plus, Save, Sparkles, Trash2 } from "lucide-react";
 
 type ServiceOption = {
+  key: string;
   name: string;
   description: string;
-  fee: number;
+  fee: string;
 };
 
+type ServicePreset = Omit<ServiceOption, "key">;
 type SaveState = "idle" | "saving" | "saved" | "error";
 
-const PRESETS: ServiceOption[] = [
-  { name: "Standard", description: "Economical same-day delivery", fee: 0 },
-  { name: "Rush", description: "Priority same-day delivery", fee: 0 },
-  { name: "Super Rush", description: "Fastest available delivery service", fee: 0 },
-  { name: "Scheduled Route", description: "Pre-scheduled or recurring delivery", fee: 0 },
-  { name: "Van / Truck", description: "Oversized shipment requiring a larger vehicle", fee: 0 },
-  { name: "White Glove", description: "High-touch handling and delivery", fee: 0 },
-  { name: "Legal / Court Filing", description: "Legal documents, filings, or service work", fee: 0 },
-  { name: "Medical", description: "Medical supplies, devices, or healthcare delivery", fee: 0 },
-  { name: "Floral", description: "Flowers and arrangements requiring careful handling", fee: 0 },
-  { name: "Furniture / Oversized", description: "Furniture, art, fixtures, or bulky items", fee: 0 },
-  { name: "Freight / LTL", description: "Crates, pallets, and less-than-truckload freight", fee: 0 },
-  { name: "Production / Event", description: "Film, studio, event, and meeting logistics", fee: 0 },
+const PRESETS: ServicePreset[] = [
+  { name: "Standard", description: "Economical same-day delivery", fee: "0" },
+  { name: "Rush", description: "Priority same-day delivery", fee: "0" },
+  { name: "Super Rush", description: "Fastest available delivery service", fee: "0" },
+  { name: "Scheduled Route", description: "Pre-scheduled or recurring delivery", fee: "0" },
+  { name: "Van / Truck", description: "Oversized shipment requiring a larger vehicle", fee: "0" },
+  { name: "White Glove", description: "High-touch handling and delivery", fee: "0" },
+  { name: "Legal / Court Filing", description: "Legal documents, filings, or service work", fee: "0" },
+  { name: "Medical", description: "Medical supplies, devices, or healthcare delivery", fee: "0" },
+  { name: "Floral", description: "Flowers and arrangements requiring careful handling", fee: "0" },
+  { name: "Furniture / Oversized", description: "Furniture, art, fixtures, or bulky items", fee: "0" },
+  { name: "Freight / LTL", description: "Crates, pallets, and less-than-truckload freight", fee: "0" },
+  { name: "Production / Event", description: "Film, studio, event, and meeting logistics", fee: "0" },
 ];
+
+const makeClientKey = () =>
+  typeof crypto !== "undefined" && "randomUUID" in crypto
+    ? crypto.randomUUID()
+    : `service-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
 function cleanInitial(value: unknown): ServiceOption[] {
   if (!Array.isArray(value)) return [];
-  return value.flatMap((raw) => {
+  return value.flatMap((raw, index) => {
     if (!raw || typeof raw !== "object") return [];
     const item = raw as Record<string, unknown>;
     const name = String(item.name ?? "").trim();
     if (!name) return [];
-    const fee = Number(item.fee);
+    const parsedFee = Number(item.fee);
     return [{
+      key: `saved-${index}`,
       name,
       description: String(item.description ?? ""),
-      fee: Number.isFinite(fee) && fee >= 0 ? fee : 0,
+      fee: Number.isFinite(parsedFee) && parsedFee >= 0 ? String(parsedFee) : "0",
     }];
   });
+}
+
+function parseFee(value: string): number {
+  const fee = Number(value);
+  if (!Number.isFinite(fee) || fee < 0) return 0;
+  return Math.min(fee, 100000);
 }
 
 export default function ServiceCatalogEditor({
@@ -51,35 +65,76 @@ export default function ServiceCatalogEditor({
 }) {
   const [options, setOptions] = useState<ServiceOption[]>(() => cleanInitial(initialOptions));
   const [status, setStatus] = useState<SaveState>("idle");
+  const [validationError, setValidationError] = useState("");
 
   const usedNames = useMemo(
     () => new Set(options.map((option) => option.name.trim().toLocaleLowerCase()).filter(Boolean)),
     [options]
   );
 
+  const duplicateNames = useMemo(() => {
+    const seen = new Set<string>();
+    const duplicates = new Set<string>();
+    for (const option of options) {
+      const normalized = option.name.trim().toLocaleLowerCase();
+      if (!normalized) continue;
+      if (seen.has(normalized)) duplicates.add(normalized);
+      seen.add(normalized);
+    }
+    return duplicates;
+  }, [options]);
+
   const addBlank = () => {
     if (options.length >= 30) return;
-    setOptions((current) => [...current, { name: "", description: "", fee: 0 }]);
+    setValidationError("");
+    setOptions((current) => [
+      ...current,
+      { key: makeClientKey(), name: "", description: "", fee: "" },
+    ]);
   };
 
-  const addPreset = (preset: ServiceOption) => {
+  const addPreset = (preset: ServicePreset) => {
     if (options.length >= 30 || usedNames.has(preset.name.toLocaleLowerCase())) return;
-    setOptions((current) => [...current, { ...preset }]);
+    setValidationError("");
+    setOptions((current) => [
+      ...current,
+      { key: makeClientKey(), ...preset },
+    ]);
   };
 
-  const updateOption = (index: number, field: keyof ServiceOption, value: string) => {
-    setOptions((current) => current.map((option, i) => {
-      if (i !== index) return option;
-      if (field === "fee") return { ...option, fee: Math.max(0, Number(value) || 0) };
-      return { ...option, [field]: value };
-    }));
+  const updateOption = (
+    key: string,
+    field: "name" | "description" | "fee",
+    value: string
+  ) => {
+    if (field === "fee" && value !== "" && !/^\d{0,6}(?:\.\d{0,2})?$/.test(value)) {
+      return;
+    }
+    setValidationError("");
+    setOptions((current) =>
+      current.map((option) =>
+        option.key === key ? { ...option, [field]: value } : option
+      )
+    );
   };
 
-  const removeOption = (index: number) => {
-    setOptions((current) => current.filter((_, i) => i !== index));
+  const removeOption = (key: string) => {
+    setValidationError("");
+    setOptions((current) => current.filter((option) => option.key !== key));
   };
 
   const save = async () => {
+    const hasBlankName = options.some((option) => !option.name.trim());
+    if (hasBlankName) {
+      setValidationError("Every service needs a name before you can save.");
+      return;
+    }
+    if (duplicateNames.size > 0) {
+      setValidationError("Service names must be unique. Rename or remove the duplicate service.");
+      return;
+    }
+
+    setValidationError("");
     setStatus("saving");
     try {
       const res = await fetch("/api/dashboard/pricing", {
@@ -87,13 +142,11 @@ export default function ServiceCatalogEditor({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           formId: formId ?? null,
-          serviceOptions: options
-            .map((option) => ({
-              name: option.name.trim(),
-              description: option.description.trim(),
-              fee: Math.max(0, Number(option.fee) || 0),
-            }))
-            .filter((option) => option.name),
+          serviceOptions: options.map((option) => ({
+            name: option.name.trim(),
+            description: option.description.trim(),
+            fee: parseFee(option.fee),
+          })),
         }),
       });
       setStatus(res.ok ? "saved" : "error");
@@ -148,6 +201,12 @@ export default function ServiceCatalogEditor({
           </div>
         </div>
 
+        {validationError && (
+          <div className="mt-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700 dark:border-red-900/60 dark:bg-red-950/30 dark:text-red-300" role="alert">
+            {validationError}
+          </div>
+        )}
+
         <div className="mt-6 space-y-3">
           {options.length === 0 && (
             <div className="rounded-xl border border-dashed border-slate-300 dark:border-zinc-700 px-5 py-8 text-center">
@@ -156,56 +215,63 @@ export default function ServiceCatalogEditor({
             </div>
           )}
 
-          {options.map((option, index) => (
-            <div key={index} className="grid grid-cols-1 md:grid-cols-[1fr_1.4fr_130px_40px] gap-3 items-end rounded-xl border border-slate-200 dark:border-zinc-700 p-4">
-              <div>
-                <label className="block text-xs font-bold text-slate-500 dark:text-zinc-400 mb-1.5">Service name</label>
-                <input
-                  type="text"
-                  maxLength={80}
-                  value={option.name}
-                  onChange={(e) => updateOption(index, "name", e.target.value)}
-                  placeholder="e.g. Rush"
-                  className="w-full px-3 py-2.5 rounded-lg border border-slate-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-slate-500 dark:text-zinc-400 mb-1.5">Customer description</label>
-                <input
-                  type="text"
-                  maxLength={180}
-                  value={option.description}
-                  onChange={(e) => updateOption(index, "description", e.target.value)}
-                  placeholder="Short explanation shown in the quote form"
-                  className="w-full px-3 py-2.5 rounded-lg border border-slate-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-slate-500 dark:text-zinc-400 mb-1.5">Service fee</label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">$</span>
+          {options.map((option) => {
+            const normalizedName = option.name.trim().toLocaleLowerCase();
+            const isDuplicate = Boolean(normalizedName && duplicateNames.has(normalizedName));
+            return (
+              <div key={option.key} className="grid grid-cols-1 md:grid-cols-[1fr_1.4fr_130px_40px] gap-3 items-end rounded-xl border border-slate-200 dark:border-zinc-700 p-4">
+                <div>
+                  <label htmlFor={`service-name-${option.key}`} className="block text-xs font-bold text-slate-500 dark:text-zinc-400 mb-1.5">Service name</label>
                   <input
-                    type="number"
-                    min="0"
-                    max="100000"
-                    step="0.01"
-                    value={option.fee || ""}
-                    onChange={(e) => updateOption(index, "fee", e.target.value)}
-                    placeholder="0.00"
-                    className="w-full pl-7 pr-3 py-2.5 rounded-lg border border-slate-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+                    id={`service-name-${option.key}`}
+                    type="text"
+                    maxLength={80}
+                    value={option.name}
+                    onChange={(e) => updateOption(option.key, "name", e.target.value)}
+                    placeholder="e.g. Rush"
+                    aria-invalid={isDuplicate}
+                    className={`w-full px-3 py-2.5 rounded-lg border bg-white dark:bg-zinc-800 text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500 ${isDuplicate ? "border-red-400" : "border-slate-300 dark:border-zinc-600"}`}
                   />
                 </div>
+                <div>
+                  <label htmlFor={`service-description-${option.key}`} className="block text-xs font-bold text-slate-500 dark:text-zinc-400 mb-1.5">Customer description</label>
+                  <input
+                    id={`service-description-${option.key}`}
+                    type="text"
+                    maxLength={180}
+                    value={option.description}
+                    onChange={(e) => updateOption(option.key, "description", e.target.value)}
+                    placeholder="Short explanation shown in the quote form"
+                    className="w-full px-3 py-2.5 rounded-lg border border-slate-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor={`service-fee-${option.key}`} className="block text-xs font-bold text-slate-500 dark:text-zinc-400 mb-1.5">Service fee</label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">$</span>
+                    <input
+                      id={`service-fee-${option.key}`}
+                      type="text"
+                      inputMode="decimal"
+                      value={option.fee}
+                      onChange={(e) => updateOption(option.key, "fee", e.target.value)}
+                      placeholder="0.00"
+                      autoComplete="off"
+                      className="w-full pl-7 pr-3 py-2.5 rounded-lg border border-slate-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+                    />
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => removeOption(option.key)}
+                  className="h-[42px] flex items-center justify-center rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
+                  aria-label={`Remove ${option.name || "service"}`}
+                >
+                  <Trash2 size={17} />
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => removeOption(index)}
-                className="h-[42px] flex items-center justify-center rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
-                aria-label={`Remove ${option.name || "service"}`}
-              >
-                <Trash2 size={17} />
-              </button>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="mt-5 flex items-center justify-between gap-4 border-t border-slate-100 dark:border-zinc-700 pt-5">
