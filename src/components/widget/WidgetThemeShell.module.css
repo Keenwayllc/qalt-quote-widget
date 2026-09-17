@@ -128,8 +128,17 @@
   text-shadow: 0 1px 12px rgba(255, 255, 255, 0.08);
 }
 
-.dark :global(p.text-\[10px\].text-emerald-600\/80) {
-  color: rgba(255, 255, 255, 0.76) !important;
+/* Target the rate-card label by its card, not Tailwind's escaped opacity class.
+   This stays reliable across Tailwind builds and keeps the caption readable. */
+.dark :global([class*="from-emerald-50"] > p) {
+  color: rgba(255, 255, 255, 0.82) !important;
+  opacity: 1 !important;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+}
+
+.dark :global([class*="from-emerald-50"] > div[class*="absolute"] svg) {
+  color: rgba(255, 255, 255, 0.58) !important;
+  opacity: 1 !important;
 }
 
 /* Distance/time chips intentionally stay light in dark mode for crisp contrast. */
