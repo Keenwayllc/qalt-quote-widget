@@ -106,9 +106,12 @@
 }
 
 /* The quote card uses emerald styling in light mode. In the dark form, preserve
-   the semantic accent but bring the label and price up to accessible contrast. */
+   the semantic accent but force a true dark surface with no light gradient. */
+.dark :global([class*="from-emerald-50"][class*="to-teal-50"]),
 .dark :global([class~="from-emerald-50"]) {
-  background: #17211d !important;
+  background-color: #17211d !important;
+  background-image: none !important;
+  color: #f8fafc !important;
 }
 
 .dark :global([class*="text-emerald"]) {
