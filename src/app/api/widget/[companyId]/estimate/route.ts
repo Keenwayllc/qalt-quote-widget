@@ -12,6 +12,16 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
     const startLocation = origin || pickupZip;
     const endLocation = destination || dropoffZip;
 
+    const normalizedStart = typeof startLocation === "string" ? startLocation.trim().toLowerCase() : "";
+    const normalizedEnd = typeof endLocation === "string" ? endLocation.trim().toLowerCase() : "";
+
+    if (normalizedStart && normalizedEnd && normalizedStart === normalizedEnd) {
+      return NextResponse.json(
+        { error: "Pickup and dropoff addresses must be different." },
+        { status: 400 }
+      );
+    }
+
     // Shared server pricing. The estimate is a preview, so a client-supplied
     // distance may be used as a fallback when routing is unavailable.
     const result = await computeAuthoritativeQuote({
