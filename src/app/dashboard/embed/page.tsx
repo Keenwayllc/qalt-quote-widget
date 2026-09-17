@@ -6,8 +6,15 @@ import { Copy, Check, ExternalLink, Eye, RefreshCw, Monitor, Smartphone, Activit
 
 type PreviewMode = "desktop" | "mobile";
 
+type WidgetDomainState = {
+  domain?: string | null;
+  verified?: boolean;
+};
+
 export default function EmbedCodePage() {
   const [companyId, setCompanyId] = useState<string | null>(null);
+  const [customDomain, setCustomDomain] = useState<string | null>(null);
+  const [customDomainVerified, setCustomDomainVerified] = useState(false);
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
@@ -19,14 +26,24 @@ export default function EmbedCodePage() {
   useEffect(() => {
     async function fetchCompany() {
       try {
-        const [widgetRes, countRes] = await Promise.all([
+        const [widgetRes, countRes, domainRes] = await Promise.all([
           fetch("/api/dashboard/widget"),
           fetch("/api/dashboard/quote-count"),
+          fetch("/api/dashboard/widget-domain"),
         ]);
         const widgetData = await widgetRes.json();
         const countData = await countRes.json();
+        const domainData: WidgetDomainState = domainRes.ok ? await domainRes.json() : {};
+
         if (widgetData.id) setCompanyId(widgetData.id);
         if (typeof countData.count === "number") setQuoteCount(countData.count);
+        if (domainData.domain && domainData.verified) {
+          setCustomDomain(domainData.domain);
+          setCustomDomainVerified(true);
+        } else {
+          setCustomDomain(null);
+          setCustomDomainVerified(false);
+        }
       } catch {
         // non-critical — embed page still renders without the preview
       } finally {
@@ -36,9 +53,13 @@ export default function EmbedCodePage() {
     fetchCompany();
   }, []);
 
-  const widgetUrl = companyId
-    ? `${typeof window !== "undefined" ? window.location.origin : "https://qalt.site"}/widget/${companyId}`
+  const canonicalWidgetUrl = companyId
+    ? `https://www.qalt.site/widget/${companyId}`
     : "";
+
+  const widgetUrl = customDomainVerified && customDomain
+    ? `https://${customDomain}`
+    : canonicalWidgetUrl;
 
   const embedCode = `<iframe
   src="${widgetUrl}"
@@ -76,7 +97,14 @@ export default function EmbedCodePage() {
             {/* Embed Code Card */}
             <div className="bg-white dark:bg-[#1e1e1e] rounded-none p-8 shadow-sm dark:shadow-none border border-slate-100 dark:border-white/[0.06]">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Your Embed Code</h2>
+                <div>
+                  <h2 className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Your Embed Code</h2>
+                  {customDomainVerified && customDomain && (
+                    <p className="mt-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                      Using verified branded domain: {customDomain}
+                    </p>
+                  )}
+                </div>
                 <button
                   onClick={copyToClipboard}
                   className={`
