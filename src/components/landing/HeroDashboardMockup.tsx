@@ -43,15 +43,16 @@ function RouteMap({ accent, reduceMotion }: { accent: string; reduceMotion: bool
   const route = "M72 52 V108 Q72 124 88 124 H174 Q193 124 193 143 V199 Q193 218 212 218 H292";
 
   return (
-    <div className="overflow-hidden border border-slate-200 bg-[#f7f8fa]">
-      <div className="flex items-center justify-between px-3 pb-1 pt-2.5">
+    <div className="overflow-hidden border border-slate-200 bg-[#f8f9fa]">
+      <div className="flex items-center justify-between bg-white px-3 pb-1 pt-2.5">
         <span className="text-[7px] font-bold uppercase tracking-[0.14em] text-slate-400">The delivery route</span>
         <span className="text-[8px] font-bold text-slate-600">20.8 mi</span>
       </div>
-      <svg viewBox="0 0 360 270" className="block h-[132px] w-full" role="img" aria-label="Illustrative route from North Hollywood to Downtown Los Angeles">
+      <svg viewBox="0 0 360 270" className="block h-[132px] w-full" role="img" aria-label="Illustrative light road map from North Hollywood to Downtown Los Angeles">
         <defs>
-          <pattern id="qalt-route-grid" width="34" height="34" patternUnits="userSpaceOnUse">
-            <path d="M34 0H0V34" fill="none" stroke="#e4e7eb" strokeWidth="0.8" />
+          <pattern id="qalt-route-grid" width="42" height="42" patternUnits="userSpaceOnUse">
+            <rect width="42" height="42" fill="#f8f9fa" />
+            <path d="M0 12H42M0 31H42M13 0V42M32 0V42" fill="none" stroke="#e7e9ec" strokeWidth="0.75" />
           </pattern>
           <filter id="qalt-route-shadow" x="-30%" y="-30%" width="160%" height="160%">
             <feDropShadow dx="0" dy="2" stdDeviation="2.2" floodColor={accent} floodOpacity="0.24" />
@@ -60,15 +61,28 @@ function RouteMap({ accent, reduceMotion }: { accent: string; reduceMotion: bool
 
         <rect width="360" height="270" fill="url(#qalt-route-grid)" />
 
-        {/* Single-stroke streets: no doubled white road casing. */}
-        <path d="M-25 212 C65 178 172 146 388 62" fill="none" stroke="#d8dde4" strokeWidth="1.2" strokeLinecap="round" />
-        <path d="M18 -8 C90 63 180 150 325 292" fill="none" stroke="#d8dde4" strokeWidth="1.2" strokeLinecap="round" />
-        <path d="M-12 77 C104 108 220 154 382 245" fill="none" stroke="#d8dde4" strokeWidth="1.2" strokeLinecap="round" />
-        <path d="M123 -20 C144 66 147 157 132 298" fill="none" stroke="#e1e4e9" strokeWidth="1" strokeLinecap="round" />
+        <path d="M-20 224 C72 190 182 147 390 62" fill="none" stroke="#fff" strokeWidth="9" strokeLinecap="round" />
+        <path d="M-20 224 C72 190 182 147 390 62" fill="none" stroke="#dfe3e7" strokeWidth="2.2" strokeLinecap="round" />
+        <path d="M15 -12 C92 65 181 151 332 294" fill="none" stroke="#fff" strokeWidth="8" strokeLinecap="round" />
+        <path d="M15 -12 C92 65 181 151 332 294" fill="none" stroke="#e2e5e9" strokeWidth="2" strokeLinecap="round" />
+        <path d="M-18 78 C105 106 228 156 385 246" fill="none" stroke="#fff" strokeWidth="7" strokeLinecap="round" />
+        <path d="M-18 78 C105 106 228 156 385 246" fill="none" stroke="#e4e7ea" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="M123 -20 C144 66 147 157 132 298" fill="none" stroke="#fff" strokeWidth="7" strokeLinecap="round" />
+        <path d="M123 -20 C144 66 147 157 132 298" fill="none" stroke="#e4e7ea" strokeWidth="1.7" strokeLinecap="round" />
+        <path d="M-10 150 C75 143 126 152 193 174 C245 191 307 187 375 165" fill="none" stroke="#fff" strokeWidth="6" strokeLinecap="round" />
+        <path d="M-10 150 C75 143 126 152 193 174 C245 191 307 187 375 165" fill="none" stroke="#e6e8eb" strokeWidth="1.5" strokeLinecap="round" />
 
-        <text x="24" y="28" fill="#a3a9b3" fontSize="10" letterSpacing="1.7" style={{ fontFamily: "var(--font-inter), Inter, Arial, sans-serif" }}>
-          LOS ANGELES
-        </text>
+        <g style={{ fontFamily: "var(--font-inter), Inter, Arial, sans-serif" }}>
+          <text x="18" y="27" fill="#5f6368" fontSize="10" fontWeight="700">North Hollywood</text>
+          <text x="232" y="247" fill="#5f6368" fontSize="10" fontWeight="700">Downtown Los Angeles</text>
+          <text x="233" y="42" fill="#8a9097" fontSize="7.5" fontWeight="600">Burbank</text>
+          <text x="24" y="188" fill="#8a9097" fontSize="7.5" fontWeight="600">Studio City</text>
+          <text x="252" y="135" fill="#8a9097" fontSize="7.5" fontWeight="600">Glendale</text>
+          <rect x="159" y="101" width="22" height="12" rx="6" fill="#eef3ff" stroke="#c9d8f5" />
+          <text x="164" y="110" fill="#4f6fad" fontSize="7" fontWeight="800">I-5</text>
+          <rect x="94" y="184" width="30" height="12" rx="6" fill="#eef3ff" stroke="#c9d8f5" />
+          <text x="99" y="193" fill="#4f6fad" fontSize="7" fontWeight="800">US-101</text>
+        </g>
 
         <motion.path
           d={route}
@@ -91,30 +105,13 @@ function RouteMap({ accent, reduceMotion }: { accent: string; reduceMotion: bool
             stroke="white"
             strokeWidth="2"
             initial={{ cx: 72, cy: 52 }}
-            animate={{
-              cx: [72, 72, 88, 174, 193, 193, 212, 292],
-              cy: [52, 108, 124, 124, 143, 199, 218, 218],
-            }}
+            animate={{ cx: [72, 72, 88, 174, 193, 193, 212, 292], cy: [52, 108, 124, 124, 143, 199, 218, 218] }}
             transition={{ duration: 3.3, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.8 }}
           />
         )}
 
-        <circle cx="72" cy="52" r="8" fill="white" stroke={accent} strokeWidth="3" />
-        <circle cx="292" cy="218" r="8" fill={accent} />
-        <circle cx="292" cy="218" r="3" fill="white" />
-
-        <g>
-          <rect x="87" y="34" width="122" height="27" rx="5" fill="white" stroke="#e6e8ed" />
-          <text x="97" y="51" fill="#525967" fontSize="9" fontWeight="600" style={{ fontFamily: "var(--font-inter), Inter, Arial, sans-serif" }}>
-            North Hollywood
-          </text>
-        </g>
-        <g>
-          <rect x="171" y="229" width="155" height="27" rx="5" fill="white" stroke="#e6e8ed" />
-          <text x="181" y="246" fill="#525967" fontSize="9" fontWeight="600" style={{ fontFamily: "var(--font-inter), Inter, Arial, sans-serif" }}>
-            Downtown Los Angeles
-          </text>
-        </g>
+        <circle cx="72" cy="52" r="7" fill="#fff" stroke={accent} strokeWidth="3" />
+        <circle cx="292" cy="218" r="7" fill={accent} stroke="#fff" strokeWidth="2" />
       </svg>
     </div>
   );
