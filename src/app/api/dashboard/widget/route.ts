@@ -112,7 +112,7 @@ export async function POST(req: Request) {
       showAwb:          entitlements.isVehicleQuotingEnabled ? Boolean(data.showAwb) : false,
       primaryColor,
       buttonText:    data.buttonText     || "Get Instant Quote",
-      headerText:    data.headerText     || "Delivery Quote Calculator",
+      headerText:    typeof data.headerText === "string" ? data.headerText.trim() : "",
       disclaimerText: (entitlements.isAdvancedCustomizationEnabled && data.disclaimerText)
                         ? data.disclaimerText
                         : "Estimate only. Final price confirmed after booking.",
