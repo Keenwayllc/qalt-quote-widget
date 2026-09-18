@@ -8,6 +8,7 @@ import "./forms.css";
 interface QuoteForm {
   id: string;
   name: string;
+  formStyle?: "standard" | "quick";
 }
 
 export default function FormsPage() {
@@ -15,6 +16,7 @@ export default function FormsPage() {
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
   const [newFormName, setNewFormName] = useState("");
+  const [newFormStyle, setNewFormStyle] = useState<"standard" | "quick">("standard");
   const [showNewInput, setShowNewInput] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [renamingId, setRenamingId] = useState<string | null>(null);
@@ -51,7 +53,7 @@ export default function FormsPage() {
       const res = await fetch("/api/dashboard/forms", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: newFormName.trim() }),
+        body: JSON.stringify({ name: newFormName.trim(), formStyle: newFormStyle }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -59,6 +61,7 @@ export default function FormsPage() {
       } else {
         setForms((prev) => [...prev, data.form]);
         setNewFormName("");
+        setNewFormStyle("standard");
         setShowNewInput(false);
       }
     } catch {
@@ -154,27 +157,51 @@ export default function FormsPage() {
       )}
 
       {showNewInput && (
-        <div className="mb-6 bg-white dark:bg-[#1e1e1e] rounded-none border border-slate-200 dark:border-white/[0.06] shadow-sm dark:shadow-none p-6 flex items-center gap-3">
-          <FormInput size={18} className="text-red-500 shrink-0" />
-          <input
-            autoFocus
-            type="text"
-            placeholder="Form name (e.g. Local Delivery Form)"
-            value={newFormName}
-            onChange={(e) => setNewFormName(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && createForm()}
-            className="flex-1 text-sm font-medium text-slate-900 dark:text-white outline-none placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-transparent"
-          />
-          <button
-            onClick={createForm}
-            disabled={creating || !newFormName.trim()}
-            className="px-4 py-2 bg-red-600 text-white rounded-none text-xs font-black disabled:opacity-50 hover:bg-red-500 transition-all"
-          >
-            {creating ? "Creating…" : "Create"}
-          </button>
-          <button onClick={() => { setShowNewInput(false); setNewFormName(""); }}>
-            <X size={16} className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300" />
-          </button>
+        <div className="mb-6 bg-white dark:bg-[#1e1e1e] rounded-none border border-slate-200 dark:border-white/[0.06] shadow-sm dark:shadow-none p-6 space-y-5">
+          <div className="flex items-center gap-3">
+            <FormInput size={18} className="text-red-500 shrink-0" />
+            <input
+              autoFocus
+              type="text"
+              placeholder="Form name (e.g. Local Delivery Form)"
+              value={newFormName}
+              onChange={(e) => setNewFormName(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && createForm()}
+              className="flex-1 text-sm font-medium text-slate-900 dark:text-white outline-none placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-transparent"
+            />
+            <button onClick={() => { setShowNewInput(false); setNewFormName(""); setNewFormStyle("standard"); }}>
+              <X size={16} className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300" />
+            </button>
+          </div>
+
+          <div>
+            <p className="text-xs font-black uppercase tracking-wider text-slate-400 mb-2">Choose a form experience</p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <button type="button" onClick={() => setNewFormStyle("standard")}
+                className={`text-left p-4 border transition-all ${newFormStyle === "standard" ? "border-red-500 bg-red-50 dark:bg-red-500/10" : "border-slate-200 dark:border-white/[0.08] hover:border-slate-300"}`}>
+                <p className="text-sm font-black text-slate-900 dark:text-white">Standard Quote Form</p>
+                <p className="mt-1 text-xs font-medium leading-relaxed text-slate-500 dark:text-slate-400">Detailed delivery flow with service, schedule, shipment fields, add-ons, vehicle selection, and pricing.</p>
+              </button>
+              <button type="button" onClick={() => setNewFormStyle("quick")}
+                className={`text-left p-4 border transition-all ${newFormStyle === "quick" ? "border-red-500 bg-red-50 dark:bg-red-500/10" : "border-slate-200 dark:border-white/[0.08] hover:border-slate-300"}`}>
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-sm font-black text-slate-900 dark:text-white">Quick Quote Form</p>
+                  <span className="text-[9px] font-black uppercase tracking-wider text-red-600">Fast</span>
+                </div>
+                <p className="mt-1 text-xs font-medium leading-relaxed text-slate-500 dark:text-slate-400">Pickup, dropoff, service, and visual vehicle choices first. Show the price before collecting customer details.</p>
+              </button>
+            </div>
+          </div>
+
+          <div className="flex justify-end">
+            <button
+              onClick={createForm}
+              disabled={creating || !newFormName.trim()}
+              className="px-5 py-2.5 bg-red-600 text-white rounded-none text-xs font-black disabled:opacity-50 hover:bg-red-500 transition-all"
+            >
+              {creating ? "Creating…" : `Create ${newFormStyle === "quick" ? "Quick Quote" : "Form"}`}
+            </button>
+          </div>
         </div>
       )}
 
@@ -222,6 +249,9 @@ export default function FormsPage() {
                   <div className="flex items-center gap-2">
                     <FormInput size={16} className="text-red-500" />
                     <span className="font-bold text-slate-900 dark:text-white">{form.name}</span>
+                    <span className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-wider border ${form.formStyle === "quick" ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:border-emerald-500/30 dark:text-emerald-400" : "border-slate-200 bg-slate-50 text-slate-500 dark:bg-white/5 dark:border-white/10 dark:text-slate-400"}`}>
+                      {form.formStyle === "quick" ? "Quick Quote" : "Standard"}
+                    </span>
                     <button
                       onClick={() => { setRenamingId(form.id); setRenameValue(form.name); }}
                       className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
