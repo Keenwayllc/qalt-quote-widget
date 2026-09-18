@@ -40,79 +40,23 @@ const STEP_MS = 4300;
 const QALT_RED = "#df1731";
 
 function RouteMap({ accent, reduceMotion }: { accent: string; reduceMotion: boolean | null }) {
-  const route = "M72 52 V108 Q72 124 88 124 H174 Q193 124 193 143 V199 Q193 218 212 218 H292";
+  const mapSrc =
+    "https://maps.google.com/maps?saddr=North+Hollywood%2C+CA&daddr=Downtown+Los+Angeles%2C+CA&output=embed";
 
   return (
-    <div className="overflow-hidden border border-slate-200 bg-[#f8f9fa]">
-      <div className="flex items-center justify-between bg-white px-3 pb-1 pt-2.5">
-        <span className="text-[7px] font-bold uppercase tracking-[0.14em] text-slate-400">The delivery route</span>
-        <span className="text-[8px] font-bold text-slate-600">20.8 mi</span>
+    <div className="relative min-h-[260px] flex-1 overflow-hidden bg-[#f8f9fa]">
+      <iframe
+        title="Google Maps delivery route from North Hollywood to Downtown Los Angeles"
+        src={mapSrc}
+        className="absolute inset-0 h-full w-full border-0"
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        allowFullScreen
+      />
+      <div className="pointer-events-none absolute left-4 top-4 z-20 flex items-center gap-2 rounded-full border border-slate-200 bg-white/95 px-3 py-2 shadow-sm backdrop-blur">
+        <span className="h-2 w-2 rounded-full bg-emerald-500" />
+        <span className="text-[9px] font-black uppercase tracking-[0.18em] text-slate-700">Route overview</span>
       </div>
-      <svg viewBox="0 0 360 270" className="block h-[132px] w-full" role="img" aria-label="Illustrative light road map from North Hollywood to Downtown Los Angeles">
-        <defs>
-          <pattern id="qalt-route-grid" width="42" height="42" patternUnits="userSpaceOnUse">
-            <rect width="42" height="42" fill="#f8f9fa" />
-            <path d="M0 12H42M0 31H42M13 0V42M32 0V42" fill="none" stroke="#e7e9ec" strokeWidth="0.75" />
-          </pattern>
-          <filter id="qalt-route-shadow" x="-30%" y="-30%" width="160%" height="160%">
-            <feDropShadow dx="0" dy="2" stdDeviation="2.2" floodColor={accent} floodOpacity="0.24" />
-          </filter>
-        </defs>
-
-        <rect width="360" height="270" fill="url(#qalt-route-grid)" />
-
-        <path d="M-20 224 C72 190 182 147 390 62" fill="none" stroke="#fff" strokeWidth="9" strokeLinecap="round" />
-        <path d="M-20 224 C72 190 182 147 390 62" fill="none" stroke="#dfe3e7" strokeWidth="2.2" strokeLinecap="round" />
-        <path d="M15 -12 C92 65 181 151 332 294" fill="none" stroke="#fff" strokeWidth="8" strokeLinecap="round" />
-        <path d="M15 -12 C92 65 181 151 332 294" fill="none" stroke="#e2e5e9" strokeWidth="2" strokeLinecap="round" />
-        <path d="M-18 78 C105 106 228 156 385 246" fill="none" stroke="#fff" strokeWidth="7" strokeLinecap="round" />
-        <path d="M-18 78 C105 106 228 156 385 246" fill="none" stroke="#e4e7ea" strokeWidth="1.8" strokeLinecap="round" />
-        <path d="M123 -20 C144 66 147 157 132 298" fill="none" stroke="#fff" strokeWidth="7" strokeLinecap="round" />
-        <path d="M123 -20 C144 66 147 157 132 298" fill="none" stroke="#e4e7ea" strokeWidth="1.7" strokeLinecap="round" />
-        <path d="M-10 150 C75 143 126 152 193 174 C245 191 307 187 375 165" fill="none" stroke="#fff" strokeWidth="6" strokeLinecap="round" />
-        <path d="M-10 150 C75 143 126 152 193 174 C245 191 307 187 375 165" fill="none" stroke="#e6e8eb" strokeWidth="1.5" strokeLinecap="round" />
-
-        <g style={{ fontFamily: "var(--font-inter), Inter, Arial, sans-serif" }}>
-          <text x="18" y="27" fill="#5f6368" fontSize="10" fontWeight="700">North Hollywood</text>
-          <text x="232" y="247" fill="#5f6368" fontSize="10" fontWeight="700">Downtown Los Angeles</text>
-          <text x="233" y="42" fill="#8a9097" fontSize="7.5" fontWeight="600">Burbank</text>
-          <text x="24" y="188" fill="#8a9097" fontSize="7.5" fontWeight="600">Studio City</text>
-          <text x="252" y="135" fill="#8a9097" fontSize="7.5" fontWeight="600">Glendale</text>
-          <rect x="159" y="101" width="22" height="12" rx="6" fill="#eef3ff" stroke="#c9d8f5" />
-          <text x="164" y="110" fill="#4f6fad" fontSize="7" fontWeight="800">I-5</text>
-          <rect x="94" y="184" width="30" height="12" rx="6" fill="#eef3ff" stroke="#c9d8f5" />
-          <text x="99" y="193" fill="#4f6fad" fontSize="7" fontWeight="800">US-101</text>
-        </g>
-
-        <motion.path
-          d={route}
-          pathLength={1}
-          fill="none"
-          stroke={accent}
-          strokeWidth="4.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          filter="url(#qalt-route-shadow)"
-          initial={reduceMotion ? false : { pathLength: 0, opacity: 0.25 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 1.7, ease: [0.22, 1, 0.36, 1] }}
-        />
-
-        {!reduceMotion && (
-          <motion.circle
-            r="5"
-            fill={accent}
-            stroke="white"
-            strokeWidth="2"
-            initial={{ cx: 72, cy: 52 }}
-            animate={{ cx: [72, 72, 88, 174, 193, 193, 212, 292], cy: [52, 108, 124, 124, 143, 199, 218, 218] }}
-            transition={{ duration: 3.3, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.8 }}
-          />
-        )}
-
-        <circle cx="72" cy="52" r="7" fill="#fff" stroke={accent} strokeWidth="3" />
-        <circle cx="292" cy="218" r="7" fill={accent} stroke="#fff" strokeWidth="2" />
-      </svg>
     </div>
   );
 }
