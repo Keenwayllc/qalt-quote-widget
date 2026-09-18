@@ -79,7 +79,7 @@ function RouteMap({ active, reduceMotion }: { active: boolean; reduceMotion: boo
       <iframe
         title="Google Maps delivery route from San Jose to San Francisco"
         src={mapSrc}
-        className="absolute inset-0 h-full w-full border-0"
+        className="pointer-events-none absolute inset-0 h-full w-full border-0"
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
         allowFullScreen
