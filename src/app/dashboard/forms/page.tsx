@@ -11,6 +11,11 @@ interface QuoteForm {
   formStyle?: "standard" | "quick";
 }
 
+type QuickVehicleDraft = {
+  name: string;
+  fee: string;
+};
+
 const QUICK_VEHICLE_PRESETS = [
   "Bicycle", "Cargo Bike", "Electric Bicycle", "Scooter", "Electric Scooter", "Motorcycle",
   "Sedan", "Hatchback", "SUV", "Minivan", "Pickup Truck", "Cargo Van", "High-Roof Cargo Van",
@@ -26,7 +31,7 @@ export default function FormsPage() {
   const [creating, setCreating] = useState(false);
   const [newFormName, setNewFormName] = useState("");
   const [newFormStyle, setNewFormStyle] = useState<"standard" | "quick">("standard");
-  const [newFormVehicles, setNewFormVehicles] = useState<string[]>([]);
+  const [newFormVehicles, setNewFormVehicles] = useState<QuickVehicleDraft[]>([]);
   const [showNewInput, setShowNewInput] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [renamingId, setRenamingId] = useState<string | null>(null);
@@ -67,7 +72,10 @@ export default function FormsPage() {
           name: newFormName.trim(),
           formStyle: newFormStyle,
           vehicleOptions: newFormStyle === "quick"
-            ? newFormVehicles.map((name) => ({ name, fee: 0 }))
+            ? newFormVehicles.map((vehicle) => ({
+                name: vehicle.name,
+                fee: Math.max(0, Number(vehicle.fee) || 0),
+              }))
             : [],
         }),
       });
@@ -219,20 +227,22 @@ export default function FormsPage() {
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-black text-slate-900 dark:text-white">Vehicles shown to customers</p>
                   <p className="mt-1 text-xs font-medium leading-relaxed text-slate-500 dark:text-slate-400">
-                    Choose the vehicle types this Quick Quote should offer. You can change pricing and add custom vehicle types later in Edit Pricing.
+                    Choose the vehicle types this Quick Quote should offer and set a starting price for each one here. You can also add more vehicles or update these prices later in Pricing Configuration.
                   </p>
                 </div>
               </div>
 
               <div className="mt-4 flex flex-wrap gap-2">
                 {QUICK_VEHICLE_PRESETS.map((vehicle) => {
-                  const selected = newFormVehicles.includes(vehicle);
+                  const selected = newFormVehicles.some((item) => item.name === vehicle);
                   return (
                     <button
                       key={vehicle}
                       type="button"
                       onClick={() => setNewFormVehicles((current) =>
-                        selected ? current.filter((item) => item !== vehicle) : [...current, vehicle]
+                        selected
+                          ? current.filter((item) => item.name !== vehicle)
+                          : [...current, { name: vehicle, fee: "0" }]
                       )}
                       className={`px-3 py-1.5 rounded-lg border text-[11px] font-bold transition-colors ${selected
                         ? "border-red-500 bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-300"
@@ -243,6 +253,76 @@ export default function FormsPage() {
                   );
                 })}
               </div>
+
+              {newFormVehicles.length > 0 && (
+                <div className="mt-5 rounded-xl border border-slate-200 bg-white p-4 dark:border-white/[0.08] dark:bg-black/10">
+                  <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <p className="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">Selected vehicles & pricing</p>
+                      <p className="mt-1 text-[11px] font-medium text-slate-400 dark:text-slate-500">
+                        Set the per-vehicle charge now. Use $0 if there is no extra vehicle charge.
+                      </p>
+                    </div>
+                    <span className="mt-2 text-[10px] font-black uppercase tracking-wider text-red-600 sm:mt-0">
+                      Optional pricing
+                    </span>
+                  </div>
+
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                    {newFormVehicles.map((vehicle) => (
+                      <div
+                        key={vehicle.name}
+                        className="rounded-xl border border-slate-200 bg-slate-50/70 p-3 dark:border-white/[0.08] dark:bg-white/[0.03]"
+                      >
+                        <div className="flex items-center justify-between gap-3">
+                          <p className="min-w-0 truncate text-xs font-black text-slate-800 dark:text-white">{vehicle.name}</p>
+                          <button
+                            type="button"
+                            onClick={() => setNewFormVehicles((current) => current.filter((item) => item.name !== vehicle.name))}
+                            className="shrink-0 text-slate-400 transition hover:text-red-600"
+                            aria-label={`Remove ${vehicle.name}`}
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                        <label
+                          htmlFor={`quick-vehicle-price-${vehicle.name.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`}
+                          className="mt-3 block text-[10px] font-black uppercase tracking-wider text-slate-400"
+                        >
+                          Per-vehicle charge
+                        </label>
+                        <div className="mt-1.5 flex overflow-hidden rounded-lg border border-slate-300 bg-white focus-within:border-red-400 focus-within:ring-2 focus-within:ring-red-100 dark:border-white/10 dark:bg-[#171717] dark:focus-within:ring-red-500/20">
+                          <span className="flex items-center border-r border-slate-200 px-3 text-xs font-black text-slate-400 dark:border-white/10">$</span>
+                          <input
+                            id={`quick-vehicle-price-${vehicle.name.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`}
+                            name="vehiclePrice"
+                            type="number"
+                            inputMode="decimal"
+                            min="0"
+                            step="0.01"
+                            value={vehicle.fee}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (value !== "" && Number(value) < 0) return;
+                              setNewFormVehicles((current) =>
+                                current.map((item) =>
+                                  item.name === vehicle.name ? { ...item, fee: value } : item
+                                )
+                              );
+                            }}
+                            placeholder="0.00"
+                            className="min-w-0 flex-1 bg-transparent px-3 py-2.5 text-sm font-bold text-slate-900 outline-none placeholder:text-slate-400 dark:text-white"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-4 rounded-lg bg-red-50 px-3 py-2.5 text-[11px] font-semibold leading-relaxed text-red-800 dark:bg-red-500/10 dark:text-red-300">
+                    You can add more vehicles or change these charges anytime after creation in <strong>Pricing Configuration → Vehicle Types</strong>.
+                  </div>
+                </div>
+              )}
 
               <div className="mt-4 flex items-center justify-between gap-3 border-t border-slate-200 dark:border-white/[0.08] pt-3">
                 <p className="text-[11px] font-semibold text-slate-400">
