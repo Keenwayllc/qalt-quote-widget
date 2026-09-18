@@ -61,8 +61,18 @@ export async function POST(req: Request) {
       );
     }
 
-    const { name, formStyle } = await req.json();
+    const { name, formStyle, vehicleOptions } = await req.json();
     const normalizedFormStyle = formStyle === "quick" ? "quick" : "standard";
+    const submittedVehicles = Array.isArray(vehicleOptions)
+      ? vehicleOptions
+          .filter((option: unknown) => option && typeof option === "object")
+          .map((option: Record<string, unknown>) => ({
+            name: String(option.name ?? "").trim(),
+            fee: Math.max(0, Number(option.fee) || 0),
+          }))
+          .filter((option: { name: string; fee: number }) => option.name)
+          .slice(0, 40)
+      : [];
 
     // Clone pricing from company default
     const defaultPricing = await prisma.pricingProfile.findFirst({
@@ -75,8 +85,10 @@ export async function POST(req: Request) {
         name: name?.trim() || "New Form",
         formStyle: normalizedFormStyle,
         showVehicles: normalizedFormStyle === "quick",
-        vehicleOptions: normalizedFormStyle === "quick" && company.widgetSettings[0]?.vehicleOptions
-          ? company.widgetSettings[0].vehicleOptions
+        vehicleOptions: normalizedFormStyle === "quick"
+          ? (submittedVehicles.length > 0
+              ? submittedVehicles
+              : company.widgetSettings.find((settings) => Array.isArray(settings.vehicleOptions) && settings.vehicleOptions.length > 0)?.vehicleOptions ?? [])
           : [],
         buttonText: "Get Instant Quote",
       },
