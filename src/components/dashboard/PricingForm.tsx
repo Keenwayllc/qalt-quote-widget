@@ -357,21 +357,6 @@ export default function PricingPage({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
               <FieldLabel
-                label="Base Rate per Mile ($)"
-                tooltip="The price you charge per mile of travel. Multiplied by the trip distance to calculate the base quote. Example: $2.50/mi × 10 miles = $25."
-              />
-              <input
-                type="number"
-                step="0.01"
-                min="0"
-                required
-                value={baseRate}
-                onChange={(e) => setBaseRate(e.target.value)}
-                className={inputClass}
-              />
-            </div>
-            <div>
-              <FieldLabel
                 label="Free Miles Threshold (Distance)"
                 tooltip="Miles excluded from billing at the start of every trip. Example: set to 2 means the first 2 miles are free. Set to 0 to bill from the very first mile."
               />
@@ -382,6 +367,21 @@ export default function PricingPage({
                 required
                 value={minMiles}
                 onChange={(e) => setMinMiles(e.target.value)}
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <FieldLabel
+                label="Base Rate per Mile ($)"
+                tooltip="The price you charge per billable mile after the free-miles threshold. Example: with 2 free miles and a 10-mile trip, Qalt bills 8 miles at this rate."
+              />
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                required
+                value={baseRate}
+                onChange={(e) => setBaseRate(e.target.value)}
                 className={inputClass}
               />
             </div>
