@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Plus, Trash2, Copy, Check, ExternalLink, FormInput, Pencil, X, Settings, DollarSign, Lock } from "lucide-react";
+import { Plus, Trash2, Copy, Check, ExternalLink, FormInput, Pencil, X, Settings, DollarSign, Lock, Truck } from "lucide-react";
 import "./forms.css";
 
 interface QuoteForm {
@@ -11,12 +11,22 @@ interface QuoteForm {
   formStyle?: "standard" | "quick";
 }
 
+const QUICK_VEHICLE_PRESETS = [
+  "Bicycle", "Cargo Bike", "Electric Bicycle", "Scooter", "Electric Scooter", "Motorcycle",
+  "Sedan", "Hatchback", "SUV", "Minivan", "Pickup Truck", "Cargo Van", "High-Roof Cargo Van",
+  "Sprinter Van", "Straight Truck", "Box Truck - 16 ft", "Box Truck - 20 ft", "Box Truck - 24 ft",
+  "Box Truck - 26 ft", "Flatbed / Stake Bed", "Refrigerated Van / Truck", "Tractor Trailer - 28 ft",
+  "Tractor Trailer - 45 ft", "Tractor Trailer - 47 ft", "Tractor Trailer - 48 ft",
+  "Tractor Trailer - 53 ft", "Doubles", "Triples"
+];
+
 export default function FormsPage() {
   const [forms, setForms] = useState<QuoteForm[]>([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
   const [newFormName, setNewFormName] = useState("");
   const [newFormStyle, setNewFormStyle] = useState<"standard" | "quick">("standard");
+  const [newFormVehicles, setNewFormVehicles] = useState<string[]>([]);
   const [showNewInput, setShowNewInput] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [renamingId, setRenamingId] = useState<string | null>(null);
@@ -53,7 +63,13 @@ export default function FormsPage() {
       const res = await fetch("/api/dashboard/forms", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: newFormName.trim(), formStyle: newFormStyle }),
+        body: JSON.stringify({
+          name: newFormName.trim(),
+          formStyle: newFormStyle,
+          vehicleOptions: newFormStyle === "quick"
+            ? newFormVehicles.map((name) => ({ name, fee: 0 }))
+            : [],
+        }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -62,6 +78,7 @@ export default function FormsPage() {
         setForms((prev) => [...prev, data.form]);
         setNewFormName("");
         setNewFormStyle("standard");
+        setNewFormVehicles([]);
         setShowNewInput(false);
       }
     } catch {
@@ -169,7 +186,7 @@ export default function FormsPage() {
               onKeyDown={(e) => e.key === "Enter" && createForm()}
               className="flex-1 text-sm font-medium text-slate-900 dark:text-white outline-none placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-transparent"
             />
-            <button onClick={() => { setShowNewInput(false); setNewFormName(""); setNewFormStyle("standard"); }}>
+            <button onClick={() => { setShowNewInput(false); setNewFormName(""); setNewFormStyle("standard"); setNewFormVehicles([]); }}>
               <X size={16} className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300" />
             </button>
           </div>
@@ -193,10 +210,63 @@ export default function FormsPage() {
             </div>
           </div>
 
+          {newFormStyle === "quick" && (
+            <div className="rounded-xl border border-slate-200 dark:border-white/[0.08] bg-slate-50/60 dark:bg-white/[0.03] p-4">
+              <div className="flex items-start gap-3">
+                <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-red-50 dark:bg-red-500/10">
+                  <Truck size={17} className="text-red-600 dark:text-red-400" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-black text-slate-900 dark:text-white">Vehicles shown to customers</p>
+                  <p className="mt-1 text-xs font-medium leading-relaxed text-slate-500 dark:text-slate-400">
+                    Choose the vehicle types this Quick Quote should offer. You can change pricing and add custom vehicle types later in Edit Pricing.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-4 flex flex-wrap gap-2">
+                {QUICK_VEHICLE_PRESETS.map((vehicle) => {
+                  const selected = newFormVehicles.includes(vehicle);
+                  return (
+                    <button
+                      key={vehicle}
+                      type="button"
+                      onClick={() => setNewFormVehicles((current) =>
+                        selected ? current.filter((item) => item !== vehicle) : [...current, vehicle]
+                      )}
+                      className={`px-3 py-1.5 rounded-lg border text-[11px] font-bold transition-colors ${selected
+                        ? "border-red-500 bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-300"
+                        : "border-slate-200 bg-white text-slate-700 hover:border-red-300 hover:text-red-600 dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-300"}`}
+                    >
+                      {selected ? "✓ " : "+ "}{vehicle}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="mt-4 flex items-center justify-between gap-3 border-t border-slate-200 dark:border-white/[0.08] pt-3">
+                <p className="text-[11px] font-semibold text-slate-400">
+                  {newFormVehicles.length === 0
+                    ? "Select at least one vehicle so the Quick Quote can show vehicle choices."
+                    : `${newFormVehicles.length} vehicle${newFormVehicles.length === 1 ? "" : "s"} selected`}
+                </p>
+                {newFormVehicles.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setNewFormVehicles([])}
+                    className="text-[11px] font-bold text-slate-400 hover:text-red-600"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+
           <div className="flex justify-end">
             <button
               onClick={createForm}
-              disabled={creating || !newFormName.trim()}
+              disabled={creating || !newFormName.trim() || (newFormStyle === "quick" && newFormVehicles.length === 0)}
               className="px-5 py-2.5 bg-red-600 text-white rounded-none text-xs font-black disabled:opacity-50 hover:bg-red-500 transition-all"
             >
               {creating ? "Creating…" : `Create ${newFormStyle === "quick" ? "Quick Quote" : "Form"}`}
