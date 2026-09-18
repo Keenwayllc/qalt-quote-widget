@@ -463,7 +463,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
         setLoading(false);
         return;
       }
-      if (widgetSettings.showVehicles && vehicleOptions.length > 0 && (parseInt(formData.vehicleCount) || 0) > 0 && !formData.vehicleType) {
+      if (widgetSettings.showVehicles && vehicleOptions.length > 0 && (quickMode || (parseInt(formData.vehicleCount) || 0) > 0) && !formData.vehicleType) {
         setError("Please select a vehicle type.");
         setLoading(false);
         return;
