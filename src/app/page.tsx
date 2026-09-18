@@ -492,7 +492,6 @@ export default function LandingPage() {
             <div>
               <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">Company</p>
               <div className="mt-4 space-y-3 text-sm font-semibold text-slate-600">
-                <Link className="block hover:text-red-600" href="/partners">Partners</Link>
                 <Link className="block hover:text-red-600" href="/blog">Blog</Link>
                 <button className="block hover:text-red-600" onClick={() => setIsSupportModalOpen(true)}>Support</button>
               </div>
