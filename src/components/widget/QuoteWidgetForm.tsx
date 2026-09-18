@@ -292,10 +292,12 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [quickPriceUpdating, setQuickPriceUpdating] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
   const [hydrated, setHydrated] = useState(false);
   const [parentUrl, setParentUrl] = useState<string | null>(null);
   const stepRef = useRef(step);
+  const estimateRequestRef = useRef(0);
   stepRef.current = step;
 
   useEffect(() => {
@@ -452,21 +454,30 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     });
   };
 
-  const getEstimate = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+  const fetchEstimate = async ({
+    vehicleType = formData.vehicleType,
+    serviceType = formData.serviceType,
+    advance = true,
+    quickRefresh = false,
+  }: {
+    vehicleType?: string;
+    serviceType?: string;
+    advance?: boolean;
+    quickRefresh?: boolean;
+  } = {}) => {
+    const requestId = ++estimateRequestRef.current;
+    if (quickRefresh) setQuickPriceUpdating(true);
+    else setLoading(true);
     setError("");
 
     try {
-      if (serviceOptions.length > 0 && !formData.serviceType) {
+      if (serviceOptions.length > 0 && !serviceType) {
         setError("Please select a delivery service.");
-        setLoading(false);
-        return;
+        return false;
       }
-      if (widgetSettings.showVehicles && vehicleOptions.length > 0 && (quickMode || (parseInt(formData.vehicleCount) || 0) > 0) && !formData.vehicleType) {
+      if (widgetSettings.showVehicles && vehicleOptions.length > 0 && (quickMode || (parseInt(formData.vehicleCount) || 0) > 0) && !vehicleType) {
         setError("Please select a vehicle type.");
-        setLoading(false);
-        return;
+        return false;
       }
 
       const geoEnabled = company.widgetSettings.geoFencingEnabled;
@@ -476,8 +487,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
         const dropoff = formData.dropoffZip.trim();
         if (!serviceZips.includes(pickup) && !serviceZips.includes(dropoff)) {
           setError("Sorry, we don't currently service that area. Please check our coverage and try again.");
-          setLoading(false);
-          return;
+          return false;
         }
       }
 
@@ -495,7 +505,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
           dropoffZip: formData.dropoffZip,
           clientDistance,
           formId: company.formId || null,
-          serviceType: formData.serviceType,
+          serviceType,
           extras: {
             hasStairs: formData.hasStairs,
             stairsFlights: formData.hasStairs ? (parseInt(formData.stairsFlights) || 1) : 0,
@@ -508,29 +518,54 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
             packageWeight: parseFloat(formData.packageWeight) || 0,
             itemCount: parseInt(formData.itemCount) || 0,
           },
-          vehicleCount: parseInt(formData.vehicleCount) || 0,
-          vehicleType: formData.vehicleType,
+          vehicleCount: quickMode ? 1 : (parseInt(formData.vehicleCount) || 0),
+          vehicleType,
         }),
       });
 
       const data = await res.json();
+      if (requestId !== estimateRequestRef.current) return false;
+
       if (res.ok) {
         setEstimate(data.estimate);
         setDistance(data.distance);
         if (typeof data.durationMinutes === "number") setDurationMinutes(data.durationMinutes);
         setBreakdown(data.breakdown ?? null);
-        if (typeof data.serviceType === "string" && data.serviceType) {
-          setFormData((prev) => ({ ...prev, serviceType: data.serviceType }));
-        }
-        setStep(2);
-      } else {
-        setError(data.error || "Could not calculate estimate. Please check your addresses.");
+        setFormData((prev) => ({
+          ...prev,
+          ...(typeof data.serviceType === "string" && data.serviceType ? { serviceType: data.serviceType } : {}),
+          ...(typeof data.vehicleType === "string" && data.vehicleType ? { vehicleType: data.vehicleType } : {}),
+          ...(quickMode ? { vehicleCount: "1" } : {}),
+        }));
+        if (advance) setStep(2);
+        return true;
       }
+
+      setError(data.error || "Could not calculate estimate. Please check your addresses.");
+      return false;
     } catch {
-      setError("An unexpected error occurred.");
+      if (requestId === estimateRequestRef.current) {
+        setError("An unexpected error occurred.");
+      }
+      return false;
     } finally {
-      setLoading(false);
+      if (requestId === estimateRequestRef.current) {
+        setLoading(false);
+        setQuickPriceUpdating(false);
+      }
     }
+  };
+
+  const getEstimate = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (quickMode && estimate !== null && breakdown && formData.pickupAddress && formData.dropoffAddress && formData.vehicleType) {
+      setError("");
+      setStep(2);
+      return;
+    }
+
+    await fetchEstimate({ advance: true });
   };
 
   const submitQuote = async (e?: React.FormEvent) => {
