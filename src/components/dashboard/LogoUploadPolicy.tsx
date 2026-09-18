@@ -60,7 +60,7 @@ export default function LogoUploadPolicy() {
   return (
     <p
       id="qalt-logo-upload-guidance"
-      className="mx-4 sm:mx-8 -mt-2 mb-5 text-xs font-semibold text-slate-500 dark:text-slate-400"
+      className="mx-4 sm:mx-8 pt-5 mb-5 text-xs font-semibold leading-relaxed text-slate-500 dark:text-slate-400"
     >
       Logo files: PNG or SVG only. Transparent background recommended. SVG uploads are safely converted to PNG before they are served.
     </p>
