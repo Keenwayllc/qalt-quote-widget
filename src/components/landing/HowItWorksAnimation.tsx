@@ -72,12 +72,12 @@ function StageProgress({ currentStep }: { currentStep: number }) {
 
 function RouteMap({ active, reduceMotion }: { active: boolean; reduceMotion: boolean | null }) {
   const mapSrc =
-    "https://maps.google.com/maps?saddr=North+Hollywood%2C+CA&daddr=Downtown+Los+Angeles%2C+CA&output=embed";
+    "https://maps.google.com/maps?saddr=San+Jose%2C+CA&daddr=San+Francisco%2C+CA&output=embed";
 
   return (
     <div className="relative min-h-[260px] flex-1 overflow-hidden bg-[#f8f9fa]">
       <iframe
-        title="Google Maps delivery route from North Hollywood to Downtown Los Angeles"
+        title="Google Maps delivery route from San Jose to San Francisco"
         src={mapSrc}
         className="absolute inset-0 h-full w-full border-0"
         loading="lazy"
@@ -124,8 +124,8 @@ function QuotePanel({ currentStep }: { currentStep: number }) {
                 <div className="text-[9px] font-black uppercase tracking-[0.18em] text-slate-400">Where are we going?</div>
                 <div className="mt-3 space-y-2.5">
                   {[
-                    ["Pickup", "North Hollywood, CA"],
-                    ["Delivery", "Downtown Los Angeles, CA"],
+                    ["Pickup", "San Jose, CA"],
+                    ["Delivery", "San Francisco, CA"],
                   ].map(([label, value], index) => (
                     <motion.div
                       key={label}
@@ -192,15 +192,15 @@ function QuotePanel({ currentStep }: { currentStep: number }) {
                   transition={{ delay: 0.2, type: "spring", stiffness: 180, damping: 18 }}
                   className="mt-2 text-4xl font-black tracking-tight text-emerald-800"
                 >
-                  $127<span className="text-xl text-emerald-700/50">.00</span>
+                  $196<span className="text-xl text-emerald-700/50">.00</span>
                 </motion.div>
-                <div className="mt-1 text-[10px] font-bold text-emerald-700/70">20.8 miles</div>
+                <div className="mt-1 text-[10px] font-bold text-emerald-700/70">48.5 miles</div>
               </div>
 
               <div className="space-y-2 rounded-2xl border border-slate-200 bg-white p-4">
                 {[
                   ["Base service", "$60.00"],
-                  ["20.8 mi × $2.50", "$52.00"],
+                  ["48.5 mi × $2.50", "$121.25"],
                   ["Inside delivery", "$15.00"],
                 ].map(([label, value], index) => (
                   <motion.div
@@ -216,7 +216,7 @@ function QuotePanel({ currentStep }: { currentStep: number }) {
                 ))}
                 <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-3">
                   <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Estimated delivery</span>
-                  <span className="text-lg font-black text-slate-900">$127.00</span>
+                  <span className="text-lg font-black text-slate-900">$196.25</span>
                 </div>
               </div>
 
@@ -253,13 +253,13 @@ function QuotePanel({ currentStep }: { currentStep: number }) {
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-[8px] font-black uppercase tracking-widest text-slate-400">Booking</div>
-                    <div className="mt-1 text-sm font-black text-slate-900">North Hollywood → Downtown LA</div>
+                    <div className="mt-1 text-sm font-black text-slate-900">San Jose → San Francisco</div>
                   </div>
                   <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-[9px] font-black text-emerald-700">PAID</span>
                 </div>
                 <div className="mt-3 flex items-center justify-between border-t border-slate-200 pt-3 text-xs">
                   <span className="font-medium text-slate-500">1 pallet · Inside delivery</span>
-                  <span className="font-black text-slate-900">$127.00</span>
+                  <span className="font-black text-slate-900">$196.25</span>
                 </div>
               </div>
             </motion.div>
@@ -362,7 +362,7 @@ export default function HowItWorksAnimation() {
           <Route size={15} className="text-emerald-600" />
           <div>
             <div className="text-[7px] font-black uppercase tracking-widest text-slate-400">Live route</div>
-            <div className="text-[10px] font-black text-slate-900">20.8 mi calculated</div>
+            <div className="text-[10px] font-black text-slate-900">48.5 mi calculated</div>
           </div>
         </motion.div>
       </div>
