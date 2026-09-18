@@ -46,7 +46,7 @@ export async function POST(req: Request) {
 
     const company = await prisma.company.findUnique({
       where: { id: payload.companyId },
-      include: { widgetSettings: { select: { id: true } } },
+      include: { widgetSettings: { select: { id: true, vehicleOptions: true } } },
     });
     if (!company) return NextResponse.json({ error: "Company not found" }, { status: 404 });
 
@@ -75,7 +75,10 @@ export async function POST(req: Request) {
         name: name?.trim() || "New Form",
         formStyle: normalizedFormStyle,
         showVehicles: normalizedFormStyle === "quick",
-        buttonText: normalizedFormStyle === "quick" ? "Get Instant Quote" : "Get Instant Quote",
+        vehicleOptions: normalizedFormStyle === "quick" && company.widgetSettings[0]?.vehicleOptions
+          ? company.widgetSettings[0].vehicleOptions
+          : [],
+        buttonText: "Get Instant Quote",
       },
     });
 
