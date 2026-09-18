@@ -15,7 +15,6 @@ const NAV_LINKS = [
   { label: "Compare",        href: "/compare" },
   { label: "Pricing",        href: "/pricing" },
   { label: "Blog",           href: "/blog" },
-  { label: "Partners",       href: "/partners" },
 ];
 
 export default function PublicNav() {
