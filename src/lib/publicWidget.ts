@@ -15,6 +15,7 @@ export const publicCompanySelect = {
 
 export const publicWidgetSettingsSelect = {
   id: true,
+  formStyle: true,
   primaryColor: true,
   headerText: true,
   buttonText: true,
