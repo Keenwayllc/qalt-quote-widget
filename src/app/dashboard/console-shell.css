@@ -220,6 +220,49 @@ html.dark.qalt-console-shell .font-sans.flex.h-screen > main :is(
   border-color: rgba(255, 255, 255, 0.075) !important;
 }
 
+
+/* -------------------------------------------------------------------------- */
+/* Filled button icon contrast                                                 */
+/* -------------------------------------------------------------------------- */
+/* Keep SVG icons visually consistent with their filled button variant.
+   Exact class-token selectors avoid affecting hover-only or light/tinted
+   button states such as hover:bg-red-600 or bg-red-50. */
+html.qalt-console-shell .font-sans.flex.h-screen > main :is(
+  button[class~="bg-red-500"],
+  button[class~="bg-red-600"],
+  button[class~="bg-red-700"],
+  button[class~="bg-rose-500"],
+  button[class~="bg-rose-600"],
+  button[class~="bg-rose-700"],
+  a[class~="bg-red-500"],
+  a[class~="bg-red-600"],
+  a[class~="bg-red-700"],
+  a[class~="bg-rose-500"],
+  a[class~="bg-rose-600"],
+  a[class~="bg-rose-700"]
+) :is(svg, svg *) {
+  color: #ffffff !important;
+  stroke: currentColor !important;
+}
+
+html.qalt-console-shell .font-sans.flex.h-screen > main :is(
+  button[class~="bg-slate-900"],
+  button[class~="bg-slate-950"],
+  button[class~="bg-zinc-800"],
+  button[class~="bg-zinc-900"],
+  button[class~="bg-zinc-950"],
+  button[class~="bg-gray-900"],
+  a[class~="bg-slate-900"],
+  a[class~="bg-slate-950"],
+  a[class~="bg-zinc-800"],
+  a[class~="bg-zinc-900"],
+  a[class~="bg-zinc-950"],
+  a[class~="bg-gray-900"]
+) :is(svg, svg *) {
+  color: #e5e7eb !important;
+  stroke: currentColor !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html.qalt-console-shell *,
   html.qalt-console-shell *::before,
