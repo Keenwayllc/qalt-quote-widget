@@ -90,6 +90,7 @@ model WidgetSettings {
   id                 String          @id @default(cuid())
   companyId          String
   name               String          @default("Default Form")
+  formStyle          String          @default("standard") // "standard" | "quick"
   logoUrl            String?
   // Optional dark variant generated from the uploaded logo. Original artwork is
   // always preserved and remains the default. Merchants explicitly opt in to
