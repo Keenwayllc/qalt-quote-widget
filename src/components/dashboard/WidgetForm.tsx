@@ -423,7 +423,7 @@ export default function WidgetSettingsForm({
             </div>
 
             <div>
-              <label htmlFor="headerText" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Header Title</label>
+              <label htmlFor="headerText" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Header Title <span className="font-normal text-slate-400 dark:text-slate-500">(Optional)</span></label>
               <input
                 id="headerText"
                 name="headerText"
@@ -794,7 +794,7 @@ export default function WidgetSettingsForm({
                      {previewData.companyNameText || "Qalt"}
                    </div>
                  )}
-                 <h3 className="font-bold text-white text-xl drop-shadow-md">{previewData.headerText}</h3>
+                 {previewData.headerText?.trim() && <h3 className="font-bold text-white text-xl drop-shadow-md">{previewData.headerText}</h3>}
                </div>
              </div>
              <div className="p-6 space-y-4">
