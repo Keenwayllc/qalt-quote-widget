@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   DollarSign,
   Weight,
@@ -12,6 +12,7 @@ import {
   SlidersHorizontal,
   Check,
   Save,
+  ArrowUp,
 } from "lucide-react";
 import type { PlanEntitlements } from "@/lib/plans";
 import VehicleCatalogEditor from "./VehicleCatalogEditor";
@@ -236,6 +237,14 @@ export default function PricingPage({
   const [showAwb, setShowAwb] = useState(widgetSettings?.showAwb ?? false);
   const [formFieldsStatus, setFormFieldsStatus] =
     useState<SectionStatus>("idle");
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShowScrollTop(window.scrollY > 700);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // ── Shared helpers ───────────────────────────────────────────────────────
 
@@ -893,6 +902,18 @@ export default function PricingPage({
           </div>
         </form>
       </div>
+
+      {showScrollTop && (
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="fixed bottom-6 right-6 z-40 inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white shadow-lg shadow-red-600/20 transition hover:bg-red-700 hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900/50"
+          aria-label="Scroll to top"
+          title="Back to top"
+        >
+          <ArrowUp size={20} strokeWidth={2.5} />
+        </button>
+      )}
     </div>
   );
 }
