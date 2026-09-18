@@ -77,8 +77,6 @@ function RouteMap({ active, reduceMotion }: { active: boolean; reduceMotion: boo
   return (
     <div className="relative min-h-[260px] flex-1 overflow-hidden bg-[#f7f8fa]">
       <div className="absolute inset-0 bg-[#f7f8fa]" />
-      <div className="absolute left-[4%] top-[8%] h-[34%] w-[36%] rounded-[42%_58%_55%_45%] bg-[#dcebd9]/80" />
-      <div className="absolute bottom-[10%] right-[-4%] h-[42%] w-[38%] rounded-[52%_48%_46%_54%] bg-[#dfeaf3]/85" />
 
       <div className="absolute left-4 top-4 z-20 flex items-center gap-2 rounded-full border border-slate-200 bg-white/95 px-3 py-2 shadow-sm backdrop-blur">
         <span className="h-2 w-2 rounded-full bg-emerald-500" />
@@ -87,8 +85,9 @@ function RouteMap({ active, reduceMotion }: { active: boolean; reduceMotion: boo
 
       <svg className="absolute inset-0 h-full w-full" viewBox="0 0 360 270" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <defs>
-          <pattern id="customer-flow-route-grid" width="34" height="34" patternUnits="userSpaceOnUse">
-            <path d="M34 0H0V34" fill="none" stroke="#e4e7eb" strokeWidth="0.8" />
+          <pattern id="customer-flow-route-grid" width="42" height="42" patternUnits="userSpaceOnUse">
+            <rect width="42" height="42" fill="#f8f9fa" />
+            <path d="M0 12H42M0 31H42M13 0V42M32 0V42" fill="none" stroke="#e7e9ec" strokeWidth="0.75" />
           </pattern>
           <filter id="customer-flow-route-shadow" x="-30%" y="-30%" width="160%" height="160%">
             <feDropShadow dx="0" dy="2" stdDeviation="2.2" floodColor={accent} floodOpacity="0.24" />
@@ -97,14 +96,29 @@ function RouteMap({ active, reduceMotion }: { active: boolean; reduceMotion: boo
 
         <rect width="360" height="270" fill="url(#customer-flow-route-grid)" />
 
-        <path d="M-25 212 C65 178 172 146 388 62" fill="none" stroke="#d8dde4" strokeWidth="1.2" strokeLinecap="round" />
-        <path d="M18 -8 C90 63 180 150 325 292" fill="none" stroke="#d8dde4" strokeWidth="1.2" strokeLinecap="round" />
-        <path d="M-12 77 C104 108 220 154 382 245" fill="none" stroke="#d8dde4" strokeWidth="1.2" strokeLinecap="round" />
-        <path d="M123 -20 C144 66 147 157 132 298" fill="none" stroke="#e1e4e9" strokeWidth="1" strokeLinecap="round" />
+        {/* Light road-map styling inspired by familiar consumer map UIs. */}
+        <path d="M-20 224 C72 190 182 147 390 62" fill="none" stroke="#ffffff" strokeWidth="9" strokeLinecap="round" />
+        <path d="M-20 224 C72 190 182 147 390 62" fill="none" stroke="#dfe3e7" strokeWidth="2.2" strokeLinecap="round" />
+        <path d="M15 -12 C92 65 181 151 332 294" fill="none" stroke="#ffffff" strokeWidth="8" strokeLinecap="round" />
+        <path d="M15 -12 C92 65 181 151 332 294" fill="none" stroke="#e2e5e9" strokeWidth="2" strokeLinecap="round" />
+        <path d="M-18 78 C105 106 228 156 385 246" fill="none" stroke="#ffffff" strokeWidth="7" strokeLinecap="round" />
+        <path d="M-18 78 C105 106 228 156 385 246" fill="none" stroke="#e4e7ea" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="M123 -20 C144 66 147 157 132 298" fill="none" stroke="#ffffff" strokeWidth="7" strokeLinecap="round" />
+        <path d="M123 -20 C144 66 147 157 132 298" fill="none" stroke="#e4e7ea" strokeWidth="1.7" strokeLinecap="round" />
+        <path d="M-10 150 C75 143 126 152 193 174 C245 191 307 187 375 165" fill="none" stroke="#ffffff" strokeWidth="6" strokeLinecap="round" />
+        <path d="M-10 150 C75 143 126 152 193 174 C245 191 307 187 375 165" fill="none" stroke="#e6e8eb" strokeWidth="1.5" strokeLinecap="round" />
 
-        <text x="24" y="28" fill="#a3a9b3" fontSize="10" letterSpacing="1.7" style={{ fontFamily: "var(--font-inter), Inter, Arial, sans-serif" }}>
-          LOS ANGELES
-        </text>
+        <g style={{ fontFamily: "var(--font-inter), Inter, Arial, sans-serif" }}>
+          <text x="18" y="27" fill="#5f6368" fontSize="10" fontWeight="700">North Hollywood</text>
+          <text x="232" y="247" fill="#5f6368" fontSize="10" fontWeight="700">Downtown Los Angeles</text>
+          <text x="233" y="42" fill="#8a9097" fontSize="7.5" fontWeight="600">Burbank</text>
+          <text x="24" y="188" fill="#8a9097" fontSize="7.5" fontWeight="600">Studio City</text>
+          <text x="252" y="135" fill="#8a9097" fontSize="7.5" fontWeight="600">Glendale</text>
+          <rect x="159" y="101" width="22" height="12" rx="6" fill="#eef3ff" stroke="#c9d8f5" />
+          <text x="164" y="110" fill="#4f6fad" fontSize="7" fontWeight="800">I-5</text>
+          <rect x="94" y="184" width="30" height="12" rx="6" fill="#eef3ff" stroke="#c9d8f5" />
+          <text x="99" y="193" fill="#4f6fad" fontSize="7" fontWeight="800">US-101</text>
+        </g>
 
         <motion.path
           d={route}
@@ -139,18 +153,6 @@ function RouteMap({ active, reduceMotion }: { active: boolean; reduceMotion: boo
         <circle cx="292" cy="218" r="8" fill={accent} />
         <circle cx="292" cy="218" r="3" fill="white" />
 
-        <g>
-          <rect x="87" y="34" width="122" height="27" rx="5" fill="white" stroke="#e6e8ed" />
-          <text x="97" y="51" fill="#525967" fontSize="9" fontWeight="600" style={{ fontFamily: "var(--font-inter), Inter, Arial, sans-serif" }}>
-            North Hollywood
-          </text>
-        </g>
-        <g>
-          <rect x="171" y="229" width="155" height="27" rx="5" fill="white" stroke="#e6e8ed" />
-          <text x="181" y="246" fill="#525967" fontSize="9" fontWeight="600" style={{ fontFamily: "var(--font-inter), Inter, Arial, sans-serif" }}>
-            Downtown Los Angeles
-          </text>
-        </g>
       </svg>
 
       <motion.div
