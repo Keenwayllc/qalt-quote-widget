@@ -33,6 +33,7 @@ import { CompanyProfileProvider, useCompanyProfile } from "@/context/CompanyProf
 import WelcomeToast from "@/components/dashboard/WelcomeToast";
 import DashboardTips from "@/components/dashboard/DashboardTips";
 import DashboardScrollTop from "./DashboardScrollTop";
+import PricingInputZeroClear from "./PricingInputZeroClear";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -432,6 +433,7 @@ function DashboardLayoutInner({
         </div>
       </main>
 
+      <PricingInputZeroClear />
       <DashboardScrollTop />
       <WelcomeToast companyName={companyName} />
     </div>
