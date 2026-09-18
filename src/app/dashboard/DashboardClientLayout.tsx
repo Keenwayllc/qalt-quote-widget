@@ -32,6 +32,7 @@ import ThemeToggle from "@/components/shared/ThemeToggle";
 import { CompanyProfileProvider, useCompanyProfile } from "@/context/CompanyProfileContext";
 import WelcomeToast from "@/components/dashboard/WelcomeToast";
 import DashboardTips from "@/components/dashboard/DashboardTips";
+import DashboardScrollTop from "./DashboardScrollTop";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -431,6 +432,7 @@ function DashboardLayoutInner({
         </div>
       </main>
 
+      <DashboardScrollTop />
       <WelcomeToast companyName={companyName} />
     </div>
   );
