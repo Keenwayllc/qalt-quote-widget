@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import QaltLogo from "@/components/shared/QaltLogo";
@@ -79,6 +79,32 @@ function DashboardLayoutInner({
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  useLayoutEffect(() => {
+    const previousRestoration = window.history.scrollRestoration;
+    window.history.scrollRestoration = "manual";
+
+    const scroller = document.getElementById("qalt-dashboard-scroll-container");
+    if (!scroller) return () => {
+      window.history.scrollRestoration = previousRestoration;
+    };
+
+    const reset = () => {
+      scroller.scrollTop = 0;
+      scroller.scrollLeft = 0;
+    };
+
+    reset();
+    const frame1 = window.requestAnimationFrame(() => {
+      reset();
+      window.requestAnimationFrame(reset);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame1);
+      window.history.scrollRestoration = previousRestoration;
+    };
+  }, [pathname]);
 
   const entitlements = getEntitlements(subscriptionPlan);
   const showMerchantDashboardBrand = entitlements.isWhiteLabelEnabled && Boolean(logoUrl);
