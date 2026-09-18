@@ -2,6 +2,7 @@ import { getCurrentCompany, isTrialExpired, trialDaysRemaining, wasTrialDowngrad
 import DashboardClientLayout from "./DashboardClientLayout";
 import DashboardRouteStyler from "./DashboardRouteStyler";
 import VerifiedWidgetLinkRewriter from "./VerifiedWidgetLinkRewriter";
+import DashboardScrollTop from "./DashboardScrollTop";
 import "./dashboard-polish.css";
 import "./console-shell.css";
 import "./overview-premium.css";
@@ -50,6 +51,7 @@ export default async function DashboardLayout({
         customWidgetDomain={company.customWidgetDomain}
         customWidgetDomainVerified={company.customWidgetDomainVerified}
       />
+      <DashboardScrollTop />
       <DashboardClientLayout
         subscriptionPlan={company.subscriptionPlan}
         pendingCount={pendingCount}
