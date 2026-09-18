@@ -22,6 +22,7 @@ interface WidgetProps {
     pricingProfile?: Record<string, unknown>;
     widgetSettings: {
       id: string;
+      formStyle?: "standard" | "quick";
       primaryColor: string;
       headerText: string;
       buttonText: string;
@@ -269,6 +270,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
   const vehicleOptions: VehicleTypeOption[] = Array.isArray(widgetSettings.vehicleOptions)
     ? widgetSettings.vehicleOptions.filter((option) => option && typeof option.name === "string" && Number(option.fee) >= 0)
     : [];
+  const quickMode = widgetSettings.formStyle === "quick";
 
   useEffect(() => {
     const font = widgetSettings.companyNameFont || "Inter";
@@ -799,7 +801,23 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                                 </motion.div>
                               )}
 
-                              <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }}>
+                              {quickMode && widgetSettings.showVehicles && vehicleOptions.length > 0 && (
+                                <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }}>
+                                  <VehicleSelector
+                                    options={vehicleOptions}
+                                    value={formData.vehicleType}
+                                    onChange={(vehicleType) => setFormData((prev) => ({
+                                      ...prev,
+                                      vehicleType,
+                                      vehicleCount: "1",
+                                    }))}
+                                    primaryColor={primaryColor}
+                                    variant="quick"
+                                  />
+                                </motion.div>
+                              )}
+
+                              {!quickMode && <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }}>
                                 <p className="text-xs font-semibold text-slate-500 flex items-center gap-1.5 mb-2 ml-0.5">
                                   <Clock size={12} className="text-slate-400" /> Pickup date &amp; time
                                 </p>
@@ -809,9 +827,9 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                                   businessHoursStart={pricingProfile?.businessHoursStart}
                                   businessHoursEnd={pricingProfile?.businessHoursEnd}
                                   businessDays={pricingProfile?.businessDays} primaryColor={primaryColor} />
-                              </motion.div>
+                              </motion.div>}
 
-                              {widgetSettings.showVehicles && vehicleOptions.length > 0 && (
+                              {!quickMode && widgetSettings.showVehicles && vehicleOptions.length > 0 && (
                                 <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }}>
                                   <VehicleSelector
                                     options={vehicleOptions}
@@ -826,7 +844,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                                 </motion.div>
                               )}
 
-                              {(widgetSettings.showWeight || widgetSettings.showItemCount || widgetSettings.showVehicles) && (
+                              {!quickMode && (widgetSettings.showWeight || widgetSettings.showItemCount || widgetSettings.showVehicles) && (
                                 <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }} className="grid grid-cols-2 gap-4">
                                   {widgetSettings.showWeight && <div><label className={LABEL_CLASS}><Weight size={12} className="text-slate-400" /> Weight (lbs)</label><input type="number" name="packageWeight" placeholder="0" value={formData.packageWeight} onChange={handleInputChange} className={INPUT_CLASS} /></div>}
                                   {widgetSettings.showItemCount && <div><label className={LABEL_CLASS}><Hash size={12} className="text-slate-400" /> Items</label><input type="number" name="itemCount" placeholder="1" min="1" value={formData.itemCount} onChange={handleInputChange} className={INPUT_CLASS} /></div>}
@@ -834,14 +852,14 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                                 </motion.div>
                               )}
 
-                              {widgetSettings.showAwb && (
+                              {!quickMode && widgetSettings.showAwb && (
                                 <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }}>
                                   <label className={LABEL_CLASS}><span className="text-slate-400">✈</span> AWB number <span className="font-medium text-slate-400">(airport pickup)</span></label>
                                   <input type="text" name="awbNumber" placeholder="e.g. 123-45678901" value={formData.awbNumber} onChange={handleInputChange} className={INPUT_CLASS} />
                                 </motion.div>
                               )}
 
-                              {widgetSettings.showExtras && (
+                              {!quickMode && widgetSettings.showExtras && (
                                 <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }} className="space-y-3">
                                   <p className="text-xs font-semibold text-slate-500 ml-0.5">Add-ons</p>
                                   <div className="grid grid-cols-2 gap-2.5">
@@ -916,7 +934,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                         <div className="absolute inset-0 opacity-20" style={{ boxShadow: `inset 0 -4px 12px rgba(0,0,0,0.2)` }} />
                         <span className="absolute inset-0 bg-linear-to-t from-black/10 to-transparent" />
                         <span className="relative flex items-center gap-2.5">
-                          {loading ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Calculating route...</> : <>{widgetSettings.buttonText}<ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>}
+                          {loading ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Calculating route...</> : <>{quickMode ? "See Instant Price" : widgetSettings.buttonText}<ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>}
                         </span>
                       </button>
                     </form>
