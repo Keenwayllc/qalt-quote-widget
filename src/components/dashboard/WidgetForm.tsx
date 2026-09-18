@@ -428,7 +428,6 @@ export default function WidgetSettingsForm({
                 id="headerText"
                 name="headerText"
                 type="text"
-                required
                 value={previewData.headerText}
                 onChange={handleChange}
                 className="w-full px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm dark:shadow-none"
