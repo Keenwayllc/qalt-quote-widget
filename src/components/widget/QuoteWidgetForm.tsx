@@ -681,11 +681,30 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
   return (
     <div
-      className={`w-full transition-all duration-700 ease-in-out font-sans flex items-start justify-center mx-auto relative ${step === 2 && !showSummary && widgetSettings.mapLayout === 'side' ? 'max-w-5xl' : 'max-w-md'}`}
+      className={`w-full transition-all duration-700 ease-in-out font-sans flex items-start justify-center mx-auto relative ${quickMode ? 'max-w-3xl' : step === 2 && !showSummary && widgetSettings.mapLayout === 'side' ? 'max-w-5xl' : 'max-w-md'}`}
       style={{ fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif", ['--ring' as string]: `${primaryColor}59` }}
     >
-      <div className="w-full transition-all duration-700 ease-in-out relative z-10 rounded-[32px] overflow-hidden shadow-[0_30px_100px_-15px_rgba(0,0,0,0.2)] bg-white flex flex-col md:flex-row">
+      <div className={`w-full transition-all duration-700 ease-in-out relative z-10 overflow-hidden bg-white flex flex-col md:flex-row ${quickMode ? "rounded-[30px] shadow-[0_28px_90px_-20px_rgba(15,23,42,.28)] border border-slate-200/80" : "rounded-[32px] shadow-[0_30px_100px_-15px_rgba(0,0,0,0.2)]"}`}>
         <div className={`w-full transition-all duration-700 ${step === 2 && !showSummary && widgetSettings.mapLayout === 'side' ? 'md:w-[440px]' : 'md:w-full'} flex flex-col shrink-0`}>
+          {quickMode ? (
+            <div className="bg-white px-6 pt-7 pb-2 sm:px-10 sm:pt-10">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-3xl sm:text-4xl font-black tracking-[-0.04em] text-slate-950">Instant Quote</h2>
+                  <p className="mt-2 text-sm font-semibold text-slate-500">Enter the route, choose a vehicle, and see your price.</p>
+                </div>
+                {logoUrlToUse ? (
+                  <div className="relative h-11 w-28 shrink-0">
+                    <Image src={logoUrlToUse} alt={company.name} fill className="object-contain object-right" unoptimized />
+                  </div>
+                ) : (
+                  <div className="grid h-11 w-11 place-items-center rounded-2xl border border-slate-200 bg-slate-50">
+                    <Truck size={21} style={{ color: primaryColor }} />
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
           <div
             className="relative px-6 pt-6 pb-7 sm:px-8 sm:pt-8 sm:pb-10 overflow-hidden bg-cover bg-center"
             style={widgetSettings.backgroundImageUrl
@@ -762,8 +781,9 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
               })}
             </div>
           </div>
+          )}
 
-          <div className="bg-white px-6 py-7 sm:px-8 sm:py-8 flex-1">
+          <div className={`bg-white flex-1 ${quickMode ? "px-6 pt-5 pb-7 sm:px-10 sm:pt-6 sm:pb-9" : "px-6 py-7 sm:px-8 sm:py-8"}`}>
             {!hydrated ? (
               <div className="py-16 flex items-center justify-center">
                 <div className="w-8 h-8 border-[3px] rounded-full animate-spin" style={{ borderColor: `${primaryColor}22`, borderTopColor: primaryColor }} />
@@ -773,12 +793,12 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                 <motion.div key={bodyKey} variants={bodyVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.28, ease: EASE }}>
                   {step === 1 && (
                     <form onSubmit={getEstimate} className="space-y-5">
-                      <div className="space-y-4">
-                        <AutocompleteInput label="Pickup address" placeholder="Enter pickup address" value={formData.pickupAddress}
+                      <div className={quickMode ? "space-y-3" : "space-y-4"}>
+                        <AutocompleteInput label={quickMode ? "" : "Pickup address"} placeholder="Enter pickup address" value={formData.pickupAddress}
                           isLoaded={isLoaded} icon={MapPin}
                           onAddressSelect={(address, zip) => setFormData(prev => ({ ...prev, pickupAddress: address, pickupZip: zip }))}
                           onClear={clearPickup} />
-                        <AutocompleteInput label="Dropoff address" placeholder="Enter dropoff address" value={formData.dropoffAddress}
+                        <AutocompleteInput label={quickMode ? "" : "Dropoff address"} placeholder="Enter dropoff address" value={formData.dropoffAddress}
                           isLoaded={isLoaded} icon={MapPin}
                           onAddressSelect={(address, zip) => setFormData(prev => ({ ...prev, dropoffAddress: address, dropoffZip: zip }))}
                           onClear={clearDropoff} />
@@ -928,15 +948,32 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
                       {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><span className="shrink-0 mt-0.5">⚠️</span> {error}</div>}
 
-                      <button type="submit" disabled={loading} data-qalt-brand-cta
-                        className="w-full py-4 rounded-2xl text-white font-bold text-sm shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2.5 disabled:opacity-50 relative overflow-hidden group"
-                        style={{ backgroundColor: primaryColor }}>
-                        <div className="absolute inset-0 opacity-20" style={{ boxShadow: `inset 0 -4px 12px rgba(0,0,0,0.2)` }} />
-                        <span className="absolute inset-0 bg-linear-to-t from-black/10 to-transparent" />
-                        <span className="relative flex items-center gap-2.5">
-                          {loading ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Calculating route...</> : <>{quickMode ? "See Instant Price" : widgetSettings.buttonText}<ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>}
-                        </span>
-                      </button>
+                      {quickMode ? (
+                        <div className="mt-2 border-t border-slate-200 pt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                          <div>
+                            <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">Instant price</p>
+                            <p className="mt-1 text-sm font-bold text-slate-500">{routeComplete && formData.vehicleType ? "Ready to calculate" : "Add route and vehicle"}</p>
+                          </div>
+                          <button type="submit" disabled={loading} data-qalt-brand-cta
+                            className="sm:min-w-[230px] px-6 py-4 rounded-2xl text-white font-black text-sm shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2.5 disabled:opacity-50 relative overflow-hidden group"
+                            style={{ backgroundColor: primaryColor }}>
+                            <span className="absolute inset-0 bg-linear-to-t from-black/10 to-transparent" />
+                            <span className="relative flex items-center gap-2.5">
+                              {loading ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Calculating...</> : <>Get Instant Quote<ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>}
+                            </span>
+                          </button>
+                        </div>
+                      ) : (
+                        <button type="submit" disabled={loading} data-qalt-brand-cta
+                          className="w-full py-4 rounded-2xl text-white font-bold text-sm shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2.5 disabled:opacity-50 relative overflow-hidden group"
+                          style={{ backgroundColor: primaryColor }}>
+                          <div className="absolute inset-0 opacity-20" style={{ boxShadow: `inset 0 -4px 12px rgba(0,0,0,0.2)` }} />
+                          <span className="absolute inset-0 bg-linear-to-t from-black/10 to-transparent" />
+                          <span className="relative flex items-center gap-2.5">
+                            {loading ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Calculating route...</> : <>{widgetSettings.buttonText}<ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>}
+                          </span>
+                        </button>
+                      )}
                     </form>
                   )}
 
@@ -1059,7 +1096,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
             )}
           </div>
 
-          <div className="px-8 py-5 bg-slate-50/80 border-t border-slate-100/80">
+          <div className={`${quickMode ? "px-8 py-4 bg-white border-t border-slate-100" : "px-8 py-5 bg-slate-50/80 border-t border-slate-100/80"}`}>
             <p className="text-[10px] text-slate-400 text-center leading-relaxed font-medium">{widgetSettings.disclaimerText}</p>
             {!demoMode && parentUrl && step !== 3 && (() => { let hostname = ""; try { hostname = new URL(parentUrl).hostname.replace(/^www\./, ""); } catch { hostname = ""; } return hostname ? <a href={parentUrl} className="mt-3 flex items-center justify-center gap-1.5 text-[10px] font-bold text-slate-400 hover:text-slate-600 transition-colors group"><ArrowLeft size={11} className="group-hover:-translate-x-0.5 transition-transform" />Back to {hostname}</a> : null; })()}
             {!showWhiteLabel && <a href="https://qalt.site" target="_blank" rel="noopener noreferrer" className="mt-4 flex items-center justify-center gap-2 opacity-80 hover:opacity-100 transition-opacity"><span className="text-[11px] text-slate-500 font-bold uppercase tracking-[0.2em] leading-none">Powered by</span><Image src="/images/qalt-logo-main-2026.png" alt="Qalt Logo" width={1080} height={1080} className="h-[75px] w-auto object-contain relative -top-[3.78px] -left-[7.56px]" /></a>}
