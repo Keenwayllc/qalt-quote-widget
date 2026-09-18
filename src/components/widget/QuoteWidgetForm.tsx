@@ -669,6 +669,41 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
   const primaryColor = (widgetSettings.primaryColor && widgetSettings.primaryColor.length >= 4) ? widgetSettings.primaryColor : "#1E40AF";
   const routeComplete = Boolean(formData.pickupAddress && formData.dropoffAddress);
+
+  useEffect(() => {
+    if (!quickMode || step !== 1) return;
+
+    const serviceReady = serviceOptions.length === 0 || Boolean(formData.serviceType);
+    const vehicleReady = !widgetSettings.showVehicles || vehicleOptions.length === 0 || Boolean(formData.vehicleType);
+
+    if (!routeComplete || !serviceReady || !vehicleReady) {
+      setEstimate(null);
+      setBreakdown(null);
+      setDistance(null);
+      setDurationMinutes(null);
+      setQuickPriceUpdating(false);
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      void fetchEstimate({ advance: false, quickRefresh: true });
+    }, 180);
+
+    return () => window.clearTimeout(timer);
+    // fetchEstimate is intentionally driven by the concrete quote inputs below.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    quickMode,
+    step,
+    routeComplete,
+    formData.pickupAddress,
+    formData.dropoffAddress,
+    formData.pickupZip,
+    formData.dropoffZip,
+    formData.vehicleType,
+    formData.serviceType,
+  ]);
+
   const activeStage = step >= 2 ? 2 : routeComplete ? 1 : 0;
   const stages = ["Route", "Details", "Quote"] as const;
   const stageStatus = (i: number): "done" | "active" | "todo" => {
@@ -679,7 +714,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
   const serviceType = formData.serviceType || (formData.awbNumber?.trim() ? "Airport pickup" : "Standard delivery");
   const hasAnyAddon = formData.hasStairs || formData.needsInsideDelivery || formData.needsAddon3 || formData.selectedLargeItems.length > 0;
-  const animatedEstimate = useCountUp(step >= 2 ? estimate : null);
+  const animatedEstimate = useCountUp((quickMode || step >= 2) ? estimate : null);
   const money = (n: number) => `${n < 0 ? "-" : ""}$${Math.abs(n).toFixed(2)}`;
 
   const relabelLine = (li: { key: string; label: string }) => {
@@ -839,35 +874,52 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                           onClear={clearDropoff} />
                       </div>
 
+                      {quickMode && serviceOptions.length > 0 && (
+                        <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, ease: EASE }}>
+                          <ServiceSelector
+                            options={serviceOptions}
+                            value={formData.serviceType}
+                            onChange={(serviceType) => setFormData((prev) => ({ ...prev, serviceType }))}
+                            primaryColor={primaryColor}
+                          />
+                        </motion.div>
+                      )}
+
+                      {quickMode && widgetSettings.showVehicles && vehicleOptions.length > 0 && (
+                        <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, ease: EASE }}>
+                          <VehicleSelector
+                            options={vehicleOptions}
+                            value={formData.vehicleType}
+                            onChange={(vehicleType) => setFormData((prev) => ({
+                              ...prev,
+                              vehicleType,
+                              vehicleCount: "1",
+                            }))}
+                            primaryColor={primaryColor}
+                            variant="quick"
+                          />
+                        </motion.div>
+                      )}
+
+                      {quickMode && widgetSettings.showVehicles && vehicleOptions.length === 0 && (
+                        <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-semibold text-amber-800">
+                          No vehicle types are configured for this Quick Quote form.
+                        </div>
+                      )}
+
                       <AnimatePresence initial={false}>
                         {routeComplete ? (
                           <motion.div key="details" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }}
                             exit={{ opacity: 0, height: 0 }} transition={{ duration: reduce ? 0 : 0.35, ease: EASE }} style={{ overflow: "hidden" }}>
                             <motion.div className="space-y-5" initial="hidden" animate="show"
                               transition={{ staggerChildren: reduce ? 0 : 0.05, delayChildren: reduce ? 0 : 0.08 }}>
-                              {serviceOptions.length > 0 && (
+                              {!quickMode && serviceOptions.length > 0 && (
                                 <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }}>
                                   <ServiceSelector
                                     options={serviceOptions}
                                     value={formData.serviceType}
                                     onChange={(serviceType) => setFormData((prev) => ({ ...prev, serviceType }))}
                                     primaryColor={primaryColor}
-                                  />
-                                </motion.div>
-                              )}
-
-                              {quickMode && widgetSettings.showVehicles && vehicleOptions.length > 0 && (
-                                <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }}>
-                                  <VehicleSelector
-                                    options={vehicleOptions}
-                                    value={formData.vehicleType}
-                                    onChange={(vehicleType) => setFormData((prev) => ({
-                                      ...prev,
-                                      vehicleType,
-                                      vehicleCount: "1",
-                                    }))}
-                                    primaryColor={primaryColor}
-                                    variant="quick"
                                   />
                                 </motion.div>
                               )}
@@ -984,17 +1036,50 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                       {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><span className="shrink-0 mt-0.5">⚠️</span> {error}</div>}
 
                       {quickMode ? (
-                        <div className="mt-2 border-t border-slate-200 pt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                          <div>
+                        <div className="mt-2 border-t border-slate-200 pt-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                          <div className="min-w-0">
                             <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">Instant price</p>
-                            <p className="mt-1 text-sm font-bold text-slate-500">{routeComplete && formData.vehicleType ? "Ready to calculate" : "Add route and vehicle"}</p>
+                            {quickPriceUpdating ? (
+                              <div className="mt-2 flex items-center gap-2 text-sm font-bold text-slate-500">
+                                <div className="h-4 w-4 rounded-full border-2 border-slate-200 border-t-slate-600 animate-spin" />
+                                Updating price...
+                              </div>
+                            ) : estimate !== null && breakdown ? (
+                              <div className="mt-1">
+                                <motion.p
+                                  key={estimate}
+                                  initial={reduce ? false : { opacity: 0.35, y: 4 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  className="text-4xl font-black tracking-[-0.04em] tabular-nums text-slate-950"
+                                >
+                                  ${animatedEstimate.toFixed(2)}
+                                </motion.p>
+                                <p className="mt-1 text-xs font-bold text-slate-400">
+                                  {formData.vehicleType}{distance !== null ? ` · ${distance.toFixed(1)} miles` : ""}
+                                </p>
+                              </div>
+                            ) : (
+                              <p className="mt-1 text-sm font-bold text-slate-500">
+                                {!routeComplete
+                                  ? "Enter pickup and dropoff"
+                                  : serviceOptions.length > 0 && !formData.serviceType
+                                    ? "Choose a service"
+                                    : widgetSettings.showVehicles && vehicleOptions.length > 0 && !formData.vehicleType
+                                      ? "Choose a vehicle"
+                                      : "Ready to price"}
+                              </p>
+                            )}
                           </div>
-                          <button type="submit" disabled={loading} data-qalt-brand-cta
-                            className="sm:min-w-[230px] px-6 py-4 rounded-2xl text-white font-black text-sm shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2.5 disabled:opacity-50 relative overflow-hidden group"
-                            style={{ backgroundColor: primaryColor }}>
+                          <button
+                            type="submit"
+                            disabled={loading || quickPriceUpdating || estimate === null || !breakdown}
+                            data-qalt-brand-cta
+                            className="sm:min-w-[230px] px-6 py-4 rounded-2xl text-white font-black text-sm shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2.5 disabled:opacity-45 relative overflow-hidden group"
+                            style={{ backgroundColor: primaryColor }}
+                          >
                             <span className="absolute inset-0 bg-linear-to-t from-black/10 to-transparent" />
                             <span className="relative flex items-center gap-2.5">
-                              {loading ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Calculating...</> : <>Get Instant Quote<ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>}
+                              {loading ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Calculating...</> : <>View Price Breakdown<ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>}
                             </span>
                           </button>
                         </div>
@@ -1037,10 +1122,20 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                         )}
                       </motion.div>
 
+                      {quickMode && formData.vehicleType && (
+                        <div className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3">
+                          <div>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Selected vehicle</p>
+                            <p className="mt-1 text-sm font-black text-slate-800">{formData.vehicleType}</p>
+                          </div>
+                          <Truck size={20} style={{ color: primaryColor }} />
+                        </div>
+                      )}
+
                       {priceRows.length > 0 && (
                         <motion.div className="rounded-2xl border border-slate-200 bg-slate-50/50 overflow-hidden" initial="hidden" animate="show"
                           variants={{ hidden: {}, show: { transition: { staggerChildren: reduce ? 0 : 0.06, delayChildren: reduce ? 0 : 0.1 } } }}>
-                          <motion.p variants={revealItem} transition={{ duration: 0.3, ease: EASE }} className="px-4 pt-3.5 pb-1 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Price breakdown</motion.p>
+                          <motion.p variants={revealItem} transition={{ duration: 0.3, ease: EASE }} className="px-4 pt-3.5 pb-1 text-[11px] font-bold text-slate-400 uppercase tracking-widest">{quickMode ? "Full price breakdown" : "Price breakdown"}</motion.p>
                           <div className="px-4 divide-y divide-slate-100">
                             {priceRows.map((row) => (
                               <motion.div key={row.key} variants={revealItem} transition={{ duration: 0.3, ease: EASE }} className="flex items-center justify-between gap-3 py-2.5">
