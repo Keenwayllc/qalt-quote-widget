@@ -41,12 +41,12 @@ const QALT_RED = "#df1731";
 
 function RouteMap({ accent, reduceMotion }: { accent: string; reduceMotion: boolean | null }) {
   const mapSrc =
-    "https://maps.google.com/maps?saddr=North+Hollywood%2C+CA&daddr=Downtown+Los+Angeles%2C+CA&output=embed";
+    "https://maps.google.com/maps?saddr=San+Jose%2C+CA&daddr=San+Francisco%2C+CA&output=embed";
 
   return (
     <div className="relative min-h-[260px] flex-1 overflow-hidden bg-[#f8f9fa]">
       <iframe
-        title="Google Maps delivery route from North Hollywood to Downtown Los Angeles"
+        title="Google Maps delivery route from San Jose to San Francisco"
         src={mapSrc}
         className="absolute inset-0 h-full w-full border-0"
         loading="lazy"
@@ -100,8 +100,8 @@ function CustomerWidget({
 
             <div className="mt-3 space-y-2">
               {[
-                ["Pickup", "North Hollywood, CA"],
-                ["Delivery", "Downtown Los Angeles, CA"],
+                ["Pickup", "San Jose, CA"],
+                ["Delivery", "San Francisco, CA"],
               ].map(([label, value], index) => (
                 <motion.div
                   key={label}
@@ -167,7 +167,7 @@ function CustomerWidget({
               <div className="space-y-2">
                 {[
                   ["Base service", "$60.00"],
-                  ["20.8 mi × $2.50", "$52.00"],
+                  ["48.5 mi × $2.50", "$121.25"],
                   ["Inside delivery", "$15.00"],
                 ].map(([label, value], index) => (
                   <motion.div
@@ -195,7 +195,7 @@ function CustomerWidget({
                   className="text-[27px] font-extrabold tracking-[-0.05em]"
                   style={{ color: accent }}
                 >
-                  $127.00
+                  $196.25
                 </motion.p>
               </div>
             </div>
@@ -231,12 +231,12 @@ function CustomerWidget({
             </p>
             <div className="mt-5 w-full border border-slate-200 bg-slate-50 p-3 text-left">
               <div className="flex items-center justify-between">
-                <span className="text-[8px] font-bold text-slate-700">North Hollywood → Downtown LA</span>
+                <span className="text-[8px] font-bold text-slate-700">San Jose → San Francisco</span>
                 <span className="rounded-sm bg-emerald-50 px-2 py-1 text-[7px] font-bold text-emerald-700">PAID</span>
               </div>
               <div className="mt-2 flex items-center justify-between text-[7px] font-medium text-slate-400">
                 <span>1 pallet · Inside delivery</span>
-                <span>$127.00</span>
+                <span>$196.25</span>
               </div>
             </div>
           </motion.div>
@@ -353,9 +353,9 @@ function DashboardOverview({ reduceMotion }: { reduceMotion: boolean | null }) {
           <div className="grid h-7 w-7 place-items-center rounded-md bg-slate-900 text-[8px] font-bold text-white">J</div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-[7px] font-bold text-slate-800">Jordan Lee</p>
-            <p className="mt-0.5 truncate text-[6px] font-medium text-slate-400">91605 → 90012 · 20.8 mi</p>
+            <p className="mt-0.5 truncate text-[6px] font-medium text-slate-400">95113 → 94103 · 48.5 mi</p>
           </div>
-          <span className="text-[11px] font-extrabold text-slate-900">$127</span>
+          <span className="text-[11px] font-extrabold text-slate-900">$196</span>
         </div>
       </div>
     </motion.div>
@@ -403,13 +403,13 @@ function QuoteBoard({ paid, reduceMotion }: { paid: boolean; reduceMotion: boole
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-[6px] font-bold text-slate-900">Jordan Lee</p>
                       <div className="mt-1 flex items-center gap-1 text-[5px] font-medium text-slate-400">
-                        <MapPin size={6} className="text-red-400" /> 91605 → 90012
+                        <MapPin size={6} className="text-red-400" /> 95113 → 94103
                       </div>
                     </div>
-                    <span className="text-[8px] font-extrabold text-slate-900">$127</span>
+                    <span className="text-[8px] font-extrabold text-slate-900">$196</span>
                   </div>
                   <div className="flex items-center justify-between border-t border-slate-100 px-2 py-1.5">
-                    <span className="text-[5px] font-medium text-slate-400">20.8 mi</span>
+                    <span className="text-[5px] font-medium text-slate-400">48.5 mi</span>
                     {paid ? <span className="text-[5px] font-bold text-emerald-700">PAID ✓</span> : <span className="text-[5px] font-bold text-red-600">Details →</span>}
                   </div>
                 </motion.div>
@@ -465,7 +465,7 @@ function JobsDashboard({ reduceMotion }: { reduceMotion: boolean | null }) {
             <div className="mt-2 flex items-center gap-1 text-[6px] font-medium text-slate-400">
               <span className="grid h-4 w-4 place-items-center rounded-full border-2 border-white bg-slate-100 text-[5px] font-bold">1</span>
               <span className="grid h-4 w-4 place-items-center rounded-full border-2 border-white bg-slate-100 text-[5px] font-bold">2</span>
-              <span className="truncate">North Hollywood → Downtown Los Angeles</span>
+              <span className="truncate">San Jose → San Francisco</span>
             </div>
           </div>
 
@@ -477,7 +477,7 @@ function JobsDashboard({ reduceMotion }: { reduceMotion: boolean | null }) {
       </motion.div>
 
       <div className="mt-3 grid grid-cols-3 gap-2">
-        {["Quote attached", "2 stops saved", "$127 paid"].map((item) => (
+        {["Quote attached", "2 stops saved", "$196 paid"].map((item) => (
           <div key={item} className="rounded-md border border-slate-200 bg-slate-50 px-2 py-2 text-center text-[5px] font-semibold text-slate-500">
             <Check size={8} className="mx-auto mb-1 text-emerald-600" />
             {item}
