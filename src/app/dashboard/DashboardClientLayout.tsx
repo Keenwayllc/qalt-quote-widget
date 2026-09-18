@@ -394,7 +394,7 @@ function DashboardLayoutInner({
           </button>
         </header>
 
-        <div className="flex-1 overflow-auto relative z-10 custom-scrollbar">
+        <div id="qalt-dashboard-scroll-container" className="flex-1 overflow-auto relative z-10 custom-scrollbar">
           <DashboardTips showCard={pathname === "/dashboard"} />
           {children}
           {entitlements.isWhiteLabelEnabled && displayName && (
