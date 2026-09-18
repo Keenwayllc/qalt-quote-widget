@@ -20,7 +20,7 @@ export async function GET() {
     const forms = await prisma.widgetSettings.findMany({
       where: { companyId: payload.companyId },
       orderBy: { id: "asc" },
-      select: { id: true, name: true },
+      select: { id: true, name: true, formStyle: true },
     });
 
     const entitlements = getEntitlements(company?.subscriptionPlan);
@@ -61,7 +61,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const { name } = await req.json();
+    const { name, formStyle } = await req.json();
+    const normalizedFormStyle = formStyle === "quick" ? "quick" : "standard";
 
     // Clone pricing from company default
     const defaultPricing = await prisma.pricingProfile.findFirst({
@@ -72,6 +73,9 @@ export async function POST(req: Request) {
       data: {
         companyId: payload.companyId,
         name: name?.trim() || "New Form",
+        formStyle: normalizedFormStyle,
+        showVehicles: normalizedFormStyle === "quick",
+        buttonText: normalizedFormStyle === "quick" ? "Get Instant Quote" : "Get Instant Quote",
       },
     });
 
