@@ -7,22 +7,19 @@ import { ArrowUp } from "lucide-react";
 
 const SHOW_AFTER_PX = 420;
 
-function getDashboardScroller() {
-  return document.querySelector<HTMLElement>("main > div[class~='overflow-auto']");
-}
-
 export default function GlobalScrollToTop() {
   const pathname = usePathname();
   const reduceMotion = useReducedMotion();
   const [visible, setVisible] = useState(false);
 
-  // The homepage, pricing page, and partners page already have their own
-  // matching scroll-to-top controls. Standalone widgets are customer embeds,
-  // so keep Qalt platform chrome out of those surfaces.
+  // These routes already provide their own page-specific scroll-to-top control.
+  // Standalone widgets are customer embeds, so keep Qalt platform chrome out
+  // of those surfaces.
   const shouldSkip =
     pathname === "/" ||
     pathname === "/pricing" ||
     pathname === "/partners" ||
+    pathname.startsWith("/dashboard") ||
     pathname.startsWith("/widget/");
 
   useEffect(() => {
@@ -35,15 +32,10 @@ export default function GlobalScrollToTop() {
     let updateVisibility: (() => void) | null = null;
 
     const frame = requestAnimationFrame(() => {
-      target = pathname.startsWith("/dashboard")
-        ? getDashboardScroller() ?? window
-        : window;
+      target = window;
 
       updateVisibility = () => {
-        const top = target === window
-          ? window.scrollY
-          : (target as HTMLElement).scrollTop;
-        setVisible(top > SHOW_AFTER_PX);
+        setVisible(window.scrollY > SHOW_AFTER_PX);
       };
 
       updateVisibility();
@@ -60,15 +52,7 @@ export default function GlobalScrollToTop() {
 
   const scrollToTop = () => {
     const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
-    const dashboardScroller = pathname.startsWith("/dashboard")
-      ? getDashboardScroller()
-      : null;
-
-    if (dashboardScroller) {
-      dashboardScroller.scrollTo({ top: 0, behavior });
-    } else {
-      window.scrollTo({ top: 0, behavior });
-    }
+    window.scrollTo({ top: 0, behavior });
   };
 
   if (shouldSkip) return null;
