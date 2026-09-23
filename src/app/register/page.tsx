@@ -23,6 +23,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import QaltLogo from "@/components/shared/QaltLogo";
+import { getRegistrationAttribution } from "@/components/shared/RegistrationAttribution";
 
 declare global {
   interface Window {
@@ -145,7 +146,7 @@ export default function RegisterPage() {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name, password, turnstileToken }),
+        body: JSON.stringify({ email, name, password, turnstileToken, attribution: getRegistrationAttribution() }),
       });
       const data = await res.json().catch(() => ({}));
 
