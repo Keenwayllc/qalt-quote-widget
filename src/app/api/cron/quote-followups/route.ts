@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { sendQuoteDocumentEmail } from "@/lib/customer-document-email";
 import { hasFollowUp, logFollowUp } from "@/lib/growth-engine";
+import { deleteExpiredAbandonedQuotes } from "@/lib/abandoned-quotes";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -13,6 +14,7 @@ export async function GET(req: Request) {
   }
 
   const now = new Date();
+  const abandonedDeleted = await deleteExpiredAbandonedQuotes(30);
   const oldest = new Date(now.getTime() - 72 * 60 * 60 * 1000);
   const newest = new Date(now.getTime() - 4 * 60 * 60 * 1000);
   const quotes = await prisma.quoteRequest.findMany({
@@ -44,5 +46,5 @@ export async function GET(req: Request) {
       console.error("Quote follow-up failed", quote.id, error);
     }
   }
-  return NextResponse.json({ success: true, scanned: quotes.length, sent, skipped, failed });
+  return NextResponse.json({ success: true, scanned: quotes.length, sent, skipped, failed, abandonedDeleted });
 }
