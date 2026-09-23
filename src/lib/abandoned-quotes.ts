@@ -145,3 +145,22 @@ export async function listOpenAbandonedQuotes(companyId: string): Promise<Abando
     LIMIT 250
   `;
 }
+
+export async function getOpenAbandonedQuote(companyId: string, id: string): Promise<AbandonedQuoteRow | null> {
+  await ensureAbandonedQuoteTable();
+  const rows = await prisma.$queryRaw<AbandonedQuoteRow[]>`
+    SELECT * FROM "AbandonedQuote"
+    WHERE "id" = ${id} AND "companyId" = ${companyId} AND "status" = 'OPEN'
+    LIMIT 1
+  `;
+  return rows[0] ?? null;
+}
+
+export async function deleteAbandonedQuote(companyId: string, id: string): Promise<boolean> {
+  await ensureAbandonedQuoteTable();
+  const deleted = await prisma.$executeRaw`
+    DELETE FROM "AbandonedQuote"
+    WHERE "id" = ${id} AND "companyId" = ${companyId}
+  `;
+  return deleted > 0;
+}
