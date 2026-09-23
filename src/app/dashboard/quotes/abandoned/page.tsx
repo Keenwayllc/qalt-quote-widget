@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, Mail, Phone, MapPin, Clock3, DollarSign } from "lucide-react";
 import { getCurrentCompany } from "@/lib/session";
+import AbandonedQuoteActions from "./AbandonedQuoteActions";
 import { listOpenAbandonedQuotes } from "@/lib/abandoned-quotes";
 
 function money(value: number | null) {
@@ -74,6 +75,7 @@ export default async function AbandonedQuotesPage() {
                     <div className="text-[10px] font-black uppercase tracking-wider text-slate-400">Potential value</div>
                     <div className="mt-1 flex items-center gap-1 text-xl font-black text-slate-950 dark:text-white lg:justify-end"><DollarSign size={17} className="text-emerald-500" />{money(lead.estimatedPrice).replace("$", "")}</div>
                     {lead.distanceMiles != null && <div className="mt-1 text-xs font-bold text-slate-400">{lead.distanceMiles.toFixed(1)} miles</div>}
+                    <AbandonedQuoteActions id={lead.id} email={lead.customerEmail} />
                   </div>
                 </div>
               </div>
