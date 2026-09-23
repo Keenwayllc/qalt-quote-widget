@@ -5,6 +5,7 @@ import { sendEmail } from "@/lib/email";
 import { VerifyEmail } from "@/components/emails/VerifyEmail";
 import crypto from "crypto";
 import React from "react";
+import { normalizeRegistrationAttribution } from "@/lib/registration-source";
 
 // Verify a Cloudflare Turnstile token server-side. Returns true when the
 // challenge passes. When no secret is configured (e.g. local dev) we skip
@@ -29,7 +30,7 @@ async function verifyTurnstile(token: unknown, ip: string | null): Promise<boole
 
 export async function POST(req: Request) {
   try {
-    const { email, password, name, turnstileToken } = await req.json();
+    const { email, password, name, turnstileToken, attribution } = await req.json();
 
     if (!email || !password || !name) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
@@ -58,6 +59,7 @@ export async function POST(req: Request) {
 
     const trialEndsAt = new Date();
     trialEndsAt.setDate(trialEndsAt.getDate() + 14);
+    const registrationAttribution = normalizeRegistrationAttribution(attribution);
 
     await prisma.company.create({
       data: {
@@ -68,6 +70,7 @@ export async function POST(req: Request) {
         trialEndsAt,
         emailVerified: false,
         emailVerificationToken,
+        ...registrationAttribution,
         pricingProfiles: {
           create: {
             baseRatePerMile: 2.5,
