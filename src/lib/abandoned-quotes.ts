@@ -164,3 +164,17 @@ export async function deleteAbandonedQuote(companyId: string, id: string): Promi
   `;
   return deleted > 0;
 }
+
+
+export async function deleteExpiredAbandonedQuotes(retentionDays = 30): Promise<number> {
+  await ensureAbandonedQuoteTable();
+  const safeDays = Number.isFinite(retentionDays)
+    ? Math.min(365, Math.max(1, Math.floor(retentionDays)))
+    : 30;
+  const cutoff = new Date(Date.now() - safeDays * 24 * 60 * 60 * 1000);
+
+  return prisma.$executeRaw`
+    DELETE FROM "AbandonedQuote"
+    WHERE "status" = 'OPEN' AND "lastActivityAt" < ${cutoff}
+  `;
+}
