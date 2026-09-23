@@ -6,6 +6,15 @@ import PlanSelect from "./PlanSelect";
 
 export const dynamic = "force-dynamic";
 
+function referrerHost(value: string | null): string | null {
+  if (!value) return null;
+  try {
+    return new URL(value).hostname.replace(/^www\./, "");
+  } catch {
+    return null;
+  }
+}
+
 function fmtDate(d: Date | null): string {
   if (!d) return "—";
   return new Date(d).toLocaleString("en-US", {
@@ -30,6 +39,12 @@ export default async function AdminPage() {
         subscriptionPlan: true,
         createdAt: true,
         lastLoginAt: true,
+        registrationSource: true,
+        registrationReferrer: true,
+        registrationLandingPage: true,
+        registrationUtmSource: true,
+        registrationUtmMedium: true,
+        registrationUtmCampaign: true,
       },
     }),
     prisma.quoteRequest.groupBy({
@@ -61,7 +76,7 @@ export default async function AdminPage() {
   ];
 
   return (
-    <div className="p-6 sm:p-8 max-w-6xl">
+    <div className="p-6 sm:p-8 max-w-7xl">
       <div className="mb-8 flex items-center gap-3">
         <div className="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center">
           <Shield size={20} />
@@ -107,6 +122,7 @@ export default async function AdminPage() {
                 <th className="px-4 py-3 font-bold">Company</th>
                 <th className="px-4 py-3 font-bold">Plan</th>
                 <th className="px-4 py-3 font-bold">Quotes</th>
+                <th className="px-4 py-3 font-bold">Source</th>
                 <th className="px-4 py-3 font-bold">Last login</th>
                 <th className="px-4 py-3 font-bold">Signed up</th>
               </tr>
@@ -126,6 +142,28 @@ export default async function AdminPage() {
                   </td>
                   <td className="px-4 py-3 font-bold text-slate-700 dark:text-slate-200">
                     {countMap.get(c.id) ?? 0}
+                  </td>
+                  <td className="px-4 py-3">
+                    <span className="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-700 dark:bg-white/[0.06] dark:text-slate-200">
+                      {c.registrationSource || "Before tracking"}
+                    </span>
+                    {c.registrationUtmCampaign ? (
+                      <p className="mt-1 max-w-[180px] truncate text-[11px] text-slate-400" title={c.registrationUtmCampaign}>
+                        Campaign: {c.registrationUtmCampaign}
+                      </p>
+                    ) : c.registrationUtmSource || c.registrationUtmMedium ? (
+                      <p className="mt-1 max-w-[180px] truncate text-[11px] text-slate-400">
+                        {[c.registrationUtmSource, c.registrationUtmMedium].filter(Boolean).join(" / ")}
+                      </p>
+                    ) : referrerHost(c.registrationReferrer) ? (
+                      <p className="mt-1 max-w-[180px] truncate text-[11px] text-slate-400" title={c.registrationReferrer || undefined}>
+                        {referrerHost(c.registrationReferrer)}
+                      </p>
+                    ) : c.registrationLandingPage ? (
+                      <p className="mt-1 max-w-[180px] truncate text-[11px] text-slate-400" title={c.registrationLandingPage}>
+                        {c.registrationLandingPage}
+                      </p>
+                    ) : null}
                   </td>
                   <td className="px-4 py-3 text-slate-600 dark:text-slate-300">
                     {c.lastLoginAt ? fmtDate(c.lastLoginAt) : <span className="text-slate-300 dark:text-slate-600">Never</span>}
