@@ -1,4 +1,4 @@
-.scene { position: absolute; width: min(1180px, 94%); height: 450px; bottom: 30px; left: 50%; transform: translateX(-50%); pointer-events: none; }
+.scene { position: absolute; width: min(1180px, 94%); height: clamp(330px, 36vw, 450px); bottom: 30px; left: 50%; transform: translateX(-50%); pointer-events: none; }
 .device { position: absolute; animation: rise 1.35s cubic-bezier(.16,1,.3,1) both; }
 .float { animation: drift 7s ease-in-out infinite; animation-delay: 1.5s; }
 .desktop { width: 52%; left: 26%; top: 0; }
@@ -63,15 +63,16 @@
 @keyframes rise { from { opacity: 0; transform: translateY(160px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes drift { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
 @media (max-width: 767px) {
-  .scene { height: 240px; width: 96%; bottom: 16px; }
+  .scene { height: 360px; width: 96%; bottom: 16px; }
   .desktop { width: 58%; left: 20%; top: 7%; }
-  .laptop { width: 55%; top: 41%; }
-  .tablet { width: 27%; top: 24%; }
-  .phone { width: 13%; left: 56%; top: 54%; }
+  .laptop { width: 55%; top: 38%; }
+  .tablet { width: 27%; top: 20%; }
+  .phone { width: 13%; left: 56%; top: 46%; }
   .stand { height: 19px; } .chin { height: 10px; font-size: 4px; padding-top: 1px; }
   .foot { height: 4px; } .keyboard { height: 7px; }
   .monitor, .lid { border-radius: 6px; } .touchFrame { border-radius: 10px; }
   .phone .touchFrame { border-radius: 12px; } .phone .screen { border-radius: 9px; }
 }
+@media (max-width: 639px) { .scene { height: 240px; } }
 @media (max-width: 480px) { .scene { height: 180px; } }
 @media (prefers-reduced-motion: reduce) { .device, .float { animation: none; } }
