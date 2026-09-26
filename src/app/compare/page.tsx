@@ -210,18 +210,18 @@ export default function ComparePage() {
       <PublicNav />
 
       <main className="pt-16 sm:pt-20">
-        <section className="relative isolate overflow-hidden border-b border-slate-200 bg-[#080B14] px-6 pt-16 pb-[clamp(220px,50vw,670px)] sm:pt-20">
+        <section className="relative isolate overflow-hidden border-b border-slate-200 bg-[#080B14] px-6 py-20 sm:py-28">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(223,23,49,0.18),transparent_34%),radial-gradient(circle_at_80%_10%,rgba(245,158,11,0.08),transparent_28%)]" />
           <CompareHeroDevices />
           <div className="relative mx-auto max-w-5xl text-center">
             <div className="mb-5 inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white/70">
               Delivery software comparison
             </div>
-            <h1 className="text-4xl font-black tracking-tight text-white sm:text-6xl lg:text-7xl">
+            <h1 className="text-4xl font-black tracking-tight text-white [text-shadow:0_2px_4px_rgba(8,11,20,0.95),0_8px_24px_rgba(8,11,20,0.85)] sm:text-6xl lg:text-7xl">
               Choose Qalt for
               <span className="block text-red-500">the way you sell delivery.</span>
             </h1>
-            <p className="mx-auto mt-7 max-w-3xl px-4 py-3 text-base font-medium leading-relaxed text-white/80 sm:text-lg">
+            <p className="mx-auto mt-7 max-w-3xl text-base font-medium leading-relaxed text-white [text-shadow:0_1px_3px_rgba(8,11,20,1),0_4px_12px_rgba(8,11,20,0.9)] sm:text-lg">
               Give customers an instant delivery price on your website, using your rates and your brand. Choose Qalt for delivery quoting, booking, optional online payments, and professional customer documents in one platform.
             </p>
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
