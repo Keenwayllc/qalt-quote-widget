@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   ArrowUp,
@@ -28,6 +28,7 @@ import QaltLogo from "@/components/shared/QaltLogo";
 import SupportModal from "@/components/shared/SupportModal";
 import HeroDashboardMockup from "@/components/landing/HeroDashboardMockup";
 import HowItWorksAnimation from "@/components/landing/HowItWorksAnimation";
+import MarketingDemoDiversity from "@/components/shared/MarketingDemoDiversity";
 
 const reveal = {
   hidden: { opacity: 0, y: 24 },
@@ -127,7 +128,6 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 export default function LandingPage() {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
-  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     const onScroll = () => setShowScrollTop(window.scrollY > 700);
@@ -138,6 +138,9 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-white text-slate-950 selection:bg-red-100 selection:text-red-900">
+      {/* Mounted here, not only in the layout, so it rewrites demo text after
+          this page hydrates (see MarketingDemoDiversity). */}
+      <MarketingDemoDiversity routes={["/"]} />
       <PublicNav />
 
       <main>
@@ -157,40 +160,31 @@ export default function LandingPage() {
 
           <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 pb-20 sm:px-8 sm:pb-28 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 lg:px-10">
             <div className="text-center lg:text-left">
-              <motion.div
-                initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3.5 py-2 text-[11px] font-bold text-white/70"
+              <div
+                className="q-rise mb-7 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3.5 py-2 text-[11px] font-bold text-white/70"
               >
                 <Zap size={13} className="fill-red-500 text-red-500" />
                 Built for courier, delivery & final-mile companies
-              </motion.div>
+              </div>
 
-              <motion.h1
-                initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.05 }}
-                className="text-[clamp(3rem,6.4vw,5.7rem)] font-black leading-[0.92] tracking-[-0.055em] text-white"
+              <h1
+                style={{ "--d": "60ms" } as React.CSSProperties}
+                className="q-reveal text-[clamp(3rem,6.4vw,5.7rem)] font-black leading-[0.92] tracking-[-0.055em] text-white"
               >
                 Stop making customers
                 <span className="block text-red-500">wait for a quote.</span>
-              </motion.h1>
+              </h1>
 
-              <motion.p
-                initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.55, delay: 0.12 }}
-                className="mx-auto mt-7 max-w-xl text-base font-medium leading-7 text-white/58 sm:text-lg lg:mx-0"
+              <p
+                style={{ "--d": "140ms" } as React.CSSProperties}
+                className="q-rise mx-auto mt-7 max-w-xl text-base font-medium leading-7 text-white/58 sm:text-lg lg:mx-0"
               >
                 Put an instant delivery quote form on your website using your rates, services, vehicles, fees, and branding. Use Qalt for quotes only, or add booking and payment when your workflow is ready.
-              </motion.p>
+              </p>
 
-              <motion.div
-                initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.55, delay: 0.18 }}
-                className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start"
+              <div
+                style={{ "--d": "220ms" } as React.CSSProperties}
+                className="q-rise mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start"
               >
                 <Link
                   href="/register"
@@ -205,13 +199,11 @@ export default function LandingPage() {
                 >
                   See the Live Demo
                 </Link>
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs font-semibold text-white/42 lg:justify-start"
+              <div
+                style={{ "--d": "320ms" } as React.CSSProperties}
+                className="q-rise mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs font-semibold text-white/42 lg:justify-start"
               >
                 {["No card required", "Free plan available", "14-day Pro trial", "Payments optional"].map((item) => (
                   <span key={item} className="inline-flex items-center gap-1.5">
@@ -219,20 +211,19 @@ export default function LandingPage() {
                     {item}
                   </span>
                 ))}
-              </motion.div>
+              </div>
             </div>
 
-            <motion.div
-              initial={reduceMotion ? false : { opacity: 0, x: 30, scale: 0.98 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              transition={{ duration: 0.75, delay: 0.14, ease: "easeOut" }}
-              className="relative mx-auto w-full max-w-[720px]"
+            {/* Hero entrance is CSS (q-*) so it can wait for the intro journey's door. */}
+            <div
+              style={{ "--d": "160ms" } as React.CSSProperties}
+              className="q-slide-in relative mx-auto w-full max-w-[720px]"
             >
               <div className="absolute -inset-8 rounded-[40px] bg-red-600/10 blur-3xl" />
               <div className="relative">
                 <HeroDashboardMockup />
               </div>
-            </motion.div>
+            </div>
           </div>
 
           <div className="relative border-y border-white/[0.08] bg-white/[0.035]">

@@ -7,10 +7,13 @@ interface QaltAnimatedLogoProps {
   white?: boolean;
   noAnimate?: boolean;
   iconOnly?: boolean;
+  /** Dark backgrounds: keeps the red lines, turns the grey parts light. */
+  onDark?: boolean;
 }
 
 const RED = "#e9001a";
 const GREY = "#4f515b";
+const LIGHT = "#e7e5e4";
 
 const lineVariants = {
   hidden: { opacity: 0, pathLength: 0 },
@@ -46,9 +49,10 @@ export default function QaltAnimatedLogo({
   white = false,
   noAnimate = false,
   iconOnly = false,
+  onDark = false,
 }: QaltAnimatedLogoProps) {
   const red = white ? "#ffffff" : RED;
-  const grey = white ? "#ffffff" : GREY;
+  const grey = white ? "#ffffff" : onDark ? LIGHT : GREY;
   const initial = noAnimate ? "visible" : "hidden";
   const viewBox = iconOnly ? "80 1260 1100 1200" : "80 1260 3820 1200";
 

@@ -7,6 +7,8 @@ import MarketingDemoDiversity from "@/components/shared/MarketingDemoDiversity";
 import WidgetBrandRuntime from "@/components/shared/WidgetBrandRuntime";
 import NavigationBoost from "@/components/shared/NavigationBoost";
 import RegistrationAttributionTracker from "@/components/shared/RegistrationAttribution";
+import IntroJourney from "@/components/landing/intro/IntroJourney";
+import { INTRO_BOOT_SCRIPT } from "@/lib/intro-boot";
 
 // Inter is the typography used by the approved Astra reference. It is loaded
 // once at the root so the public site, authentication screens, Merchant
@@ -44,6 +46,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: INTRO_BOOT_SCRIPT }} />
+      </head>
       <body
         className={`${inter.variable} ${geistMono.variable} antialiased selection:bg-red-100 selection:text-red-900 dark:selection:bg-red-900/40 dark:selection:text-red-100`}
       >
@@ -60,6 +65,7 @@ export default function RootLayout({
           <WidgetBrandRuntime />
           <GlobalScrollToTop />
           <CookieBanner />
+          <IntroJourney />
         </ThemeProvider>
       </body>
     </html>

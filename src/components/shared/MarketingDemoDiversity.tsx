@@ -146,11 +146,22 @@ function processSubtree(root: Node, pathname: string) {
  * $127 and North Hollywood appear everywhere. This keeps each surface visually
  * varied without touching real quotes, merchant data, pricing logic, or embeds.
  */
-export default function MarketingDemoDiversity() {
+export default function MarketingDemoDiversity({
+  routes = ["/login", "/register"],
+}: {
+  /**
+   * Routes this instance rewrites. Mount it inside the page tree for any route
+   * whose content hydrates after the layout (like the homepage): rewriting text
+   * before that page hydrates causes a hydration mismatch, and React then
+   * re-renders the whole page, restarting every entrance animation.
+   */
+  routes?: readonly string[];
+}) {
   const pathname = usePathname();
+  const active = routes.includes(pathname);
 
   useEffect(() => {
-    if (!["/", "/login", "/register"].includes(pathname)) return;
+    if (!active) return;
 
     const run = () => processSubtree(document.body, pathname);
     const frame = requestAnimationFrame(run);
@@ -174,7 +185,7 @@ export default function MarketingDemoDiversity() {
       cancelAnimationFrame(frame);
       observer.disconnect();
     };
-  }, [pathname]);
+  }, [pathname, active]);
 
   return null;
 }
