@@ -1,6 +1,6 @@
 .scene {
   position: absolute;
-  width: min(1080px, 94%);
+  width: min(1400px, 98%);
   aspect-ratio: 1080 / 450;
   bottom: 26px;
   left: 50%;
@@ -12,14 +12,14 @@
 .artwork { width: 100%; background-image: url('/images/qalt-device-reference.png'); background-repeat: no-repeat; }
 
 /* Pixel windows in the supplied 2134 x 1146 screenshot, including its frames. */
-.phone { width: 15%; left: 3%; }
+.phone { width: 17%; left: 0; }
 .phone .artwork {
   aspect-ratio: 454 / 1013;
   background-size: 470.044% 113.129%;
   background-position: 1.845% 36.842%;
   border-radius: 14% / 7%;
 }
-.tablet { width: 26%; left: 22%; animation-delay: .18s; }
+.tablet { width: 28%; left: 18%; animation-delay: .18s; }
 .tablet .float { animation-delay: 1.8s; }
 .tablet .artwork {
   aspect-ratio: 560 / 765;
@@ -27,7 +27,7 @@
   background-position: 37.611% 9.449%;
   border-radius: 4.5% / 3.3%;
 }
-.desktop { width: 47%; right: 1%; animation-delay: .36s; }
+.desktop { width: 52%; right: 0; animation-delay: .36s; }
 .desktop .float { animation-delay: 2.1s; }
 .desktop .artwork {
   aspect-ratio: 820 / 729;
@@ -38,9 +38,9 @@
 @keyframes rise { from { opacity: 0; transform: translateY(140px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes drift { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 @media (max-width: 767px) {
-  .scene { width: 96%; bottom: 24px; }
-  .phone { width: 17%; left: 1%; }
-  .tablet { width: 28%; left: 21%; }
-  .desktop { width: 48%; right: 0; }
+  .scene { width: 98%; bottom: 24px; }
+  .phone { width: 18%; left: 0; }
+  .tablet { width: 28.5%; left: 19%; }
+  .desktop { width: 52%; right: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .device, .float { animation: none; } }
