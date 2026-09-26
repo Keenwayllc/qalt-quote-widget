@@ -12,7 +12,7 @@
 .artwork { width: 100%; background-image: url('/images/qalt-device-reference.png'); background-repeat: no-repeat; }
 
 /* Pixel windows in the supplied 2134 x 1146 screenshot, including its frames. */
-.phone { width: 17%; left: 0; }
+.phone { width: 12%; left: 0; }
 .phone .artwork {
   aspect-ratio: 454 / 1013;
   background-size: 470.044% 113.129%;
@@ -39,7 +39,7 @@
 @keyframes drift { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 @media (max-width: 767px) {
   .scene { width: 98%; bottom: 24px; }
-  .phone { width: 18%; left: 0; }
+  .phone { width: 12.2%; left: 0; }
   .tablet { width: 28.5%; left: 19%; }
   .desktop { width: 52%; right: 0; }
 }
