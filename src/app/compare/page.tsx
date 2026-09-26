@@ -213,8 +213,8 @@ export default function ComparePage() {
         <section className="relative isolate overflow-hidden border-b border-slate-200 bg-[#080B14] px-6 py-20 sm:py-28">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(223,23,49,0.18),transparent_34%),radial-gradient(circle_at_80%_10%,rgba(245,158,11,0.08),transparent_28%)]" />
           <CompareHeroDevices />
-          <div className="relative mx-auto max-w-5xl text-center">
-            <div className="mb-5 inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white/70">
+          <div className="relative z-10 mx-auto max-w-5xl text-center">
+            <div className="relative mb-5 inline-flex rounded-full border border-white/10 bg-[#181b24] px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white/80">
               Delivery software comparison
             </div>
             <h1 className="text-4xl font-black tracking-tight text-white [text-shadow:0_2px_4px_rgba(8,11,20,0.95),0_8px_24px_rgba(8,11,20,0.85)] sm:text-6xl lg:text-7xl">
