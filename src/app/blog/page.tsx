@@ -2,6 +2,8 @@ import { getAllPosts } from "@/lib/blog";
 import Link from "next/link";
 import PublicNav from "@/components/shared/PublicNav";
 import type { Metadata } from "next";
+import { ExternalLink } from "lucide-react";
+import { featuredInsight } from "@/lib/featuredInsight";
 
 export const metadata: Metadata = {
   title: "Blog | Qalt",
@@ -18,7 +20,6 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 export default function BlogIndex() {
   const posts = getAllPosts();
-  const [featured, ...rest] = posts;
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -35,37 +36,39 @@ export default function BlogIndex() {
           </p>
         </div>
 
-        {/* Featured post */}
-        {featured && (
-          <Link
-            href={`/blog/${featured.slug}`}
-            className="block mb-12 group"
-          >
-            <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-8 sm:p-10 hover:shadow-md transition-shadow">
-              <div className="flex items-center gap-3 mb-4">
-                <span className={`px-2.5 py-1 rounded-full text-xs font-black ${CATEGORY_COLORS[featured.category] ?? "bg-slate-100 text-slate-600"}`}>
-                  {featured.category}
-                </span>
-                <span className="text-xs text-slate-400 font-medium">
-                  {new Date(featured.date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })} · {featured.readTime}
-                </span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mb-3 group-hover:text-red-600 transition-colors">
-                {featured.title}
-              </h2>
-              <p className="text-slate-500 font-medium text-base leading-relaxed max-w-3xl">
-                {featured.description}
-              </p>
-              <span className="inline-flex items-center mt-6 text-sm font-black text-red-600 group-hover:gap-2 transition-all gap-1">
-                Read article →
+        {/* Featured external insight */}
+        <a
+          href={featuredInsight.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mb-12 block group"
+          aria-label={`${featuredInsight.title} (opens on LinkedIn in a new tab)`}
+        >
+          <div className="overflow-hidden rounded-3xl border border-slate-800 bg-slate-950 p-8 text-white shadow-xl shadow-slate-200/70 transition duration-300 hover:-translate-y-0.5 hover:border-slate-700 hover:shadow-2xl sm:p-10">
+            <div className="mb-5 flex flex-wrap items-center gap-3">
+              <span className="rounded-full bg-red-600 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-white">
+                Featured insight
+              </span>
+              <span className="text-xs font-bold text-slate-400">
+                {featuredInsight.source} · {featuredInsight.author}
               </span>
             </div>
-          </Link>
-        )}
+            <h2 className="max-w-4xl text-2xl font-black leading-tight tracking-tight text-white transition-colors group-hover:text-red-400 sm:text-4xl">
+              {featuredInsight.title}
+            </h2>
+            <p className="mt-4 max-w-3xl text-base font-medium leading-relaxed text-slate-400">
+              {featuredInsight.description}
+            </p>
+            <span className="mt-7 inline-flex items-center gap-2 text-sm font-black text-white">
+              Read on LinkedIn
+              <ExternalLink size={15} aria-hidden="true" />
+            </span>
+          </div>
+        </a>
 
         {/* Post grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {rest.map((post) => (
+          {posts.map((post) => (
             <Link
               key={post.slug}
               href={`/blog/${post.slug}`}

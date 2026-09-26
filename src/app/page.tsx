@@ -12,6 +12,7 @@ import {
   CheckCircle2,
   Code2,
   CreditCard,
+  ExternalLink,
   FileText,
   Gauge,
   LayoutDashboard,
@@ -29,6 +30,7 @@ import SupportModal from "@/components/shared/SupportModal";
 import HeroDashboardMockup from "@/components/landing/HeroDashboardMockup";
 import HowItWorksAnimation from "@/components/landing/HowItWorksAnimation";
 import MarketingDemoDiversity from "@/components/shared/MarketingDemoDiversity";
+import { featuredInsight } from "@/lib/featuredInsight";
 
 const reveal = {
   hidden: { opacity: 0, y: 24 },
@@ -370,6 +372,45 @@ export default function LandingPage() {
                 </motion.div>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section className="overflow-hidden bg-slate-950 py-20 text-white sm:py-24">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+            <motion.a
+              href={featuredInsight.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${featuredInsight.title} (opens on LinkedIn in a new tab)`}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={reveal}
+              className="group grid gap-9 overflow-hidden rounded-3xl border border-white/[0.1] bg-white/[0.045] p-7 transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.065] sm:p-10 lg:grid-cols-[0.7fr_1.3fr] lg:items-center lg:p-12"
+            >
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-red-400">
+                  Featured article
+                </div>
+                <p className="mt-6 text-sm font-bold text-white/70">Insights for delivery leaders</p>
+                <p className="mt-2 text-sm font-medium text-white/40">
+                  {featuredInsight.source} · {featuredInsight.author}
+                </p>
+              </div>
+
+              <div>
+                <h2 className="text-3xl font-black leading-[1.08] tracking-[-0.04em] text-white sm:text-4xl">
+                  {featuredInsight.title}
+                </h2>
+                <p className="mt-5 max-w-3xl text-base font-medium leading-7 text-slate-400">
+                  {featuredInsight.description}
+                </p>
+                <span className="mt-7 inline-flex items-center gap-2 text-sm font-black text-white transition-colors group-hover:text-red-400">
+                  Read on LinkedIn
+                  <ExternalLink size={15} aria-hidden="true" />
+                </span>
+              </div>
+            </motion.a>
           </div>
         </section>
 
