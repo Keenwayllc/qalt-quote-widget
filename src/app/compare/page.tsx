@@ -216,11 +216,11 @@ export default function ComparePage() {
               Delivery software comparison
             </div>
             <h1 className="text-4xl font-black tracking-tight text-white sm:text-6xl lg:text-7xl">
-              Choose the tool that fits
+              Choose Qalt for
               <span className="block text-red-500">the way you sell delivery.</span>
             </h1>
             <p className="mx-auto mt-7 max-w-3xl text-base font-medium leading-relaxed text-white/60 sm:text-lg">
-              Qalt is designed around the customer-facing quote-to-cash flow: your website, your pricing, your brand, then booking and payment. Other platforms may go deeper into routing, dispatch, or appointment scheduling.
+              Give customers an instant delivery price on your website, using your rates and your brand. Choose Qalt for delivery quoting, booking, optional online payments, and professional customer documents in one platform.
             </p>
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
@@ -259,7 +259,7 @@ export default function ComparePage() {
               <p className="mb-3 text-xs font-black uppercase tracking-[0.18em] text-red-600">Feature matrix</p>
               <h2 className="text-3xl font-black tracking-tight sm:text-4xl">Qalt versus popular alternatives</h2>
               <p className="mt-4 text-sm font-medium leading-relaxed text-slate-500 sm:text-base">
-                This is a practical fit comparison, not a claim that one product replaces every other product. A courier may use Qalt as the branded sales layer in front of a separate dispatch or routing system.
+                Compare the capabilities that matter to your delivery business: pricing control, instant quotes, branding, booking, payments, and customer records. See what Qalt offers and choose the plan that fits your business.
               </p>
             </div>
 
@@ -313,17 +313,17 @@ export default function ComparePage() {
         <section className="border-y border-slate-200 bg-white px-6 py-20 sm:py-24">
           <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-3">
             <div className="rounded-2xl border border-slate-200 p-7">
-              <div className="mb-4 text-xs font-black uppercase tracking-[0.18em] text-red-600">Qalt&apos;s wedge</div>
+              <div className="mb-4 text-xs font-black uppercase tracking-[0.18em] text-red-600">Why choose Qalt</div>
               <h3 className="text-2xl font-black tracking-tight">Your website becomes the sales counter.</h3>
               <p className="mt-4 text-sm font-medium leading-relaxed text-slate-500">
                 Give customers a delivery-specific quote and booking experience without sending them to a generic appointment page or making every quote a phone call.
               </p>
             </div>
             <div className="rounded-2xl border border-slate-200 p-7">
-              <div className="mb-4 text-xs font-black uppercase tracking-[0.18em] text-red-600">Not a platform war</div>
-              <h3 className="text-2xl font-black tracking-tight">Keep the ops tools you already like.</h3>
+              <div className="mb-4 text-xs font-black uppercase tracking-[0.18em] text-red-600">From quote to customer record</div>
+              <h3 className="text-2xl font-black tracking-tight">Choose one platform for the sale.</h3>
               <p className="mt-4 text-sm font-medium leading-relaxed text-slate-500">
-                Shipday, Onfleet, Tookan, Onro, and OnTime 360 are strong in operations. Qalt can complement an existing stack by owning the branded quote, booking, payment, and document experience.
+                Qalt brings delivery pricing, branded quotes, booking, optional online payments, and customer documents together. Start with quoting and choose a plan that adds the capabilities your business needs.
               </p>
             </div>
             <div className="rounded-2xl border border-slate-200 p-7">
@@ -340,7 +340,7 @@ export default function ComparePage() {
           <div className="mx-auto max-w-3xl">
             <h2 className="text-3xl font-black tracking-tight text-white sm:text-5xl">Your brand. Your pricing. Your website.</h2>
             <p className="mx-auto mt-5 max-w-2xl text-base font-medium leading-relaxed text-white/55">
-              Let Qalt handle the quote-to-cash experience in the background while your customer sees a professional delivery company in front.
+              Choose Qalt to turn delivery inquiries into clear quotes and bookings, with your pricing, your branding, and professional customer documents.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <Link
