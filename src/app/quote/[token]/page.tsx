@@ -107,10 +107,10 @@ export default async function CustomerQuotePortal({ params }: { params: Promise<
 
               <div className="mt-8 rounded-2xl bg-slate-50 p-5">
                 <div className="mb-4 flex items-center gap-2 text-xs font-black uppercase tracking-wider text-slate-400"><MapPin size={14} /> Route</div>
-                <div className="grid gap-4 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
+                <div className="space-y-3">
                   <div><div className="text-[10px] font-black uppercase text-slate-400">Pickup</div><div className="mt-1 text-sm font-bold leading-5">{snapshot.route.pickupAddress || "Pickup location"}</div></div>
-                  <div className="hidden text-slate-300 sm:block">→</div>
-                  <div><div className="text-[10px] font-black uppercase text-slate-400">Drop-off</div><div className="mt-1 text-sm font-bold leading-5">{snapshot.route.dropoffAddress || "Drop-off location"}</div></div>
+                  {snapshot.route.intermediateStops.map((stop, index) => <div key={`${stop.address}-${index}`} className="border-t border-slate-200 pt-3"><div className="text-[10px] font-black uppercase text-slate-400">Stop {index + 1}</div><div className="mt-1 text-sm font-bold leading-5">{stop.address}</div></div>)}
+                  <div className="border-t border-slate-200 pt-3"><div className="text-[10px] font-black uppercase text-slate-400">Drop-off</div><div className="mt-1 text-sm font-bold leading-5">{snapshot.route.dropoffAddress || "Drop-off location"}</div></div>
                 </div>
                 {snapshot.route.distanceMiles !== null && <div className="mt-4 text-xs font-bold text-slate-500">{snapshot.route.distanceMiles.toFixed(1)} miles</div>}
               </div>

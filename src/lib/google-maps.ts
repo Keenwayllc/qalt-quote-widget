@@ -108,3 +108,22 @@ export async function calculateDrivingDistance(origin: string, destination: stri
     return null;
   }
 }
+
+/** Calculates each ordered route leg and returns the summed driving distance and duration. */
+export async function calculateMultiStopDrivingDistance(
+  locations: readonly string[],
+  calculateLeg: (origin: string, destination: string) => Promise<DistanceResult | null> = calculateDrivingDistance
+): Promise<DistanceResult | null> {
+  if (locations.length < 2) return null;
+  const legs = await Promise.all(
+    locations.slice(0, -1).map((origin, index) => calculateLeg(origin, locations[index + 1]))
+  );
+  if (legs.some((leg) => leg === null)) return null;
+  return (legs as DistanceResult[]).reduce(
+    (total, leg) => ({
+      distanceMiles: total.distanceMiles + leg.distanceMiles,
+      durationMinutes: total.durationMinutes + leg.durationMinutes,
+    }),
+    { distanceMiles: 0, durationMinutes: 0 }
+  );
+}

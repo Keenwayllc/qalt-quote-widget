@@ -20,6 +20,7 @@ interface Quote {
   customerPhone: string | null;
   pickupZip: string;
   dropoffZip: string;
+  intermediateStops: Array<{ address: string; zip: string }>;
   distanceMiles: number;
   serviceType: string;
   packageSize: string | null;
@@ -174,11 +175,10 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
 
             <div className="bg-slate-50 dark:bg-[#1c1c1c] rounded-2xl p-5 border border-transparent dark:border-white/6">
               <p className="text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-3">Route</p>
-              <div className="flex items-center gap-3 text-slate-700 dark:text-white font-black text-lg mb-2">
-                <MapPin size={16} className="text-red-500 shrink-0" />
-                <span>{quote.pickupZip}</span>
-                <ChevronRight size={14} className="text-slate-300 dark:text-zinc-600" />
-                <span>{quote.dropoffZip}</span>
+              <div className="space-y-2 text-sm font-bold text-slate-700 dark:text-white">
+                <div className="flex items-center gap-2"><MapPin size={14} className="text-red-500 shrink-0" /><span>Pickup · {quote.pickupZip}</span></div>
+                {quote.intermediateStops.map((stop, index) => <div key={`${stop.address}-${index}`} className="flex items-start gap-2 pl-6"><span className="text-[10px] font-black uppercase tracking-wider text-slate-400 shrink-0">Stop {index + 1}</span><span className="leading-5">{stop.address}</span></div>)}
+                <div className="flex items-center gap-2"><ChevronRight size={14} className="text-slate-300 dark:text-zinc-600 shrink-0" /><span>Drop-off · {quote.dropoffZip}</span></div>
               </div>
               <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-zinc-400 font-bold">
                 <span className="px-2.5 py-1 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/6 rounded-lg">{quote.serviceType}</span>
@@ -549,7 +549,7 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
                             <div><p className="text-sm font-black text-slate-900 dark:text-white tracking-tight leading-none mb-1.5 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">{quote.customerName}</p><div className="flex items-center gap-2 text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-tighter"><Calendar size={10} />{new Date(quote.createdAt).toLocaleDateString()}</div></div>
                           </div>
                         </td>
-                        <td className="px-8 py-6"><div className="space-y-2"><div className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-zinc-200"><MapPin size={12} className="text-red-500" /><span>{quote.pickupZip}</span><ChevronRight size={10} className="text-slate-300 dark:text-zinc-600" /><span>{quote.dropoffZip}</span></div><div className="flex items-center gap-3 text-xs text-slate-400 dark:text-zinc-500 font-bold"><span className="px-2 py-0.5 bg-slate-100 dark:bg-white/5 rounded text-slate-600 dark:text-zinc-400">{quote.serviceType}</span><span>{quote.distanceMiles.toFixed(1)} miles</span></div></div></td>
+                        <td className="px-8 py-6"><div className="space-y-2"><div className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-zinc-200"><MapPin size={12} className="text-red-500" /><span>{quote.pickupZip}</span><ChevronRight size={10} className="text-slate-300 dark:text-zinc-600" />{quote.intermediateStops.length > 0 && <><span className="text-xs text-slate-400">{quote.intermediateStops.length} stop{quote.intermediateStops.length === 1 ? "" : "s"}</span><ChevronRight size={10} className="text-slate-300 dark:text-zinc-600" /></>}<span>{quote.dropoffZip}</span></div><div className="flex items-center gap-3 text-xs text-slate-400 dark:text-zinc-500 font-bold"><span className="px-2 py-0.5 bg-slate-100 dark:bg-white/5 rounded text-slate-600 dark:text-zinc-400">{quote.serviceType}</span><span>{quote.distanceMiles.toFixed(1)} miles</span></div></div></td>
                         <td className="px-8 py-6 text-center"><div className="inline-flex flex-col"><span className="text-lg font-black text-slate-900 dark:text-white tracking-tighter">${quote.estimatedPrice.toFixed(2)}</span><span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mt-0.5">ESTIMATED</span></div></td>
                         <td className="px-8 py-6"><div className="space-y-1.5"><div className="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-zinc-300"><Mail size={12} className="text-slate-300 dark:text-zinc-600" />{quote.customerEmail}</div><div className="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-zinc-300"><Phone size={12} className="text-slate-300 dark:text-zinc-600" />{quote.customerPhone || "No phone provided"}</div></div></td>
                         <td className="px-8 py-6 text-right">
@@ -575,7 +575,7 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
                     <div className="flex items-center gap-3"><div className="h-10 w-10 rounded-xl bg-slate-900 dark:bg-zinc-700 flex items-center justify-center text-white font-black text-xs shrink-0">{quote.customerName.charAt(0).toUpperCase()}</div><div><p className="text-sm font-black text-slate-900 dark:text-white tracking-tight leading-none mb-1">{quote.customerName}</p><div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-tighter"><Calendar size={9} />{new Date(quote.createdAt).toLocaleDateString()}</div></div></div>
                     <div className="text-right shrink-0"><p className="text-lg font-black text-slate-900 dark:text-white tracking-tighter leading-none">${quote.estimatedPrice.toFixed(2)}</p><p className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mt-0.5">estimated</p></div>
                   </div>
-                  <div className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-zinc-200 mb-2"><MapPin size={12} className="text-red-500 shrink-0" /><span>{quote.pickupZip}</span><ChevronRight size={10} className="text-slate-300 dark:text-zinc-600" /><span>{quote.dropoffZip}</span><span className="ml-auto text-xs text-slate-400 dark:text-zinc-500 font-bold">{quote.distanceMiles.toFixed(1)} mi</span></div>
+                  <div className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-zinc-200 mb-2"><MapPin size={12} className="text-red-500 shrink-0" /><span>{quote.pickupZip}</span><ChevronRight size={10} className="text-slate-300 dark:text-zinc-600" />{quote.intermediateStops.length > 0 && <span className="text-xs text-slate-400">{quote.intermediateStops.length} stop{quote.intermediateStops.length === 1 ? "" : "s"}</span>}<ChevronRight size={10} className="text-slate-300 dark:text-zinc-600" /><span>{quote.dropoffZip}</span><span className="ml-auto text-xs text-slate-400 dark:text-zinc-500 font-bold">{quote.distanceMiles.toFixed(1)} mi</span></div>
                   <div className="border-t border-slate-100 dark:border-white/6 pt-3 mt-3 space-y-1.5"><div className="flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-zinc-400"><Mail size={11} className="text-slate-300 dark:text-zinc-600 shrink-0" /><span className="truncate">{quote.customerEmail}</span></div>{quote.customerPhone && <div className="flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-zinc-400"><Phone size={11} className="text-slate-300 dark:text-zinc-600 shrink-0" />{quote.customerPhone}</div>}</div>
                   <div className="mt-3 text-right"><span className="text-xs font-black text-red-600 dark:text-red-400">Tap to view details →</span></div>
                 </div>

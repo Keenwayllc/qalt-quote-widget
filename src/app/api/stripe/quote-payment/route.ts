@@ -68,7 +68,7 @@ export async function POST(req: Request) {
             currency: "usd",
             product_data: {
               name: `Delivery Booking — ${quote.serviceType}`,
-              description: `${quote.pickupZip} → ${quote.dropoffZip} · ${quote.distanceMiles.toFixed(1)} miles`,
+              description: `${quote.pickupZip} → ${Array.isArray(quote.intermediateStops) && quote.intermediateStops.length > 0 ? `${quote.intermediateStops.length} stop${quote.intermediateStops.length === 1 ? "" : "s"} → ` : ""}${quote.dropoffZip} · ${quote.distanceMiles.toFixed(1)} miles`,
             },
             unit_amount: amountInCents,
           },

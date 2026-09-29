@@ -1,4 +1,5 @@
 import { sanitizeHex, DEFAULT_BRAND } from "@/lib/color";
+import { normalizeIntermediateStops, type IntermediateStop } from "@/lib/route-stops";
 
 // Server-only: builds and validates the immutable JSON snapshot that backs a
 // customer document. Kept out of client bundles (it encodes internal pricing
@@ -42,6 +43,7 @@ export interface QuoteSnapshotV1 {
   };
   route: {
     pickupAddress: string | null;
+    intermediateStops: IntermediateStop[];
     dropoffAddress: string | null;
     distanceMiles: number | null;
   };
@@ -67,6 +69,7 @@ export interface QuoteSnapshotQuoteSource {
   customerEmail: string;
   customerPhone: string | null;
   pickupAddress: string | null;
+  intermediateStops: unknown;
   dropoffAddress: string | null;
   pickupZip: string;
   dropoffZip: string;
@@ -207,6 +210,7 @@ export function buildQuoteSnapshot(
     },
     route: {
       pickupAddress: str(quote.pickupAddress) ?? zipFallback(quote.pickupZip),
+      intermediateStops: normalizeIntermediateStops(quote.intermediateStops),
       dropoffAddress: str(quote.dropoffAddress) ?? zipFallback(quote.dropoffZip),
       distanceMiles: distance !== null ? round1(distance) : null,
     },
@@ -270,6 +274,7 @@ export function parseQuoteSnapshot(raw: unknown): QuoteSnapshotV1 {
     },
     route: {
       pickupAddress: str(r.pickupAddress),
+      intermediateStops: normalizeIntermediateStops(r.intermediateStops),
       dropoffAddress: str(r.dropoffAddress),
       distanceMiles: num(r.distanceMiles),
     },

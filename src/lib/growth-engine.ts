@@ -17,6 +17,12 @@ export type BookingRecord = {
   customerName?: string;
   customerEmail?: string;
   estimatedPrice?: number;
+  pickupAddress?: string | null;
+  pickupZip?: string;
+  dropoffAddress?: string | null;
+  dropoffZip?: string;
+  intermediateStops?: unknown;
+  distanceMiles?: number;
 };
 
 export type PricingRuleRecord = {
@@ -136,7 +142,7 @@ export async function ensureBookingForQuote(companyId: string, quoteRequestId: s
 
 export async function listBookings(companyId: string): Promise<BookingRecord[]> {
   await ensureGrowthTables();
-  return prisma.$queryRawUnsafe<BookingRecord[]>(`SELECT b.*, q."customerName", q."customerEmail", q."estimatedPrice" FROM "QuoteBooking" b JOIN "QuoteRequest" q ON q."id"=b."quoteRequestId" WHERE b."companyId"=$1 ORDER BY COALESCE(b."scheduledDate", b."createdAt") ASC`, companyId);
+  return prisma.$queryRawUnsafe<BookingRecord[]>(`SELECT b.*, q."customerName", q."customerEmail", q."estimatedPrice", q."pickupAddress", q."pickupZip", q."dropoffAddress", q."dropoffZip", q."intermediateStops", q."distanceMiles" FROM "QuoteBooking" b JOIN "QuoteRequest" q ON q."id"=b."quoteRequestId" WHERE b."companyId"=$1 ORDER BY COALESCE(b."scheduledDate", b."createdAt") ASC`, companyId);
 }
 
 export async function updateBooking(companyId: string, input: { id: string; scheduledDate?: Date | null; driverName?: string | null; vehicle?: string | null; notes?: string | null; status?: string | null }) {

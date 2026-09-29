@@ -79,6 +79,7 @@ model PricingProfile {
   minMilesThreshold Float           @default(0)
   weightFee         Float           @default(0)
   itemCountFee      Float           @default(0)
+  additionalStopFee Float           @default(10.00)
   stairsFee         Float           @default(0)
   insideDeliveryFee Float           @default(0)
   addon3Fee         Float           @default(0)
@@ -145,6 +146,9 @@ model QuoteRequest {
   // PDFs / Invoices show the exact address that produced the quote.
   pickupAddress         String?
   dropoffAddress        String?
+  // Ordered intermediate route stops between pickup and final drop-off.
+  // Stored as [{ address, zip }] so the exact quoted route remains historical.
+  intermediateStops     Json      @default("[]")
   distanceMiles         Float
   serviceType           String
   packageSize           String?

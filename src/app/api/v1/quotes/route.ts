@@ -25,6 +25,7 @@ export async function GET(request: Request) {
       customerEmail: true,
       pickupZip: true,
       dropoffZip: true,
+      intermediateStops: true,
       distanceMiles: true,
       estimatedPrice: true,
       status: true,

@@ -112,6 +112,7 @@ export default async function DashboardOverview() {
       p.minMilesThreshold !== 0 ||
       p.weightFee !== 0 ||
       p.itemCountFee !== 0 ||
+      p.additionalStopFee !== 10 ||
       p.stairsFee !== 0 ||
       p.insideDeliveryFee !== 0 ||
       p.afterHoursFee !== 0 ||
@@ -424,7 +425,7 @@ export default async function DashboardOverview() {
                           <div className="mt-1 flex items-center gap-2 text-[11px] text-[#8a919d] dark:text-slate-500">
                             <span className="flex items-center gap-1 truncate">
                               <MapPin size={10} />
-                              {quote.pickupZip} → {quote.dropoffZip}
+                              {quote.pickupZip} → {Array.isArray(quote.intermediateStops) && quote.intermediateStops.length > 0 ? `${quote.intermediateStops.length} stop${quote.intermediateStops.length === 1 ? "" : "s"} → ` : ""}{quote.dropoffZip}
                             </span>
                             <span>·</span>
                             <span>{quote.distanceMiles.toFixed(1)} mi</span>

@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ExceptionDrawer from "@/components/dashboard/ExceptionDrawer";
 import ReadinessModal from "@/components/dashboard/ReadinessModal";
+import { normalizeIntermediateStops } from "@/lib/route-stops";
 
 export default function JobDetailClient({ job: initialJob }: { job: any }) {
   const router = useRouter();
@@ -19,6 +20,7 @@ export default function JobDetailClient({ job: initialJob }: { job: any }) {
   const [isUpdating, setIsUpdating] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isReadinessOpen, setIsReadinessOpen] = useState(false);
+  const quoteStops = normalizeIntermediateStops(initialJob.quoteRequest?.intermediateStops);
 
   const updateStatus = async (newStatus: string) => {
     setIsUpdating(true);
@@ -123,6 +125,9 @@ export default function JobDetailClient({ job: initialJob }: { job: any }) {
                        <div>
                           <p className="text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest leading-none mb-1">Source Quote</p>
                           <p className="text-xs font-black text-slate-800 dark:text-white leading-none">View Deal Details</p>
+                          <p className="mt-1 text-[11px] font-bold text-slate-400">Pickup · {job.quoteRequest.pickupAddress || job.quoteRequest.pickupZip}</p>
+                          {quoteStops.map((stop, index) => <p key={`${stop.address}-${index}`} className="mt-0.5 text-[11px] font-bold text-slate-400">Stop {index + 1} · {stop.address}</p>)}
+                          <p className="mt-0.5 text-[11px] font-bold text-slate-400">Drop-off · {job.quoteRequest.dropoffAddress || job.quoteRequest.dropoffZip}</p>
                        </div>
                     </Link>
                 )}

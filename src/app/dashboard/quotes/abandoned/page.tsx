@@ -3,6 +3,7 @@ import { ArrowLeft, Mail, Phone, MapPin, Clock3, DollarSign } from "lucide-react
 import { getCurrentCompany } from "@/lib/session";
 import AbandonedQuoteActions from "./AbandonedQuoteActions";
 import { listOpenAbandonedQuotes } from "@/lib/abandoned-quotes";
+import { normalizeIntermediateStops } from "@/lib/route-stops";
 
 function money(value: number | null) {
   if (value == null) return "Not priced yet";
@@ -47,8 +48,10 @@ export default async function AbandonedQuotesPage() {
         </div>
       ) : (
         <div className="grid gap-4">
-          {leads.map((lead) => (
-            <article key={lead.id} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111111] sm:p-6">
+          {leads.map((lead) => {
+            const intermediateStops = normalizeIntermediateStops(lead.intermediateStops);
+            return (
+              <article key={lead.id} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111111] sm:p-6">
               <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
@@ -65,7 +68,11 @@ export default async function AbandonedQuotesPage() {
                   {(lead.pickupAddress || lead.dropoffAddress || lead.pickupZip || lead.dropoffZip) && (
                     <div className="mt-4 flex items-start gap-2 rounded-2xl bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-600 dark:bg-white/5 dark:text-zinc-300">
                       <MapPin size={16} className="mt-0.5 shrink-0 text-red-500" />
-                      <span className="truncate">{lead.pickupAddress || lead.pickupZip || "Pickup"} → {lead.dropoffAddress || lead.dropoffZip || "Dropoff"}</span>
+                      <div className="min-w-0">
+                        <div>{lead.pickupAddress || lead.pickupZip || "Pickup"}</div>
+                        {intermediateStops.map((stop, index) => <div key={`${stop.address}-${index}`} className="mt-1 text-xs text-slate-500 dark:text-zinc-400">Stop {index + 1}: {stop.address}</div>)}
+                        <div className="mt-1">{lead.dropoffAddress || lead.dropoffZip || "Dropoff"}</div>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -79,8 +86,9 @@ export default async function AbandonedQuotesPage() {
                   </div>
                 </div>
               </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
       )}
     </div>

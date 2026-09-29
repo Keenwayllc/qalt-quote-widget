@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   DirectionsRenderer,
   DirectionsService,
@@ -10,6 +10,7 @@ import {
 
 interface RouteMapDisplayProps {
   pickupAddress: string;
+  intermediateStops?: Array<{ address: string }>;
   dropoffAddress: string;
   isLoaded: boolean;
   onRouteInfo?: (info: {
@@ -100,6 +101,7 @@ function isQaltHostedHostname(hostname: string) {
 
 export default function RouteMapDisplay({
   pickupAddress,
+  intermediateStops = [],
   dropoffAddress,
   isLoaded,
   onRouteInfo,
@@ -107,50 +109,52 @@ export default function RouteMapDisplay({
   const shellRef = useRef<HTMLDivElement>(null);
   const [routeColor, setRouteColor] = useState("#087c68");
   const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
-  const [lastRoute, setLastRoute] = useState({ origin: "", destination: "" });
-  const [hostname, setHostname] = useState<string | null>(null);
-
-  useEffect(() => {
-    setHostname(window.location.hostname);
-  }, []);
+  const [lastRoute, setLastRoute] = useState({ origin: "", destination: "", stopsKey: "" });
+  const hostname = typeof window === "undefined" ? null : window.location.hostname;
 
   useEffect(() => {
     if (!shellRef.current) return;
     const inheritedRing = getComputedStyle(shellRef.current).getPropertyValue("--ring");
     if (inheritedRing) setRouteColor(cleanHex(inheritedRing));
-  }, [pickupAddress, dropoffAddress]);
+  }, [pickupAddress, dropoffAddress, intermediateStops]);
 
-  const directionsCallback = useCallback(
-    (result: google.maps.DirectionsResult | null, status: google.maps.DirectionsStatus) => {
+  const stopsKey = intermediateStops.map((stop) => stop.address).join("\u0000");
+
+  const directionsCallback = (
+    result: google.maps.DirectionsResult | null,
+    status: google.maps.DirectionsStatus
+  ) => {
       if (status !== "OK" || !result) return;
 
       setDirections(result);
-      setLastRoute({ origin: pickupAddress, destination: dropoffAddress });
+      setLastRoute({ origin: pickupAddress, destination: dropoffAddress, stopsKey });
 
-      const leg = result.routes[0]?.legs[0];
-      if (leg && onRouteInfo) {
+      const legs = result.routes[0]?.legs ?? [];
+      if (legs.length > 0 && onRouteInfo) {
+        const distanceMeters = legs.reduce((sum, leg) => sum + (leg.distance?.value ?? 0), 0);
+        const durationSeconds = legs.reduce((sum, leg) => sum + (leg.duration?.value ?? 0), 0);
         onRouteInfo({
-          distance: leg.distance?.text || "",
-          duration: leg.duration?.text || "",
-          originCity: leg.start_address.split(",").slice(-3, -2)[0]?.trim() || "",
-          destinationCity: leg.end_address.split(",").slice(-3, -2)[0]?.trim() || "",
+          distance: `${(distanceMeters * 0.000621371).toFixed(1)} mi`,
+          duration: durationSeconds >= 3600
+            ? `${Math.floor(durationSeconds / 3600)} hr ${Math.round((durationSeconds % 3600) / 60)} min`
+            : `${Math.round(durationSeconds / 60)} min`,
+          originCity: legs[0].start_address.split(",").slice(-3, -2)[0]?.trim() || "",
+          destinationCity: legs.at(-1)?.end_address.split(",").slice(-3, -2)[0]?.trim() || "",
         });
       }
-    },
-    [pickupAddress, dropoffAddress, onRouteInfo]
-  );
+    };
 
   const needsNewRoute =
     pickupAddress &&
     dropoffAddress &&
-    (lastRoute.origin !== pickupAddress || lastRoute.destination !== dropoffAddress);
+    (lastRoute.origin !== pickupAddress || lastRoute.destination !== dropoffAddress || lastRoute.stopsKey !== stopsKey);
 
   if (!pickupAddress || !dropoffAddress) return null;
 
   if (hostname && !isQaltHostedHostname(hostname)) {
     const src = `https://www.qalt.site/widget-map?origin=${encodeURIComponent(
       pickupAddress
-    )}&destination=${encodeURIComponent(dropoffAddress)}`;
+    )}&destination=${encodeURIComponent(dropoffAddress)}&stops=${encodeURIComponent(JSON.stringify(intermediateStops.map((stop) => stop.address)))}`;
 
     return (
       <div ref={shellRef} className="h-full w-full bg-[#f7f8fa]">
@@ -169,7 +173,9 @@ export default function RouteMapDisplay({
     return <div ref={shellRef} className="h-full w-full bg-[#f7f8fa]" />;
   }
 
-  const leg = directions?.routes[0]?.legs[0];
+  const legs = directions?.routes[0]?.legs ?? [];
+  const firstLeg = legs[0];
+  const lastLeg = legs.at(-1);
   const markerIcon =
     typeof google !== "undefined"
       ? {
@@ -208,6 +214,8 @@ export default function RouteMapDisplay({
             options={{
               destination: dropoffAddress,
               origin: pickupAddress,
+              waypoints: intermediateStops.map((stop) => ({ location: stop.address, stopover: true })),
+              optimizeWaypoints: false,
               travelMode: google.maps.TravelMode.DRIVING,
             }}
             callback={directionsCallback}
@@ -230,9 +238,9 @@ export default function RouteMapDisplay({
           />
         )}
 
-        {leg?.start_location && markerIcon && (
+        {firstLeg?.start_location && markerIcon && (
           <MarkerF
-            position={leg.start_location}
+            position={firstLeg.start_location}
             icon={markerIcon}
             label={{
               text: "A",
@@ -245,9 +253,19 @@ export default function RouteMapDisplay({
           />
         )}
 
-        {leg?.end_location && markerIcon && (
+        {legs.slice(0, -1).map((leg, index) => leg.end_location && markerIcon ? (
           <MarkerF
+            key={`stop-${index}`}
             position={leg.end_location}
+            icon={markerIcon}
+            label={{ text: String(index + 1), color: routeColor, fontFamily: "Inter, Arial, sans-serif", fontWeight: "700", fontSize: "9px" }}
+            zIndex={10}
+          />
+        ) : null)}
+
+        {lastLeg?.end_location && markerIcon && (
+          <MarkerF
+            position={lastLeg.end_location}
             icon={{ ...markerIcon, fillColor: routeColor }}
             label={{
               text: "B",

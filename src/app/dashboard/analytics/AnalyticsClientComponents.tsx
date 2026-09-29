@@ -418,6 +418,7 @@ export function PremiumTable({ quotes }: { quotes: {
   customerEmail: string;
   pickupZip: string;
   dropoffZip: string;
+  intermediateStops: Array<{ address: string; zip: string }>;
   distanceMiles: number | null;
   estimatedPrice: number;
   status: string;
@@ -465,6 +466,7 @@ export function PremiumTable({ quotes }: { quotes: {
                     <div className="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-1"><MapPin size={14} className="text-red-500" /></div>
                     <span className="text-[10px] font-black text-slate-400">{quote.dropoffZip}</span>
                   </div>
+                  {quote.intermediateStops.length > 0 && <span className="text-[10px] font-black text-slate-400">via {quote.intermediateStops.length} stop{quote.intermediateStops.length === 1 ? "" : "s"}</span>}
                </div>
                <div className="text-center md:text-right min-w-[120px]">
                   <div className="text-2xl font-black text-slate-900 dark:text-white tracking-tight flex items-center justify-center md:justify-end gap-1">

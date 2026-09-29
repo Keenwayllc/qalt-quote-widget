@@ -218,6 +218,7 @@ export async function issueQuoteDocument(
       customerEmail: true,
       customerPhone: true,
       pickupAddress: true,
+      intermediateStops: true,
       dropoffAddress: true,
       pickupZip: true,
       dropoffZip: true,

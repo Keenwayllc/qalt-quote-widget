@@ -189,26 +189,33 @@ function drawHeader(ctx: Ctx, snap: InvoiceSnapshotV1, logo: PDFImage | null) {
 }
 
 function drawRoute(ctx: Ctx, snap: InvoiceSnapshotV1) {
-  ensure(ctx, 108);
+  const points = [
+    snap.route.pickupAddress || "Pickup location",
+    ...snap.route.intermediateStops.map((stop, index) => `Stop ${index + 1} · ${stop.address}`),
+    snap.route.dropoffAddress || "Drop-off location",
+  ];
+  ensure(ctx, 108 + snap.route.intermediateStops.length * 47);
   ctx.page.drawText("DELIVERY", { x: MARGIN, y: ctx.y, size: 8, font: ctx.bold, color: MUTED });
   ctx.y -= 24;
   const xDot = MARGIN + 9;
   const xText = MARGIN + 31;
-  const pickupY = ctx.y;
-  const pickup = wrap(snap.route.pickupAddress || "Pickup location", ctx.font, 10.5, CONTENT_W - 45).slice(0, 2);
-  ctx.page.drawCircle({ x: xDot, y: pickupY + 2, size: 6, borderColor: INK, borderWidth: 1.2, color: WHITE });
-  pickup.forEach((line, i) => ctx.page.drawText(line, { x: xText, y: pickupY - i * 13, size: 10.5, font: ctx.font, color: INK }));
-  const dropY = pickupY - 47;
-  ctx.page.drawLine({ start: { x: xDot, y: pickupY - 4 }, end: { x: xDot, y: dropY + 7 }, thickness: 1.1, color: INK });
-  ctx.page.drawCircle({ x: xDot, y: dropY + 2, size: 6, color: INK });
-  const drop = wrap(snap.route.dropoffAddress || "Drop-off location", ctx.font, 10.5, CONTENT_W - 45).slice(0, 2);
-  drop.forEach((line, i) => ctx.page.drawText(line, { x: xText, y: dropY - i * 13, size: 10.5, font: ctx.font, color: INK }));
+  const startY = ctx.y;
+  points.forEach((point, pointIndex) => {
+    const y = startY - pointIndex * 47;
+    const lines = wrap(point, ctx.font, 10.5, CONTENT_W - 45).slice(0, 2);
+    if (pointIndex < points.length - 1) {
+      ctx.page.drawLine({ start: { x: xDot, y: y - 4 }, end: { x: xDot, y: y - 40 }, thickness: 1.1, color: INK });
+    }
+    ctx.page.drawCircle({ x: xDot, y: y + 2, size: 6, borderColor: INK, borderWidth: 1.2, color: pointIndex === points.length - 1 ? INK : WHITE });
+    lines.forEach((line, i) => ctx.page.drawText(line, { x: xText, y: y - i * 13, size: 10.5, font: ctx.font, color: INK }));
+  });
+  const dropY = startY - (points.length - 1) * 47;
   if (snap.route.distanceMiles !== null) {
     const dist = `${snap.route.distanceMiles.toFixed(1)} miles`;
     const dw = ctx.font.widthOfTextAtSize(dist, 9);
     ctx.page.drawText(dist, { x: PAGE_W - MARGIN - dw, y: dropY - 2, size: 9, font: ctx.font, color: MUTED });
   }
-  ctx.y = dropY - Math.max(28, drop.length * 13 + 13);
+  ctx.y = dropY - 36;
   ctx.page.drawLine({ start: { x: MARGIN, y: ctx.y }, end: { x: PAGE_W - MARGIN, y: ctx.y }, thickness: 0.7, color: LIGHT });
   ctx.y -= 22;
 }

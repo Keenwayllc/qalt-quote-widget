@@ -43,6 +43,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       customerPhone: phone,
       pickupAddress: body.pickupAddress,
       dropoffAddress: body.dropoffAddress,
+      intermediateStops: body.intermediateStops,
       pickupZip: body.pickupZip,
       dropoffZip: body.dropoffZip,
       estimatedPrice: body.estimatedPrice,

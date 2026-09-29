@@ -69,6 +69,7 @@ export interface EstimateRules {
   minMilesThreshold: number;
   weightFee: number;
   itemCountFee: number;
+  additionalStopFee: number;
   stairsFee: number;
   insideDeliveryFee: number;
   addon3Fee: number;
@@ -91,6 +92,7 @@ export interface EstimateExtras {
   selectedLargeItems?: string[];
   packageWeight?: number;
   itemCount?: number;
+  additionalStopCount?: number;
   stairsFlights?: number;
 }
 
@@ -157,6 +159,18 @@ export function estimatePriceDetailed(
       key: "minimumAdjustment",
       label: "Minimum job adjustment",
       amount: rules.minimumCharge - mileageSubtotal,
+    });
+  }
+
+  const additionalStopCount = Math.max(0, Math.floor(extras.additionalStopCount || 0));
+  if (additionalStopCount > 0 && rules.additionalStopFee > 0) {
+    const amount = additionalStopCount * rules.additionalStopFee;
+    total += amount;
+    lineItems.push({
+      key: "additionalStops",
+      label: `Additional stop${additionalStopCount === 1 ? "" : "s"}, ${additionalStopCount}`,
+      amount,
+      detail: `${additionalStopCount} × $${rules.additionalStopFee.toFixed(2)}`,
     });
   }
 
