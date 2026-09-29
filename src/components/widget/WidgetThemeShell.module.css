@@ -44,6 +44,8 @@
   border-color: rgba(255, 255, 255, 0.12) !important;
 }
 
+/* Quick Quote uses slate-950 for its title and live price. */
+.dark :global([class*="text-slate-950"]),
 .dark :global([class*="text-slate-900"]),
 .dark :global([class*="text-slate-800"]),
 .dark :global([class*="text-slate-700"]) {
