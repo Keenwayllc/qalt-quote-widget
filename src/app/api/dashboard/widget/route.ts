@@ -4,6 +4,7 @@ import { verifyToken } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { getEntitlements } from "@/lib/plans";
 import { sanitizeHex } from "@/lib/color";
+import { normalizeQuickSubtitle } from "@/lib/quick-subtitle";
 
 export async function GET(req: Request) {
   try {
@@ -112,6 +113,10 @@ export async function POST(req: Request) {
       primaryColor,
       buttonText:    data.buttonText     || "Get Instant Quote",
       headerText:    typeof data.headerText === "string" ? data.headerText.trim() : "",
+      // Preserve blank as a deliberate choice to hide the vehicle-form subtitle.
+      ...("quickSubtitleText" in data ? {
+        quickSubtitleText: normalizeQuickSubtitle(data.quickSubtitleText),
+      } : {}),
       disclaimerText: (entitlements.isAdvancedCustomizationEnabled && data.disclaimerText)
                         ? data.disclaimerText
                         : "Estimate only. Final price confirmed after booking.",

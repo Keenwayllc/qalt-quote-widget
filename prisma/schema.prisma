@@ -114,6 +114,7 @@ model WidgetSettings {
   primaryColor       String          @default("#1E40AF")
   buttonText         String          @default("Get Instant Quote")
   headerText         String          @default("Delivery Quote Calculator")
+  quickSubtitleText  String          @default("Enter the route, choose a vehicle, and see your price.")
   disclaimerText     String          @default("Estimate only. Final price confirmed after booking.")
   companyNameText    String?
   companyNameFont    String          @default("Inter")

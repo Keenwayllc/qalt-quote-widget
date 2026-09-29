@@ -19,6 +19,7 @@ export const publicWidgetSettingsSelect = {
   customQuestions: true,
   primaryColor: true,
   headerText: true,
+  quickSubtitleText: true,
   buttonText: true,
   showWeight: true,
   showItemCount: true,
