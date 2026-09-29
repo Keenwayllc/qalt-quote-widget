@@ -13,6 +13,7 @@ import ServiceSelector, { type ServiceOption } from "./ServiceSelector";
 import VehicleSelector, { type VehicleOption as VehicleTypeOption } from "./VehicleSelector";
 import CustomerCustomQuestions, { type AnswerValues } from "./CustomerCustomQuestions";
 import { normalizeCustomQuestions, validateCustomAnswers } from "@/lib/form-questions";
+import { DEFAULT_QUICK_SUBTITLE } from "@/lib/quick-subtitle";
 
 interface WidgetProps {
   company: {
@@ -28,6 +29,7 @@ interface WidgetProps {
       customQuestions?: unknown;
       primaryColor: string;
       headerText: string;
+      quickSubtitleText: string;
       buttonText: string;
       showWeight: boolean;
       showItemCount: boolean;
@@ -240,6 +242,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     ...(company.widgetSettings || {
       primaryColor: "#1E40AF",
       headerText: "Delivery Quote Calculator",
+      quickSubtitleText: DEFAULT_QUICK_SUBTITLE,
       buttonText: "Get Instant Quote",
       showWeight: false,
       showItemCount: true,
@@ -782,7 +785,9 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h2 className="text-3xl sm:text-4xl font-black tracking-[-0.04em] text-slate-950">Instant Quote</h2>
-                  <p className="mt-2 text-sm font-semibold text-slate-500">Enter the route, choose a vehicle, and see your price.</p>
+                  {widgetSettings.quickSubtitleText?.trim() && (
+                    <p className="mt-2 text-sm font-semibold text-slate-500">{widgetSettings.quickSubtitleText}</p>
+                  )}
                 </div>
                 {logoUrlToUse ? (
                   <div className="relative h-11 w-28 shrink-0">

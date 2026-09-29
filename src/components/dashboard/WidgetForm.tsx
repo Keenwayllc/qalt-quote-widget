@@ -17,6 +17,7 @@ interface WidgetProps {
     widgetSettings: {
       primaryColor: string;
       headerText: string;
+      quickSubtitleText: string;
       buttonText: string;
       showWeight: boolean;
       showExtras: boolean;
@@ -432,17 +433,37 @@ export default function WidgetSettingsForm({
               </div>
             </div>
 
-            <div>
-              <label htmlFor="headerText" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Header Title <span className="font-normal text-slate-400 dark:text-slate-500">(Optional)</span></label>
-              <input
-                id="headerText"
-                name="headerText"
-                type="text"
-                value={previewData.headerText}
-                onChange={handleChange}
-                className="w-full px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm dark:shadow-none"
-              />
-            </div>
+            {initialData.formStyle !== "quick" && (
+              <div>
+                <label htmlFor="headerText" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Header Title <span className="font-normal text-slate-400 dark:text-slate-500">(Optional)</span></label>
+                <input
+                  id="headerText"
+                  name="headerText"
+                  type="text"
+                  value={previewData.headerText}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm dark:shadow-none"
+                />
+              </div>
+            )}
+
+            {initialData.formStyle === "quick" && (
+              <div>
+                <label htmlFor="quickSubtitleText" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  Text below “Instant Quote” <span className="font-normal text-slate-400 dark:text-slate-500">(Optional)</span>
+                </label>
+                <input
+                  id="quickSubtitleText"
+                  name="quickSubtitleText"
+                  type="text"
+                  maxLength={200}
+                  value={previewData.quickSubtitleText}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 bg-white dark:bg-[#1e1e1e] border border-slate-300 dark:border-white/[0.06] rounded-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all shadow-sm dark:shadow-none"
+                />
+                <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Shown on this vehicle-options form. Leave blank to hide it.</p>
+              </div>
+            )}
 
             <div>
               <label htmlFor="insideDeliveryLabel" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
@@ -803,7 +824,12 @@ export default function WidgetSettingsForm({
                      {previewData.companyNameText || "Qalt"}
                    </div>
                  )}
-                 {previewData.headerText?.trim() && <h3 className="font-bold text-white text-xl drop-shadow-md">{previewData.headerText}</h3>}
+                 {initialData.formStyle === "quick" ? (
+                   <div>
+                     <h3 className="font-bold text-white text-xl drop-shadow-md">Instant Quote</h3>
+                     {previewData.quickSubtitleText?.trim() && <p className="mt-1 text-xs text-white/80">{previewData.quickSubtitleText}</p>}
+                   </div>
+                 ) : previewData.headerText?.trim() && <h3 className="font-bold text-white text-xl drop-shadow-md">{previewData.headerText}</h3>}
                </div>
              </div>
              <div className="p-6 space-y-4 text-slate-600">
