@@ -28,6 +28,9 @@ interface WidgetProps {
       disclaimerText: string;
       backgroundImageUrl?: string | null;
       logoUrl?: string | null;
+      formStyle?: string;
+      showItemCount?: boolean;
+      vehicleOptions?: unknown;
       companyNameText?: string | null;
       companyNameFont?: string;
       mapLayout?: string;
@@ -95,6 +98,7 @@ export default function WidgetSettingsForm({
       ? (initialData?.logoUrl || companyLogoUrl || "")
       : ""
   );
+  const [logoChanged, setLogoChanged] = useState(false);
 
   // Dynamically load the selected Google Font so the preview renders correctly
   useEffect(() => {
@@ -126,6 +130,7 @@ export default function WidgetSettingsForm({
       if (res.ok && data.url) {
         if (type === 'logo') {
           setLogo(data.url);
+          setLogoChanged(true);
         } else {
           setPreviewData(prev => ({ ...prev, backgroundImageUrl: data.url }));
         }
@@ -155,7 +160,11 @@ export default function WidgetSettingsForm({
     setErrorStatus(null);
 
     try {
-      const widgetPayload = { ...previewData, formId: formId ?? null, logoUrl: logo || null };
+      const widgetPayload = {
+        ...previewData,
+        formId: formId ?? null,
+        ...(logoChanged ? { logoUrl: logo || null } : {}),
+      };
 
       const requests: Promise<Response>[] = [
         fetch("/api/dashboard/widget", {
@@ -247,7 +256,7 @@ export default function WidgetSettingsForm({
                           {entitlements.isAdvancedCustomizationEnabled && (
                             <button
                               type="button"
-                              onClick={() => setLogo("")}
+                              onClick={() => { setLogo(""); setLogoChanged(true); }}
                               title="Remove logo"
                               className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-none opacity-0 group-hover/thumb:opacity-100 transition-opacity"
                             >
@@ -796,10 +805,29 @@ export default function WidgetSettingsForm({
                  {previewData.headerText?.trim() && <h3 className="font-bold text-white text-xl drop-shadow-md">{previewData.headerText}</h3>}
                </div>
              </div>
-             <div className="p-6 space-y-4">
-               <div>
-                  <div className="h-8 bg-slate-200 rounded-md w-full mb-2" />
-                  <div className="h-8 bg-slate-200 rounded-md w-full" />
+             <div className="p-6 space-y-4 text-slate-600">
+               <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+                 {initialData.formStyle === "quick" ? "Quick Quote · Route and vehicle" : "Standard Quote · Route preview"}
+               </p>
+               <div className="space-y-2">
+                 <div className="qalt-preview-field rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs">Pickup address</div>
+                 <div className="qalt-preview-field rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs">Dropoff address</div>
+                 {initialData.formStyle === "quick" ? (
+                   <>
+                     {initialData.showVehicles && Array.isArray(initialData.vehicleOptions) && initialData.vehicleOptions.length > 0 && (
+                       <div className="qalt-preview-field rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs">Choose a vehicle · {initialData.vehicleOptions.length} choices</div>
+                     )}
+                     <div className="qalt-preview-field rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs">Instant price</div>
+                   </>
+                 ) : (
+                   <>
+                     {(initialData.showWeight || initialData.showItemCount || initialData.showExtras || initialData.showVehicles) && (
+                       <div className="qalt-preview-field rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs">
+                         {[initialData.showWeight && "Weight", initialData.showItemCount && "Items", initialData.showExtras && "Extras", initialData.showVehicles && "Vehicles"].filter(Boolean).join(" · ")}
+                       </div>
+                     )}
+                   </>
+                 )}
                </div>
                <div className="py-4 border-t border-slate-100">
                   <div className="w-full h-12 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: previewData.primaryColor }}>
@@ -814,6 +842,7 @@ export default function WidgetSettingsForm({
           <p className="mt-4 text-xs text-slate-400 italic text-center">
             Note: This is a simplified preview. The actual widget will be responsive and interactive.
           </p>
+          {formId && <Link href={`/widget/form/${encodeURIComponent(formId)}`} target="_blank" className="mt-2 block text-center text-xs font-bold text-red-600 dark:text-red-400">Open customer form ↗</Link>}
         </div>
       </div>
     </div>

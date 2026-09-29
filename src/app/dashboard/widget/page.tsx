@@ -5,6 +5,8 @@ import BrandColorPresets from "@/components/dashboard/BrandColorPresets";
 import WidgetThemeSelector from "@/components/dashboard/WidgetThemeSelector";
 import LogoUploadPolicy from "@/components/dashboard/LogoUploadPolicy";
 import { getWidgetTheme } from "@/lib/widget-theme";
+import FormSettingsSelector from "@/components/dashboard/FormSettingsSelector";
+import { redirect } from "next/navigation";
 import "./widget-preview-theme.css";
 
 export default async function WidgetSettingsPage({
@@ -14,12 +16,10 @@ export default async function WidgetSettingsPage({
 }) {
   const company = await getCurrentCompany();
   const { formId } = await searchParams;
-
-  let widgetSettings = formId
-    ? company.widgetSettings.find((f) => f.id === formId) ?? company.widgetSettings[0]
-    : company.widgetSettings[0];
-
-  widgetSettings = widgetSettings ?? null;
+  const forms = [...company.widgetSettings].sort((a, b) => a.id.localeCompare(b.id));
+  const widgetSettings = formId ? forms.find((form) => form.id === formId) : forms[0];
+  if (formId && !widgetSettings) redirect("/dashboard/widget");
+  const selectedFormId = widgetSettings?.id;
   const themeMode = widgetSettings ? await getWidgetTheme(widgetSettings.id) : "light";
 
   const previewStyle = {
@@ -34,19 +34,35 @@ export default async function WidgetSettingsPage({
       data-widget-preview-theme={themeMode}
       style={previewStyle}
     >
+      <FormSettingsSelector
+        forms={forms.map((form) => ({
+          id: form.id,
+          name: form.name,
+          formStyle: form.formStyle,
+          showWeight: form.showWeight,
+          showAwb: form.showAwb,
+          showVehicles: form.showVehicles,
+          hasVehicleChoices: Array.isArray(form.vehicleOptions) && form.vehicleOptions.length > 0,
+        }))}
+        selectedFormId={selectedFormId}
+        page="widget"
+      />
       <LogoUploadPolicy />
       {widgetSettings && (
-        <WidgetThemeSelector formId={widgetSettings.id} initialTheme={themeMode} />
+        <WidgetThemeSelector key={widgetSettings.id} formId={widgetSettings.id} initialTheme={themeMode} />
       )}
       <BrandColorPresets />
-      <WidgetForm
-        initialData={widgetSettings!}
-        companyLogoUrl={company.logoUrl}
-        subscriptionPlan={company.subscriptionPlan}
-        companyId={company.id}
-        formId={formId}
-        stripeConnectAccountId={company.stripeConnectAccountId}
-      />
+      {widgetSettings && (
+        <WidgetForm
+          key={widgetSettings.id}
+          initialData={widgetSettings}
+          companyLogoUrl={company.logoUrl}
+          subscriptionPlan={company.subscriptionPlan}
+          companyId={company.id}
+          formId={selectedFormId}
+          stripeConnectAccountId={company.stripeConnectAccountId}
+        />
+      )}
     </div>
   );
 }

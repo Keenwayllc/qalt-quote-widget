@@ -89,7 +89,6 @@ export async function POST(req: Request) {
     }
 
     const settingsData = {
-      name:          data.name || "Default Form",
       showWeight:       Boolean(data.showWeight),
       showItemCount:    data.showItemCount === undefined ? true : Boolean(data.showItemCount),
       showExtras:       Boolean(data.showExtras),
@@ -118,6 +117,9 @@ export async function POST(req: Request) {
                         : "Estimate only. Final price confirmed after booking.",
       backgroundImageUrl: entitlements.isAdvancedCustomizationEnabled ? (data.backgroundImageUrl ?? null) : null,
       companyNameText: data.companyNameText ?? null,
+      ...(entitlements.isAdvancedCustomizationEnabled && "logoUrl" in data
+        ? { logoUrl: data.logoUrl ? String(data.logoUrl) : null }
+        : {}),
       companyNameFont: data.companyNameFont || "Inter",
       mapLayout:     ["inline", "side"].includes(data.mapLayout) ? data.mapLayout : "inline",
       websiteUrl:    data.websiteUrl ? String(data.websiteUrl).trim() : null,
@@ -145,7 +147,7 @@ export async function POST(req: Request) {
         });
       } else {
         await prisma.widgetSettings.create({
-          data: { companyId: payload.companyId, ...settingsData },
+          data: { companyId: payload.companyId, name: data.name || "Default Form", ...settingsData },
         });
       }
     }
