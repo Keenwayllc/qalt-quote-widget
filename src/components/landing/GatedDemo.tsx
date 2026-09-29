@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Script from "next/script";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { ArrowRight, Loader2, Lock, Mail, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, Loader2, Lock, Mail, ShieldCheck } from "lucide-react";
 import QuoteWidgetForm from "@/components/widget/QuoteWidgetForm";
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
@@ -142,7 +142,7 @@ export default function GatedDemo({ company }: { company: any }) {
               onAnimationComplete={() => setTimeout(() => setJustUnlocked(false), 2600)}
               className="absolute top-4 z-20 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-600 text-white text-xs font-black shadow-lg shadow-emerald-900/20"
             >
-              <Sparkles size={13} /> Demo unlocked
+              <ShieldCheck size={13} /> Demo unlocked
             </motion.div>
           )}
         </AnimatePresence>

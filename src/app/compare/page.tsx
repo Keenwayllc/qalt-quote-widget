@@ -214,15 +214,12 @@ export default function ComparePage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(223,23,49,0.18),transparent_34%),radial-gradient(circle_at_80%_10%,rgba(245,158,11,0.08),transparent_28%)]" />
           <CompareHeroDevices />
           <div className="relative z-10 mx-auto max-w-5xl text-center">
-            <div className="relative mb-5 inline-flex rounded-full border border-white/10 bg-[#181b24] px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white/80">
-              Delivery software comparison
-            </div>
+            <p className="relative mb-5 text-xs font-bold uppercase tracking-[0.14em] text-red-400">Delivery software comparison</p>
             <h1 className="text-4xl font-black tracking-tight text-white [text-shadow:0_2px_4px_rgba(8,11,20,0.95),0_8px_24px_rgba(8,11,20,0.85)] sm:text-6xl lg:text-7xl">
-              Choose Qalt for
-              <span className="block text-red-500">the way you sell delivery.</span>
+              How Qalt compares
             </h1>
             <p className="mx-auto mt-7 max-w-3xl text-base font-medium leading-relaxed text-white [text-shadow:0_1px_3px_rgba(8,11,20,1),0_4px_12px_rgba(8,11,20,0.9)] sm:text-lg">
-              Give customers an instant delivery price on your website, using your rates and your brand. Choose Qalt for delivery quoting, booking, optional online payments, and professional customer documents in one platform.
+              Most delivery software starts at dispatch. Qalt starts earlier, when a customer on your website wants a price. Here is how it lines up against the tools couriers usually look at.
             </p>
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
@@ -244,13 +241,12 @@ export default function ComparePage() {
         <section className="border-b border-slate-200 bg-white px-4 py-8 sm:px-6 lg:px-8">
           <div className="mx-auto flex max-w-7xl flex-col gap-2 rounded-2xl border border-red-100 bg-red-50/60 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-red-600">Qalt keeps getting better</p>
-              <p className="mt-1 text-sm font-semibold leading-relaxed text-slate-700 sm:text-base">
-                We are constantly adding new features, improvements, and platform updates to help delivery companies quote, book, get paid, and serve customers more professionally.
+              <p className="text-sm font-semibold leading-relaxed text-slate-700 sm:text-base">
+                Qalt ships updates most weeks, so this table can go out of date. Check the blog for what changed recently.
               </p>
             </div>
             <Link href="/blog" className="inline-flex shrink-0 items-center gap-1.5 text-sm font-black text-red-600 transition hover:text-red-700">
-              See platform updates <ArrowRight size={15} />
+              Recent updates <ArrowRight size={15} />
             </Link>
           </div>
         </section>

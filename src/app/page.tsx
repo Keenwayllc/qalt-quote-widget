@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import {
   ArrowRight,
   ArrowUp,
-  BarChart3,
   Calculator,
   Check,
   CheckCircle2,
@@ -14,15 +13,10 @@ import {
   CreditCard,
   ExternalLink,
   FileText,
-  Gauge,
   LayoutDashboard,
   MapPin,
   Palette,
   Route,
-  ShieldCheck,
-  Sparkles,
-  Truck,
-  Zap,
 } from "lucide-react";
 import PublicNav from "@/components/shared/PublicNav";
 import QaltLogo from "@/components/shared/QaltLogo";
@@ -120,10 +114,7 @@ const plans = [
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="inline-flex items-center gap-2 rounded-full border border-red-100 bg-red-50 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-red-700">
-      <Sparkles size={11} />
-      {children}
-    </div>
+    <p className="text-xs font-bold uppercase tracking-[0.14em] text-red-600">{children}</p>
   );
 }
 
@@ -148,8 +139,6 @@ export default function LandingPage() {
       <main>
         <section className="relative overflow-hidden bg-[#08090c] pt-28 sm:pt-32">
           <div className="pointer-events-none absolute inset-0">
-            <div className="absolute -left-40 top-0 h-[520px] w-[520px] rounded-full bg-red-700/20 blur-[130px]" />
-            <div className="absolute right-[-12%] top-[8%] h-[560px] w-[560px] rounded-full bg-violet-900/15 blur-[150px]" />
             <div
               className="absolute inset-0 opacity-[0.035]"
               style={{
@@ -163,10 +152,9 @@ export default function LandingPage() {
           <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 pb-20 sm:px-8 sm:pb-28 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 lg:px-10">
             <div className="text-center lg:text-left">
               <div
-                className="q-rise mb-7 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3.5 py-2 text-[11px] font-bold text-white/70"
+                className="q-rise mb-6 text-sm font-semibold text-white/60"
               >
-                <Zap size={13} className="fill-red-500 text-red-500" />
-                Built for courier, delivery & final-mile companies
+                For courier, delivery and final-mile companies
               </div>
 
               <h1
@@ -207,7 +195,7 @@ export default function LandingPage() {
                 style={{ "--d": "320ms" } as React.CSSProperties}
                 className="q-rise mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs font-semibold text-white/42 lg:justify-start"
               >
-                {["No card required", "Free plan available", "14-day Pro trial", "Payments optional"].map((item) => (
+                {["Free plan, no card needed", "14-day Pro trial", "Payments optional"].map((item) => (
                   <span key={item} className="inline-flex items-center gap-1.5">
                     <Check size={12} className="text-emerald-400" />
                     {item}
@@ -221,28 +209,10 @@ export default function LandingPage() {
               style={{ "--d": "160ms" } as React.CSSProperties}
               className="q-slide-in relative mx-auto w-full max-w-[720px]"
             >
-              <div className="absolute -inset-8 rounded-[40px] bg-red-600/10 blur-3xl" />
-              <div className="relative">
-                <HeroDashboardMockup />
-              </div>
+              <HeroDashboardMockup />
             </div>
           </div>
 
-          <div className="relative border-y border-white/[0.08] bg-white/[0.035]">
-            <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-y divide-white/[0.08] px-5 sm:grid-cols-4 sm:divide-y-0 sm:px-8 lg:px-10">
-              {[
-                ["Instant", "customer pricing"],
-                ["Your rules", "control the quote"],
-                ["White-label", "on paid plans"],
-                ["Optional", "online payments"],
-              ].map(([top, bottom]) => (
-                <div key={top} className="px-4 py-5 text-center">
-                  <div className="text-sm font-black text-white">{top}</div>
-                  <div className="mt-1 text-[11px] font-medium text-white/38">{bottom}</div>
-                </div>
-              ))}
-            </div>
-          </div>
         </section>
 
         <section id="features" className="scroll-mt-24 bg-[#f7f8fa] py-24 sm:py-32">
@@ -254,8 +224,7 @@ export default function LandingPage() {
               variants={reveal}
               className="mx-auto max-w-3xl text-center"
             >
-              <SectionLabel>One quote flow, your business rules</SectionLabel>
-              <h2 className="mt-6 text-4xl font-black tracking-[-0.045em] text-slate-950 sm:text-5xl">
+                            <h2 className="mt-6 text-4xl font-black tracking-[-0.045em] text-slate-950 sm:text-5xl">
                 Replace the “we’ll get back to you” form.
               </h2>
               <p className="mx-auto mt-5 max-w-2xl text-base font-medium leading-7 text-slate-500 sm:text-lg">
@@ -274,12 +243,10 @@ export default function LandingPage() {
                     viewport={{ once: true, margin: "-50px" }}
                     variants={reveal}
                     custom={index}
-                    className="group rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_16px_45px_-38px_rgba(15,23,42,.5)] transition duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-[0_24px_60px_-36px_rgba(15,23,42,.38)]"
+                    className="rounded-2xl border border-slate-200 bg-white p-7"
                   >
-                    <div className="grid h-11 w-11 place-items-center rounded-xl border border-red-100 bg-red-50 text-red-600 transition group-hover:bg-red-600 group-hover:text-white">
-                      <Icon size={19} />
-                    </div>
-                    <h3 className="mt-6 text-lg font-black tracking-tight text-slate-950">{feature.title}</h3>
+                    <Icon size={20} className="text-red-600" />
+                    <h3 className="mt-5 text-lg font-black tracking-tight text-slate-950">{feature.title}</h3>
                     <p className="mt-2 text-sm font-medium leading-6 text-slate-500">{feature.description}</p>
                   </motion.div>
                 );
@@ -298,16 +265,12 @@ export default function LandingPage() {
           <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
             <div className="grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={reveal}>
-                <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-white/60">
-                  <Gauge size={12} />
-                  Built around your workflow
-                </div>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-red-400">Built around your workflow</p>
                 <h2 className="mt-6 text-4xl font-black leading-[1.02] tracking-[-0.045em] sm:text-5xl">
-                  Start with quoting.
-                  <span className="block text-red-500">Add more only when you want it.</span>
+                  Start with quoting. Add booking and payment later, if ever.
                 </h2>
                 <p className="mt-5 max-w-xl text-base font-medium leading-7 text-slate-400 sm:text-lg">
-                  Qalt does not require you to replace your dispatch system or accept payments online. Start with the part customers feel first: getting a price quickly.
+                  You keep your dispatch system and your current way of getting paid. Qalt handles the first thing a customer asks for, which is a price.
                 </p>
                 <Link href="/what-qalt-does" className="mt-8 inline-flex items-center gap-2 text-sm font-black text-white hover:text-red-400">
                   See exactly what Qalt does <ArrowRight size={15} />
@@ -346,12 +309,11 @@ export default function LandingPage() {
         <section id="use-cases" className="scroll-mt-24 bg-white py-24 sm:py-32">
           <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={reveal} className="max-w-3xl">
-              <SectionLabel>Made for delivery businesses</SectionLabel>
-              <h2 className="mt-6 text-4xl font-black tracking-[-0.045em] sm:text-5xl">
-                If you price a delivery, Qalt can help automate the quote.
+                            <h2 className="mt-6 text-4xl font-black tracking-[-0.045em] sm:text-5xl">
+                Who uses Qalt
               </h2>
               <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-500 sm:text-lg">
-                From a local courier with one vehicle to a fleet handling larger jobs, the quote form can reflect the services you actually sell.
+                A one-van courier and a fleet running box trucks price jobs differently. The form follows the rules you set, not a template.
               </p>
             </motion.div>
 
@@ -366,8 +328,7 @@ export default function LandingPage() {
                   custom={index}
                   className="bg-white p-7 sm:p-8"
                 >
-                  <Truck size={19} className="text-red-600" />
-                  <h3 className="mt-5 text-lg font-black tracking-tight">{title}</h3>
+                  <h3 className="text-lg font-black tracking-tight">{title}</h3>
                   <p className="mt-2 text-sm font-medium leading-6 text-slate-500">{description}</p>
                 </motion.div>
               ))}
@@ -389,11 +350,8 @@ export default function LandingPage() {
               className="group grid gap-9 overflow-hidden rounded-3xl border border-white/[0.1] bg-white/[0.045] p-7 transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.065] sm:p-10 lg:grid-cols-[0.7fr_1.3fr] lg:items-center lg:p-12"
             >
               <div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-red-400">
-                  Featured article
-                </div>
-                <p className="mt-6 text-sm font-bold text-white/70">Insights for delivery leaders</p>
-                <p className="mt-2 text-sm font-medium text-white/40">
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-red-400">From our founder</p>
+                <p className="mt-3 text-sm font-medium text-white/50">
                   {featuredInsight.source} · {featuredInsight.author}
                 </p>
               </div>
@@ -417,8 +375,8 @@ export default function LandingPage() {
         <section id="pricing" className="bg-[#f7f8fa] py-24 sm:py-32">
           <div className="mx-auto max-w-6xl px-5 sm:px-8">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={reveal} className="text-center">
-              <SectionLabel>Simple plans</SectionLabel>
-              <h2 className="mt-6 text-4xl font-black tracking-[-0.045em] sm:text-5xl">Start free. Grow when Qalt proves useful.</h2>
+              <SectionLabel>Pricing</SectionLabel>
+              <h2 className="mt-6 text-4xl font-black tracking-[-0.045em] sm:text-5xl">Start free. Pay when it&apos;s earning you jobs.</h2>
               <p className="mx-auto mt-5 max-w-2xl text-base font-medium leading-7 text-slate-500 sm:text-lg">
                 Start with the free plan and a 14-day Pro trial. Upgrade when you need more forms, branding, operations, payments, or fleet quoting.
               </p>
@@ -479,12 +437,8 @@ export default function LandingPage() {
         <section className="bg-white py-24 sm:py-32">
           <div className="mx-auto max-w-5xl px-5 text-center sm:px-8">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={reveal}>
-              <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-red-600 text-white shadow-xl shadow-red-200">
-                <Zap size={24} className="fill-white" />
-              </div>
-              <h2 className="mx-auto mt-7 max-w-4xl text-4xl font-black leading-[1] tracking-[-0.05em] sm:text-6xl">
-                Your customers already want a price.
-                <span className="block text-red-600">Give it to them now.</span>
+              <h2 className="mx-auto max-w-4xl text-4xl font-black leading-[1] tracking-[-0.05em] sm:text-6xl">
+                Your customers are already asking for a price.
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-base font-medium leading-7 text-slate-500 sm:text-lg">
                 Create your first Qalt form, use your own pricing, and see how instant quoting fits your delivery business.

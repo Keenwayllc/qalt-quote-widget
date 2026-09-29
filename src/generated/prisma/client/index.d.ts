@@ -73,6 +73,16 @@ export type Job = $Result.DefaultSelection<Prisma.$JobPayload>
  * 
  */
 export type JobStop = $Result.DefaultSelection<Prisma.$JobStopPayload>
+/**
+ * Model CustomerDocument
+ * 
+ */
+export type CustomerDocument = $Result.DefaultSelection<Prisma.$CustomerDocumentPayload>
+/**
+ * Model DocumentSequence
+ * 
+ */
+export type DocumentSequence = $Result.DefaultSelection<Prisma.$DocumentSequencePayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -314,6 +324,26 @@ export class PrismaClient<
     * ```
     */
   get jobStop(): Prisma.JobStopDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.customerDocument`: Exposes CRUD operations for the **CustomerDocument** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CustomerDocuments
+    * const customerDocuments = await prisma.customerDocument.findMany()
+    * ```
+    */
+  get customerDocument(): Prisma.CustomerDocumentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.documentSequence`: Exposes CRUD operations for the **DocumentSequence** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DocumentSequences
+    * const documentSequences = await prisma.documentSequence.findMany()
+    * ```
+    */
+  get documentSequence(): Prisma.DocumentSequenceDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -759,7 +789,9 @@ export namespace Prisma {
     ReadinessCheck: 'ReadinessCheck',
     ExceptionLog: 'ExceptionLog',
     Job: 'Job',
-    JobStop: 'JobStop'
+    JobStop: 'JobStop',
+    CustomerDocument: 'CustomerDocument',
+    DocumentSequence: 'DocumentSequence'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -775,7 +807,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "pricingProfile" | "widgetSettings" | "quoteRequest" | "webhook" | "shopifyInstall" | "partnerInquiry" | "stopNote" | "readinessCheck" | "exceptionLog" | "job" | "jobStop"
+      modelProps: "company" | "pricingProfile" | "widgetSettings" | "quoteRequest" | "webhook" | "shopifyInstall" | "partnerInquiry" | "stopNote" | "readinessCheck" | "exceptionLog" | "job" | "jobStop" | "customerDocument" | "documentSequence"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1667,6 +1699,154 @@ export namespace Prisma {
           }
         }
       }
+      CustomerDocument: {
+        payload: Prisma.$CustomerDocumentPayload<ExtArgs>
+        fields: Prisma.CustomerDocumentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CustomerDocumentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerDocumentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CustomerDocumentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerDocumentPayload>
+          }
+          findFirst: {
+            args: Prisma.CustomerDocumentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerDocumentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CustomerDocumentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerDocumentPayload>
+          }
+          findMany: {
+            args: Prisma.CustomerDocumentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerDocumentPayload>[]
+          }
+          create: {
+            args: Prisma.CustomerDocumentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerDocumentPayload>
+          }
+          createMany: {
+            args: Prisma.CustomerDocumentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CustomerDocumentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerDocumentPayload>[]
+          }
+          delete: {
+            args: Prisma.CustomerDocumentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerDocumentPayload>
+          }
+          update: {
+            args: Prisma.CustomerDocumentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerDocumentPayload>
+          }
+          deleteMany: {
+            args: Prisma.CustomerDocumentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CustomerDocumentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CustomerDocumentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerDocumentPayload>[]
+          }
+          upsert: {
+            args: Prisma.CustomerDocumentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerDocumentPayload>
+          }
+          aggregate: {
+            args: Prisma.CustomerDocumentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCustomerDocument>
+          }
+          groupBy: {
+            args: Prisma.CustomerDocumentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CustomerDocumentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CustomerDocumentCountArgs<ExtArgs>
+            result: $Utils.Optional<CustomerDocumentCountAggregateOutputType> | number
+          }
+        }
+      }
+      DocumentSequence: {
+        payload: Prisma.$DocumentSequencePayload<ExtArgs>
+        fields: Prisma.DocumentSequenceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DocumentSequenceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentSequencePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DocumentSequenceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentSequencePayload>
+          }
+          findFirst: {
+            args: Prisma.DocumentSequenceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentSequencePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DocumentSequenceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentSequencePayload>
+          }
+          findMany: {
+            args: Prisma.DocumentSequenceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentSequencePayload>[]
+          }
+          create: {
+            args: Prisma.DocumentSequenceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentSequencePayload>
+          }
+          createMany: {
+            args: Prisma.DocumentSequenceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DocumentSequenceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentSequencePayload>[]
+          }
+          delete: {
+            args: Prisma.DocumentSequenceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentSequencePayload>
+          }
+          update: {
+            args: Prisma.DocumentSequenceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentSequencePayload>
+          }
+          deleteMany: {
+            args: Prisma.DocumentSequenceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DocumentSequenceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DocumentSequenceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentSequencePayload>[]
+          }
+          upsert: {
+            args: Prisma.DocumentSequenceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentSequencePayload>
+          }
+          aggregate: {
+            args: Prisma.DocumentSequenceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDocumentSequence>
+          }
+          groupBy: {
+            args: Prisma.DocumentSequenceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DocumentSequenceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DocumentSequenceCountArgs<ExtArgs>
+            result: $Utils.Optional<DocumentSequenceCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1787,6 +1967,8 @@ export namespace Prisma {
     exceptionLog?: ExceptionLogOmit
     job?: JobOmit
     jobStop?: JobStopOmit
+    customerDocument?: CustomerDocumentOmit
+    documentSequence?: DocumentSequenceOmit
   }
 
   /* Types for Logging */
@@ -1874,6 +2056,7 @@ export namespace Prisma {
     shopifyInstalls: number
     stopNotes: number
     jobs: number
+    customerDocuments: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1884,6 +2067,7 @@ export namespace Prisma {
     shopifyInstalls?: boolean | CompanyCountOutputTypeCountShopifyInstallsArgs
     stopNotes?: boolean | CompanyCountOutputTypeCountStopNotesArgs
     jobs?: boolean | CompanyCountOutputTypeCountJobsArgs
+    customerDocuments?: boolean | CompanyCountOutputTypeCountCustomerDocumentsArgs
   }
 
   // Custom InputTypes
@@ -1946,6 +2130,13 @@ export namespace Prisma {
     where?: JobWhereInput
   }
 
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountCustomerDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomerDocumentWhereInput
+  }
+
 
   /**
    * Count Type QuoteRequestCountOutputType
@@ -1953,10 +2144,12 @@ export namespace Prisma {
 
   export type QuoteRequestCountOutputType = {
     jobs: number
+    customerDocuments: number
   }
 
   export type QuoteRequestCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     jobs?: boolean | QuoteRequestCountOutputTypeCountJobsArgs
+    customerDocuments?: boolean | QuoteRequestCountOutputTypeCountCustomerDocumentsArgs
   }
 
   // Custom InputTypes
@@ -1975,6 +2168,13 @@ export namespace Prisma {
    */
   export type QuoteRequestCountOutputTypeCountJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: JobWhereInput
+  }
+
+  /**
+   * QuoteRequestCountOutputType without action
+   */
+  export type QuoteRequestCountOutputTypeCountCustomerDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomerDocumentWhereInput
   }
 
 
@@ -2086,8 +2286,18 @@ export namespace Prisma {
 
   export type AggregateCompany = {
     _count: CompanyCountAggregateOutputType | null
+    _avg: CompanyAvgAggregateOutputType | null
+    _sum: CompanySumAggregateOutputType | null
     _min: CompanyMinAggregateOutputType | null
     _max: CompanyMaxAggregateOutputType | null
+  }
+
+  export type CompanyAvgAggregateOutputType = {
+    onboardingStep: number | null
+  }
+
+  export type CompanySumAggregateOutputType = {
+    onboardingStep: number | null
   }
 
   export type CompanyMinAggregateOutputType = {
@@ -2105,6 +2315,9 @@ export namespace Prisma {
     zip: string | null
     contactName: string | null
     timezone: string | null
+    businessType: string | null
+    onboardingStep: number | null
+    onboardingCompletedAt: Date | null
     subscriptionPlan: string | null
     stripeCustomerId: string | null
     stripeSubscriptionId: string | null
@@ -2118,9 +2331,19 @@ export namespace Prisma {
     customEmailFromName: string | null
     resendDomainId: string | null
     emailDomainVerified: boolean | null
+    customWidgetDomain: string | null
+    customWidgetDomainVerified: boolean | null
     isAdmin: boolean | null
     isSuperAdmin: boolean | null
     lastLoginAt: Date | null
+    registrationSource: string | null
+    registrationReferrer: string | null
+    registrationLandingPage: string | null
+    registrationUtmSource: string | null
+    registrationUtmMedium: string | null
+    registrationUtmCampaign: string | null
+    registrationUtmTerm: string | null
+    registrationUtmContent: string | null
     createdAt: Date | null
   }
 
@@ -2139,6 +2362,9 @@ export namespace Prisma {
     zip: string | null
     contactName: string | null
     timezone: string | null
+    businessType: string | null
+    onboardingStep: number | null
+    onboardingCompletedAt: Date | null
     subscriptionPlan: string | null
     stripeCustomerId: string | null
     stripeSubscriptionId: string | null
@@ -2152,9 +2378,19 @@ export namespace Prisma {
     customEmailFromName: string | null
     resendDomainId: string | null
     emailDomainVerified: boolean | null
+    customWidgetDomain: string | null
+    customWidgetDomainVerified: boolean | null
     isAdmin: boolean | null
     isSuperAdmin: boolean | null
     lastLoginAt: Date | null
+    registrationSource: string | null
+    registrationReferrer: string | null
+    registrationLandingPage: string | null
+    registrationUtmSource: string | null
+    registrationUtmMedium: string | null
+    registrationUtmCampaign: string | null
+    registrationUtmTerm: string | null
+    registrationUtmContent: string | null
     createdAt: Date | null
   }
 
@@ -2173,6 +2409,9 @@ export namespace Prisma {
     zip: number
     contactName: number
     timezone: number
+    businessType: number
+    onboardingStep: number
+    onboardingCompletedAt: number
     subscriptionPlan: number
     stripeCustomerId: number
     stripeSubscriptionId: number
@@ -2187,13 +2426,32 @@ export namespace Prisma {
     resendDomainId: number
     emailDomainVerified: number
     emailDomainDnsRecords: number
+    customWidgetDomain: number
+    customWidgetDomainVerified: number
+    customWidgetDomainVerification: number
     isAdmin: number
     isSuperAdmin: number
     lastLoginAt: number
+    registrationSource: number
+    registrationReferrer: number
+    registrationLandingPage: number
+    registrationUtmSource: number
+    registrationUtmMedium: number
+    registrationUtmCampaign: number
+    registrationUtmTerm: number
+    registrationUtmContent: number
     createdAt: number
     _all: number
   }
 
+
+  export type CompanyAvgAggregateInputType = {
+    onboardingStep?: true
+  }
+
+  export type CompanySumAggregateInputType = {
+    onboardingStep?: true
+  }
 
   export type CompanyMinAggregateInputType = {
     id?: true
@@ -2210,6 +2468,9 @@ export namespace Prisma {
     zip?: true
     contactName?: true
     timezone?: true
+    businessType?: true
+    onboardingStep?: true
+    onboardingCompletedAt?: true
     subscriptionPlan?: true
     stripeCustomerId?: true
     stripeSubscriptionId?: true
@@ -2223,9 +2484,19 @@ export namespace Prisma {
     customEmailFromName?: true
     resendDomainId?: true
     emailDomainVerified?: true
+    customWidgetDomain?: true
+    customWidgetDomainVerified?: true
     isAdmin?: true
     isSuperAdmin?: true
     lastLoginAt?: true
+    registrationSource?: true
+    registrationReferrer?: true
+    registrationLandingPage?: true
+    registrationUtmSource?: true
+    registrationUtmMedium?: true
+    registrationUtmCampaign?: true
+    registrationUtmTerm?: true
+    registrationUtmContent?: true
     createdAt?: true
   }
 
@@ -2244,6 +2515,9 @@ export namespace Prisma {
     zip?: true
     contactName?: true
     timezone?: true
+    businessType?: true
+    onboardingStep?: true
+    onboardingCompletedAt?: true
     subscriptionPlan?: true
     stripeCustomerId?: true
     stripeSubscriptionId?: true
@@ -2257,9 +2531,19 @@ export namespace Prisma {
     customEmailFromName?: true
     resendDomainId?: true
     emailDomainVerified?: true
+    customWidgetDomain?: true
+    customWidgetDomainVerified?: true
     isAdmin?: true
     isSuperAdmin?: true
     lastLoginAt?: true
+    registrationSource?: true
+    registrationReferrer?: true
+    registrationLandingPage?: true
+    registrationUtmSource?: true
+    registrationUtmMedium?: true
+    registrationUtmCampaign?: true
+    registrationUtmTerm?: true
+    registrationUtmContent?: true
     createdAt?: true
   }
 
@@ -2278,6 +2562,9 @@ export namespace Prisma {
     zip?: true
     contactName?: true
     timezone?: true
+    businessType?: true
+    onboardingStep?: true
+    onboardingCompletedAt?: true
     subscriptionPlan?: true
     stripeCustomerId?: true
     stripeSubscriptionId?: true
@@ -2292,9 +2579,20 @@ export namespace Prisma {
     resendDomainId?: true
     emailDomainVerified?: true
     emailDomainDnsRecords?: true
+    customWidgetDomain?: true
+    customWidgetDomainVerified?: true
+    customWidgetDomainVerification?: true
     isAdmin?: true
     isSuperAdmin?: true
     lastLoginAt?: true
+    registrationSource?: true
+    registrationReferrer?: true
+    registrationLandingPage?: true
+    registrationUtmSource?: true
+    registrationUtmMedium?: true
+    registrationUtmCampaign?: true
+    registrationUtmTerm?: true
+    registrationUtmContent?: true
     createdAt?: true
     _all?: true
   }
@@ -2337,6 +2635,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: CompanyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CompanySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: CompanyMinAggregateInputType
@@ -2367,6 +2677,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: CompanyCountAggregateInputType | true
+    _avg?: CompanyAvgAggregateInputType
+    _sum?: CompanySumAggregateInputType
     _min?: CompanyMinAggregateInputType
     _max?: CompanyMaxAggregateInputType
   }
@@ -2386,6 +2698,9 @@ export namespace Prisma {
     zip: string | null
     contactName: string | null
     timezone: string
+    businessType: string | null
+    onboardingStep: number
+    onboardingCompletedAt: Date | null
     subscriptionPlan: string
     stripeCustomerId: string | null
     stripeSubscriptionId: string | null
@@ -2400,11 +2715,24 @@ export namespace Prisma {
     resendDomainId: string | null
     emailDomainVerified: boolean
     emailDomainDnsRecords: JsonValue | null
+    customWidgetDomain: string | null
+    customWidgetDomainVerified: boolean
+    customWidgetDomainVerification: JsonValue | null
     isAdmin: boolean
     isSuperAdmin: boolean
     lastLoginAt: Date | null
+    registrationSource: string | null
+    registrationReferrer: string | null
+    registrationLandingPage: string | null
+    registrationUtmSource: string | null
+    registrationUtmMedium: string | null
+    registrationUtmCampaign: string | null
+    registrationUtmTerm: string | null
+    registrationUtmContent: string | null
     createdAt: Date
     _count: CompanyCountAggregateOutputType | null
+    _avg: CompanyAvgAggregateOutputType | null
+    _sum: CompanySumAggregateOutputType | null
     _min: CompanyMinAggregateOutputType | null
     _max: CompanyMaxAggregateOutputType | null
   }
@@ -2438,6 +2766,9 @@ export namespace Prisma {
     zip?: boolean
     contactName?: boolean
     timezone?: boolean
+    businessType?: boolean
+    onboardingStep?: boolean
+    onboardingCompletedAt?: boolean
     subscriptionPlan?: boolean
     stripeCustomerId?: boolean
     stripeSubscriptionId?: boolean
@@ -2452,9 +2783,20 @@ export namespace Prisma {
     resendDomainId?: boolean
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: boolean
+    customWidgetDomain?: boolean
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: boolean
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: boolean
+    registrationSource?: boolean
+    registrationReferrer?: boolean
+    registrationLandingPage?: boolean
+    registrationUtmSource?: boolean
+    registrationUtmMedium?: boolean
+    registrationUtmCampaign?: boolean
+    registrationUtmTerm?: boolean
+    registrationUtmContent?: boolean
     createdAt?: boolean
     pricingProfiles?: boolean | Company$pricingProfilesArgs<ExtArgs>
     quoteRequests?: boolean | Company$quoteRequestsArgs<ExtArgs>
@@ -2463,6 +2805,7 @@ export namespace Prisma {
     shopifyInstalls?: boolean | Company$shopifyInstallsArgs<ExtArgs>
     stopNotes?: boolean | Company$stopNotesArgs<ExtArgs>
     jobs?: boolean | Company$jobsArgs<ExtArgs>
+    customerDocuments?: boolean | Company$customerDocumentsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -2481,6 +2824,9 @@ export namespace Prisma {
     zip?: boolean
     contactName?: boolean
     timezone?: boolean
+    businessType?: boolean
+    onboardingStep?: boolean
+    onboardingCompletedAt?: boolean
     subscriptionPlan?: boolean
     stripeCustomerId?: boolean
     stripeSubscriptionId?: boolean
@@ -2495,9 +2841,20 @@ export namespace Prisma {
     resendDomainId?: boolean
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: boolean
+    customWidgetDomain?: boolean
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: boolean
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: boolean
+    registrationSource?: boolean
+    registrationReferrer?: boolean
+    registrationLandingPage?: boolean
+    registrationUtmSource?: boolean
+    registrationUtmMedium?: boolean
+    registrationUtmCampaign?: boolean
+    registrationUtmTerm?: boolean
+    registrationUtmContent?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["company"]>
 
@@ -2516,6 +2873,9 @@ export namespace Prisma {
     zip?: boolean
     contactName?: boolean
     timezone?: boolean
+    businessType?: boolean
+    onboardingStep?: boolean
+    onboardingCompletedAt?: boolean
     subscriptionPlan?: boolean
     stripeCustomerId?: boolean
     stripeSubscriptionId?: boolean
@@ -2530,9 +2890,20 @@ export namespace Prisma {
     resendDomainId?: boolean
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: boolean
+    customWidgetDomain?: boolean
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: boolean
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: boolean
+    registrationSource?: boolean
+    registrationReferrer?: boolean
+    registrationLandingPage?: boolean
+    registrationUtmSource?: boolean
+    registrationUtmMedium?: boolean
+    registrationUtmCampaign?: boolean
+    registrationUtmTerm?: boolean
+    registrationUtmContent?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["company"]>
 
@@ -2551,6 +2922,9 @@ export namespace Prisma {
     zip?: boolean
     contactName?: boolean
     timezone?: boolean
+    businessType?: boolean
+    onboardingStep?: boolean
+    onboardingCompletedAt?: boolean
     subscriptionPlan?: boolean
     stripeCustomerId?: boolean
     stripeSubscriptionId?: boolean
@@ -2565,13 +2939,24 @@ export namespace Prisma {
     resendDomainId?: boolean
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: boolean
+    customWidgetDomain?: boolean
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: boolean
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: boolean
+    registrationSource?: boolean
+    registrationReferrer?: boolean
+    registrationLandingPage?: boolean
+    registrationUtmSource?: boolean
+    registrationUtmMedium?: boolean
+    registrationUtmCampaign?: boolean
+    registrationUtmTerm?: boolean
+    registrationUtmContent?: boolean
     createdAt?: boolean
   }
 
-  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "logoUrl" | "profilePicUrl" | "phone" | "website" | "address" | "city" | "state" | "zip" | "contactName" | "timezone" | "subscriptionPlan" | "stripeCustomerId" | "stripeSubscriptionId" | "stripeConnectAccountId" | "trialEndsAt" | "emailVerified" | "emailVerificationToken" | "passwordResetToken" | "passwordResetExpires" | "customEmailDomain" | "customEmailFromName" | "resendDomainId" | "emailDomainVerified" | "emailDomainDnsRecords" | "isAdmin" | "isSuperAdmin" | "lastLoginAt" | "createdAt", ExtArgs["result"]["company"]>
+  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "logoUrl" | "profilePicUrl" | "phone" | "website" | "address" | "city" | "state" | "zip" | "contactName" | "timezone" | "businessType" | "onboardingStep" | "onboardingCompletedAt" | "subscriptionPlan" | "stripeCustomerId" | "stripeSubscriptionId" | "stripeConnectAccountId" | "trialEndsAt" | "emailVerified" | "emailVerificationToken" | "passwordResetToken" | "passwordResetExpires" | "customEmailDomain" | "customEmailFromName" | "resendDomainId" | "emailDomainVerified" | "emailDomainDnsRecords" | "customWidgetDomain" | "customWidgetDomainVerified" | "customWidgetDomainVerification" | "isAdmin" | "isSuperAdmin" | "lastLoginAt" | "registrationSource" | "registrationReferrer" | "registrationLandingPage" | "registrationUtmSource" | "registrationUtmMedium" | "registrationUtmCampaign" | "registrationUtmTerm" | "registrationUtmContent" | "createdAt", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     pricingProfiles?: boolean | Company$pricingProfilesArgs<ExtArgs>
     quoteRequests?: boolean | Company$quoteRequestsArgs<ExtArgs>
@@ -2580,6 +2965,7 @@ export namespace Prisma {
     shopifyInstalls?: boolean | Company$shopifyInstallsArgs<ExtArgs>
     stopNotes?: boolean | Company$stopNotesArgs<ExtArgs>
     jobs?: boolean | Company$jobsArgs<ExtArgs>
+    customerDocuments?: boolean | Company$customerDocumentsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2595,6 +2981,7 @@ export namespace Prisma {
       shopifyInstalls: Prisma.$ShopifyInstallPayload<ExtArgs>[]
       stopNotes: Prisma.$StopNotePayload<ExtArgs>[]
       jobs: Prisma.$JobPayload<ExtArgs>[]
+      customerDocuments: Prisma.$CustomerDocumentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2611,6 +2998,9 @@ export namespace Prisma {
       zip: string | null
       contactName: string | null
       timezone: string
+      businessType: string | null
+      onboardingStep: number
+      onboardingCompletedAt: Date | null
       subscriptionPlan: string
       stripeCustomerId: string | null
       stripeSubscriptionId: string | null
@@ -2625,9 +3015,20 @@ export namespace Prisma {
       resendDomainId: string | null
       emailDomainVerified: boolean
       emailDomainDnsRecords: Prisma.JsonValue | null
+      customWidgetDomain: string | null
+      customWidgetDomainVerified: boolean
+      customWidgetDomainVerification: Prisma.JsonValue | null
       isAdmin: boolean
       isSuperAdmin: boolean
       lastLoginAt: Date | null
+      registrationSource: string | null
+      registrationReferrer: string | null
+      registrationLandingPage: string | null
+      registrationUtmSource: string | null
+      registrationUtmMedium: string | null
+      registrationUtmCampaign: string | null
+      registrationUtmTerm: string | null
+      registrationUtmContent: string | null
       createdAt: Date
     }, ExtArgs["result"]["company"]>
     composites: {}
@@ -3030,6 +3431,7 @@ export namespace Prisma {
     shopifyInstalls<T extends Company$shopifyInstallsArgs<ExtArgs> = {}>(args?: Subset<T, Company$shopifyInstallsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyInstallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stopNotes<T extends Company$stopNotesArgs<ExtArgs> = {}>(args?: Subset<T, Company$stopNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     jobs<T extends Company$jobsArgs<ExtArgs> = {}>(args?: Subset<T, Company$jobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    customerDocuments<T extends Company$customerDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, Company$customerDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomerDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3073,6 +3475,9 @@ export namespace Prisma {
     readonly zip: FieldRef<"Company", 'String'>
     readonly contactName: FieldRef<"Company", 'String'>
     readonly timezone: FieldRef<"Company", 'String'>
+    readonly businessType: FieldRef<"Company", 'String'>
+    readonly onboardingStep: FieldRef<"Company", 'Int'>
+    readonly onboardingCompletedAt: FieldRef<"Company", 'DateTime'>
     readonly subscriptionPlan: FieldRef<"Company", 'String'>
     readonly stripeCustomerId: FieldRef<"Company", 'String'>
     readonly stripeSubscriptionId: FieldRef<"Company", 'String'>
@@ -3087,9 +3492,20 @@ export namespace Prisma {
     readonly resendDomainId: FieldRef<"Company", 'String'>
     readonly emailDomainVerified: FieldRef<"Company", 'Boolean'>
     readonly emailDomainDnsRecords: FieldRef<"Company", 'Json'>
+    readonly customWidgetDomain: FieldRef<"Company", 'String'>
+    readonly customWidgetDomainVerified: FieldRef<"Company", 'Boolean'>
+    readonly customWidgetDomainVerification: FieldRef<"Company", 'Json'>
     readonly isAdmin: FieldRef<"Company", 'Boolean'>
     readonly isSuperAdmin: FieldRef<"Company", 'Boolean'>
     readonly lastLoginAt: FieldRef<"Company", 'DateTime'>
+    readonly registrationSource: FieldRef<"Company", 'String'>
+    readonly registrationReferrer: FieldRef<"Company", 'String'>
+    readonly registrationLandingPage: FieldRef<"Company", 'String'>
+    readonly registrationUtmSource: FieldRef<"Company", 'String'>
+    readonly registrationUtmMedium: FieldRef<"Company", 'String'>
+    readonly registrationUtmCampaign: FieldRef<"Company", 'String'>
+    readonly registrationUtmTerm: FieldRef<"Company", 'String'>
+    readonly registrationUtmContent: FieldRef<"Company", 'String'>
     readonly createdAt: FieldRef<"Company", 'DateTime'>
   }
     
@@ -3652,6 +4068,30 @@ export namespace Prisma {
   }
 
   /**
+   * Company.customerDocuments
+   */
+  export type Company$customerDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerDocument
+     */
+    select?: CustomerDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerDocument
+     */
+    omit?: CustomerDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerDocumentInclude<ExtArgs> | null
+    where?: CustomerDocumentWhereInput
+    orderBy?: CustomerDocumentOrderByWithRelationInput | CustomerDocumentOrderByWithRelationInput[]
+    cursor?: CustomerDocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CustomerDocumentScalarFieldEnum | CustomerDocumentScalarFieldEnum[]
+  }
+
+  /**
    * Company without action
    */
   export type CompanyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3688,6 +4128,7 @@ export namespace Prisma {
     minMilesThreshold: number | null
     weightFee: number | null
     itemCountFee: number | null
+    additionalStopFee: number | null
     stairsFee: number | null
     insideDeliveryFee: number | null
     addon3Fee: number | null
@@ -3701,6 +4142,7 @@ export namespace Prisma {
     minMilesThreshold: number | null
     weightFee: number | null
     itemCountFee: number | null
+    additionalStopFee: number | null
     stairsFee: number | null
     insideDeliveryFee: number | null
     addon3Fee: number | null
@@ -3718,6 +4160,7 @@ export namespace Prisma {
     minMilesThreshold: number | null
     weightFee: number | null
     itemCountFee: number | null
+    additionalStopFee: number | null
     stairsFee: number | null
     insideDeliveryFee: number | null
     addon3Fee: number | null
@@ -3739,6 +4182,7 @@ export namespace Prisma {
     minMilesThreshold: number | null
     weightFee: number | null
     itemCountFee: number | null
+    additionalStopFee: number | null
     stairsFee: number | null
     insideDeliveryFee: number | null
     addon3Fee: number | null
@@ -3760,6 +4204,7 @@ export namespace Prisma {
     minMilesThreshold: number
     weightFee: number
     itemCountFee: number
+    additionalStopFee: number
     stairsFee: number
     insideDeliveryFee: number
     addon3Fee: number
@@ -3770,6 +4215,7 @@ export namespace Prisma {
     largeItemFee: number
     largeItemsEnabled: number
     largeItemCategories: number
+    serviceOptions: number
     _all: number
   }
 
@@ -3780,6 +4226,7 @@ export namespace Prisma {
     minMilesThreshold?: true
     weightFee?: true
     itemCountFee?: true
+    additionalStopFee?: true
     stairsFee?: true
     insideDeliveryFee?: true
     addon3Fee?: true
@@ -3793,6 +4240,7 @@ export namespace Prisma {
     minMilesThreshold?: true
     weightFee?: true
     itemCountFee?: true
+    additionalStopFee?: true
     stairsFee?: true
     insideDeliveryFee?: true
     addon3Fee?: true
@@ -3810,6 +4258,7 @@ export namespace Prisma {
     minMilesThreshold?: true
     weightFee?: true
     itemCountFee?: true
+    additionalStopFee?: true
     stairsFee?: true
     insideDeliveryFee?: true
     addon3Fee?: true
@@ -3831,6 +4280,7 @@ export namespace Prisma {
     minMilesThreshold?: true
     weightFee?: true
     itemCountFee?: true
+    additionalStopFee?: true
     stairsFee?: true
     insideDeliveryFee?: true
     addon3Fee?: true
@@ -3852,6 +4302,7 @@ export namespace Prisma {
     minMilesThreshold?: true
     weightFee?: true
     itemCountFee?: true
+    additionalStopFee?: true
     stairsFee?: true
     insideDeliveryFee?: true
     addon3Fee?: true
@@ -3862,6 +4313,7 @@ export namespace Prisma {
     largeItemFee?: true
     largeItemsEnabled?: true
     largeItemCategories?: true
+    serviceOptions?: true
     _all?: true
   }
 
@@ -3961,6 +4413,7 @@ export namespace Prisma {
     minMilesThreshold: number
     weightFee: number
     itemCountFee: number
+    additionalStopFee: number
     stairsFee: number
     insideDeliveryFee: number
     addon3Fee: number
@@ -3971,6 +4424,7 @@ export namespace Prisma {
     largeItemFee: number
     largeItemsEnabled: boolean
     largeItemCategories: JsonValue
+    serviceOptions: JsonValue
     _count: PricingProfileCountAggregateOutputType | null
     _avg: PricingProfileAvgAggregateOutputType | null
     _sum: PricingProfileSumAggregateOutputType | null
@@ -4002,6 +4456,7 @@ export namespace Prisma {
     minMilesThreshold?: boolean
     weightFee?: boolean
     itemCountFee?: boolean
+    additionalStopFee?: boolean
     stairsFee?: boolean
     insideDeliveryFee?: boolean
     addon3Fee?: boolean
@@ -4012,6 +4467,7 @@ export namespace Prisma {
     largeItemFee?: boolean
     largeItemsEnabled?: boolean
     largeItemCategories?: boolean
+    serviceOptions?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     widgetSettings?: boolean | PricingProfile$widgetSettingsArgs<ExtArgs>
   }, ExtArgs["result"]["pricingProfile"]>
@@ -4026,6 +4482,7 @@ export namespace Prisma {
     minMilesThreshold?: boolean
     weightFee?: boolean
     itemCountFee?: boolean
+    additionalStopFee?: boolean
     stairsFee?: boolean
     insideDeliveryFee?: boolean
     addon3Fee?: boolean
@@ -4036,6 +4493,7 @@ export namespace Prisma {
     largeItemFee?: boolean
     largeItemsEnabled?: boolean
     largeItemCategories?: boolean
+    serviceOptions?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     widgetSettings?: boolean | PricingProfile$widgetSettingsArgs<ExtArgs>
   }, ExtArgs["result"]["pricingProfile"]>
@@ -4050,6 +4508,7 @@ export namespace Prisma {
     minMilesThreshold?: boolean
     weightFee?: boolean
     itemCountFee?: boolean
+    additionalStopFee?: boolean
     stairsFee?: boolean
     insideDeliveryFee?: boolean
     addon3Fee?: boolean
@@ -4060,6 +4519,7 @@ export namespace Prisma {
     largeItemFee?: boolean
     largeItemsEnabled?: boolean
     largeItemCategories?: boolean
+    serviceOptions?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     widgetSettings?: boolean | PricingProfile$widgetSettingsArgs<ExtArgs>
   }, ExtArgs["result"]["pricingProfile"]>
@@ -4074,6 +4534,7 @@ export namespace Prisma {
     minMilesThreshold?: boolean
     weightFee?: boolean
     itemCountFee?: boolean
+    additionalStopFee?: boolean
     stairsFee?: boolean
     insideDeliveryFee?: boolean
     addon3Fee?: boolean
@@ -4084,9 +4545,10 @@ export namespace Prisma {
     largeItemFee?: boolean
     largeItemsEnabled?: boolean
     largeItemCategories?: boolean
+    serviceOptions?: boolean
   }
 
-  export type PricingProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "widgetSettingsId" | "baseRatePerMile" | "minimumCharge" | "useMinimumCharge" | "minMilesThreshold" | "weightFee" | "itemCountFee" | "stairsFee" | "insideDeliveryFee" | "addon3Fee" | "afterHoursFee" | "businessHoursStart" | "businessHoursEnd" | "businessDays" | "largeItemFee" | "largeItemsEnabled" | "largeItemCategories", ExtArgs["result"]["pricingProfile"]>
+  export type PricingProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "widgetSettingsId" | "baseRatePerMile" | "minimumCharge" | "useMinimumCharge" | "minMilesThreshold" | "weightFee" | "itemCountFee" | "additionalStopFee" | "stairsFee" | "insideDeliveryFee" | "addon3Fee" | "afterHoursFee" | "businessHoursStart" | "businessHoursEnd" | "businessDays" | "largeItemFee" | "largeItemsEnabled" | "largeItemCategories" | "serviceOptions", ExtArgs["result"]["pricingProfile"]>
   export type PricingProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     widgetSettings?: boolean | PricingProfile$widgetSettingsArgs<ExtArgs>
@@ -4116,6 +4578,7 @@ export namespace Prisma {
       minMilesThreshold: number
       weightFee: number
       itemCountFee: number
+      additionalStopFee: number
       stairsFee: number
       insideDeliveryFee: number
       addon3Fee: number
@@ -4126,6 +4589,7 @@ export namespace Prisma {
       largeItemFee: number
       largeItemsEnabled: boolean
       largeItemCategories: Prisma.JsonValue
+      serviceOptions: Prisma.JsonValue
     }, ExtArgs["result"]["pricingProfile"]>
     composites: {}
   }
@@ -4560,6 +5024,7 @@ export namespace Prisma {
     readonly minMilesThreshold: FieldRef<"PricingProfile", 'Float'>
     readonly weightFee: FieldRef<"PricingProfile", 'Float'>
     readonly itemCountFee: FieldRef<"PricingProfile", 'Float'>
+    readonly additionalStopFee: FieldRef<"PricingProfile", 'Float'>
     readonly stairsFee: FieldRef<"PricingProfile", 'Float'>
     readonly insideDeliveryFee: FieldRef<"PricingProfile", 'Float'>
     readonly addon3Fee: FieldRef<"PricingProfile", 'Float'>
@@ -4570,6 +5035,7 @@ export namespace Prisma {
     readonly largeItemFee: FieldRef<"PricingProfile", 'Float'>
     readonly largeItemsEnabled: FieldRef<"PricingProfile", 'Boolean'>
     readonly largeItemCategories: FieldRef<"PricingProfile", 'Json'>
+    readonly serviceOptions: FieldRef<"PricingProfile", 'Json'>
   }
     
 
@@ -5032,7 +5498,10 @@ export namespace Prisma {
     id: string | null
     companyId: string | null
     name: string | null
+    formStyle: string | null
     logoUrl: string | null
+    logoDarkUrl: string | null
+    autoContrastLogo: boolean | null
     showWeight: boolean | null
     showItemCount: boolean | null
     showExtras: boolean | null
@@ -5041,6 +5510,7 @@ export namespace Prisma {
     primaryColor: string | null
     buttonText: string | null
     headerText: string | null
+    quickSubtitleText: string | null
     disclaimerText: string | null
     companyNameText: string | null
     companyNameFont: string | null
@@ -5058,7 +5528,10 @@ export namespace Prisma {
     id: string | null
     companyId: string | null
     name: string | null
+    formStyle: string | null
     logoUrl: string | null
+    logoDarkUrl: string | null
+    autoContrastLogo: boolean | null
     showWeight: boolean | null
     showItemCount: boolean | null
     showExtras: boolean | null
@@ -5067,6 +5540,7 @@ export namespace Prisma {
     primaryColor: string | null
     buttonText: string | null
     headerText: string | null
+    quickSubtitleText: string | null
     disclaimerText: string | null
     companyNameText: string | null
     companyNameFont: string | null
@@ -5084,7 +5558,11 @@ export namespace Prisma {
     id: number
     companyId: number
     name: number
+    formStyle: number
+    customQuestions: number
     logoUrl: number
+    logoDarkUrl: number
+    autoContrastLogo: number
     showWeight: number
     showItemCount: number
     showExtras: number
@@ -5093,6 +5571,7 @@ export namespace Prisma {
     primaryColor: number
     buttonText: number
     headerText: number
+    quickSubtitleText: number
     disclaimerText: number
     companyNameText: number
     companyNameFont: number
@@ -5102,6 +5581,7 @@ export namespace Prisma {
     paymentsEnabled: number
     showVehicles: number
     pricePerVehicle: number
+    vehicleOptions: number
     showAwb: number
     geoFencingEnabled: number
     serviceZips: number
@@ -5121,7 +5601,10 @@ export namespace Prisma {
     id?: true
     companyId?: true
     name?: true
+    formStyle?: true
     logoUrl?: true
+    logoDarkUrl?: true
+    autoContrastLogo?: true
     showWeight?: true
     showItemCount?: true
     showExtras?: true
@@ -5130,6 +5613,7 @@ export namespace Prisma {
     primaryColor?: true
     buttonText?: true
     headerText?: true
+    quickSubtitleText?: true
     disclaimerText?: true
     companyNameText?: true
     companyNameFont?: true
@@ -5147,7 +5631,10 @@ export namespace Prisma {
     id?: true
     companyId?: true
     name?: true
+    formStyle?: true
     logoUrl?: true
+    logoDarkUrl?: true
+    autoContrastLogo?: true
     showWeight?: true
     showItemCount?: true
     showExtras?: true
@@ -5156,6 +5643,7 @@ export namespace Prisma {
     primaryColor?: true
     buttonText?: true
     headerText?: true
+    quickSubtitleText?: true
     disclaimerText?: true
     companyNameText?: true
     companyNameFont?: true
@@ -5173,7 +5661,11 @@ export namespace Prisma {
     id?: true
     companyId?: true
     name?: true
+    formStyle?: true
+    customQuestions?: true
     logoUrl?: true
+    logoDarkUrl?: true
+    autoContrastLogo?: true
     showWeight?: true
     showItemCount?: true
     showExtras?: true
@@ -5182,6 +5674,7 @@ export namespace Prisma {
     primaryColor?: true
     buttonText?: true
     headerText?: true
+    quickSubtitleText?: true
     disclaimerText?: true
     companyNameText?: true
     companyNameFont?: true
@@ -5191,6 +5684,7 @@ export namespace Prisma {
     paymentsEnabled?: true
     showVehicles?: true
     pricePerVehicle?: true
+    vehicleOptions?: true
     showAwb?: true
     geoFencingEnabled?: true
     serviceZips?: true
@@ -5287,7 +5781,11 @@ export namespace Prisma {
     id: string
     companyId: string
     name: string
+    formStyle: string
+    customQuestions: JsonValue
     logoUrl: string | null
+    logoDarkUrl: string | null
+    autoContrastLogo: boolean
     showWeight: boolean
     showItemCount: boolean
     showExtras: boolean
@@ -5296,6 +5794,7 @@ export namespace Prisma {
     primaryColor: string
     buttonText: string
     headerText: string
+    quickSubtitleText: string
     disclaimerText: string
     companyNameText: string | null
     companyNameFont: string
@@ -5305,6 +5804,7 @@ export namespace Prisma {
     paymentsEnabled: boolean
     showVehicles: boolean
     pricePerVehicle: number
+    vehicleOptions: JsonValue
     showAwb: boolean
     geoFencingEnabled: boolean
     serviceZips: string[]
@@ -5333,7 +5833,11 @@ export namespace Prisma {
     id?: boolean
     companyId?: boolean
     name?: boolean
+    formStyle?: boolean
+    customQuestions?: boolean
     logoUrl?: boolean
+    logoDarkUrl?: boolean
+    autoContrastLogo?: boolean
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
@@ -5342,6 +5846,7 @@ export namespace Prisma {
     primaryColor?: boolean
     buttonText?: boolean
     headerText?: boolean
+    quickSubtitleText?: boolean
     disclaimerText?: boolean
     companyNameText?: boolean
     companyNameFont?: boolean
@@ -5351,6 +5856,7 @@ export namespace Prisma {
     paymentsEnabled?: boolean
     showVehicles?: boolean
     pricePerVehicle?: boolean
+    vehicleOptions?: boolean
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: boolean
@@ -5362,7 +5868,11 @@ export namespace Prisma {
     id?: boolean
     companyId?: boolean
     name?: boolean
+    formStyle?: boolean
+    customQuestions?: boolean
     logoUrl?: boolean
+    logoDarkUrl?: boolean
+    autoContrastLogo?: boolean
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
@@ -5371,6 +5881,7 @@ export namespace Prisma {
     primaryColor?: boolean
     buttonText?: boolean
     headerText?: boolean
+    quickSubtitleText?: boolean
     disclaimerText?: boolean
     companyNameText?: boolean
     companyNameFont?: boolean
@@ -5380,6 +5891,7 @@ export namespace Prisma {
     paymentsEnabled?: boolean
     showVehicles?: boolean
     pricePerVehicle?: boolean
+    vehicleOptions?: boolean
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: boolean
@@ -5390,7 +5902,11 @@ export namespace Prisma {
     id?: boolean
     companyId?: boolean
     name?: boolean
+    formStyle?: boolean
+    customQuestions?: boolean
     logoUrl?: boolean
+    logoDarkUrl?: boolean
+    autoContrastLogo?: boolean
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
@@ -5399,6 +5915,7 @@ export namespace Prisma {
     primaryColor?: boolean
     buttonText?: boolean
     headerText?: boolean
+    quickSubtitleText?: boolean
     disclaimerText?: boolean
     companyNameText?: boolean
     companyNameFont?: boolean
@@ -5408,6 +5925,7 @@ export namespace Prisma {
     paymentsEnabled?: boolean
     showVehicles?: boolean
     pricePerVehicle?: boolean
+    vehicleOptions?: boolean
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: boolean
@@ -5418,7 +5936,11 @@ export namespace Prisma {
     id?: boolean
     companyId?: boolean
     name?: boolean
+    formStyle?: boolean
+    customQuestions?: boolean
     logoUrl?: boolean
+    logoDarkUrl?: boolean
+    autoContrastLogo?: boolean
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
@@ -5427,6 +5949,7 @@ export namespace Prisma {
     primaryColor?: boolean
     buttonText?: boolean
     headerText?: boolean
+    quickSubtitleText?: boolean
     disclaimerText?: boolean
     companyNameText?: boolean
     companyNameFont?: boolean
@@ -5436,12 +5959,13 @@ export namespace Prisma {
     paymentsEnabled?: boolean
     showVehicles?: boolean
     pricePerVehicle?: boolean
+    vehicleOptions?: boolean
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: boolean
   }
 
-  export type WidgetSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "name" | "logoUrl" | "showWeight" | "showItemCount" | "showExtras" | "insideDeliveryLabel" | "addon3Label" | "primaryColor" | "buttonText" | "headerText" | "disclaimerText" | "companyNameText" | "companyNameFont" | "backgroundImageUrl" | "mapLayout" | "websiteUrl" | "paymentsEnabled" | "showVehicles" | "pricePerVehicle" | "showAwb" | "geoFencingEnabled" | "serviceZips", ExtArgs["result"]["widgetSettings"]>
+  export type WidgetSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "name" | "formStyle" | "customQuestions" | "logoUrl" | "logoDarkUrl" | "autoContrastLogo" | "showWeight" | "showItemCount" | "showExtras" | "insideDeliveryLabel" | "addon3Label" | "primaryColor" | "buttonText" | "headerText" | "quickSubtitleText" | "disclaimerText" | "companyNameText" | "companyNameFont" | "backgroundImageUrl" | "mapLayout" | "websiteUrl" | "paymentsEnabled" | "showVehicles" | "pricePerVehicle" | "vehicleOptions" | "showAwb" | "geoFencingEnabled" | "serviceZips", ExtArgs["result"]["widgetSettings"]>
   export type WidgetSettingsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     pricingProfile?: boolean | WidgetSettings$pricingProfileArgs<ExtArgs>
@@ -5463,7 +5987,11 @@ export namespace Prisma {
       id: string
       companyId: string
       name: string
+      formStyle: string
+      customQuestions: Prisma.JsonValue
       logoUrl: string | null
+      logoDarkUrl: string | null
+      autoContrastLogo: boolean
       showWeight: boolean
       showItemCount: boolean
       showExtras: boolean
@@ -5472,6 +6000,7 @@ export namespace Prisma {
       primaryColor: string
       buttonText: string
       headerText: string
+      quickSubtitleText: string
       disclaimerText: string
       companyNameText: string | null
       companyNameFont: string
@@ -5481,6 +6010,7 @@ export namespace Prisma {
       paymentsEnabled: boolean
       showVehicles: boolean
       pricePerVehicle: number
+      vehicleOptions: Prisma.JsonValue
       showAwb: boolean
       geoFencingEnabled: boolean
       serviceZips: string[]
@@ -5912,7 +6442,11 @@ export namespace Prisma {
     readonly id: FieldRef<"WidgetSettings", 'String'>
     readonly companyId: FieldRef<"WidgetSettings", 'String'>
     readonly name: FieldRef<"WidgetSettings", 'String'>
+    readonly formStyle: FieldRef<"WidgetSettings", 'String'>
+    readonly customQuestions: FieldRef<"WidgetSettings", 'Json'>
     readonly logoUrl: FieldRef<"WidgetSettings", 'String'>
+    readonly logoDarkUrl: FieldRef<"WidgetSettings", 'String'>
+    readonly autoContrastLogo: FieldRef<"WidgetSettings", 'Boolean'>
     readonly showWeight: FieldRef<"WidgetSettings", 'Boolean'>
     readonly showItemCount: FieldRef<"WidgetSettings", 'Boolean'>
     readonly showExtras: FieldRef<"WidgetSettings", 'Boolean'>
@@ -5921,6 +6455,7 @@ export namespace Prisma {
     readonly primaryColor: FieldRef<"WidgetSettings", 'String'>
     readonly buttonText: FieldRef<"WidgetSettings", 'String'>
     readonly headerText: FieldRef<"WidgetSettings", 'String'>
+    readonly quickSubtitleText: FieldRef<"WidgetSettings", 'String'>
     readonly disclaimerText: FieldRef<"WidgetSettings", 'String'>
     readonly companyNameText: FieldRef<"WidgetSettings", 'String'>
     readonly companyNameFont: FieldRef<"WidgetSettings", 'String'>
@@ -5930,6 +6465,7 @@ export namespace Prisma {
     readonly paymentsEnabled: FieldRef<"WidgetSettings", 'Boolean'>
     readonly showVehicles: FieldRef<"WidgetSettings", 'Boolean'>
     readonly pricePerVehicle: FieldRef<"WidgetSettings", 'Float'>
+    readonly vehicleOptions: FieldRef<"WidgetSettings", 'Json'>
     readonly showAwb: FieldRef<"WidgetSettings", 'Boolean'>
     readonly geoFencingEnabled: FieldRef<"WidgetSettings", 'Boolean'>
     readonly serviceZips: FieldRef<"WidgetSettings", 'String[]'>
@@ -6385,12 +6921,14 @@ export namespace Prisma {
 
   export type QuoteRequestAvgAggregateOutputType = {
     distanceMiles: number | null
+    itemCount: number | null
     estimatedPrice: number | null
     vehicleCount: number | null
   }
 
   export type QuoteRequestSumAggregateOutputType = {
     distanceMiles: number | null
+    itemCount: number | null
     estimatedPrice: number | null
     vehicleCount: number | null
   }
@@ -6403,14 +6941,18 @@ export namespace Prisma {
     customerPhone: string | null
     pickupZip: string | null
     dropoffZip: string | null
+    pickupAddress: string | null
+    dropoffAddress: string | null
     distanceMiles: number | null
     serviceType: string | null
     packageSize: string | null
     packageWeight: string | null
+    itemCount: number | null
     selectedExtras: string | null
     status: string | null
     estimatedPrice: number | null
     vehicleCount: number | null
+    vehicleType: string | null
     awbNumber: string | null
     paymentStatus: string | null
     stripePaymentIntentId: string | null
@@ -6428,14 +6970,18 @@ export namespace Prisma {
     customerPhone: string | null
     pickupZip: string | null
     dropoffZip: string | null
+    pickupAddress: string | null
+    dropoffAddress: string | null
     distanceMiles: number | null
     serviceType: string | null
     packageSize: string | null
     packageWeight: string | null
+    itemCount: number | null
     selectedExtras: string | null
     status: string | null
     estimatedPrice: number | null
     vehicleCount: number | null
+    vehicleType: string | null
     awbNumber: string | null
     paymentStatus: string | null
     stripePaymentIntentId: string | null
@@ -6453,14 +6999,20 @@ export namespace Prisma {
     customerPhone: number
     pickupZip: number
     dropoffZip: number
+    pickupAddress: number
+    dropoffAddress: number
+    intermediateStops: number
     distanceMiles: number
     serviceType: number
     packageSize: number
     packageWeight: number
+    itemCount: number
     selectedExtras: number
     status: number
     estimatedPrice: number
+    pricingBreakdown: number
     vehicleCount: number
+    vehicleType: number
     awbNumber: number
     paymentStatus: number
     stripePaymentIntentId: number
@@ -6474,12 +7026,14 @@ export namespace Prisma {
 
   export type QuoteRequestAvgAggregateInputType = {
     distanceMiles?: true
+    itemCount?: true
     estimatedPrice?: true
     vehicleCount?: true
   }
 
   export type QuoteRequestSumAggregateInputType = {
     distanceMiles?: true
+    itemCount?: true
     estimatedPrice?: true
     vehicleCount?: true
   }
@@ -6492,14 +7046,18 @@ export namespace Prisma {
     customerPhone?: true
     pickupZip?: true
     dropoffZip?: true
+    pickupAddress?: true
+    dropoffAddress?: true
     distanceMiles?: true
     serviceType?: true
     packageSize?: true
     packageWeight?: true
+    itemCount?: true
     selectedExtras?: true
     status?: true
     estimatedPrice?: true
     vehicleCount?: true
+    vehicleType?: true
     awbNumber?: true
     paymentStatus?: true
     stripePaymentIntentId?: true
@@ -6517,14 +7075,18 @@ export namespace Prisma {
     customerPhone?: true
     pickupZip?: true
     dropoffZip?: true
+    pickupAddress?: true
+    dropoffAddress?: true
     distanceMiles?: true
     serviceType?: true
     packageSize?: true
     packageWeight?: true
+    itemCount?: true
     selectedExtras?: true
     status?: true
     estimatedPrice?: true
     vehicleCount?: true
+    vehicleType?: true
     awbNumber?: true
     paymentStatus?: true
     stripePaymentIntentId?: true
@@ -6542,14 +7104,20 @@ export namespace Prisma {
     customerPhone?: true
     pickupZip?: true
     dropoffZip?: true
+    pickupAddress?: true
+    dropoffAddress?: true
+    intermediateStops?: true
     distanceMiles?: true
     serviceType?: true
     packageSize?: true
     packageWeight?: true
+    itemCount?: true
     selectedExtras?: true
     status?: true
     estimatedPrice?: true
+    pricingBreakdown?: true
     vehicleCount?: true
+    vehicleType?: true
     awbNumber?: true
     paymentStatus?: true
     stripePaymentIntentId?: true
@@ -6654,14 +7222,20 @@ export namespace Prisma {
     customerPhone: string | null
     pickupZip: string
     dropoffZip: string
+    pickupAddress: string | null
+    dropoffAddress: string | null
+    intermediateStops: JsonValue
     distanceMiles: number
     serviceType: string
     packageSize: string | null
     packageWeight: string | null
+    itemCount: number | null
     selectedExtras: string | null
     status: string
     estimatedPrice: number
+    pricingBreakdown: JsonValue | null
     vehicleCount: number | null
+    vehicleType: string | null
     awbNumber: string | null
     paymentStatus: string | null
     stripePaymentIntentId: string | null
@@ -6698,14 +7272,20 @@ export namespace Prisma {
     customerPhone?: boolean
     pickupZip?: boolean
     dropoffZip?: boolean
+    pickupAddress?: boolean
+    dropoffAddress?: boolean
+    intermediateStops?: boolean
     distanceMiles?: boolean
     serviceType?: boolean
     packageSize?: boolean
     packageWeight?: boolean
+    itemCount?: boolean
     selectedExtras?: boolean
     status?: boolean
     estimatedPrice?: boolean
+    pricingBreakdown?: boolean
     vehicleCount?: boolean
+    vehicleType?: boolean
     awbNumber?: boolean
     paymentStatus?: boolean
     stripePaymentIntentId?: boolean
@@ -6715,6 +7295,7 @@ export namespace Prisma {
     deletedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     jobs?: boolean | QuoteRequest$jobsArgs<ExtArgs>
+    customerDocuments?: boolean | QuoteRequest$customerDocumentsArgs<ExtArgs>
     _count?: boolean | QuoteRequestCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quoteRequest"]>
 
@@ -6726,14 +7307,20 @@ export namespace Prisma {
     customerPhone?: boolean
     pickupZip?: boolean
     dropoffZip?: boolean
+    pickupAddress?: boolean
+    dropoffAddress?: boolean
+    intermediateStops?: boolean
     distanceMiles?: boolean
     serviceType?: boolean
     packageSize?: boolean
     packageWeight?: boolean
+    itemCount?: boolean
     selectedExtras?: boolean
     status?: boolean
     estimatedPrice?: boolean
+    pricingBreakdown?: boolean
     vehicleCount?: boolean
+    vehicleType?: boolean
     awbNumber?: boolean
     paymentStatus?: boolean
     stripePaymentIntentId?: boolean
@@ -6752,14 +7339,20 @@ export namespace Prisma {
     customerPhone?: boolean
     pickupZip?: boolean
     dropoffZip?: boolean
+    pickupAddress?: boolean
+    dropoffAddress?: boolean
+    intermediateStops?: boolean
     distanceMiles?: boolean
     serviceType?: boolean
     packageSize?: boolean
     packageWeight?: boolean
+    itemCount?: boolean
     selectedExtras?: boolean
     status?: boolean
     estimatedPrice?: boolean
+    pricingBreakdown?: boolean
     vehicleCount?: boolean
+    vehicleType?: boolean
     awbNumber?: boolean
     paymentStatus?: boolean
     stripePaymentIntentId?: boolean
@@ -6778,14 +7371,20 @@ export namespace Prisma {
     customerPhone?: boolean
     pickupZip?: boolean
     dropoffZip?: boolean
+    pickupAddress?: boolean
+    dropoffAddress?: boolean
+    intermediateStops?: boolean
     distanceMiles?: boolean
     serviceType?: boolean
     packageSize?: boolean
     packageWeight?: boolean
+    itemCount?: boolean
     selectedExtras?: boolean
     status?: boolean
     estimatedPrice?: boolean
+    pricingBreakdown?: boolean
     vehicleCount?: boolean
+    vehicleType?: boolean
     awbNumber?: boolean
     paymentStatus?: boolean
     stripePaymentIntentId?: boolean
@@ -6795,10 +7394,11 @@ export namespace Prisma {
     deletedAt?: boolean
   }
 
-  export type QuoteRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "customerName" | "customerEmail" | "customerPhone" | "pickupZip" | "dropoffZip" | "distanceMiles" | "serviceType" | "packageSize" | "packageWeight" | "selectedExtras" | "status" | "estimatedPrice" | "vehicleCount" | "awbNumber" | "paymentStatus" | "stripePaymentIntentId" | "internalNotes" | "paidAt" | "createdAt" | "deletedAt", ExtArgs["result"]["quoteRequest"]>
+  export type QuoteRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "customerName" | "customerEmail" | "customerPhone" | "pickupZip" | "dropoffZip" | "pickupAddress" | "dropoffAddress" | "intermediateStops" | "distanceMiles" | "serviceType" | "packageSize" | "packageWeight" | "itemCount" | "selectedExtras" | "status" | "estimatedPrice" | "pricingBreakdown" | "vehicleCount" | "vehicleType" | "awbNumber" | "paymentStatus" | "stripePaymentIntentId" | "internalNotes" | "paidAt" | "createdAt" | "deletedAt", ExtArgs["result"]["quoteRequest"]>
   export type QuoteRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     jobs?: boolean | QuoteRequest$jobsArgs<ExtArgs>
+    customerDocuments?: boolean | QuoteRequest$customerDocumentsArgs<ExtArgs>
     _count?: boolean | QuoteRequestCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type QuoteRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6813,6 +7413,7 @@ export namespace Prisma {
     objects: {
       company: Prisma.$CompanyPayload<ExtArgs>
       jobs: Prisma.$JobPayload<ExtArgs>[]
+      customerDocuments: Prisma.$CustomerDocumentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6822,14 +7423,20 @@ export namespace Prisma {
       customerPhone: string | null
       pickupZip: string
       dropoffZip: string
+      pickupAddress: string | null
+      dropoffAddress: string | null
+      intermediateStops: Prisma.JsonValue
       distanceMiles: number
       serviceType: string
       packageSize: string | null
       packageWeight: string | null
+      itemCount: number | null
       selectedExtras: string | null
       status: string
       estimatedPrice: number
+      pricingBreakdown: Prisma.JsonValue | null
       vehicleCount: number | null
+      vehicleType: string | null
       awbNumber: string | null
       paymentStatus: string | null
       stripePaymentIntentId: string | null
@@ -7233,6 +7840,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     jobs<T extends QuoteRequest$jobsArgs<ExtArgs> = {}>(args?: Subset<T, QuoteRequest$jobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    customerDocuments<T extends QuoteRequest$customerDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, QuoteRequest$customerDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomerDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7269,14 +7877,20 @@ export namespace Prisma {
     readonly customerPhone: FieldRef<"QuoteRequest", 'String'>
     readonly pickupZip: FieldRef<"QuoteRequest", 'String'>
     readonly dropoffZip: FieldRef<"QuoteRequest", 'String'>
+    readonly pickupAddress: FieldRef<"QuoteRequest", 'String'>
+    readonly dropoffAddress: FieldRef<"QuoteRequest", 'String'>
+    readonly intermediateStops: FieldRef<"QuoteRequest", 'Json'>
     readonly distanceMiles: FieldRef<"QuoteRequest", 'Float'>
     readonly serviceType: FieldRef<"QuoteRequest", 'String'>
     readonly packageSize: FieldRef<"QuoteRequest", 'String'>
     readonly packageWeight: FieldRef<"QuoteRequest", 'String'>
+    readonly itemCount: FieldRef<"QuoteRequest", 'Int'>
     readonly selectedExtras: FieldRef<"QuoteRequest", 'String'>
     readonly status: FieldRef<"QuoteRequest", 'String'>
     readonly estimatedPrice: FieldRef<"QuoteRequest", 'Float'>
+    readonly pricingBreakdown: FieldRef<"QuoteRequest", 'Json'>
     readonly vehicleCount: FieldRef<"QuoteRequest", 'Int'>
+    readonly vehicleType: FieldRef<"QuoteRequest", 'String'>
     readonly awbNumber: FieldRef<"QuoteRequest", 'String'>
     readonly paymentStatus: FieldRef<"QuoteRequest", 'String'>
     readonly stripePaymentIntentId: FieldRef<"QuoteRequest", 'String'>
@@ -7706,6 +8320,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: JobScalarFieldEnum | JobScalarFieldEnum[]
+  }
+
+  /**
+   * QuoteRequest.customerDocuments
+   */
+  export type QuoteRequest$customerDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerDocument
+     */
+    select?: CustomerDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerDocument
+     */
+    omit?: CustomerDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerDocumentInclude<ExtArgs> | null
+    where?: CustomerDocumentWhereInput
+    orderBy?: CustomerDocumentOrderByWithRelationInput | CustomerDocumentOrderByWithRelationInput[]
+    cursor?: CustomerDocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CustomerDocumentScalarFieldEnum | CustomerDocumentScalarFieldEnum[]
   }
 
   /**
@@ -16836,6 +17474,2297 @@ export namespace Prisma {
 
 
   /**
+   * Model CustomerDocument
+   */
+
+  export type AggregateCustomerDocument = {
+    _count: CustomerDocumentCountAggregateOutputType | null
+    _avg: CustomerDocumentAvgAggregateOutputType | null
+    _sum: CustomerDocumentSumAggregateOutputType | null
+    _min: CustomerDocumentMinAggregateOutputType | null
+    _max: CustomerDocumentMaxAggregateOutputType | null
+  }
+
+  export type CustomerDocumentAvgAggregateOutputType = {
+    version: number | null
+  }
+
+  export type CustomerDocumentSumAggregateOutputType = {
+    version: number | null
+  }
+
+  export type CustomerDocumentMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    quoteRequestId: string | null
+    type: string | null
+    number: string | null
+    status: string | null
+    version: number | null
+    publicTokenHash: string | null
+    createdAt: Date | null
+    issuedAt: Date | null
+    paidAt: Date | null
+    lastEmailedAt: Date | null
+    lastViewedAt: Date | null
+  }
+
+  export type CustomerDocumentMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    quoteRequestId: string | null
+    type: string | null
+    number: string | null
+    status: string | null
+    version: number | null
+    publicTokenHash: string | null
+    createdAt: Date | null
+    issuedAt: Date | null
+    paidAt: Date | null
+    lastEmailedAt: Date | null
+    lastViewedAt: Date | null
+  }
+
+  export type CustomerDocumentCountAggregateOutputType = {
+    id: number
+    companyId: number
+    quoteRequestId: number
+    type: number
+    number: number
+    status: number
+    snapshot: number
+    version: number
+    publicTokenHash: number
+    createdAt: number
+    issuedAt: number
+    paidAt: number
+    lastEmailedAt: number
+    lastViewedAt: number
+    metadata: number
+    _all: number
+  }
+
+
+  export type CustomerDocumentAvgAggregateInputType = {
+    version?: true
+  }
+
+  export type CustomerDocumentSumAggregateInputType = {
+    version?: true
+  }
+
+  export type CustomerDocumentMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    quoteRequestId?: true
+    type?: true
+    number?: true
+    status?: true
+    version?: true
+    publicTokenHash?: true
+    createdAt?: true
+    issuedAt?: true
+    paidAt?: true
+    lastEmailedAt?: true
+    lastViewedAt?: true
+  }
+
+  export type CustomerDocumentMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    quoteRequestId?: true
+    type?: true
+    number?: true
+    status?: true
+    version?: true
+    publicTokenHash?: true
+    createdAt?: true
+    issuedAt?: true
+    paidAt?: true
+    lastEmailedAt?: true
+    lastViewedAt?: true
+  }
+
+  export type CustomerDocumentCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    quoteRequestId?: true
+    type?: true
+    number?: true
+    status?: true
+    snapshot?: true
+    version?: true
+    publicTokenHash?: true
+    createdAt?: true
+    issuedAt?: true
+    paidAt?: true
+    lastEmailedAt?: true
+    lastViewedAt?: true
+    metadata?: true
+    _all?: true
+  }
+
+  export type CustomerDocumentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomerDocument to aggregate.
+     */
+    where?: CustomerDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomerDocuments to fetch.
+     */
+    orderBy?: CustomerDocumentOrderByWithRelationInput | CustomerDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CustomerDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomerDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomerDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CustomerDocuments
+    **/
+    _count?: true | CustomerDocumentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CustomerDocumentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CustomerDocumentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CustomerDocumentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CustomerDocumentMaxAggregateInputType
+  }
+
+  export type GetCustomerDocumentAggregateType<T extends CustomerDocumentAggregateArgs> = {
+        [P in keyof T & keyof AggregateCustomerDocument]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCustomerDocument[P]>
+      : GetScalarType<T[P], AggregateCustomerDocument[P]>
+  }
+
+
+
+
+  export type CustomerDocumentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomerDocumentWhereInput
+    orderBy?: CustomerDocumentOrderByWithAggregationInput | CustomerDocumentOrderByWithAggregationInput[]
+    by: CustomerDocumentScalarFieldEnum[] | CustomerDocumentScalarFieldEnum
+    having?: CustomerDocumentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CustomerDocumentCountAggregateInputType | true
+    _avg?: CustomerDocumentAvgAggregateInputType
+    _sum?: CustomerDocumentSumAggregateInputType
+    _min?: CustomerDocumentMinAggregateInputType
+    _max?: CustomerDocumentMaxAggregateInputType
+  }
+
+  export type CustomerDocumentGroupByOutputType = {
+    id: string
+    companyId: string
+    quoteRequestId: string
+    type: string
+    number: string
+    status: string
+    snapshot: JsonValue
+    version: number
+    publicTokenHash: string | null
+    createdAt: Date
+    issuedAt: Date | null
+    paidAt: Date | null
+    lastEmailedAt: Date | null
+    lastViewedAt: Date | null
+    metadata: JsonValue | null
+    _count: CustomerDocumentCountAggregateOutputType | null
+    _avg: CustomerDocumentAvgAggregateOutputType | null
+    _sum: CustomerDocumentSumAggregateOutputType | null
+    _min: CustomerDocumentMinAggregateOutputType | null
+    _max: CustomerDocumentMaxAggregateOutputType | null
+  }
+
+  type GetCustomerDocumentGroupByPayload<T extends CustomerDocumentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CustomerDocumentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CustomerDocumentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CustomerDocumentGroupByOutputType[P]>
+            : GetScalarType<T[P], CustomerDocumentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CustomerDocumentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    quoteRequestId?: boolean
+    type?: boolean
+    number?: boolean
+    status?: boolean
+    snapshot?: boolean
+    version?: boolean
+    publicTokenHash?: boolean
+    createdAt?: boolean
+    issuedAt?: boolean
+    paidAt?: boolean
+    lastEmailedAt?: boolean
+    lastViewedAt?: boolean
+    metadata?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    quoteRequest?: boolean | QuoteRequestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customerDocument"]>
+
+  export type CustomerDocumentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    quoteRequestId?: boolean
+    type?: boolean
+    number?: boolean
+    status?: boolean
+    snapshot?: boolean
+    version?: boolean
+    publicTokenHash?: boolean
+    createdAt?: boolean
+    issuedAt?: boolean
+    paidAt?: boolean
+    lastEmailedAt?: boolean
+    lastViewedAt?: boolean
+    metadata?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    quoteRequest?: boolean | QuoteRequestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customerDocument"]>
+
+  export type CustomerDocumentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    quoteRequestId?: boolean
+    type?: boolean
+    number?: boolean
+    status?: boolean
+    snapshot?: boolean
+    version?: boolean
+    publicTokenHash?: boolean
+    createdAt?: boolean
+    issuedAt?: boolean
+    paidAt?: boolean
+    lastEmailedAt?: boolean
+    lastViewedAt?: boolean
+    metadata?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    quoteRequest?: boolean | QuoteRequestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customerDocument"]>
+
+  export type CustomerDocumentSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    quoteRequestId?: boolean
+    type?: boolean
+    number?: boolean
+    status?: boolean
+    snapshot?: boolean
+    version?: boolean
+    publicTokenHash?: boolean
+    createdAt?: boolean
+    issuedAt?: boolean
+    paidAt?: boolean
+    lastEmailedAt?: boolean
+    lastViewedAt?: boolean
+    metadata?: boolean
+  }
+
+  export type CustomerDocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "quoteRequestId" | "type" | "number" | "status" | "snapshot" | "version" | "publicTokenHash" | "createdAt" | "issuedAt" | "paidAt" | "lastEmailedAt" | "lastViewedAt" | "metadata", ExtArgs["result"]["customerDocument"]>
+  export type CustomerDocumentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    quoteRequest?: boolean | QuoteRequestDefaultArgs<ExtArgs>
+  }
+  export type CustomerDocumentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    quoteRequest?: boolean | QuoteRequestDefaultArgs<ExtArgs>
+  }
+  export type CustomerDocumentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    quoteRequest?: boolean | QuoteRequestDefaultArgs<ExtArgs>
+  }
+
+  export type $CustomerDocumentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CustomerDocument"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      quoteRequest: Prisma.$QuoteRequestPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      quoteRequestId: string
+      type: string
+      number: string
+      status: string
+      snapshot: Prisma.JsonValue
+      version: number
+      publicTokenHash: string | null
+      createdAt: Date
+      issuedAt: Date | null
+      paidAt: Date | null
+      lastEmailedAt: Date | null
+      lastViewedAt: Date | null
+      metadata: Prisma.JsonValue | null
+    }, ExtArgs["result"]["customerDocument"]>
+    composites: {}
+  }
+
+  type CustomerDocumentGetPayload<S extends boolean | null | undefined | CustomerDocumentDefaultArgs> = $Result.GetResult<Prisma.$CustomerDocumentPayload, S>
+
+  type CustomerDocumentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CustomerDocumentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CustomerDocumentCountAggregateInputType | true
+    }
+
+  export interface CustomerDocumentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CustomerDocument'], meta: { name: 'CustomerDocument' } }
+    /**
+     * Find zero or one CustomerDocument that matches the filter.
+     * @param {CustomerDocumentFindUniqueArgs} args - Arguments to find a CustomerDocument
+     * @example
+     * // Get one CustomerDocument
+     * const customerDocument = await prisma.customerDocument.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CustomerDocumentFindUniqueArgs>(args: SelectSubset<T, CustomerDocumentFindUniqueArgs<ExtArgs>>): Prisma__CustomerDocumentClient<$Result.GetResult<Prisma.$CustomerDocumentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CustomerDocument that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CustomerDocumentFindUniqueOrThrowArgs} args - Arguments to find a CustomerDocument
+     * @example
+     * // Get one CustomerDocument
+     * const customerDocument = await prisma.customerDocument.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CustomerDocumentFindUniqueOrThrowArgs>(args: SelectSubset<T, CustomerDocumentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CustomerDocumentClient<$Result.GetResult<Prisma.$CustomerDocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomerDocument that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerDocumentFindFirstArgs} args - Arguments to find a CustomerDocument
+     * @example
+     * // Get one CustomerDocument
+     * const customerDocument = await prisma.customerDocument.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CustomerDocumentFindFirstArgs>(args?: SelectSubset<T, CustomerDocumentFindFirstArgs<ExtArgs>>): Prisma__CustomerDocumentClient<$Result.GetResult<Prisma.$CustomerDocumentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomerDocument that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerDocumentFindFirstOrThrowArgs} args - Arguments to find a CustomerDocument
+     * @example
+     * // Get one CustomerDocument
+     * const customerDocument = await prisma.customerDocument.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CustomerDocumentFindFirstOrThrowArgs>(args?: SelectSubset<T, CustomerDocumentFindFirstOrThrowArgs<ExtArgs>>): Prisma__CustomerDocumentClient<$Result.GetResult<Prisma.$CustomerDocumentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CustomerDocuments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerDocumentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CustomerDocuments
+     * const customerDocuments = await prisma.customerDocument.findMany()
+     * 
+     * // Get first 10 CustomerDocuments
+     * const customerDocuments = await prisma.customerDocument.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const customerDocumentWithIdOnly = await prisma.customerDocument.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CustomerDocumentFindManyArgs>(args?: SelectSubset<T, CustomerDocumentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomerDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CustomerDocument.
+     * @param {CustomerDocumentCreateArgs} args - Arguments to create a CustomerDocument.
+     * @example
+     * // Create one CustomerDocument
+     * const CustomerDocument = await prisma.customerDocument.create({
+     *   data: {
+     *     // ... data to create a CustomerDocument
+     *   }
+     * })
+     * 
+     */
+    create<T extends CustomerDocumentCreateArgs>(args: SelectSubset<T, CustomerDocumentCreateArgs<ExtArgs>>): Prisma__CustomerDocumentClient<$Result.GetResult<Prisma.$CustomerDocumentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CustomerDocuments.
+     * @param {CustomerDocumentCreateManyArgs} args - Arguments to create many CustomerDocuments.
+     * @example
+     * // Create many CustomerDocuments
+     * const customerDocument = await prisma.customerDocument.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CustomerDocumentCreateManyArgs>(args?: SelectSubset<T, CustomerDocumentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CustomerDocuments and returns the data saved in the database.
+     * @param {CustomerDocumentCreateManyAndReturnArgs} args - Arguments to create many CustomerDocuments.
+     * @example
+     * // Create many CustomerDocuments
+     * const customerDocument = await prisma.customerDocument.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CustomerDocuments and only return the `id`
+     * const customerDocumentWithIdOnly = await prisma.customerDocument.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CustomerDocumentCreateManyAndReturnArgs>(args?: SelectSubset<T, CustomerDocumentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomerDocumentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CustomerDocument.
+     * @param {CustomerDocumentDeleteArgs} args - Arguments to delete one CustomerDocument.
+     * @example
+     * // Delete one CustomerDocument
+     * const CustomerDocument = await prisma.customerDocument.delete({
+     *   where: {
+     *     // ... filter to delete one CustomerDocument
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CustomerDocumentDeleteArgs>(args: SelectSubset<T, CustomerDocumentDeleteArgs<ExtArgs>>): Prisma__CustomerDocumentClient<$Result.GetResult<Prisma.$CustomerDocumentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CustomerDocument.
+     * @param {CustomerDocumentUpdateArgs} args - Arguments to update one CustomerDocument.
+     * @example
+     * // Update one CustomerDocument
+     * const customerDocument = await prisma.customerDocument.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CustomerDocumentUpdateArgs>(args: SelectSubset<T, CustomerDocumentUpdateArgs<ExtArgs>>): Prisma__CustomerDocumentClient<$Result.GetResult<Prisma.$CustomerDocumentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CustomerDocuments.
+     * @param {CustomerDocumentDeleteManyArgs} args - Arguments to filter CustomerDocuments to delete.
+     * @example
+     * // Delete a few CustomerDocuments
+     * const { count } = await prisma.customerDocument.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CustomerDocumentDeleteManyArgs>(args?: SelectSubset<T, CustomerDocumentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomerDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerDocumentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CustomerDocuments
+     * const customerDocument = await prisma.customerDocument.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CustomerDocumentUpdateManyArgs>(args: SelectSubset<T, CustomerDocumentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomerDocuments and returns the data updated in the database.
+     * @param {CustomerDocumentUpdateManyAndReturnArgs} args - Arguments to update many CustomerDocuments.
+     * @example
+     * // Update many CustomerDocuments
+     * const customerDocument = await prisma.customerDocument.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CustomerDocuments and only return the `id`
+     * const customerDocumentWithIdOnly = await prisma.customerDocument.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CustomerDocumentUpdateManyAndReturnArgs>(args: SelectSubset<T, CustomerDocumentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomerDocumentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CustomerDocument.
+     * @param {CustomerDocumentUpsertArgs} args - Arguments to update or create a CustomerDocument.
+     * @example
+     * // Update or create a CustomerDocument
+     * const customerDocument = await prisma.customerDocument.upsert({
+     *   create: {
+     *     // ... data to create a CustomerDocument
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CustomerDocument we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CustomerDocumentUpsertArgs>(args: SelectSubset<T, CustomerDocumentUpsertArgs<ExtArgs>>): Prisma__CustomerDocumentClient<$Result.GetResult<Prisma.$CustomerDocumentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CustomerDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerDocumentCountArgs} args - Arguments to filter CustomerDocuments to count.
+     * @example
+     * // Count the number of CustomerDocuments
+     * const count = await prisma.customerDocument.count({
+     *   where: {
+     *     // ... the filter for the CustomerDocuments we want to count
+     *   }
+     * })
+    **/
+    count<T extends CustomerDocumentCountArgs>(
+      args?: Subset<T, CustomerDocumentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CustomerDocumentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CustomerDocument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerDocumentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CustomerDocumentAggregateArgs>(args: Subset<T, CustomerDocumentAggregateArgs>): Prisma.PrismaPromise<GetCustomerDocumentAggregateType<T>>
+
+    /**
+     * Group by CustomerDocument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerDocumentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CustomerDocumentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CustomerDocumentGroupByArgs['orderBy'] }
+        : { orderBy?: CustomerDocumentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CustomerDocumentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomerDocumentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CustomerDocument model
+   */
+  readonly fields: CustomerDocumentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CustomerDocument.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CustomerDocumentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    quoteRequest<T extends QuoteRequestDefaultArgs<ExtArgs> = {}>(args?: Subset<T, QuoteRequestDefaultArgs<ExtArgs>>): Prisma__QuoteRequestClient<$Result.GetResult<Prisma.$QuoteRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CustomerDocument model
+   */
+  interface CustomerDocumentFieldRefs {
+    readonly id: FieldRef<"CustomerDocument", 'String'>
+    readonly companyId: FieldRef<"CustomerDocument", 'String'>
+    readonly quoteRequestId: FieldRef<"CustomerDocument", 'String'>
+    readonly type: FieldRef<"CustomerDocument", 'String'>
+    readonly number: FieldRef<"CustomerDocument", 'String'>
+    readonly status: FieldRef<"CustomerDocument", 'String'>
+    readonly snapshot: FieldRef<"CustomerDocument", 'Json'>
+    readonly version: FieldRef<"CustomerDocument", 'Int'>
+    readonly publicTokenHash: FieldRef<"CustomerDocument", 'String'>
+    readonly createdAt: FieldRef<"CustomerDocument", 'DateTime'>
+    readonly issuedAt: FieldRef<"CustomerDocument", 'DateTime'>
+    readonly paidAt: FieldRef<"CustomerDocument", 'DateTime'>
+    readonly lastEmailedAt: FieldRef<"CustomerDocument", 'DateTime'>
+    readonly lastViewedAt: FieldRef<"CustomerDocument", 'DateTime'>
+    readonly metadata: FieldRef<"CustomerDocument", 'Json'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CustomerDocument findUnique
+   */
+  export type CustomerDocumentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerDocument
+     */
+    select?: CustomerDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerDocument
+     */
+    omit?: CustomerDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomerDocument to fetch.
+     */
+    where: CustomerDocumentWhereUniqueInput
+  }
+
+  /**
+   * CustomerDocument findUniqueOrThrow
+   */
+  export type CustomerDocumentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerDocument
+     */
+    select?: CustomerDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerDocument
+     */
+    omit?: CustomerDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomerDocument to fetch.
+     */
+    where: CustomerDocumentWhereUniqueInput
+  }
+
+  /**
+   * CustomerDocument findFirst
+   */
+  export type CustomerDocumentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerDocument
+     */
+    select?: CustomerDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerDocument
+     */
+    omit?: CustomerDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomerDocument to fetch.
+     */
+    where?: CustomerDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomerDocuments to fetch.
+     */
+    orderBy?: CustomerDocumentOrderByWithRelationInput | CustomerDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomerDocuments.
+     */
+    cursor?: CustomerDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomerDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomerDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomerDocuments.
+     */
+    distinct?: CustomerDocumentScalarFieldEnum | CustomerDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * CustomerDocument findFirstOrThrow
+   */
+  export type CustomerDocumentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerDocument
+     */
+    select?: CustomerDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerDocument
+     */
+    omit?: CustomerDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomerDocument to fetch.
+     */
+    where?: CustomerDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomerDocuments to fetch.
+     */
+    orderBy?: CustomerDocumentOrderByWithRelationInput | CustomerDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomerDocuments.
+     */
+    cursor?: CustomerDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomerDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomerDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomerDocuments.
+     */
+    distinct?: CustomerDocumentScalarFieldEnum | CustomerDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * CustomerDocument findMany
+   */
+  export type CustomerDocumentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerDocument
+     */
+    select?: CustomerDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerDocument
+     */
+    omit?: CustomerDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomerDocuments to fetch.
+     */
+    where?: CustomerDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomerDocuments to fetch.
+     */
+    orderBy?: CustomerDocumentOrderByWithRelationInput | CustomerDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CustomerDocuments.
+     */
+    cursor?: CustomerDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomerDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomerDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomerDocuments.
+     */
+    distinct?: CustomerDocumentScalarFieldEnum | CustomerDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * CustomerDocument create
+   */
+  export type CustomerDocumentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerDocument
+     */
+    select?: CustomerDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerDocument
+     */
+    omit?: CustomerDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerDocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CustomerDocument.
+     */
+    data: XOR<CustomerDocumentCreateInput, CustomerDocumentUncheckedCreateInput>
+  }
+
+  /**
+   * CustomerDocument createMany
+   */
+  export type CustomerDocumentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CustomerDocuments.
+     */
+    data: CustomerDocumentCreateManyInput | CustomerDocumentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CustomerDocument createManyAndReturn
+   */
+  export type CustomerDocumentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerDocument
+     */
+    select?: CustomerDocumentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerDocument
+     */
+    omit?: CustomerDocumentOmit<ExtArgs> | null
+    /**
+     * The data used to create many CustomerDocuments.
+     */
+    data: CustomerDocumentCreateManyInput | CustomerDocumentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerDocumentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CustomerDocument update
+   */
+  export type CustomerDocumentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerDocument
+     */
+    select?: CustomerDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerDocument
+     */
+    omit?: CustomerDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerDocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CustomerDocument.
+     */
+    data: XOR<CustomerDocumentUpdateInput, CustomerDocumentUncheckedUpdateInput>
+    /**
+     * Choose, which CustomerDocument to update.
+     */
+    where: CustomerDocumentWhereUniqueInput
+  }
+
+  /**
+   * CustomerDocument updateMany
+   */
+  export type CustomerDocumentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CustomerDocuments.
+     */
+    data: XOR<CustomerDocumentUpdateManyMutationInput, CustomerDocumentUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomerDocuments to update
+     */
+    where?: CustomerDocumentWhereInput
+    /**
+     * Limit how many CustomerDocuments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomerDocument updateManyAndReturn
+   */
+  export type CustomerDocumentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerDocument
+     */
+    select?: CustomerDocumentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerDocument
+     */
+    omit?: CustomerDocumentOmit<ExtArgs> | null
+    /**
+     * The data used to update CustomerDocuments.
+     */
+    data: XOR<CustomerDocumentUpdateManyMutationInput, CustomerDocumentUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomerDocuments to update
+     */
+    where?: CustomerDocumentWhereInput
+    /**
+     * Limit how many CustomerDocuments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerDocumentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CustomerDocument upsert
+   */
+  export type CustomerDocumentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerDocument
+     */
+    select?: CustomerDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerDocument
+     */
+    omit?: CustomerDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerDocumentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CustomerDocument to update in case it exists.
+     */
+    where: CustomerDocumentWhereUniqueInput
+    /**
+     * In case the CustomerDocument found by the `where` argument doesn't exist, create a new CustomerDocument with this data.
+     */
+    create: XOR<CustomerDocumentCreateInput, CustomerDocumentUncheckedCreateInput>
+    /**
+     * In case the CustomerDocument was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CustomerDocumentUpdateInput, CustomerDocumentUncheckedUpdateInput>
+  }
+
+  /**
+   * CustomerDocument delete
+   */
+  export type CustomerDocumentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerDocument
+     */
+    select?: CustomerDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerDocument
+     */
+    omit?: CustomerDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerDocumentInclude<ExtArgs> | null
+    /**
+     * Filter which CustomerDocument to delete.
+     */
+    where: CustomerDocumentWhereUniqueInput
+  }
+
+  /**
+   * CustomerDocument deleteMany
+   */
+  export type CustomerDocumentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomerDocuments to delete
+     */
+    where?: CustomerDocumentWhereInput
+    /**
+     * Limit how many CustomerDocuments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomerDocument without action
+   */
+  export type CustomerDocumentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerDocument
+     */
+    select?: CustomerDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomerDocument
+     */
+    omit?: CustomerDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerDocumentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DocumentSequence
+   */
+
+  export type AggregateDocumentSequence = {
+    _count: DocumentSequenceCountAggregateOutputType | null
+    _avg: DocumentSequenceAvgAggregateOutputType | null
+    _sum: DocumentSequenceSumAggregateOutputType | null
+    _min: DocumentSequenceMinAggregateOutputType | null
+    _max: DocumentSequenceMaxAggregateOutputType | null
+  }
+
+  export type DocumentSequenceAvgAggregateOutputType = {
+    year: number | null
+    nextNumber: number | null
+  }
+
+  export type DocumentSequenceSumAggregateOutputType = {
+    year: number | null
+    nextNumber: number | null
+  }
+
+  export type DocumentSequenceMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    year: number | null
+    type: string | null
+    nextNumber: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DocumentSequenceMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    year: number | null
+    type: string | null
+    nextNumber: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DocumentSequenceCountAggregateOutputType = {
+    id: number
+    companyId: number
+    year: number
+    type: number
+    nextNumber: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DocumentSequenceAvgAggregateInputType = {
+    year?: true
+    nextNumber?: true
+  }
+
+  export type DocumentSequenceSumAggregateInputType = {
+    year?: true
+    nextNumber?: true
+  }
+
+  export type DocumentSequenceMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    year?: true
+    type?: true
+    nextNumber?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DocumentSequenceMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    year?: true
+    type?: true
+    nextNumber?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DocumentSequenceCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    year?: true
+    type?: true
+    nextNumber?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DocumentSequenceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DocumentSequence to aggregate.
+     */
+    where?: DocumentSequenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentSequences to fetch.
+     */
+    orderBy?: DocumentSequenceOrderByWithRelationInput | DocumentSequenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DocumentSequenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentSequences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentSequences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DocumentSequences
+    **/
+    _count?: true | DocumentSequenceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DocumentSequenceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DocumentSequenceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DocumentSequenceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DocumentSequenceMaxAggregateInputType
+  }
+
+  export type GetDocumentSequenceAggregateType<T extends DocumentSequenceAggregateArgs> = {
+        [P in keyof T & keyof AggregateDocumentSequence]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDocumentSequence[P]>
+      : GetScalarType<T[P], AggregateDocumentSequence[P]>
+  }
+
+
+
+
+  export type DocumentSequenceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentSequenceWhereInput
+    orderBy?: DocumentSequenceOrderByWithAggregationInput | DocumentSequenceOrderByWithAggregationInput[]
+    by: DocumentSequenceScalarFieldEnum[] | DocumentSequenceScalarFieldEnum
+    having?: DocumentSequenceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DocumentSequenceCountAggregateInputType | true
+    _avg?: DocumentSequenceAvgAggregateInputType
+    _sum?: DocumentSequenceSumAggregateInputType
+    _min?: DocumentSequenceMinAggregateInputType
+    _max?: DocumentSequenceMaxAggregateInputType
+  }
+
+  export type DocumentSequenceGroupByOutputType = {
+    id: string
+    companyId: string
+    year: number
+    type: string
+    nextNumber: number
+    createdAt: Date
+    updatedAt: Date
+    _count: DocumentSequenceCountAggregateOutputType | null
+    _avg: DocumentSequenceAvgAggregateOutputType | null
+    _sum: DocumentSequenceSumAggregateOutputType | null
+    _min: DocumentSequenceMinAggregateOutputType | null
+    _max: DocumentSequenceMaxAggregateOutputType | null
+  }
+
+  type GetDocumentSequenceGroupByPayload<T extends DocumentSequenceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DocumentSequenceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DocumentSequenceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DocumentSequenceGroupByOutputType[P]>
+            : GetScalarType<T[P], DocumentSequenceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DocumentSequenceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    year?: boolean
+    type?: boolean
+    nextNumber?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["documentSequence"]>
+
+  export type DocumentSequenceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    year?: boolean
+    type?: boolean
+    nextNumber?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["documentSequence"]>
+
+  export type DocumentSequenceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    year?: boolean
+    type?: boolean
+    nextNumber?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["documentSequence"]>
+
+  export type DocumentSequenceSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    year?: boolean
+    type?: boolean
+    nextNumber?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DocumentSequenceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "year" | "type" | "nextNumber" | "createdAt" | "updatedAt", ExtArgs["result"]["documentSequence"]>
+
+  export type $DocumentSequencePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DocumentSequence"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      year: number
+      type: string
+      nextNumber: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["documentSequence"]>
+    composites: {}
+  }
+
+  type DocumentSequenceGetPayload<S extends boolean | null | undefined | DocumentSequenceDefaultArgs> = $Result.GetResult<Prisma.$DocumentSequencePayload, S>
+
+  type DocumentSequenceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DocumentSequenceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DocumentSequenceCountAggregateInputType | true
+    }
+
+  export interface DocumentSequenceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DocumentSequence'], meta: { name: 'DocumentSequence' } }
+    /**
+     * Find zero or one DocumentSequence that matches the filter.
+     * @param {DocumentSequenceFindUniqueArgs} args - Arguments to find a DocumentSequence
+     * @example
+     * // Get one DocumentSequence
+     * const documentSequence = await prisma.documentSequence.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DocumentSequenceFindUniqueArgs>(args: SelectSubset<T, DocumentSequenceFindUniqueArgs<ExtArgs>>): Prisma__DocumentSequenceClient<$Result.GetResult<Prisma.$DocumentSequencePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DocumentSequence that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DocumentSequenceFindUniqueOrThrowArgs} args - Arguments to find a DocumentSequence
+     * @example
+     * // Get one DocumentSequence
+     * const documentSequence = await prisma.documentSequence.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DocumentSequenceFindUniqueOrThrowArgs>(args: SelectSubset<T, DocumentSequenceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DocumentSequenceClient<$Result.GetResult<Prisma.$DocumentSequencePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DocumentSequence that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentSequenceFindFirstArgs} args - Arguments to find a DocumentSequence
+     * @example
+     * // Get one DocumentSequence
+     * const documentSequence = await prisma.documentSequence.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DocumentSequenceFindFirstArgs>(args?: SelectSubset<T, DocumentSequenceFindFirstArgs<ExtArgs>>): Prisma__DocumentSequenceClient<$Result.GetResult<Prisma.$DocumentSequencePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DocumentSequence that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentSequenceFindFirstOrThrowArgs} args - Arguments to find a DocumentSequence
+     * @example
+     * // Get one DocumentSequence
+     * const documentSequence = await prisma.documentSequence.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DocumentSequenceFindFirstOrThrowArgs>(args?: SelectSubset<T, DocumentSequenceFindFirstOrThrowArgs<ExtArgs>>): Prisma__DocumentSequenceClient<$Result.GetResult<Prisma.$DocumentSequencePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DocumentSequences that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentSequenceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DocumentSequences
+     * const documentSequences = await prisma.documentSequence.findMany()
+     * 
+     * // Get first 10 DocumentSequences
+     * const documentSequences = await prisma.documentSequence.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const documentSequenceWithIdOnly = await prisma.documentSequence.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DocumentSequenceFindManyArgs>(args?: SelectSubset<T, DocumentSequenceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentSequencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DocumentSequence.
+     * @param {DocumentSequenceCreateArgs} args - Arguments to create a DocumentSequence.
+     * @example
+     * // Create one DocumentSequence
+     * const DocumentSequence = await prisma.documentSequence.create({
+     *   data: {
+     *     // ... data to create a DocumentSequence
+     *   }
+     * })
+     * 
+     */
+    create<T extends DocumentSequenceCreateArgs>(args: SelectSubset<T, DocumentSequenceCreateArgs<ExtArgs>>): Prisma__DocumentSequenceClient<$Result.GetResult<Prisma.$DocumentSequencePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DocumentSequences.
+     * @param {DocumentSequenceCreateManyArgs} args - Arguments to create many DocumentSequences.
+     * @example
+     * // Create many DocumentSequences
+     * const documentSequence = await prisma.documentSequence.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DocumentSequenceCreateManyArgs>(args?: SelectSubset<T, DocumentSequenceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DocumentSequences and returns the data saved in the database.
+     * @param {DocumentSequenceCreateManyAndReturnArgs} args - Arguments to create many DocumentSequences.
+     * @example
+     * // Create many DocumentSequences
+     * const documentSequence = await prisma.documentSequence.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DocumentSequences and only return the `id`
+     * const documentSequenceWithIdOnly = await prisma.documentSequence.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DocumentSequenceCreateManyAndReturnArgs>(args?: SelectSubset<T, DocumentSequenceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentSequencePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DocumentSequence.
+     * @param {DocumentSequenceDeleteArgs} args - Arguments to delete one DocumentSequence.
+     * @example
+     * // Delete one DocumentSequence
+     * const DocumentSequence = await prisma.documentSequence.delete({
+     *   where: {
+     *     // ... filter to delete one DocumentSequence
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DocumentSequenceDeleteArgs>(args: SelectSubset<T, DocumentSequenceDeleteArgs<ExtArgs>>): Prisma__DocumentSequenceClient<$Result.GetResult<Prisma.$DocumentSequencePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DocumentSequence.
+     * @param {DocumentSequenceUpdateArgs} args - Arguments to update one DocumentSequence.
+     * @example
+     * // Update one DocumentSequence
+     * const documentSequence = await prisma.documentSequence.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DocumentSequenceUpdateArgs>(args: SelectSubset<T, DocumentSequenceUpdateArgs<ExtArgs>>): Prisma__DocumentSequenceClient<$Result.GetResult<Prisma.$DocumentSequencePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DocumentSequences.
+     * @param {DocumentSequenceDeleteManyArgs} args - Arguments to filter DocumentSequences to delete.
+     * @example
+     * // Delete a few DocumentSequences
+     * const { count } = await prisma.documentSequence.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DocumentSequenceDeleteManyArgs>(args?: SelectSubset<T, DocumentSequenceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DocumentSequences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentSequenceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DocumentSequences
+     * const documentSequence = await prisma.documentSequence.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DocumentSequenceUpdateManyArgs>(args: SelectSubset<T, DocumentSequenceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DocumentSequences and returns the data updated in the database.
+     * @param {DocumentSequenceUpdateManyAndReturnArgs} args - Arguments to update many DocumentSequences.
+     * @example
+     * // Update many DocumentSequences
+     * const documentSequence = await prisma.documentSequence.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DocumentSequences and only return the `id`
+     * const documentSequenceWithIdOnly = await prisma.documentSequence.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DocumentSequenceUpdateManyAndReturnArgs>(args: SelectSubset<T, DocumentSequenceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentSequencePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DocumentSequence.
+     * @param {DocumentSequenceUpsertArgs} args - Arguments to update or create a DocumentSequence.
+     * @example
+     * // Update or create a DocumentSequence
+     * const documentSequence = await prisma.documentSequence.upsert({
+     *   create: {
+     *     // ... data to create a DocumentSequence
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DocumentSequence we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DocumentSequenceUpsertArgs>(args: SelectSubset<T, DocumentSequenceUpsertArgs<ExtArgs>>): Prisma__DocumentSequenceClient<$Result.GetResult<Prisma.$DocumentSequencePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DocumentSequences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentSequenceCountArgs} args - Arguments to filter DocumentSequences to count.
+     * @example
+     * // Count the number of DocumentSequences
+     * const count = await prisma.documentSequence.count({
+     *   where: {
+     *     // ... the filter for the DocumentSequences we want to count
+     *   }
+     * })
+    **/
+    count<T extends DocumentSequenceCountArgs>(
+      args?: Subset<T, DocumentSequenceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DocumentSequenceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DocumentSequence.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentSequenceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DocumentSequenceAggregateArgs>(args: Subset<T, DocumentSequenceAggregateArgs>): Prisma.PrismaPromise<GetDocumentSequenceAggregateType<T>>
+
+    /**
+     * Group by DocumentSequence.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentSequenceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DocumentSequenceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DocumentSequenceGroupByArgs['orderBy'] }
+        : { orderBy?: DocumentSequenceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DocumentSequenceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDocumentSequenceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DocumentSequence model
+   */
+  readonly fields: DocumentSequenceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DocumentSequence.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DocumentSequenceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DocumentSequence model
+   */
+  interface DocumentSequenceFieldRefs {
+    readonly id: FieldRef<"DocumentSequence", 'String'>
+    readonly companyId: FieldRef<"DocumentSequence", 'String'>
+    readonly year: FieldRef<"DocumentSequence", 'Int'>
+    readonly type: FieldRef<"DocumentSequence", 'String'>
+    readonly nextNumber: FieldRef<"DocumentSequence", 'Int'>
+    readonly createdAt: FieldRef<"DocumentSequence", 'DateTime'>
+    readonly updatedAt: FieldRef<"DocumentSequence", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DocumentSequence findUnique
+   */
+  export type DocumentSequenceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentSequence
+     */
+    select?: DocumentSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentSequence
+     */
+    omit?: DocumentSequenceOmit<ExtArgs> | null
+    /**
+     * Filter, which DocumentSequence to fetch.
+     */
+    where: DocumentSequenceWhereUniqueInput
+  }
+
+  /**
+   * DocumentSequence findUniqueOrThrow
+   */
+  export type DocumentSequenceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentSequence
+     */
+    select?: DocumentSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentSequence
+     */
+    omit?: DocumentSequenceOmit<ExtArgs> | null
+    /**
+     * Filter, which DocumentSequence to fetch.
+     */
+    where: DocumentSequenceWhereUniqueInput
+  }
+
+  /**
+   * DocumentSequence findFirst
+   */
+  export type DocumentSequenceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentSequence
+     */
+    select?: DocumentSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentSequence
+     */
+    omit?: DocumentSequenceOmit<ExtArgs> | null
+    /**
+     * Filter, which DocumentSequence to fetch.
+     */
+    where?: DocumentSequenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentSequences to fetch.
+     */
+    orderBy?: DocumentSequenceOrderByWithRelationInput | DocumentSequenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DocumentSequences.
+     */
+    cursor?: DocumentSequenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentSequences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentSequences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DocumentSequences.
+     */
+    distinct?: DocumentSequenceScalarFieldEnum | DocumentSequenceScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentSequence findFirstOrThrow
+   */
+  export type DocumentSequenceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentSequence
+     */
+    select?: DocumentSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentSequence
+     */
+    omit?: DocumentSequenceOmit<ExtArgs> | null
+    /**
+     * Filter, which DocumentSequence to fetch.
+     */
+    where?: DocumentSequenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentSequences to fetch.
+     */
+    orderBy?: DocumentSequenceOrderByWithRelationInput | DocumentSequenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DocumentSequences.
+     */
+    cursor?: DocumentSequenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentSequences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentSequences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DocumentSequences.
+     */
+    distinct?: DocumentSequenceScalarFieldEnum | DocumentSequenceScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentSequence findMany
+   */
+  export type DocumentSequenceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentSequence
+     */
+    select?: DocumentSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentSequence
+     */
+    omit?: DocumentSequenceOmit<ExtArgs> | null
+    /**
+     * Filter, which DocumentSequences to fetch.
+     */
+    where?: DocumentSequenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentSequences to fetch.
+     */
+    orderBy?: DocumentSequenceOrderByWithRelationInput | DocumentSequenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DocumentSequences.
+     */
+    cursor?: DocumentSequenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentSequences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentSequences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DocumentSequences.
+     */
+    distinct?: DocumentSequenceScalarFieldEnum | DocumentSequenceScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentSequence create
+   */
+  export type DocumentSequenceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentSequence
+     */
+    select?: DocumentSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentSequence
+     */
+    omit?: DocumentSequenceOmit<ExtArgs> | null
+    /**
+     * The data needed to create a DocumentSequence.
+     */
+    data: XOR<DocumentSequenceCreateInput, DocumentSequenceUncheckedCreateInput>
+  }
+
+  /**
+   * DocumentSequence createMany
+   */
+  export type DocumentSequenceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DocumentSequences.
+     */
+    data: DocumentSequenceCreateManyInput | DocumentSequenceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DocumentSequence createManyAndReturn
+   */
+  export type DocumentSequenceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentSequence
+     */
+    select?: DocumentSequenceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentSequence
+     */
+    omit?: DocumentSequenceOmit<ExtArgs> | null
+    /**
+     * The data used to create many DocumentSequences.
+     */
+    data: DocumentSequenceCreateManyInput | DocumentSequenceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DocumentSequence update
+   */
+  export type DocumentSequenceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentSequence
+     */
+    select?: DocumentSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentSequence
+     */
+    omit?: DocumentSequenceOmit<ExtArgs> | null
+    /**
+     * The data needed to update a DocumentSequence.
+     */
+    data: XOR<DocumentSequenceUpdateInput, DocumentSequenceUncheckedUpdateInput>
+    /**
+     * Choose, which DocumentSequence to update.
+     */
+    where: DocumentSequenceWhereUniqueInput
+  }
+
+  /**
+   * DocumentSequence updateMany
+   */
+  export type DocumentSequenceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DocumentSequences.
+     */
+    data: XOR<DocumentSequenceUpdateManyMutationInput, DocumentSequenceUncheckedUpdateManyInput>
+    /**
+     * Filter which DocumentSequences to update
+     */
+    where?: DocumentSequenceWhereInput
+    /**
+     * Limit how many DocumentSequences to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DocumentSequence updateManyAndReturn
+   */
+  export type DocumentSequenceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentSequence
+     */
+    select?: DocumentSequenceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentSequence
+     */
+    omit?: DocumentSequenceOmit<ExtArgs> | null
+    /**
+     * The data used to update DocumentSequences.
+     */
+    data: XOR<DocumentSequenceUpdateManyMutationInput, DocumentSequenceUncheckedUpdateManyInput>
+    /**
+     * Filter which DocumentSequences to update
+     */
+    where?: DocumentSequenceWhereInput
+    /**
+     * Limit how many DocumentSequences to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DocumentSequence upsert
+   */
+  export type DocumentSequenceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentSequence
+     */
+    select?: DocumentSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentSequence
+     */
+    omit?: DocumentSequenceOmit<ExtArgs> | null
+    /**
+     * The filter to search for the DocumentSequence to update in case it exists.
+     */
+    where: DocumentSequenceWhereUniqueInput
+    /**
+     * In case the DocumentSequence found by the `where` argument doesn't exist, create a new DocumentSequence with this data.
+     */
+    create: XOR<DocumentSequenceCreateInput, DocumentSequenceUncheckedCreateInput>
+    /**
+     * In case the DocumentSequence was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DocumentSequenceUpdateInput, DocumentSequenceUncheckedUpdateInput>
+  }
+
+  /**
+   * DocumentSequence delete
+   */
+  export type DocumentSequenceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentSequence
+     */
+    select?: DocumentSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentSequence
+     */
+    omit?: DocumentSequenceOmit<ExtArgs> | null
+    /**
+     * Filter which DocumentSequence to delete.
+     */
+    where: DocumentSequenceWhereUniqueInput
+  }
+
+  /**
+   * DocumentSequence deleteMany
+   */
+  export type DocumentSequenceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DocumentSequences to delete
+     */
+    where?: DocumentSequenceWhereInput
+    /**
+     * Limit how many DocumentSequences to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DocumentSequence without action
+   */
+  export type DocumentSequenceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentSequence
+     */
+    select?: DocumentSequenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentSequence
+     */
+    omit?: DocumentSequenceOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -16864,6 +19793,9 @@ export namespace Prisma {
     zip: 'zip',
     contactName: 'contactName',
     timezone: 'timezone',
+    businessType: 'businessType',
+    onboardingStep: 'onboardingStep',
+    onboardingCompletedAt: 'onboardingCompletedAt',
     subscriptionPlan: 'subscriptionPlan',
     stripeCustomerId: 'stripeCustomerId',
     stripeSubscriptionId: 'stripeSubscriptionId',
@@ -16878,9 +19810,20 @@ export namespace Prisma {
     resendDomainId: 'resendDomainId',
     emailDomainVerified: 'emailDomainVerified',
     emailDomainDnsRecords: 'emailDomainDnsRecords',
+    customWidgetDomain: 'customWidgetDomain',
+    customWidgetDomainVerified: 'customWidgetDomainVerified',
+    customWidgetDomainVerification: 'customWidgetDomainVerification',
     isAdmin: 'isAdmin',
     isSuperAdmin: 'isSuperAdmin',
     lastLoginAt: 'lastLoginAt',
+    registrationSource: 'registrationSource',
+    registrationReferrer: 'registrationReferrer',
+    registrationLandingPage: 'registrationLandingPage',
+    registrationUtmSource: 'registrationUtmSource',
+    registrationUtmMedium: 'registrationUtmMedium',
+    registrationUtmCampaign: 'registrationUtmCampaign',
+    registrationUtmTerm: 'registrationUtmTerm',
+    registrationUtmContent: 'registrationUtmContent',
     createdAt: 'createdAt'
   };
 
@@ -16897,6 +19840,7 @@ export namespace Prisma {
     minMilesThreshold: 'minMilesThreshold',
     weightFee: 'weightFee',
     itemCountFee: 'itemCountFee',
+    additionalStopFee: 'additionalStopFee',
     stairsFee: 'stairsFee',
     insideDeliveryFee: 'insideDeliveryFee',
     addon3Fee: 'addon3Fee',
@@ -16906,7 +19850,8 @@ export namespace Prisma {
     businessDays: 'businessDays',
     largeItemFee: 'largeItemFee',
     largeItemsEnabled: 'largeItemsEnabled',
-    largeItemCategories: 'largeItemCategories'
+    largeItemCategories: 'largeItemCategories',
+    serviceOptions: 'serviceOptions'
   };
 
   export type PricingProfileScalarFieldEnum = (typeof PricingProfileScalarFieldEnum)[keyof typeof PricingProfileScalarFieldEnum]
@@ -16916,7 +19861,11 @@ export namespace Prisma {
     id: 'id',
     companyId: 'companyId',
     name: 'name',
+    formStyle: 'formStyle',
+    customQuestions: 'customQuestions',
     logoUrl: 'logoUrl',
+    logoDarkUrl: 'logoDarkUrl',
+    autoContrastLogo: 'autoContrastLogo',
     showWeight: 'showWeight',
     showItemCount: 'showItemCount',
     showExtras: 'showExtras',
@@ -16925,6 +19874,7 @@ export namespace Prisma {
     primaryColor: 'primaryColor',
     buttonText: 'buttonText',
     headerText: 'headerText',
+    quickSubtitleText: 'quickSubtitleText',
     disclaimerText: 'disclaimerText',
     companyNameText: 'companyNameText',
     companyNameFont: 'companyNameFont',
@@ -16934,6 +19884,7 @@ export namespace Prisma {
     paymentsEnabled: 'paymentsEnabled',
     showVehicles: 'showVehicles',
     pricePerVehicle: 'pricePerVehicle',
+    vehicleOptions: 'vehicleOptions',
     showAwb: 'showAwb',
     geoFencingEnabled: 'geoFencingEnabled',
     serviceZips: 'serviceZips'
@@ -16950,14 +19901,20 @@ export namespace Prisma {
     customerPhone: 'customerPhone',
     pickupZip: 'pickupZip',
     dropoffZip: 'dropoffZip',
+    pickupAddress: 'pickupAddress',
+    dropoffAddress: 'dropoffAddress',
+    intermediateStops: 'intermediateStops',
     distanceMiles: 'distanceMiles',
     serviceType: 'serviceType',
     packageSize: 'packageSize',
     packageWeight: 'packageWeight',
+    itemCount: 'itemCount',
     selectedExtras: 'selectedExtras',
     status: 'status',
     estimatedPrice: 'estimatedPrice',
+    pricingBreakdown: 'pricingBreakdown',
     vehicleCount: 'vehicleCount',
+    vehicleType: 'vehicleType',
     awbNumber: 'awbNumber',
     paymentStatus: 'paymentStatus',
     stripePaymentIntentId: 'stripePaymentIntentId',
@@ -17084,6 +20041,40 @@ export namespace Prisma {
   export type JobStopScalarFieldEnum = (typeof JobStopScalarFieldEnum)[keyof typeof JobStopScalarFieldEnum]
 
 
+  export const CustomerDocumentScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    quoteRequestId: 'quoteRequestId',
+    type: 'type',
+    number: 'number',
+    status: 'status',
+    snapshot: 'snapshot',
+    version: 'version',
+    publicTokenHash: 'publicTokenHash',
+    createdAt: 'createdAt',
+    issuedAt: 'issuedAt',
+    paidAt: 'paidAt',
+    lastEmailedAt: 'lastEmailedAt',
+    lastViewedAt: 'lastViewedAt',
+    metadata: 'metadata'
+  };
+
+  export type CustomerDocumentScalarFieldEnum = (typeof CustomerDocumentScalarFieldEnum)[keyof typeof CustomerDocumentScalarFieldEnum]
+
+
+  export const DocumentSequenceScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    year: 'year',
+    type: 'type',
+    nextNumber: 'nextNumber',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DocumentSequenceScalarFieldEnum = (typeof DocumentSequenceScalarFieldEnum)[keyof typeof DocumentSequenceScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -17152,6 +20143,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -17198,20 +20203,6 @@ export namespace Prisma {
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
   /**
    * Deep Input Types
    */
@@ -17235,6 +20226,9 @@ export namespace Prisma {
     zip?: StringNullableFilter<"Company"> | string | null
     contactName?: StringNullableFilter<"Company"> | string | null
     timezone?: StringFilter<"Company"> | string
+    businessType?: StringNullableFilter<"Company"> | string | null
+    onboardingStep?: IntFilter<"Company"> | number
+    onboardingCompletedAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     subscriptionPlan?: StringFilter<"Company"> | string
     stripeCustomerId?: StringNullableFilter<"Company"> | string | null
     stripeSubscriptionId?: StringNullableFilter<"Company"> | string | null
@@ -17249,9 +20243,20 @@ export namespace Prisma {
     resendDomainId?: StringNullableFilter<"Company"> | string | null
     emailDomainVerified?: BoolFilter<"Company"> | boolean
     emailDomainDnsRecords?: JsonNullableFilter<"Company">
+    customWidgetDomain?: StringNullableFilter<"Company"> | string | null
+    customWidgetDomainVerified?: BoolFilter<"Company"> | boolean
+    customWidgetDomainVerification?: JsonNullableFilter<"Company">
     isAdmin?: BoolFilter<"Company"> | boolean
     isSuperAdmin?: BoolFilter<"Company"> | boolean
     lastLoginAt?: DateTimeNullableFilter<"Company"> | Date | string | null
+    registrationSource?: StringNullableFilter<"Company"> | string | null
+    registrationReferrer?: StringNullableFilter<"Company"> | string | null
+    registrationLandingPage?: StringNullableFilter<"Company"> | string | null
+    registrationUtmSource?: StringNullableFilter<"Company"> | string | null
+    registrationUtmMedium?: StringNullableFilter<"Company"> | string | null
+    registrationUtmCampaign?: StringNullableFilter<"Company"> | string | null
+    registrationUtmTerm?: StringNullableFilter<"Company"> | string | null
+    registrationUtmContent?: StringNullableFilter<"Company"> | string | null
     createdAt?: DateTimeFilter<"Company"> | Date | string
     pricingProfiles?: PricingProfileListRelationFilter
     quoteRequests?: QuoteRequestListRelationFilter
@@ -17260,6 +20265,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallListRelationFilter
     stopNotes?: StopNoteListRelationFilter
     jobs?: JobListRelationFilter
+    customerDocuments?: CustomerDocumentListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -17277,6 +20283,9 @@ export namespace Prisma {
     zip?: SortOrderInput | SortOrder
     contactName?: SortOrderInput | SortOrder
     timezone?: SortOrder
+    businessType?: SortOrderInput | SortOrder
+    onboardingStep?: SortOrder
+    onboardingCompletedAt?: SortOrderInput | SortOrder
     subscriptionPlan?: SortOrder
     stripeCustomerId?: SortOrderInput | SortOrder
     stripeSubscriptionId?: SortOrderInput | SortOrder
@@ -17291,9 +20300,20 @@ export namespace Prisma {
     resendDomainId?: SortOrderInput | SortOrder
     emailDomainVerified?: SortOrder
     emailDomainDnsRecords?: SortOrderInput | SortOrder
+    customWidgetDomain?: SortOrderInput | SortOrder
+    customWidgetDomainVerified?: SortOrder
+    customWidgetDomainVerification?: SortOrderInput | SortOrder
     isAdmin?: SortOrder
     isSuperAdmin?: SortOrder
     lastLoginAt?: SortOrderInput | SortOrder
+    registrationSource?: SortOrderInput | SortOrder
+    registrationReferrer?: SortOrderInput | SortOrder
+    registrationLandingPage?: SortOrderInput | SortOrder
+    registrationUtmSource?: SortOrderInput | SortOrder
+    registrationUtmMedium?: SortOrderInput | SortOrder
+    registrationUtmCampaign?: SortOrderInput | SortOrder
+    registrationUtmTerm?: SortOrderInput | SortOrder
+    registrationUtmContent?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     pricingProfiles?: PricingProfileOrderByRelationAggregateInput
     quoteRequests?: QuoteRequestOrderByRelationAggregateInput
@@ -17302,6 +20322,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallOrderByRelationAggregateInput
     stopNotes?: StopNoteOrderByRelationAggregateInput
     jobs?: JobOrderByRelationAggregateInput
+    customerDocuments?: CustomerDocumentOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -17309,6 +20330,7 @@ export namespace Prisma {
     email?: string
     emailVerificationToken?: string
     passwordResetToken?: string
+    customWidgetDomain?: string
     AND?: CompanyWhereInput | CompanyWhereInput[]
     OR?: CompanyWhereInput[]
     NOT?: CompanyWhereInput | CompanyWhereInput[]
@@ -17324,6 +20346,9 @@ export namespace Prisma {
     zip?: StringNullableFilter<"Company"> | string | null
     contactName?: StringNullableFilter<"Company"> | string | null
     timezone?: StringFilter<"Company"> | string
+    businessType?: StringNullableFilter<"Company"> | string | null
+    onboardingStep?: IntFilter<"Company"> | number
+    onboardingCompletedAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     subscriptionPlan?: StringFilter<"Company"> | string
     stripeCustomerId?: StringNullableFilter<"Company"> | string | null
     stripeSubscriptionId?: StringNullableFilter<"Company"> | string | null
@@ -17336,9 +20361,19 @@ export namespace Prisma {
     resendDomainId?: StringNullableFilter<"Company"> | string | null
     emailDomainVerified?: BoolFilter<"Company"> | boolean
     emailDomainDnsRecords?: JsonNullableFilter<"Company">
+    customWidgetDomainVerified?: BoolFilter<"Company"> | boolean
+    customWidgetDomainVerification?: JsonNullableFilter<"Company">
     isAdmin?: BoolFilter<"Company"> | boolean
     isSuperAdmin?: BoolFilter<"Company"> | boolean
     lastLoginAt?: DateTimeNullableFilter<"Company"> | Date | string | null
+    registrationSource?: StringNullableFilter<"Company"> | string | null
+    registrationReferrer?: StringNullableFilter<"Company"> | string | null
+    registrationLandingPage?: StringNullableFilter<"Company"> | string | null
+    registrationUtmSource?: StringNullableFilter<"Company"> | string | null
+    registrationUtmMedium?: StringNullableFilter<"Company"> | string | null
+    registrationUtmCampaign?: StringNullableFilter<"Company"> | string | null
+    registrationUtmTerm?: StringNullableFilter<"Company"> | string | null
+    registrationUtmContent?: StringNullableFilter<"Company"> | string | null
     createdAt?: DateTimeFilter<"Company"> | Date | string
     pricingProfiles?: PricingProfileListRelationFilter
     quoteRequests?: QuoteRequestListRelationFilter
@@ -17347,7 +20382,8 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallListRelationFilter
     stopNotes?: StopNoteListRelationFilter
     jobs?: JobListRelationFilter
-  }, "id" | "email" | "emailVerificationToken" | "passwordResetToken">
+    customerDocuments?: CustomerDocumentListRelationFilter
+  }, "id" | "email" | "emailVerificationToken" | "passwordResetToken" | "customWidgetDomain">
 
   export type CompanyOrderByWithAggregationInput = {
     id?: SortOrder
@@ -17364,6 +20400,9 @@ export namespace Prisma {
     zip?: SortOrderInput | SortOrder
     contactName?: SortOrderInput | SortOrder
     timezone?: SortOrder
+    businessType?: SortOrderInput | SortOrder
+    onboardingStep?: SortOrder
+    onboardingCompletedAt?: SortOrderInput | SortOrder
     subscriptionPlan?: SortOrder
     stripeCustomerId?: SortOrderInput | SortOrder
     stripeSubscriptionId?: SortOrderInput | SortOrder
@@ -17378,13 +20417,26 @@ export namespace Prisma {
     resendDomainId?: SortOrderInput | SortOrder
     emailDomainVerified?: SortOrder
     emailDomainDnsRecords?: SortOrderInput | SortOrder
+    customWidgetDomain?: SortOrderInput | SortOrder
+    customWidgetDomainVerified?: SortOrder
+    customWidgetDomainVerification?: SortOrderInput | SortOrder
     isAdmin?: SortOrder
     isSuperAdmin?: SortOrder
     lastLoginAt?: SortOrderInput | SortOrder
+    registrationSource?: SortOrderInput | SortOrder
+    registrationReferrer?: SortOrderInput | SortOrder
+    registrationLandingPage?: SortOrderInput | SortOrder
+    registrationUtmSource?: SortOrderInput | SortOrder
+    registrationUtmMedium?: SortOrderInput | SortOrder
+    registrationUtmCampaign?: SortOrderInput | SortOrder
+    registrationUtmTerm?: SortOrderInput | SortOrder
+    registrationUtmContent?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: CompanyCountOrderByAggregateInput
+    _avg?: CompanyAvgOrderByAggregateInput
     _max?: CompanyMaxOrderByAggregateInput
     _min?: CompanyMinOrderByAggregateInput
+    _sum?: CompanySumOrderByAggregateInput
   }
 
   export type CompanyScalarWhereWithAggregatesInput = {
@@ -17405,6 +20457,9 @@ export namespace Prisma {
     zip?: StringNullableWithAggregatesFilter<"Company"> | string | null
     contactName?: StringNullableWithAggregatesFilter<"Company"> | string | null
     timezone?: StringWithAggregatesFilter<"Company"> | string
+    businessType?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    onboardingStep?: IntWithAggregatesFilter<"Company"> | number
+    onboardingCompletedAt?: DateTimeNullableWithAggregatesFilter<"Company"> | Date | string | null
     subscriptionPlan?: StringWithAggregatesFilter<"Company"> | string
     stripeCustomerId?: StringNullableWithAggregatesFilter<"Company"> | string | null
     stripeSubscriptionId?: StringNullableWithAggregatesFilter<"Company"> | string | null
@@ -17419,9 +20474,20 @@ export namespace Prisma {
     resendDomainId?: StringNullableWithAggregatesFilter<"Company"> | string | null
     emailDomainVerified?: BoolWithAggregatesFilter<"Company"> | boolean
     emailDomainDnsRecords?: JsonNullableWithAggregatesFilter<"Company">
+    customWidgetDomain?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    customWidgetDomainVerified?: BoolWithAggregatesFilter<"Company"> | boolean
+    customWidgetDomainVerification?: JsonNullableWithAggregatesFilter<"Company">
     isAdmin?: BoolWithAggregatesFilter<"Company"> | boolean
     isSuperAdmin?: BoolWithAggregatesFilter<"Company"> | boolean
     lastLoginAt?: DateTimeNullableWithAggregatesFilter<"Company"> | Date | string | null
+    registrationSource?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    registrationReferrer?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    registrationLandingPage?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    registrationUtmSource?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    registrationUtmMedium?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    registrationUtmCampaign?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    registrationUtmTerm?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    registrationUtmContent?: StringNullableWithAggregatesFilter<"Company"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
   }
 
@@ -17438,6 +20504,7 @@ export namespace Prisma {
     minMilesThreshold?: FloatFilter<"PricingProfile"> | number
     weightFee?: FloatFilter<"PricingProfile"> | number
     itemCountFee?: FloatFilter<"PricingProfile"> | number
+    additionalStopFee?: FloatFilter<"PricingProfile"> | number
     stairsFee?: FloatFilter<"PricingProfile"> | number
     insideDeliveryFee?: FloatFilter<"PricingProfile"> | number
     addon3Fee?: FloatFilter<"PricingProfile"> | number
@@ -17448,6 +20515,7 @@ export namespace Prisma {
     largeItemFee?: FloatFilter<"PricingProfile"> | number
     largeItemsEnabled?: BoolFilter<"PricingProfile"> | boolean
     largeItemCategories?: JsonFilter<"PricingProfile">
+    serviceOptions?: JsonFilter<"PricingProfile">
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
     widgetSettings?: XOR<WidgetSettingsNullableScalarRelationFilter, WidgetSettingsWhereInput> | null
   }
@@ -17462,6 +20530,7 @@ export namespace Prisma {
     minMilesThreshold?: SortOrder
     weightFee?: SortOrder
     itemCountFee?: SortOrder
+    additionalStopFee?: SortOrder
     stairsFee?: SortOrder
     insideDeliveryFee?: SortOrder
     addon3Fee?: SortOrder
@@ -17472,6 +20541,7 @@ export namespace Prisma {
     largeItemFee?: SortOrder
     largeItemsEnabled?: SortOrder
     largeItemCategories?: SortOrder
+    serviceOptions?: SortOrder
     company?: CompanyOrderByWithRelationInput
     widgetSettings?: WidgetSettingsOrderByWithRelationInput
   }
@@ -17489,6 +20559,7 @@ export namespace Prisma {
     minMilesThreshold?: FloatFilter<"PricingProfile"> | number
     weightFee?: FloatFilter<"PricingProfile"> | number
     itemCountFee?: FloatFilter<"PricingProfile"> | number
+    additionalStopFee?: FloatFilter<"PricingProfile"> | number
     stairsFee?: FloatFilter<"PricingProfile"> | number
     insideDeliveryFee?: FloatFilter<"PricingProfile"> | number
     addon3Fee?: FloatFilter<"PricingProfile"> | number
@@ -17499,6 +20570,7 @@ export namespace Prisma {
     largeItemFee?: FloatFilter<"PricingProfile"> | number
     largeItemsEnabled?: BoolFilter<"PricingProfile"> | boolean
     largeItemCategories?: JsonFilter<"PricingProfile">
+    serviceOptions?: JsonFilter<"PricingProfile">
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
     widgetSettings?: XOR<WidgetSettingsNullableScalarRelationFilter, WidgetSettingsWhereInput> | null
   }, "id" | "widgetSettingsId">
@@ -17513,6 +20585,7 @@ export namespace Prisma {
     minMilesThreshold?: SortOrder
     weightFee?: SortOrder
     itemCountFee?: SortOrder
+    additionalStopFee?: SortOrder
     stairsFee?: SortOrder
     insideDeliveryFee?: SortOrder
     addon3Fee?: SortOrder
@@ -17523,6 +20596,7 @@ export namespace Prisma {
     largeItemFee?: SortOrder
     largeItemsEnabled?: SortOrder
     largeItemCategories?: SortOrder
+    serviceOptions?: SortOrder
     _count?: PricingProfileCountOrderByAggregateInput
     _avg?: PricingProfileAvgOrderByAggregateInput
     _max?: PricingProfileMaxOrderByAggregateInput
@@ -17543,6 +20617,7 @@ export namespace Prisma {
     minMilesThreshold?: FloatWithAggregatesFilter<"PricingProfile"> | number
     weightFee?: FloatWithAggregatesFilter<"PricingProfile"> | number
     itemCountFee?: FloatWithAggregatesFilter<"PricingProfile"> | number
+    additionalStopFee?: FloatWithAggregatesFilter<"PricingProfile"> | number
     stairsFee?: FloatWithAggregatesFilter<"PricingProfile"> | number
     insideDeliveryFee?: FloatWithAggregatesFilter<"PricingProfile"> | number
     addon3Fee?: FloatWithAggregatesFilter<"PricingProfile"> | number
@@ -17553,6 +20628,7 @@ export namespace Prisma {
     largeItemFee?: FloatWithAggregatesFilter<"PricingProfile"> | number
     largeItemsEnabled?: BoolWithAggregatesFilter<"PricingProfile"> | boolean
     largeItemCategories?: JsonWithAggregatesFilter<"PricingProfile">
+    serviceOptions?: JsonWithAggregatesFilter<"PricingProfile">
   }
 
   export type WidgetSettingsWhereInput = {
@@ -17562,7 +20638,11 @@ export namespace Prisma {
     id?: StringFilter<"WidgetSettings"> | string
     companyId?: StringFilter<"WidgetSettings"> | string
     name?: StringFilter<"WidgetSettings"> | string
+    formStyle?: StringFilter<"WidgetSettings"> | string
+    customQuestions?: JsonFilter<"WidgetSettings">
     logoUrl?: StringNullableFilter<"WidgetSettings"> | string | null
+    logoDarkUrl?: StringNullableFilter<"WidgetSettings"> | string | null
+    autoContrastLogo?: BoolFilter<"WidgetSettings"> | boolean
     showWeight?: BoolFilter<"WidgetSettings"> | boolean
     showItemCount?: BoolFilter<"WidgetSettings"> | boolean
     showExtras?: BoolFilter<"WidgetSettings"> | boolean
@@ -17571,6 +20651,7 @@ export namespace Prisma {
     primaryColor?: StringFilter<"WidgetSettings"> | string
     buttonText?: StringFilter<"WidgetSettings"> | string
     headerText?: StringFilter<"WidgetSettings"> | string
+    quickSubtitleText?: StringFilter<"WidgetSettings"> | string
     disclaimerText?: StringFilter<"WidgetSettings"> | string
     companyNameText?: StringNullableFilter<"WidgetSettings"> | string | null
     companyNameFont?: StringFilter<"WidgetSettings"> | string
@@ -17580,6 +20661,7 @@ export namespace Prisma {
     paymentsEnabled?: BoolFilter<"WidgetSettings"> | boolean
     showVehicles?: BoolFilter<"WidgetSettings"> | boolean
     pricePerVehicle?: FloatFilter<"WidgetSettings"> | number
+    vehicleOptions?: JsonFilter<"WidgetSettings">
     showAwb?: BoolFilter<"WidgetSettings"> | boolean
     geoFencingEnabled?: BoolFilter<"WidgetSettings"> | boolean
     serviceZips?: StringNullableListFilter<"WidgetSettings">
@@ -17591,7 +20673,11 @@ export namespace Prisma {
     id?: SortOrder
     companyId?: SortOrder
     name?: SortOrder
+    formStyle?: SortOrder
+    customQuestions?: SortOrder
     logoUrl?: SortOrderInput | SortOrder
+    logoDarkUrl?: SortOrderInput | SortOrder
+    autoContrastLogo?: SortOrder
     showWeight?: SortOrder
     showItemCount?: SortOrder
     showExtras?: SortOrder
@@ -17600,6 +20686,7 @@ export namespace Prisma {
     primaryColor?: SortOrder
     buttonText?: SortOrder
     headerText?: SortOrder
+    quickSubtitleText?: SortOrder
     disclaimerText?: SortOrder
     companyNameText?: SortOrderInput | SortOrder
     companyNameFont?: SortOrder
@@ -17609,6 +20696,7 @@ export namespace Prisma {
     paymentsEnabled?: SortOrder
     showVehicles?: SortOrder
     pricePerVehicle?: SortOrder
+    vehicleOptions?: SortOrder
     showAwb?: SortOrder
     geoFencingEnabled?: SortOrder
     serviceZips?: SortOrder
@@ -17623,7 +20711,11 @@ export namespace Prisma {
     NOT?: WidgetSettingsWhereInput | WidgetSettingsWhereInput[]
     companyId?: StringFilter<"WidgetSettings"> | string
     name?: StringFilter<"WidgetSettings"> | string
+    formStyle?: StringFilter<"WidgetSettings"> | string
+    customQuestions?: JsonFilter<"WidgetSettings">
     logoUrl?: StringNullableFilter<"WidgetSettings"> | string | null
+    logoDarkUrl?: StringNullableFilter<"WidgetSettings"> | string | null
+    autoContrastLogo?: BoolFilter<"WidgetSettings"> | boolean
     showWeight?: BoolFilter<"WidgetSettings"> | boolean
     showItemCount?: BoolFilter<"WidgetSettings"> | boolean
     showExtras?: BoolFilter<"WidgetSettings"> | boolean
@@ -17632,6 +20724,7 @@ export namespace Prisma {
     primaryColor?: StringFilter<"WidgetSettings"> | string
     buttonText?: StringFilter<"WidgetSettings"> | string
     headerText?: StringFilter<"WidgetSettings"> | string
+    quickSubtitleText?: StringFilter<"WidgetSettings"> | string
     disclaimerText?: StringFilter<"WidgetSettings"> | string
     companyNameText?: StringNullableFilter<"WidgetSettings"> | string | null
     companyNameFont?: StringFilter<"WidgetSettings"> | string
@@ -17641,6 +20734,7 @@ export namespace Prisma {
     paymentsEnabled?: BoolFilter<"WidgetSettings"> | boolean
     showVehicles?: BoolFilter<"WidgetSettings"> | boolean
     pricePerVehicle?: FloatFilter<"WidgetSettings"> | number
+    vehicleOptions?: JsonFilter<"WidgetSettings">
     showAwb?: BoolFilter<"WidgetSettings"> | boolean
     geoFencingEnabled?: BoolFilter<"WidgetSettings"> | boolean
     serviceZips?: StringNullableListFilter<"WidgetSettings">
@@ -17652,7 +20746,11 @@ export namespace Prisma {
     id?: SortOrder
     companyId?: SortOrder
     name?: SortOrder
+    formStyle?: SortOrder
+    customQuestions?: SortOrder
     logoUrl?: SortOrderInput | SortOrder
+    logoDarkUrl?: SortOrderInput | SortOrder
+    autoContrastLogo?: SortOrder
     showWeight?: SortOrder
     showItemCount?: SortOrder
     showExtras?: SortOrder
@@ -17661,6 +20759,7 @@ export namespace Prisma {
     primaryColor?: SortOrder
     buttonText?: SortOrder
     headerText?: SortOrder
+    quickSubtitleText?: SortOrder
     disclaimerText?: SortOrder
     companyNameText?: SortOrderInput | SortOrder
     companyNameFont?: SortOrder
@@ -17670,6 +20769,7 @@ export namespace Prisma {
     paymentsEnabled?: SortOrder
     showVehicles?: SortOrder
     pricePerVehicle?: SortOrder
+    vehicleOptions?: SortOrder
     showAwb?: SortOrder
     geoFencingEnabled?: SortOrder
     serviceZips?: SortOrder
@@ -17687,7 +20787,11 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"WidgetSettings"> | string
     companyId?: StringWithAggregatesFilter<"WidgetSettings"> | string
     name?: StringWithAggregatesFilter<"WidgetSettings"> | string
+    formStyle?: StringWithAggregatesFilter<"WidgetSettings"> | string
+    customQuestions?: JsonWithAggregatesFilter<"WidgetSettings">
     logoUrl?: StringNullableWithAggregatesFilter<"WidgetSettings"> | string | null
+    logoDarkUrl?: StringNullableWithAggregatesFilter<"WidgetSettings"> | string | null
+    autoContrastLogo?: BoolWithAggregatesFilter<"WidgetSettings"> | boolean
     showWeight?: BoolWithAggregatesFilter<"WidgetSettings"> | boolean
     showItemCount?: BoolWithAggregatesFilter<"WidgetSettings"> | boolean
     showExtras?: BoolWithAggregatesFilter<"WidgetSettings"> | boolean
@@ -17696,6 +20800,7 @@ export namespace Prisma {
     primaryColor?: StringWithAggregatesFilter<"WidgetSettings"> | string
     buttonText?: StringWithAggregatesFilter<"WidgetSettings"> | string
     headerText?: StringWithAggregatesFilter<"WidgetSettings"> | string
+    quickSubtitleText?: StringWithAggregatesFilter<"WidgetSettings"> | string
     disclaimerText?: StringWithAggregatesFilter<"WidgetSettings"> | string
     companyNameText?: StringNullableWithAggregatesFilter<"WidgetSettings"> | string | null
     companyNameFont?: StringWithAggregatesFilter<"WidgetSettings"> | string
@@ -17705,6 +20810,7 @@ export namespace Prisma {
     paymentsEnabled?: BoolWithAggregatesFilter<"WidgetSettings"> | boolean
     showVehicles?: BoolWithAggregatesFilter<"WidgetSettings"> | boolean
     pricePerVehicle?: FloatWithAggregatesFilter<"WidgetSettings"> | number
+    vehicleOptions?: JsonWithAggregatesFilter<"WidgetSettings">
     showAwb?: BoolWithAggregatesFilter<"WidgetSettings"> | boolean
     geoFencingEnabled?: BoolWithAggregatesFilter<"WidgetSettings"> | boolean
     serviceZips?: StringNullableListFilter<"WidgetSettings">
@@ -17721,14 +20827,20 @@ export namespace Prisma {
     customerPhone?: StringNullableFilter<"QuoteRequest"> | string | null
     pickupZip?: StringFilter<"QuoteRequest"> | string
     dropoffZip?: StringFilter<"QuoteRequest"> | string
+    pickupAddress?: StringNullableFilter<"QuoteRequest"> | string | null
+    dropoffAddress?: StringNullableFilter<"QuoteRequest"> | string | null
+    intermediateStops?: JsonFilter<"QuoteRequest">
     distanceMiles?: FloatFilter<"QuoteRequest"> | number
     serviceType?: StringFilter<"QuoteRequest"> | string
     packageSize?: StringNullableFilter<"QuoteRequest"> | string | null
     packageWeight?: StringNullableFilter<"QuoteRequest"> | string | null
+    itemCount?: IntNullableFilter<"QuoteRequest"> | number | null
     selectedExtras?: StringNullableFilter<"QuoteRequest"> | string | null
     status?: StringFilter<"QuoteRequest"> | string
     estimatedPrice?: FloatFilter<"QuoteRequest"> | number
+    pricingBreakdown?: JsonNullableFilter<"QuoteRequest">
     vehicleCount?: IntNullableFilter<"QuoteRequest"> | number | null
+    vehicleType?: StringNullableFilter<"QuoteRequest"> | string | null
     awbNumber?: StringNullableFilter<"QuoteRequest"> | string | null
     paymentStatus?: StringNullableFilter<"QuoteRequest"> | string | null
     stripePaymentIntentId?: StringNullableFilter<"QuoteRequest"> | string | null
@@ -17738,6 +20850,7 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"QuoteRequest"> | Date | string | null
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
     jobs?: JobListRelationFilter
+    customerDocuments?: CustomerDocumentListRelationFilter
   }
 
   export type QuoteRequestOrderByWithRelationInput = {
@@ -17748,14 +20861,20 @@ export namespace Prisma {
     customerPhone?: SortOrderInput | SortOrder
     pickupZip?: SortOrder
     dropoffZip?: SortOrder
+    pickupAddress?: SortOrderInput | SortOrder
+    dropoffAddress?: SortOrderInput | SortOrder
+    intermediateStops?: SortOrder
     distanceMiles?: SortOrder
     serviceType?: SortOrder
     packageSize?: SortOrderInput | SortOrder
     packageWeight?: SortOrderInput | SortOrder
+    itemCount?: SortOrderInput | SortOrder
     selectedExtras?: SortOrderInput | SortOrder
     status?: SortOrder
     estimatedPrice?: SortOrder
+    pricingBreakdown?: SortOrderInput | SortOrder
     vehicleCount?: SortOrderInput | SortOrder
+    vehicleType?: SortOrderInput | SortOrder
     awbNumber?: SortOrderInput | SortOrder
     paymentStatus?: SortOrderInput | SortOrder
     stripePaymentIntentId?: SortOrderInput | SortOrder
@@ -17765,6 +20884,7 @@ export namespace Prisma {
     deletedAt?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     jobs?: JobOrderByRelationAggregateInput
+    customerDocuments?: CustomerDocumentOrderByRelationAggregateInput
   }
 
   export type QuoteRequestWhereUniqueInput = Prisma.AtLeast<{
@@ -17778,14 +20898,20 @@ export namespace Prisma {
     customerPhone?: StringNullableFilter<"QuoteRequest"> | string | null
     pickupZip?: StringFilter<"QuoteRequest"> | string
     dropoffZip?: StringFilter<"QuoteRequest"> | string
+    pickupAddress?: StringNullableFilter<"QuoteRequest"> | string | null
+    dropoffAddress?: StringNullableFilter<"QuoteRequest"> | string | null
+    intermediateStops?: JsonFilter<"QuoteRequest">
     distanceMiles?: FloatFilter<"QuoteRequest"> | number
     serviceType?: StringFilter<"QuoteRequest"> | string
     packageSize?: StringNullableFilter<"QuoteRequest"> | string | null
     packageWeight?: StringNullableFilter<"QuoteRequest"> | string | null
+    itemCount?: IntNullableFilter<"QuoteRequest"> | number | null
     selectedExtras?: StringNullableFilter<"QuoteRequest"> | string | null
     status?: StringFilter<"QuoteRequest"> | string
     estimatedPrice?: FloatFilter<"QuoteRequest"> | number
+    pricingBreakdown?: JsonNullableFilter<"QuoteRequest">
     vehicleCount?: IntNullableFilter<"QuoteRequest"> | number | null
+    vehicleType?: StringNullableFilter<"QuoteRequest"> | string | null
     awbNumber?: StringNullableFilter<"QuoteRequest"> | string | null
     paymentStatus?: StringNullableFilter<"QuoteRequest"> | string | null
     stripePaymentIntentId?: StringNullableFilter<"QuoteRequest"> | string | null
@@ -17795,6 +20921,7 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"QuoteRequest"> | Date | string | null
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
     jobs?: JobListRelationFilter
+    customerDocuments?: CustomerDocumentListRelationFilter
   }, "id">
 
   export type QuoteRequestOrderByWithAggregationInput = {
@@ -17805,14 +20932,20 @@ export namespace Prisma {
     customerPhone?: SortOrderInput | SortOrder
     pickupZip?: SortOrder
     dropoffZip?: SortOrder
+    pickupAddress?: SortOrderInput | SortOrder
+    dropoffAddress?: SortOrderInput | SortOrder
+    intermediateStops?: SortOrder
     distanceMiles?: SortOrder
     serviceType?: SortOrder
     packageSize?: SortOrderInput | SortOrder
     packageWeight?: SortOrderInput | SortOrder
+    itemCount?: SortOrderInput | SortOrder
     selectedExtras?: SortOrderInput | SortOrder
     status?: SortOrder
     estimatedPrice?: SortOrder
+    pricingBreakdown?: SortOrderInput | SortOrder
     vehicleCount?: SortOrderInput | SortOrder
+    vehicleType?: SortOrderInput | SortOrder
     awbNumber?: SortOrderInput | SortOrder
     paymentStatus?: SortOrderInput | SortOrder
     stripePaymentIntentId?: SortOrderInput | SortOrder
@@ -17838,14 +20971,20 @@ export namespace Prisma {
     customerPhone?: StringNullableWithAggregatesFilter<"QuoteRequest"> | string | null
     pickupZip?: StringWithAggregatesFilter<"QuoteRequest"> | string
     dropoffZip?: StringWithAggregatesFilter<"QuoteRequest"> | string
+    pickupAddress?: StringNullableWithAggregatesFilter<"QuoteRequest"> | string | null
+    dropoffAddress?: StringNullableWithAggregatesFilter<"QuoteRequest"> | string | null
+    intermediateStops?: JsonWithAggregatesFilter<"QuoteRequest">
     distanceMiles?: FloatWithAggregatesFilter<"QuoteRequest"> | number
     serviceType?: StringWithAggregatesFilter<"QuoteRequest"> | string
     packageSize?: StringNullableWithAggregatesFilter<"QuoteRequest"> | string | null
     packageWeight?: StringNullableWithAggregatesFilter<"QuoteRequest"> | string | null
+    itemCount?: IntNullableWithAggregatesFilter<"QuoteRequest"> | number | null
     selectedExtras?: StringNullableWithAggregatesFilter<"QuoteRequest"> | string | null
     status?: StringWithAggregatesFilter<"QuoteRequest"> | string
     estimatedPrice?: FloatWithAggregatesFilter<"QuoteRequest"> | number
+    pricingBreakdown?: JsonNullableWithAggregatesFilter<"QuoteRequest">
     vehicleCount?: IntNullableWithAggregatesFilter<"QuoteRequest"> | number | null
+    vehicleType?: StringNullableWithAggregatesFilter<"QuoteRequest"> | string | null
     awbNumber?: StringNullableWithAggregatesFilter<"QuoteRequest"> | string | null
     paymentStatus?: StringNullableWithAggregatesFilter<"QuoteRequest"> | string | null
     stripePaymentIntentId?: StringNullableWithAggregatesFilter<"QuoteRequest"> | string | null
@@ -18454,6 +21593,183 @@ export namespace Prisma {
     order?: IntWithAggregatesFilter<"JobStop"> | number
   }
 
+  export type CustomerDocumentWhereInput = {
+    AND?: CustomerDocumentWhereInput | CustomerDocumentWhereInput[]
+    OR?: CustomerDocumentWhereInput[]
+    NOT?: CustomerDocumentWhereInput | CustomerDocumentWhereInput[]
+    id?: StringFilter<"CustomerDocument"> | string
+    companyId?: StringFilter<"CustomerDocument"> | string
+    quoteRequestId?: StringFilter<"CustomerDocument"> | string
+    type?: StringFilter<"CustomerDocument"> | string
+    number?: StringFilter<"CustomerDocument"> | string
+    status?: StringFilter<"CustomerDocument"> | string
+    snapshot?: JsonFilter<"CustomerDocument">
+    version?: IntFilter<"CustomerDocument"> | number
+    publicTokenHash?: StringNullableFilter<"CustomerDocument"> | string | null
+    createdAt?: DateTimeFilter<"CustomerDocument"> | Date | string
+    issuedAt?: DateTimeNullableFilter<"CustomerDocument"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"CustomerDocument"> | Date | string | null
+    lastEmailedAt?: DateTimeNullableFilter<"CustomerDocument"> | Date | string | null
+    lastViewedAt?: DateTimeNullableFilter<"CustomerDocument"> | Date | string | null
+    metadata?: JsonNullableFilter<"CustomerDocument">
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    quoteRequest?: XOR<QuoteRequestScalarRelationFilter, QuoteRequestWhereInput>
+  }
+
+  export type CustomerDocumentOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    quoteRequestId?: SortOrder
+    type?: SortOrder
+    number?: SortOrder
+    status?: SortOrder
+    snapshot?: SortOrder
+    version?: SortOrder
+    publicTokenHash?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    issuedAt?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    lastEmailedAt?: SortOrderInput | SortOrder
+    lastViewedAt?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    company?: CompanyOrderByWithRelationInput
+    quoteRequest?: QuoteRequestOrderByWithRelationInput
+  }
+
+  export type CustomerDocumentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    publicTokenHash?: string
+    companyId_number?: CustomerDocumentCompanyIdNumberCompoundUniqueInput
+    quoteRequestId_type?: CustomerDocumentQuoteRequestIdTypeCompoundUniqueInput
+    AND?: CustomerDocumentWhereInput | CustomerDocumentWhereInput[]
+    OR?: CustomerDocumentWhereInput[]
+    NOT?: CustomerDocumentWhereInput | CustomerDocumentWhereInput[]
+    companyId?: StringFilter<"CustomerDocument"> | string
+    quoteRequestId?: StringFilter<"CustomerDocument"> | string
+    type?: StringFilter<"CustomerDocument"> | string
+    number?: StringFilter<"CustomerDocument"> | string
+    status?: StringFilter<"CustomerDocument"> | string
+    snapshot?: JsonFilter<"CustomerDocument">
+    version?: IntFilter<"CustomerDocument"> | number
+    createdAt?: DateTimeFilter<"CustomerDocument"> | Date | string
+    issuedAt?: DateTimeNullableFilter<"CustomerDocument"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"CustomerDocument"> | Date | string | null
+    lastEmailedAt?: DateTimeNullableFilter<"CustomerDocument"> | Date | string | null
+    lastViewedAt?: DateTimeNullableFilter<"CustomerDocument"> | Date | string | null
+    metadata?: JsonNullableFilter<"CustomerDocument">
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    quoteRequest?: XOR<QuoteRequestScalarRelationFilter, QuoteRequestWhereInput>
+  }, "id" | "publicTokenHash" | "companyId_number" | "quoteRequestId_type">
+
+  export type CustomerDocumentOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    quoteRequestId?: SortOrder
+    type?: SortOrder
+    number?: SortOrder
+    status?: SortOrder
+    snapshot?: SortOrder
+    version?: SortOrder
+    publicTokenHash?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    issuedAt?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    lastEmailedAt?: SortOrderInput | SortOrder
+    lastViewedAt?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    _count?: CustomerDocumentCountOrderByAggregateInput
+    _avg?: CustomerDocumentAvgOrderByAggregateInput
+    _max?: CustomerDocumentMaxOrderByAggregateInput
+    _min?: CustomerDocumentMinOrderByAggregateInput
+    _sum?: CustomerDocumentSumOrderByAggregateInput
+  }
+
+  export type CustomerDocumentScalarWhereWithAggregatesInput = {
+    AND?: CustomerDocumentScalarWhereWithAggregatesInput | CustomerDocumentScalarWhereWithAggregatesInput[]
+    OR?: CustomerDocumentScalarWhereWithAggregatesInput[]
+    NOT?: CustomerDocumentScalarWhereWithAggregatesInput | CustomerDocumentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CustomerDocument"> | string
+    companyId?: StringWithAggregatesFilter<"CustomerDocument"> | string
+    quoteRequestId?: StringWithAggregatesFilter<"CustomerDocument"> | string
+    type?: StringWithAggregatesFilter<"CustomerDocument"> | string
+    number?: StringWithAggregatesFilter<"CustomerDocument"> | string
+    status?: StringWithAggregatesFilter<"CustomerDocument"> | string
+    snapshot?: JsonWithAggregatesFilter<"CustomerDocument">
+    version?: IntWithAggregatesFilter<"CustomerDocument"> | number
+    publicTokenHash?: StringNullableWithAggregatesFilter<"CustomerDocument"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CustomerDocument"> | Date | string
+    issuedAt?: DateTimeNullableWithAggregatesFilter<"CustomerDocument"> | Date | string | null
+    paidAt?: DateTimeNullableWithAggregatesFilter<"CustomerDocument"> | Date | string | null
+    lastEmailedAt?: DateTimeNullableWithAggregatesFilter<"CustomerDocument"> | Date | string | null
+    lastViewedAt?: DateTimeNullableWithAggregatesFilter<"CustomerDocument"> | Date | string | null
+    metadata?: JsonNullableWithAggregatesFilter<"CustomerDocument">
+  }
+
+  export type DocumentSequenceWhereInput = {
+    AND?: DocumentSequenceWhereInput | DocumentSequenceWhereInput[]
+    OR?: DocumentSequenceWhereInput[]
+    NOT?: DocumentSequenceWhereInput | DocumentSequenceWhereInput[]
+    id?: StringFilter<"DocumentSequence"> | string
+    companyId?: StringFilter<"DocumentSequence"> | string
+    year?: IntFilter<"DocumentSequence"> | number
+    type?: StringFilter<"DocumentSequence"> | string
+    nextNumber?: IntFilter<"DocumentSequence"> | number
+    createdAt?: DateTimeFilter<"DocumentSequence"> | Date | string
+    updatedAt?: DateTimeFilter<"DocumentSequence"> | Date | string
+  }
+
+  export type DocumentSequenceOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    year?: SortOrder
+    type?: SortOrder
+    nextNumber?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DocumentSequenceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_year_type?: DocumentSequenceCompanyIdYearTypeCompoundUniqueInput
+    AND?: DocumentSequenceWhereInput | DocumentSequenceWhereInput[]
+    OR?: DocumentSequenceWhereInput[]
+    NOT?: DocumentSequenceWhereInput | DocumentSequenceWhereInput[]
+    companyId?: StringFilter<"DocumentSequence"> | string
+    year?: IntFilter<"DocumentSequence"> | number
+    type?: StringFilter<"DocumentSequence"> | string
+    nextNumber?: IntFilter<"DocumentSequence"> | number
+    createdAt?: DateTimeFilter<"DocumentSequence"> | Date | string
+    updatedAt?: DateTimeFilter<"DocumentSequence"> | Date | string
+  }, "id" | "companyId_year_type">
+
+  export type DocumentSequenceOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    year?: SortOrder
+    type?: SortOrder
+    nextNumber?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DocumentSequenceCountOrderByAggregateInput
+    _avg?: DocumentSequenceAvgOrderByAggregateInput
+    _max?: DocumentSequenceMaxOrderByAggregateInput
+    _min?: DocumentSequenceMinOrderByAggregateInput
+    _sum?: DocumentSequenceSumOrderByAggregateInput
+  }
+
+  export type DocumentSequenceScalarWhereWithAggregatesInput = {
+    AND?: DocumentSequenceScalarWhereWithAggregatesInput | DocumentSequenceScalarWhereWithAggregatesInput[]
+    OR?: DocumentSequenceScalarWhereWithAggregatesInput[]
+    NOT?: DocumentSequenceScalarWhereWithAggregatesInput | DocumentSequenceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DocumentSequence"> | string
+    companyId?: StringWithAggregatesFilter<"DocumentSequence"> | string
+    year?: IntWithAggregatesFilter<"DocumentSequence"> | number
+    type?: StringWithAggregatesFilter<"DocumentSequence"> | string
+    nextNumber?: IntWithAggregatesFilter<"DocumentSequence"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"DocumentSequence"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"DocumentSequence"> | Date | string
+  }
+
   export type CompanyCreateInput = {
     id?: string
     email: string
@@ -18469,6 +21785,9 @@ export namespace Prisma {
     zip?: string | null
     contactName?: string | null
     timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     subscriptionPlan?: string
     stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
@@ -18483,9 +21802,20 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -18494,6 +21824,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -18511,6 +21842,9 @@ export namespace Prisma {
     zip?: string | null
     contactName?: string | null
     timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     subscriptionPlan?: string
     stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
@@ -18525,9 +21859,20 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -18536,6 +21881,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -18553,6 +21899,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18567,9 +21916,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -18578,6 +21938,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -18595,6 +21956,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18609,9 +21973,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -18620,6 +21995,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -18637,6 +22013,9 @@ export namespace Prisma {
     zip?: string | null
     contactName?: string | null
     timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     subscriptionPlan?: string
     stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
@@ -18651,9 +22030,20 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
     createdAt?: Date | string
   }
 
@@ -18672,6 +22062,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18686,9 +22079,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -18707,6 +22111,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18721,9 +22128,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -18735,6 +22153,7 @@ export namespace Prisma {
     minMilesThreshold?: number
     weightFee?: number
     itemCountFee?: number
+    additionalStopFee?: number
     stairsFee?: number
     insideDeliveryFee?: number
     addon3Fee?: number
@@ -18745,6 +22164,7 @@ export namespace Prisma {
     largeItemFee?: number
     largeItemsEnabled?: boolean
     largeItemCategories?: JsonNullValueInput | InputJsonValue
+    serviceOptions?: JsonNullValueInput | InputJsonValue
     company: CompanyCreateNestedOneWithoutPricingProfilesInput
     widgetSettings?: WidgetSettingsCreateNestedOneWithoutPricingProfileInput
   }
@@ -18759,6 +22179,7 @@ export namespace Prisma {
     minMilesThreshold?: number
     weightFee?: number
     itemCountFee?: number
+    additionalStopFee?: number
     stairsFee?: number
     insideDeliveryFee?: number
     addon3Fee?: number
@@ -18769,6 +22190,7 @@ export namespace Prisma {
     largeItemFee?: number
     largeItemsEnabled?: boolean
     largeItemCategories?: JsonNullValueInput | InputJsonValue
+    serviceOptions?: JsonNullValueInput | InputJsonValue
   }
 
   export type PricingProfileUpdateInput = {
@@ -18779,6 +22201,7 @@ export namespace Prisma {
     minMilesThreshold?: FloatFieldUpdateOperationsInput | number
     weightFee?: FloatFieldUpdateOperationsInput | number
     itemCountFee?: FloatFieldUpdateOperationsInput | number
+    additionalStopFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
     addon3Fee?: FloatFieldUpdateOperationsInput | number
@@ -18789,6 +22212,7 @@ export namespace Prisma {
     largeItemFee?: FloatFieldUpdateOperationsInput | number
     largeItemsEnabled?: BoolFieldUpdateOperationsInput | boolean
     largeItemCategories?: JsonNullValueInput | InputJsonValue
+    serviceOptions?: JsonNullValueInput | InputJsonValue
     company?: CompanyUpdateOneRequiredWithoutPricingProfilesNestedInput
     widgetSettings?: WidgetSettingsUpdateOneWithoutPricingProfileNestedInput
   }
@@ -18803,6 +22227,7 @@ export namespace Prisma {
     minMilesThreshold?: FloatFieldUpdateOperationsInput | number
     weightFee?: FloatFieldUpdateOperationsInput | number
     itemCountFee?: FloatFieldUpdateOperationsInput | number
+    additionalStopFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
     addon3Fee?: FloatFieldUpdateOperationsInput | number
@@ -18813,6 +22238,7 @@ export namespace Prisma {
     largeItemFee?: FloatFieldUpdateOperationsInput | number
     largeItemsEnabled?: BoolFieldUpdateOperationsInput | boolean
     largeItemCategories?: JsonNullValueInput | InputJsonValue
+    serviceOptions?: JsonNullValueInput | InputJsonValue
   }
 
   export type PricingProfileCreateManyInput = {
@@ -18825,6 +22251,7 @@ export namespace Prisma {
     minMilesThreshold?: number
     weightFee?: number
     itemCountFee?: number
+    additionalStopFee?: number
     stairsFee?: number
     insideDeliveryFee?: number
     addon3Fee?: number
@@ -18835,6 +22262,7 @@ export namespace Prisma {
     largeItemFee?: number
     largeItemsEnabled?: boolean
     largeItemCategories?: JsonNullValueInput | InputJsonValue
+    serviceOptions?: JsonNullValueInput | InputJsonValue
   }
 
   export type PricingProfileUpdateManyMutationInput = {
@@ -18845,6 +22273,7 @@ export namespace Prisma {
     minMilesThreshold?: FloatFieldUpdateOperationsInput | number
     weightFee?: FloatFieldUpdateOperationsInput | number
     itemCountFee?: FloatFieldUpdateOperationsInput | number
+    additionalStopFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
     addon3Fee?: FloatFieldUpdateOperationsInput | number
@@ -18855,6 +22284,7 @@ export namespace Prisma {
     largeItemFee?: FloatFieldUpdateOperationsInput | number
     largeItemsEnabled?: BoolFieldUpdateOperationsInput | boolean
     largeItemCategories?: JsonNullValueInput | InputJsonValue
+    serviceOptions?: JsonNullValueInput | InputJsonValue
   }
 
   export type PricingProfileUncheckedUpdateManyInput = {
@@ -18867,6 +22297,7 @@ export namespace Prisma {
     minMilesThreshold?: FloatFieldUpdateOperationsInput | number
     weightFee?: FloatFieldUpdateOperationsInput | number
     itemCountFee?: FloatFieldUpdateOperationsInput | number
+    additionalStopFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
     addon3Fee?: FloatFieldUpdateOperationsInput | number
@@ -18877,12 +22308,17 @@ export namespace Prisma {
     largeItemFee?: FloatFieldUpdateOperationsInput | number
     largeItemsEnabled?: BoolFieldUpdateOperationsInput | boolean
     largeItemCategories?: JsonNullValueInput | InputJsonValue
+    serviceOptions?: JsonNullValueInput | InputJsonValue
   }
 
   export type WidgetSettingsCreateInput = {
     id?: string
     name?: string
+    formStyle?: string
+    customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: string | null
+    logoDarkUrl?: string | null
+    autoContrastLogo?: boolean
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
@@ -18891,6 +22327,7 @@ export namespace Prisma {
     primaryColor?: string
     buttonText?: string
     headerText?: string
+    quickSubtitleText?: string
     disclaimerText?: string
     companyNameText?: string | null
     companyNameFont?: string
@@ -18900,6 +22337,7 @@ export namespace Prisma {
     paymentsEnabled?: boolean
     showVehicles?: boolean
     pricePerVehicle?: number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
@@ -18911,7 +22349,11 @@ export namespace Prisma {
     id?: string
     companyId: string
     name?: string
+    formStyle?: string
+    customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: string | null
+    logoDarkUrl?: string | null
+    autoContrastLogo?: boolean
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
@@ -18920,6 +22362,7 @@ export namespace Prisma {
     primaryColor?: string
     buttonText?: string
     headerText?: string
+    quickSubtitleText?: string
     disclaimerText?: string
     companyNameText?: string | null
     companyNameFont?: string
@@ -18929,6 +22372,7 @@ export namespace Prisma {
     paymentsEnabled?: boolean
     showVehicles?: boolean
     pricePerVehicle?: number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
@@ -18938,7 +22382,11 @@ export namespace Prisma {
   export type WidgetSettingsUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    formStyle?: StringFieldUpdateOperationsInput | string
+    customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
@@ -18947,6 +22395,7 @@ export namespace Prisma {
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string
+    quickSubtitleText?: StringFieldUpdateOperationsInput | string
     disclaimerText?: StringFieldUpdateOperationsInput | string
     companyNameText?: NullableStringFieldUpdateOperationsInput | string | null
     companyNameFont?: StringFieldUpdateOperationsInput | string
@@ -18956,6 +22405,7 @@ export namespace Prisma {
     paymentsEnabled?: BoolFieldUpdateOperationsInput | boolean
     showVehicles?: BoolFieldUpdateOperationsInput | boolean
     pricePerVehicle?: FloatFieldUpdateOperationsInput | number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
@@ -18967,7 +22417,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    formStyle?: StringFieldUpdateOperationsInput | string
+    customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
@@ -18976,6 +22430,7 @@ export namespace Prisma {
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string
+    quickSubtitleText?: StringFieldUpdateOperationsInput | string
     disclaimerText?: StringFieldUpdateOperationsInput | string
     companyNameText?: NullableStringFieldUpdateOperationsInput | string | null
     companyNameFont?: StringFieldUpdateOperationsInput | string
@@ -18985,6 +22440,7 @@ export namespace Prisma {
     paymentsEnabled?: BoolFieldUpdateOperationsInput | boolean
     showVehicles?: BoolFieldUpdateOperationsInput | boolean
     pricePerVehicle?: FloatFieldUpdateOperationsInput | number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
@@ -18995,7 +22451,11 @@ export namespace Prisma {
     id?: string
     companyId: string
     name?: string
+    formStyle?: string
+    customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: string | null
+    logoDarkUrl?: string | null
+    autoContrastLogo?: boolean
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
@@ -19004,6 +22464,7 @@ export namespace Prisma {
     primaryColor?: string
     buttonText?: string
     headerText?: string
+    quickSubtitleText?: string
     disclaimerText?: string
     companyNameText?: string | null
     companyNameFont?: string
@@ -19013,6 +22474,7 @@ export namespace Prisma {
     paymentsEnabled?: boolean
     showVehicles?: boolean
     pricePerVehicle?: number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
@@ -19021,7 +22483,11 @@ export namespace Prisma {
   export type WidgetSettingsUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    formStyle?: StringFieldUpdateOperationsInput | string
+    customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
@@ -19030,6 +22496,7 @@ export namespace Prisma {
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string
+    quickSubtitleText?: StringFieldUpdateOperationsInput | string
     disclaimerText?: StringFieldUpdateOperationsInput | string
     companyNameText?: NullableStringFieldUpdateOperationsInput | string | null
     companyNameFont?: StringFieldUpdateOperationsInput | string
@@ -19039,6 +22506,7 @@ export namespace Prisma {
     paymentsEnabled?: BoolFieldUpdateOperationsInput | boolean
     showVehicles?: BoolFieldUpdateOperationsInput | boolean
     pricePerVehicle?: FloatFieldUpdateOperationsInput | number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
@@ -19048,7 +22516,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    formStyle?: StringFieldUpdateOperationsInput | string
+    customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
@@ -19057,6 +22529,7 @@ export namespace Prisma {
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string
+    quickSubtitleText?: StringFieldUpdateOperationsInput | string
     disclaimerText?: StringFieldUpdateOperationsInput | string
     companyNameText?: NullableStringFieldUpdateOperationsInput | string | null
     companyNameFont?: StringFieldUpdateOperationsInput | string
@@ -19066,6 +22539,7 @@ export namespace Prisma {
     paymentsEnabled?: BoolFieldUpdateOperationsInput | boolean
     showVehicles?: BoolFieldUpdateOperationsInput | boolean
     pricePerVehicle?: FloatFieldUpdateOperationsInput | number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
@@ -19078,14 +22552,20 @@ export namespace Prisma {
     customerPhone?: string | null
     pickupZip: string
     dropoffZip: string
+    pickupAddress?: string | null
+    dropoffAddress?: string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
     distanceMiles: number
     serviceType: string
     packageSize?: string | null
     packageWeight?: string | null
+    itemCount?: number | null
     selectedExtras?: string | null
     status?: string
     estimatedPrice: number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
     vehicleCount?: number | null
+    vehicleType?: string | null
     awbNumber?: string | null
     paymentStatus?: string | null
     stripePaymentIntentId?: string | null
@@ -19095,6 +22575,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     company: CompanyCreateNestedOneWithoutQuoteRequestsInput
     jobs?: JobCreateNestedManyWithoutQuoteRequestInput
+    customerDocuments?: CustomerDocumentCreateNestedManyWithoutQuoteRequestInput
   }
 
   export type QuoteRequestUncheckedCreateInput = {
@@ -19105,14 +22586,20 @@ export namespace Prisma {
     customerPhone?: string | null
     pickupZip: string
     dropoffZip: string
+    pickupAddress?: string | null
+    dropoffAddress?: string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
     distanceMiles: number
     serviceType: string
     packageSize?: string | null
     packageWeight?: string | null
+    itemCount?: number | null
     selectedExtras?: string | null
     status?: string
     estimatedPrice: number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
     vehicleCount?: number | null
+    vehicleType?: string | null
     awbNumber?: string | null
     paymentStatus?: string | null
     stripePaymentIntentId?: string | null
@@ -19121,6 +22608,7 @@ export namespace Prisma {
     createdAt?: Date | string
     deletedAt?: Date | string | null
     jobs?: JobUncheckedCreateNestedManyWithoutQuoteRequestInput
+    customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutQuoteRequestInput
   }
 
   export type QuoteRequestUpdateInput = {
@@ -19130,14 +22618,20 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     pickupZip?: StringFieldUpdateOperationsInput | string
     dropoffZip?: StringFieldUpdateOperationsInput | string
+    pickupAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    dropoffAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
     distanceMiles?: FloatFieldUpdateOperationsInput | number
     serviceType?: StringFieldUpdateOperationsInput | string
     packageSize?: NullableStringFieldUpdateOperationsInput | string | null
     packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    itemCount?: NullableIntFieldUpdateOperationsInput | number | null
     selectedExtras?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     estimatedPrice?: FloatFieldUpdateOperationsInput | number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
     vehicleCount?: NullableIntFieldUpdateOperationsInput | number | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     awbNumber?: NullableStringFieldUpdateOperationsInput | string | null
     paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19147,6 +22641,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneRequiredWithoutQuoteRequestsNestedInput
     jobs?: JobUpdateManyWithoutQuoteRequestNestedInput
+    customerDocuments?: CustomerDocumentUpdateManyWithoutQuoteRequestNestedInput
   }
 
   export type QuoteRequestUncheckedUpdateInput = {
@@ -19157,14 +22652,20 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     pickupZip?: StringFieldUpdateOperationsInput | string
     dropoffZip?: StringFieldUpdateOperationsInput | string
+    pickupAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    dropoffAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
     distanceMiles?: FloatFieldUpdateOperationsInput | number
     serviceType?: StringFieldUpdateOperationsInput | string
     packageSize?: NullableStringFieldUpdateOperationsInput | string | null
     packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    itemCount?: NullableIntFieldUpdateOperationsInput | number | null
     selectedExtras?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     estimatedPrice?: FloatFieldUpdateOperationsInput | number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
     vehicleCount?: NullableIntFieldUpdateOperationsInput | number | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     awbNumber?: NullableStringFieldUpdateOperationsInput | string | null
     paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19173,6 +22674,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     jobs?: JobUncheckedUpdateManyWithoutQuoteRequestNestedInput
+    customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutQuoteRequestNestedInput
   }
 
   export type QuoteRequestCreateManyInput = {
@@ -19183,14 +22685,20 @@ export namespace Prisma {
     customerPhone?: string | null
     pickupZip: string
     dropoffZip: string
+    pickupAddress?: string | null
+    dropoffAddress?: string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
     distanceMiles: number
     serviceType: string
     packageSize?: string | null
     packageWeight?: string | null
+    itemCount?: number | null
     selectedExtras?: string | null
     status?: string
     estimatedPrice: number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
     vehicleCount?: number | null
+    vehicleType?: string | null
     awbNumber?: string | null
     paymentStatus?: string | null
     stripePaymentIntentId?: string | null
@@ -19207,14 +22715,20 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     pickupZip?: StringFieldUpdateOperationsInput | string
     dropoffZip?: StringFieldUpdateOperationsInput | string
+    pickupAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    dropoffAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
     distanceMiles?: FloatFieldUpdateOperationsInput | number
     serviceType?: StringFieldUpdateOperationsInput | string
     packageSize?: NullableStringFieldUpdateOperationsInput | string | null
     packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    itemCount?: NullableIntFieldUpdateOperationsInput | number | null
     selectedExtras?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     estimatedPrice?: FloatFieldUpdateOperationsInput | number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
     vehicleCount?: NullableIntFieldUpdateOperationsInput | number | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     awbNumber?: NullableStringFieldUpdateOperationsInput | string | null
     paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19232,14 +22746,20 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     pickupZip?: StringFieldUpdateOperationsInput | string
     dropoffZip?: StringFieldUpdateOperationsInput | string
+    pickupAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    dropoffAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
     distanceMiles?: FloatFieldUpdateOperationsInput | number
     serviceType?: StringFieldUpdateOperationsInput | string
     packageSize?: NullableStringFieldUpdateOperationsInput | string | null
     packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    itemCount?: NullableIntFieldUpdateOperationsInput | number | null
     selectedExtras?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     estimatedPrice?: FloatFieldUpdateOperationsInput | number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
     vehicleCount?: NullableIntFieldUpdateOperationsInput | number | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     awbNumber?: NullableStringFieldUpdateOperationsInput | string | null
     paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19892,6 +23412,200 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
   }
 
+  export type CustomerDocumentCreateInput = {
+    id?: string
+    type: string
+    number: string
+    status?: string
+    snapshot: JsonNullValueInput | InputJsonValue
+    version?: number
+    publicTokenHash?: string | null
+    createdAt?: Date | string
+    issuedAt?: Date | string | null
+    paidAt?: Date | string | null
+    lastEmailedAt?: Date | string | null
+    lastViewedAt?: Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    company: CompanyCreateNestedOneWithoutCustomerDocumentsInput
+    quoteRequest: QuoteRequestCreateNestedOneWithoutCustomerDocumentsInput
+  }
+
+  export type CustomerDocumentUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    quoteRequestId: string
+    type: string
+    number: string
+    status?: string
+    snapshot: JsonNullValueInput | InputJsonValue
+    version?: number
+    publicTokenHash?: string | null
+    createdAt?: Date | string
+    issuedAt?: Date | string | null
+    paidAt?: Date | string | null
+    lastEmailedAt?: Date | string | null
+    lastViewedAt?: Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type CustomerDocumentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    snapshot?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    publicTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEmailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    company?: CompanyUpdateOneRequiredWithoutCustomerDocumentsNestedInput
+    quoteRequest?: QuoteRequestUpdateOneRequiredWithoutCustomerDocumentsNestedInput
+  }
+
+  export type CustomerDocumentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    quoteRequestId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    snapshot?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    publicTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEmailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type CustomerDocumentCreateManyInput = {
+    id?: string
+    companyId: string
+    quoteRequestId: string
+    type: string
+    number: string
+    status?: string
+    snapshot: JsonNullValueInput | InputJsonValue
+    version?: number
+    publicTokenHash?: string | null
+    createdAt?: Date | string
+    issuedAt?: Date | string | null
+    paidAt?: Date | string | null
+    lastEmailedAt?: Date | string | null
+    lastViewedAt?: Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type CustomerDocumentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    snapshot?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    publicTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEmailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type CustomerDocumentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    quoteRequestId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    snapshot?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    publicTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEmailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type DocumentSequenceCreateInput = {
+    id?: string
+    companyId: string
+    year: number
+    type: string
+    nextNumber?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DocumentSequenceUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    year: number
+    type: string
+    nextNumber?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DocumentSequenceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    nextNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentSequenceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    nextNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentSequenceCreateManyInput = {
+    id?: string
+    companyId: string
+    year: number
+    type: string
+    nextNumber?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DocumentSequenceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    nextNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentSequenceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    nextNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -19920,6 +23634,17 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -20014,6 +23739,12 @@ export namespace Prisma {
     none?: JobWhereInput
   }
 
+  export type CustomerDocumentListRelationFilter = {
+    every?: CustomerDocumentWhereInput
+    some?: CustomerDocumentWhereInput
+    none?: CustomerDocumentWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -20047,6 +23778,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type CustomerDocumentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type CompanyCountOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
@@ -20062,6 +23797,9 @@ export namespace Prisma {
     zip?: SortOrder
     contactName?: SortOrder
     timezone?: SortOrder
+    businessType?: SortOrder
+    onboardingStep?: SortOrder
+    onboardingCompletedAt?: SortOrder
     subscriptionPlan?: SortOrder
     stripeCustomerId?: SortOrder
     stripeSubscriptionId?: SortOrder
@@ -20076,10 +23814,25 @@ export namespace Prisma {
     resendDomainId?: SortOrder
     emailDomainVerified?: SortOrder
     emailDomainDnsRecords?: SortOrder
+    customWidgetDomain?: SortOrder
+    customWidgetDomainVerified?: SortOrder
+    customWidgetDomainVerification?: SortOrder
     isAdmin?: SortOrder
     isSuperAdmin?: SortOrder
     lastLoginAt?: SortOrder
+    registrationSource?: SortOrder
+    registrationReferrer?: SortOrder
+    registrationLandingPage?: SortOrder
+    registrationUtmSource?: SortOrder
+    registrationUtmMedium?: SortOrder
+    registrationUtmCampaign?: SortOrder
+    registrationUtmTerm?: SortOrder
+    registrationUtmContent?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type CompanyAvgOrderByAggregateInput = {
+    onboardingStep?: SortOrder
   }
 
   export type CompanyMaxOrderByAggregateInput = {
@@ -20097,6 +23850,9 @@ export namespace Prisma {
     zip?: SortOrder
     contactName?: SortOrder
     timezone?: SortOrder
+    businessType?: SortOrder
+    onboardingStep?: SortOrder
+    onboardingCompletedAt?: SortOrder
     subscriptionPlan?: SortOrder
     stripeCustomerId?: SortOrder
     stripeSubscriptionId?: SortOrder
@@ -20110,9 +23866,19 @@ export namespace Prisma {
     customEmailFromName?: SortOrder
     resendDomainId?: SortOrder
     emailDomainVerified?: SortOrder
+    customWidgetDomain?: SortOrder
+    customWidgetDomainVerified?: SortOrder
     isAdmin?: SortOrder
     isSuperAdmin?: SortOrder
     lastLoginAt?: SortOrder
+    registrationSource?: SortOrder
+    registrationReferrer?: SortOrder
+    registrationLandingPage?: SortOrder
+    registrationUtmSource?: SortOrder
+    registrationUtmMedium?: SortOrder
+    registrationUtmCampaign?: SortOrder
+    registrationUtmTerm?: SortOrder
+    registrationUtmContent?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -20131,6 +23897,9 @@ export namespace Prisma {
     zip?: SortOrder
     contactName?: SortOrder
     timezone?: SortOrder
+    businessType?: SortOrder
+    onboardingStep?: SortOrder
+    onboardingCompletedAt?: SortOrder
     subscriptionPlan?: SortOrder
     stripeCustomerId?: SortOrder
     stripeSubscriptionId?: SortOrder
@@ -20144,10 +23913,24 @@ export namespace Prisma {
     customEmailFromName?: SortOrder
     resendDomainId?: SortOrder
     emailDomainVerified?: SortOrder
+    customWidgetDomain?: SortOrder
+    customWidgetDomainVerified?: SortOrder
     isAdmin?: SortOrder
     isSuperAdmin?: SortOrder
     lastLoginAt?: SortOrder
+    registrationSource?: SortOrder
+    registrationReferrer?: SortOrder
+    registrationLandingPage?: SortOrder
+    registrationUtmSource?: SortOrder
+    registrationUtmMedium?: SortOrder
+    registrationUtmCampaign?: SortOrder
+    registrationUtmTerm?: SortOrder
+    registrationUtmContent?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type CompanySumOrderByAggregateInput = {
+    onboardingStep?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -20184,6 +23967,22 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -20302,6 +24101,7 @@ export namespace Prisma {
     minMilesThreshold?: SortOrder
     weightFee?: SortOrder
     itemCountFee?: SortOrder
+    additionalStopFee?: SortOrder
     stairsFee?: SortOrder
     insideDeliveryFee?: SortOrder
     addon3Fee?: SortOrder
@@ -20312,6 +24112,7 @@ export namespace Prisma {
     largeItemFee?: SortOrder
     largeItemsEnabled?: SortOrder
     largeItemCategories?: SortOrder
+    serviceOptions?: SortOrder
   }
 
   export type PricingProfileAvgOrderByAggregateInput = {
@@ -20320,6 +24121,7 @@ export namespace Prisma {
     minMilesThreshold?: SortOrder
     weightFee?: SortOrder
     itemCountFee?: SortOrder
+    additionalStopFee?: SortOrder
     stairsFee?: SortOrder
     insideDeliveryFee?: SortOrder
     addon3Fee?: SortOrder
@@ -20337,6 +24139,7 @@ export namespace Prisma {
     minMilesThreshold?: SortOrder
     weightFee?: SortOrder
     itemCountFee?: SortOrder
+    additionalStopFee?: SortOrder
     stairsFee?: SortOrder
     insideDeliveryFee?: SortOrder
     addon3Fee?: SortOrder
@@ -20358,6 +24161,7 @@ export namespace Prisma {
     minMilesThreshold?: SortOrder
     weightFee?: SortOrder
     itemCountFee?: SortOrder
+    additionalStopFee?: SortOrder
     stairsFee?: SortOrder
     insideDeliveryFee?: SortOrder
     addon3Fee?: SortOrder
@@ -20375,6 +24179,7 @@ export namespace Prisma {
     minMilesThreshold?: SortOrder
     weightFee?: SortOrder
     itemCountFee?: SortOrder
+    additionalStopFee?: SortOrder
     stairsFee?: SortOrder
     insideDeliveryFee?: SortOrder
     addon3Fee?: SortOrder
@@ -20441,7 +24246,11 @@ export namespace Prisma {
     id?: SortOrder
     companyId?: SortOrder
     name?: SortOrder
+    formStyle?: SortOrder
+    customQuestions?: SortOrder
     logoUrl?: SortOrder
+    logoDarkUrl?: SortOrder
+    autoContrastLogo?: SortOrder
     showWeight?: SortOrder
     showItemCount?: SortOrder
     showExtras?: SortOrder
@@ -20450,6 +24259,7 @@ export namespace Prisma {
     primaryColor?: SortOrder
     buttonText?: SortOrder
     headerText?: SortOrder
+    quickSubtitleText?: SortOrder
     disclaimerText?: SortOrder
     companyNameText?: SortOrder
     companyNameFont?: SortOrder
@@ -20459,6 +24269,7 @@ export namespace Prisma {
     paymentsEnabled?: SortOrder
     showVehicles?: SortOrder
     pricePerVehicle?: SortOrder
+    vehicleOptions?: SortOrder
     showAwb?: SortOrder
     geoFencingEnabled?: SortOrder
     serviceZips?: SortOrder
@@ -20472,7 +24283,10 @@ export namespace Prisma {
     id?: SortOrder
     companyId?: SortOrder
     name?: SortOrder
+    formStyle?: SortOrder
     logoUrl?: SortOrder
+    logoDarkUrl?: SortOrder
+    autoContrastLogo?: SortOrder
     showWeight?: SortOrder
     showItemCount?: SortOrder
     showExtras?: SortOrder
@@ -20481,6 +24295,7 @@ export namespace Prisma {
     primaryColor?: SortOrder
     buttonText?: SortOrder
     headerText?: SortOrder
+    quickSubtitleText?: SortOrder
     disclaimerText?: SortOrder
     companyNameText?: SortOrder
     companyNameFont?: SortOrder
@@ -20498,7 +24313,10 @@ export namespace Prisma {
     id?: SortOrder
     companyId?: SortOrder
     name?: SortOrder
+    formStyle?: SortOrder
     logoUrl?: SortOrder
+    logoDarkUrl?: SortOrder
+    autoContrastLogo?: SortOrder
     showWeight?: SortOrder
     showItemCount?: SortOrder
     showExtras?: SortOrder
@@ -20507,6 +24325,7 @@ export namespace Prisma {
     primaryColor?: SortOrder
     buttonText?: SortOrder
     headerText?: SortOrder
+    quickSubtitleText?: SortOrder
     disclaimerText?: SortOrder
     companyNameText?: SortOrder
     companyNameFont?: SortOrder
@@ -20543,14 +24362,20 @@ export namespace Prisma {
     customerPhone?: SortOrder
     pickupZip?: SortOrder
     dropoffZip?: SortOrder
+    pickupAddress?: SortOrder
+    dropoffAddress?: SortOrder
+    intermediateStops?: SortOrder
     distanceMiles?: SortOrder
     serviceType?: SortOrder
     packageSize?: SortOrder
     packageWeight?: SortOrder
+    itemCount?: SortOrder
     selectedExtras?: SortOrder
     status?: SortOrder
     estimatedPrice?: SortOrder
+    pricingBreakdown?: SortOrder
     vehicleCount?: SortOrder
+    vehicleType?: SortOrder
     awbNumber?: SortOrder
     paymentStatus?: SortOrder
     stripePaymentIntentId?: SortOrder
@@ -20562,6 +24387,7 @@ export namespace Prisma {
 
   export type QuoteRequestAvgOrderByAggregateInput = {
     distanceMiles?: SortOrder
+    itemCount?: SortOrder
     estimatedPrice?: SortOrder
     vehicleCount?: SortOrder
   }
@@ -20574,14 +24400,18 @@ export namespace Prisma {
     customerPhone?: SortOrder
     pickupZip?: SortOrder
     dropoffZip?: SortOrder
+    pickupAddress?: SortOrder
+    dropoffAddress?: SortOrder
     distanceMiles?: SortOrder
     serviceType?: SortOrder
     packageSize?: SortOrder
     packageWeight?: SortOrder
+    itemCount?: SortOrder
     selectedExtras?: SortOrder
     status?: SortOrder
     estimatedPrice?: SortOrder
     vehicleCount?: SortOrder
+    vehicleType?: SortOrder
     awbNumber?: SortOrder
     paymentStatus?: SortOrder
     stripePaymentIntentId?: SortOrder
@@ -20599,14 +24429,18 @@ export namespace Prisma {
     customerPhone?: SortOrder
     pickupZip?: SortOrder
     dropoffZip?: SortOrder
+    pickupAddress?: SortOrder
+    dropoffAddress?: SortOrder
     distanceMiles?: SortOrder
     serviceType?: SortOrder
     packageSize?: SortOrder
     packageWeight?: SortOrder
+    itemCount?: SortOrder
     selectedExtras?: SortOrder
     status?: SortOrder
     estimatedPrice?: SortOrder
     vehicleCount?: SortOrder
+    vehicleType?: SortOrder
     awbNumber?: SortOrder
     paymentStatus?: SortOrder
     stripePaymentIntentId?: SortOrder
@@ -20618,6 +24452,7 @@ export namespace Prisma {
 
   export type QuoteRequestSumOrderByAggregateInput = {
     distanceMiles?: SortOrder
+    itemCount?: SortOrder
     estimatedPrice?: SortOrder
     vehicleCount?: SortOrder
   }
@@ -20940,17 +24775,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type JobScalarRelationFilter = {
     is?: JobWhereInput
     isNot?: JobWhereInput
@@ -20985,20 +24809,123 @@ export namespace Prisma {
     order?: SortOrder
   }
 
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
+  export type QuoteRequestScalarRelationFilter = {
+    is?: QuoteRequestWhereInput
+    isNot?: QuoteRequestWhereInput
+  }
+
+  export type CustomerDocumentCompanyIdNumberCompoundUniqueInput = {
+    companyId: string
+    number: string
+  }
+
+  export type CustomerDocumentQuoteRequestIdTypeCompoundUniqueInput = {
+    quoteRequestId: string
+    type: string
+  }
+
+  export type CustomerDocumentCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    quoteRequestId?: SortOrder
+    type?: SortOrder
+    number?: SortOrder
+    status?: SortOrder
+    snapshot?: SortOrder
+    version?: SortOrder
+    publicTokenHash?: SortOrder
+    createdAt?: SortOrder
+    issuedAt?: SortOrder
+    paidAt?: SortOrder
+    lastEmailedAt?: SortOrder
+    lastViewedAt?: SortOrder
+    metadata?: SortOrder
+  }
+
+  export type CustomerDocumentAvgOrderByAggregateInput = {
+    version?: SortOrder
+  }
+
+  export type CustomerDocumentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    quoteRequestId?: SortOrder
+    type?: SortOrder
+    number?: SortOrder
+    status?: SortOrder
+    version?: SortOrder
+    publicTokenHash?: SortOrder
+    createdAt?: SortOrder
+    issuedAt?: SortOrder
+    paidAt?: SortOrder
+    lastEmailedAt?: SortOrder
+    lastViewedAt?: SortOrder
+  }
+
+  export type CustomerDocumentMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    quoteRequestId?: SortOrder
+    type?: SortOrder
+    number?: SortOrder
+    status?: SortOrder
+    version?: SortOrder
+    publicTokenHash?: SortOrder
+    createdAt?: SortOrder
+    issuedAt?: SortOrder
+    paidAt?: SortOrder
+    lastEmailedAt?: SortOrder
+    lastViewedAt?: SortOrder
+  }
+
+  export type CustomerDocumentSumOrderByAggregateInput = {
+    version?: SortOrder
+  }
+
+  export type DocumentSequenceCompanyIdYearTypeCompoundUniqueInput = {
+    companyId: string
+    year: number
+    type: string
+  }
+
+  export type DocumentSequenceCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    year?: SortOrder
+    type?: SortOrder
+    nextNumber?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DocumentSequenceAvgOrderByAggregateInput = {
+    year?: SortOrder
+    nextNumber?: SortOrder
+  }
+
+  export type DocumentSequenceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    year?: SortOrder
+    type?: SortOrder
+    nextNumber?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DocumentSequenceMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    year?: SortOrder
+    type?: SortOrder
+    nextNumber?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DocumentSequenceSumOrderByAggregateInput = {
+    year?: SortOrder
+    nextNumber?: SortOrder
   }
 
   export type PricingProfileCreateNestedManyWithoutCompanyInput = {
@@ -21050,6 +24977,13 @@ export namespace Prisma {
     connect?: JobWhereUniqueInput | JobWhereUniqueInput[]
   }
 
+  export type CustomerDocumentCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<CustomerDocumentCreateWithoutCompanyInput, CustomerDocumentUncheckedCreateWithoutCompanyInput> | CustomerDocumentCreateWithoutCompanyInput[] | CustomerDocumentUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CustomerDocumentCreateOrConnectWithoutCompanyInput | CustomerDocumentCreateOrConnectWithoutCompanyInput[]
+    createMany?: CustomerDocumentCreateManyCompanyInputEnvelope
+    connect?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+  }
+
   export type PricingProfileUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<PricingProfileCreateWithoutCompanyInput, PricingProfileUncheckedCreateWithoutCompanyInput> | PricingProfileCreateWithoutCompanyInput[] | PricingProfileUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: PricingProfileCreateOrConnectWithoutCompanyInput | PricingProfileCreateOrConnectWithoutCompanyInput[]
@@ -21099,12 +25033,27 @@ export namespace Prisma {
     connect?: JobWhereUniqueInput | JobWhereUniqueInput[]
   }
 
+  export type CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<CustomerDocumentCreateWithoutCompanyInput, CustomerDocumentUncheckedCreateWithoutCompanyInput> | CustomerDocumentCreateWithoutCompanyInput[] | CustomerDocumentUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CustomerDocumentCreateOrConnectWithoutCompanyInput | CustomerDocumentCreateOrConnectWithoutCompanyInput[]
+    createMany?: CustomerDocumentCreateManyCompanyInputEnvelope
+    connect?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -21217,6 +25166,20 @@ export namespace Prisma {
     deleteMany?: JobScalarWhereInput | JobScalarWhereInput[]
   }
 
+  export type CustomerDocumentUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<CustomerDocumentCreateWithoutCompanyInput, CustomerDocumentUncheckedCreateWithoutCompanyInput> | CustomerDocumentCreateWithoutCompanyInput[] | CustomerDocumentUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CustomerDocumentCreateOrConnectWithoutCompanyInput | CustomerDocumentCreateOrConnectWithoutCompanyInput[]
+    upsert?: CustomerDocumentUpsertWithWhereUniqueWithoutCompanyInput | CustomerDocumentUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: CustomerDocumentCreateManyCompanyInputEnvelope
+    set?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+    disconnect?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+    delete?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+    connect?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+    update?: CustomerDocumentUpdateWithWhereUniqueWithoutCompanyInput | CustomerDocumentUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: CustomerDocumentUpdateManyWithWhereWithoutCompanyInput | CustomerDocumentUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: CustomerDocumentScalarWhereInput | CustomerDocumentScalarWhereInput[]
+  }
+
   export type PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<PricingProfileCreateWithoutCompanyInput, PricingProfileUncheckedCreateWithoutCompanyInput> | PricingProfileCreateWithoutCompanyInput[] | PricingProfileUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: PricingProfileCreateOrConnectWithoutCompanyInput | PricingProfileCreateOrConnectWithoutCompanyInput[]
@@ -21313,6 +25276,20 @@ export namespace Prisma {
     update?: JobUpdateWithWhereUniqueWithoutCompanyInput | JobUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: JobUpdateManyWithWhereWithoutCompanyInput | JobUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: JobScalarWhereInput | JobScalarWhereInput[]
+  }
+
+  export type CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<CustomerDocumentCreateWithoutCompanyInput, CustomerDocumentUncheckedCreateWithoutCompanyInput> | CustomerDocumentCreateWithoutCompanyInput[] | CustomerDocumentUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CustomerDocumentCreateOrConnectWithoutCompanyInput | CustomerDocumentCreateOrConnectWithoutCompanyInput[]
+    upsert?: CustomerDocumentUpsertWithWhereUniqueWithoutCompanyInput | CustomerDocumentUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: CustomerDocumentCreateManyCompanyInputEnvelope
+    set?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+    disconnect?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+    delete?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+    connect?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+    update?: CustomerDocumentUpdateWithWhereUniqueWithoutCompanyInput | CustomerDocumentUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: CustomerDocumentUpdateManyWithWhereWithoutCompanyInput | CustomerDocumentUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: CustomerDocumentScalarWhereInput | CustomerDocumentScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutPricingProfilesInput = {
@@ -21421,11 +25398,25 @@ export namespace Prisma {
     connect?: JobWhereUniqueInput | JobWhereUniqueInput[]
   }
 
+  export type CustomerDocumentCreateNestedManyWithoutQuoteRequestInput = {
+    create?: XOR<CustomerDocumentCreateWithoutQuoteRequestInput, CustomerDocumentUncheckedCreateWithoutQuoteRequestInput> | CustomerDocumentCreateWithoutQuoteRequestInput[] | CustomerDocumentUncheckedCreateWithoutQuoteRequestInput[]
+    connectOrCreate?: CustomerDocumentCreateOrConnectWithoutQuoteRequestInput | CustomerDocumentCreateOrConnectWithoutQuoteRequestInput[]
+    createMany?: CustomerDocumentCreateManyQuoteRequestInputEnvelope
+    connect?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+  }
+
   export type JobUncheckedCreateNestedManyWithoutQuoteRequestInput = {
     create?: XOR<JobCreateWithoutQuoteRequestInput, JobUncheckedCreateWithoutQuoteRequestInput> | JobCreateWithoutQuoteRequestInput[] | JobUncheckedCreateWithoutQuoteRequestInput[]
     connectOrCreate?: JobCreateOrConnectWithoutQuoteRequestInput | JobCreateOrConnectWithoutQuoteRequestInput[]
     createMany?: JobCreateManyQuoteRequestInputEnvelope
     connect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+  }
+
+  export type CustomerDocumentUncheckedCreateNestedManyWithoutQuoteRequestInput = {
+    create?: XOR<CustomerDocumentCreateWithoutQuoteRequestInput, CustomerDocumentUncheckedCreateWithoutQuoteRequestInput> | CustomerDocumentCreateWithoutQuoteRequestInput[] | CustomerDocumentUncheckedCreateWithoutQuoteRequestInput[]
+    connectOrCreate?: CustomerDocumentCreateOrConnectWithoutQuoteRequestInput | CustomerDocumentCreateOrConnectWithoutQuoteRequestInput[]
+    createMany?: CustomerDocumentCreateManyQuoteRequestInputEnvelope
+    connect?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -21458,6 +25449,20 @@ export namespace Prisma {
     deleteMany?: JobScalarWhereInput | JobScalarWhereInput[]
   }
 
+  export type CustomerDocumentUpdateManyWithoutQuoteRequestNestedInput = {
+    create?: XOR<CustomerDocumentCreateWithoutQuoteRequestInput, CustomerDocumentUncheckedCreateWithoutQuoteRequestInput> | CustomerDocumentCreateWithoutQuoteRequestInput[] | CustomerDocumentUncheckedCreateWithoutQuoteRequestInput[]
+    connectOrCreate?: CustomerDocumentCreateOrConnectWithoutQuoteRequestInput | CustomerDocumentCreateOrConnectWithoutQuoteRequestInput[]
+    upsert?: CustomerDocumentUpsertWithWhereUniqueWithoutQuoteRequestInput | CustomerDocumentUpsertWithWhereUniqueWithoutQuoteRequestInput[]
+    createMany?: CustomerDocumentCreateManyQuoteRequestInputEnvelope
+    set?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+    disconnect?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+    delete?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+    connect?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+    update?: CustomerDocumentUpdateWithWhereUniqueWithoutQuoteRequestInput | CustomerDocumentUpdateWithWhereUniqueWithoutQuoteRequestInput[]
+    updateMany?: CustomerDocumentUpdateManyWithWhereWithoutQuoteRequestInput | CustomerDocumentUpdateManyWithWhereWithoutQuoteRequestInput[]
+    deleteMany?: CustomerDocumentScalarWhereInput | CustomerDocumentScalarWhereInput[]
+  }
+
   export type JobUncheckedUpdateManyWithoutQuoteRequestNestedInput = {
     create?: XOR<JobCreateWithoutQuoteRequestInput, JobUncheckedCreateWithoutQuoteRequestInput> | JobCreateWithoutQuoteRequestInput[] | JobUncheckedCreateWithoutQuoteRequestInput[]
     connectOrCreate?: JobCreateOrConnectWithoutQuoteRequestInput | JobCreateOrConnectWithoutQuoteRequestInput[]
@@ -21470,6 +25475,20 @@ export namespace Prisma {
     update?: JobUpdateWithWhereUniqueWithoutQuoteRequestInput | JobUpdateWithWhereUniqueWithoutQuoteRequestInput[]
     updateMany?: JobUpdateManyWithWhereWithoutQuoteRequestInput | JobUpdateManyWithWhereWithoutQuoteRequestInput[]
     deleteMany?: JobScalarWhereInput | JobScalarWhereInput[]
+  }
+
+  export type CustomerDocumentUncheckedUpdateManyWithoutQuoteRequestNestedInput = {
+    create?: XOR<CustomerDocumentCreateWithoutQuoteRequestInput, CustomerDocumentUncheckedCreateWithoutQuoteRequestInput> | CustomerDocumentCreateWithoutQuoteRequestInput[] | CustomerDocumentUncheckedCreateWithoutQuoteRequestInput[]
+    connectOrCreate?: CustomerDocumentCreateOrConnectWithoutQuoteRequestInput | CustomerDocumentCreateOrConnectWithoutQuoteRequestInput[]
+    upsert?: CustomerDocumentUpsertWithWhereUniqueWithoutQuoteRequestInput | CustomerDocumentUpsertWithWhereUniqueWithoutQuoteRequestInput[]
+    createMany?: CustomerDocumentCreateManyQuoteRequestInputEnvelope
+    set?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+    disconnect?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+    delete?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+    connect?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+    update?: CustomerDocumentUpdateWithWhereUniqueWithoutQuoteRequestInput | CustomerDocumentUpdateWithWhereUniqueWithoutQuoteRequestInput[]
+    updateMany?: CustomerDocumentUpdateManyWithWhereWithoutQuoteRequestInput | CustomerDocumentUpdateManyWithWhereWithoutQuoteRequestInput[]
+    deleteMany?: CustomerDocumentScalarWhereInput | CustomerDocumentScalarWhereInput[]
   }
 
   export type WebhookCreateeventsInput = {
@@ -21881,14 +25900,6 @@ export namespace Prisma {
     connect?: StopNoteWhereUniqueInput
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type JobUpdateOneRequiredWithoutStopsNestedInput = {
     create?: XOR<JobCreateWithoutStopsInput, JobUncheckedCreateWithoutStopsInput>
     connectOrCreate?: JobCreateOrConnectWithoutStopsInput
@@ -21903,6 +25914,34 @@ export namespace Prisma {
     upsert?: StopNoteUpsertWithoutJobStopsInput
     connect?: StopNoteWhereUniqueInput
     update?: XOR<XOR<StopNoteUpdateToOneWithWhereWithoutJobStopsInput, StopNoteUpdateWithoutJobStopsInput>, StopNoteUncheckedUpdateWithoutJobStopsInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutCustomerDocumentsInput = {
+    create?: XOR<CompanyCreateWithoutCustomerDocumentsInput, CompanyUncheckedCreateWithoutCustomerDocumentsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutCustomerDocumentsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type QuoteRequestCreateNestedOneWithoutCustomerDocumentsInput = {
+    create?: XOR<QuoteRequestCreateWithoutCustomerDocumentsInput, QuoteRequestUncheckedCreateWithoutCustomerDocumentsInput>
+    connectOrCreate?: QuoteRequestCreateOrConnectWithoutCustomerDocumentsInput
+    connect?: QuoteRequestWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutCustomerDocumentsNestedInput = {
+    create?: XOR<CompanyCreateWithoutCustomerDocumentsInput, CompanyUncheckedCreateWithoutCustomerDocumentsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutCustomerDocumentsInput
+    upsert?: CompanyUpsertWithoutCustomerDocumentsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutCustomerDocumentsInput, CompanyUpdateWithoutCustomerDocumentsInput>, CompanyUncheckedUpdateWithoutCustomerDocumentsInput>
+  }
+
+  export type QuoteRequestUpdateOneRequiredWithoutCustomerDocumentsNestedInput = {
+    create?: XOR<QuoteRequestCreateWithoutCustomerDocumentsInput, QuoteRequestUncheckedCreateWithoutCustomerDocumentsInput>
+    connectOrCreate?: QuoteRequestCreateOrConnectWithoutCustomerDocumentsInput
+    upsert?: QuoteRequestUpsertWithoutCustomerDocumentsInput
+    connect?: QuoteRequestWhereUniqueInput
+    update?: XOR<XOR<QuoteRequestUpdateToOneWithWhereWithoutCustomerDocumentsInput, QuoteRequestUpdateWithoutCustomerDocumentsInput>, QuoteRequestUncheckedUpdateWithoutCustomerDocumentsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -21931,6 +25970,17 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
@@ -21977,17 +26027,6 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -22014,6 +26053,33 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -22073,17 +26139,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -22152,22 +26207,6 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
   export type PricingProfileCreateWithoutCompanyInput = {
     id?: string
     baseRatePerMile?: number
@@ -22176,6 +26215,7 @@ export namespace Prisma {
     minMilesThreshold?: number
     weightFee?: number
     itemCountFee?: number
+    additionalStopFee?: number
     stairsFee?: number
     insideDeliveryFee?: number
     addon3Fee?: number
@@ -22186,6 +26226,7 @@ export namespace Prisma {
     largeItemFee?: number
     largeItemsEnabled?: boolean
     largeItemCategories?: JsonNullValueInput | InputJsonValue
+    serviceOptions?: JsonNullValueInput | InputJsonValue
     widgetSettings?: WidgetSettingsCreateNestedOneWithoutPricingProfileInput
   }
 
@@ -22198,6 +26239,7 @@ export namespace Prisma {
     minMilesThreshold?: number
     weightFee?: number
     itemCountFee?: number
+    additionalStopFee?: number
     stairsFee?: number
     insideDeliveryFee?: number
     addon3Fee?: number
@@ -22208,6 +26250,7 @@ export namespace Prisma {
     largeItemFee?: number
     largeItemsEnabled?: boolean
     largeItemCategories?: JsonNullValueInput | InputJsonValue
+    serviceOptions?: JsonNullValueInput | InputJsonValue
   }
 
   export type PricingProfileCreateOrConnectWithoutCompanyInput = {
@@ -22227,14 +26270,20 @@ export namespace Prisma {
     customerPhone?: string | null
     pickupZip: string
     dropoffZip: string
+    pickupAddress?: string | null
+    dropoffAddress?: string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
     distanceMiles: number
     serviceType: string
     packageSize?: string | null
     packageWeight?: string | null
+    itemCount?: number | null
     selectedExtras?: string | null
     status?: string
     estimatedPrice: number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
     vehicleCount?: number | null
+    vehicleType?: string | null
     awbNumber?: string | null
     paymentStatus?: string | null
     stripePaymentIntentId?: string | null
@@ -22243,6 +26292,7 @@ export namespace Prisma {
     createdAt?: Date | string
     deletedAt?: Date | string | null
     jobs?: JobCreateNestedManyWithoutQuoteRequestInput
+    customerDocuments?: CustomerDocumentCreateNestedManyWithoutQuoteRequestInput
   }
 
   export type QuoteRequestUncheckedCreateWithoutCompanyInput = {
@@ -22252,14 +26302,20 @@ export namespace Prisma {
     customerPhone?: string | null
     pickupZip: string
     dropoffZip: string
+    pickupAddress?: string | null
+    dropoffAddress?: string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
     distanceMiles: number
     serviceType: string
     packageSize?: string | null
     packageWeight?: string | null
+    itemCount?: number | null
     selectedExtras?: string | null
     status?: string
     estimatedPrice: number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
     vehicleCount?: number | null
+    vehicleType?: string | null
     awbNumber?: string | null
     paymentStatus?: string | null
     stripePaymentIntentId?: string | null
@@ -22268,6 +26324,7 @@ export namespace Prisma {
     createdAt?: Date | string
     deletedAt?: Date | string | null
     jobs?: JobUncheckedCreateNestedManyWithoutQuoteRequestInput
+    customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutQuoteRequestInput
   }
 
   export type QuoteRequestCreateOrConnectWithoutCompanyInput = {
@@ -22283,7 +26340,11 @@ export namespace Prisma {
   export type WidgetSettingsCreateWithoutCompanyInput = {
     id?: string
     name?: string
+    formStyle?: string
+    customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: string | null
+    logoDarkUrl?: string | null
+    autoContrastLogo?: boolean
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
@@ -22292,6 +26353,7 @@ export namespace Prisma {
     primaryColor?: string
     buttonText?: string
     headerText?: string
+    quickSubtitleText?: string
     disclaimerText?: string
     companyNameText?: string | null
     companyNameFont?: string
@@ -22301,6 +26363,7 @@ export namespace Prisma {
     paymentsEnabled?: boolean
     showVehicles?: boolean
     pricePerVehicle?: number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
@@ -22310,7 +26373,11 @@ export namespace Prisma {
   export type WidgetSettingsUncheckedCreateWithoutCompanyInput = {
     id?: string
     name?: string
+    formStyle?: string
+    customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: string | null
+    logoDarkUrl?: string | null
+    autoContrastLogo?: boolean
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
@@ -22319,6 +26386,7 @@ export namespace Prisma {
     primaryColor?: string
     buttonText?: string
     headerText?: string
+    quickSubtitleText?: string
     disclaimerText?: string
     companyNameText?: string | null
     companyNameFont?: string
@@ -22328,6 +26396,7 @@ export namespace Prisma {
     paymentsEnabled?: boolean
     showVehicles?: boolean
     pricePerVehicle?: number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
@@ -22482,6 +26551,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CustomerDocumentCreateWithoutCompanyInput = {
+    id?: string
+    type: string
+    number: string
+    status?: string
+    snapshot: JsonNullValueInput | InputJsonValue
+    version?: number
+    publicTokenHash?: string | null
+    createdAt?: Date | string
+    issuedAt?: Date | string | null
+    paidAt?: Date | string | null
+    lastEmailedAt?: Date | string | null
+    lastViewedAt?: Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    quoteRequest: QuoteRequestCreateNestedOneWithoutCustomerDocumentsInput
+  }
+
+  export type CustomerDocumentUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    quoteRequestId: string
+    type: string
+    number: string
+    status?: string
+    snapshot: JsonNullValueInput | InputJsonValue
+    version?: number
+    publicTokenHash?: string | null
+    createdAt?: Date | string
+    issuedAt?: Date | string | null
+    paidAt?: Date | string | null
+    lastEmailedAt?: Date | string | null
+    lastViewedAt?: Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type CustomerDocumentCreateOrConnectWithoutCompanyInput = {
+    where: CustomerDocumentWhereUniqueInput
+    create: XOR<CustomerDocumentCreateWithoutCompanyInput, CustomerDocumentUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type CustomerDocumentCreateManyCompanyInputEnvelope = {
+    data: CustomerDocumentCreateManyCompanyInput | CustomerDocumentCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PricingProfileUpsertWithWhereUniqueWithoutCompanyInput = {
     where: PricingProfileWhereUniqueInput
     update: XOR<PricingProfileUpdateWithoutCompanyInput, PricingProfileUncheckedUpdateWithoutCompanyInput>
@@ -22511,6 +26624,7 @@ export namespace Prisma {
     minMilesThreshold?: FloatFilter<"PricingProfile"> | number
     weightFee?: FloatFilter<"PricingProfile"> | number
     itemCountFee?: FloatFilter<"PricingProfile"> | number
+    additionalStopFee?: FloatFilter<"PricingProfile"> | number
     stairsFee?: FloatFilter<"PricingProfile"> | number
     insideDeliveryFee?: FloatFilter<"PricingProfile"> | number
     addon3Fee?: FloatFilter<"PricingProfile"> | number
@@ -22521,6 +26635,7 @@ export namespace Prisma {
     largeItemFee?: FloatFilter<"PricingProfile"> | number
     largeItemsEnabled?: BoolFilter<"PricingProfile"> | boolean
     largeItemCategories?: JsonFilter<"PricingProfile">
+    serviceOptions?: JsonFilter<"PricingProfile">
   }
 
   export type QuoteRequestUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -22550,14 +26665,20 @@ export namespace Prisma {
     customerPhone?: StringNullableFilter<"QuoteRequest"> | string | null
     pickupZip?: StringFilter<"QuoteRequest"> | string
     dropoffZip?: StringFilter<"QuoteRequest"> | string
+    pickupAddress?: StringNullableFilter<"QuoteRequest"> | string | null
+    dropoffAddress?: StringNullableFilter<"QuoteRequest"> | string | null
+    intermediateStops?: JsonFilter<"QuoteRequest">
     distanceMiles?: FloatFilter<"QuoteRequest"> | number
     serviceType?: StringFilter<"QuoteRequest"> | string
     packageSize?: StringNullableFilter<"QuoteRequest"> | string | null
     packageWeight?: StringNullableFilter<"QuoteRequest"> | string | null
+    itemCount?: IntNullableFilter<"QuoteRequest"> | number | null
     selectedExtras?: StringNullableFilter<"QuoteRequest"> | string | null
     status?: StringFilter<"QuoteRequest"> | string
     estimatedPrice?: FloatFilter<"QuoteRequest"> | number
+    pricingBreakdown?: JsonNullableFilter<"QuoteRequest">
     vehicleCount?: IntNullableFilter<"QuoteRequest"> | number | null
+    vehicleType?: StringNullableFilter<"QuoteRequest"> | string | null
     awbNumber?: StringNullableFilter<"QuoteRequest"> | string | null
     paymentStatus?: StringNullableFilter<"QuoteRequest"> | string | null
     stripePaymentIntentId?: StringNullableFilter<"QuoteRequest"> | string | null
@@ -22590,7 +26711,11 @@ export namespace Prisma {
     id?: StringFilter<"WidgetSettings"> | string
     companyId?: StringFilter<"WidgetSettings"> | string
     name?: StringFilter<"WidgetSettings"> | string
+    formStyle?: StringFilter<"WidgetSettings"> | string
+    customQuestions?: JsonFilter<"WidgetSettings">
     logoUrl?: StringNullableFilter<"WidgetSettings"> | string | null
+    logoDarkUrl?: StringNullableFilter<"WidgetSettings"> | string | null
+    autoContrastLogo?: BoolFilter<"WidgetSettings"> | boolean
     showWeight?: BoolFilter<"WidgetSettings"> | boolean
     showItemCount?: BoolFilter<"WidgetSettings"> | boolean
     showExtras?: BoolFilter<"WidgetSettings"> | boolean
@@ -22599,6 +26724,7 @@ export namespace Prisma {
     primaryColor?: StringFilter<"WidgetSettings"> | string
     buttonText?: StringFilter<"WidgetSettings"> | string
     headerText?: StringFilter<"WidgetSettings"> | string
+    quickSubtitleText?: StringFilter<"WidgetSettings"> | string
     disclaimerText?: StringFilter<"WidgetSettings"> | string
     companyNameText?: StringNullableFilter<"WidgetSettings"> | string | null
     companyNameFont?: StringFilter<"WidgetSettings"> | string
@@ -22608,6 +26734,7 @@ export namespace Prisma {
     paymentsEnabled?: BoolFilter<"WidgetSettings"> | boolean
     showVehicles?: BoolFilter<"WidgetSettings"> | boolean
     pricePerVehicle?: FloatFilter<"WidgetSettings"> | number
+    vehicleOptions?: JsonFilter<"WidgetSettings">
     showAwb?: BoolFilter<"WidgetSettings"> | boolean
     geoFencingEnabled?: BoolFilter<"WidgetSettings"> | boolean
     serviceZips?: StringNullableListFilter<"WidgetSettings">
@@ -22736,6 +26863,43 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Job"> | Date | string
   }
 
+  export type CustomerDocumentUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: CustomerDocumentWhereUniqueInput
+    update: XOR<CustomerDocumentUpdateWithoutCompanyInput, CustomerDocumentUncheckedUpdateWithoutCompanyInput>
+    create: XOR<CustomerDocumentCreateWithoutCompanyInput, CustomerDocumentUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type CustomerDocumentUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: CustomerDocumentWhereUniqueInput
+    data: XOR<CustomerDocumentUpdateWithoutCompanyInput, CustomerDocumentUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type CustomerDocumentUpdateManyWithWhereWithoutCompanyInput = {
+    where: CustomerDocumentScalarWhereInput
+    data: XOR<CustomerDocumentUpdateManyMutationInput, CustomerDocumentUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type CustomerDocumentScalarWhereInput = {
+    AND?: CustomerDocumentScalarWhereInput | CustomerDocumentScalarWhereInput[]
+    OR?: CustomerDocumentScalarWhereInput[]
+    NOT?: CustomerDocumentScalarWhereInput | CustomerDocumentScalarWhereInput[]
+    id?: StringFilter<"CustomerDocument"> | string
+    companyId?: StringFilter<"CustomerDocument"> | string
+    quoteRequestId?: StringFilter<"CustomerDocument"> | string
+    type?: StringFilter<"CustomerDocument"> | string
+    number?: StringFilter<"CustomerDocument"> | string
+    status?: StringFilter<"CustomerDocument"> | string
+    snapshot?: JsonFilter<"CustomerDocument">
+    version?: IntFilter<"CustomerDocument"> | number
+    publicTokenHash?: StringNullableFilter<"CustomerDocument"> | string | null
+    createdAt?: DateTimeFilter<"CustomerDocument"> | Date | string
+    issuedAt?: DateTimeNullableFilter<"CustomerDocument"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"CustomerDocument"> | Date | string | null
+    lastEmailedAt?: DateTimeNullableFilter<"CustomerDocument"> | Date | string | null
+    lastViewedAt?: DateTimeNullableFilter<"CustomerDocument"> | Date | string | null
+    metadata?: JsonNullableFilter<"CustomerDocument">
+  }
+
   export type CompanyCreateWithoutPricingProfilesInput = {
     id?: string
     email: string
@@ -22751,6 +26915,9 @@ export namespace Prisma {
     zip?: string | null
     contactName?: string | null
     timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     subscriptionPlan?: string
     stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
@@ -22765,9 +26932,20 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
     createdAt?: Date | string
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
@@ -22775,6 +26953,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPricingProfilesInput = {
@@ -22792,6 +26971,9 @@ export namespace Prisma {
     zip?: string | null
     contactName?: string | null
     timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     subscriptionPlan?: string
     stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
@@ -22806,9 +26988,20 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
     createdAt?: Date | string
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
@@ -22816,6 +27009,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPricingProfilesInput = {
@@ -22826,7 +27020,11 @@ export namespace Prisma {
   export type WidgetSettingsCreateWithoutPricingProfileInput = {
     id?: string
     name?: string
+    formStyle?: string
+    customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: string | null
+    logoDarkUrl?: string | null
+    autoContrastLogo?: boolean
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
@@ -22835,6 +27033,7 @@ export namespace Prisma {
     primaryColor?: string
     buttonText?: string
     headerText?: string
+    quickSubtitleText?: string
     disclaimerText?: string
     companyNameText?: string | null
     companyNameFont?: string
@@ -22844,6 +27043,7 @@ export namespace Prisma {
     paymentsEnabled?: boolean
     showVehicles?: boolean
     pricePerVehicle?: number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
@@ -22854,7 +27054,11 @@ export namespace Prisma {
     id?: string
     companyId: string
     name?: string
+    formStyle?: string
+    customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: string | null
+    logoDarkUrl?: string | null
+    autoContrastLogo?: boolean
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
@@ -22863,6 +27067,7 @@ export namespace Prisma {
     primaryColor?: string
     buttonText?: string
     headerText?: string
+    quickSubtitleText?: string
     disclaimerText?: string
     companyNameText?: string | null
     companyNameFont?: string
@@ -22872,6 +27077,7 @@ export namespace Prisma {
     paymentsEnabled?: boolean
     showVehicles?: boolean
     pricePerVehicle?: number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
@@ -22908,6 +27114,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22922,9 +27131,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
@@ -22932,6 +27152,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPricingProfilesInput = {
@@ -22949,6 +27170,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22963,9 +27187,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
@@ -22973,6 +27208,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WidgetSettingsUpsertWithoutPricingProfileInput = {
@@ -22989,7 +27225,11 @@ export namespace Prisma {
   export type WidgetSettingsUpdateWithoutPricingProfileInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    formStyle?: StringFieldUpdateOperationsInput | string
+    customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
@@ -22998,6 +27238,7 @@ export namespace Prisma {
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string
+    quickSubtitleText?: StringFieldUpdateOperationsInput | string
     disclaimerText?: StringFieldUpdateOperationsInput | string
     companyNameText?: NullableStringFieldUpdateOperationsInput | string | null
     companyNameFont?: StringFieldUpdateOperationsInput | string
@@ -23007,6 +27248,7 @@ export namespace Prisma {
     paymentsEnabled?: BoolFieldUpdateOperationsInput | boolean
     showVehicles?: BoolFieldUpdateOperationsInput | boolean
     pricePerVehicle?: FloatFieldUpdateOperationsInput | number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
@@ -23017,7 +27259,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    formStyle?: StringFieldUpdateOperationsInput | string
+    customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
@@ -23026,6 +27272,7 @@ export namespace Prisma {
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string
+    quickSubtitleText?: StringFieldUpdateOperationsInput | string
     disclaimerText?: StringFieldUpdateOperationsInput | string
     companyNameText?: NullableStringFieldUpdateOperationsInput | string | null
     companyNameFont?: StringFieldUpdateOperationsInput | string
@@ -23035,6 +27282,7 @@ export namespace Prisma {
     paymentsEnabled?: BoolFieldUpdateOperationsInput | boolean
     showVehicles?: BoolFieldUpdateOperationsInput | boolean
     pricePerVehicle?: FloatFieldUpdateOperationsInput | number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
@@ -23055,6 +27303,9 @@ export namespace Prisma {
     zip?: string | null
     contactName?: string | null
     timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     subscriptionPlan?: string
     stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
@@ -23069,9 +27320,20 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -23079,6 +27341,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWidgetSettingsInput = {
@@ -23096,6 +27359,9 @@ export namespace Prisma {
     zip?: string | null
     contactName?: string | null
     timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     subscriptionPlan?: string
     stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
@@ -23110,9 +27376,20 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -23120,6 +27397,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWidgetSettingsInput = {
@@ -23135,6 +27413,7 @@ export namespace Prisma {
     minMilesThreshold?: number
     weightFee?: number
     itemCountFee?: number
+    additionalStopFee?: number
     stairsFee?: number
     insideDeliveryFee?: number
     addon3Fee?: number
@@ -23145,6 +27424,7 @@ export namespace Prisma {
     largeItemFee?: number
     largeItemsEnabled?: boolean
     largeItemCategories?: JsonNullValueInput | InputJsonValue
+    serviceOptions?: JsonNullValueInput | InputJsonValue
     company: CompanyCreateNestedOneWithoutPricingProfilesInput
   }
 
@@ -23157,6 +27437,7 @@ export namespace Prisma {
     minMilesThreshold?: number
     weightFee?: number
     itemCountFee?: number
+    additionalStopFee?: number
     stairsFee?: number
     insideDeliveryFee?: number
     addon3Fee?: number
@@ -23167,6 +27448,7 @@ export namespace Prisma {
     largeItemFee?: number
     largeItemsEnabled?: boolean
     largeItemCategories?: JsonNullValueInput | InputJsonValue
+    serviceOptions?: JsonNullValueInput | InputJsonValue
   }
 
   export type PricingProfileCreateOrConnectWithoutWidgetSettingsInput = {
@@ -23200,6 +27482,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23214,9 +27499,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -23224,6 +27520,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWidgetSettingsInput = {
@@ -23241,6 +27538,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23255,9 +27555,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -23265,6 +27576,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type PricingProfileUpsertWithoutWidgetSettingsInput = {
@@ -23286,6 +27598,7 @@ export namespace Prisma {
     minMilesThreshold?: FloatFieldUpdateOperationsInput | number
     weightFee?: FloatFieldUpdateOperationsInput | number
     itemCountFee?: FloatFieldUpdateOperationsInput | number
+    additionalStopFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
     addon3Fee?: FloatFieldUpdateOperationsInput | number
@@ -23296,6 +27609,7 @@ export namespace Prisma {
     largeItemFee?: FloatFieldUpdateOperationsInput | number
     largeItemsEnabled?: BoolFieldUpdateOperationsInput | boolean
     largeItemCategories?: JsonNullValueInput | InputJsonValue
+    serviceOptions?: JsonNullValueInput | InputJsonValue
     company?: CompanyUpdateOneRequiredWithoutPricingProfilesNestedInput
   }
 
@@ -23308,6 +27622,7 @@ export namespace Prisma {
     minMilesThreshold?: FloatFieldUpdateOperationsInput | number
     weightFee?: FloatFieldUpdateOperationsInput | number
     itemCountFee?: FloatFieldUpdateOperationsInput | number
+    additionalStopFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
     addon3Fee?: FloatFieldUpdateOperationsInput | number
@@ -23318,6 +27633,7 @@ export namespace Prisma {
     largeItemFee?: FloatFieldUpdateOperationsInput | number
     largeItemsEnabled?: BoolFieldUpdateOperationsInput | boolean
     largeItemCategories?: JsonNullValueInput | InputJsonValue
+    serviceOptions?: JsonNullValueInput | InputJsonValue
   }
 
   export type CompanyCreateWithoutQuoteRequestsInput = {
@@ -23335,6 +27651,9 @@ export namespace Prisma {
     zip?: string | null
     contactName?: string | null
     timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     subscriptionPlan?: string
     stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
@@ -23349,9 +27668,20 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
@@ -23359,6 +27689,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutQuoteRequestsInput = {
@@ -23376,6 +27707,9 @@ export namespace Prisma {
     zip?: string | null
     contactName?: string | null
     timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     subscriptionPlan?: string
     stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
@@ -23390,9 +27724,20 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
@@ -23400,6 +27745,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutQuoteRequestsInput = {
@@ -23441,6 +27787,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CustomerDocumentCreateWithoutQuoteRequestInput = {
+    id?: string
+    type: string
+    number: string
+    status?: string
+    snapshot: JsonNullValueInput | InputJsonValue
+    version?: number
+    publicTokenHash?: string | null
+    createdAt?: Date | string
+    issuedAt?: Date | string | null
+    paidAt?: Date | string | null
+    lastEmailedAt?: Date | string | null
+    lastViewedAt?: Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    company: CompanyCreateNestedOneWithoutCustomerDocumentsInput
+  }
+
+  export type CustomerDocumentUncheckedCreateWithoutQuoteRequestInput = {
+    id?: string
+    companyId: string
+    type: string
+    number: string
+    status?: string
+    snapshot: JsonNullValueInput | InputJsonValue
+    version?: number
+    publicTokenHash?: string | null
+    createdAt?: Date | string
+    issuedAt?: Date | string | null
+    paidAt?: Date | string | null
+    lastEmailedAt?: Date | string | null
+    lastViewedAt?: Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type CustomerDocumentCreateOrConnectWithoutQuoteRequestInput = {
+    where: CustomerDocumentWhereUniqueInput
+    create: XOR<CustomerDocumentCreateWithoutQuoteRequestInput, CustomerDocumentUncheckedCreateWithoutQuoteRequestInput>
+  }
+
+  export type CustomerDocumentCreateManyQuoteRequestInputEnvelope = {
+    data: CustomerDocumentCreateManyQuoteRequestInput | CustomerDocumentCreateManyQuoteRequestInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutQuoteRequestsInput = {
     update: XOR<CompanyUpdateWithoutQuoteRequestsInput, CompanyUncheckedUpdateWithoutQuoteRequestsInput>
     create: XOR<CompanyCreateWithoutQuoteRequestsInput, CompanyUncheckedCreateWithoutQuoteRequestsInput>
@@ -23467,6 +27857,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23481,9 +27874,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
@@ -23491,6 +27895,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutQuoteRequestsInput = {
@@ -23508,6 +27913,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23522,9 +27930,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
@@ -23532,6 +27951,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type JobUpsertWithWhereUniqueWithoutQuoteRequestInput = {
@@ -23550,6 +27970,22 @@ export namespace Prisma {
     data: XOR<JobUpdateManyMutationInput, JobUncheckedUpdateManyWithoutQuoteRequestInput>
   }
 
+  export type CustomerDocumentUpsertWithWhereUniqueWithoutQuoteRequestInput = {
+    where: CustomerDocumentWhereUniqueInput
+    update: XOR<CustomerDocumentUpdateWithoutQuoteRequestInput, CustomerDocumentUncheckedUpdateWithoutQuoteRequestInput>
+    create: XOR<CustomerDocumentCreateWithoutQuoteRequestInput, CustomerDocumentUncheckedCreateWithoutQuoteRequestInput>
+  }
+
+  export type CustomerDocumentUpdateWithWhereUniqueWithoutQuoteRequestInput = {
+    where: CustomerDocumentWhereUniqueInput
+    data: XOR<CustomerDocumentUpdateWithoutQuoteRequestInput, CustomerDocumentUncheckedUpdateWithoutQuoteRequestInput>
+  }
+
+  export type CustomerDocumentUpdateManyWithWhereWithoutQuoteRequestInput = {
+    where: CustomerDocumentScalarWhereInput
+    data: XOR<CustomerDocumentUpdateManyMutationInput, CustomerDocumentUncheckedUpdateManyWithoutQuoteRequestInput>
+  }
+
   export type CompanyCreateWithoutWebhooksInput = {
     id?: string
     email: string
@@ -23565,6 +28001,9 @@ export namespace Prisma {
     zip?: string | null
     contactName?: string | null
     timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     subscriptionPlan?: string
     stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
@@ -23579,9 +28018,20 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -23589,6 +28039,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWebhooksInput = {
@@ -23606,6 +28057,9 @@ export namespace Prisma {
     zip?: string | null
     contactName?: string | null
     timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     subscriptionPlan?: string
     stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
@@ -23620,9 +28074,20 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -23630,6 +28095,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWebhooksInput = {
@@ -23663,6 +28129,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23677,9 +28146,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -23687,6 +28167,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWebhooksInput = {
@@ -23704,6 +28185,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23718,9 +28202,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -23728,6 +28223,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutShopifyInstallsInput = {
@@ -23745,6 +28241,9 @@ export namespace Prisma {
     zip?: string | null
     contactName?: string | null
     timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     subscriptionPlan?: string
     stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
@@ -23759,9 +28258,20 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -23769,6 +28279,7 @@ export namespace Prisma {
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutShopifyInstallsInput = {
@@ -23786,6 +28297,9 @@ export namespace Prisma {
     zip?: string | null
     contactName?: string | null
     timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     subscriptionPlan?: string
     stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
@@ -23800,9 +28314,20 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -23810,6 +28335,7 @@ export namespace Prisma {
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutShopifyInstallsInput = {
@@ -23843,6 +28369,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23857,9 +28386,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -23867,6 +28407,7 @@ export namespace Prisma {
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutShopifyInstallsInput = {
@@ -23884,6 +28425,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23898,9 +28442,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -23908,6 +28463,7 @@ export namespace Prisma {
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutStopNotesInput = {
@@ -23925,6 +28481,9 @@ export namespace Prisma {
     zip?: string | null
     contactName?: string | null
     timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     subscriptionPlan?: string
     stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
@@ -23939,9 +28498,20 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -23949,6 +28519,7 @@ export namespace Prisma {
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutStopNotesInput = {
@@ -23966,6 +28537,9 @@ export namespace Prisma {
     zip?: string | null
     contactName?: string | null
     timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     subscriptionPlan?: string
     stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
@@ -23980,9 +28554,20 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -23990,6 +28575,7 @@ export namespace Prisma {
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutStopNotesInput = {
@@ -24107,6 +28693,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24121,9 +28710,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -24131,6 +28731,7 @@ export namespace Prisma {
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutStopNotesInput = {
@@ -24148,6 +28749,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24162,9 +28766,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -24172,6 +28787,7 @@ export namespace Prisma {
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ReadinessCheckUpsertWithWhereUniqueWithoutStopNoteInput = {
@@ -24588,6 +29204,9 @@ export namespace Prisma {
     zip?: string | null
     contactName?: string | null
     timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     subscriptionPlan?: string
     stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
@@ -24602,9 +29221,20 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
@@ -24612,6 +29242,7 @@ export namespace Prisma {
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutJobsInput = {
@@ -24629,6 +29260,9 @@ export namespace Prisma {
     zip?: string | null
     contactName?: string | null
     timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
     subscriptionPlan?: string
     stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
@@ -24643,9 +29277,20 @@ export namespace Prisma {
     resendDomainId?: string | null
     emailDomainVerified?: boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: boolean
     isSuperAdmin?: boolean
     lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -24653,6 +29298,7 @@ export namespace Prisma {
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutJobsInput = {
@@ -24667,14 +29313,20 @@ export namespace Prisma {
     customerPhone?: string | null
     pickupZip: string
     dropoffZip: string
+    pickupAddress?: string | null
+    dropoffAddress?: string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
     distanceMiles: number
     serviceType: string
     packageSize?: string | null
     packageWeight?: string | null
+    itemCount?: number | null
     selectedExtras?: string | null
     status?: string
     estimatedPrice: number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
     vehicleCount?: number | null
+    vehicleType?: string | null
     awbNumber?: string | null
     paymentStatus?: string | null
     stripePaymentIntentId?: string | null
@@ -24683,6 +29335,7 @@ export namespace Prisma {
     createdAt?: Date | string
     deletedAt?: Date | string | null
     company: CompanyCreateNestedOneWithoutQuoteRequestsInput
+    customerDocuments?: CustomerDocumentCreateNestedManyWithoutQuoteRequestInput
   }
 
   export type QuoteRequestUncheckedCreateWithoutJobsInput = {
@@ -24693,14 +29346,20 @@ export namespace Prisma {
     customerPhone?: string | null
     pickupZip: string
     dropoffZip: string
+    pickupAddress?: string | null
+    dropoffAddress?: string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
     distanceMiles: number
     serviceType: string
     packageSize?: string | null
     packageWeight?: string | null
+    itemCount?: number | null
     selectedExtras?: string | null
     status?: string
     estimatedPrice: number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
     vehicleCount?: number | null
+    vehicleType?: string | null
     awbNumber?: string | null
     paymentStatus?: string | null
     stripePaymentIntentId?: string | null
@@ -24708,6 +29367,7 @@ export namespace Prisma {
     paidAt?: Date | string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
+    customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutQuoteRequestInput
   }
 
   export type QuoteRequestCreateOrConnectWithoutJobsInput = {
@@ -24825,6 +29485,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24839,9 +29502,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
@@ -24849,6 +29523,7 @@ export namespace Prisma {
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutJobsInput = {
@@ -24866,6 +29541,9 @@ export namespace Prisma {
     zip?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24880,9 +29558,20 @@ export namespace Prisma {
     resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
     emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
     emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -24890,6 +29579,7 @@ export namespace Prisma {
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type QuoteRequestUpsertWithoutJobsInput = {
@@ -24910,14 +29600,20 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     pickupZip?: StringFieldUpdateOperationsInput | string
     dropoffZip?: StringFieldUpdateOperationsInput | string
+    pickupAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    dropoffAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
     distanceMiles?: FloatFieldUpdateOperationsInput | number
     serviceType?: StringFieldUpdateOperationsInput | string
     packageSize?: NullableStringFieldUpdateOperationsInput | string | null
     packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    itemCount?: NullableIntFieldUpdateOperationsInput | number | null
     selectedExtras?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     estimatedPrice?: FloatFieldUpdateOperationsInput | number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
     vehicleCount?: NullableIntFieldUpdateOperationsInput | number | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     awbNumber?: NullableStringFieldUpdateOperationsInput | string | null
     paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24926,6 +29622,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: CompanyUpdateOneRequiredWithoutQuoteRequestsNestedInput
+    customerDocuments?: CustomerDocumentUpdateManyWithoutQuoteRequestNestedInput
   }
 
   export type QuoteRequestUncheckedUpdateWithoutJobsInput = {
@@ -24936,14 +29633,20 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     pickupZip?: StringFieldUpdateOperationsInput | string
     dropoffZip?: StringFieldUpdateOperationsInput | string
+    pickupAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    dropoffAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
     distanceMiles?: FloatFieldUpdateOperationsInput | number
     serviceType?: StringFieldUpdateOperationsInput | string
     packageSize?: NullableStringFieldUpdateOperationsInput | string | null
     packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    itemCount?: NullableIntFieldUpdateOperationsInput | number | null
     selectedExtras?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     estimatedPrice?: FloatFieldUpdateOperationsInput | number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
     vehicleCount?: NullableIntFieldUpdateOperationsInput | number | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     awbNumber?: NullableStringFieldUpdateOperationsInput | string | null
     paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24951,6 +29654,7 @@ export namespace Prisma {
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutQuoteRequestNestedInput
   }
 
   export type JobStopUpsertWithWhereUniqueWithoutJobInput = {
@@ -25157,6 +29861,390 @@ export namespace Prisma {
     exceptionLogs?: ExceptionLogUncheckedUpdateManyWithoutStopNoteNestedInput
   }
 
+  export type CompanyCreateWithoutCustomerDocumentsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name: string
+    logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
+    timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    subscriptionPlan?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripeConnectAccountId?: string | null
+    trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    isSuperAdmin?: boolean
+    lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
+    createdAt?: Date | string
+    pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
+    quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
+    widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
+    webhooks?: WebhookCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
+    jobs?: JobCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutCustomerDocumentsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name: string
+    logoUrl?: string | null
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
+    timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    subscriptionPlan?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripeConnectAccountId?: string | null
+    trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    isSuperAdmin?: boolean
+    lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
+    createdAt?: Date | string
+    pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
+    quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
+    widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
+    jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutCustomerDocumentsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutCustomerDocumentsInput, CompanyUncheckedCreateWithoutCustomerDocumentsInput>
+  }
+
+  export type QuoteRequestCreateWithoutCustomerDocumentsInput = {
+    id?: string
+    customerName: string
+    customerEmail: string
+    customerPhone?: string | null
+    pickupZip: string
+    dropoffZip: string
+    pickupAddress?: string | null
+    dropoffAddress?: string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
+    distanceMiles: number
+    serviceType: string
+    packageSize?: string | null
+    packageWeight?: string | null
+    itemCount?: number | null
+    selectedExtras?: string | null
+    status?: string
+    estimatedPrice: number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
+    vehicleCount?: number | null
+    vehicleType?: string | null
+    awbNumber?: string | null
+    paymentStatus?: string | null
+    stripePaymentIntentId?: string | null
+    internalNotes?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+    company: CompanyCreateNestedOneWithoutQuoteRequestsInput
+    jobs?: JobCreateNestedManyWithoutQuoteRequestInput
+  }
+
+  export type QuoteRequestUncheckedCreateWithoutCustomerDocumentsInput = {
+    id?: string
+    companyId: string
+    customerName: string
+    customerEmail: string
+    customerPhone?: string | null
+    pickupZip: string
+    dropoffZip: string
+    pickupAddress?: string | null
+    dropoffAddress?: string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
+    distanceMiles: number
+    serviceType: string
+    packageSize?: string | null
+    packageWeight?: string | null
+    itemCount?: number | null
+    selectedExtras?: string | null
+    status?: string
+    estimatedPrice: number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
+    vehicleCount?: number | null
+    vehicleType?: string | null
+    awbNumber?: string | null
+    paymentStatus?: string | null
+    stripePaymentIntentId?: string | null
+    internalNotes?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+    jobs?: JobUncheckedCreateNestedManyWithoutQuoteRequestInput
+  }
+
+  export type QuoteRequestCreateOrConnectWithoutCustomerDocumentsInput = {
+    where: QuoteRequestWhereUniqueInput
+    create: XOR<QuoteRequestCreateWithoutCustomerDocumentsInput, QuoteRequestUncheckedCreateWithoutCustomerDocumentsInput>
+  }
+
+  export type CompanyUpsertWithoutCustomerDocumentsInput = {
+    update: XOR<CompanyUpdateWithoutCustomerDocumentsInput, CompanyUncheckedUpdateWithoutCustomerDocumentsInput>
+    create: XOR<CompanyCreateWithoutCustomerDocumentsInput, CompanyUncheckedCreateWithoutCustomerDocumentsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutCustomerDocumentsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutCustomerDocumentsInput, CompanyUncheckedUpdateWithoutCustomerDocumentsInput>
+  }
+
+  export type CompanyUpdateWithoutCustomerDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
+    quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
+    widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
+    webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutCustomerDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
+    quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type QuoteRequestUpsertWithoutCustomerDocumentsInput = {
+    update: XOR<QuoteRequestUpdateWithoutCustomerDocumentsInput, QuoteRequestUncheckedUpdateWithoutCustomerDocumentsInput>
+    create: XOR<QuoteRequestCreateWithoutCustomerDocumentsInput, QuoteRequestUncheckedCreateWithoutCustomerDocumentsInput>
+    where?: QuoteRequestWhereInput
+  }
+
+  export type QuoteRequestUpdateToOneWithWhereWithoutCustomerDocumentsInput = {
+    where?: QuoteRequestWhereInput
+    data: XOR<QuoteRequestUpdateWithoutCustomerDocumentsInput, QuoteRequestUncheckedUpdateWithoutCustomerDocumentsInput>
+  }
+
+  export type QuoteRequestUpdateWithoutCustomerDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: StringFieldUpdateOperationsInput | string
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupZip?: StringFieldUpdateOperationsInput | string
+    dropoffZip?: StringFieldUpdateOperationsInput | string
+    pickupAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    dropoffAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
+    distanceMiles?: FloatFieldUpdateOperationsInput | number
+    serviceType?: StringFieldUpdateOperationsInput | string
+    packageSize?: NullableStringFieldUpdateOperationsInput | string | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    itemCount?: NullableIntFieldUpdateOperationsInput | number | null
+    selectedExtras?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    estimatedPrice?: FloatFieldUpdateOperationsInput | number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
+    vehicleCount?: NullableIntFieldUpdateOperationsInput | number | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
+    awbNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneRequiredWithoutQuoteRequestsNestedInput
+    jobs?: JobUpdateManyWithoutQuoteRequestNestedInput
+  }
+
+  export type QuoteRequestUncheckedUpdateWithoutCustomerDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: StringFieldUpdateOperationsInput | string
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupZip?: StringFieldUpdateOperationsInput | string
+    dropoffZip?: StringFieldUpdateOperationsInput | string
+    pickupAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    dropoffAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
+    distanceMiles?: FloatFieldUpdateOperationsInput | number
+    serviceType?: StringFieldUpdateOperationsInput | string
+    packageSize?: NullableStringFieldUpdateOperationsInput | string | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    itemCount?: NullableIntFieldUpdateOperationsInput | number | null
+    selectedExtras?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    estimatedPrice?: FloatFieldUpdateOperationsInput | number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
+    vehicleCount?: NullableIntFieldUpdateOperationsInput | number | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
+    awbNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    jobs?: JobUncheckedUpdateManyWithoutQuoteRequestNestedInput
+  }
+
   export type PricingProfileCreateManyCompanyInput = {
     id?: string
     widgetSettingsId?: string | null
@@ -25166,6 +30254,7 @@ export namespace Prisma {
     minMilesThreshold?: number
     weightFee?: number
     itemCountFee?: number
+    additionalStopFee?: number
     stairsFee?: number
     insideDeliveryFee?: number
     addon3Fee?: number
@@ -25176,6 +30265,7 @@ export namespace Prisma {
     largeItemFee?: number
     largeItemsEnabled?: boolean
     largeItemCategories?: JsonNullValueInput | InputJsonValue
+    serviceOptions?: JsonNullValueInput | InputJsonValue
   }
 
   export type QuoteRequestCreateManyCompanyInput = {
@@ -25185,14 +30275,20 @@ export namespace Prisma {
     customerPhone?: string | null
     pickupZip: string
     dropoffZip: string
+    pickupAddress?: string | null
+    dropoffAddress?: string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
     distanceMiles: number
     serviceType: string
     packageSize?: string | null
     packageWeight?: string | null
+    itemCount?: number | null
     selectedExtras?: string | null
     status?: string
     estimatedPrice: number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
     vehicleCount?: number | null
+    vehicleType?: string | null
     awbNumber?: string | null
     paymentStatus?: string | null
     stripePaymentIntentId?: string | null
@@ -25205,7 +30301,11 @@ export namespace Prisma {
   export type WidgetSettingsCreateManyCompanyInput = {
     id?: string
     name?: string
+    formStyle?: string
+    customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: string | null
+    logoDarkUrl?: string | null
+    autoContrastLogo?: boolean
     showWeight?: boolean
     showItemCount?: boolean
     showExtras?: boolean
@@ -25214,6 +30314,7 @@ export namespace Prisma {
     primaryColor?: string
     buttonText?: string
     headerText?: string
+    quickSubtitleText?: string
     disclaimerText?: string
     companyNameText?: string | null
     companyNameFont?: string
@@ -25223,6 +30324,7 @@ export namespace Prisma {
     paymentsEnabled?: boolean
     showVehicles?: boolean
     pricePerVehicle?: number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
@@ -25271,6 +30373,23 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type CustomerDocumentCreateManyCompanyInput = {
+    id?: string
+    quoteRequestId: string
+    type: string
+    number: string
+    status?: string
+    snapshot: JsonNullValueInput | InputJsonValue
+    version?: number
+    publicTokenHash?: string | null
+    createdAt?: Date | string
+    issuedAt?: Date | string | null
+    paidAt?: Date | string | null
+    lastEmailedAt?: Date | string | null
+    lastViewedAt?: Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
   export type PricingProfileUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     baseRatePerMile?: FloatFieldUpdateOperationsInput | number
@@ -25279,6 +30398,7 @@ export namespace Prisma {
     minMilesThreshold?: FloatFieldUpdateOperationsInput | number
     weightFee?: FloatFieldUpdateOperationsInput | number
     itemCountFee?: FloatFieldUpdateOperationsInput | number
+    additionalStopFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
     addon3Fee?: FloatFieldUpdateOperationsInput | number
@@ -25289,6 +30409,7 @@ export namespace Prisma {
     largeItemFee?: FloatFieldUpdateOperationsInput | number
     largeItemsEnabled?: BoolFieldUpdateOperationsInput | boolean
     largeItemCategories?: JsonNullValueInput | InputJsonValue
+    serviceOptions?: JsonNullValueInput | InputJsonValue
     widgetSettings?: WidgetSettingsUpdateOneWithoutPricingProfileNestedInput
   }
 
@@ -25301,6 +30422,7 @@ export namespace Prisma {
     minMilesThreshold?: FloatFieldUpdateOperationsInput | number
     weightFee?: FloatFieldUpdateOperationsInput | number
     itemCountFee?: FloatFieldUpdateOperationsInput | number
+    additionalStopFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
     addon3Fee?: FloatFieldUpdateOperationsInput | number
@@ -25311,6 +30433,7 @@ export namespace Prisma {
     largeItemFee?: FloatFieldUpdateOperationsInput | number
     largeItemsEnabled?: BoolFieldUpdateOperationsInput | boolean
     largeItemCategories?: JsonNullValueInput | InputJsonValue
+    serviceOptions?: JsonNullValueInput | InputJsonValue
   }
 
   export type PricingProfileUncheckedUpdateManyWithoutCompanyInput = {
@@ -25322,6 +30445,7 @@ export namespace Prisma {
     minMilesThreshold?: FloatFieldUpdateOperationsInput | number
     weightFee?: FloatFieldUpdateOperationsInput | number
     itemCountFee?: FloatFieldUpdateOperationsInput | number
+    additionalStopFee?: FloatFieldUpdateOperationsInput | number
     stairsFee?: FloatFieldUpdateOperationsInput | number
     insideDeliveryFee?: FloatFieldUpdateOperationsInput | number
     addon3Fee?: FloatFieldUpdateOperationsInput | number
@@ -25332,6 +30456,7 @@ export namespace Prisma {
     largeItemFee?: FloatFieldUpdateOperationsInput | number
     largeItemsEnabled?: BoolFieldUpdateOperationsInput | boolean
     largeItemCategories?: JsonNullValueInput | InputJsonValue
+    serviceOptions?: JsonNullValueInput | InputJsonValue
   }
 
   export type QuoteRequestUpdateWithoutCompanyInput = {
@@ -25341,14 +30466,20 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     pickupZip?: StringFieldUpdateOperationsInput | string
     dropoffZip?: StringFieldUpdateOperationsInput | string
+    pickupAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    dropoffAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
     distanceMiles?: FloatFieldUpdateOperationsInput | number
     serviceType?: StringFieldUpdateOperationsInput | string
     packageSize?: NullableStringFieldUpdateOperationsInput | string | null
     packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    itemCount?: NullableIntFieldUpdateOperationsInput | number | null
     selectedExtras?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     estimatedPrice?: FloatFieldUpdateOperationsInput | number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
     vehicleCount?: NullableIntFieldUpdateOperationsInput | number | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     awbNumber?: NullableStringFieldUpdateOperationsInput | string | null
     paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25357,6 +30488,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     jobs?: JobUpdateManyWithoutQuoteRequestNestedInput
+    customerDocuments?: CustomerDocumentUpdateManyWithoutQuoteRequestNestedInput
   }
 
   export type QuoteRequestUncheckedUpdateWithoutCompanyInput = {
@@ -25366,14 +30498,20 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     pickupZip?: StringFieldUpdateOperationsInput | string
     dropoffZip?: StringFieldUpdateOperationsInput | string
+    pickupAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    dropoffAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
     distanceMiles?: FloatFieldUpdateOperationsInput | number
     serviceType?: StringFieldUpdateOperationsInput | string
     packageSize?: NullableStringFieldUpdateOperationsInput | string | null
     packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    itemCount?: NullableIntFieldUpdateOperationsInput | number | null
     selectedExtras?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     estimatedPrice?: FloatFieldUpdateOperationsInput | number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
     vehicleCount?: NullableIntFieldUpdateOperationsInput | number | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     awbNumber?: NullableStringFieldUpdateOperationsInput | string | null
     paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25382,6 +30520,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     jobs?: JobUncheckedUpdateManyWithoutQuoteRequestNestedInput
+    customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutQuoteRequestNestedInput
   }
 
   export type QuoteRequestUncheckedUpdateManyWithoutCompanyInput = {
@@ -25391,14 +30530,20 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     pickupZip?: StringFieldUpdateOperationsInput | string
     dropoffZip?: StringFieldUpdateOperationsInput | string
+    pickupAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    dropoffAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    intermediateStops?: JsonNullValueInput | InputJsonValue
     distanceMiles?: FloatFieldUpdateOperationsInput | number
     serviceType?: StringFieldUpdateOperationsInput | string
     packageSize?: NullableStringFieldUpdateOperationsInput | string | null
     packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    itemCount?: NullableIntFieldUpdateOperationsInput | number | null
     selectedExtras?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     estimatedPrice?: FloatFieldUpdateOperationsInput | number
+    pricingBreakdown?: NullableJsonNullValueInput | InputJsonValue
     vehicleCount?: NullableIntFieldUpdateOperationsInput | number | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     awbNumber?: NullableStringFieldUpdateOperationsInput | string | null
     paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25411,7 +30556,11 @@ export namespace Prisma {
   export type WidgetSettingsUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    formStyle?: StringFieldUpdateOperationsInput | string
+    customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
@@ -25420,6 +30569,7 @@ export namespace Prisma {
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string
+    quickSubtitleText?: StringFieldUpdateOperationsInput | string
     disclaimerText?: StringFieldUpdateOperationsInput | string
     companyNameText?: NullableStringFieldUpdateOperationsInput | string | null
     companyNameFont?: StringFieldUpdateOperationsInput | string
@@ -25429,6 +30579,7 @@ export namespace Prisma {
     paymentsEnabled?: BoolFieldUpdateOperationsInput | boolean
     showVehicles?: BoolFieldUpdateOperationsInput | boolean
     pricePerVehicle?: FloatFieldUpdateOperationsInput | number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
@@ -25438,7 +30589,11 @@ export namespace Prisma {
   export type WidgetSettingsUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    formStyle?: StringFieldUpdateOperationsInput | string
+    customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
@@ -25447,6 +30602,7 @@ export namespace Prisma {
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string
+    quickSubtitleText?: StringFieldUpdateOperationsInput | string
     disclaimerText?: StringFieldUpdateOperationsInput | string
     companyNameText?: NullableStringFieldUpdateOperationsInput | string | null
     companyNameFont?: StringFieldUpdateOperationsInput | string
@@ -25456,6 +30612,7 @@ export namespace Prisma {
     paymentsEnabled?: BoolFieldUpdateOperationsInput | boolean
     showVehicles?: BoolFieldUpdateOperationsInput | boolean
     pricePerVehicle?: FloatFieldUpdateOperationsInput | number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
@@ -25465,7 +30622,11 @@ export namespace Prisma {
   export type WidgetSettingsUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    formStyle?: StringFieldUpdateOperationsInput | string
+    customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
     showItemCount?: BoolFieldUpdateOperationsInput | boolean
     showExtras?: BoolFieldUpdateOperationsInput | boolean
@@ -25474,6 +30635,7 @@ export namespace Prisma {
     primaryColor?: StringFieldUpdateOperationsInput | string
     buttonText?: StringFieldUpdateOperationsInput | string
     headerText?: StringFieldUpdateOperationsInput | string
+    quickSubtitleText?: StringFieldUpdateOperationsInput | string
     disclaimerText?: StringFieldUpdateOperationsInput | string
     companyNameText?: NullableStringFieldUpdateOperationsInput | string | null
     companyNameFont?: StringFieldUpdateOperationsInput | string
@@ -25483,6 +30645,7 @@ export namespace Prisma {
     paymentsEnabled?: BoolFieldUpdateOperationsInput | boolean
     showVehicles?: BoolFieldUpdateOperationsInput | boolean
     pricePerVehicle?: FloatFieldUpdateOperationsInput | number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
@@ -25629,6 +30792,57 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CustomerDocumentUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    snapshot?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    publicTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEmailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    quoteRequest?: QuoteRequestUpdateOneRequiredWithoutCustomerDocumentsNestedInput
+  }
+
+  export type CustomerDocumentUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteRequestId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    snapshot?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    publicTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEmailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type CustomerDocumentUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteRequestId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    snapshot?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    publicTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEmailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
   export type JobCreateManyQuoteRequestInput = {
     id?: string
     companyId: string
@@ -25636,6 +30850,23 @@ export namespace Prisma {
     scheduledDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type CustomerDocumentCreateManyQuoteRequestInput = {
+    id?: string
+    companyId: string
+    type: string
+    number: string
+    status?: string
+    snapshot: JsonNullValueInput | InputJsonValue
+    version?: number
+    publicTokenHash?: string | null
+    createdAt?: Date | string
+    issuedAt?: Date | string | null
+    paidAt?: Date | string | null
+    lastEmailedAt?: Date | string | null
+    lastViewedAt?: Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type JobUpdateWithoutQuoteRequestInput = {
@@ -25669,6 +30900,57 @@ export namespace Prisma {
     scheduledDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomerDocumentUpdateWithoutQuoteRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    snapshot?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    publicTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEmailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    company?: CompanyUpdateOneRequiredWithoutCustomerDocumentsNestedInput
+  }
+
+  export type CustomerDocumentUncheckedUpdateWithoutQuoteRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    snapshot?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    publicTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEmailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type CustomerDocumentUncheckedUpdateManyWithoutQuoteRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    snapshot?: JsonNullValueInput | InputJsonValue
+    version?: IntFieldUpdateOperationsInput | number
+    publicTokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastEmailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ReadinessCheckCreateManyStopNoteInput = {

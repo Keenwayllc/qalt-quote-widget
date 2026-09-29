@@ -8,50 +8,65 @@ datasource db {
 }
 
 model Company {
-  id                     String           @id @default(cuid())
-  email                  String           @unique
-  passwordHash           String
-  name                   String
-  logoUrl                String?
-  profilePicUrl          String?
-  phone                  String?
-  website                String?
-  address                String?
-  city                   String?
-  state                  String?
-  zip                    String?
-  contactName            String?
-  timezone               String           @default("UTC")
-  subscriptionPlan       String           @default("STARTER")
-  stripeCustomerId       String?
-  stripeSubscriptionId   String?
-  stripeConnectAccountId String?
-  trialEndsAt            DateTime?
-  emailVerified          Boolean          @default(false)
-  emailVerificationToken String?          @unique
-  passwordResetToken     String?          @unique
-  passwordResetExpires   DateTime?
-  customEmailDomain      String?
-  customEmailFromName    String?
-  resendDomainId         String?
-  emailDomainVerified    Boolean          @default(false)
-  emailDomainDnsRecords  Json?
-  isAdmin                Boolean          @default(false)
+  id                             String             @id @default(cuid())
+  email                          String             @unique
+  passwordHash                   String
+  name                           String
+  logoUrl                        String?
+  profilePicUrl                  String?
+  phone                          String?
+  website                        String?
+  address                        String?
+  city                           String?
+  state                          String?
+  zip                            String?
+  contactName                    String?
+  timezone                       String             @default("UTC")
+  businessType                   String?
+  onboardingStep                 Int                @default(1)
+  onboardingCompletedAt          DateTime?
+  subscriptionPlan               String             @default("STARTER")
+  stripeCustomerId               String?
+  stripeSubscriptionId           String?
+  stripeConnectAccountId         String?
+  trialEndsAt                    DateTime?
+  emailVerified                  Boolean            @default(false)
+  emailVerificationToken         String?            @unique
+  passwordResetToken             String?            @unique
+  passwordResetExpires           DateTime?
+  customEmailDomain              String?
+  customEmailFromName            String?
+  resendDomainId                 String?
+  emailDomainVerified            Boolean            @default(false)
+  emailDomainDnsRecords          Json?
+  customWidgetDomain             String?            @unique
+  customWidgetDomainVerified     Boolean            @default(false)
+  customWidgetDomainVerification Json?
+  isAdmin                        Boolean            @default(false)
   // God Mode / Qalt Data Operations. Separate from isAdmin so normal platform
   // admins do NOT get super-admin powers (e.g. self plan override).
-  isSuperAdmin           Boolean          @default(false)
-  lastLoginAt            DateTime?
-  createdAt              DateTime         @default(now())
+  isSuperAdmin                   Boolean            @default(false)
+  lastLoginAt                    DateTime?
+  registrationSource             String?
+  registrationReferrer           String?
+  registrationLandingPage        String?
+  registrationUtmSource          String?
+  registrationUtmMedium          String?
+  registrationUtmCampaign        String?
+  registrationUtmTerm            String?
+  registrationUtmContent         String?
+  createdAt                      DateTime           @default(now())
   // NOTE: a DB-level functional unique index "Company_email_lower_key" on
   // lower(email) enforces case-insensitive email uniqueness. Prisma cannot model
   // functional indexes, so it lives in the DB only (applied via manual migration).
-  pricingProfiles        PricingProfile[]
-  quoteRequests          QuoteRequest[]
-  widgetSettings         WidgetSettings[]
-  webhooks               Webhook[]
-  shopifyInstalls        ShopifyInstall[]
-  stopNotes              StopNote[]
-  jobs                   Job[]
+  pricingProfiles                PricingProfile[]
+  quoteRequests                  QuoteRequest[]
+  widgetSettings                 WidgetSettings[]
+  webhooks                       Webhook[]
+  shopifyInstalls                ShopifyInstall[]
+  stopNotes                      StopNote[]
+  jobs                           Job[]
+  customerDocuments              CustomerDocument[]
 }
 
 model PricingProfile {
@@ -64,6 +79,7 @@ model PricingProfile {
   minMilesThreshold   Float           @default(0)
   weightFee           Float           @default(0)
   itemCountFee        Float           @default(0)
+  additionalStopFee   Float           @default(10.00)
   stairsFee           Float           @default(0)
   insideDeliveryFee   Float           @default(0)
   addon3Fee           Float           @default(0)
@@ -74,6 +90,7 @@ model PricingProfile {
   largeItemFee        Float           @default(0)
   largeItemsEnabled   Boolean         @default(false)
   largeItemCategories Json            @default("[]")
+  serviceOptions      Json            @default("[]")
   company             Company         @relation(fields: [companyId], references: [id])
   widgetSettings      WidgetSettings? @relation(fields: [widgetSettingsId], references: [id])
 }
@@ -82,7 +99,14 @@ model WidgetSettings {
   id                  String          @id @default(cuid())
   companyId           String
   name                String          @default("Default Form")
+  formStyle           String          @default("standard") // "standard" | "extended" | "quick"
+  customQuestions     Json            @default("[]")
   logoUrl             String?
+  // Optional dark variant generated from the uploaded logo. Original artwork is
+  // always preserved and remains the default. Merchants explicitly opt in to
+  // using this variant on light backgrounds/PDFs.
+  logoDarkUrl         String?
+  autoContrastLogo    Boolean         @default(false)
   showWeight          Boolean         @default(false)
   showItemCount       Boolean         @default(true)
   showExtras          Boolean         @default(true)
@@ -91,6 +115,7 @@ model WidgetSettings {
   primaryColor        String          @default("#1E40AF")
   buttonText          String          @default("Get Instant Quote")
   headerText          String          @default("Delivery Quote Calculator")
+  quickSubtitleText   String          @default("Enter the route, choose a vehicle, and see your price.")
   disclaimerText      String          @default("Estimate only. Final price confirmed after booking.")
   companyNameText     String?
   companyNameFont     String          @default("Inter")
@@ -100,6 +125,7 @@ model WidgetSettings {
   paymentsEnabled     Boolean         @default(false) // Enterprise only
   showVehicles        Boolean         @default(false)
   pricePerVehicle     Float           @default(0)
+  vehicleOptions      Json            @default("[]")
   showAwb             Boolean         @default(false)
   geoFencingEnabled   Boolean         @default(false)
   serviceZips         String[]        @default([])
@@ -108,30 +134,45 @@ model WidgetSettings {
 }
 
 model QuoteRequest {
-  id                    String    @id @default(cuid())
+  id                    String             @id @default(cuid())
   companyId             String
   customerName          String
   customerEmail         String
   customerPhone         String?
   pickupZip             String
   dropoffZip            String
+  // Full canonical addresses used for the authoritative route/distance. Nullable
+  // so legacy rows (which only stored ZIPs) stay valid. Preserved so future Quote
+  // PDFs / Invoices show the exact address that produced the quote.
+  pickupAddress         String?
+  dropoffAddress        String?
+  // Ordered intermediate route stops between pickup and final drop-off.
+  // Stored as [{ address, zip }] so the exact quoted route remains historical.
+  intermediateStops     Json               @default("[]")
   distanceMiles         Float
   serviceType           String
   packageSize           String?
   packageWeight         String?
+  itemCount             Int?
   selectedExtras        String?
-  status                String    @default("PENDING")
+  status                String             @default("PENDING")
   estimatedPrice        Float
+  // Server-authoritative pricing breakdown snapshot (total, lineItems, freeMiles,
+  // billableMiles, minimumApplied, distanceMiles) captured at quote time so
+  // documents stay historically accurate even if the merchant later changes rates.
+  pricingBreakdown      Json?
   vehicleCount          Int?
+  vehicleType           String?
   awbNumber             String?
   paymentStatus         String? // "PENDING" | "PAID" | "FAILED" | null (null = no payment required)
   stripePaymentIntentId String?
-  internalNotes         String?   @db.Text
+  internalNotes         String?            @db.Text
   paidAt                DateTime?
-  createdAt             DateTime  @default(now())
+  createdAt             DateTime           @default(now())
   deletedAt             DateTime?
-  company               Company   @relation(fields: [companyId], references: [id])
+  company               Company            @relation(fields: [companyId], references: [id])
   jobs                  Job[]
+  customerDocuments     CustomerDocument[]
 }
 
 model Webhook {
@@ -239,4 +280,54 @@ model JobStop {
   order      Int      @default(0)
   job        Job      @relation(fields: [jobId], references: [id])
   stopNote   StopNote @relation(fields: [stopNoteId], references: [id])
+}
+
+// Immutable customer-facing document (Quote or Invoice) generated from a
+// QuoteRequest. `snapshot` is the source of truth for rendering and must not
+// change if the merchant later edits pricing or branding. `type` and `status`
+// are Strings (project convention — no Prisma enums): type in {QUOTE, INVOICE},
+// status in {DRAFT, ISSUED, PAID}. `number` is the tenant-scoped human-readable
+// id (e.g. Q-2026-00124). At most one document per (quoteRequestId, type), so a
+// resend/regenerate reuses the same immutable document rather than minting a new
+// number. `publicTokenHash` stores only the hash of a future public-link token
+// (tokens are not generated in this phase).
+model CustomerDocument {
+  id              String       @id @default(cuid())
+  companyId       String
+  quoteRequestId  String
+  type            String
+  number          String
+  status          String       @default("DRAFT")
+  snapshot        Json
+  version         Int          @default(1)
+  publicTokenHash String?      @unique
+  createdAt       DateTime     @default(now())
+  issuedAt        DateTime?
+  paidAt          DateTime?
+  lastEmailedAt   DateTime?
+  lastViewedAt    DateTime?
+  metadata        Json?
+  company         Company      @relation(fields: [companyId], references: [id])
+  quoteRequest    QuoteRequest @relation(fields: [quoteRequestId], references: [id])
+
+  @@unique([companyId, number])
+  @@unique([quoteRequestId, type])
+  @@index([companyId, quoteRequestId])
+}
+
+// Tenant-scoped, per-year, per-type counter backing CustomerDocument.number.
+// Numbers are allocated with an atomic INSERT ... ON CONFLICT DO UPDATE (see
+// src/lib/customer-documents.ts) so concurrent issuances never collide.
+// Intentionally has no Prisma relation to Company: it is internal counter
+// infrastructure keyed by companyId, kept lean and written only via the allocator.
+model DocumentSequence {
+  id         String   @id @default(cuid())
+  companyId  String
+  year       Int
+  type       String
+  nextNumber Int      @default(1)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([companyId, year, type])
 }

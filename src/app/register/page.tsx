@@ -20,7 +20,6 @@ import {
   MailCheck,
   RefreshCw,
   ShieldCheck,
-  Sparkles,
 } from "lucide-react";
 import QaltLogo from "@/components/shared/QaltLogo";
 import { getRegistrationAttribution } from "@/components/shared/RegistrationAttribution";
@@ -216,7 +215,7 @@ export default function RegisterPage() {
 
         <div className="relative z-10 my-auto py-10">
           <div className="mb-8 max-w-xl">
-            <div className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-red-300"><Sparkles size={12} /> Start free</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-red-300">Start free</div>
             <h1 className="mt-4 max-w-lg text-4xl font-bold leading-[1.02] tracking-[-0.045em] text-white xl:text-5xl">Give customers a cleaner path from delivery details to booked job.</h1>
             <p className="mt-4 max-w-md text-sm font-medium leading-6 text-white/55">Create your widget, set your pricing, embed it on your site, and manage every quote from one place.</p>
           </div>

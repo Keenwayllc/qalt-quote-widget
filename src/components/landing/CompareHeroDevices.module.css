@@ -6,6 +6,8 @@
   left: 50%;
   transform: translateX(-50%);
   pointer-events: none;
+  /* Background texture only: the headline sits over the devices. */
+  opacity: 0.14;
 }
 .device { position: absolute; bottom: 0; animation: rise 1.35s cubic-bezier(.16, 1, .3, 1) both; }
 .float { animation: drift 7s ease-in-out infinite; animation-delay: 1.5s; }

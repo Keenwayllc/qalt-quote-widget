@@ -12,7 +12,6 @@ import {
   Pencil,
   ReceiptText,
   Route,
-  Zap,
 } from "lucide-react";
 
 const STAGE_MS = 4800;
@@ -100,10 +99,10 @@ function QuotePanel({ currentStep }: { currentStep: number }) {
         <div className="relative">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <div className="text-[9px] font-black uppercase tracking-[0.2em] text-white/50">Northline Delivery Co.</div>
+              <div className="text-[9px] font-black uppercase tracking-[0.2em] text-white/50">BayRoute Express</div>
               <div className="mt-1 text-lg font-black tracking-tight">Delivery Quote Calculator</div>
             </div>
-            <div className="grid h-9 w-9 place-items-center rounded-xl border border-white/15 bg-white/10 font-black">N</div>
+            <div className="grid h-9 w-9 place-items-center rounded-xl border border-white/15 bg-white/10 font-black">B</div>
           </div>
           <div className="mt-5"><StageProgress currentStep={currentStep} /></div>
         </div>
@@ -192,7 +191,7 @@ function QuotePanel({ currentStep }: { currentStep: number }) {
                   transition={{ delay: 0.2, type: "spring", stiffness: 180, damping: 18 }}
                   className="mt-2 text-4xl font-black tracking-tight text-emerald-800"
                 >
-                  $196<span className="text-xl text-emerald-700/50">.00</span>
+                  $196<span className="text-xl text-emerald-700/50">.25</span>
                 </motion.div>
                 <div className="mt-1 text-[10px] font-bold text-emerald-700/70">48.5 miles</div>
               </div>
@@ -285,15 +284,12 @@ export default function HowItWorksAnimation() {
   return (
     <div className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16" style={FONT}>
       <div>
-        <div className="inline-flex items-center gap-2 rounded-full border border-red-100 bg-red-50 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-red-700">
-          <Zap size={12} className="fill-red-600" />
-          How it works
-        </div>
+        <p className="text-xs font-bold uppercase tracking-[0.14em] text-red-600">How it works</p>
         <h2 className="mt-5 text-4xl font-black leading-[1.02] tracking-[-0.04em] text-slate-950 sm:text-5xl">
           The same Qalt flow your customer actually sees.
         </h2>
         <p className="mt-5 max-w-xl text-base font-medium leading-relaxed text-slate-500 sm:text-lg">
-          No abstract software mockup. The homepage now demonstrates the real quote experience: delivery details, transparent pricing, and Pay & Book.
+          This is the form your customers use: they enter the job, see your price with the math shown, and book.
         </p>
 
         <div className="mt-8 space-y-3">
@@ -346,7 +342,7 @@ export default function HowItWorksAnimation() {
             <span className="h-2.5 w-2.5 rounded-full bg-slate-300" />
             <span className="h-2.5 w-2.5 rounded-full bg-slate-300" />
             <span className="h-2.5 w-2.5 rounded-full bg-slate-300" />
-            <div className="mx-auto rounded-full border border-slate-200 bg-white px-5 py-1 text-[8px] font-bold text-slate-400">northline-delivery.com/quote</div>
+            <div className="mx-auto rounded-full border border-slate-200 bg-white px-5 py-1 text-[8px] font-bold text-slate-400">bayroute-express.com/quote</div>
           </div>
           <div className="flex min-h-[520px] flex-col lg:flex-row">
             <QuotePanel currentStep={currentStep} />

@@ -135,6 +135,9 @@ exports.Prisma.CompanyScalarFieldEnum = {
   zip: 'zip',
   contactName: 'contactName',
   timezone: 'timezone',
+  businessType: 'businessType',
+  onboardingStep: 'onboardingStep',
+  onboardingCompletedAt: 'onboardingCompletedAt',
   subscriptionPlan: 'subscriptionPlan',
   stripeCustomerId: 'stripeCustomerId',
   stripeSubscriptionId: 'stripeSubscriptionId',
@@ -149,9 +152,20 @@ exports.Prisma.CompanyScalarFieldEnum = {
   resendDomainId: 'resendDomainId',
   emailDomainVerified: 'emailDomainVerified',
   emailDomainDnsRecords: 'emailDomainDnsRecords',
+  customWidgetDomain: 'customWidgetDomain',
+  customWidgetDomainVerified: 'customWidgetDomainVerified',
+  customWidgetDomainVerification: 'customWidgetDomainVerification',
   isAdmin: 'isAdmin',
   isSuperAdmin: 'isSuperAdmin',
   lastLoginAt: 'lastLoginAt',
+  registrationSource: 'registrationSource',
+  registrationReferrer: 'registrationReferrer',
+  registrationLandingPage: 'registrationLandingPage',
+  registrationUtmSource: 'registrationUtmSource',
+  registrationUtmMedium: 'registrationUtmMedium',
+  registrationUtmCampaign: 'registrationUtmCampaign',
+  registrationUtmTerm: 'registrationUtmTerm',
+  registrationUtmContent: 'registrationUtmContent',
   createdAt: 'createdAt'
 };
 
@@ -165,6 +179,7 @@ exports.Prisma.PricingProfileScalarFieldEnum = {
   minMilesThreshold: 'minMilesThreshold',
   weightFee: 'weightFee',
   itemCountFee: 'itemCountFee',
+  additionalStopFee: 'additionalStopFee',
   stairsFee: 'stairsFee',
   insideDeliveryFee: 'insideDeliveryFee',
   addon3Fee: 'addon3Fee',
@@ -174,14 +189,19 @@ exports.Prisma.PricingProfileScalarFieldEnum = {
   businessDays: 'businessDays',
   largeItemFee: 'largeItemFee',
   largeItemsEnabled: 'largeItemsEnabled',
-  largeItemCategories: 'largeItemCategories'
+  largeItemCategories: 'largeItemCategories',
+  serviceOptions: 'serviceOptions'
 };
 
 exports.Prisma.WidgetSettingsScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
   name: 'name',
+  formStyle: 'formStyle',
+  customQuestions: 'customQuestions',
   logoUrl: 'logoUrl',
+  logoDarkUrl: 'logoDarkUrl',
+  autoContrastLogo: 'autoContrastLogo',
   showWeight: 'showWeight',
   showItemCount: 'showItemCount',
   showExtras: 'showExtras',
@@ -190,6 +210,7 @@ exports.Prisma.WidgetSettingsScalarFieldEnum = {
   primaryColor: 'primaryColor',
   buttonText: 'buttonText',
   headerText: 'headerText',
+  quickSubtitleText: 'quickSubtitleText',
   disclaimerText: 'disclaimerText',
   companyNameText: 'companyNameText',
   companyNameFont: 'companyNameFont',
@@ -199,6 +220,7 @@ exports.Prisma.WidgetSettingsScalarFieldEnum = {
   paymentsEnabled: 'paymentsEnabled',
   showVehicles: 'showVehicles',
   pricePerVehicle: 'pricePerVehicle',
+  vehicleOptions: 'vehicleOptions',
   showAwb: 'showAwb',
   geoFencingEnabled: 'geoFencingEnabled',
   serviceZips: 'serviceZips'
@@ -212,14 +234,20 @@ exports.Prisma.QuoteRequestScalarFieldEnum = {
   customerPhone: 'customerPhone',
   pickupZip: 'pickupZip',
   dropoffZip: 'dropoffZip',
+  pickupAddress: 'pickupAddress',
+  dropoffAddress: 'dropoffAddress',
+  intermediateStops: 'intermediateStops',
   distanceMiles: 'distanceMiles',
   serviceType: 'serviceType',
   packageSize: 'packageSize',
   packageWeight: 'packageWeight',
+  itemCount: 'itemCount',
   selectedExtras: 'selectedExtras',
   status: 'status',
   estimatedPrice: 'estimatedPrice',
+  pricingBreakdown: 'pricingBreakdown',
   vehicleCount: 'vehicleCount',
+  vehicleType: 'vehicleType',
   awbNumber: 'awbNumber',
   paymentStatus: 'paymentStatus',
   stripePaymentIntentId: 'stripePaymentIntentId',
@@ -319,6 +347,34 @@ exports.Prisma.JobStopScalarFieldEnum = {
   order: 'order'
 };
 
+exports.Prisma.CustomerDocumentScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  quoteRequestId: 'quoteRequestId',
+  type: 'type',
+  number: 'number',
+  status: 'status',
+  snapshot: 'snapshot',
+  version: 'version',
+  publicTokenHash: 'publicTokenHash',
+  createdAt: 'createdAt',
+  issuedAt: 'issuedAt',
+  paidAt: 'paidAt',
+  lastEmailedAt: 'lastEmailedAt',
+  lastViewedAt: 'lastViewedAt',
+  metadata: 'metadata'
+};
+
+exports.Prisma.DocumentSequenceScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  year: 'year',
+  type: 'type',
+  nextNumber: 'nextNumber',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -362,7 +418,9 @@ exports.Prisma.ModelName = {
   ReadinessCheck: 'ReadinessCheck',
   ExceptionLog: 'ExceptionLog',
   Job: 'Job',
-  JobStop: 'JobStop'
+  JobStop: 'JobStop',
+  CustomerDocument: 'CustomerDocument',
+  DocumentSequence: 'DocumentSequence'
 };
 
 /**

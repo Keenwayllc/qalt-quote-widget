@@ -172,8 +172,7 @@ export default function PricingPage() {
           className="text-center mb-16 px-6"
         >
           <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-5">
-            Simple, Transparent<br />
-            <span className="text-red-600">Pricing</span>
+            Pricing
           </h1>
           <p className="text-xl text-slate-500 font-medium max-w-xl mx-auto mb-6">
             Start free. Upgrade when you need more quote volume, more forms, and more control. No hidden fees.
@@ -262,7 +261,7 @@ export default function PricingPage() {
                 Upgrade to Pro
               </Link>
               <ul className="space-y-3">
-                {["Unlimited quotes", "Up to 5 quote forms", "Full Ops Console (Jobs, Stops, Readiness)", "White-label — no Qalt branding", "Custom colors, fonts & logo", "Analytics dashboard", "Priority support"].map((item) => (
+                {["Unlimited quotes", "Up to 5 quote forms", "Full Ops Console (Jobs, Stops, Readiness)", "White-label (no Qalt branding)", "Custom colors, fonts & logo", "Analytics dashboard", "Priority support"].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-300 font-medium text-sm">
                     <CheckCircle2 size={16} className="text-red-400 shrink-0 mt-0.5" />{item}
                   </li>
@@ -411,13 +410,13 @@ export default function PricingPage() {
           <h2 className="text-3xl font-black tracking-tight text-center mb-12">Common Questions</h2>
           <div className="space-y-3">
             {[
-              { q: "What's the difference between Pro and Enterprise?", a: "Pro gives you everything to quote and capture unlimited leads with your own branding — unlimited quotes, up to 5 forms, the full Ops Console, white-label, and analytics. Enterprise adds the ability to accept payment in your widget, multi-vehicle and fleet quoting, custom CSS and domain embedding, and webhooks — for operators who want to get paid through Qalt and scale." },
+              { q: "What's the difference between Pro and Enterprise?", a: "Pro gives you everything to quote and capture unlimited leads with your own branding: unlimited quotes, up to 5 forms, the full Ops Console, white-label, and analytics. Enterprise adds the ability to accept payment in your widget, multi-vehicle and fleet quoting, custom CSS and domain embedding, and webhooks, for operators who want customers to pay through Qalt." },
               { q: "Can customers pay through the widget?", a: "Yes, on Enterprise. Customers can pay a deposit or the full amount at booking through Stripe, so you capture payment up front instead of chasing invoices." },
-              { q: "Is the Ops Console included in Pro?", a: "Yes. Every Pro plan includes the full Ops Console — Jobs, Saved Stop Notes, Delivery Readiness, and Exception Logging — at no extra cost." },
+              { q: "Is the Ops Console included in Pro?", a: "Yes. Every Pro plan includes the full Ops Console (Jobs, Saved Stop Notes, Delivery Readiness, and Exception Logging) at no extra cost." },
               { q: "What happens if I exceed my limit on the free plan?", a: "The free Starter plan includes 50 quotes per month. Once you reach it, upgrade to Pro for unlimited quotes without interruption." },
               { q: "Can I cancel or switch plans at any time?", a: "Yes. You can change, upgrade, downgrade, or cancel your plan at any time as your business needs change." },
               { q: "Do I need code to use Qalt?", a: "No custom build is required. Qalt is designed to be embedded on your site quickly with a simple snippet." },
-              { q: "Can I remove Qalt branding?", a: "Yes. White-label — with no Qalt branding — is included on Pro and Enterprise." },
+              { q: "Can I remove Qalt branding?", a: "Yes. White-label, with no Qalt branding, is included on Pro and Enterprise." },
             ].map((item, i) => (
               <FAQItem key={i} question={item.q} answer={item.a} />
             ))}

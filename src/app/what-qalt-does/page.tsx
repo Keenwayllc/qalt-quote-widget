@@ -41,9 +41,7 @@ export default function WhatQaltDoesPage() {
           </div>
 
           <div className="relative z-10 mx-auto max-w-5xl px-6 text-center sm:px-8">
-            <div className="mx-auto mb-6 inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-white/70">
-              What Qalt does
-            </div>
+            <p className="mb-6 text-xs font-bold uppercase tracking-[0.14em] text-red-400">What Qalt does</p>
             <h1 className="mx-auto max-w-4xl text-4xl font-black tracking-tight text-white sm:text-6xl lg:text-7xl">
               Add instant quoting, booking, and payment to your delivery website.
             </h1>

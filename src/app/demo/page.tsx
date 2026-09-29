@@ -11,14 +11,14 @@ import QaltLogo from "@/components/shared/QaltLogo";
 import DemoLeadForm from "@/components/landing/DemoLeadForm";
 import GatedDemo from "@/components/landing/GatedDemo";
 import {
-  ArrowRight, Zap, Globe, ReceiptText, CreditCard, ClipboardCheck,
+  ArrowRight, Zap, Globe, ReceiptText,
   SlidersHorizontal, PackageCheck, Check, X, Mail,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Live Demo · Qalt — Turn website visitors into paid delivery bookings",
+  title: "Live Demo · Qalt",
   description:
     "Try Qalt like a real customer. Delivery companies add an instant quote and booking form to their website so customers see transparent pricing, book the job, and move toward payment without calling.",
 };
@@ -54,13 +54,6 @@ async function resolveDemoCompany() {
     pricingProfile,
   };
 }
-
-const VALUE_STRIP: { icon: React.ComponentType<{ size?: number; className?: string }>; label: string }[] = [
-  { icon: Zap, label: "Instant Quotes" },
-  { icon: ClipboardCheck, label: "Booking Intake" },
-  { icon: ReceiptText, label: "Transparent Pricing" },
-  { icon: CreditCard, label: "Online Payment Ready" },
-];
 
 const OUTCOMES: { icon: React.ComponentType<{ size?: number; className?: string }>; title: string; body: string }[] = [
   { icon: Zap, title: "Quote instantly", body: "Customers see a delivery price without calling or waiting for a response." },
@@ -105,21 +98,14 @@ export default async function DemoPage() {
       <section className="relative overflow-hidden bg-[#080B14] pt-28 sm:pt-36 pb-20 sm:pb-28">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-0 bg-gradient-to-br from-[#0d0f1a] via-[#0d0813] to-[#130810]" />
-          <div className="absolute bottom-0 left-0 w-[55%] h-[55%] bg-red-700/20 blur-[120px] rounded-full" />
-          <div className="absolute top-0 right-0 w-[45%] h-[45%] bg-amber-600/10 blur-[100px] rounded-full" />
         </div>
         <div className="relative z-10 max-w-3xl mx-auto px-6 sm:px-8 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 backdrop-blur-md text-white/80 rounded-full text-xs font-black uppercase tracking-widest mb-8 border border-white/10">
-            <Zap size={13} className="fill-yellow-400 text-yellow-400" /> Live demo
-          </div>
+          <p className="mb-6 text-xs font-bold uppercase tracking-[0.14em] text-red-400">Live demo</p>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[0.95] text-white mb-6">
-            Turn website visitors into
-            <br />
-            <span className="text-red-400">paid delivery bookings.</span>
+            Try the quote form your customers would use.
           </h1>
           <p className="text-base sm:text-lg text-white/55 mb-10 font-medium leading-relaxed max-w-2xl mx-auto">
-            Qalt gives delivery companies an instant quote and booking form they can add to their website.
-            Customers enter delivery details, see transparent pricing, book the job, and move into payment without waiting for a callback.
+            This is a working Qalt form set up with a sample courier&apos;s rates. Put in a real pickup and dropoff and you&apos;ll see the price, the math behind it, and the booking step your customers would get.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
@@ -136,20 +122,6 @@ export default async function DemoPage() {
               Create Your Qalt Account
             </Link>
           </div>
-        </div>
-      </section>
-
-      {/* 2. Value strip */}
-      <section className="border-b border-slate-100 bg-white">
-        <div className="max-w-5xl mx-auto px-6 sm:px-8 py-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-5">
-          {VALUE_STRIP.map((v) => (
-            <div key={v.label} className="inline-flex items-center gap-3 whitespace-nowrap">
-              <div className="w-9 h-9 rounded-lg bg-red-50 text-red-600 flex items-center justify-center shrink-0">
-                <v.icon size={17} />
-              </div>
-              <span className="text-sm font-black text-slate-800 tracking-tight">{v.label}</span>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -186,9 +158,6 @@ export default async function DemoPage() {
             <GatedDemo company={demoCompany} />
           ) : (
             <div className="h-[420px] flex flex-col items-center justify-center text-center px-8 bg-slate-50 gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center">
-                <Zap size={22} />
-              </div>
               <p className="text-sm font-bold text-slate-700">Live demo coming online</p>
               <p className="text-xs text-slate-400 font-medium max-w-xs">The interactive quote and booking widget will appear here.</p>
             </div>

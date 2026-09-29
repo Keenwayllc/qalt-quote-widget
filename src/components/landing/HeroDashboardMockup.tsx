@@ -75,11 +75,11 @@ function CustomerWidget({
       <div className="mb-3 flex items-center justify-between border-b border-slate-100 pb-3">
         <div className="flex items-center gap-2.5">
           <div className="grid h-8 w-8 place-items-center rounded-lg text-[10px] font-extrabold text-white" style={{ backgroundColor: accent }}>
-            ND
+            PC
           </div>
           <div>
-            <p className="text-[10px] font-bold leading-none text-slate-900">Northline Delivery Co.</p>
-            <p className="mt-1 text-[7px] font-medium text-slate-400">Local delivery, made simple.</p>
+            <p className="text-[10px] font-bold leading-none text-slate-900">Peninsula Courier Co.</p>
+            <p className="mt-1 text-[7px] font-medium text-slate-400">Same-day courier, Bay Area</p>
           </div>
         </div>
         <span className="text-[6px] font-bold uppercase tracking-[0.16em] text-slate-300">Powered by Qalt</span>
@@ -157,7 +157,7 @@ function CustomerWidget({
             className="flex flex-1 flex-col"
           >
             <p className="text-[7px] font-bold uppercase tracking-[0.18em]" style={{ color: accent }}>Instant quote</p>
-            <h3 className="mt-1 text-[17px] font-extrabold tracking-[-0.035em] text-slate-950">A price. In an instant.</h3>
+            <h3 className="mt-1 text-[17px] font-extrabold tracking-[-0.035em] text-slate-950">Get a delivery price</h3>
 
             <div className="mt-3">
               <RouteMap accent={accent} reduceMotion={reduceMotion} />
