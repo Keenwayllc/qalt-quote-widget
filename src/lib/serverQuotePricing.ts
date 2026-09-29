@@ -1,7 +1,8 @@
 import "server-only";
 import prisma from "@/lib/prisma";
 import { estimatePriceDetailed, type EstimateExtras, type EstimateRules, type PriceLineItem } from "@/lib/calculator";
-import { calculateDrivingDistance } from "@/lib/google-maps";
+import { calculateMultiStopDrivingDistance } from "@/lib/google-maps";
+import { routeLocations, type IntermediateStop } from "@/lib/route-stops";
 import { applyPricingRules } from "@/lib/growth-engine";
 
 export type QuoteBreakdown = { total:number; lineItems:PriceLineItem[]; distanceMiles:number; freeMiles:number; billableMiles:number; minimumApplied:boolean };
@@ -10,7 +11,7 @@ export type QuoteComputationResult = { ok:true; quote:AuthoritativeQuote } | { o
 type ServiceOption = { name:string; description?:string; fee:number };
 type PricingRulesWithServices = EstimateRules & { serviceOptions?:unknown };
 type VehicleOption = { name:string; fee:number };
-type ComputeInput = { companyId:string; formId?:string|null; startLocation:string; endLocation:string; extras:EstimateExtras; vehicleCount?:number; vehicleType?:string|null; clientDistanceFallback?:number|null; serviceType?:string|null };
+type ComputeInput = { companyId:string; formId?:string|null; startLocation:string; endLocation:string; intermediateStops?:IntermediateStop[]; extras:EstimateExtras; vehicleCount?:number; vehicleType?:string|null; clientDistanceFallback?:number|null; serviceType?:string|null };
 
 function parseServiceOptions(value:unknown):ServiceOption[]{
   if(!Array.isArray(value))return[];
@@ -25,7 +26,7 @@ function parseServiceOptions(value:unknown):ServiceOption[]{
 }
 
 export async function computeAuthoritativeQuote(input:ComputeInput):Promise<QuoteComputationResult>{
-  const {companyId,formId,startLocation,endLocation,extras,vehicleCount,vehicleType,clientDistanceFallback,serviceType}=input;
+  const {companyId,formId,startLocation,endLocation,intermediateStops=[],extras,vehicleCount,vehicleType,clientDistanceFallback,serviceType}=input;
   if(!startLocation||!endLocation)return{ok:false,status:400,error:"Missing location data"};
   let ownedWidgetSettings:{id:string;showVehicles:boolean;pricePerVehicle:number;vehicleOptions:unknown}|null=null;
   if(formId){const form=await prisma.widgetSettings.findUnique({where:{id:formId},select:{id:true,companyId:true,showVehicles:true,pricePerVehicle:true,vehicleOptions:true}});if(!form||form.companyId!==companyId)return{ok:false,status:404,error:"Form not found"};ownedWidgetSettings={id:form.id,showVehicles:form.showVehicles,pricePerVehicle:form.pricePerVehicle,vehicleOptions:form.vehicleOptions};}
@@ -45,9 +46,9 @@ export async function computeAuthoritativeQuote(input:ComputeInput):Promise<Quot
     resolvedService=selectedService.name;
   }
 
-  const distanceResult=await calculateDrivingDistance(startLocation,endLocation);let distance:number;let durationMinutes:number|null=null;
+  const distanceResult=await calculateMultiStopDrivingDistance(routeLocations(startLocation,intermediateStops,endLocation));let distance:number;let durationMinutes:number|null=null;
   if(distanceResult!==null){distance=distanceResult.distanceMiles;durationMinutes=distanceResult.durationMinutes;}else if(typeof clientDistanceFallback==="number"&&clientDistanceFallback>0){distance=clientDistanceFallback;}else{return{ok:false,status:400,error:"Could not calculate distance. Please check your addresses."};}
-  const detailed=estimatePriceDetailed(distance,pricingProfile,extras);let total=detailed.total;const lineItems:PriceLineItem[]=[...detailed.lineItems];
+  const detailed=estimatePriceDetailed(distance,pricingProfile,{...extras,additionalStopCount:intermediateStops.length});let total=detailed.total;const lineItems:PriceLineItem[]=[...detailed.lineItems];
 
   if(selectedService&&selectedService.fee>0){
     total+=selectedService.fee;

@@ -1,5 +1,6 @@
 import crypto from "node:crypto";
 import prisma from "@/lib/prisma";
+import { normalizeIntermediateStops } from "@/lib/route-stops";
 
 export type AbandonedQuoteStage = "STARTED" | "ROUTE" | "QUOTE" | "CONTACT";
 
@@ -12,6 +13,7 @@ export interface AbandonedQuoteInput {
   customerPhone?: string | null;
   pickupAddress?: string | null;
   dropoffAddress?: string | null;
+  intermediateStops?: unknown;
   pickupZip?: string | null;
   dropoffZip?: string | null;
   estimatedPrice?: number | null;
@@ -29,6 +31,7 @@ export interface AbandonedQuoteRow {
   customerPhone: string | null;
   pickupAddress: string | null;
   dropoffAddress: string | null;
+  intermediateStops: unknown;
   pickupZip: string | null;
   dropoffZip: string | null;
   estimatedPrice: number | null;
@@ -56,6 +59,7 @@ export async function ensureAbandonedQuoteTable() {
       "customerPhone" TEXT,
       "pickupAddress" TEXT,
       "dropoffAddress" TEXT,
+      "intermediateStops" JSONB NOT NULL DEFAULT '[]',
       "pickupZip" TEXT,
       "dropoffZip" TEXT,
       "estimatedPrice" DOUBLE PRECISION,
@@ -69,6 +73,7 @@ export async function ensureAbandonedQuoteTable() {
       CONSTRAINT "AbandonedQuote_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE CASCADE ON UPDATE CASCADE
     )
   `);
+  await prisma.$executeRawUnsafe(`ALTER TABLE "AbandonedQuote" ADD COLUMN IF NOT EXISTS "intermediateStops" JSONB NOT NULL DEFAULT '[]'`);
   await prisma.$executeRawUnsafe(`CREATE UNIQUE INDEX IF NOT EXISTS "AbandonedQuote_companyId_sessionId_key" ON "AbandonedQuote"("companyId", "sessionId")`);
   await prisma.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS "AbandonedQuote_companyId_status_lastActivityAt_idx" ON "AbandonedQuote"("companyId", "status", "lastActivityAt")`);
   await prisma.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS "AbandonedQuote_quoteRequestId_idx" ON "AbandonedQuote"("quoteRequestId")`);
@@ -93,6 +98,7 @@ export async function upsertAbandonedQuote(input: AbandonedQuoteInput) {
   const customerPhone = clean(input.customerPhone, 80);
   const pickupAddress = clean(input.pickupAddress, 500);
   const dropoffAddress = clean(input.dropoffAddress, 500);
+  const intermediateStops = JSON.stringify(normalizeIntermediateStops(input.intermediateStops));
   const pickupZip = clean(input.pickupZip, 20);
   const dropoffZip = clean(input.dropoffZip, 20);
   const formId = clean(input.formId, 100);
@@ -102,11 +108,11 @@ export async function upsertAbandonedQuote(input: AbandonedQuoteInput) {
   await prisma.$executeRaw`
     INSERT INTO "AbandonedQuote" (
       "id", "companyId", "formId", "sessionId", "customerName", "customerEmail", "customerPhone",
-      "pickupAddress", "dropoffAddress", "pickupZip", "dropoffZip", "estimatedPrice", "distanceMiles",
+      "pickupAddress", "dropoffAddress", "intermediateStops", "pickupZip", "dropoffZip", "estimatedPrice", "distanceMiles",
       "stage", "status", "lastActivityAt", "createdAt", "updatedAt"
     ) VALUES (
       ${id}, ${input.companyId}, ${formId}, ${input.sessionId}, ${customerName}, ${customerEmail}, ${customerPhone},
-      ${pickupAddress}, ${dropoffAddress}, ${pickupZip}, ${dropoffZip}, ${estimatedPrice}, ${distanceMiles},
+      ${pickupAddress}, ${dropoffAddress}, ${intermediateStops}::jsonb, ${pickupZip}, ${dropoffZip}, ${estimatedPrice}, ${distanceMiles},
       ${stage}, 'OPEN', NOW(), NOW(), NOW()
     )
     ON CONFLICT ("companyId", "sessionId") DO UPDATE SET
@@ -116,6 +122,7 @@ export async function upsertAbandonedQuote(input: AbandonedQuoteInput) {
       "customerPhone" = COALESCE(EXCLUDED."customerPhone", "AbandonedQuote"."customerPhone"),
       "pickupAddress" = COALESCE(EXCLUDED."pickupAddress", "AbandonedQuote"."pickupAddress"),
       "dropoffAddress" = COALESCE(EXCLUDED."dropoffAddress", "AbandonedQuote"."dropoffAddress"),
+      "intermediateStops" = EXCLUDED."intermediateStops",
       "pickupZip" = COALESCE(EXCLUDED."pickupZip", "AbandonedQuote"."pickupZip"),
       "dropoffZip" = COALESCE(EXCLUDED."dropoffZip", "AbandonedQuote"."dropoffZip"),
       "estimatedPrice" = COALESCE(EXCLUDED."estimatedPrice", "AbandonedQuote"."estimatedPrice"),

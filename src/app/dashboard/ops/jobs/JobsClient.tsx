@@ -269,7 +269,7 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
                 >
                   <option value="">No linked quote</option>
                   {quotes.map((q) => (
-                    <option key={q.id} value={q.id}>{q.customerName} - {q.pickupZip} → {q.dropoffZip}</option>
+                    <option key={q.id} value={q.id}>{q.customerName} - {q.pickupZip} → {Array.isArray(q.intermediateStops) && q.intermediateStops.length > 0 ? `${q.intermediateStops.length} stop${q.intermediateStops.length === 1 ? "" : "s"} → ` : ""}{q.dropoffZip}</option>
                   ))}
                 </select>
               </div>

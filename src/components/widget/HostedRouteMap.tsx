@@ -7,9 +7,11 @@ const LIBRARIES: ("places" | "geometry" | "drawing" | "visualization")[] = ["pla
 
 export default function HostedRouteMap({
   origin,
+  intermediateStops,
   destination,
 }: {
   origin: string;
+  intermediateStops: Array<{ address: string }>;
   destination: string;
 }) {
   const { isLoaded } = useJsApiLoader({
@@ -22,6 +24,7 @@ export default function HostedRouteMap({
     <div className="h-screen w-screen overflow-hidden bg-[#f7f8fa]">
       <RouteMapDisplay
         pickupAddress={origin}
+        intermediateStops={intermediateStops}
         dropoffAddress={destination}
         isLoaded={isLoaded}
       />

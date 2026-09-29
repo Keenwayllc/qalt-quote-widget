@@ -13,6 +13,7 @@ type Snapshot = {
   customerPhone?: string;
   pickupAddress?: string;
   dropoffAddress?: string;
+  intermediateStops?: Array<{ address: string; zip: string }>;
   pickupZip?: string;
   dropoffZip?: string;
   estimatedPrice?: number;
@@ -88,6 +89,9 @@ export default function AbandonedQuoteTracker({ companyId, formId = null }: Prop
             ...snapshotRef.current,
             pickupAddress: requestBody.origin || snapshotRef.current.pickupAddress,
             dropoffAddress: requestBody.destination || snapshotRef.current.dropoffAddress,
+            intermediateStops: Array.isArray(requestBody.intermediateStops)
+              ? requestBody.intermediateStops
+              : snapshotRef.current.intermediateStops,
             pickupZip: requestBody.pickupZip || snapshotRef.current.pickupZip,
             dropoffZip: requestBody.dropoffZip || snapshotRef.current.dropoffZip,
             estimatedPrice: typeof result.estimate === "number" ? result.estimate : snapshotRef.current.estimatedPrice,

@@ -6,6 +6,7 @@ import ConfettiBurst from "@/components/widget/ConfettiBurst";
 import { verifyCustomerQuoteToken } from "@/lib/auth";
 import { issueQuoteDocument } from "@/lib/customer-documents";
 import { createPublicDocumentAccess } from "@/lib/customer-document-access";
+import { normalizeIntermediateStops } from "@/lib/route-stops";
 
 export const dynamic = "force-dynamic";
 
@@ -29,6 +30,7 @@ export default async function PaymentSuccessPage({
       serviceType: true,
       pickupZip: true,
       dropoffZip: true,
+      intermediateStops: true,
       selectedExtras: true,
       customerEmail: true,
       companyId: true,
@@ -37,6 +39,7 @@ export default async function PaymentSuccessPage({
   });
 
   if (!quote) notFound();
+  const intermediateStops = normalizeIntermediateStops(quote.intermediateStops);
 
   const isPaid = quote.paymentStatus === "PAID";
   const isFailed = quote.paymentStatus === "FAILED";
@@ -183,7 +186,11 @@ export default async function PaymentSuccessPage({
                 <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 shrink-0"><MapPin size={20} /></div>
                 <div>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Route</p>
-                  <p className="text-sm font-bold text-slate-800">{quote.pickupZip} → {quote.dropoffZip}</p>
+                  <p className="text-sm font-bold text-slate-800">Pickup · {quote.pickupZip}</p>
+                  {intermediateStops.map((stop, index) => (
+                    <p key={`${stop.address}-${index}`} className="mt-1 text-xs font-semibold text-slate-500">Stop {index + 1} · {stop.address}</p>
+                  ))}
+                  <p className="mt-1 text-sm font-bold text-slate-800">Drop-off · {quote.dropoffZip}</p>
                 </div>
               </div>
 

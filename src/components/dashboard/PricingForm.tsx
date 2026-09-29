@@ -28,6 +28,7 @@ interface PricingProfile {
   minMilesThreshold: number;
   weightFee: number;
   itemCountFee: number;
+  additionalStopFee: number;
   stairsFee: number;
   insideDeliveryFee: number;
   addon3Fee?: number;
@@ -184,6 +185,9 @@ export default function PricingPage({
   );
   const [addon3Fee, setAddon3Fee] = useState(
     String(initialData?.addon3Fee ?? 0)
+  );
+  const [additionalStopFee, setAdditionalStopFee] = useState(
+    String(initialData?.additionalStopFee ?? 10)
   );
   const [flatFeesStatus, setFlatFeesStatus] = useState<SectionStatus>("idle");
 
@@ -483,6 +487,7 @@ export default function PricingPage({
                 stairsFee: parseFloat(stairsFee) || 0,
                 insideDeliveryFee: parseFloat(insideDeliveryFee) || 0,
                 addon3Fee: parseFloat(addon3Fee) || 0,
+                additionalStopFee: parseFloat(additionalStopFee) || 0,
               },
               setFlatFeesStatus
             );
@@ -498,6 +503,20 @@ export default function PricingPage({
             widget. Set to 0 to not charge for that option.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <FieldLabel
+                label="Additional Stop Fee ($ per stop)"
+                tooltip="Added once for every intermediate pickup or delivery stop between the initial pickup and final drop-off. Example: $10/stop × 2 stops = $20 added."
+              />
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                value={additionalStopFee}
+                onChange={(e) => setAdditionalStopFee(e.target.value)}
+                className={inputClass}
+              />
+            </div>
             <div>
               <FieldLabel
                 label="Stairs Fee ($ per flight)"

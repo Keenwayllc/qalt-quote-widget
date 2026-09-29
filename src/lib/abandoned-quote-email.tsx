@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import { buildFromAddress, sendEmail } from "@/lib/email";
 import type { AbandonedQuoteRow } from "@/lib/abandoned-quotes";
+import { normalizeIntermediateStops } from "@/lib/route-stops";
 
 const DEFAULT_APP_URL = "https://www.qalt.site";
 
@@ -57,9 +58,14 @@ export async function sendAbandonedQuoteRecoveryEmail(input: {
   const brandColor = settings?.primaryColor || "#df1731";
   const amount = formatUsd(lead.estimatedPrice);
   const greeting = lead.customerName ? `Hi ${lead.customerName},` : "Hello,";
+  const intermediateStops = normalizeIntermediateStops(lead.intermediateStops);
   const routeText =
     lead.pickupAddress || lead.dropoffAddress
-      ? `${lead.pickupAddress || lead.pickupZip || "Pickup"} → ${lead.dropoffAddress || lead.dropoffZip || "Dropoff"}`
+      ? [
+          lead.pickupAddress || lead.pickupZip || "Pickup",
+          ...intermediateStops.map((stop, index) => `Stop ${index + 1}: ${stop.address}`),
+          lead.dropoffAddress || lead.dropoffZip || "Dropoff",
+        ].join(" → ")
       : null;
 
   const result = await sendEmail({

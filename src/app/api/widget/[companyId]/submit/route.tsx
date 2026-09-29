@@ -10,6 +10,7 @@ import { computeAuthoritativeQuote } from "@/lib/serverQuotePricing";
 import { geocodeAddress } from "@/lib/google-maps";
 import type { Prisma } from "@/generated/prisma/client";
 import { normalizeCustomQuestions, validateCustomAnswers } from "@/lib/form-questions";
+import { hasDuplicateConsecutiveLocations, normalizeIntermediateStops, routeLocations } from "@/lib/route-stops";
 
 export const dynamic = "force-dynamic";
 
@@ -67,6 +68,14 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
     const dropoffAddress = typeof data.dropoffAddress === "string" ? data.dropoffAddress.trim() : "";
     const submittedPickupZip = typeof data.pickupZip === "string" ? data.pickupZip.trim() : "";
     const submittedDropoffZip = typeof data.dropoffZip === "string" ? data.dropoffZip.trim() : "";
+    const submittedStops = normalizeIntermediateStops(data.intermediateStops);
+
+    if (Array.isArray(data.intermediateStops) && submittedStops.length !== data.intermediateStops.length) {
+      return NextResponse.json(
+        { error: "Each additional stop must be selected from the address suggestions." },
+        { status: 422 }
+      );
+    }
 
     const zip5 = (z: string | null | undefined) => (z ?? "").replace(/\D/g, "").slice(0, 5);
 
@@ -74,10 +83,13 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       return NextResponse.json({ error: "Address and ZIP code do not match" }, { status: 422 });
     }
 
-    const [pickupGeo, dropoffGeo] = await Promise.all([
+    const [pickupGeo, ...remainingGeocodes] = await Promise.all([
       geocodeAddress(pickupAddress),
+      ...submittedStops.map((stop) => geocodeAddress(stop.address)),
       geocodeAddress(dropoffAddress),
     ]);
+    const dropoffGeo = remainingGeocodes.at(-1) ?? null;
+    const stopGeocodes = remainingGeocodes.slice(0, -1);
 
     const resolveZip = (
       geo: Awaited<ReturnType<typeof geocodeAddress>>,
@@ -93,13 +105,18 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
 
     const pickupZipResult = resolveZip(pickupGeo, submittedPickupZip);
     const dropoffZipResult = resolveZip(dropoffGeo, submittedDropoffZip);
+    const stopZipResults = submittedStops.map((stop, index) => resolveZip(stopGeocodes[index], stop.zip));
 
-    if (pickupZipResult.contradiction || dropoffZipResult.contradiction) {
+    if (pickupZipResult.contradiction || dropoffZipResult.contradiction || stopZipResults.some((result) => result.contradiction)) {
       return NextResponse.json({ error: "Address and ZIP code do not match" }, { status: 422 });
     }
 
     const verifiedPickupZip = pickupZipResult.zip;
     const verifiedDropoffZip = dropoffZipResult.zip;
+    const verifiedStops = submittedStops.map((stop, index) => ({
+      address: stopGeocodes[index]?.formattedAddress || stop.address,
+      zip: stopZipResults[index].contradiction ? "" : stopZipResults[index].zip,
+    }));
 
     const extras: EstimateExtras = {
       hasStairs: Boolean(data.hasStairs),
@@ -114,6 +131,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
 
     const pickupCanonical = pickupGeo?.formattedAddress || pickupAddress;
     const dropoffCanonical = dropoffGeo?.formattedAddress || dropoffAddress;
+    if (hasDuplicateConsecutiveLocations(routeLocations(pickupCanonical, verifiedStops, dropoffCanonical))) {
+      return NextResponse.json({ error: "Consecutive route locations must be different." }, { status: 422 });
+    }
     const vehicleCount = parseInt(data.vehicleCount) || 0;
 
     const priced = await computeAuthoritativeQuote({
@@ -121,6 +141,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       formId: data.formId ?? null,
       startLocation: pickupCanonical,
       endLocation: dropoffCanonical,
+      intermediateStops: verifiedStops,
       extras,
       vehicleCount,
       vehicleType: typeof data.vehicleType === "string" ? data.vehicleType : null,
@@ -170,7 +191,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
         const allowed = widgetSettings.serviceZips;
         const pickupOk = allowed.includes(verifiedPickupZip);
         const dropoffOk = allowed.includes(verifiedDropoffZip);
-        if (!pickupOk && !dropoffOk) {
+        const stopOk = verifiedStops.some((stop) => allowed.includes(stop.zip));
+        if (!pickupOk && !dropoffOk && !stopOk) {
           return NextResponse.json(
             { error: "This location is outside our current service area." },
             { status: 422 }
@@ -189,6 +211,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
         dropoffZip: verifiedDropoffZip,
         pickupAddress: pickupCanonical,
         dropoffAddress: dropoffCanonical,
+        intermediateStops: verifiedStops as unknown as Prisma.InputJsonValue,
         distanceMiles: authoritativeDistance,
         estimatedPrice: authoritativePrice,
         pricingBreakdown: priced.quote.breakdown as unknown as Prisma.InputJsonValue,
@@ -228,6 +251,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
             customerPhone={data.customerPhone}
             pickupZip={verifiedPickupZip}
             dropoffZip={verifiedDropoffZip}
+            intermediateStops={verifiedStops}
             distanceMiles={authoritativeDistance}
             estimatedPrice={authoritativePrice}
             serviceType={authoritativeServiceType}
@@ -256,6 +280,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
               customerName={data.customerName}
               pickupZip={verifiedPickupZip}
               dropoffZip={verifiedDropoffZip}
+              intermediateStops={verifiedStops}
               distanceMiles={authoritativeDistance}
               estimatedPrice={authoritativePrice}
               serviceType={authoritativeServiceType}
@@ -278,6 +303,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       distanceMiles: authoritativeDistance,
       serviceType: authoritativeServiceType,
       vehicleType: authoritativeVehicleType,
+      intermediateStops: verifiedStops,
     });
   } catch (error) {
     console.error("Quote submission error:", error);

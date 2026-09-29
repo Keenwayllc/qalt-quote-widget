@@ -6,6 +6,7 @@ interface NewQuoteEmailProps {
   customerPhone?: string;
   pickupZip: string;
   dropoffZip: string;
+  intermediateStops?: Array<{ address: string; zip: string }>;
   distanceMiles: number;
   estimatedPrice: number;
   serviceType: string;
@@ -18,6 +19,7 @@ export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
   customerPhone,
   pickupZip,
   dropoffZip,
+  intermediateStops = [],
   distanceMiles,
   estimatedPrice,
   serviceType,
@@ -95,6 +97,22 @@ export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
                   </td>
                   <td />
                 </tr>
+                {intermediateStops.map((stop, index) => (
+                  <React.Fragment key={`${stop.address}-${index}`}>
+                    <tr>
+                      <td style={{ paddingRight: '10px', verticalAlign: 'middle' }}>
+                        <div style={{ width: '9px', height: '9px', borderRadius: '50%', border: '2px solid #8b8f97', backgroundColor: '#ffffff' }} />
+                      </td>
+                      <td style={{ fontSize: '14px', color: '#1f1f1f', padding: '7px 0' }}>
+                        <strong>Stop {index + 1}:</strong> <span style={{ color: '#5f636b' }}>{stop.address || stop.zip}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{ paddingRight: '10px' }}><div style={{ width: '1px', height: '14px', backgroundColor: '#e0e1e3', margin: '0 auto' }} /></td>
+                      <td />
+                    </tr>
+                  </React.Fragment>
+                ))}
                 <tr>
                   <td style={{ paddingRight: '10px', verticalAlign: 'middle' }}>
                     <div style={{ width: '9px', height: '9px', borderRadius: '50%', backgroundColor: '#df1731' }} />

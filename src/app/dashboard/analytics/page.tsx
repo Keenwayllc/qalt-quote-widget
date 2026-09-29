@@ -1,6 +1,7 @@
 import { getCurrentCompany } from "@/lib/session";
 import { getEntitlements } from "@/lib/plans";
 import prisma from "@/lib/prisma";
+import { normalizeIntermediateStops } from "@/lib/route-stops";
 import Link from "next/link";
 import { subDays, format, startOfToday, endOfToday } from "date-fns";
 import {
@@ -183,7 +184,7 @@ export default async function AnalyticsPage() {
         </div>
       </div>
 
-      <PremiumTable quotes={latestQuotes} />
+      <PremiumTable quotes={latestQuotes.map((quote) => ({ ...quote, intermediateStops: normalizeIntermediateStops(quote.intermediateStops) }))} />
     </div>
   );
 }

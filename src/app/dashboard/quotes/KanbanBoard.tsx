@@ -24,6 +24,7 @@ interface Quote {
   customerPhone: string | null;
   pickupZip: string;
   dropoffZip: string;
+  intermediateStops: Array<{ address: string; zip: string }>;
   distanceMiles: number;
   serviceType: string;
   packageSize: string | null;
@@ -98,6 +99,7 @@ function QuoteCard({
             <MapPin size={10} className="text-red-400 shrink-0" />
             <span>{quote.pickupZip}</span>
             <ChevronRight size={9} className="text-slate-300 dark:text-zinc-600" />
+            {quote.intermediateStops.length > 0 && <><span>{quote.intermediateStops.length} stop{quote.intermediateStops.length === 1 ? "" : "s"}</span><ChevronRight size={9} className="text-slate-300 dark:text-zinc-600" /></>}
             <span>{quote.dropoffZip}</span>
             <span className="ml-auto text-slate-400 dark:text-zinc-500">{quote.distanceMiles.toFixed(1)} mi</span>
           </div>
@@ -140,6 +142,7 @@ function OverlayCard({ quote }: { quote: Quote }) {
           <MapPin size={10} className="text-red-400 shrink-0" />
           <span>{quote.pickupZip}</span>
           <ChevronRight size={9} className="text-slate-300 dark:text-zinc-600" />
+          {quote.intermediateStops.length > 0 && <><span>{quote.intermediateStops.length} stop{quote.intermediateStops.length === 1 ? "" : "s"}</span><ChevronRight size={9} className="text-slate-300 dark:text-zinc-600" /></>}
           <span>{quote.dropoffZip}</span>
         </div>
       </div>

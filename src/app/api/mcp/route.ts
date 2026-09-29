@@ -93,6 +93,7 @@ async function getQuote(connection: IntegrationConnectionRow, args: Record<strin
       dropoffZip: true,
       pickupAddress: true,
       dropoffAddress: true,
+      intermediateStops: true,
       distanceMiles: true,
       estimatedPrice: true,
       pricingBreakdown: true,

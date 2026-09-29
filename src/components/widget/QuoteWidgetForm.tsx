@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import Image from "next/image";
 import { getEntitlements } from "@/lib/plans";
-import { MapPin, CheckCircle, ArrowRight, ArrowLeft, User, Mail, Phone, Truck, Sparkles, Weight, Hash, Footprints, Home, Clock, Box, Navigation, Check, Lock, ShieldCheck } from "lucide-react";
+import { MapPin, CheckCircle, ArrowRight, ArrowLeft, User, Mail, Phone, Truck, Sparkles, Weight, Hash, Footprints, Home, Clock, Box, Navigation, Check, Lock, ShieldCheck, Plus, Trash2 } from "lucide-react";
 import { useJsApiLoader } from "@react-google-maps/api";
 import usePlacesAutocomplete, { getGeocode } from "use-places-autocomplete";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
@@ -14,6 +14,7 @@ import VehicleSelector, { type VehicleOption as VehicleTypeOption } from "./Vehi
 import CustomerCustomQuestions, { type AnswerValues } from "./CustomerCustomQuestions";
 import { normalizeCustomQuestions, validateCustomAnswers } from "@/lib/form-questions";
 import { DEFAULT_QUICK_SUBTITLE } from "@/lib/quick-subtitle";
+import { MAX_INTERMEDIATE_STOPS } from "@/lib/route-stops";
 
 interface WidgetProps {
   company: {
@@ -58,6 +59,7 @@ interface WidgetProps {
 interface FormData {
   pickupAddress: string;
   dropoffAddress: string;
+  intermediateStops: Array<{ address: string; zip: string }>;
   pickupZip: string;
   dropoffZip: string;
   serviceType: string;
@@ -97,6 +99,7 @@ const CLIENT_DISTANCE_TIMEOUT_MS = 2500;
 const EMPTY_FORM: FormData = {
   pickupAddress: "",
   dropoffAddress: "",
+  intermediateStops: [],
   pickupZip: "",
   dropoffZip: "",
   serviceType: "",
@@ -182,6 +185,10 @@ const AutocompleteInput = ({
     initOnMount: isLoaded,
     defaultValue: value,
   });
+
+  useEffect(() => {
+    setValue(value, false);
+  }, [value, setValue]);
 
   return (
     <div className="relative">
@@ -409,6 +416,26 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
   const clearPickup = () => setFormData(prev => ({ ...prev, pickupAddress: "", pickupZip: "" }));
   const clearDropoff = () => setFormData(prev => ({ ...prev, dropoffAddress: "", dropoffZip: "" }));
+  const addIntermediateStop = () => {
+    setFormData((prev) => ({
+      ...prev,
+      intermediateStops: [...prev.intermediateStops, { address: "", zip: "" }],
+    }));
+  };
+  const updateIntermediateStop = (index: number, address: string, zip: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      intermediateStops: prev.intermediateStops.map((stop, stopIndex) =>
+        stopIndex === index ? { address, zip } : stop
+      ),
+    }));
+  };
+  const removeIntermediateStop = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      intermediateStops: prev.intermediateStops.filter((_, stopIndex) => stopIndex !== index),
+    }));
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -425,8 +452,10 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     }));
   };
 
-  const calculateClientDistance = (origin: string, destination: string): Promise<number | null> => {
-    return new Promise((resolve) => {
+  const calculateClientDistance = async (locations: string[]): Promise<number | null> => {
+    if (locations.length < 2) return null;
+    const legs = await Promise.all(locations.slice(0, -1).map((origin, index) => new Promise<number | null>((resolve) => {
+      const destination = locations[index + 1];
       if (!isLoaded || !window.google?.maps) {
         resolve(null);
         return;
@@ -462,7 +491,9 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
       } catch {
         finish(null);
       }
-    });
+    })));
+    if (legs.some((leg) => leg === null)) return null;
+    return (legs as number[]).reduce((total, leg) => total + leg, 0);
   };
 
   const fetchEstimate = async ({
@@ -490,13 +521,18 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
         setError("Please select a vehicle type.");
         return false;
       }
+      if (formData.intermediateStops.some((stop) => !stop.address)) {
+        setError("Select an address suggestion for every additional stop.");
+        return false;
+      }
 
       const geoEnabled = company.widgetSettings.geoFencingEnabled;
       const serviceZips = company.widgetSettings.serviceZips ?? [];
       if (geoEnabled && serviceZips.length > 0) {
         const pickup = formData.pickupZip.trim();
         const dropoff = formData.dropoffZip.trim();
-        if (!serviceZips.includes(pickup) && !serviceZips.includes(dropoff)) {
+        const stopInArea = formData.intermediateStops.some((stop) => serviceZips.includes(stop.zip.trim()));
+        if (!serviceZips.includes(pickup) && !serviceZips.includes(dropoff) && !stopInArea) {
           setError("Sorry, we don't currently service that area. Please check our coverage and try again.");
           return false;
         }
@@ -504,7 +540,11 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
       const origin = formData.pickupAddress || formData.pickupZip;
       const destination = formData.dropoffAddress || formData.dropoffZip;
-      const clientDistance = await calculateClientDistance(origin, destination);
+      const clientDistance = await calculateClientDistance([
+        origin,
+        ...formData.intermediateStops.map((stop) => stop.address),
+        destination,
+      ]);
 
       const res = await fetch(`/api/widget/${company.id}/estimate`, {
         method: "POST",
@@ -514,6 +554,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
           destination: formData.dropoffAddress,
           pickupZip: formData.pickupZip,
           dropoffZip: formData.dropoffZip,
+          intermediateStops: formData.intermediateStops,
           clientDistance,
           formId: company.formId || null,
           serviceType,
@@ -685,7 +726,11 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
   };
 
   const primaryColor = (widgetSettings.primaryColor && widgetSettings.primaryColor.length >= 4) ? widgetSettings.primaryColor : "#1E40AF";
-  const routeComplete = Boolean(formData.pickupAddress && formData.dropoffAddress);
+  const routeComplete = Boolean(
+    formData.pickupAddress &&
+    formData.dropoffAddress &&
+    formData.intermediateStops.every((stop) => stop.address)
+  );
 
   useEffect(() => {
     if (!quickMode || step !== 1) return;
@@ -717,6 +762,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     formData.dropoffAddress,
     formData.pickupZip,
     formData.dropoffZip,
+    formData.intermediateStops,
     formData.vehicleType,
     formData.serviceType,
   ]);
@@ -894,6 +940,45 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                           isLoaded={isLoaded} icon={MapPin}
                           onAddressSelect={(address, zip) => setFormData(prev => ({ ...prev, pickupAddress: address, pickupZip: zip }))}
                           onClear={clearPickup} />
+                        <AnimatePresence initial={false}>
+                          {formData.intermediateStops.map((stop, index) => (
+                            <motion.div
+                              key={`additional-stop-${index}`}
+                              initial={reduce ? false : { opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={reduce ? undefined : { opacity: 0, height: 0 }}
+                              transition={{ duration: 0.22, ease: EASE }}
+                              className="grid grid-cols-[minmax(0,1fr)_44px] items-end gap-2 overflow-visible"
+                            >
+                              <AutocompleteInput
+                                label={quickMode ? `Stop ${index + 1}` : `Additional stop ${index + 1}`}
+                                placeholder="Enter stop address"
+                                value={stop.address}
+                                isLoaded={isLoaded}
+                                icon={MapPin}
+                                onAddressSelect={(address, zip) => updateIntermediateStop(index, address, zip)}
+                                onClear={() => updateIntermediateStop(index, "", "")}
+                              />
+                              <button
+                                type="button"
+                                onClick={() => removeIntermediateStop(index)}
+                                aria-label={`Remove additional stop ${index + 1}`}
+                                className="flex h-[50px] w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-400 transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-[color:var(--ring)]"
+                              >
+                                <Trash2 size={17} />
+                              </button>
+                            </motion.div>
+                          ))}
+                        </AnimatePresence>
+                        {formData.intermediateStops.length < MAX_INTERMEDIATE_STOPS && (
+                          <button
+                            type="button"
+                            onClick={addIntermediateStop}
+                            className="inline-flex items-center gap-2 px-1 py-1 text-xs font-bold text-slate-500 transition-colors hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--ring)]"
+                          >
+                            <Plus size={14} /> Add another stop
+                          </button>
+                        )}
                         <AutocompleteInput label={quickMode ? "" : "Dropoff address"} placeholder="Enter dropoff address" value={formData.dropoffAddress}
                           isLoaded={isLoaded} icon={MapPin}
                           onAddressSelect={(address, zip) => setFormData(prev => ({ ...prev, dropoffAddress: address, dropoffZip: zip }))}
@@ -1137,7 +1222,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                         {widgetSettings.mapLayout !== 'side' && isLoaded && formData.pickupAddress && formData.dropoffAddress && (
                           <motion.div className="mt-6 h-32 w-full rounded-2xl overflow-hidden border border-emerald-100 shadow-inner group"
                             initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4, ease: EASE, delay: reduce ? 0 : 0.2 }}>
-                            <RouteMapDisplay pickupAddress={formData.pickupAddress} dropoffAddress={formData.dropoffAddress} isLoaded={isLoaded} />
+                            <RouteMapDisplay pickupAddress={formData.pickupAddress} intermediateStops={formData.intermediateStops} dropoffAddress={formData.dropoffAddress} isLoaded={isLoaded} />
                           </motion.div>
                         )}
                       </motion.div>
@@ -1197,6 +1282,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                         <div className="flex items-center justify-between gap-3 px-4 py-3"><span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0">Service</span><span className="text-[13px] font-bold text-slate-800 text-right">{serviceType}</span></div>
                         <div className="flex items-center justify-between gap-3 px-4 py-3"><span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0">Distance</span><span className="text-[13px] font-bold text-slate-800 text-right">{distance?.toFixed(1)} miles{durationMinutes !== null ? ` · ${formatDuration(durationMinutes)}` : ""}</span></div>
                         <div className="flex items-start justify-between gap-3 px-4 py-3"><span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0 mt-0.5">Pickup</span><span className="text-[13px] font-semibold text-slate-800 text-right leading-snug">{formData.pickupAddress}</span></div>
+                        {formData.intermediateStops.map((stop, index) => <div key={`${stop.address}-${index}`} className="flex items-start justify-between gap-3 px-4 py-3"><span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0 mt-0.5">Stop {index + 1}</span><span className="text-[13px] font-semibold text-slate-800 text-right leading-snug">{stop.address}</span></div>)}
                         <div className="flex items-start justify-between gap-3 px-4 py-3"><span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0 mt-0.5">Dropoff</span><span className="text-[13px] font-semibold text-slate-800 text-right leading-snug">{formData.dropoffAddress}</span></div>
                         {formData.vehicleType && <div className="flex items-center justify-between gap-3 px-4 py-3"><span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0">Vehicle</span><span className="text-[13px] font-bold text-slate-800 text-right">{formData.vehicleType}{formData.vehicleCount ? ` × ${formData.vehicleCount}` : ""}</span></div>}
                         {formData.pickupDate && <div className="flex items-center justify-between gap-3 px-4 py-3"><span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest shrink-0">When</span><span className="text-[13px] font-bold text-slate-800 text-right">{new Date(formData.pickupDate).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}{formData.pickupTime && ` · ${formData.pickupTime}`}</span></div>}
@@ -1263,7 +1349,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
         {showSideMap && (
           <div className="hidden md:flex min-w-0 flex-col flex-1 min-h-[500px] animate-in slide-in-from-left-4 fade-in duration-700 bg-slate-50 relative border-l border-slate-100">
-            <div className="relative flex-1 min-h-[320px]"><div className="absolute inset-0"><RouteMapDisplay pickupAddress={formData.pickupAddress} dropoffAddress={formData.dropoffAddress} isLoaded={isLoaded} onRouteInfo={(info) => setRouteInfo(info)} /></div><div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-white/20 text-[10px] uppercase font-black text-slate-800 tracking-[0.15em] flex items-center gap-2 z-10"><div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />Route Overview</div></div>
+            <div className="relative flex-1 min-h-[320px]"><div className="absolute inset-0"><RouteMapDisplay pickupAddress={formData.pickupAddress} intermediateStops={formData.intermediateStops} dropoffAddress={formData.dropoffAddress} isLoaded={isLoaded} onRouteInfo={(info) => setRouteInfo(info)} /></div><div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-white/20 text-[10px] uppercase font-black text-slate-800 tracking-[0.15em] flex items-center gap-2 z-10"><div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />Route Overview</div></div>
             <div className="bg-white p-5 border-t border-slate-100 relative z-10 space-y-4">
               <div className="grid grid-cols-2 gap-3 pb-4 border-b border-slate-100">
                 <div className="space-y-0.5"><span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1"><Navigation size={9} /> Distance</span><p className="text-sm font-black text-slate-900 tracking-tight">{routeInfo?.distance || `${distance?.toFixed(1)} mi`}</p></div>
@@ -1274,6 +1360,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                 {formData.serviceType && <div className="flex items-center justify-between gap-2 pb-1"><span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Service</span><span className="text-[11px] font-extrabold text-slate-700 text-right">{formData.serviceType}</span></div>}
                 <div className="flex items-start gap-2.5"><div className="mt-0.5 w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center shrink-0"><MapPin size={10} className="text-emerald-600" /></div><div className="flex-1 min-w-0"><p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">From</p><p className="text-[11px] font-extrabold text-slate-700 leading-tight">{formData.pickupAddress}</p></div></div>
                 <div className="ml-[9px] w-px h-3 bg-slate-200" />
+                {formData.intermediateStops.map((stop, index) => <div key={`${stop.address}-${index}`} className="contents"><div className="flex items-start gap-2.5"><div className="mt-0.5 w-5 h-5 rounded-full border-2 border-slate-300 bg-white flex items-center justify-center shrink-0"><span className="text-[8px] font-black text-slate-500">{index + 1}</span></div><div className="flex-1 min-w-0"><p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Stop {index + 1}</p><p className="text-[11px] font-extrabold text-slate-700 leading-tight">{stop.address}</p></div></div><div className="ml-[9px] w-px h-3 bg-slate-200" /></div>)}
                 <div className="flex items-start gap-2.5"><div className="mt-0.5 w-5 h-5 rounded-full bg-red-100 flex items-center justify-center shrink-0"><MapPin size={10} className="text-red-500" /></div><div className="flex-1 min-w-0"><p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">To</p><p className="text-[11px] font-extrabold text-slate-700 leading-tight">{formData.dropoffAddress}</p></div></div>
                 {formData.pickupDate && <div className="flex items-center gap-2.5 pt-1"><div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center shrink-0"><Clock size={10} className="text-red-600" /></div><div><p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Pickup Date &amp; Time</p><p className="text-[11px] font-extrabold text-slate-700">{new Date(formData.pickupDate).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}{formData.pickupTime && ` · ${formData.pickupTime}`}</p></div></div>}
                 {(formData.packageWeight || formData.itemCount || formData.vehicleCount) && <div className="flex flex-wrap items-start gap-x-5 gap-y-2 pt-1">

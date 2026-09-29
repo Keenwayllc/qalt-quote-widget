@@ -51,6 +51,7 @@ export const publicPricingProfileSelect = {
   minMilesThreshold: true,
   weightFee: true,
   itemCountFee: true,
+  additionalStopFee: true,
   stairsFee: true,
   insideDeliveryFee: true,
   addon3Fee: true,

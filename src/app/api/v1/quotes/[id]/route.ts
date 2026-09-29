@@ -18,6 +18,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       dropoffZip: true,
       pickupAddress: true,
       dropoffAddress: true,
+      intermediateStops: true,
       distanceMiles: true,
       estimatedPrice: true,
       pricingBreakdown: true,
