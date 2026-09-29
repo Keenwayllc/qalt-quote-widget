@@ -83,6 +83,12 @@
 }
 
 /* ---------- Dark Form ---------- */
+.qalt-widget-studio[data-widget-preview-theme="dark"] .qalt-preview-field {
+  background: #262626 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #e5e7eb !important;
+}
+
 .qalt-widget-studio[data-widget-preview-theme="dark"] > div > div:last-child > div > div:nth-child(2) {
   background: #171717 !important;
   border-color: rgba(255, 255, 255, 0.12) !important;

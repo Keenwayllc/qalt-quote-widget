@@ -2,6 +2,9 @@ import { getCurrentCompany, getDefaultPricing } from "@/lib/session";
 import PricingForm from "@/components/dashboard/PricingForm";
 import ServiceCatalogEditor from "@/components/dashboard/ServiceCatalogEditor";
 import { getEntitlements } from "@/lib/plans";
+import FormSettingsSelector from "@/components/dashboard/FormSettingsSelector";
+import { redirect } from "next/navigation";
+import type { ComponentProps } from "react";
 import styles from "./pricing.module.css";
 
 export default async function PricingRulesPage({
@@ -11,20 +14,14 @@ export default async function PricingRulesPage({
 }) {
   const company = await getCurrentCompany();
   const { formId } = await searchParams;
+  const forms = [...company.widgetSettings].sort((a, b) => a.id.localeCompare(b.id));
+  const selectedForm = formId ? forms.find((form) => form.id === formId) : forms[0];
+  if (formId && !selectedForm) redirect("/dashboard/pricing");
+  const selectedFormId = selectedForm?.id;
 
-  let pricingData = null;
-
-  if (formId) {
-    pricingData = company.pricingProfiles.find((p) => p.widgetSettingsId === formId) ?? null;
-  }
-
-  if (!pricingData) {
-    pricingData = getDefaultPricing(company);
-  }
-
-  const widgetSettings = formId
-    ? company.widgetSettings.find((w) => w.id === formId) ?? company.widgetSettings[0]
-    : company.widgetSettings[0];
+  const pricingData = (selectedFormId
+    ? company.pricingProfiles.find((p) => p.widgetSettingsId === selectedFormId)
+    : null) ?? getDefaultPricing(company);
 
   const entitlements = getEntitlements(company.subscriptionPlan);
   const serviceOptions = pricingData && "serviceOptions" in pricingData
@@ -32,14 +29,30 @@ export default async function PricingRulesPage({
     : [];
 
   return (
-    <div className={styles.stage}>
-      <PricingForm
-        initialData={pricingData as any}
-        formId={formId}
-        widgetSettings={widgetSettings}
-        entitlements={entitlements}
+    <>
+      <FormSettingsSelector
+        forms={forms.map((form) => ({
+          id: form.id,
+          name: form.name,
+          formStyle: form.formStyle,
+          showWeight: form.showWeight,
+          showAwb: form.showAwb,
+          showVehicles: form.showVehicles,
+          hasVehicleChoices: Array.isArray(form.vehicleOptions) && form.vehicleOptions.length > 0,
+        }))}
+        selectedFormId={selectedFormId}
+        page="pricing"
       />
-      <ServiceCatalogEditor initialOptions={serviceOptions} formId={formId} />
-    </div>
+      <div className={styles.stage}>
+        <PricingForm
+          key={selectedFormId ?? "company-default"}
+          initialData={pricingData as unknown as ComponentProps<typeof PricingForm>["initialData"]}
+          formId={selectedFormId}
+          widgetSettings={selectedForm}
+          entitlements={entitlements}
+        />
+        <ServiceCatalogEditor key={selectedFormId ?? "company-default"} initialOptions={serviceOptions} formId={selectedFormId} />
+      </div>
+    </>
   );
 }

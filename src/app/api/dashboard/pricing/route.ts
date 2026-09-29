@@ -113,8 +113,8 @@ export async function POST(req: Request) {
 
       await prisma.pricingProfile.upsert({
         where: { widgetSettingsId: formId },
-        update: fields as any,
-        create: { companyId: payload.companyId, widgetSettingsId: formId, ...fields } as any,
+        update: fields as Parameters<typeof prisma.pricingProfile.update>[0]["data"],
+        create: { companyId: payload.companyId, widgetSettingsId: formId, ...fields } as Parameters<typeof prisma.pricingProfile.create>[0]["data"],
       });
     } else {
       const existing = await prisma.pricingProfile.findFirst({
@@ -122,10 +122,10 @@ export async function POST(req: Request) {
       });
 
       if (existing) {
-        await prisma.pricingProfile.update({ where: { id: existing.id }, data: fields as any });
+        await prisma.pricingProfile.update({ where: { id: existing.id }, data: fields as Parameters<typeof prisma.pricingProfile.update>[0]["data"] });
       } else {
         await prisma.pricingProfile.create({
-          data: { companyId: payload.companyId, ...fields } as any,
+          data: { companyId: payload.companyId, ...fields } as Parameters<typeof prisma.pricingProfile.create>[0]["data"],
         });
       }
     }
@@ -186,16 +186,37 @@ export async function PATCH(req: Request) {
 
       const dedicated = await prisma.pricingProfile.findUnique({ where: { widgetSettingsId: formId } });
       if (dedicated) {
-        await prisma.pricingProfile.update({ where: { id: dedicated.id }, data: patch as any });
+        await prisma.pricingProfile.update({ where: { id: dedicated.id }, data: patch as Parameters<typeof prisma.pricingProfile.update>[0]["data"] });
       } else {
+        const companyDefault = await prisma.pricingProfile.findFirst({
+          where: { companyId: payload.companyId, widgetSettingsId: null },
+        });
+        const baseFields = companyDefault ? {
+          baseRatePerMile: companyDefault.baseRatePerMile,
+          minimumCharge: companyDefault.minimumCharge,
+          useMinimumCharge: companyDefault.useMinimumCharge,
+          minMilesThreshold: companyDefault.minMilesThreshold,
+          weightFee: companyDefault.weightFee,
+          itemCountFee: companyDefault.itemCountFee,
+          stairsFee: companyDefault.stairsFee,
+          insideDeliveryFee: companyDefault.insideDeliveryFee,
+          addon3Fee: companyDefault.addon3Fee,
+          afterHoursFee: companyDefault.afterHoursFee,
+          businessHoursStart: companyDefault.businessHoursStart,
+          businessHoursEnd: companyDefault.businessHoursEnd,
+          businessDays: companyDefault.businessDays,
+          largeItemFee: companyDefault.largeItemFee,
+          largeItemsEnabled: companyDefault.largeItemsEnabled,
+          largeItemCategories: companyDefault.largeItemCategories,
+          serviceOptions: companyDefault.serviceOptions,
+        } : {};
         await prisma.pricingProfile.create({
           data: {
             companyId: payload.companyId,
             widgetSettingsId: formId,
-            baseRatePerMile: 2.5,
-            minimumCharge: 35,
+            ...baseFields,
             ...patch,
-          } as any,
+          } as Parameters<typeof prisma.pricingProfile.create>[0]["data"],
         });
       }
 
@@ -207,7 +228,7 @@ export async function PATCH(req: Request) {
     });
 
     if (profile) {
-      await prisma.pricingProfile.update({ where: { id: profile.id }, data: patch as any });
+      await prisma.pricingProfile.update({ where: { id: profile.id }, data: patch as Parameters<typeof prisma.pricingProfile.update>[0]["data"] });
     } else {
       await prisma.pricingProfile.create({
         data: {
@@ -215,7 +236,7 @@ export async function PATCH(req: Request) {
           baseRatePerMile: 2.5,
           minimumCharge: 35,
           ...patch,
-        } as any,
+        } as Parameters<typeof prisma.pricingProfile.create>[0]["data"],
       });
     }
 
