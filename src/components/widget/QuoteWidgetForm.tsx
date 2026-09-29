@@ -762,14 +762,21 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
   const revealItem = reduce
     ? { hidden: { opacity: 0 }, show: { opacity: 1 } }
     : { hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } };
+  const showSideMap = step === 2 && !showSummary && widgetSettings.mapLayout === 'side';
+  const widgetWidthClass = showSideMap
+    ? (quickMode ? 'max-w-6xl' : 'max-w-5xl')
+    : (quickMode ? 'max-w-3xl' : 'max-w-md');
+  const formWidthClass = showSideMap
+    ? (quickMode ? 'md:w-1/2 lg:w-[460px]' : 'md:w-[440px]')
+    : 'md:w-full';
 
   return (
     <div
-      className={`w-full transition-all duration-700 ease-in-out font-sans flex items-start justify-center mx-auto relative ${quickMode ? 'max-w-3xl' : step === 2 && !showSummary && widgetSettings.mapLayout === 'side' ? 'max-w-5xl' : 'max-w-md'}`}
+      className={`w-full transition-all duration-700 ease-in-out font-sans flex items-start justify-center mx-auto relative ${widgetWidthClass}`}
       style={{ fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif", ['--ring' as string]: `${primaryColor}59` }}
     >
       <div className={`w-full transition-all duration-700 ease-in-out relative z-10 overflow-hidden bg-white flex flex-col md:flex-row ${quickMode ? "rounded-[30px] shadow-[0_28px_90px_-20px_rgba(15,23,42,.28)] border border-slate-200/80" : "rounded-[32px] shadow-[0_30px_100px_-15px_rgba(0,0,0,0.2)]"}`}>
-        <div className={`w-full transition-all duration-700 ${step === 2 && !showSummary && widgetSettings.mapLayout === 'side' ? 'md:w-[440px]' : 'md:w-full'} flex flex-col shrink-0`}>
+        <div className={`w-full transition-all duration-700 ${formWidthClass} flex flex-col shrink-0`}>
           {quickMode ? (
             <div className="bg-white px-6 pt-7 pb-2 sm:px-10 sm:pt-10">
               <div className="flex items-start justify-between gap-4">
@@ -1249,8 +1256,8 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
           </div>
         </div>
 
-        {step === 2 && !showSummary && widgetSettings.mapLayout === 'side' && (
-          <div className="hidden md:flex flex-col flex-1 min-h-[500px] animate-in slide-in-from-left-4 fade-in duration-700 bg-slate-50 relative border-l border-slate-100">
+        {showSideMap && (
+          <div className="hidden md:flex min-w-0 flex-col flex-1 min-h-[500px] animate-in slide-in-from-left-4 fade-in duration-700 bg-slate-50 relative border-l border-slate-100">
             <div className="relative flex-1 min-h-[320px]"><div className="absolute inset-0"><RouteMapDisplay pickupAddress={formData.pickupAddress} dropoffAddress={formData.dropoffAddress} isLoaded={isLoaded} onRouteInfo={(info) => setRouteInfo(info)} /></div><div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-white/20 text-[10px] uppercase font-black text-slate-800 tracking-[0.15em] flex items-center gap-2 z-10"><div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />Route Overview</div></div>
             <div className="bg-white p-5 border-t border-slate-100 relative z-10 space-y-4">
               <div className="grid grid-cols-2 gap-3 pb-4 border-b border-slate-100">
