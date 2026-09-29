@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Script from "next/script";
 import { motion } from "framer-motion";
@@ -32,6 +32,66 @@ declare global {
 }
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+
+type TurnstileStatus = "loading" | "ready" | "failed";
+
+/**
+ * Renders Cloudflare Turnstile explicitly. The implicit `.cf-turnstile` scan
+ * only runs once per page load, and when challenges.cloudflare.com is blocked
+ * (privacy extensions, strict browser settings) it left an empty box and a
+ * sign-up that could never pass the "I am human" check.
+ */
+function TurnstileWidget() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [status, setStatus] = useState<TurnstileStatus>("loading");
+
+  useEffect(() => {
+    if (!TURNSTILE_SITE_KEY) return;
+    let widgetId: string | undefined;
+    let cancelled = false;
+
+    const tryRender = () => {
+      if (cancelled || widgetId || !window.turnstile || !containerRef.current) return false;
+      widgetId = window.turnstile.render(containerRef.current, {
+        sitekey: TURNSTILE_SITE_KEY,
+        theme: "light",
+        "error-callback": () => setStatus("failed"),
+      });
+      setStatus("ready");
+      return true;
+    };
+
+    const poll = window.setInterval(() => { if (tryRender()) window.clearInterval(poll); }, 250);
+    const giveUp = window.setTimeout(() => {
+      window.clearInterval(poll);
+      if (!widgetId && !cancelled) setStatus("failed");
+    }, 10000);
+
+    return () => {
+      cancelled = true;
+      window.clearInterval(poll);
+      window.clearTimeout(giveUp);
+      if (widgetId) window.turnstile?.remove(widgetId);
+    };
+  }, []);
+
+  return (
+    <>
+      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" />
+      <div className={status === "failed" ? "hidden" : "relative"}>
+        <div ref={containerRef} className="flex min-h-[65px] justify-center" />
+        {status === "loading" && (
+          <p className="absolute inset-0 grid place-items-center text-xs font-medium text-slate-400">Loading the human check...</p>
+        )}
+      </div>
+      {status === "failed" && (
+        <p className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-medium leading-5 text-amber-900">
+          The &quot;I am human&quot; check didn&apos;t load. A browser extension or privacy setting may be blocking challenges.cloudflare.com. Allow it for this page or try another browser, then refresh.
+        </p>
+      )}
+    </>
+  );
+}
 
 function ProductPreview() {
   return (
@@ -268,19 +328,14 @@ export default function RegisterPage() {
                 <motion.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3.5 text-sm font-medium text-rose-800">{error}</motion.div>
               )}
 
-              {TURNSTILE_SITE_KEY && (
-                <>
-                  <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" />
-                  <div className="cf-turnstile flex justify-center rounded-2xl border border-slate-200 bg-white py-2" data-sitekey={TURNSTILE_SITE_KEY} data-theme="light" />
-                </>
-              )}
+              {TURNSTILE_SITE_KEY && <TurnstileWidget />}
 
               <button type="submit" disabled={loading} className="group flex h-13 w-full items-center justify-center gap-2 rounded-2xl bg-[#df1731] px-5 text-sm font-bold text-white shadow-[0_12px_30px_-14px_rgba(223,23,49,.75)] transition hover:bg-[#c9142b] active:scale-[.99] disabled:cursor-not-allowed disabled:opacity-55">
                 {loading ? <><Loader2 size={17} className="animate-spin" /> Creating account...</> : <>Create account <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" /></>}
               </button>
             </form>
 
-            <div className="mt-6 grid grid-cols-1 gap-2 text-[11px] font-medium text-slate-500 sm:grid-cols-3">
+            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-[11px] font-medium text-slate-500">
               {["Free plan", "No card required"].map((item) => <div key={item} className="flex items-center gap-1.5"><CheckCircle size={13} className="text-emerald-500" /> {item}</div>)}
             </div>
 
