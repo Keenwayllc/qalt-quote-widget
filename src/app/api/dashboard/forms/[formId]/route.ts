@@ -27,6 +27,15 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ formId
     }
 
     const patch: Prisma.WidgetSettingsUpdateInput = {};
+    const targetTemplate = "formStyle" in data ? data.formStyle : form.formStyle;
+    if (targetTemplate !== "standard" && targetTemplate !== "extended" && targetTemplate !== "quick") {
+      return NextResponse.json({ error: "Choose a valid form template." }, { status: 400 });
+    }
+    if (targetTemplate !== form.formStyle) {
+      patch.formStyle = targetTemplate;
+      if (targetTemplate === "quick") patch.showVehicles = true;
+      else if (form.formStyle === "quick") patch.showVehicles = false;
+    }
     if ("name" in data) {
       if (typeof data.name !== "string" || !data.name.trim()) {
         return NextResponse.json({ error: "Enter a form name." }, { status: 400 });
@@ -35,7 +44,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ formId
     }
 
     if ("fields" in data) {
-      if (form.formStyle === "quick" || !data.fields || typeof data.fields !== "object" || Array.isArray(data.fields)) {
+      if (targetTemplate === "quick" || !data.fields || typeof data.fields !== "object" || Array.isArray(data.fields)) {
         return NextResponse.json({ error: "Invalid form fields." }, { status: 400 });
       }
       const fields = data.fields as Record<string, unknown>;
@@ -48,7 +57,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ formId
     }
 
     if ("customQuestions" in data) {
-      if (form.formStyle !== "extended") {
+      if (targetTemplate !== "extended") {
         return NextResponse.json({ error: "Custom questions require an Extended form." }, { status: 400 });
       }
       const questionError = validateCustomQuestionDefinitions(data.customQuestions);
@@ -57,13 +66,17 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ formId
     }
 
     if ("vehicleOptions" in data) {
-      if (form.formStyle !== "quick") {
+      if (targetTemplate !== "quick") {
         return NextResponse.json({ error: "Vehicle choices require a Vehicle Options form." }, { status: 400 });
       }
       const vehicleError = validateVehicleDefinitions(data.vehicleOptions);
       if (vehicleError) return NextResponse.json({ error: vehicleError }, { status: 400 });
       const vehicles = normalizeVehicles(data.vehicleOptions);
       patch.vehicleOptions = vehicles;
+    }
+    if (targetTemplate === "quick" && !Array.isArray(data.vehicleOptions) &&
+      validateVehicleDefinitions(form.vehicleOptions)) {
+      return NextResponse.json({ error: "Choose at least one vehicle." }, { status: 400 });
     }
 
     const updated = await prisma.widgetSettings.update({
