@@ -11,6 +11,8 @@ import RouteMapDisplay from "./RouteMapDisplay";
 import PickupDateTime from "./PickupDateTime";
 import ServiceSelector, { type ServiceOption } from "./ServiceSelector";
 import VehicleSelector, { type VehicleOption as VehicleTypeOption } from "./VehicleSelector";
+import CustomerCustomQuestions, { type AnswerValues } from "./CustomerCustomQuestions";
+import { normalizeCustomQuestions, validateCustomAnswers } from "@/lib/form-questions";
 
 interface WidgetProps {
   company: {
@@ -22,7 +24,8 @@ interface WidgetProps {
     pricingProfile?: Record<string, unknown>;
     widgetSettings: {
       id: string;
-      formStyle?: "standard" | "quick";
+      formStyle?: "standard" | "extended" | "quick";
+      customQuestions?: unknown;
       primaryColor: string;
       headerText: string;
       buttonText: string;
@@ -71,6 +74,7 @@ interface FormData {
   customerName: string;
   customerEmail: string;
   customerPhone: string;
+  customAnswers: AnswerValues;
 }
 
 interface QuoteBreakdown {
@@ -84,7 +88,7 @@ interface QuoteBreakdown {
 
 const LIBRARIES: ("places" | "geometry" | "drawing" | "visualization")[] = ["places"];
 const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
-const draftKey = (companyId: string) => `qalt-draft-${companyId}`;
+const draftKey = (scopeId: string) => `qalt-draft-${scopeId}`;
 const DRAFT_TTL_MS = 1000 * 60 * 60 * 24;
 const CLIENT_DISTANCE_TIMEOUT_MS = 2500;
 
@@ -109,6 +113,7 @@ const EMPTY_FORM: FormData = {
   customerName: "",
   customerEmail: "",
   customerPhone: "",
+  customAnswers: {},
 };
 
 const LABEL_CLASS = "text-xs font-semibold text-slate-500 flex items-center gap-1.5 mb-2 ml-0.5";
@@ -271,6 +276,9 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     ? widgetSettings.vehicleOptions.filter((option) => option && typeof option.name === "string" && Number(option.fee) >= 0)
     : [];
   const quickMode = widgetSettings.formStyle === "quick";
+  const customQuestions = widgetSettings.formStyle === "extended"
+    ? normalizeCustomQuestions(widgetSettings.customQuestions)
+    : [];
 
   useEffect(() => {
     const font = widgetSettings.companyNameFont || "Inter";
@@ -341,10 +349,11 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
   });
 
   const [formData, setFormData] = useState<FormData>(EMPTY_FORM);
+  const draftScope = company.formId || company.id;
 
   useIsoLayoutEffect(() => {
     try {
-      const raw = sessionStorage.getItem(draftKey(company.id));
+      const raw = sessionStorage.getItem(draftKey(draftScope));
       if (raw) {
         const d = JSON.parse(raw);
         const fresh = !d?.savedAt || Date.now() - d.savedAt < DRAFT_TTL_MS;
@@ -361,7 +370,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
           setStep(s);
           setShowSummary(sum);
         } else {
-          sessionStorage.removeItem(draftKey(company.id));
+          sessionStorage.removeItem(draftKey(draftScope));
         }
       }
     } catch {}
@@ -372,17 +381,17 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     if (!hydrated) return;
     try {
       if (step === 3) {
-        sessionStorage.removeItem(draftKey(company.id));
+        sessionStorage.removeItem(draftKey(draftScope));
         return;
       }
       const started = step > 1 || Boolean(formData.pickupAddress || formData.dropoffAddress);
       if (!started) return;
       sessionStorage.setItem(
-        draftKey(company.id),
+        draftKey(draftScope),
         JSON.stringify({ savedAt: Date.now(), step, showSummary, formData, estimate, distance, durationMinutes, breakdown, routeInfo })
       );
     } catch {}
-  }, [hydrated, step, showSummary, formData, estimate, distance, durationMinutes, breakdown, routeInfo, company.id]);
+  }, [hydrated, step, showSummary, formData, estimate, distance, durationMinutes, breakdown, routeInfo, draftScope]);
 
   useEffect(() => {
     const onShow = (e: PageTransitionEvent) => {
@@ -421,15 +430,14 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
       }
 
       let settled = false;
-      let timeoutId: number | undefined;
       const finish = (value: number | null) => {
         if (settled) return;
         settled = true;
-        if (timeoutId !== undefined) window.clearTimeout(timeoutId);
+        window.clearTimeout(timeoutId);
         resolve(value);
       };
 
-      timeoutId = window.setTimeout(() => finish(null), CLIENT_DISTANCE_TIMEOUT_MS);
+      const timeoutId = window.setTimeout(() => finish(null), CLIENT_DISTANCE_TIMEOUT_MS);
 
       try {
         const service = new google.maps.DistanceMatrixService();
@@ -559,6 +567,12 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
   const getEstimate = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const customCheck = validateCustomAnswers(customQuestions, formData.customAnswers ?? {});
+    if (customCheck.error) {
+      setError(customCheck.error);
+      return;
+    }
+
     if (quickMode && estimate !== null && breakdown && formData.pickupAddress && formData.dropoffAddress && formData.vehicleType) {
       setError("");
       setStep(2);
@@ -632,7 +646,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
       if (res.ok && data.checkoutUrl) {
         try {
           sessionStorage.setItem(
-            draftKey(company.id),
+            draftKey(draftScope),
             JSON.stringify({ savedAt: Date.now(), step: 2, showSummary: false, formData, estimate, distance, durationMinutes, breakdown, routeInfo })
           );
         } catch {}
@@ -655,7 +669,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
   };
 
   const startNewQuote = () => {
-    try { sessionStorage.removeItem(draftKey(company.id)); } catch {}
+    try { sessionStorage.removeItem(draftKey(draftScope)); } catch {}
     setShowSummary(false);
     setError("");
     setEstimate(null);
@@ -1033,6 +1047,11 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                         ) : null}
                       </AnimatePresence>
 
+                      {customQuestions.length > 0 && (
+                        <CustomerCustomQuestions questions={customQuestions} answers={formData.customAnswers ?? {}}
+                          onChange={(customAnswers) => setFormData((previous) => ({ ...previous, customAnswers }))} />
+                      )}
+
                       {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><span className="shrink-0 mt-0.5">⚠️</span> {error}</div>}
 
                       {quickMode ? (
@@ -1188,6 +1207,14 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                             {formData.selectedLargeItems.map((item) => <span key={item} className="text-[11px] font-bold px-2.5 py-1 bg-white text-slate-600 rounded-lg border border-slate-200">{item}</span>)}
                           </div></div>
                         )}
+                        {customQuestions.map((question) => {
+                          const answer = formData.customAnswers?.[question.id];
+                          if (!answer || (Array.isArray(answer) && answer.length === 0)) return null;
+                          return <div key={question.id} className="flex items-start justify-between gap-3 px-4 py-3">
+                            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">{question.label}</span>
+                            <span className="text-[13px] font-semibold text-slate-800 text-right">{Array.isArray(answer) ? answer.join(", ") : answer}</span>
+                          </div>;
+                        })}
                       </div>
                       <div className="flex items-center justify-between px-1"><span className="text-sm font-semibold text-slate-500">Total</span><span className="text-3xl font-black text-slate-900 tracking-tight tabular-nums">${estimate?.toFixed(2)}</span></div>
                       {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><span className="shrink-0 mt-0.5">⚠️</span> {error}</div>}

@@ -15,7 +15,8 @@ export type SettingsFormOption = {
 };
 
 function experienceLabel(form: SettingsFormOption) {
-  if (form.formStyle === "quick") return form.hasVehicleChoices ? "Quick Quote · Vehicle choices" : "Quick Quote";
+  if (form.formStyle === "quick") return "Vehicle Options";
+  if (form.formStyle === "extended") return "Extended";
   if (form.showVehicles && form.hasVehicleChoices) return "Standard · Vehicle choices";
   if (form.showWeight || form.showAwb) return "Standard · Extended fields";
   return "Standard Quote";

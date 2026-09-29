@@ -9,6 +9,7 @@ import type { EstimateExtras } from "@/lib/calculator";
 import { computeAuthoritativeQuote } from "@/lib/serverQuotePricing";
 import { geocodeAddress } from "@/lib/google-maps";
 import type { Prisma } from "@/generated/prisma/client";
+import { normalizeCustomQuestions, validateCustomAnswers } from "@/lib/form-questions";
 
 export const dynamic = "force-dynamic";
 
@@ -141,15 +142,25 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
     }
 
     let paymentsEnabled = false;
+    let customAnswers: ReturnType<typeof validateCustomAnswers>["answers"] = [];
     if (data.widgetSettingsId) {
       const widgetSettings = await prisma.widgetSettings.findUnique({
         where: { id: data.widgetSettingsId },
-        select: { companyId: true, paymentsEnabled: true, geoFencingEnabled: true, serviceZips: true },
+        select: { companyId: true, formStyle: true, customQuestions: true, paymentsEnabled: true, geoFencingEnabled: true, serviceZips: true },
       });
 
       if (!widgetSettings || widgetSettings.companyId !== companyId) {
         return NextResponse.json({ error: "Form not found" }, { status: 404 });
       }
+
+      const questions = widgetSettings.formStyle === "extended"
+        ? normalizeCustomQuestions(widgetSettings.customQuestions)
+        : [];
+      const checked = validateCustomAnswers(questions, data.customAnswers);
+      if (checked.error) {
+        return NextResponse.json({ error: checked.error }, { status: 422 });
+      }
+      customAnswers = checked.answers;
 
       if (entitlements.isPaymentsEnabled) {
         paymentsEnabled = widgetSettings?.paymentsEnabled ?? false;
@@ -198,6 +209,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
           serviceType: authoritativeServiceType,
           vehicleType: authoritativeVehicleType,
           vehicleCount: vehicleCount > 0 ? vehicleCount : null,
+          customAnswers,
         }),
         paymentStatus: paymentsEnabled ? "PENDING" : null,
       },
@@ -219,6 +231,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
             distanceMiles={authoritativeDistance}
             estimatedPrice={authoritativePrice}
             serviceType={authoritativeServiceType}
+            customAnswers={customAnswers}
           />
         ),
       });

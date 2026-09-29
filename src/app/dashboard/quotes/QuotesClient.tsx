@@ -97,6 +97,7 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
         needsAddon3?: boolean;
         stairsFlights?: number;
         selectedLargeItems?: string[];
+        customAnswers?: Array<{ id: string; label: string; answer: string | string[] }>;
       })
     : {};
   const extras: string[] = [
@@ -223,6 +224,20 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
                   <Hash size={14} className="text-slate-300 dark:text-zinc-600" />
                   {quote.awbNumber}
                   <CopyButton text={quote.awbNumber} />
+                </div>
+              </div>
+            )}
+
+            {Array.isArray(parsedExtras.customAnswers) && parsedExtras.customAnswers.length > 0 && (
+              <div className="rounded-2xl border border-transparent bg-slate-50 p-5 dark:border-white/6 dark:bg-[#1c1c1c]">
+                <p className="mb-3 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-zinc-500">Custom answers</p>
+                <div className="space-y-3">
+                  {parsedExtras.customAnswers.map((item) => (
+                    <div key={item.id} className="text-sm">
+                      <p className="font-bold text-slate-600 dark:text-zinc-400">{item.label}</p>
+                      <p className="mt-0.5 font-semibold text-slate-900 dark:text-white">{Array.isArray(item.answer) ? item.answer.join(", ") : item.answer}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
