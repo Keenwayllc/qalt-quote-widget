@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { getEntitlements } from "@/lib/plans";
+import { normalizeCustomQuestions, validateCustomQuestionDefinitions } from "@/lib/form-questions";
+import { normalizeVehicles, validateVehicleDefinitions } from "@/lib/form-vehicles";
 
 export async function GET() {
   try {
@@ -20,7 +22,11 @@ export async function GET() {
     const forms = await prisma.widgetSettings.findMany({
       where: { companyId: payload.companyId },
       orderBy: { id: "asc" },
-      select: { id: true, name: true, formStyle: true },
+      select: {
+        id: true, name: true, formStyle: true, showWeight: true,
+        showItemCount: true, showExtras: true, showAwb: true,
+        vehicleOptions: true, customQuestions: true,
+      },
     });
 
     const entitlements = getEntitlements(company?.subscriptionPlan);
@@ -46,7 +52,7 @@ export async function POST(req: Request) {
 
     const company = await prisma.company.findUnique({
       where: { id: payload.companyId },
-      include: { widgetSettings: { select: { id: true, vehicleOptions: true } } },
+      include: { widgetSettings: { select: { id: true } } },
     });
     if (!company) return NextResponse.json({ error: "Company not found" }, { status: 404 });
 
@@ -61,50 +67,60 @@ export async function POST(req: Request) {
       );
     }
 
-    const { name, formStyle, vehicleOptions } = await req.json();
-    const normalizedFormStyle = formStyle === "quick" ? "quick" : "standard";
-    const submittedVehicles = Array.isArray(vehicleOptions)
-      ? vehicleOptions
-          .filter((option: unknown) => option && typeof option === "object")
-          .map((option: Record<string, unknown>) => ({
-            name: String(option.name ?? "").trim(),
-            fee: Math.max(0, Number(option.fee) || 0),
-          }))
-          .filter((option: { name: string; fee: number }) => option.name)
-          .slice(0, 40)
-      : [];
+    const data = await req.json();
+    if (!data || typeof data !== "object" || Array.isArray(data)) {
+      return NextResponse.json({ error: "Invalid form details." }, { status: 400 });
+    }
+    const { name, formStyle, vehicleOptions, customQuestions, fields } = data;
+    const normalizedFormStyle = formStyle === "quick" || formStyle === "extended" ? formStyle : "standard";
+    if (normalizedFormStyle === "quick") {
+      const vehicleError = validateVehicleDefinitions(vehicleOptions);
+      if (vehicleError) return NextResponse.json({ error: vehicleError }, { status: 400 });
+    }
+    if (normalizedFormStyle === "extended") {
+      const questionError = validateCustomQuestionDefinitions(customQuestions ?? []);
+      if (questionError) return NextResponse.json({ error: questionError }, { status: 400 });
+    }
+    const submittedVehicles = normalizeVehicles(vehicleOptions);
+    const questions = normalizedFormStyle === "extended" ? normalizeCustomQuestions(customQuestions) : [];
+    const selectedFields = fields && typeof fields === "object" && !Array.isArray(fields)
+      ? fields as Record<string, unknown>
+      : {};
 
     // Clone pricing from company default
     const defaultPricing = await prisma.pricingProfile.findFirst({
       where: { companyId: payload.companyId, widgetSettingsId: null },
     });
 
-    const form = await prisma.widgetSettings.create({
-      data: {
-        companyId: payload.companyId,
-        name: name?.trim() || "New Form",
-        formStyle: normalizedFormStyle,
-        showVehicles: normalizedFormStyle === "quick",
-        vehicleOptions: normalizedFormStyle === "quick"
-          ? (submittedVehicles.length > 0
-              ? submittedVehicles
-              : company.widgetSettings.find((settings) => Array.isArray(settings.vehicleOptions) && settings.vehicleOptions.length > 0)?.vehicleOptions ?? [])
-          : [],
-        buttonText: "Get Instant Quote",
-      },
-    });
+    const form = await prisma.$transaction(async (tx) => {
+      const created = await tx.widgetSettings.create({
+        data: {
+          companyId: payload.companyId,
+          name: typeof name === "string" && name.trim() ? name.trim().slice(0, 80) : "New Form",
+          formStyle: normalizedFormStyle,
+          showWeight: normalizedFormStyle !== "quick" && Boolean(selectedFields.showWeight),
+          showItemCount: normalizedFormStyle !== "quick" && selectedFields.showItemCount !== false,
+          showExtras: normalizedFormStyle !== "quick" && selectedFields.showExtras !== false,
+          showAwb: normalizedFormStyle !== "quick" && entitlements.isVehicleQuotingEnabled && Boolean(selectedFields.showAwb),
+          showVehicles: normalizedFormStyle === "quick",
+          vehicleOptions: normalizedFormStyle === "quick" ? submittedVehicles : [],
+          customQuestions: questions,
+          buttonText: "Get Instant Quote",
+        },
+      });
 
-    // Create form-specific pricing cloned from default
-    if (defaultPricing) {
-      const { id: _id, companyId: _cid, widgetSettingsId: _wsid, ...pricingFields } = defaultPricing;
-      await prisma.pricingProfile.create({
-        data: { companyId: payload.companyId, widgetSettingsId: form.id, ...pricingFields } as any,
-      });
-    } else {
-      await prisma.pricingProfile.create({
-        data: { companyId: payload.companyId, widgetSettingsId: form.id },
-      });
-    }
+      if (defaultPricing) {
+        const pricingFields = Object.fromEntries(
+          Object.entries(defaultPricing).filter(([key]) => !["id", "companyId", "widgetSettingsId"].includes(key))
+        );
+        await tx.pricingProfile.create({
+          data: { companyId: payload.companyId, widgetSettingsId: created.id, ...pricingFields } as Parameters<typeof tx.pricingProfile.create>[0]["data"],
+        });
+      } else {
+        await tx.pricingProfile.create({ data: { companyId: payload.companyId, widgetSettingsId: created.id } });
+      }
+      return created;
+    });
 
     return NextResponse.json({ form });
   } catch (error) {

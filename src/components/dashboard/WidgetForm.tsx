@@ -31,6 +31,7 @@ interface WidgetProps {
       formStyle?: string;
       showItemCount?: boolean;
       vehicleOptions?: unknown;
+      customQuestions?: unknown;
       companyNameText?: string | null;
       companyNameFont?: string;
       mapLayout?: string;
@@ -807,7 +808,7 @@ export default function WidgetSettingsForm({
              </div>
              <div className="p-6 space-y-4 text-slate-600">
                <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">
-                 {initialData.formStyle === "quick" ? "Quick Quote · Route and vehicle" : "Standard Quote · Route preview"}
+                 {initialData.formStyle === "quick" ? "Vehicle Options · Route and vehicle" : initialData.formStyle === "extended" ? "Extended · Route and details" : "Standard Quote · Route preview"}
                </p>
                <div className="space-y-2">
                  <div className="qalt-preview-field rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs">Pickup address</div>
@@ -825,6 +826,9 @@ export default function WidgetSettingsForm({
                        <div className="qalt-preview-field rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs">
                          {[initialData.showWeight && "Weight", initialData.showItemCount && "Items", initialData.showExtras && "Extras", initialData.showVehicles && "Vehicles"].filter(Boolean).join(" · ")}
                        </div>
+                     )}
+                     {initialData.formStyle === "extended" && Array.isArray(initialData.customQuestions) && initialData.customQuestions.length > 0 && (
+                       <div className="qalt-preview-field rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs">{initialData.customQuestions.length} custom question{initialData.customQuestions.length === 1 ? "" : "s"}</div>
                      )}
                    </>
                  )}

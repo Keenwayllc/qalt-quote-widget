@@ -9,6 +9,7 @@ interface NewQuoteEmailProps {
   distanceMiles: number;
   estimatedPrice: number;
   serviceType: string;
+  customAnswers?: Array<{ id: string; label: string; answer: string | string[] }>;
 }
 
 export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
@@ -20,6 +21,7 @@ export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
   distanceMiles,
   estimatedPrice,
   serviceType,
+  customAnswers = [],
 }) => (
   <div style={{ fontFamily: 'Arial, Helvetica, sans-serif', maxWidth: '640px', margin: '0 auto', backgroundColor: '#f7f7f5', padding: '24px 12px' }}>
     <div style={{ backgroundColor: '#ffffff', border: '1px solid #e7e7e4', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 10px 30px rgba(20,20,20,0.04)' }}>
@@ -105,6 +107,20 @@ export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
             </table>
           </div>
         </div>
+        {customAnswers.length > 0 && (
+          <div style={{ backgroundColor: '#ffffff', border: '1px solid #e6e6e2', borderRadius: '14px', marginTop: '12px', overflow: 'hidden' }}>
+            <div style={{ padding: '12px 20px', backgroundColor: '#fafaf8', borderBottom: '1px solid #ecece8' }}>
+              <p style={{ margin: '0', fontSize: '10px', fontWeight: '700', color: '#9a9da3', textTransform: 'uppercase', letterSpacing: '0.14em' }}>Additional details</p>
+            </div>
+            <div style={{ padding: '18px 20px' }}>
+              {customAnswers.map((item) => (
+                <p key={item.id} style={{ margin: '0 0 10px', fontSize: '14px', color: '#5f636b' }}>
+                  <strong style={{ color: '#1f1f1f' }}>{item.label}:</strong> {Array.isArray(item.answer) ? item.answer.join(', ') : item.answer}
+                </p>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Footer */}
