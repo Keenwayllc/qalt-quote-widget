@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import CookieBanner from "@/components/shared/CookieBanner";
 import GlobalScrollToTop from "@/components/shared/GlobalScrollToTop";
@@ -13,18 +13,25 @@ import { INTRO_BOOT_SCRIPT } from "@/lib/intro-boot";
 // Inter is the typography used by the approved Astra reference. It is loaded
 // once at the root so the public site, authentication screens, Merchant
 // Console, admin dashboard, and customer-facing Qalt UI share one type system.
-const inter = Inter({
+//
+// Both faces are self-hosted (variable-weight Latin subsets, SIL Open Font
+// License) rather than pulled through next/font/google. Google started serving
+// some build regions `fonts.gstatic.com/l/font?kit=...&skey=...` URLs that
+// Turbopack's Google font loader cannot parse, which failed production builds.
+const inter = localFont({
+  src: "./fonts/inter-latin.woff2",
   variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: "100 900",
   display: "swap",
 });
 
 // Keep a true monospace face only for code/embed snippets. All normal product
 // and marketing UI typography is Inter.
-const geistMono = Geist_Mono({
+const geistMono = localFont({
+  src: "./fonts/geist-mono-latin.woff2",
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: "100 900",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
