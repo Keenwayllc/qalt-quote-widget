@@ -4,6 +4,8 @@ import AbandonedQuoteTracker from "@/components/widget/AbandonedQuoteTracker";
 import WidgetThemeShell from "@/components/widget/WidgetThemeShell";
 import { getWidgetTheme } from "@/lib/widget-theme";
 import { notFound } from "next/navigation";
+import type { ComponentProps } from "react";
+import { pricingProfileForForm } from "@/lib/widget-pricing";
 import {
   publicCompanySelect,
   publicWidgetSettingsSelect,
@@ -19,7 +21,7 @@ export default async function PublicWidgetPage({ params }: { params: { companyId
     where: { id: companyId },
     select: {
       ...publicCompanySelect,
-      widgetSettings: { select: publicWidgetSettingsSelect },
+      widgetSettings: { orderBy: { id: "asc" }, select: publicWidgetSettingsSelect },
       pricingProfiles: { select: publicPricingProfileSelect },
     },
   });
@@ -27,7 +29,7 @@ export default async function PublicWidgetPage({ params }: { params: { companyId
   if (!company || company.widgetSettings.length === 0) notFound();
 
   const widgetSettings = company.widgetSettings[0];
-  const pricingProfile = company.pricingProfiles.find((p) => p.widgetSettingsId === null);
+  const pricingProfile = pricingProfileForForm(company.pricingProfiles, widgetSettings.id);
   const themeMode = await getWidgetTheme(widgetSettings.id);
 
   return (
@@ -41,8 +43,9 @@ export default async function PublicWidgetPage({ params }: { params: { companyId
             logoUrl: company.logoUrl,
             subscriptionPlan: company.subscriptionPlan,
             widgetSettings,
+            formId: widgetSettings.id,
             pricingProfile,
-          } as any}
+          } as ComponentProps<typeof QuoteWidgetForm>["company"]}
         />
       </div>
     </WidgetThemeShell>

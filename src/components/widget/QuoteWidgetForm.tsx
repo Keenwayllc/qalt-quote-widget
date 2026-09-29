@@ -888,7 +888,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                           onClear={clearDropoff} />
                       </div>
 
-                      {quickMode && serviceOptions.length > 0 && (
+                      {serviceOptions.length > 0 && (
                         <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, ease: EASE }}>
                           <ServiceSelector
                             options={serviceOptions}
@@ -927,17 +927,6 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                             exit={{ opacity: 0, height: 0 }} transition={{ duration: reduce ? 0 : 0.35, ease: EASE }} style={{ overflow: "hidden" }}>
                             <motion.div className="space-y-5" initial="hidden" animate="show"
                               transition={{ staggerChildren: reduce ? 0 : 0.05, delayChildren: reduce ? 0 : 0.08 }}>
-                              {!quickMode && serviceOptions.length > 0 && (
-                                <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }}>
-                                  <ServiceSelector
-                                    options={serviceOptions}
-                                    value={formData.serviceType}
-                                    onChange={(serviceType) => setFormData((prev) => ({ ...prev, serviceType }))}
-                                    primaryColor={primaryColor}
-                                  />
-                                </motion.div>
-                              )}
-
                               {!quickMode && <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }}>
                                 <p className="text-xs font-semibold text-slate-500 flex items-center gap-1.5 mb-2 ml-0.5">
                                   <Clock size={12} className="text-slate-400" /> Pickup date &amp; time

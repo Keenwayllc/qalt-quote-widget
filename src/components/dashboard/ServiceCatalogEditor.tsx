@@ -59,9 +59,11 @@ function parseFee(value: string): number {
 export default function ServiceCatalogEditor({
   initialOptions,
   formId,
+  formName,
 }: {
   initialOptions?: unknown;
   formId?: string;
+  formName?: string;
 }) {
   const [options, setOptions] = useState<ServiceOption[]>(() => cleanInitial(initialOptions));
   const [status, setStatus] = useState<SaveState>("idle");
@@ -168,15 +170,22 @@ export default function ServiceCatalogEditor({
             <p className="text-sm text-slate-500 dark:text-zinc-400 mt-2 max-w-2xl">
               Add the service levels or specialized delivery types your company offers. Customers choose one before Qalt calculates their quote. Each service can add a flat charge on top of your normal pricing.
             </p>
+            {formName && <p className="mt-2 text-xs font-semibold text-slate-600 dark:text-zinc-300">Editing services for {formName}. Save with Update, then preview this form to check the customer view.</p>}
           </div>
-          <button
-            type="button"
-            onClick={save}
-            disabled={status === "saving"}
-            className={`shrink-0 flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all disabled:opacity-60 ${status === "saved" ? "bg-emerald-600 text-white" : status === "error" ? "bg-red-50 text-red-600 border border-red-300" : "bg-red-600 hover:bg-red-700 text-white"}`}
-          >
-            {status === "saving" ? "Saving…" : status === "saved" ? <><Check size={15} /> Saved</> : status === "error" ? "Failed. Retry" : <><Save size={15} /> Update</>}
-          </button>
+          <div className="flex shrink-0 flex-wrap items-center gap-2">
+            {formId && <a href={`/widget/form/${encodeURIComponent(formId)}`} target="_blank" rel="noopener noreferrer"
+              className="rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-bold text-slate-700 hover:border-red-500 dark:border-zinc-600 dark:text-zinc-200">
+              Preview form ↗
+            </a>}
+            <button
+              type="button"
+              onClick={save}
+              disabled={status === "saving"}
+              className={`flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-bold transition-all disabled:opacity-60 ${status === "saved" ? "bg-emerald-600 text-white" : status === "error" ? "border border-red-300 bg-red-50 text-red-600" : "bg-red-600 text-white hover:bg-red-700"}`}
+            >
+              {status === "saving" ? "Saving…" : status === "saved" ? <><Check size={15} /> Saved</> : status === "error" ? "Failed. Retry" : <><Save size={15} /> Update</>}
+            </button>
+          </div>
         </div>
 
         <div className="mt-6 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50/70 dark:bg-zinc-800/60 p-4">

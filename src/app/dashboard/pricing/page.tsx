@@ -51,7 +51,7 @@ export default async function PricingRulesPage({
           widgetSettings={selectedForm}
           entitlements={entitlements}
         />
-        <ServiceCatalogEditor key={selectedFormId ?? "company-default"} initialOptions={serviceOptions} formId={selectedFormId} />
+        <ServiceCatalogEditor key={selectedFormId ?? "company-default"} initialOptions={serviceOptions} formId={selectedFormId} formName={selectedForm?.name} />
       </div>
     </>
   );

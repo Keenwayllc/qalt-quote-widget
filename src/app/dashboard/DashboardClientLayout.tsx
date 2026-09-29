@@ -2,7 +2,7 @@
 
 import { useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import QaltLogo from "@/components/shared/QaltLogo";
 import {
   LayoutDashboard,
@@ -79,6 +79,10 @@ function DashboardLayoutInner({
   const { logoUrl, profilePicUrl, companyName: profileName } = useCompanyProfile();
   const displayName = profileName || companyName;
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const selectedFormId = pathname === "/dashboard/pricing" || pathname === "/dashboard/widget"
+    ? searchParams.get("formId")
+    : null;
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -220,7 +224,7 @@ function DashboardLayoutInner({
                 <span>✨</span>
                 <span className="font-black">Your PRO trial ended</span>
               </div>
-              <p className="text-xs text-white/80 mb-1">You're on STARTER. Upgrade to restore PRO features.</p>
+              <p className="text-xs text-white/80 mb-1">You&apos;re on STARTER. Upgrade to restore PRO features.</p>
               <Link href="/dashboard/billing" className="text-xs underline underline-offset-2 font-black text-white/90 hover:text-white">
                 Upgrade →
               </Link>
@@ -381,7 +385,7 @@ function DashboardLayoutInner({
             )}
             {companyId && (
               <a
-                href={`/widget/${companyId}`}
+                href={selectedFormId ? `/widget/form/${encodeURIComponent(selectedFormId)}` : `/widget/${companyId}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={closeSidebar}
