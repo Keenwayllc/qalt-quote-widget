@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
 import ThemeToggle from "@/components/shared/ThemeToggle";
+import { TrustBadgeStrip } from "@/components/shared/TrustBadges";
 import { CompanyProfileProvider, useCompanyProfile } from "@/context/CompanyProfileContext";
 import WelcomeToast from "@/components/dashboard/WelcomeToast";
 import DashboardTips from "@/components/dashboard/DashboardTips";
@@ -429,11 +430,12 @@ function DashboardLayoutInner({
         <div id="qalt-dashboard-scroll-container" className="flex-1 overflow-auto relative z-10 custom-scrollbar">
           <DashboardTips showCard={pathname === "/dashboard"} />
           {children}
-          {entitlements.isWhiteLabelEnabled && displayName && (
-            <footer className="px-6 pb-5 pt-10 text-center text-[10px] font-medium tracking-[0.02em] text-slate-400 dark:text-slate-600">
-              © {new Date().getFullYear()} {displayName} · Powered by Qalt Systems
-            </footer>
-          )}
+          <footer className="px-6 pb-5 pt-10 text-center text-[10px] font-medium tracking-[0.02em] text-slate-400 dark:text-slate-600">
+            <TrustBadgeStrip keys={["https", "stripe", "passwords", "atRest"]} className="justify-center" />
+            {entitlements.isWhiteLabelEnabled && displayName && (
+              <p className="mt-3">© {new Date().getFullYear()} {displayName} · Powered by Qalt Systems</p>
+            )}
+          </footer>
         </div>
       </main>
 

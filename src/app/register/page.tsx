@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import QaltLogo from "@/components/shared/QaltLogo";
 import { getRegistrationAttribution } from "@/components/shared/RegistrationAttribution";
+import { TrustBadgeStrip } from "@/components/shared/TrustBadges";
 
 declare global {
   interface Window {
@@ -338,6 +339,7 @@ export default function RegisterPage() {
             <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-[11px] font-medium text-slate-500">
               {["Free plan", "No card required"].map((item) => <div key={item} className="flex items-center gap-1.5"><CheckCircle size={13} className="text-emerald-500" /> {item}</div>)}
             </div>
+            <TrustBadgeStrip keys={["https", "passwords", "bots"]} className="mt-3" />
 
             <div className="mt-6 border-t border-slate-200 pt-5 text-center text-[11px] font-medium leading-5 text-slate-400">
               By creating an account, you agree to our <Link href="/legal/terms" className="text-slate-600 hover:text-slate-900">Terms</Link> and <Link href="/legal/privacy" className="text-slate-600 hover:text-slate-900">Privacy Policy</Link>.

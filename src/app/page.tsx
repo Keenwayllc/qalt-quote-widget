@@ -25,6 +25,7 @@ import HeroDashboardMockup from "@/components/landing/HeroDashboardMockup";
 import HowItWorksAnimation from "@/components/landing/HowItWorksAnimation";
 import MarketingDemoDiversity from "@/components/shared/MarketingDemoDiversity";
 import { featuredInsight } from "@/lib/featuredInsight";
+import { TrustBadgeGrid } from "@/components/shared/TrustBadges";
 
 const reveal = {
   hidden: { opacity: 0, y: 24 },
@@ -372,6 +373,26 @@ export default function LandingPage() {
           </div>
         </section>
 
+        <section id="security" className="scroll-mt-24 bg-white py-20 sm:py-28">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-2xl">
+                <SectionLabel>Security</SectionLabel>
+                <h2 className="mt-4 text-4xl font-black tracking-[-0.045em] sm:text-5xl">Safe for you and your customers.</h2>
+                <p className="mt-5 text-base font-medium leading-7 text-slate-500 sm:text-lg">
+                  Your customers type addresses and phone numbers into your form, and sometimes a card. Here is how that data is protected.
+                </p>
+              </div>
+              <Link href="/security" className="inline-flex items-center gap-2 text-sm font-black text-red-600 hover:text-red-700">
+                How Qalt handles security <ArrowRight size={15} />
+              </Link>
+            </div>
+            <div className="mt-10">
+              <TrustBadgeGrid />
+            </div>
+          </div>
+        </section>
+
         <section id="pricing" className="bg-[#f7f8fa] py-24 sm:py-32">
           <div className="mx-auto max-w-6xl px-5 sm:px-8">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={reveal} className="text-center">
@@ -479,6 +500,7 @@ export default function LandingPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">Company</p>
               <div className="mt-4 space-y-3 text-sm font-semibold text-slate-600">
                 <Link className="block hover:text-red-600" href="/blog">Blog</Link>
+                <Link className="block hover:text-red-600" href="/security">Security</Link>
                 <button className="block hover:text-red-600" onClick={() => setIsSupportModalOpen(true)}>Support</button>
               </div>
             </div>

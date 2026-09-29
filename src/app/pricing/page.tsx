@@ -6,6 +6,7 @@ import PublicNav from "@/components/shared/PublicNav";
 import SupportModal from "@/components/shared/SupportModal";
 import { motion } from "framer-motion";
 import QaltLogo from "@/components/shared/QaltLogo";
+import { TrustBadgeStrip } from "@/components/shared/TrustBadges";
 import { CheckCircle2, Minus, ChevronDown, ChevronUp, ArrowUp } from "lucide-react";
 
 const fadeUp = {
@@ -306,6 +307,7 @@ export default function PricingPage() {
               </ul>
             </div>
           </div>
+          <TrustBadgeStrip keys={["https", "stripe", "passwords", "atRest"]} className="mt-8 justify-center" />
         </motion.div>
 
         {/* Feature Comparison Table */}
@@ -497,6 +499,7 @@ export default function PricingPage() {
               <ul className="space-y-3 text-sm font-medium text-slate-500">
                 <li><Link href="/legal/privacy" className="hover:text-red-600 transition-colors">Privacy Policy</Link></li>
                 <li><Link href="/legal/terms" className="hover:text-red-600 transition-colors">Terms of Service</Link></li>
+                <li><Link href="/security" className="hover:text-red-600 transition-colors">Security</Link></li>
                 <li><button onClick={() => setIsSupportModalOpen(true)} className="hover:text-red-600 transition-colors">Support</button></li>
               </ul>
             </div>

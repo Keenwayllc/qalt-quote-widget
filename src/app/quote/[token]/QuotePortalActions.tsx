@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, CreditCard, Loader2 } from "lucide-react";
+import { Check, CreditCard, Loader2, Lock } from "lucide-react";
 
 export default function QuotePortalActions({
   token,
@@ -79,6 +79,12 @@ export default function QuotePortalActions({
           {loading === "pay" ? <Loader2 size={16} className="animate-spin" /> : <CreditCard size={16} />}
           Pay & book
         </button>
+      )}
+      {canPay && (
+        <p className="flex items-start justify-center gap-1.5 text-center text-[11px] font-medium leading-4 text-slate-400">
+          <Lock size={11} className="mt-0.5 shrink-0 text-emerald-600" aria-hidden="true" />
+          You&apos;ll pay on Stripe&apos;s secure checkout page. Your card number goes only to Stripe.
+        </p>
       )}
 
       {error && <p className="text-center text-xs font-semibold text-rose-600">{error}</p>}
