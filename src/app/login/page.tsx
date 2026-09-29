@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
-  BarChart3,
   Check,
   Eye,
   EyeOff,
@@ -15,7 +14,6 @@ import {
   Lock,
   Mail,
   MapPin,
-  ShieldCheck,
 } from "lucide-react";
 import QaltLogo from "@/components/shared/QaltLogo";
 
@@ -51,7 +49,7 @@ function ProductPreview() {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <div className="text-[8px] font-bold uppercase tracking-[0.16em] text-[#df1731]">Overview</div>
-                <div className="mt-1 text-xl font-bold tracking-[-0.03em] text-slate-950">Your quote flow, in one place.</div>
+                <div className="mt-1 text-xl font-bold tracking-[-0.03em] text-slate-950">This week</div>
               </div>
               <div className="rounded-full bg-emerald-50 px-2.5 py-1 text-[8px] font-bold text-emerald-700">LIVE</div>
             </div>
@@ -154,19 +152,15 @@ function LoginForm() {
           <div className="mb-8 max-w-xl">
             <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-red-300">Merchant Console</div>
             <h1 className="mt-4 max-w-lg text-4xl font-bold leading-[1.02] tracking-[-0.045em] text-white xl:text-5xl">
-              Pick up exactly where your delivery business left off.
+              Welcome back.
             </h1>
             <p className="mt-4 max-w-md text-sm font-medium leading-6 text-white/55">
-              Quotes, bookings, payments, customer activity, and your live widget are waiting in one clean workspace.
+              Sign in to see new quote requests, edit your pricing, and manage your forms.
             </p>
           </div>
           <ProductPreview />
         </div>
 
-        <div className="relative z-10 flex flex-wrap gap-x-5 gap-y-2 text-[10px] font-semibold text-white/45">
-          <span className="inline-flex items-center gap-1.5"><ShieldCheck size={12} /> Secure account access</span>
-          <span className="inline-flex items-center gap-1.5"><BarChart3 size={12} /> Live quote activity</span>
-        </div>
       </section>
 
       <section className="relative flex min-h-screen items-center justify-center px-5 py-8 sm:px-8 lg:px-12">

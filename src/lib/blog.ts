@@ -458,7 +458,7 @@ export const blogPosts: BlogPost[] = [
 <p>This covers fuel, vehicle costs, and driver time for the driving part of the job. Rates vary a lot by market, vehicle, and service level. A cargo van in a big metro prices differently from a sedan in a small town. Work yours out from your own costs plus the margin you want instead of copying someone else's number.</p>
 
 <h3>Minimum charge</h3>
-<p>Short jobs don't bring in enough at a per-mile rate to justify the time. A 2-mile run still means parking, walking the package in, and getting a signature. Set your minimum from the least time any job takes you, priced at your hourly rate. For many couriers that works out to somewhere in the $30s or $40s, but let your own numbers decide.</p>
+<p>Short jobs don't bring in enough at a per-mile rate to justify the time. A 2-mile run still means parking, walking the package in, and getting a signature. Set your minimum from the least time any job takes you, priced at your hourly rate. If the shortest job takes you 40 minutes door to door, your minimum should cover 40 minutes of your time.</p>
 
 <h3>Surcharges for extras</h3>
 <p>Anything that adds real cost to a job should have its own fee:</p>

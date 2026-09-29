@@ -8,9 +8,7 @@ import {
   AlertTriangle,
   ArrowLeft,
   ArrowRight,
-  BarChart3,
   Building2,
-  Check,
   CheckCircle,
   Eye,
   EyeOff,
@@ -19,7 +17,6 @@ import {
   Mail,
   MailCheck,
   RefreshCw,
-  ShieldCheck,
 } from "lucide-react";
 import QaltLogo from "@/components/shared/QaltLogo";
 import { getRegistrationAttribution } from "@/components/shared/RegistrationAttribution";
@@ -50,7 +47,7 @@ function ProductPreview() {
         <div className="grid min-h-[350px] grid-cols-[1.05fr_.95fr] gap-0">
           <div className="border-r border-slate-200 bg-white p-5">
             <div className="text-[8px] font-bold uppercase tracking-[0.16em] text-[#df1731]">Delivery Quote</div>
-            <div className="mt-2 text-xl font-bold tracking-[-0.03em] text-slate-950">Turn delivery details into a price.</div>
+            <div className="mt-2 text-xl font-bold tracking-[-0.03em] text-slate-950">Get a delivery price</div>
             <div className="mt-5 space-y-3">
               {[
                 ["Pickup", "North Hollywood, CA"],
@@ -216,17 +213,12 @@ export default function RegisterPage() {
         <div className="relative z-10 my-auto py-10">
           <div className="mb-8 max-w-xl">
             <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-red-300">Start free</div>
-            <h1 className="mt-4 max-w-lg text-4xl font-bold leading-[1.02] tracking-[-0.045em] text-white xl:text-5xl">Give customers a cleaner path from delivery details to booked job.</h1>
-            <p className="mt-4 max-w-md text-sm font-medium leading-6 text-white/55">Create your widget, set your pricing, embed it on your site, and manage every quote from one place.</p>
+            <h1 className="mt-4 max-w-lg text-4xl font-bold leading-[1.02] tracking-[-0.045em] text-white xl:text-5xl">Get a quote form on your website today.</h1>
+            <p className="mt-4 max-w-md text-sm font-medium leading-6 text-white/55">Enter your rates, copy one line of code onto your site, and customers can price a delivery themselves. Every quote lands in your dashboard.</p>
           </div>
           <ProductPreview />
         </div>
 
-        <div className="relative z-10 flex flex-wrap gap-x-5 gap-y-2 text-[10px] font-semibold text-white/45">
-          <span className="inline-flex items-center gap-1.5"><Check size={12} /> No card required</span>
-          <span className="inline-flex items-center gap-1.5"><ShieldCheck size={12} /> Secure signup</span>
-          <span className="inline-flex items-center gap-1.5"><BarChart3 size={12} /> Quote tracking included</span>
-        </div>
       </section>
 
       <section className="relative flex min-h-screen items-center justify-center px-5 py-8 sm:px-8 lg:px-12">
@@ -289,7 +281,7 @@ export default function RegisterPage() {
             </form>
 
             <div className="mt-6 grid grid-cols-1 gap-2 text-[11px] font-medium text-slate-500 sm:grid-cols-3">
-              {["No card required", "Fast setup", "Cancel anytime"].map((item) => <div key={item} className="flex items-center gap-1.5"><CheckCircle size={13} className="text-emerald-500" /> {item}</div>)}
+              {["Free plan", "No card required"].map((item) => <div key={item} className="flex items-center gap-1.5"><CheckCircle size={13} className="text-emerald-500" /> {item}</div>)}
             </div>
 
             <div className="mt-6 border-t border-slate-200 pt-5 text-center text-[11px] font-medium leading-5 text-slate-400">
