@@ -66,12 +66,22 @@ export default function FormSettingsSelector({
           {forms.length > 0 && <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">Pricing and appearance changes apply to the selected form. Save your edits before switching.</p>}
         </div>
         {selectedFormId ? (
-          <Link
-            href={`/dashboard/${otherPage}?formId=${encodeURIComponent(selectedFormId)}`}
-            className="shrink-0 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-bold text-slate-700 hover:border-red-500 hover:text-red-600 dark:border-white/15 dark:text-slate-200 dark:hover:text-red-400"
-          >
-            {otherLabel} →
-          </Link>
+          <div className="flex shrink-0 flex-wrap gap-2">
+            <Link
+              href={`/widget/form/${encodeURIComponent(selectedFormId)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg bg-red-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-red-500"
+            >
+              Preview selected form ↗
+            </Link>
+            <Link
+              href={`/dashboard/${otherPage}?formId=${encodeURIComponent(selectedFormId)}`}
+              className="rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-bold text-slate-700 hover:border-red-500 hover:text-red-600 dark:border-white/15 dark:text-slate-200 dark:hover:text-red-400"
+            >
+              {otherLabel} →
+            </Link>
+          </div>
         ) : (
           <Link href="/dashboard/forms" className="text-sm font-bold text-red-600 dark:text-red-400">Go to My Forms →</Link>
         )}
