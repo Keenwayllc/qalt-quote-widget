@@ -1,23 +1,14 @@
 "use client";
 
-import { Bike, CarFront, Truck } from "lucide-react";
+import { Truck } from "lucide-react";
+import VehicleArtwork from "./VehicleArtwork";
+import type { VehicleArtworkKey } from "@/lib/form-vehicles";
 
 export type VehicleOption = {
   name: string;
   fee: number;
+  artwork?: VehicleArtworkKey;
 };
-
-function QuickVehicleIcon({ name, selected, primaryColor }: { name: string; selected: boolean; primaryColor: string }) {
-  const normalized = name.toLowerCase();
-  const iconColor = selected ? primaryColor : "#64748b";
-  if (normalized.includes("bike") || normalized.includes("bicycle") || normalized.includes("scooter") || normalized.includes("motorcycle")) {
-    return <Bike size={27} strokeWidth={2} style={{ color: iconColor }} />;
-  }
-  if (normalized.includes("car") || normalized.includes("sedan") || normalized.includes("suv") || normalized.includes("minivan")) {
-    return <CarFront size={29} strokeWidth={2} style={{ color: iconColor }} />;
-  }
-  return <Truck size={29} strokeWidth={2} style={{ color: iconColor }} />;
-}
 
 export default function VehicleSelector({
   options,
@@ -48,14 +39,15 @@ export default function VehicleSelector({
                 key={option.name}
                 type="button"
                 onClick={() => onChange(option.name)}
-                className={`relative min-w-[142px] snap-start rounded-[22px] border px-3 py-5 text-center transition-all ${selected ? "bg-white shadow-[0_16px_35px_-22px_rgba(15,23,42,.45)]" : "bg-slate-50/70 border-slate-200 hover:bg-white hover:border-slate-300"}`}
+                className={`relative min-w-[150px] snap-start rounded-[22px] border px-3 py-4 text-center transition-all active:scale-[0.98] ${selected ? "bg-white shadow-[0_16px_35px_-22px_rgba(15,23,42,.45)]" : "bg-slate-50/70 border-slate-200 hover:bg-white hover:border-slate-300"}`}
                 style={selected ? { borderColor: primaryColor, boxShadow: `0 8px 24px -16px ${primaryColor}` } : undefined}
+                aria-pressed={selected}
               >
                 {selected && <span className="absolute inset-0 rounded-2xl opacity-[0.07]" style={{ backgroundColor: primaryColor }} />}
-                <span className="relative mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-white border border-slate-200 shadow-sm">
-                  <QuickVehicleIcon name={option.name} selected={selected} primaryColor={primaryColor} />
+                <span className="relative mx-auto flex h-[68px] w-full items-center justify-center">
+                  <VehicleArtwork name={option.name} artwork={option.artwork} selected={selected} brandColor={primaryColor} />
                 </span>
-                <span className="relative mt-3 block text-[13px] font-black leading-tight text-slate-800">{option.name}</span>
+                <span className="relative mt-2 block text-[13px] font-black leading-tight text-slate-800">{option.name}</span>
                 <span className="relative mt-1 block text-[10px] font-bold text-slate-400">
                   {option.fee > 0 ? `+$${option.fee.toFixed(2)}` : "Included"}
                 </span>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { CustomQuestion } from "@/lib/form-questions";
 import FormOptionsEditor, { type FormFields, type FormTemplate, type VehicleDraft, validateEditorOptions } from "./FormOptionsEditor";
+import { parseVehicleArtworkKey } from "@/lib/form-vehicles";
 
 export type ConfigurableForm = {
   id: string;
@@ -19,7 +20,7 @@ export type ConfigurableForm = {
 function savedVehicles(value: unknown): VehicleDraft[] {
   if (!Array.isArray(value)) return [];
   return value.flatMap((item) => item && typeof item === "object" && typeof item.name === "string"
-    ? [{ name: item.name, fee: String(item.fee ?? 0) }]
+    ? [{ name: item.name, fee: String(item.fee ?? 0), artwork: parseVehicleArtworkKey(item.artwork) }]
     : []);
 }
 
@@ -47,7 +48,8 @@ export default function FormSettingsPanel({ form, canUseAwb, onSaved }: {
     setMessage("");
     try {
       const payload = template === "quick"
-        ? { formStyle: template, vehicleOptions: vehicles.map((vehicle) => ({ name: vehicle.name.trim(), fee: Number(vehicle.fee) || 0 })) }
+        ? { formStyle: template, vehicleOptions: vehicles.map((vehicle) => ({ name: vehicle.name.trim(), fee: Number(vehicle.fee) || 0,
+          ...(vehicle.artwork ? { artwork: vehicle.artwork } : {}) })) }
         : { formStyle: template, fields, ...(template === "extended" ? { customQuestions: questions } : {}) };
       const res = await fetch(`/api/dashboard/forms/${form.id}`, {
         method: "PATCH",

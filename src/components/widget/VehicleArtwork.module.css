@@ -1,0 +1,152 @@
+/* Vehicle artwork (VehicleArtwork.tsx), rendered in the ride-hail style of
+   Uber / Lyft vehicle pickers: shaded bodies without outlines, tinted glass,
+   two-tone wheels, and a road bar that fades at both ends.
+
+   Selection deepens the body and tints the glass toward the merchant brand
+   color (the way Lyft tints its glass magenta). Pale brand colors are mixed
+   with near-black so the glass always stays dark enough to read as glass.
+
+   Theme resolution, last match wins:
+     1. light (default)
+     2. .dark ancestor          merchant dashboard in dark mode
+     3. widget theme attribute  the quote form's own Light/Dark Form setting,
+                                which must beat the site theme: a visitor on a
+                                dark-mode OS still gets a light form if the
+                                merchant chose one. */
+
+.art {
+  --v-body-hi: #97a2b1;
+  --v-body: #6b7788;
+  --v-body-lo: #414a57;
+  --v-sheen: rgba(255, 255, 255, 0.16);
+  --v-glass-hi: #5d6a7e;
+  --v-glass: #1f2835;
+  --v-glass-lo: #10151d;
+  --v-tire: #1a1f28;
+  --v-hub: #cfd5dd;
+  --v-road: rgba(16, 24, 40, 0.14);
+  --vehicle-ink: #536070;
+  --vehicle-ink-selected: #2c3542;
+  --vehicle-lamp-idle: #f4f6f9;
+
+  display: block;
+  width: 124px;
+  height: 56px;
+  flex: none;
+  overflow: visible;
+}
+
+:global(.dark) .art,
+:global([data-qalt-widget-theme="dark"]) .art {
+  --v-body-hi: #ffffff;
+  --v-body: #d6dce4;
+  --v-body-lo: #9ba5b2;
+  --v-sheen: rgba(255, 255, 255, 0.38);
+  --v-glass-hi: #53607a;
+  --v-glass: #1a212c;
+  --v-glass-lo: #0c1016;
+  --v-tire: #2a3039;
+  --v-hub: #e4e8ed;
+  --v-road: rgba(0, 0, 0, 0.6);
+  --vehicle-ink: #c9d0d9;
+  --vehicle-ink-selected: #f4f6f8;
+  --vehicle-lamp-idle: #8b95a3;
+}
+
+:global([data-qalt-widget-theme="light"]) .art {
+  --v-body-hi: #97a2b1;
+  --v-body: #6b7788;
+  --v-body-lo: #414a57;
+  --v-sheen: rgba(255, 255, 255, 0.16);
+  --v-glass-hi: #5d6a7e;
+  --v-glass: #1f2835;
+  --v-glass-lo: #10151d;
+  --v-tire: #1a1f28;
+  --v-hub: #cfd5dd;
+  --v-road: rgba(16, 24, 40, 0.14);
+  --vehicle-ink: #536070;
+  --vehicle-ink-selected: #2c3542;
+  --vehicle-lamp-idle: #f4f6f9;
+}
+
+/* Selected: deeper body, brand-tinted glass. */
+.selected {
+  --v-body-hi: #6b7788;
+  --v-body: #434e5d;
+  --v-body-lo: #242b35;
+  --v-glass-hi: color-mix(in srgb, var(--vehicle-brand, #5d6a7e) 72%, #ffffff);
+  --v-glass: color-mix(in srgb, var(--vehicle-brand, #1f2835) 58%, #0d1118);
+  --v-glass-lo: color-mix(in srgb, var(--vehicle-brand, #10151d) 30%, #080b10);
+}
+
+:global(.dark) .selected,
+:global([data-qalt-widget-theme="dark"]) .selected {
+  --v-body-hi: #ffffff;
+  --v-body: #edf0f4;
+  --v-body-lo: #b7bfca;
+}
+
+:global([data-qalt-widget-theme="light"]) .selected {
+  --v-body-hi: #6b7788;
+  --v-body: #434e5d;
+  --v-body-lo: #242b35;
+}
+
+.bodyHi { stop-color: var(--v-body-hi); }
+.bodyMid { stop-color: var(--v-body); }
+.bodyLo { stop-color: var(--v-body-lo); }
+.sheenOn { stop-color: var(--v-sheen); }
+.sheenOff { stop-color: transparent; }
+.glassHi { stop-color: var(--v-glass-hi); }
+.glassMid { stop-color: var(--v-glass); }
+.glassLo { stop-color: var(--v-glass-lo); }
+.roadOn { stop-color: var(--v-road); }
+.roadOff { stop-color: transparent; }
+
+.tire {
+  fill: var(--v-tire);
+}
+
+.hub {
+  fill: var(--v-hub);
+}
+
+/* Two-wheelers are drawn as tubes and solids in a single ink. */
+.ink {
+  fill: var(--vehicle-ink);
+  transition: fill 160ms ease-out;
+}
+
+.tube {
+  fill: none;
+  stroke: var(--vehicle-ink);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 160ms ease-out;
+}
+
+.lamp {
+  fill: var(--vehicle-lamp, var(--vehicle-lamp-idle));
+  transition: fill 160ms ease-out;
+}
+
+.selected .ink {
+  fill: var(--vehicle-ink-selected);
+}
+
+.selected .tube {
+  stroke: var(--vehicle-ink-selected);
+}
+
+/* Hovering an unselected card previews the selected ink. */
+:global(button:hover) > * > .art .ink {
+  fill: var(--vehicle-ink-selected);
+}
+
+:global(button:hover) > * > .art .tube {
+  stroke: var(--vehicle-ink-selected);
+}
+
+:global(button:disabled) .art {
+  opacity: 0.45;
+}

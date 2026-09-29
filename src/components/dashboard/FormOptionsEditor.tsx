@@ -3,6 +3,8 @@
 import { Plus, Trash2, Truck } from "lucide-react";
 import type { CustomQuestion } from "@/lib/form-questions";
 import { MAX_CUSTOM_QUESTIONS, MAX_QUESTION_OPTIONS } from "@/lib/form-questions";
+import { inferVehicleArtwork, type VehicleArtworkKey } from "@/lib/form-vehicles";
+import VehicleArtworkPicker from "./VehicleArtworkPicker";
 
 export type FormTemplate = "standard" | "extended" | "quick";
 export type FormFields = {
@@ -11,7 +13,7 @@ export type FormFields = {
   showExtras: boolean;
   showAwb: boolean;
 };
-export type VehicleDraft = { name: string; fee: string };
+export type VehicleDraft = { name: string; fee: string; artwork?: VehicleArtworkKey };
 
 const VEHICLES = [
   "Bicycle", "Cargo Bike", "Electric Bicycle", "Scooter", "Electric Scooter", "Motorcycle",
@@ -86,7 +88,7 @@ export default function FormOptionsEditor({
           <Truck className="mt-0.5 shrink-0 text-red-600" size={18} />
           <div>
             <h3 className="text-sm font-black text-slate-900 dark:text-white">Choose the vehicles customers can select</h3>
-            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Add at least one vehicle. Set $0 when it has no extra charge.</p>
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Add at least one vehicle. Set $0 when it has no extra charge. Choose the matching illustration for renamed or custom vehicles.</p>
           </div>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -95,7 +97,7 @@ export default function FormOptionsEditor({
             return (
               <button key={name} type="button" onClick={() => onVehiclesChange(selected
                 ? vehicles.filter((vehicle) => vehicle.name !== name)
-                : [...vehicles, { name, fee: "0" }])}
+                : [...vehicles, { name, fee: "0", artwork: inferVehicleArtwork(name) }])}
                 className={`rounded-lg border px-3 py-1.5 text-xs font-bold ${selected
                   ? "border-red-500 bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-300"
                   : "border-slate-200 bg-white text-slate-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-300"}`}>
@@ -106,7 +108,7 @@ export default function FormOptionsEditor({
         </div>
         <div className="space-y-2">
           {vehicles.map((vehicle, index) => (
-            <div key={index} className="grid grid-cols-[1fr_120px_32px] items-end gap-2 rounded-lg border border-slate-200 p-3 dark:border-white/10">
+            <div key={index} className="grid grid-cols-1 items-end gap-3 rounded-lg border border-slate-200 p-3 dark:border-white/10 sm:grid-cols-[minmax(0,1fr)_120px_32px]">
               <label className="min-w-0 text-xs font-bold text-slate-700 dark:text-slate-200">
                 Vehicle name
                 <input type="text" maxLength={80} value={vehicle.name} onChange={(event) => onVehiclesChange(vehicles.map((item, i) => i === index ? { ...item, name: event.target.value } : item))}
@@ -118,6 +120,10 @@ export default function FormOptionsEditor({
                   className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 dark:border-white/10 dark:bg-[#222] dark:text-white" />
               </label>
               <button type="button" aria-label={`Remove ${vehicle.name}`} onClick={() => onVehiclesChange(vehicles.filter((_, i) => i !== index))} className="mb-2 text-slate-400 hover:text-red-600"><Trash2 size={16} /></button>
+              <div className="sm:col-span-2">
+                <VehicleArtworkPicker name={vehicle.name} artwork={vehicle.artwork}
+                  onChange={(artwork) => onVehiclesChange(vehicles.map((item, i) => i === index ? { ...item, artwork } : item))} />
+              </div>
             </div>
           ))}
         </div>

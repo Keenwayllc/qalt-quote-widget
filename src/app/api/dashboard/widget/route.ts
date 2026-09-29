@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma";
 import { getEntitlements } from "@/lib/plans";
 import { sanitizeHex } from "@/lib/color";
 import { normalizeQuickSubtitle } from "@/lib/quick-subtitle";
+import { parseVehicleArtworkKey } from "@/lib/form-vehicles";
 
 export async function GET(req: Request) {
   try {
@@ -105,7 +106,8 @@ export async function POST(req: Request) {
               const name = String(item.name ?? "").trim().slice(0, 80);
               const fee = Number(item.fee);
               if (!name || !Number.isFinite(fee) || fee < 0) return [];
-              return [{ name, fee: Math.min(fee, 100000) }];
+              const artwork = parseVehicleArtworkKey(item.artwork);
+              return [{ name, fee: Math.min(fee, 100000), ...(artwork ? { artwork } : {}) }];
             })
           : [],
       } : {}),
@@ -199,7 +201,8 @@ export async function PATCH(req: Request) {
               const name = String(item.name ?? "").trim().slice(0, 80);
               const fee = Number(item.fee);
               if (!name || !Number.isFinite(fee) || fee < 0) return [];
-              return [{ name, fee: Math.min(fee, 100000) }];
+              const artwork = parseVehicleArtworkKey(item.artwork);
+              return [{ name, fee: Math.min(fee, 100000), ...(artwork ? { artwork } : {}) }];
             })
           : [];
       }

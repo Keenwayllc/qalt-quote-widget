@@ -2,11 +2,14 @@
 
 import { useMemo, useState } from "react";
 import { Check, Plus, Save, Trash2, Truck } from "lucide-react";
+import { inferVehicleArtwork, parseVehicleArtworkKey, type VehicleArtworkKey } from "@/lib/form-vehicles";
+import VehicleArtworkPicker from "./VehicleArtworkPicker";
 
 type VehicleOption = {
   key: string;
   name: string;
   fee: string;
+  artwork?: VehicleArtworkKey;
 };
 
 type VehiclePreset = Omit<VehicleOption, "key">;
@@ -60,6 +63,7 @@ function cleanInitial(value: unknown): VehicleOption[] {
       key: `saved-${index}`,
       name,
       fee: Number.isFinite(fee) && fee >= 0 ? String(fee) : "0",
+      artwork: parseVehicleArtworkKey(item.artwork),
     }];
   });
 }
@@ -108,7 +112,7 @@ export default function VehicleCatalogEditor({
 
   const addPreset = (preset: VehiclePreset) => {
     if (options.length >= 40 || usedNames.has(preset.name.toLocaleLowerCase())) return;
-    setOptions((current) => [...current, { key: makeKey(), ...preset }]);
+    setOptions((current) => [...current, { key: makeKey(), ...preset, artwork: inferVehicleArtwork(preset.name) }]);
   };
 
   const addBlank = () => {
@@ -142,6 +146,7 @@ export default function VehicleCatalogEditor({
           vehicleOptions: options.map((option) => ({
             name: option.name.trim(),
             fee: parseFee(option.fee),
+            ...(option.artwork ? { artwork: option.artwork } : {}),
           })),
         }),
       });
@@ -240,6 +245,10 @@ export default function VehicleCatalogEditor({
               >
                 <Trash2 size={16} />
               </button>
+              <div className="sm:col-span-2">
+                <VehicleArtworkPicker name={option.name} artwork={option.artwork}
+                  onChange={(artwork) => setOptions((current) => current.map((item) => item.key === option.key ? { ...item, artwork } : item))} />
+              </div>
             </div>
           );
         })}
