@@ -1,10 +1,21 @@
 import { getCurrentCompany } from "@/lib/session";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
-import { Shield, Building2, FileText, Sparkles } from "lucide-react";
+import { Shield, Building2, FileText, Sparkles, MousePointerClick } from "lucide-react";
 import PlanSelect from "./PlanSelect";
 
 export const dynamic = "force-dynamic";
+
+type LeadActivity = {
+  demoQuotes: number;
+  partnerInquiries: number;
+  latestAt: Date | null;
+  latestQuotePrice: number | null;
+};
+
+function emailKey(value: string): string {
+  return value.trim().toLowerCase();
+}
 
 function referrerHost(value: string | null): string | null {
   if (!value) return null;
@@ -25,37 +36,119 @@ function fmtDate(d: Date | null): string {
   });
 }
 
+function money(value: number | null): string | null {
+  if (value == null || !Number.isFinite(value)) return null;
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 2,
+  }).format(value);
+}
+
+function bumpLatest(current: Date | null, next: Date): Date {
+  if (!current || next.getTime() > current.getTime()) return next;
+  return current;
+}
+
 export default async function AdminPage() {
   const me = await getCurrentCompany();
   if (!me.isAdmin) notFound();
 
-  const [companies, quoteCounts, totalQuotes] = await Promise.all([
-    prisma.company.findMany({
-      orderBy: { lastLoginAt: { sort: "desc", nulls: "last" } },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        subscriptionPlan: true,
-        createdAt: true,
-        lastLoginAt: true,
-        registrationSource: true,
-        registrationReferrer: true,
-        registrationLandingPage: true,
-        registrationUtmSource: true,
-        registrationUtmMedium: true,
-        registrationUtmCampaign: true,
-      },
-    }),
+  const companies = await prisma.company.findMany({
+    orderBy: { lastLoginAt: { sort: "desc", nulls: "last" } },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      subscriptionPlan: true,
+      createdAt: true,
+      lastLoginAt: true,
+      registrationSource: true,
+      registrationReferrer: true,
+      registrationLandingPage: true,
+      registrationUtmSource: true,
+      registrationUtmMedium: true,
+      registrationUtmCampaign: true,
+    },
+  });
+
+  const companyByEmail = new Map(companies.map((c) => [emailKey(c.email), c]));
+  const emailFilters = companies.map((c) => ({
+    customerEmail: { equals: c.email, mode: "insensitive" as const },
+  }));
+  const inquiryEmailFilters = companies.map((c) => ({
+    email: { equals: c.email, mode: "insensitive" as const },
+  }));
+
+  const [quoteCounts, totalQuotes, demoQuoteMatches, partnerInquiries] = await Promise.all([
     prisma.quoteRequest.groupBy({
       by: ["companyId"],
       where: { deletedAt: null },
       _count: { _all: true },
     }),
     prisma.quoteRequest.count({ where: { deletedAt: null } }),
+    emailFilters.length
+      ? prisma.quoteRequest.findMany({
+          where: { deletedAt: null, OR: emailFilters },
+          select: {
+            companyId: true,
+            customerEmail: true,
+            estimatedPrice: true,
+            createdAt: true,
+          },
+        })
+      : Promise.resolve([]),
+    inquiryEmailFilters.length
+      ? prisma.partnerInquiry.findMany({
+          where: { OR: inquiryEmailFilters },
+          select: {
+            email: true,
+            partnershipType: true,
+            createdAt: true,
+          },
+        })
+      : Promise.resolve([]),
   ]);
 
+  const leadActivityMap = new Map<string, LeadActivity>();
+  const getActivity = (key: string): LeadActivity => {
+    const existing = leadActivityMap.get(key);
+    if (existing) return existing;
+    const created = { demoQuotes: 0, partnerInquiries: 0, latestAt: null, latestQuotePrice: null };
+    leadActivityMap.set(key, created);
+    return created;
+  };
+
+  for (const quote of demoQuoteMatches) {
+    const key = emailKey(quote.customerEmail);
+    const company = companyByEmail.get(key);
+    if (!company || quote.companyId === company.id) continue;
+
+    const activity = getActivity(key);
+    activity.demoQuotes += 1;
+    activity.latestAt = bumpLatest(activity.latestAt, quote.createdAt);
+    activity.latestQuotePrice = quote.estimatedPrice;
+  }
+
+  for (const inquiry of partnerInquiries) {
+    const key = emailKey(inquiry.email);
+    const activity = getActivity(key);
+    activity.partnerInquiries += 1;
+    activity.latestAt = bumpLatest(activity.latestAt, inquiry.createdAt);
+  }
+
+  const sortedCompanies = [...companies].sort((a, b) => {
+    const aActivity = leadActivityMap.get(emailKey(a.email));
+    const bActivity = leadActivityMap.get(emailKey(b.email));
+    const aTime = a.lastLoginAt?.getTime() ?? aActivity?.latestAt?.getTime() ?? a.createdAt.getTime();
+    const bTime = b.lastLoginAt?.getTime() ?? bActivity?.latestAt?.getTime() ?? b.createdAt.getTime();
+    return bTime - aTime;
+  });
+
   const countMap = new Map(quoteCounts.map((c) => [c.companyId, c._count._all]));
+  const demoLeadCount = [...leadActivityMap.values()].filter(
+    (a) => a.demoQuotes > 0 || a.partnerInquiries > 0
+  ).length;
   const planTotals = companies.reduce(
     (acc, c) => {
       const key = c.subscriptionPlan as "STARTER" | "PRO" | "ENTERPRISE";
@@ -68,6 +161,7 @@ export default async function AdminPage() {
   const stats = [
     { label: "Companies", value: companies.length, icon: Building2 },
     { label: "Total quotes", value: totalQuotes, icon: FileText },
+    { label: "Demo leads", value: demoLeadCount, icon: MousePointerClick },
     {
       label: "On a paid plan",
       value: (planTotals.PRO ?? 0) + (planTotals.ENTERPRISE ?? 0),
@@ -84,13 +178,13 @@ export default async function AdminPage() {
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Admin</h1>
           <p className="text-slate-500 dark:text-slate-400 text-sm">
-            Every company on Qalt, sorted by most recent activity.
+            Every company on Qalt, sorted by most recent login or demo activity.
           </p>
         </div>
       </div>
 
       {/* Top stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-8">
         {stats.map((s) => (
           <div
             key={s.label}
@@ -122,55 +216,89 @@ export default async function AdminPage() {
                 <th className="px-4 py-3 font-bold">Company</th>
                 <th className="px-4 py-3 font-bold">Plan</th>
                 <th className="px-4 py-3 font-bold">Quotes</th>
+                <th className="px-4 py-3 font-bold">Demo activity</th>
                 <th className="px-4 py-3 font-bold">Source</th>
                 <th className="px-4 py-3 font-bold">Last login</th>
                 <th className="px-4 py-3 font-bold">Signed up</th>
               </tr>
             </thead>
             <tbody>
-              {companies.map((c) => (
-                <tr
-                  key={c.id}
-                  className="border-t border-slate-100 dark:border-white/[0.05] hover:bg-slate-50 dark:hover:bg-white/[0.02]"
-                >
-                  <td className="px-4 py-3">
-                    <p className="font-bold text-slate-900 dark:text-white">{c.name?.trim() || "—"}</p>
-                    <p className="text-xs text-slate-400 dark:text-slate-500">{c.email}</p>
-                  </td>
-                  <td className="px-4 py-3">
-                    <PlanSelect companyId={c.id} plan={c.subscriptionPlan} />
-                  </td>
-                  <td className="px-4 py-3 font-bold text-slate-700 dark:text-slate-200">
-                    {countMap.get(c.id) ?? 0}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-700 dark:bg-white/[0.06] dark:text-slate-200">
-                      {c.registrationSource || "Before tracking"}
-                    </span>
-                    {c.registrationUtmCampaign ? (
-                      <p className="mt-1 max-w-[180px] truncate text-[11px] text-slate-400" title={c.registrationUtmCampaign}>
-                        Campaign: {c.registrationUtmCampaign}
-                      </p>
-                    ) : c.registrationUtmSource || c.registrationUtmMedium ? (
-                      <p className="mt-1 max-w-[180px] truncate text-[11px] text-slate-400">
-                        {[c.registrationUtmSource, c.registrationUtmMedium].filter(Boolean).join(" / ")}
-                      </p>
-                    ) : referrerHost(c.registrationReferrer) ? (
-                      <p className="mt-1 max-w-[180px] truncate text-[11px] text-slate-400" title={c.registrationReferrer || undefined}>
-                        {referrerHost(c.registrationReferrer)}
-                      </p>
-                    ) : c.registrationLandingPage ? (
-                      <p className="mt-1 max-w-[180px] truncate text-[11px] text-slate-400" title={c.registrationLandingPage}>
-                        {c.registrationLandingPage}
-                      </p>
-                    ) : null}
-                  </td>
-                  <td className="px-4 py-3 text-slate-600 dark:text-slate-300">
-                    {c.lastLoginAt ? fmtDate(c.lastLoginAt) : <span className="text-slate-300 dark:text-slate-600">Never</span>}
-                  </td>
-                  <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{fmtDate(c.createdAt)}</td>
-                </tr>
-              ))}
+              {sortedCompanies.map((c) => {
+                const leadActivity = leadActivityMap.get(emailKey(c.email));
+                const hasLeadActivity = !!leadActivity && (leadActivity.demoQuotes > 0 || leadActivity.partnerInquiries > 0);
+
+                return (
+                  <tr
+                    key={c.id}
+                    className="border-t border-slate-100 dark:border-white/[0.05] hover:bg-slate-50 dark:hover:bg-white/[0.02]"
+                  >
+                    <td className="px-4 py-3">
+                      <p className="font-bold text-slate-900 dark:text-white">{c.name?.trim() || "—"}</p>
+                      <p className="text-xs text-slate-400 dark:text-slate-500">{c.email}</p>
+                    </td>
+                    <td className="px-4 py-3">
+                      <PlanSelect companyId={c.id} plan={c.subscriptionPlan} />
+                    </td>
+                    <td className="px-4 py-3 font-bold text-slate-700 dark:text-slate-200">
+                      {countMap.get(c.id) ?? 0}
+                    </td>
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-300">
+                      {hasLeadActivity ? (
+                        <div className="space-y-1">
+                          {leadActivity.demoQuotes > 0 && (
+                            <p className="text-xs font-bold text-slate-700 dark:text-slate-200">
+                              {leadActivity.demoQuotes} demo quote{leadActivity.demoQuotes === 1 ? "" : "s"}
+                              {money(leadActivity.latestQuotePrice) ? ` · ${money(leadActivity.latestQuotePrice)}` : ""}
+                            </p>
+                          )}
+                          {leadActivity.partnerInquiries > 0 && (
+                            <p className="text-xs text-slate-500 dark:text-slate-400">
+                              {leadActivity.partnerInquiries} demo access request{leadActivity.partnerInquiries === 1 ? "" : "s"}
+                            </p>
+                          )}
+                          <p className="text-[11px] text-slate-400 dark:text-slate-500">
+                            Last activity {fmtDate(leadActivity.latestAt)}
+                          </p>
+                        </div>
+                      ) : (
+                        <span className="text-slate-300 dark:text-slate-600">—</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-700 dark:bg-white/[0.06] dark:text-slate-200">
+                        {c.registrationSource || "Before tracking"}
+                      </span>
+                      {c.registrationUtmCampaign ? (
+                        <p className="mt-1 max-w-[180px] truncate text-[11px] text-slate-400" title={c.registrationUtmCampaign}>
+                          Campaign: {c.registrationUtmCampaign}
+                        </p>
+                      ) : c.registrationUtmSource || c.registrationUtmMedium ? (
+                        <p className="mt-1 max-w-[180px] truncate text-[11px] text-slate-400">
+                          {[c.registrationUtmSource, c.registrationUtmMedium].filter(Boolean).join(" / ")}
+                        </p>
+                      ) : referrerHost(c.registrationReferrer) ? (
+                        <p className="mt-1 max-w-[180px] truncate text-[11px] text-slate-400" title={c.registrationReferrer || undefined}>
+                          {referrerHost(c.registrationReferrer)}
+                        </p>
+                      ) : c.registrationLandingPage ? (
+                        <p className="mt-1 max-w-[180px] truncate text-[11px] text-slate-400" title={c.registrationLandingPage}>
+                          {c.registrationLandingPage}
+                        </p>
+                      ) : null}
+                    </td>
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-300">
+                      {c.lastLoginAt ? (
+                        fmtDate(c.lastLoginAt)
+                      ) : hasLeadActivity ? (
+                        <span className="font-semibold text-amber-600 dark:text-amber-300">Account not activated</span>
+                      ) : (
+                        <span className="text-slate-300 dark:text-slate-600">Never</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{fmtDate(c.createdAt)}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
