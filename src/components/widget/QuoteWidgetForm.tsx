@@ -15,6 +15,8 @@ import CustomerCustomQuestions, { type AnswerValues } from "./CustomerCustomQues
 import { normalizeCustomQuestions, validateCustomAnswers } from "@/lib/form-questions";
 import { DEFAULT_QUICK_SUBTITLE } from "@/lib/quick-subtitle";
 import { MAX_INTERMEDIATE_STOPS } from "@/lib/route-stops";
+import MerchantLogo from "@/components/shared/MerchantLogo";
+import { readableForeground } from "@/lib/color";
 
 interface WidgetProps {
   company: {
@@ -836,8 +838,8 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                   )}
                 </div>
                 {logoUrlToUse ? (
-                  <div className="relative h-11 w-28 shrink-0">
-                    <Image src={logoUrlToUse} alt={company.name} fill className="object-contain object-right" unoptimized />
+                  <div className="flex min-h-11 w-28 shrink-0 items-center justify-end">
+                    <MerchantLogo src={logoUrlToUse} alt={company.name} surface="widget" className="max-h-11 w-auto max-w-full object-contain object-right" />
                   </div>
                 ) : (
                   <div className="grid h-11 w-11 place-items-center rounded-2xl border border-slate-200 bg-slate-50">
@@ -865,8 +867,14 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
             <div className="relative z-10">
               <div className="flex items-center gap-3 mb-3">
                 {logoUrlToUse ? (
-                  <div className="relative h-10 w-24 shrink-0">
-                    <Image src={logoUrlToUse} alt={company.name} fill className="object-contain object-left" unoptimized />
+                  <div className="flex min-h-10 w-24 shrink-0 items-center">
+                    {/* The header is the brand color or a darkened photo. */}
+                    <MerchantLogo
+                      src={logoUrlToUse}
+                      alt={company.name}
+                      surface={widgetSettings.backgroundImageUrl || readableForeground(primaryColor).toLowerCase() !== "#111827" ? "dark" : "light"}
+                      className="max-h-10 w-auto max-w-full object-contain object-left"
+                    />
                   </div>
                 ) : (
                   <div className="p-2.5 bg-white/15 rounded-2xl backdrop-blur-md ring-1 ring-white/20">

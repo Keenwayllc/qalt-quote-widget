@@ -30,6 +30,7 @@ import {
 import { getEntitlements } from "@/lib/plans";
 import ThemeToggle from "@/components/shared/ThemeToggle";
 import { TrustBadgeStrip } from "@/components/shared/TrustBadges";
+import MerchantLogo from "@/components/shared/MerchantLogo";
 import { CompanyProfileProvider, useCompanyProfile } from "@/context/CompanyProfileContext";
 import WelcomeToast from "@/components/dashboard/WelcomeToast";
 import DashboardTips from "@/components/dashboard/DashboardTips";
@@ -200,10 +201,10 @@ function DashboardLayoutInner({
             >
               {showMerchantDashboardBrand ? (
                 <div className="flex max-w-[190px] flex-col items-start">
-                  <img
+                  <MerchantLogo
                     src={logoUrl}
                     alt={`${displayName || "Company"} logo`}
-                    className="h-[62px] w-auto max-w-[190px] object-contain object-left"
+                    className="h-[62px] w-auto max-w-full object-contain object-left"
                   />
                 </div>
               ) : (
@@ -356,10 +357,12 @@ function DashboardLayoutInner({
                       className="w-9 h-9 rounded-full object-cover ring-2 ring-slate-200 group-hover:ring-red-200 transition-all"
                     />
                   ) : logoUrl ? (
-                    <img
+                    <MerchantLogo
                       src={logoUrl}
                       alt="Logo"
-                      className="w-9 h-9 rounded-xl object-cover ring-2 ring-slate-200 group-hover:ring-red-200 transition-all"
+                      padded={false}
+                      frameClassName="rounded-xl"
+                      className="w-9 h-9 rounded-xl object-contain ring-2 ring-slate-200 group-hover:ring-red-200 transition-all"
                     />
                   ) : (
                     <div className="w-9 h-9 rounded-full bg-red-100 flex items-center justify-center ring-2 ring-slate-200 group-hover:ring-red-200 transition-all">
@@ -414,7 +417,7 @@ function DashboardLayoutInner({
 
         <header className="lg:hidden bg-white/80 dark:bg-[#111111]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/6 h-16 flex items-center justify-between px-4 sm:px-6 shrink-0 relative z-10 transition-colors">
           {showMerchantDashboardBrand ? (
-            <img src={logoUrl} alt={`${displayName || "Company"} logo`} className="h-9 w-auto max-w-[138px] object-contain object-left" />
+            <MerchantLogo src={logoUrl} alt={`${displayName || "Company"} logo`} className="h-9 w-auto max-w-[138px] object-contain object-left" />
           ) : (
             <QaltLogo size="md" />
           )}

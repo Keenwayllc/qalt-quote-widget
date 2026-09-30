@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw, ExternalLink, Lock, Sparkles, Info, Globe, Trash2, CheckCircle, XCircle } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
-import { isValidHex } from "@/lib/color";
+import { isValidHex, readableForeground } from "@/lib/color";
+import MerchantLogo, { useLogoTone } from "@/components/shared/MerchantLogo";
 import Link from 'next/link';
 
-import Image from "next/image";
 
 interface WidgetProps {
   company: {
@@ -100,6 +100,7 @@ export default function WidgetSettingsForm({
       ? (initialData?.logoUrl || companyLogoUrl || "")
       : ""
   );
+  const logoTone = useLogoTone(logo || null);
   const [logoChanged, setLogoChanged] = useState(false);
 
   // Dynamically load the selected Google Font so the preview renders correctly
@@ -254,7 +255,9 @@ export default function WidgetSettingsForm({
                     <div className="relative w-14 h-14 shrink-0 group/thumb">
                       {logo ? (
                         <>
-                          <Image src={logo} alt="Logo" fill className="object-contain bg-white dark:bg-white/5 rounded-none border border-slate-200 dark:border-white/[0.06]" unoptimized />
+                          <div className="absolute inset-0 border border-slate-200 bg-white dark:border-white/[0.06] dark:bg-white/5">
+                            <MerchantLogo src={logo} alt="Logo" padded={false} frameClassName="h-full w-full justify-center p-1" className="h-full w-full object-contain" />
+                          </div>
                           {entitlements.isAdvancedCustomizationEnabled && (
                             <button
                               type="button"
@@ -287,6 +290,14 @@ export default function WidgetSettingsForm({
                   </div>
                   {logo && entitlements.isAdvancedCustomizationEnabled && (
                     <p className="text-[11px] text-slate-400 dark:text-slate-500">Hover the thumbnail to remove</p>
+                  )}
+                  {logo && (logoTone === "light" || logoTone === "dark") && (
+                    <p className="flex items-start gap-1.5 text-[11px] leading-4 text-slate-500 dark:text-slate-400">
+                      <Info size={12} className="mt-0.5 shrink-0" aria-hidden="true" />
+                      {logoTone === "light"
+                        ? "Your logo is light, so Qalt shows it on a dark backdrop wherever the background is light. Your file isn't changed."
+                        : "Your logo is dark, so Qalt shows it on a light backdrop wherever the background is dark. Your file isn't changed."}
+                    </p>
                   )}
                 </div>
 
@@ -813,8 +824,13 @@ export default function WidgetSettingsForm({
                 )}
                <div className="relative z-10 flex flex-col gap-2">
                  {logo ? (
-                   <div className="relative h-8 w-24">
-                     <Image src={logo} alt="Logo" fill className="object-contain object-left" unoptimized />
+                   <div className="flex min-h-8 w-24 items-center">
+                     <MerchantLogo
+                       src={logo}
+                       alt="Logo"
+                       surface={previewData.backgroundImageUrl || readableForeground(previewData.primaryColor).toLowerCase() !== "#111827" ? "dark" : "light"}
+                       className="max-h-8 w-auto max-w-full object-contain object-left"
+                     />
                    </div>
                  ) : (
                    <div 

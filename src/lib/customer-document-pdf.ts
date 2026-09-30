@@ -3,6 +3,7 @@ import { sanitizeHex, DEFAULT_BRAND } from "@/lib/color";
 import { parseQuoteSnapshot, type QuoteSnapshotV1 } from "@/lib/customer-document-snapshots";
 import { getCustomerFacingContact, type CustomerFacingContact } from "@/lib/customer-contact";
 import type { CustomerDocument } from "@/generated/prisma/client";
+import { drawPdfLogoPlate, pdfLogoNeedsPlate, PDF_LOGO_PLATE_PAD } from "@/lib/pdf-logo-plate";
 
 if (typeof window !== "undefined") {
   throw new Error("customer-document-pdf.ts is server-only and must not be imported into client code.");
@@ -159,7 +160,7 @@ function ensure(ctx: Ctx, height: number) {
   if (ctx.y - height < BOTTOM) addPage(ctx);
 }
 
-function drawHeader(ctx: Ctx, snap: QuoteSnapshotV1, logo: PDFImage | null) {
+function drawHeader(ctx: Ctx, snap: QuoteSnapshotV1, logo: PDFImage | null, logoPlate = false) {
   let y = PAGE_H - 72;
   if (logo) {
     const maxW = 150;
@@ -167,8 +168,11 @@ function drawHeader(ctx: Ctx, snap: QuoteSnapshotV1, logo: PDFImage | null) {
     const scale = Math.min(maxW / logo.width, maxH / logo.height, 1);
     const w = logo.width * scale;
     const h = logo.height * scale;
-    ctx.page.drawImage(logo, { x: (PAGE_W - w) / 2, y: y - h + 10, width: w, height: h });
-    y -= h + 14;
+    const x = (PAGE_W - w) / 2;
+    const bottom = y - h + 10;
+    if (logoPlate) drawPdfLogoPlate(ctx.page, x, bottom, w, h);
+    ctx.page.drawImage(logo, { x, y: bottom, width: w, height: h });
+    y -= h + 14 + (logoPlate ? PDF_LOGO_PLATE_PAD : 0);
   } else {
     centerText(ctx.page, snap.merchant.name || "Delivery Quote", y - 4, ctx.bold, 22, INK);
     y -= 32;
@@ -367,7 +371,7 @@ export async function renderQuoteDocumentPdf(
     number: snap.document.number,
   };
   footer(ctx);
-  drawHeader(ctx, snap, logo);
+  drawHeader(ctx, snap, logo, Boolean(logo) && await pdfLogoNeedsPlate(snap.merchant.logoUrl));
   drawRoute(ctx, snap);
   drawSummary(ctx, snap);
   drawCustomer(ctx, snap);

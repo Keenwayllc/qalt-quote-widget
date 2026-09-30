@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { LogoTone } from '@/lib/logo-plate';
 
 interface CustomerQuoteEmailProps {
   customerName: string;
@@ -10,7 +11,18 @@ interface CustomerQuoteEmailProps {
   serviceType: string;
   companyName: string;
   logoUrl?: string;
+  /** From getLogoTone; picks the plate behind the logo. */
+  logoTone?: LogoTone;
   primaryColor?: string;
+}
+
+// The header is near-black. Light logos get a slightly lifted dark plate,
+// everything else a white one. Unknown tone keeps the neutral gray that
+// works passably for any logo.
+function logoPlateStyle(tone: LogoTone | undefined) {
+  if (tone === 'light') return { backgroundColor: '#262626', border: '1px solid rgba(255,255,255,0.14)' };
+  if (tone && tone !== 'unknown') return { backgroundColor: '#ffffff', border: '1px solid rgba(255,255,255,0.22)' };
+  return { backgroundColor: '#737373', border: '1px solid rgba(255,255,255,0.22)' };
 }
 
 export const CustomerQuoteEmail: React.FC<Readonly<CustomerQuoteEmailProps>> = ({
@@ -23,6 +35,7 @@ export const CustomerQuoteEmail: React.FC<Readonly<CustomerQuoteEmailProps>> = (
   serviceType,
   companyName,
   logoUrl,
+  logoTone,
   primaryColor = '#d71920',
 }) => (
   <div style={{ margin: '0', padding: '32px 12px', backgroundColor: '#f4f4f5', fontFamily: 'Arial, Helvetica, sans-serif', color: '#18181b' }}>
@@ -32,8 +45,7 @@ export const CustomerQuoteEmail: React.FC<Readonly<CustomerQuoteEmailProps>> = (
           <div
             style={{
               display: 'inline-block',
-              backgroundColor: '#737373',
-              border: '1px solid rgba(255,255,255,0.22)',
+              ...logoPlateStyle(logoTone),
               borderRadius: '14px',
               padding: '12px 22px',
               marginBottom: '16px',
