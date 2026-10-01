@@ -1,9 +1,11 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
+import type { LogoBackdrop } from "@/lib/logo-plate";
 
 interface CompanyProfile {
   logoUrl: string;
+  logoBackdrop: LogoBackdrop;
   profilePicUrl: string;
   companyName: string;
 }

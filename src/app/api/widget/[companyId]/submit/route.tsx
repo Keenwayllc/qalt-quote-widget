@@ -11,7 +11,7 @@ import { geocodeAddress } from "@/lib/google-maps";
 import type { Prisma } from "@/generated/prisma/client";
 import { normalizeCustomQuestions, validateCustomAnswers } from "@/lib/form-questions";
 import { hasDuplicateConsecutiveLocations, normalizeIntermediateStops, routeLocations } from "@/lib/route-stops";
-import { getLogoTone } from "@/lib/logo-tone";
+import { resolveLogoTone } from "@/lib/logo-tone-resolve";
 
 export const dynamic = "force-dynamic";
 
@@ -287,7 +287,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
               serviceType={authoritativeServiceType}
               companyName={company.name}
               logoUrl={company.logoUrl ?? undefined}
-              logoTone={await getLogoTone(company.logoUrl)}
+              logoTone={await resolveLogoTone(company.logoUrl)}
               primaryColor={company.widgetSettings[0]?.primaryColor ?? "#1E40AF"}
             />
           ),

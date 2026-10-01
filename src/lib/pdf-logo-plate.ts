@@ -1,12 +1,12 @@
 import { rgb, type PDFPage } from "pdf-lib";
-import { getLogoTone } from "@/lib/logo-tone";
+import { resolveLogoTone } from "@/lib/logo-tone-resolve";
 import { logoPlateFor } from "@/lib/logo-plate";
 
 export const PDF_LOGO_PLATE_PAD = 8;
 
 /** True when a logo would vanish on white paper and needs a dark plate. */
 export async function pdfLogoNeedsPlate(logoUrl: string | null | undefined) {
-  return logoPlateFor(await getLogoTone(logoUrl), "light") === "dark";
+  return logoPlateFor(await resolveLogoTone(logoUrl), "light") === "dark";
 }
 
 /** Rounded dark plate behind a logo whose bottom-left corner is (x, y), size w x h. */

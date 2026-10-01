@@ -57,6 +57,7 @@ export default async function WidgetSettingsPage({
           key={widgetSettings.id}
           initialData={widgetSettings}
           companyLogoUrl={company.logoUrl}
+          companyLogoBackdrop={company.logoBackdrop}
           subscriptionPlan={company.subscriptionPlan}
           companyId={company.id}
           formId={selectedFormId}

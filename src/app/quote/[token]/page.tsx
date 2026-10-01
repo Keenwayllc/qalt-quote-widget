@@ -6,7 +6,7 @@ import { getPublicQuoteDocument, markPublicDocumentViewed } from "@/lib/customer
 import { parseQuoteSnapshot } from "@/lib/customer-document-snapshots";
 import { getCustomerFacingContact } from "@/lib/customer-contact";
 import QuotePortalActions from "./QuotePortalActions";
-import { getLogoTone } from "@/lib/logo-tone";
+import { resolveLogoTone } from "@/lib/logo-tone-resolve";
 import { logoPlateFor } from "@/lib/logo-plate";
 
 export const dynamic = "force-dynamic";
@@ -70,7 +70,7 @@ export default async function CustomerQuotePortal({ params }: { params: Promise<
     customerContact.department || customerContact.email || customerContact.phone || customerContact.hours || customerContact.website
   );
 
-  const logoPlate = logoPlateFor(await getLogoTone(snapshot.merchant.logoUrl), "light");
+  const logoPlate = logoPlateFor(await resolveLogoTone(snapshot.merchant.logoUrl), "light");
 
   return (
     <main className="min-h-screen bg-[#f6f7f9] text-slate-950">

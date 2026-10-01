@@ -30,7 +30,8 @@ import {
 import { getEntitlements } from "@/lib/plans";
 import ThemeToggle from "@/components/shared/ThemeToggle";
 import { TrustBadgeStrip } from "@/components/shared/TrustBadges";
-import MerchantLogo from "@/components/shared/MerchantLogo";
+import MerchantLogo, { logoSurfaceClasses, useLogoTone } from "@/components/shared/MerchantLogo";
+import { normalizeLogoBackdrop } from "@/lib/logo-plate";
 import { CompanyProfileProvider, useCompanyProfile } from "@/context/CompanyProfileContext";
 import WelcomeToast from "@/components/dashboard/WelcomeToast";
 import DashboardTips from "@/components/dashboard/DashboardTips";
@@ -48,6 +49,7 @@ interface DashboardLayoutProps {
   incompleteHrefs?: string[];
   companyName?: string;
   logoUrl?: string;
+  logoBackdrop?: string;
   profilePicUrl?: string;
   isAdmin?: boolean;
 }
@@ -57,6 +59,7 @@ export default function DashboardClientLayout(props: DashboardLayoutProps) {
     <CompanyProfileProvider
       initial={{
         logoUrl: props.logoUrl ?? "",
+        logoBackdrop: normalizeLogoBackdrop(props.logoBackdrop),
         profilePicUrl: props.profilePicUrl ?? "",
         companyName: props.companyName ?? "",
       }}
@@ -78,7 +81,7 @@ function DashboardLayoutInner({
   companyName,
   isAdmin = false,
 }: DashboardLayoutProps) {
-  const { logoUrl, profilePicUrl, companyName: profileName } = useCompanyProfile();
+  const { logoUrl, logoBackdrop, profilePicUrl, companyName: profileName } = useCompanyProfile();
   const displayName = profileName || companyName;
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -116,6 +119,10 @@ function DashboardLayoutInner({
 
   const entitlements = getEntitlements(subscriptionPlan);
   const showMerchantDashboardBrand = entitlements.isWhiteLabelEnabled && Boolean(logoUrl);
+  // The whole header behind the merchant logo takes the contrast color, so a
+  // white logo sits on a dark band rather than a badge.
+  const brandTone = useLogoTone(showMerchantDashboardBrand ? logoUrl : null, logoBackdrop);
+  const brandSurface = logoSurfaceClasses(brandTone);
 
   const navItems = [
     ...(isAdmin ? [{ name: "Admin", href: "/dashboard/admin", icon: Shield }] : []),
@@ -192,7 +199,7 @@ function DashboardLayoutInner({
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <div className="flex flex-col h-full">
-          <div className="px-6 py-6 sm:px-8 sm:py-7 flex items-start justify-between min-h-[128px]">
+          <div className={`px-6 py-6 sm:px-8 sm:py-7 flex items-start justify-between min-h-[128px] transition-colors duration-200 ${brandSurface}`}>
             <button
               ref={logoRef}
               onClick={handleLogoClick}
@@ -201,7 +208,8 @@ function DashboardLayoutInner({
             >
               {showMerchantDashboardBrand ? (
                 <div className="flex max-w-[190px] flex-col items-start">
-                  <MerchantLogo
+                  {/* eslint-disable-next-line @next/next/no-img-element -- remote merchant upload */}
+                  <img
                     src={logoUrl}
                     alt={`${displayName || "Company"} logo`}
                     className="h-[62px] w-auto max-w-full object-contain object-left"
@@ -360,6 +368,7 @@ function DashboardLayoutInner({
                     <MerchantLogo
                       src={logoUrl}
                       alt="Logo"
+                      backdrop={logoBackdrop}
                       padded={false}
                       frameClassName="rounded-xl"
                       className="w-9 h-9 rounded-xl object-contain ring-2 ring-slate-200 group-hover:ring-red-200 transition-all"
@@ -415,9 +424,10 @@ function DashboardLayoutInner({
         <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-red-400/5 blur-[120px] rounded-full pointer-events-none" />
         <div className="absolute bottom-[-10%] left-[-10%] w-[30%] h-[30%] bg-red-400/5 blur-[100px] rounded-full pointer-events-none" />
 
-        <header className="lg:hidden bg-white/80 dark:bg-[#111111]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/6 h-16 flex items-center justify-between px-4 sm:px-6 shrink-0 relative z-10 transition-colors">
+        <header className={`lg:hidden ${brandTone === "light" ? "bg-slate-900 dark:bg-[#111111]/90" : brandTone === "dark" ? "bg-white/80 dark:bg-white" : "bg-white/80 dark:bg-[#111111]/90"} backdrop-blur-md border-b border-slate-200 dark:border-white/6 h-16 flex items-center justify-between px-4 sm:px-6 shrink-0 relative z-10 transition-colors`}>
           {showMerchantDashboardBrand ? (
-            <MerchantLogo src={logoUrl} alt={`${displayName || "Company"} logo`} className="h-9 w-auto max-w-[138px] object-contain object-left" />
+            // eslint-disable-next-line @next/next/no-img-element -- remote merchant upload
+            <img src={logoUrl} alt={`${displayName || "Company"} logo`} className="h-9 w-auto max-w-[138px] object-contain object-left" />
           ) : (
             <QaltLogo size="md" />
           )}

@@ -60,6 +60,7 @@ export default async function DashboardLayout({
         incompleteHrefs={incompleteHrefs}
         companyName={company.name}
         logoUrl={company.logoUrl ?? undefined}
+        logoBackdrop={company.logoBackdrop}
         profilePicUrl={company.profilePicUrl ?? undefined}
         isAdmin={company.isAdmin}
       >

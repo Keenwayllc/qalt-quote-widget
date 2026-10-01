@@ -13,6 +13,9 @@ model Company {
   passwordHash                   String
   name                           String
   logoUrl                        String?
+  // How the logo is backed where contrast is poor: "auto" (detected),
+  // "light" (logo is made for light backgrounds), or "dark" (made for dark).
+  logoBackdrop                   String             @default("auto")
   profilePicUrl                  String?
   phone                          String?
   website                        String?

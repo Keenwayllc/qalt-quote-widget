@@ -10,6 +10,7 @@ export const publicCompanySelect = {
   id: true,
   name: true,
   logoUrl: true,
+  logoBackdrop: true,
   subscriptionPlan: true,
 } satisfies Prisma.CompanySelect;
 

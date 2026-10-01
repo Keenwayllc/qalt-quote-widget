@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import { normalizeLogoBackdrop } from "@/lib/logo-plate";
 
 export async function POST(req: Request) {
   try {
@@ -17,7 +18,8 @@ export async function POST(req: Request) {
     await prisma.company.update({
       where: { id: payload.companyId },
       data: {
-        logoUrl: data.logoUrl || null,
+        ...("logoUrl" in data ? { logoUrl: data.logoUrl || null } : {}),
+        ...("logoBackdrop" in data ? { logoBackdrop: normalizeLogoBackdrop(data.logoBackdrop) } : {}),
       },
     });
 

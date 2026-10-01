@@ -13,6 +13,24 @@ export type LogoTone = "light" | "dark" | "balanced" | "opaque" | "unknown";
 
 export const LOGO_TONES: readonly LogoTone[] = ["light", "dark", "balanced", "opaque", "unknown"];
 
+/**
+ * Merchant override from Widget Appearance. "light" means the logo is made
+ * for light backgrounds (dark ink), "dark" means it is made for dark
+ * backgrounds (light ink). "auto" uses the detected tone.
+ */
+export type LogoBackdrop = "auto" | "light" | "dark";
+
+export function normalizeLogoBackdrop(value: unknown): LogoBackdrop {
+  return value === "light" || value === "dark" ? value : "auto";
+}
+
+/** Tone implied by a forced backdrop, or null to use detection. */
+export function toneForBackdrop(backdrop: LogoBackdrop | null | undefined): LogoTone | null {
+  if (backdrop === "light") return "dark";
+  if (backdrop === "dark") return "light";
+  return null;
+}
+
 /** Plate needed to keep a logo of this tone readable on the given surface. */
 export function logoPlateFor(tone: LogoTone, surface: "light" | "dark"): "dark" | "light" | null {
   if (surface === "light" && tone === "light") return "dark";

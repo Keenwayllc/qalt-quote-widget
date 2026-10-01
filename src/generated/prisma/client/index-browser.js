@@ -126,6 +126,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   passwordHash: 'passwordHash',
   name: 'name',
   logoUrl: 'logoUrl',
+  logoBackdrop: 'logoBackdrop',
   profilePicUrl: 'profilePicUrl',
   phone: 'phone',
   website: 'website',

@@ -2,7 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element -- merchant logos are remote uploads rendered as-is */
 import { useEffect, useLayoutEffect, useState } from "react";
-import { LOGO_TONES, type LogoTone } from "@/lib/logo-plate";
+import { LOGO_TONES, toneForBackdrop, type LogoBackdrop, type LogoTone } from "@/lib/logo-plate";
 
 /**
  * Renders a merchant logo so it stays visible on the surface behind it.
@@ -39,11 +39,12 @@ function readCached(src: string): LogoTone | null {
 // Reading the cached tone before paint keeps the plate from flashing in.
 const useBeforePaint = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
-export function useLogoTone(src: string | null | undefined): LogoTone | null {
+export function useLogoTone(src: string | null | undefined, backdrop?: LogoBackdrop | null): LogoTone | null {
   const [tone, setTone] = useState<LogoTone | null>(null);
+  const forced = toneForBackdrop(backdrop);
 
   useBeforePaint(() => {
-    if (!src) return;
+    if (!src || forced) return;
     const cached = readCached(src);
     if (cached) {
       setTone(cached);
@@ -62,13 +63,25 @@ export function useLogoTone(src: string | null | undefined): LogoTone | null {
       })
       .catch(() => { if (active) setTone("unknown"); });
     return () => { active = false; };
-  }, [src]);
+  }, [src, forced]);
 
-  return src ? tone : null;
+  if (!src) return null;
+  return forced ?? tone;
 }
 
 const PLATE_DARK = "bg-slate-900 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]";
 const PLATE_LIGHT = "bg-white shadow-[inset_0_0_0_1px_rgba(15,23,42,0.08)]";
+
+/**
+ * Background for a whole container (e.g. the dashboard sidebar header) that
+ * holds a logo on the dashboard's themed surface. Same rule as the plate,
+ * without the padding and rounding.
+ */
+export function logoSurfaceClasses(tone: LogoTone | null): string {
+  if (tone === "light") return "bg-slate-900 dark:bg-transparent";
+  if (tone === "dark") return "dark:bg-white";
+  return "";
+}
 
 /** Class names for the plate around a logo of this tone on this surface. */
 export function logoPlateClasses(tone: LogoTone | null, surface: LogoSurface, padded = true): string {
@@ -94,8 +107,11 @@ export default function MerchantLogo({
   className = "",
   frameClassName = "",
   padded = true,
+  backdrop,
 }: {
   src: string;
+  /** Merchant override from Widget Appearance; "auto" uses detection. */
+  backdrop?: LogoBackdrop | null;
   alt: string;
   surface?: LogoSurface;
   /** Classes for the <img> (size, object-fit). */
@@ -105,7 +121,7 @@ export default function MerchantLogo({
   /** Pad the plate. Turn off for fixed-size avatars. */
   padded?: boolean;
 }) {
-  const tone = useLogoTone(src);
+  const tone = useLogoTone(src, backdrop);
   return (
     <span
       data-logo-tone={tone ?? "pending"}

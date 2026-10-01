@@ -12,6 +12,7 @@ async function ensureOnboardingSchema() {
       await prisma.$executeRawUnsafe('ALTER TABLE "Company" ADD COLUMN IF NOT EXISTS "businessType" TEXT');
       await prisma.$executeRawUnsafe('ALTER TABLE "Company" ADD COLUMN IF NOT EXISTS "onboardingStep" INTEGER NOT NULL DEFAULT 1');
       await prisma.$executeRawUnsafe('ALTER TABLE "Company" ADD COLUMN IF NOT EXISTS "onboardingCompletedAt" TIMESTAMP(3)');
+      await prisma.$executeRawUnsafe(`ALTER TABLE "Company" ADD COLUMN IF NOT EXISTS "logoBackdrop" TEXT NOT NULL DEFAULT 'auto'`);
     })().catch((error) => {
       onboardingSchemaPromise = null;
       throw error;

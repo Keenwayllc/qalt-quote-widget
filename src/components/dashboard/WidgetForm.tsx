@@ -6,6 +6,8 @@ import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw, ExternalLin
 import { getEntitlements } from "@/lib/plans";
 import { isValidHex, readableForeground } from "@/lib/color";
 import MerchantLogo, { useLogoTone } from "@/components/shared/MerchantLogo";
+import { normalizeLogoBackdrop, type LogoBackdrop } from "@/lib/logo-plate";
+import { useCompanyProfile } from "@/context/CompanyProfileContext";
 import Link from 'next/link';
 
 
@@ -47,6 +49,7 @@ interface WidgetProps {
 export default function WidgetSettingsForm({
   initialData,
   companyLogoUrl,
+  companyLogoBackdrop,
   subscriptionPlan,
   companyId,
   formId,
@@ -54,6 +57,7 @@ export default function WidgetSettingsForm({
 }: {
   initialData: WidgetProps['company']['widgetSettings'];
   companyLogoUrl?: string | null;
+  companyLogoBackdrop?: string | null;
   subscriptionPlan: string;
   companyId: string;
   formId?: string;
@@ -100,7 +104,10 @@ export default function WidgetSettingsForm({
       ? (initialData?.logoUrl || companyLogoUrl || "")
       : ""
   );
-  const logoTone = useLogoTone(logo || null);
+  const [logoBackdrop, setLogoBackdrop] = useState<LogoBackdrop>(normalizeLogoBackdrop(companyLogoBackdrop));
+  const [savedLogoBackdrop, setSavedLogoBackdrop] = useState<LogoBackdrop>(normalizeLogoBackdrop(companyLogoBackdrop));
+  const { updateProfile } = useCompanyProfile();
+  const logoTone = useLogoTone(logo || null, logoBackdrop);
   const [logoChanged, setLogoChanged] = useState(false);
 
   // Dynamically load the selected Google Font so the preview renders correctly
@@ -177,13 +184,18 @@ export default function WidgetSettingsForm({
         }),
       ];
 
-      // Only update company logo when not editing a specific form
-      if (!formId) {
+      // Only update company logo when not editing a specific form. The logo
+      // background choice is company-wide, so it saves from any form.
+      const backdropChanged = logoBackdrop !== savedLogoBackdrop;
+      if (!formId || backdropChanged) {
         requests.push(
           fetch("/api/dashboard/profile", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ logoUrl: logo }),
+            body: JSON.stringify({
+              ...(!formId ? { logoUrl: logo } : {}),
+              ...(backdropChanged ? { logoBackdrop } : {}),
+            }),
           })
         );
       }
@@ -193,6 +205,8 @@ export default function WidgetSettingsForm({
       const data = await resWidget.json();
 
       if (resWidget.ok && (!resProfile || resProfile.ok)) {
+        setSavedLogoBackdrop(logoBackdrop);
+        updateProfile({ logoBackdrop });
         setMessage({ type: "success", text: "Widget settings updated!" });
         router.refresh();
       } else {
@@ -256,7 +270,7 @@ export default function WidgetSettingsForm({
                       {logo ? (
                         <>
                           <div className="absolute inset-0 border border-slate-200 bg-white dark:border-white/[0.06] dark:bg-white/5">
-                            <MerchantLogo src={logo} alt="Logo" padded={false} frameClassName="h-full w-full justify-center p-1" className="h-full w-full object-contain" />
+                            <MerchantLogo src={logo} alt="Logo" backdrop={logoBackdrop} padded={false} frameClassName="h-full w-full justify-center p-1" className="h-full w-full object-contain" />
                           </div>
                           {entitlements.isAdvancedCustomizationEnabled && (
                             <button
@@ -291,13 +305,28 @@ export default function WidgetSettingsForm({
                   {logo && entitlements.isAdvancedCustomizationEnabled && (
                     <p className="text-[11px] text-slate-400 dark:text-slate-500">Hover the thumbnail to remove</p>
                   )}
-                  {logo && (logoTone === "light" || logoTone === "dark") && (
-                    <p className="flex items-start gap-1.5 text-[11px] leading-4 text-slate-500 dark:text-slate-400">
-                      <Info size={12} className="mt-0.5 shrink-0" aria-hidden="true" />
-                      {logoTone === "light"
-                        ? "Your logo is light, so Qalt shows it on a dark backdrop wherever the background is light. Your file isn't changed."
-                        : "Your logo is dark, so Qalt shows it on a light backdrop wherever the background is dark. Your file isn't changed."}
-                    </p>
+                  {logo && (
+                    <div className="space-y-1.5 pt-1">
+                      <label htmlFor="logo-backdrop" className="block text-xs font-semibold text-slate-600 dark:text-slate-300">Logo background</label>
+                      <select
+                        id="logo-backdrop"
+                        value={logoBackdrop}
+                        onChange={(e) => setLogoBackdrop(normalizeLogoBackdrop(e.target.value))}
+                        className="w-full max-w-xs border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 dark:border-white/[0.06] dark:bg-[#1e1e1e] dark:text-slate-300"
+                      >
+                        <option value="auto">Auto (recommended)</option>
+                        <option value="light">Light background: my logo is dark</option>
+                        <option value="dark">Dark background: my logo is light</option>
+                      </select>
+                      {(logoTone === "light" || logoTone === "dark") && (
+                        <p className="flex items-start gap-1.5 text-[11px] leading-4 text-slate-500 dark:text-slate-400">
+                          <Info size={12} className="mt-0.5 shrink-0" aria-hidden="true" />
+                          {logoTone === "light"
+                            ? "Qalt puts your logo on a dark background wherever the page is light. Your file isn't changed."
+                            : "Qalt puts your logo on a light background wherever the page is dark. Your file isn't changed."}
+                        </p>
+                      )}
+                    </div>
                   )}
                 </div>
 
@@ -828,6 +857,7 @@ export default function WidgetSettingsForm({
                      <MerchantLogo
                        src={logo}
                        alt="Logo"
+                       backdrop={logoBackdrop}
                        surface={previewData.backgroundImageUrl || readableForeground(previewData.primaryColor).toLowerCase() !== "#111827" ? "dark" : "light"}
                        className="max-h-8 w-auto max-w-full object-contain object-left"
                      />

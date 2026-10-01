@@ -17,12 +17,14 @@ import { DEFAULT_QUICK_SUBTITLE } from "@/lib/quick-subtitle";
 import { MAX_INTERMEDIATE_STOPS } from "@/lib/route-stops";
 import MerchantLogo from "@/components/shared/MerchantLogo";
 import { readableForeground } from "@/lib/color";
+import { normalizeLogoBackdrop } from "@/lib/logo-plate";
 
 interface WidgetProps {
   company: {
     id: string;
     name: string;
     logoUrl?: string | null;
+    logoBackdrop?: string | null;
     formId?: string | null;
     subscriptionPlan: string;
     pricingProfile?: Record<string, unknown>;
@@ -839,7 +841,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                 </div>
                 {logoUrlToUse ? (
                   <div className="flex min-h-11 w-28 shrink-0 items-center justify-end">
-                    <MerchantLogo src={logoUrlToUse} alt={company.name} surface="widget" className="max-h-11 w-auto max-w-full object-contain object-right" />
+                    <MerchantLogo src={logoUrlToUse} alt={company.name} backdrop={normalizeLogoBackdrop(company.logoBackdrop)} surface="widget" className="max-h-11 w-auto max-w-full object-contain object-right" />
                   </div>
                 ) : (
                   <div className="grid h-11 w-11 place-items-center rounded-2xl border border-slate-200 bg-slate-50">
@@ -872,6 +874,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                     <MerchantLogo
                       src={logoUrlToUse}
                       alt={company.name}
+                      backdrop={normalizeLogoBackdrop(company.logoBackdrop)}
                       surface={widgetSettings.backgroundImageUrl || readableForeground(primaryColor).toLowerCase() !== "#111827" ? "dark" : "light"}
                       className="max-h-10 w-auto max-w-full object-contain object-left"
                     />
