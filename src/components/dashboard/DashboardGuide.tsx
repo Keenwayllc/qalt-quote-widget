@@ -97,7 +97,7 @@ function PageGuidePanel({ companyId, subscriptionPlan, isAdmin = false, onboardi
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 pt-4 sm:px-6 lg:px-10" data-dashboard-guide>
-      <div className="flex flex-wrap items-center justify-end gap-2">
+      <div className="qalt-guide-toolbar flex flex-wrap items-center justify-end gap-2">
         <button ref={setupButton} type="button" className={secondary} aria-expanded={shownMode === "walkthrough"} aria-controls={open ? panelId : undefined} onClick={() => shownMode === "walkthrough" ? close() : show("walkthrough", setupButton.current)}>
           Getting started
         </button>
@@ -106,7 +106,7 @@ function PageGuidePanel({ companyId, subscriptionPlan, isAdmin = false, onboardi
         </button>
       </div>
       {open && (
-        <section id={panelId} aria-labelledby={titleId} className="mt-3 border border-slate-200 bg-white p-4 text-sm text-slate-700 dark:border-white/10 dark:bg-[#141414] dark:text-zinc-300 sm:p-5"
+        <section key={shownMode} id={panelId} aria-labelledby={titleId} className="qalt-guide-panel mt-3 border border-slate-200 bg-white p-4 text-sm text-slate-700 dark:border-white/10 dark:bg-[#141414] dark:text-zinc-300 sm:p-5"
           onKeyDown={(event) => {
             if (event.key === "Escape") { event.stopPropagation(); close(); }
           }}>
@@ -142,7 +142,7 @@ function PageGuidePanel({ companyId, subscriptionPlan, isAdmin = false, onboardi
           ) : (
             <div className="mt-3 space-y-4">
               <p className="max-w-[70ch] leading-6">Work through these steps at your own pace. Save changes on each page before moving on. You can close this guide and reopen it from Getting started.</p>
-              <ol className="flex flex-wrap gap-x-4 gap-y-2" aria-label="Getting-started steps">
+              <ol className="qalt-guide-steps flex flex-wrap gap-x-4 gap-y-2" aria-label="Getting-started steps">
                 {gettingStartedSteps.map((item, index) => (
                   <li key={item.href}>
                     <button type="button" className={`${secondary} ${index === stepIndex ? "border-red-500 dark:border-red-500" : ""}`} aria-current={index === stepIndex ? "step" : undefined} onClick={() => setStepIndex(index)}>
@@ -152,6 +152,7 @@ function PageGuidePanel({ companyId, subscriptionPlan, isAdmin = false, onboardi
                 ))}
               </ol>
               <div aria-live="polite" aria-atomic="true">
+                <div key={stepIndex} className="qalt-guide-step-content">
                 <h3 className="font-bold text-slate-900 dark:text-zinc-100">Step {stepIndex + 1} of {gettingStartedSteps.length}: {step.label}</h3>
                 <p className="mt-1 max-w-[70ch] leading-6">
                   {step.feature && !entitlements[step.feature]
@@ -160,8 +161,9 @@ function PageGuidePanel({ companyId, subscriptionPlan, isAdmin = false, onboardi
                       ? "Open the widget in a new tab. Check the text, service options, and a sample estimate before embedding it. This does not verify installation on your website."
                       : stepGuide?.configure}
                 </p>
+                </div>
               </div>
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="qalt-guide-actions flex flex-wrap items-center gap-2">
                 {actionLink({ ...step, label: step.href === "preview" ? "Preview Widget" : `Go to ${step.label}` }, step.href === "preview")}
                 <button type="button" className={secondary} disabled={stepIndex === 0} onClick={() => setStepIndex((index) => index - 1)}>Previous</button>
                 {stepIndex < gettingStartedSteps.length - 1
