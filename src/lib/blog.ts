@@ -1,3 +1,5 @@
+import { seoBlogPosts } from "./seo-blog";
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -65,7 +67,7 @@ export const blogPosts: BlogPost[] = [
 
 <p>If your site has no way to get a price and the couriers ranking next to you do, adding one is probably the most useful change you can make to it this week.</p>
 
-<p>Ready to try it? <a href="/register">Create your free Qalt account</a>. The free plan gives you one quote form and 50 quotes a month with no card, and you can try Pro free for 14 days.</p>
+<p>Ready to try it? <a href="/register">Create your free Qalt account</a>. The free Starter plan gives you one quote form and 50 quotes a month with no card. Upgrade when you need Pro features.</p>
     `.trim(),
   },
   {
@@ -121,7 +123,7 @@ export const blogPosts: BlogPost[] = [
 
 <p>A sophisticated stack won't help much if you're still missing jobs because nobody could get a price. Fix that first, and add more software when the volume actually calls for it.</p>
 
-<p><a href="/register">See how Qalt handles quoting for small couriers. There's a free plan, and Pro is free for 14 days.</a></p>
+<p><a href="/register">See how Qalt handles quoting for small couriers. The Starter plan is free, and you can upgrade when you need Pro features.</a></p>
     `.trim(),
   },
   {
@@ -173,7 +175,7 @@ export const blogPosts: BlogPost[] = [
 <li><strong>A dashboard to manage quotes.</strong> So you can see, respond to, and track every incoming request.</li>
 </ul>
 
-<p>Qalt was built for local and regional courier companies that want customers to get a price from their own website. <a href="/register">Start on the free plan or try Pro free for 14 days.</a></p>
+<p>Qalt was built for local and regional courier companies that want customers to get a price from their own website. <a href="/register">Start free on the Starter plan and upgrade when you need Pro features.</a></p>
     `.trim(),
   },
   {
@@ -222,7 +224,7 @@ export const blogPosts: BlogPost[] = [
 
 <p>None of this helps if leads get lost once they arrive. You need a quote tool on the website, a dashboard where requests land, and an email alert when a new one comes in. With that in place, the traffic you earn from SEO and partnerships turns into booked jobs.</p>
 
-<p><a href="/register">Start with Qalt's quote widget on the free plan, or try Pro free for 14 days.</a></p>
+<p><a href="/register">Start with Qalt's free Starter plan and upgrade when you need Pro features.</a></p>
     `.trim(),
   },
   {
@@ -280,7 +282,7 @@ export const blogPosts: BlogPost[] = [
 
 <p>That frees up time you were spending on the phone, and customers no longer have to wait on you to find out whether your price works for them.</p>
 
-<p><a href="/register">Set up automated delivery pricing on your site with Qalt. The free plan needs no card, and Pro is free for 14 days.</a></p>
+<p><a href="/register">Set up automated delivery pricing on your site with Qalt. The free Starter plan needs no card. Upgrade when you need Pro features.</a></p>
     `.trim(),
   },
   {
@@ -369,7 +371,7 @@ export const blogPosts: BlogPost[] = [
 
 <p>Build your name in that niche, show up when people search for it, and let them book you without a phone call.</p>
 
-<p><a href="/register">Add an instant quote tool to your courier website with Qalt. Start free, or try Pro free for 14 days.</a></p>
+<p><a href="/register">Add an instant quote tool to your courier website with Qalt. Start free, or upgrade when you need Pro features.</a></p>
     `.trim(),
   },
   {
@@ -422,7 +424,7 @@ export const blogPosts: BlogPost[] = [
 
 <p>Once routine quotes move online, you spend less of the day on the phone, fewer after-hours visitors slip away, and customers get their answer without waiting for a callback.</p>
 
-<p><a href="/register">Replace phone quotes with automated online pricing. Qalt has a free plan, and Pro is free for 14 days.</a></p>
+<p><a href="/register">Replace phone quotes with automated online pricing. Qalt has a free plan, and Upgrade when you need Pro features.</a></p>
     `.trim(),
   },
   {
@@ -491,7 +493,7 @@ export const blogPosts: BlogPost[] = [
 
 <p>It also keeps you consistent. Everyone gets the same price for the same job, which builds trust and cuts down on haggling.</p>
 
-<p><a href="/register">Set up your pricing in Qalt and automate your quotes. Start on the free plan or try Pro free for 14 days.</a></p>
+<p><a href="/register">Set up your pricing in Qalt and automate your quotes. Start free on the Starter plan and upgrade when you need Pro features.</a></p>
     `.trim(),
   },
   {
@@ -553,17 +555,19 @@ export const blogPosts: BlogPost[] = [
 
 <p>Once the system is running, keep an eye on it. How many quote requests come in each week? How many do you close? Which kinds of jobs book and which go quiet? The answers tell you whether to work on traffic, on the site itself, or on your follow-up. Qalt Pro includes analytics on your quote requests to help with this.</p>
 
-<p>Start with the quote widget and build from there. <a href="/register">Add one to your site with Qalt. The free plan needs no card, and Pro is free for 14 days.</a></p>
+<p>Start with the quote widget and build from there. <a href="/register">Add one to your site with Qalt. The free Starter plan needs no card. Upgrade when you need Pro features.</a></p>
     `.trim(),
   },
 ];
 
+const allBlogPosts: BlogPost[] = [...seoBlogPosts, ...blogPosts];
+
 export function getPostBySlug(slug: string): BlogPost | undefined {
-  return blogPosts.find((p) => p.slug === slug);
+  return allBlogPosts.find((p) => p.slug === slug);
 }
 
 export function getAllPosts(): BlogPost[] {
-  return [...blogPosts].sort(
+  return [...allBlogPosts].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 }

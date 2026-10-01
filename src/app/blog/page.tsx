@@ -8,6 +8,7 @@ import { featuredInsight } from "@/lib/featuredInsight";
 export const metadata: Metadata = {
   title: "Blog | Qalt",
   description: "Guides and insights for courier and delivery companies, from pricing and lead generation to website tools and operations.",
+  alternates: { canonical: "https://www.qalt.site/blog" },
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -96,7 +97,7 @@ export default function BlogIndex() {
         <div className="mt-16 bg-slate-900 rounded-3xl p-10 text-center">
           <h2 className="text-2xl font-black text-white mb-3">Ready to add a quote widget to your site?</h2>
           <p className="text-slate-400 font-medium mb-6">
-            Set up your delivery price calculator in minutes. Free for 14 days, no credit card required.
+            Start free on the Starter plan, build your first quote form, and upgrade when you need more.
           </p>
           <Link
             href="/register"

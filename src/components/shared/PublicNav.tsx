@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { label: "Live Demo",      href: "/demo" },
   { label: "How it Works",   href: "/#how-it-works" },
   { label: "What Qalt Does", href: "/what-qalt-does" },
+  { label: "Courier Quote Software", href: "/courier-quote-software" },
   { label: "Compare",        href: "/compare" },
   { label: "Pricing",        href: "/pricing" },
   { label: "Blog",           href: "/blog" },

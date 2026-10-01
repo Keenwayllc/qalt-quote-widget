@@ -20,6 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${post.title} | Qalt Blog`,
     description: post.description,
+    alternates: { canonical: `https://www.qalt.site/blog/${post.slug}` },
     openGraph: {
       title: post.title,
       description: post.description,
@@ -45,9 +46,21 @@ export default async function BlogPost({ params }: Props) {
 
   const allPosts = getAllPosts();
   const related = allPosts.filter((p) => p.slug !== slug).slice(0, 3);
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: { "@type": "Organization", name: "Qalt" },
+    publisher: { "@type": "Organization", name: "Qalt", url: "https://www.qalt.site" },
+    mainEntityOfPage: `https://www.qalt.site/blog/${post.slug}`,
+  };
 
   return (
     <div className="min-h-screen bg-slate-50">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
       <PublicNav />
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-12">
@@ -97,7 +110,7 @@ export default async function BlogPost({ params }: Props) {
         <div className="mt-16 bg-slate-900 rounded-3xl p-8 text-center">
           <h2 className="text-xl font-black text-white mb-2">Add an instant quote widget to your site</h2>
           <p className="text-slate-400 font-medium text-sm mb-5">
-            Free for 14 days. Your pricing, your brand, one embed code.
+            Start free on the Starter plan. Your pricing, your brand, one embed code.
           </p>
           <Link
             href="/register"
