@@ -63,6 +63,7 @@ export default async function DashboardLayout({
         logoBackdrop={company.logoBackdrop}
         profilePicUrl={company.profilePicUrl ?? undefined}
         isAdmin={company.isAdmin}
+        onboardingCompleted={Boolean(company.onboardingCompletedAt)}
       >
         {children}
       </DashboardClientLayout>

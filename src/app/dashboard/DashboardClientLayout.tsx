@@ -35,6 +35,7 @@ import { normalizeLogoBackdrop } from "@/lib/logo-plate";
 import { CompanyProfileProvider, useCompanyProfile } from "@/context/CompanyProfileContext";
 import WelcomeToast from "@/components/dashboard/WelcomeToast";
 import DashboardTips from "@/components/dashboard/DashboardTips";
+import DashboardGuide from "@/components/dashboard/DashboardGuide";
 import DashboardScrollTop from "./DashboardScrollTop";
 import PricingInputZeroClear from "./PricingInputZeroClear";
 
@@ -52,6 +53,7 @@ interface DashboardLayoutProps {
   logoBackdrop?: string;
   profilePicUrl?: string;
   isAdmin?: boolean;
+  onboardingCompleted?: boolean;
 }
 
 export default function DashboardClientLayout(props: DashboardLayoutProps) {
@@ -80,6 +82,7 @@ function DashboardLayoutInner({
   incompleteHrefs = [],
   companyName,
   isAdmin = false,
+  onboardingCompleted = false,
 }: DashboardLayoutProps) {
   const { logoUrl, logoBackdrop, profilePicUrl, companyName: profileName } = useCompanyProfile();
   const displayName = profileName || companyName;
@@ -441,6 +444,7 @@ function DashboardLayoutInner({
         </header>
 
         <div id="qalt-dashboard-scroll-container" className="flex-1 overflow-auto relative z-10 custom-scrollbar">
+          {companyId && <DashboardGuide companyId={companyId} subscriptionPlan={subscriptionPlan} isAdmin={isAdmin} onboardingCompleted={onboardingCompleted} />}
           <DashboardTips showCard={pathname === "/dashboard"} />
           {children}
           <footer className="px-6 pb-5 pt-10 text-center text-[10px] font-medium tracking-[0.02em] text-slate-400 dark:text-slate-600">
