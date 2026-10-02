@@ -238,16 +238,44 @@ function Masked({ id, cuts, children }: { id: string; cuts: string; children: Re
 }
 
 function Bicycle() {
-  const y = GROUND - 14;
+  const rearX = 40;
+  const frontX = 120;
+  const r = 15;
+  const cy = GROUND - r;
+  const crankX = 73;
+  const crankY = 50;
+
   return (
     <>
-      <BikeWheel cx={45} r={14} />
-      <BikeWheel cx={117} r={14} />
-      <path className={styles.tube} strokeWidth={3.4} d={`M45 ${y} L75 ${y + 1} L66 28 Z M66 28 L104 27 L75 ${y + 1} M103 23 L117 ${y}`} />
-      <path className={styles.tube} strokeWidth={3} d="M66 28 L64 21 M101 23 L104 17 L111 16.5" />
-      <path className={styles.ink} d="M56 18.5 Q56 16.5 59 16.5 L70 16.5 Q72 16.5 71 19 L70 20.5 L57 20.5 Q56 20.5 56 18.5 Z" />
-      <circle className={styles.tube} cx={75} cy={y + 1} r={4.2} strokeWidth={2.4} />
-      <rect className={styles.lamp} x={106.5} y={21} width={3.4} height={2.6} rx={0.6} />
+      <BikeWheel cx={rearX} r={r} />
+      <BikeWheel cx={frontX} r={r} />
+
+      {/* Fine spokes keep the bicycle readable at dashboard-card size. */}
+      <g className={styles.tube} strokeWidth={0.8}>
+        <path d={`M${rearX - 13} ${cy} L${rearX + 13} ${cy} M${rearX} ${cy - 13} L${rearX} ${cy + 13} M${rearX - 9} ${cy - 9} L${rearX + 9} ${cy + 9} M${rearX - 9} ${cy + 9} L${rearX + 9} ${cy - 9}`} />
+        <path d={`M${frontX - 13} ${cy} L${frontX + 13} ${cy} M${frontX} ${cy - 13} L${frontX} ${cy + 13} M${frontX - 9} ${cy - 9} L${frontX + 9} ${cy + 9} M${frontX - 9} ${cy + 9} L${frontX + 9} ${cy - 9}`} />
+      </g>
+
+      {/* Classic diamond commuter frame, side profile. */}
+      <path
+        className={styles.tube}
+        strokeWidth={3.2}
+        strokeLinejoin="round"
+        d={`M${rearX} ${cy} L${crankX} ${crankY} L62 27 L${rearX} ${cy} M62 27 L101 28 L${crankX} ${crankY} L101 28 L${frontX} ${cy}`}
+      />
+
+      {/* Fork, seat post, handlebar and rear rack. */}
+      <path className={styles.tube} strokeWidth={3} strokeLinecap="round" d="M101 28 L105 18 L113 17 M62 27 L60 19" />
+      <path className={styles.tube} strokeWidth={2.2} strokeLinecap="round" d="M32 26 L60 26 M32 26 L29 31 M107 17 L116 17 L118 20" />
+
+      {/* Saddle, crank and pedals. */}
+      <path className={styles.ink} d="M51 16.8 Q51 15 54 15 L66 15 Q69 15 68.2 17.5 L67.4 19 L52.5 19 Q51 19 51 16.8 Z" />
+      <circle className={styles.tube} cx={crankX} cy={crankY} r={4.2} strokeWidth={2.2} />
+      <path className={styles.tube} strokeWidth={1.8} strokeLinecap="round" d={`M${crankX} ${crankY} L82 54 M64 46 L${crankX} ${crankY}`} />
+
+      {/* Small neutral head/tail details. */}
+      <rect className={styles.lamp} x={108} y={21.5} width={3.2} height={2.5} rx={0.6} />
+      <rect className={styles.lamp} x={29} y={29} width={2.6} height={2.4} rx={0.6} />
     </>
   );
 }
