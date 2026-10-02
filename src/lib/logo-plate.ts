@@ -31,6 +31,16 @@ export function toneForBackdrop(backdrop: LogoBackdrop | null | undefined): Logo
   return null;
 }
 
+/**
+ * Final tone: a confident detection (clearly light or clearly dark ink) wins,
+ * so a wrong manual setting can never hide the logo. The merchant's choice
+ * decides only when detection can't tell (full color, opaque, unreadable).
+ */
+export function pickLogoTone(detected: LogoTone | null, backdrop: LogoBackdrop | null | undefined): LogoTone | null {
+  if (detected === "light" || detected === "dark") return detected;
+  return toneForBackdrop(backdrop) ?? detected;
+}
+
 /** Plate needed to keep a logo of this tone readable on the given surface. */
 export function logoPlateFor(tone: LogoTone, surface: "light" | "dark"): "dark" | "light" | null {
   if (surface === "light" && tone === "light") return "dark";

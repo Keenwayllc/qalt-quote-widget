@@ -6,7 +6,7 @@ import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw, ExternalLin
 import { getEntitlements } from "@/lib/plans";
 import { isValidHex, readableForeground } from "@/lib/color";
 import MerchantLogo, { useLogoTone } from "@/components/shared/MerchantLogo";
-import { normalizeLogoBackdrop, type LogoBackdrop } from "@/lib/logo-plate";
+import { normalizeLogoBackdrop, toneForBackdrop, type LogoBackdrop } from "@/lib/logo-plate";
 import { useCompanyProfile } from "@/context/CompanyProfileContext";
 import Link from 'next/link';
 
@@ -318,6 +318,11 @@ export default function WidgetSettingsForm({
                         <option value="light">Light background: my logo is dark</option>
                         <option value="dark">Dark background: my logo is light</option>
                       </select>
+                      {logoBackdrop !== "auto" && logoTone && toneForBackdrop(logoBackdrop) !== logoTone && (logoTone === "light" || logoTone === "dark") && (
+                        <p className="text-[11px] leading-4 text-amber-700 dark:text-amber-300">
+                          Your logo looks {logoTone === "dark" ? "dark" : "light"}, so Qalt keeps it readable automatically. You can set this back to Auto.
+                        </p>
+                      )}
                       {(logoTone === "light" || logoTone === "dark") && (
                         <p className="flex items-start gap-1.5 text-[11px] leading-4 text-slate-500 dark:text-slate-400">
                           <Info size={12} className="mt-0.5 shrink-0" aria-hidden="true" />

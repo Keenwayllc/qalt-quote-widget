@@ -2,7 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element -- merchant logos are remote uploads rendered as-is */
 import { useEffect, useLayoutEffect, useState } from "react";
-import { LOGO_TONES, toneForBackdrop, type LogoBackdrop, type LogoTone } from "@/lib/logo-plate";
+import { LOGO_TONES, pickLogoTone, type LogoBackdrop, type LogoTone } from "@/lib/logo-plate";
 
 /**
  * Renders a merchant logo so it stays visible on the surface behind it.
@@ -41,10 +41,9 @@ const useBeforePaint = typeof window === "undefined" ? useEffect : useLayoutEffe
 
 export function useLogoTone(src: string | null | undefined, backdrop?: LogoBackdrop | null): LogoTone | null {
   const [tone, setTone] = useState<LogoTone | null>(null);
-  const forced = toneForBackdrop(backdrop);
 
   useBeforePaint(() => {
-    if (!src || forced) return;
+    if (!src) return;
     const cached = readCached(src);
     if (cached) {
       setTone(cached);
@@ -63,10 +62,10 @@ export function useLogoTone(src: string | null | undefined, backdrop?: LogoBackd
       })
       .catch(() => { if (active) setTone("unknown"); });
     return () => { active = false; };
-  }, [src, forced]);
+  }, [src]);
 
-  if (!src) return null;
-  return forced ?? tone;
+  if (!src || !tone) return null;
+  return pickLogoTone(tone, backdrop);
 }
 
 const PLATE_DARK = "bg-slate-900 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]";

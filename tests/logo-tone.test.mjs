@@ -63,3 +63,13 @@ test('fully transparent image is unknown', async () => {
   const empty = await sharp({ create: { width: 50, height: 50, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } }).png().toBuffer();
   assert.equal(await analyzeLogoTone(empty), 'unknown');
 });
+
+test('a confident detection beats a contradicting manual logo background', async () => {
+  const { pickLogoTone } = await import('../src/lib/logo-plate.ts');
+  assert.equal(pickLogoTone('dark', 'dark'), 'dark');
+  assert.equal(pickLogoTone('light', 'light'), 'light');
+  assert.equal(pickLogoTone('balanced', 'dark'), 'light');
+  assert.equal(pickLogoTone('opaque', 'light'), 'dark');
+  assert.equal(pickLogoTone('unknown', 'auto'), 'unknown');
+  assert.equal(pickLogoTone(null, 'dark'), 'light');
+});
