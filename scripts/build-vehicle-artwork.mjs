@@ -13,16 +13,13 @@ import sharp from "sharp";
 const SOURCE_DIR = process.argv[2] ?? path.resolve(process.cwd(), "..", "Qalt Vehicle Artwork");
 const OUT_DIR = path.resolve("public/images/vehicles");
 
-// Output name -> source file. Motor vehicles face left and bikes face right,
-// matching the reference catalog. Any "<name>.png|webp|jpg" in the folder is
-// picked up too, so new renders only need the right file name.
+// Every vehicle faces right. Files are named as in FILE NAMES.txt; FLIP lists
+// the renders that were drawn facing left.
 const SOURCES = {
-  bicycle: { file: "Modern White Hybrid Bicycle on White Background.png" },
-  "cargo-bike": { file: "Modern White Cargo E-Bike Profile (1).png" },
-  sedan: { file: "Modern White Sedan Side Profile.png", flip: true },
-  "box-truck": { file: "Modern White Box Truck Cutout.png" },
-  "straight-truck": { file: "White Box Truck Studio Profile.png", flip: true },
+  "box-truck": { file: "Modern White Box Truck Cutout.png", flip: true },
 };
+const FLIP = new Set(["doubles", "dump-truck", "flatbed-stake-bed", "flatbed-tractor-trailer", "hatchback",
+  "high-roof-cargo-van", "pickup-truck", "suv", "tractor-trailer-28ft", "tractor-trailer-48ft", "triples"]);
 
 const MAX_W = 640;
 const MAX_H = 340;
@@ -32,7 +29,7 @@ function findSource(name) {
   const known = SOURCES[name];
   if (known && existsSync(path.join(SOURCE_DIR, known.file))) return { ...known, file: path.join(SOURCE_DIR, known.file) };
   const hit = readdirSync(SOURCE_DIR).find((f) => /\.(png|webp|jpe?g)$/i.test(f) && path.parse(f).name.toLowerCase() === name);
-  return hit ? { file: path.join(SOURCE_DIR, hit), flip: false } : null;
+  return hit ? { file: path.join(SOURCE_DIR, hit), flip: FLIP.has(name) } : null;
 }
 
 /** Binary mask dilated by r pixels (square kernel), via two running-window passes. */

@@ -88,3 +88,7 @@ test('rendered artwork exists for both themes and is truly transparent', async (
     }
   }
 });
+
+test('every pickable vehicle has rendered artwork', () => {
+  for (const { key } of VEHICLE_ARTWORK_CHOICES) assert.ok(VEHICLE_ARTWORK_ASSETS[key], key);
+});
