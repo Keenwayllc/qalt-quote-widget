@@ -7,7 +7,7 @@ import { parseVehicleRequest, VEHICLE_REQUEST_DAILY_LIMIT, vehicleRequestWindowS
 
 export const dynamic = "force-dynamic";
 
-const NOTIFY = "business@qalt.site";
+const NOTIFY = "support@qalt.site";
 
 async function companyId() {
   const token = (await cookies()).get("qalt_token")?.value;
