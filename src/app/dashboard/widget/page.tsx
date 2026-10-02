@@ -49,12 +49,12 @@ export default async function WidgetSettingsPage({
       />
       <LogoUploadPolicy />
       {widgetSettings && (
-        <WidgetThemeSelector key={widgetSettings.id} formId={widgetSettings.id} initialTheme={themeMode} />
+        <WidgetThemeSelector key={`theme-${widgetSettings.id}`} formId={widgetSettings.id} initialTheme={themeMode} />
       )}
       <BrandColorPresets />
       {widgetSettings && (
         <WidgetForm
-          key={widgetSettings.id}
+          key={`form-${widgetSettings.id}`}
           initialData={widgetSettings}
           companyLogoUrl={company.logoUrl}
           companyLogoBackdrop={company.logoBackdrop}
