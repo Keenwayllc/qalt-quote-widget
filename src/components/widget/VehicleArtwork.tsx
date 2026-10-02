@@ -1,10 +1,16 @@
+/* eslint-disable @next/next/no-img-element -- static transparent WebP pairs, toggled per theme in CSS */
 import { useId, type CSSProperties } from "react";
-import { inferVehicleArtwork, parseVehicleArtworkKey, type VehicleArtworkKey } from "@/lib/form-vehicles";
+import { resolveVehicleArtwork, type VehicleArtKind, type VehicleArtworkKey } from "@/lib/form-vehicles";
+import { VEHICLE_ARTWORK_ASSETS } from "@/lib/vehicle-artwork-assets";
 import styles from "./VehicleArtwork.module.css";
 
 /**
- * Vehicle silhouettes for the quote form's vehicle cards and the merchant
- * artwork picker.
+ * Vehicle artwork for the quote form's vehicle cards and the merchant artwork
+ * picker. Kinds with a rendered asset (VEHICLE_ARTWORK_ASSETS) show a light and
+ * a dark transparent image; CSS shows the one matching the form or dashboard
+ * theme, so there is no JS theme detection and no wrong-image flash.
+ *
+ * Kinds without a render yet fall back to the drawn silhouettes below.
  *
  * Each motor vehicle is one solid shape in a neutral ink. Windows, door seams
  * and wheel-arch gaps are cut out with an SVG mask, so the card behind shows
@@ -41,10 +47,20 @@ const CAB_WINDOW = "M110 21.5 L124.5 21.5 Q127.5 21.5 129.5 24.5 L135.5 33.5 L11
 const CAB_SEAM = "M129 36 L129 52";
 const CAB_LAMPS: Lamp[] = [[151, 40, 3.5, 3]];
 
-const VEHICLES: Record<Exclude<
-  VehicleArtworkKey,
-  "bicycle" | "e-bike" | "cargo-bike" | "scooter" | "e-scooter" | "motorcycle"
->, Silhouette> = {
+type SvgKind = "e-bike" | "scooter" | "e-scooter" | "motorcycle" | keyof typeof VEHICLES;
+
+function svgKind(kind: VehicleArtKind): SvgKind {
+  if (kind === "moped") return "scooter";
+  if (kind === "doubles" || kind === "triples") return "multi-trailer";
+  if (kind.startsWith("tractor-trailer") || kind === "flatbed-tractor-trailer") return "tractor-trailer";
+  if (kind.startsWith("box-truck") || kind === "straight-truck" || kind === "dump-truck" ||
+    kind === "tanker-truck" || kind === "roll-off-truck") return "box-truck";
+  if (kind === "bicycle" || kind === "cargo-bike") return "e-bike";
+  return kind as SvgKind;
+}
+
+const VEHICLES: Record<"sedan" | "hatchback" | "suv" | "minivan" | "pickup" | "cargo-van" | "high-roof-van" | "sprinter-van" |
+  "box-truck" | "refrigerated" | "flatbed" | "tractor-trailer" | "multi-trailer", Silhouette> = {
   sedan: {
     body: ["M9 56 L7.5 46 Q7.5 39.5 14 38.5 L40 35.5 Q48 27 58 22.5 Q64 20.5 74 20.5 L94 20.5 Q102 20.5 108 25.5 L118 34.5 L143 37.5 Q152 38.5 153 45 L153 53 Q153 56 150 56 Z"],
     glass: [
@@ -213,17 +229,6 @@ function Tire({ cx, r }: { cx: number; r: number }) {
   );
 }
 
-/** Spoked-look bicycle wheel: a thin tire with an open center. */
-function BikeWheel({ cx, r }: { cx: number; r: number }) {
-  const cy = GROUND - r;
-  return (
-    <g>
-      <circle className={styles.tube} cx={cx} cy={cy} r={r - 1.6} strokeWidth={3.2} />
-      <circle className={styles.ink} cx={cx} cy={cy} r={1.8} />
-    </g>
-  );
-}
-
 /** Punches hairline cutouts through its children, like the motor-vehicle seams. */
 function Masked({ id, cuts, children }: { id: string; cuts: string; children: React.ReactNode }) {
   return (
@@ -233,49 +238,6 @@ function Masked({ id, cuts, children }: { id: string; cuts: string; children: Re
         <path d={cuts} fill="none" stroke="#000" strokeWidth={1.3} strokeLinecap="round" />
       </mask>
       <g mask={`url(#${id})`}>{children}</g>
-    </>
-  );
-}
-
-function Bicycle() {
-  const rearX = 40;
-  const frontX = 120;
-  const r = 15;
-  const cy = GROUND - r;
-  const crankX = 73;
-  const crankY = 50;
-
-  return (
-    <>
-      <BikeWheel cx={rearX} r={r} />
-      <BikeWheel cx={frontX} r={r} />
-
-      {/* Fine spokes keep the bicycle readable at dashboard-card size. */}
-      <g className={styles.tube} strokeWidth={0.8}>
-        <path d={`M${rearX - 13} ${cy} L${rearX + 13} ${cy} M${rearX} ${cy - 13} L${rearX} ${cy + 13} M${rearX - 9} ${cy - 9} L${rearX + 9} ${cy + 9} M${rearX - 9} ${cy + 9} L${rearX + 9} ${cy - 9}`} />
-        <path d={`M${frontX - 13} ${cy} L${frontX + 13} ${cy} M${frontX} ${cy - 13} L${frontX} ${cy + 13} M${frontX - 9} ${cy - 9} L${frontX + 9} ${cy + 9} M${frontX - 9} ${cy + 9} L${frontX + 9} ${cy - 9}`} />
-      </g>
-
-      {/* Classic diamond commuter frame, side profile. */}
-      <path
-        className={styles.tube}
-        strokeWidth={3.2}
-        strokeLinejoin="round"
-        d={`M${rearX} ${cy} L${crankX} ${crankY} L62 27 L${rearX} ${cy} M62 27 L101 28 L${crankX} ${crankY} L101 28 L${frontX} ${cy}`}
-      />
-
-      {/* Fork, seat post, handlebar and rear rack. */}
-      <path className={styles.tube} strokeWidth={3} strokeLinecap="round" d="M101 28 L105 18 L113 17 M62 27 L60 19" />
-      <path className={styles.tube} strokeWidth={2.2} strokeLinecap="round" d="M32 26 L60 26 M32 26 L29 31 M107 17 L116 17 L118 20" />
-
-      {/* Saddle, crank and pedals. */}
-      <path className={styles.ink} d="M51 16.8 Q51 15 54 15 L66 15 Q69 15 68.2 17.5 L67.4 19 L52.5 19 Q51 19 51 16.8 Z" />
-      <circle className={styles.tube} cx={crankX} cy={crankY} r={4.2} strokeWidth={2.2} />
-      <path className={styles.tube} strokeWidth={1.8} strokeLinecap="round" d={`M${crankX} ${crankY} L82 54 M64 46 L${crankX} ${crankY}`} />
-
-      {/* Small neutral head/tail details. */}
-      <rect className={styles.lamp} x={108} y={21.5} width={3.2} height={2.5} rx={0.6} />
-      <rect className={styles.lamp} x={29} y={29} width={2.6} height={2.4} rx={0.6} />
     </>
   );
 }
@@ -301,45 +263,6 @@ function FatWheel({ cx, r, motor = false }: { cx: number; r: number; motor?: boo
       <circle className={styles.tube} cx={cx} cy={cy} r={r - 2.2} strokeWidth={4.4} />
       <circle className={styles.ink} cx={cx} cy={cy} r={motor ? 4.6 : 2} />
     </g>
-  );
-}
-
-function CargoBike({ maskId }: { maskId: string }) {
-  const rearX = 39;
-  const frontX = 121;
-  const r = 13.5;
-  const cy = GROUND - r;
-
-  return (
-    <>
-      <FatWheel cx={rearX} r={r} motor />
-      <FatWheel cx={frontX} r={r} />
-      <Fender cx={rearX} r={r} />
-      <Fender cx={frontX} r={r} />
-
-      {/* California-style shared delivery e-bike: step-through frame with front basket and rear battery enclosure. */}
-      <path className={styles.tube} strokeWidth={7.2} strokeLinecap="round" d="M101 31 Q92 49 70 51" />
-      <path className={styles.tube} strokeWidth={3.8} strokeLinecap="round" d={`M${rearX} ${cy} L70 51 M48 35 L70 51 M48 35 L61 29`} />
-      <path className={styles.tube} strokeWidth={4.2} strokeLinecap="round" d={`M101 31 L106 20 M102 31 L${frontX} ${cy}`} />
-      <path className={styles.tube} strokeWidth={3} strokeLinecap="round" d="M106 20 L104 12 L96 11.5" />
-
-      {/* Rear battery / cargo enclosure, kept neutral to match the rest of the Qalt artwork. */}
-      <Masked id={maskId} cuts="M28 31 L57 31">
-        <path className={styles.ink} d="M26 27 Q26 24.5 29 24.5 L56 24.5 Q59 24.5 59 27 L57 40 Q56.5 43 53.5 43 L31 43 Q28 43 27.5 40 Z" />
-      </Masked>
-
-      {/* Front basket mounted high, similar to common shared delivery bikes used in California. */}
-      <Masked id={`${maskId}-basket`} cuts="M108 20 L137 20 M109 26 L136 26 M115 15 L115 31 M123 15 L123 31 M131 15 L131 31">
-        <path className={styles.ink} d="M106 13.5 L139 13.5 Q141 13.5 140.5 15.5 L138.5 31 Q138 33 136 33 L110 33 Q108 33 107.5 31 L105 15.5 Q104.5 13.5 106 13.5 Z" />
-      </Masked>
-
-      {/* Saddle, crank, rack and small lamp details. */}
-      <path className={styles.ink} d="M50 20 Q50 17.5 53 17.5 L65 17.5 Q68 17.5 67.2 20 L66.5 22 L52 22 Q50 22 50 20 Z" />
-      <path className={styles.tube} strokeWidth={2.4} d="M29 26 L56 26 M29 26 L27 30" />
-      <circle className={styles.tube} cx={70} cy={51} r={4.1} strokeWidth={2.2} />
-      <rect className={styles.lamp} x={137.5} y={34.5} width={3.2} height={2.8} rx={0.7} />
-      <rect className={styles.lamp} x={25.5} y={29.5} width={2.8} height={2.6} rx={0.7} />
-    </>
   );
 }
 
@@ -488,21 +411,27 @@ export default function VehicleArtwork({
   brandColor?: string;
   className?: string;
 }) {
-  // Validate even typed input: saved JSON can predate or drift from the key list.
-  const kind = parseVehicleArtworkKey(artwork) ?? inferVehicleArtwork(name);
+  const kind = resolveVehicleArtwork(name, artwork);
   const maskId = `qv-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
+  const classes = `${styles.art}${selected ? ` ${styles.selected}` : ""}${className ? ` ${className}` : ""}`;
+
+  const asset = VEHICLE_ARTWORK_ASSETS[kind];
+  if (asset) {
+    return (
+      <span className={`${classes} ${styles.photo}`} data-vehicle-art={kind} aria-hidden="true">
+        <img className={styles.lightArt} src={asset.light} alt="" loading="lazy" decoding="async" draggable={false} />
+        <img className={styles.darkArt} src={asset.dark} alt="" loading="lazy" decoding="async" draggable={false} />
+      </span>
+    );
+  }
+
+  const drawn = svgKind(kind);
   const style = selected && brandColor
     ? ({ "--vehicle-lamp": brandColor, "--vehicle-brand": brandColor } as CSSProperties)
     : undefined;
 
   return (
-    <svg
-      className={`${styles.art}${selected ? ` ${styles.selected}` : ""}${className ? ` ${className}` : ""}`}
-      style={style}
-      viewBox="0 0 160 72"
-      aria-hidden="true"
-      focusable="false"
-    >
+    <svg className={classes} style={style} data-vehicle-art={kind} viewBox="0 0 160 72" aria-hidden="true" focusable="false">
       <defs>
         <linearGradient id={`${maskId}-road`} x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" className={styles.roadOff} />
@@ -511,16 +440,12 @@ export default function VehicleArtwork({
           <stop offset="1" className={styles.roadOff} />
         </linearGradient>
       </defs>
-      {kind !== "bicycle" && kind !== "cargo-bike" && (
-        <rect x="4" y={GROUND - 0.6} width="152" height="2.6" rx="1.3" fill={`url(#${maskId}-road)`} />
-      )}
-      {kind === "bicycle" && <image className={styles.photoVehicle} href="/images/vehicles/bicycle.webp" x="0" y="0" width="160" height="72" preserveAspectRatio="xMidYMid meet" />}
-      {kind === "cargo-bike" && <image className={styles.photoVehicle} href="/images/vehicles/cargo-bike.webp" x="0" y="0" width="160" height="72" preserveAspectRatio="xMidYMid meet" />}
-      {kind === "e-bike" && <EBike maskId={maskId} />}
-      {kind === "e-scooter" && <EScooter />}
-      {kind === "scooter" && <Scooter maskId={maskId} />}
-      {kind === "motorcycle" && <Motorcycle maskId={maskId} />}
-      {kind in VEHICLES && <MotorVehicle kind={kind as keyof typeof VEHICLES} uid={maskId} />}
+      <rect x="4" y={GROUND - 0.6} width="152" height="2.6" rx="1.3" fill={`url(#${maskId}-road)`} />
+      {drawn === "e-bike" && <EBike maskId={maskId} />}
+      {drawn === "e-scooter" && <EScooter />}
+      {drawn === "scooter" && <Scooter maskId={maskId} />}
+      {drawn === "motorcycle" && <Motorcycle maskId={maskId} />}
+      {drawn in VEHICLES && <MotorVehicle kind={drawn as keyof typeof VEHICLES} uid={maskId} />}
     </svg>
   );
 }

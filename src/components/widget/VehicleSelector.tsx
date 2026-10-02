@@ -39,12 +39,12 @@ export default function VehicleSelector({
                 key={option.name}
                 type="button"
                 onClick={() => onChange(option.name)}
-                className={`relative min-w-[150px] snap-start rounded-[22px] border px-3 py-4 text-center transition-all active:scale-[0.98] ${selected ? "bg-white shadow-[0_16px_35px_-22px_rgba(15,23,42,.45)]" : "bg-slate-50/70 border-slate-200 hover:bg-white hover:border-slate-300"}`}
+                className={`relative min-w-[176px] snap-start rounded-[22px] border px-2.5 pb-3.5 pt-3 sm:min-w-[188px] text-center transition-all active:scale-[0.98] ${selected ? "bg-white shadow-[0_16px_35px_-22px_rgba(15,23,42,.45)]" : "bg-slate-50/70 border-slate-200 hover:bg-white hover:border-slate-300"}`}
                 style={selected ? { borderColor: primaryColor, boxShadow: `0 8px 24px -16px ${primaryColor}` } : undefined}
                 aria-pressed={selected}
               >
                 {selected && <span className="absolute inset-0 rounded-2xl opacity-[0.07]" style={{ backgroundColor: primaryColor }} />}
-                <span className="relative mx-auto flex h-[68px] w-full items-center justify-center">
+                <span className="relative mx-auto block h-[92px] w-full sm:h-[100px]">
                   <VehicleArtwork name={option.name} artwork={option.artwork} selected={selected} brandColor={primaryColor} />
                 </span>
                 <span className="relative mt-2 block text-[13px] font-black leading-tight text-slate-800">{option.name}</span>
