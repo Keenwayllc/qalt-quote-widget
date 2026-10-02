@@ -35,8 +35,7 @@ export const WHATS_NEW: WhatsNewItem[] = [
     summary: "Realistic pictures for every vehicle, in light and dark forms.",
     link: "/dashboard/forms",
     linkLabel: "Open My Forms",
-    image: "/images/whats-new/vehicle-artwork-light.webp",
-    imageDark: "/images/whats-new/vehicle-artwork-dark.webp",
+    image: "/images/whats-new/vehicle-artwork.webp",
   },
   {
     id: "customer-documents",
@@ -47,7 +46,7 @@ export const WHATS_NEW: WhatsNewItem[] = [
     summary: "Send branded quote PDFs and keep paid invoice records.",
     readingTime: 5,
     link: "/dashboard/support/articles/customer-documents",
-    image: null,
+    image: "/images/whats-new/customer-documents.webp",
   },
   {
     id: "white-label-email",
@@ -58,7 +57,7 @@ export const WHATS_NEW: WhatsNewItem[] = [
     summary: "Send customer emails from your own domain instead of Qalt's.",
     readingTime: 5,
     link: "/dashboard/support/articles/white-label-email",
-    image: null,
+    image: "/images/whats-new/white-label-email.webp",
   },
   {
     id: "kanban-crm",
@@ -69,7 +68,7 @@ export const WHATS_NEW: WhatsNewItem[] = [
     summary: "Organize quote requests on a board with 6 status columns.",
     readingTime: 4,
     link: "/dashboard/support/articles/kanban-crm",
-    image: null,
+    image: "/images/whats-new/kanban-crm.webp",
   },
   {
     id: "geo-fencing",
@@ -80,7 +79,7 @@ export const WHATS_NEW: WhatsNewItem[] = [
     summary: "Limit quote requests to the ZIP codes you serve.",
     readingTime: 6,
     link: "/dashboard/support/articles/geo-fencing",
-    image: null,
+    image: "/images/whats-new/geo-fencing.webp",
   },
   {
     id: "transit-time",
@@ -91,7 +90,7 @@ export const WHATS_NEW: WhatsNewItem[] = [
     summary: "Show customers the estimated drive time with each quote.",
     readingTime: 4,
     link: "/dashboard/support/articles/transit-time",
-    image: null,
+    image: "/images/whats-new/transit-time.webp",
   },
   {
     id: "payments",
@@ -102,6 +101,6 @@ export const WHATS_NEW: WhatsNewItem[] = [
     summary: "Let customers pay for a quote through hosted checkout.",
     readingTime: 8,
     link: "/dashboard/support/articles/payments",
-    image: null,
+    image: "/images/whats-new/payments.webp",
   },
 ];
