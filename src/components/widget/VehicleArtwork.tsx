@@ -513,8 +513,8 @@ export default function VehicleArtwork({
       </defs>
       {/* Road bar that fades at both ends, in place of a blob shadow. */}
       <rect x="4" y={GROUND - 0.6} width="152" height="2.6" rx="1.3" fill={`url(#${maskId}-road)`} />
-      {kind === "bicycle" && <Bicycle />}
-      {kind === "cargo-bike" && <CargoBike maskId={maskId} />}
+      {kind === "bicycle" && <image href="/images/vehicles/bicycle.webp" x="5" y="2" width="150" height="60" preserveAspectRatio="xMidYMid meet" />}
+      {kind === "cargo-bike" && <image href="/images/vehicles/cargo-bike.webp" x="5" y="2" width="150" height="60" preserveAspectRatio="xMidYMid meet" />}
       {kind === "e-bike" && <EBike maskId={maskId} />}
       {kind === "e-scooter" && <EScooter />}
       {kind === "scooter" && <Scooter maskId={maskId} />}
