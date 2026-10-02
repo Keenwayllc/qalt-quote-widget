@@ -1,61 +1,14 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { Star, ChevronRight, Mail, Trello, MapPin, Clock, CreditCard } from "lucide-react";
+import { Star, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import WhatsNewCard from "./WhatsNewCard";
-
-const whatsnewFeatures = [
-  {
-    id: "white-label-email",
-    name: "White-Label Email Domain",
-    category: "Pro/Enterprise",
-    icon: <Mail size={24} />,
-    description: "Send customer confirmation emails from your own domain instead of Qalt's.",
-    readingTime: 5,
-    learnMoreLink: "/dashboard/support#customer-communication",
-  },
-  {
-    id: "kanban-crm",
-    name: "Kanban CRM Board",
-    category: "All Plans",
-    icon: <Trello size={24} />,
-    description: "Organize quote requests in a visual Kanban board with 6 status columns.",
-    readingTime: 4,
-    learnMoreLink: "/dashboard/support#pricing-quotes",
-  },
-  {
-    id: "geo-fencing",
-    name: "Geo-Fencing & Service Areas",
-    category: "Pro/Enterprise",
-    icon: <MapPin size={24} />,
-    description: "Restrict quote requests to specific service areas by ZIP code.",
-    readingTime: 6,
-    learnMoreLink: "/dashboard/support#advanced-features",
-  },
-  {
-    id: "transit-time",
-    name: "Transit Time Estimation",
-    category: "All Plans",
-    icon: <Clock size={24} />,
-    description: "Show customers estimated transit time for their quote automatically.",
-    readingTime: 4,
-    learnMoreLink: "/dashboard/support#advanced-features",
-  },
-  {
-    id: "payments",
-    name: "Payment Processing",
-    category: "Pro/Enterprise",
-    icon: <CreditCard size={24} />,
-    description: "Accept customer payments directly through Qalt for quote orders.",
-    readingTime: 8,
-    learnMoreLink: "/dashboard/support#advanced-features",
-  },
-];
+import { WHATS_NEW } from "@/lib/whats-new";
 
 export default function WhatsNewHighlight() {
   const reduceMotion = useReducedMotion();
-  const featuredItems = whatsnewFeatures.slice(0, 3);
+  const featuredItems = WHATS_NEW.slice(0, 3);
 
   return (
     <motion.section
@@ -93,15 +46,7 @@ export default function WhatsNewHighlight() {
             whileHover={reduceMotion ? undefined : { y: -2 }}
             className="rounded-[16px]"
           >
-            <WhatsNewCard
-              name={feature.name}
-              icon={feature.icon}
-              description={feature.description}
-              readingTime={feature.readingTime}
-              category={feature.category}
-              learnMoreLink={feature.learnMoreLink}
-              variant="compact"
-            />
+            <WhatsNewCard item={feature} variant="compact" />
           </motion.div>
         ))}
       </div>
@@ -117,4 +62,3 @@ export default function WhatsNewHighlight() {
   );
 }
 
-export { whatsnewFeatures };
