@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import PublicNav from "@/components/shared/PublicNav";
+import MarketingFooter from "@/components/shared/MarketingFooter";
 
 const steps = [
   {
@@ -132,6 +133,7 @@ export default function WhatQaltDoesPage() {
           </div>
         </section>
       </main>
+      <MarketingFooter />
     </div>
   );
 }

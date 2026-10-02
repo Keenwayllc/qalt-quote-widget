@@ -4,6 +4,7 @@ import Link from "next/link";
 import PublicNav from "@/components/shared/PublicNav";
 import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
+import MarketingFooter from "@/components/shared/MarketingFooter";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -144,6 +145,7 @@ export default async function BlogPost({ params }: Props) {
           </div>
         )}
       </main>
+      <MarketingFooter />
     </div>
   );
 }

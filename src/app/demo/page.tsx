@@ -7,13 +7,13 @@ import {
   publicPricingProfileSelect,
 } from "@/lib/publicWidget";
 import PublicNav from "@/components/shared/PublicNav";
-import QaltLogo from "@/components/shared/QaltLogo";
 import DemoLeadForm from "@/components/landing/DemoLeadForm";
 import GatedDemo from "@/components/landing/GatedDemo";
 import {
   ArrowRight, Zap, Globe, ReceiptText,
   SlidersHorizontal, PackageCheck, Check, X, Mail,
 } from "lucide-react";
+import MarketingFooter from "@/components/shared/MarketingFooter";
 
 export const dynamic = "force-dynamic";
 
@@ -297,18 +297,7 @@ export default async function DemoPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
-          <QaltLogo size="sm" />
-          <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm font-bold text-slate-500">
-            <Link href="/pricing" className="hover:text-red-600 transition-colors">Pricing</Link>
-            <Link href="/partners" className="hover:text-red-600 transition-colors">Partners</Link>
-            <Link href="/register" className="hover:text-red-600 transition-colors">Get Started Free</Link>
-            <Link href="/login" className="hover:text-red-600 transition-colors">Log In</Link>
-          </nav>
-          <p className="text-slate-400 font-medium text-sm">© 2026 Qalt. All rights reserved.</p>
-        </div>
-      </footer>
+      <MarketingFooter />
     </div>
   );
 }

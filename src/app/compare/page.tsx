@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2, CircleHelp, Minus } from "lucide-react";
 import PublicNav from "@/components/shared/PublicNav";
 import CompareHeroDevices from "@/components/landing/CompareHeroDevices";
+import MarketingFooter from "@/components/shared/MarketingFooter";
 
 export const metadata: Metadata = {
   title: "Compare Qalt | Delivery Quote & Booking Software",
@@ -357,6 +358,7 @@ export default function ComparePage() {
           </div>
         </section>
       </main>
+      <MarketingFooter />
     </div>
   );
 }

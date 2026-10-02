@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowRight, Calculator, Globe2, Settings2, Workflow, CheckCircle2 } from "lucide-react";
 import PublicNav from "@/components/shared/PublicNav";
+import MarketingFooter from "@/components/shared/MarketingFooter";
 
 export const metadata: Metadata = {
   title: "Courier Quote Software for Instant Delivery Pricing | Qalt",
@@ -120,13 +121,14 @@ export default function CourierQuoteSoftwarePage() {
             <h2 className="text-3xl font-black tracking-tight">Frequently asked questions</h2>
             <div className="mt-8 space-y-6">
               <div><h3 className="font-black">Does Qalt replace my dispatch software?</h3><p className="mt-2 text-slate-600">No. Keep your current dispatch workflow and use Qalt for the website quoting step.</p></div>
-              <div><h3 className="font-black">Can customers get pricing from my website?</h3><p className="mt-2 text-slate-600">Yes. The embedded form uses the merchant's configured supported pricing rules.</p></div>
+              <div><h3 className="font-black">Can customers get pricing from my website?</h3><p className="mt-2 text-slate-600">Yes. The embedded form uses the merchant&apos;s configured supported pricing rules.</p></div>
               <div><h3 className="font-black">What about unusual deliveries?</h3><p className="mt-2 text-slate-600">They can still be reviewed manually. Instant pricing is most useful for repeatable standard jobs.</p></div>
               <div><h3 className="font-black">Can I start without a card?</h3><p className="mt-2 text-slate-600">Yes. The Starter plan is free and does not require a card.</p></div>
             </div>
           </div>
         </section>
       </main>
+      <MarketingFooter />
     </div>
   );
 }

@@ -1,14 +1,17 @@
-import React from 'react';
+import PublicNav from "@/components/shared/PublicNav";
+import MarketingFooter from "@/components/shared/MarketingFooter";
 
 export default function PrivacyPolicy() {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12 prose prose-slate">
+    <div className="min-h-screen bg-white">
+    <PublicNav />
+    <div className="max-w-4xl mx-auto px-4 pt-32 pb-16 prose prose-slate">
       <h1 className="text-4xl font-bold mb-8">Privacy Policy</h1>
       <p className="text-slate-600 mb-6">Last updated: {new Date().toLocaleDateString()}</p>
       
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">1. Introduction</h2>
-        <p>Qalt ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our website qalt.site and our embedded quote calculator services.</p>
+        <p>Qalt (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our website qalt.site and our embedded quote calculator services.</p>
       </section>
 
       <section className="mb-8">
@@ -41,6 +44,8 @@ export default function PrivacyPolicy() {
         <h2 className="text-2xl font-semibold mb-4">5. Contact Us</h2>
         <p>If you have any questions about this Privacy Policy, please contact us at support@qalt.site.</p>
       </section>
+    </div>
+    <MarketingFooter />
     </div>
   );
 }

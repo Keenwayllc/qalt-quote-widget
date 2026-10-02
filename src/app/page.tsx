@@ -19,13 +19,13 @@ import {
   Route,
 } from "lucide-react";
 import PublicNav from "@/components/shared/PublicNav";
-import QaltLogo from "@/components/shared/QaltLogo";
 import SupportModal from "@/components/shared/SupportModal";
 import HeroDashboardMockup from "@/components/landing/HeroDashboardMockup";
 import HowItWorksAnimation from "@/components/landing/HowItWorksAnimation";
 import MarketingDemoDiversity from "@/components/shared/MarketingDemoDiversity";
 import { featuredInsight } from "@/lib/featuredInsight";
 import { TrustBadgeGrid } from "@/components/shared/TrustBadges";
+import MarketingFooter from "@/components/shared/MarketingFooter";
 
 const reveal = {
   hidden: { opacity: 0, y: 24 },
@@ -478,47 +478,7 @@ export default function LandingPage() {
         </section>
       </main>
 
-      <footer className="border-t border-slate-100 bg-white py-14">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_.7fr_.7fr_.7fr]">
-            <div>
-              <QaltLogo size="md" />
-              <p className="mt-4 max-w-xs text-sm font-medium leading-6 text-slate-500">
-                Instant delivery quotes using your rates, your services, and your brand.
-              </p>
-            </div>
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">Product</p>
-              <div className="mt-4 space-y-3 text-sm font-semibold text-slate-600">
-                <Link className="block hover:text-red-600" href="/demo">Live Demo</Link>
-                <Link className="block hover:text-red-600" href="/what-qalt-does">What Qalt Does</Link>
-                <Link className="block hover:text-red-600" href="/compare">Compare</Link>
-                <Link className="block hover:text-red-600" href="/pricing">Pricing</Link>
-              </div>
-            </div>
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">Company</p>
-              <div className="mt-4 space-y-3 text-sm font-semibold text-slate-600">
-                <Link className="block hover:text-red-600" href="/blog">Blog</Link>
-                <Link className="block hover:text-red-600" href="/security">Security</Link>
-                <button className="block hover:text-red-600" onClick={() => setIsSupportModalOpen(true)}>Support</button>
-              </div>
-            </div>
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">Account</p>
-              <div className="mt-4 space-y-3 text-sm font-semibold text-slate-600">
-                <Link className="block hover:text-red-600" href="/register">Start Free</Link>
-                <Link className="block hover:text-red-600" href="/login">Log In</Link>
-                <Link className="block hover:text-red-600" href="/legal/privacy">Privacy</Link>
-                <Link className="block hover:text-red-600" href="/legal/terms">Terms</Link>
-              </div>
-            </div>
-          </div>
-          <div className="mt-12 border-t border-slate-100 pt-7 text-xs font-medium text-slate-400">
-            © 2026 Qalt Systems. All rights reserved.
-          </div>
-        </div>
-      </footer>
+      <MarketingFooter />
 
       <SupportModal isOpen={isSupportModalOpen} onClose={() => setIsSupportModalOpen(false)} />
 

@@ -4,6 +4,7 @@ import PublicNav from "@/components/shared/PublicNav";
 import type { Metadata } from "next";
 import { ExternalLink } from "lucide-react";
 import { featuredInsight } from "@/lib/featuredInsight";
+import MarketingFooter from "@/components/shared/MarketingFooter";
 
 export const metadata: Metadata = {
   title: "Blog | Qalt",
@@ -107,6 +108,7 @@ export default function BlogIndex() {
           </Link>
         </div>
       </main>
+      <MarketingFooter />
     </div>
   );
 }

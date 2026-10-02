@@ -1,8 +1,11 @@
-import React from 'react';
+import PublicNav from "@/components/shared/PublicNav";
+import MarketingFooter from "@/components/shared/MarketingFooter";
 
 export default function TermsOfService() {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12 prose prose-slate">
+    <div className="min-h-screen bg-white">
+    <PublicNav />
+    <div className="max-w-4xl mx-auto px-4 pt-32 pb-16 prose prose-slate">
       <h1 className="text-4xl font-bold mb-8">Terms of Service</h1>
       <p className="text-slate-600 mb-6">Last updated: {new Date().toLocaleDateString()}</p>
       
@@ -35,6 +38,8 @@ export default function TermsOfService() {
         <h2 className="text-2xl font-semibold mb-4">6. Changes to Terms</h2>
         <p>We may update these terms from time to time. Your continued use of the service after changes constitutes acceptance of the new terms.</p>
       </section>
+    </div>
+    <MarketingFooter />
     </div>
   );
 }

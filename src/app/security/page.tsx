@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Mail } from "lucide-react";
 import PublicNav from "@/components/shared/PublicNav";
 import { TrustBadgeGrid } from "@/components/shared/TrustBadges";
+import MarketingFooter from "@/components/shared/MarketingFooter";
 
 export const metadata: Metadata = {
   title: "Security · Qalt",
@@ -91,6 +92,7 @@ export default function SecurityPage() {
           </div>
         </section>
       </main>
+      <MarketingFooter />
     </div>
   );
 }

@@ -5,9 +5,9 @@ import Link from "next/link";
 import PublicNav from "@/components/shared/PublicNav";
 import SupportModal from "@/components/shared/SupportModal";
 import { motion } from "framer-motion";
-import QaltLogo from "@/components/shared/QaltLogo";
 import { TrustBadgeStrip } from "@/components/shared/TrustBadges";
 import { CheckCircle2, Minus, ChevronDown, ChevronUp, ArrowUp } from "lucide-react";
+import MarketingFooter from "@/components/shared/MarketingFooter";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -462,53 +462,7 @@ export default function PricingPage() {
       )}
 
       {/* Footer */}
-      <footer className="py-14 sm:py-20 border-t border-slate-100 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
-            {/* Brand */}
-            <div className="col-span-2 md:col-span-1">
-              <QaltLogo size="md" />
-              <p className="text-red-600 font-black text-sm mt-3">Your rates. Embedded. Anywhere.</p>
-              <p className="text-slate-400 font-medium text-sm mt-2 max-w-[220px] leading-relaxed">
-                Instant delivery quotes for your website. No manual quoting required.
-              </p>
-            </div>
-            {/* Product */}
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Product</p>
-              <ul className="space-y-3 text-sm font-medium text-slate-500">
-                <li><Link href="/#features" className="hover:text-red-600 transition-colors">Features</Link></li>
-                <li><Link href="/pricing" className="hover:text-red-600 transition-colors">Pricing</Link></li>
-                <li><Link href="/#how-it-works" className="hover:text-red-600 transition-colors">How it Works</Link></li>
-                <li><Link href="/#use-cases" className="hover:text-red-600 transition-colors">Use Cases</Link></li>
-                <li><Link href="/partners" className="hover:text-red-600 transition-colors">Partners</Link></li>
-                <li><Link href="/blog" className="hover:text-red-600 transition-colors">Blog</Link></li>
-              </ul>
-            </div>
-            {/* Account */}
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Account</p>
-              <ul className="space-y-3 text-sm font-medium text-slate-500">
-                <li><Link href="/register" className="hover:text-red-600 transition-colors">Get Started Free</Link></li>
-                <li><Link href="/login" className="hover:text-red-600 transition-colors">Log In</Link></li>
-              </ul>
-            </div>
-            {/* Legal */}
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Legal</p>
-              <ul className="space-y-3 text-sm font-medium text-slate-500">
-                <li><Link href="/legal/privacy" className="hover:text-red-600 transition-colors">Privacy Policy</Link></li>
-                <li><Link href="/legal/terms" className="hover:text-red-600 transition-colors">Terms of Service</Link></li>
-                <li><Link href="/security" className="hover:text-red-600 transition-colors">Security</Link></li>
-                <li><button onClick={() => setIsSupportModalOpen(true)} className="hover:text-red-600 transition-colors">Support</button></li>
-              </ul>
-            </div>
-          </div>
-          <div className="pt-8 border-t border-slate-100">
-            <p className="text-slate-400 font-medium text-sm text-center md:text-left">© 2026 Qalt. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <MarketingFooter />
 
       {/* Support Modal */}
       <SupportModal isOpen={isSupportModalOpen} onClose={() => setIsSupportModalOpen(false)} />
