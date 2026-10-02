@@ -43,7 +43,6 @@ const PRESETS: VehiclePreset[] = [
   { name: "Roll-Off Truck", fee: "0" },
   { name: "Tractor Trailer - 28 ft", fee: "0" },
   { name: "Tractor Trailer - 40 ft", fee: "0" },
-  { name: "Tractor Trailer - 45 ft", fee: "0" },
   { name: "Tractor Trailer - 47 ft", fee: "0" },
   { name: "Tractor Trailer - 48 ft", fee: "0" },
   { name: "Tractor Trailer - 53 ft", fee: "0" },

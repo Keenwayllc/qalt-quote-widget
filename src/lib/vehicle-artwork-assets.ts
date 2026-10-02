@@ -12,7 +12,7 @@ const art = (file: string): VehicleArtAsset => ({
   dark: `/images/vehicles/dark/${file}.webp`,
 });
 
-// 45 and 47 ft trailers share the 48 ft render; every box truck size shares one.
+// 47 ft trailers share the 48 ft render; every box truck size shares one.
 export const VEHICLE_ARTWORK_ASSETS: Partial<Record<VehicleArtKind, VehicleArtAsset>> = {
   bicycle: art("bicycle"),
   "cargo-bike": art("cargo-bike"),
@@ -42,7 +42,6 @@ export const VEHICLE_ARTWORK_ASSETS: Partial<Record<VehicleArtKind, VehicleArtAs
   "tractor-trailer": art("tractor-trailer-53ft"),
   "tractor-trailer-28": art("tractor-trailer-28ft"),
   "tractor-trailer-40": art("tractor-trailer-40ft"),
-  "tractor-trailer-45": art("tractor-trailer-48ft"),
   "tractor-trailer-47": art("tractor-trailer-48ft"),
   "tractor-trailer-48": art("tractor-trailer-48ft"),
   "tractor-trailer-53": art("tractor-trailer-53ft"),

@@ -29,7 +29,6 @@ export const VEHICLE_ARTWORK_CHOICES = [
   { key: "tractor-trailer", label: "Tractor trailer" },
   { key: "tractor-trailer-28", label: "Tractor trailer - 28 ft" },
   { key: "tractor-trailer-40", label: "Tractor trailer - 40 ft" },
-  { key: "tractor-trailer-45", label: "Tractor trailer - 45 ft" },
   { key: "tractor-trailer-47", label: "Tractor trailer - 47 ft" },
   { key: "tractor-trailer-48", label: "Tractor trailer - 48 ft" },
   { key: "tractor-trailer-53", label: "Tractor trailer - 53 ft" },
@@ -61,7 +60,7 @@ const REFINES: Partial<Record<VehicleArtworkKey, { fallback: VehicleArtKind; to:
   scooter: { fallback: "moped", to: ["moped", "e-scooter"] },
   "multi-trailer": { fallback: "doubles", to: ["doubles", "triples"] },
   "box-truck": { fallback: "box-truck", to: ["box-truck-16", "box-truck-20", "box-truck-24", "box-truck-26", "straight-truck"] },
-  "tractor-trailer": { fallback: "tractor-trailer", to: ["tractor-trailer-28", "tractor-trailer-40", "tractor-trailer-45",
+  "tractor-trailer": { fallback: "tractor-trailer", to: ["tractor-trailer-28", "tractor-trailer-40",
     "tractor-trailer-47", "tractor-trailer-48", "tractor-trailer-53", "flatbed-tractor-trailer"] },
   flatbed: { fallback: "flatbed", to: ["flatbed-tractor-trailer"] },
 };
@@ -89,7 +88,7 @@ export function inferVehicleArtwork(name: string): VehicleArtKind {
   const isSemi = /tractor|trailer|semi\b|18.?wheel/.test(normalized);
   if (isSemi && /flat.?bed|step.?deck/.test(normalized)) return "flatbed-tractor-trailer";
   if (isSemi) {
-    const length = lengthIn(normalized, [28, 40, 45, 47, 48, 53]);
+    const length = lengthIn(normalized, [28, 40, 47, 48, 53]);
     return length ? `tractor-trailer-${length}` as VehicleArtKind : "tractor-trailer";
   }
   if (/refrigerat|reefer/.test(normalized)) return "refrigerated";

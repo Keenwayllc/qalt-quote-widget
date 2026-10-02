@@ -20,7 +20,7 @@ const VEHICLES = [
   "Sedan", "Hatchback", "SUV", "Minivan", "Pickup Truck", "Cargo Van", "High-Roof Cargo Van",
   "Sprinter Van", "Straight Truck", "Box Truck - 16 ft", "Box Truck - 20 ft", "Box Truck - 24 ft",
   "Box Truck - 26 ft", "Flatbed / Stake Bed", "Refrigerated Van / Truck", "Tractor Trailer - 28 ft",
-  "Tractor Trailer - 45 ft", "Tractor Trailer - 47 ft", "Tractor Trailer - 48 ft", "Tractor Trailer - 53 ft",
+  "Tractor Trailer - 47 ft", "Tractor Trailer - 48 ft", "Tractor Trailer - 53 ft",
   "Doubles", "Triples",
 ];
 

@@ -17,7 +17,7 @@ test('every built-in preset maps to its own artwork', () => {
     'Box Truck - 26 ft': 'box-truck-26', 'Flatbed / Stake Bed': 'flatbed', 'Refrigerated Van / Truck': 'refrigerated',
     'Dump Truck': 'dump-truck', 'Tanker Truck': 'tanker-truck', 'Roll-Off Truck': 'roll-off-truck',
     'Tractor Trailer - 28 ft': 'tractor-trailer-28', 'Tractor Trailer - 40 ft': 'tractor-trailer-40',
-    'Tractor Trailer - 45 ft': 'tractor-trailer-45', 'Tractor Trailer - 47 ft': 'tractor-trailer-47',
+    'Tractor Trailer - 47 ft': 'tractor-trailer-47',
     'Tractor Trailer - 48 ft': 'tractor-trailer-48', 'Tractor Trailer - 53 ft': 'tractor-trailer-53',
     'Flatbed Tractor Trailer': 'flatbed-tractor-trailer', Doubles: 'doubles', Triples: 'triples',
   };
