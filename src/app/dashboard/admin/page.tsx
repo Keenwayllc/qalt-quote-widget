@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { Shield, Building2, FileText, Sparkles, MousePointerClick } from "lucide-react";
 import PlanSelect from "./PlanSelect";
+import VehicleRequestStatusSelect from "./VehicleRequestStatusSelect";
 
 export const dynamic = "force-dynamic";
 
@@ -70,6 +71,15 @@ export default async function AdminPage() {
       registrationUtmSource: true,
       registrationUtmMedium: true,
       registrationUtmCampaign: true,
+    },
+  });
+
+  const vehicleRequests = await prisma.vehicleRequest.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 50,
+    select: {
+      id: true, vehicleName: true, description: true, referenceUrl: true, status: true, createdAt: true,
+      company: { select: { name: true, email: true } },
     },
   });
 
@@ -310,6 +320,50 @@ export default async function AdminPage() {
           </table>
         </div>
       </div>
+
+      <section className="mt-10" aria-labelledby="vehicle-requests">
+        <h2 id="vehicle-requests" className="text-lg font-bold text-slate-900 dark:text-white">Vehicle requests</h2>
+        <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
+          Vehicles merchants asked for. Once added to the catalog, mark them Added so the merchant sees it.
+        </p>
+        {vehicleRequests.length === 0 ? (
+          <p className="rounded-xl border border-dashed border-slate-200 p-6 text-sm text-slate-400 dark:border-white/10">No requests yet.</p>
+        ) : (
+          <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white dark:border-white/[0.06] dark:bg-[#1e1e1e]">
+            <table className="w-full text-sm">
+              <thead className="bg-slate-50 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:bg-white/[0.03] dark:text-slate-400">
+                <tr>
+                  <th className="px-4 py-3">Vehicle</th>
+                  <th className="px-4 py-3">Merchant</th>
+                  <th className="px-4 py-3">Sent</th>
+                  <th className="px-4 py-3">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-white/[0.06]">
+                {vehicleRequests.map((r) => (
+                  <tr key={r.id} className="align-top">
+                    <td className="max-w-md px-4 py-3">
+                      <p className="font-semibold text-slate-900 dark:text-white">{r.vehicleName}</p>
+                      <p className="mt-1 whitespace-pre-wrap text-xs text-slate-500 dark:text-slate-400">{r.description}</p>
+                      {r.referenceUrl && (
+                        <a href={r.referenceUrl} target="_blank" rel="noopener noreferrer nofollow" className="mt-1 inline-block text-xs font-semibold text-red-600 hover:underline">
+                          Reference link
+                        </a>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-300">
+                      <p className="font-medium">{r.company.name}</p>
+                      <a href={`mailto:${r.company.email}`} className="text-xs text-slate-400 hover:text-red-600">{r.company.email}</a>
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-3 text-slate-500 dark:text-slate-400">{fmtDate(r.createdAt)}</td>
+                    <td className="px-4 py-3"><VehicleRequestStatusSelect id={r.id} status={r.status} /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
     </div>
   );
 }

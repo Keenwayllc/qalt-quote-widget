@@ -44,6 +44,12 @@ export type Webhook = $Result.DefaultSelection<Prisma.$WebhookPayload>
  */
 export type ShopifyInstall = $Result.DefaultSelection<Prisma.$ShopifyInstallPayload>
 /**
+ * Model VehicleRequest
+ * A merchant asking Qalt to add a vehicle to the shared catalog. Added vehicles
+ * become available to every merchant.
+ */
+export type VehicleRequest = $Result.DefaultSelection<Prisma.$VehicleRequestPayload>
+/**
  * Model PartnerInquiry
  * 
  */
@@ -264,6 +270,16 @@ export class PrismaClient<
     * ```
     */
   get shopifyInstall(): Prisma.ShopifyInstallDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.vehicleRequest`: Exposes CRUD operations for the **VehicleRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VehicleRequests
+    * const vehicleRequests = await prisma.vehicleRequest.findMany()
+    * ```
+    */
+  get vehicleRequest(): Prisma.VehicleRequestDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.partnerInquiry`: Exposes CRUD operations for the **PartnerInquiry** model.
@@ -784,6 +800,7 @@ export namespace Prisma {
     QuoteRequest: 'QuoteRequest',
     Webhook: 'Webhook',
     ShopifyInstall: 'ShopifyInstall',
+    VehicleRequest: 'VehicleRequest',
     PartnerInquiry: 'PartnerInquiry',
     StopNote: 'StopNote',
     ReadinessCheck: 'ReadinessCheck',
@@ -807,7 +824,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "pricingProfile" | "widgetSettings" | "quoteRequest" | "webhook" | "shopifyInstall" | "partnerInquiry" | "stopNote" | "readinessCheck" | "exceptionLog" | "job" | "jobStop" | "customerDocument" | "documentSequence"
+      modelProps: "company" | "pricingProfile" | "widgetSettings" | "quoteRequest" | "webhook" | "shopifyInstall" | "vehicleRequest" | "partnerInquiry" | "stopNote" | "readinessCheck" | "exceptionLog" | "job" | "jobStop" | "customerDocument" | "documentSequence"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1252,6 +1269,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ShopifyInstallCountArgs<ExtArgs>
             result: $Utils.Optional<ShopifyInstallCountAggregateOutputType> | number
+          }
+        }
+      }
+      VehicleRequest: {
+        payload: Prisma.$VehicleRequestPayload<ExtArgs>
+        fields: Prisma.VehicleRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VehicleRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehicleRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VehicleRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehicleRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.VehicleRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehicleRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VehicleRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehicleRequestPayload>
+          }
+          findMany: {
+            args: Prisma.VehicleRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehicleRequestPayload>[]
+          }
+          create: {
+            args: Prisma.VehicleRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehicleRequestPayload>
+          }
+          createMany: {
+            args: Prisma.VehicleRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VehicleRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehicleRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.VehicleRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehicleRequestPayload>
+          }
+          update: {
+            args: Prisma.VehicleRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehicleRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.VehicleRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VehicleRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.VehicleRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehicleRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.VehicleRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehicleRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.VehicleRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVehicleRequest>
+          }
+          groupBy: {
+            args: Prisma.VehicleRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VehicleRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VehicleRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<VehicleRequestCountAggregateOutputType> | number
           }
         }
       }
@@ -1961,6 +2052,7 @@ export namespace Prisma {
     quoteRequest?: QuoteRequestOmit
     webhook?: WebhookOmit
     shopifyInstall?: ShopifyInstallOmit
+    vehicleRequest?: VehicleRequestOmit
     partnerInquiry?: PartnerInquiryOmit
     stopNote?: StopNoteOmit
     readinessCheck?: ReadinessCheckOmit
@@ -2052,6 +2144,7 @@ export namespace Prisma {
     pricingProfiles: number
     quoteRequests: number
     widgetSettings: number
+    vehicleRequests: number
     webhooks: number
     shopifyInstalls: number
     stopNotes: number
@@ -2063,6 +2156,7 @@ export namespace Prisma {
     pricingProfiles?: boolean | CompanyCountOutputTypeCountPricingProfilesArgs
     quoteRequests?: boolean | CompanyCountOutputTypeCountQuoteRequestsArgs
     widgetSettings?: boolean | CompanyCountOutputTypeCountWidgetSettingsArgs
+    vehicleRequests?: boolean | CompanyCountOutputTypeCountVehicleRequestsArgs
     webhooks?: boolean | CompanyCountOutputTypeCountWebhooksArgs
     shopifyInstalls?: boolean | CompanyCountOutputTypeCountShopifyInstallsArgs
     stopNotes?: boolean | CompanyCountOutputTypeCountStopNotesArgs
@@ -2100,6 +2194,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountWidgetSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WidgetSettingsWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountVehicleRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VehicleRequestWhereInput
   }
 
   /**
@@ -2809,6 +2910,7 @@ export namespace Prisma {
     pricingProfiles?: boolean | Company$pricingProfilesArgs<ExtArgs>
     quoteRequests?: boolean | Company$quoteRequestsArgs<ExtArgs>
     widgetSettings?: boolean | Company$widgetSettingsArgs<ExtArgs>
+    vehicleRequests?: boolean | Company$vehicleRequestsArgs<ExtArgs>
     webhooks?: boolean | Company$webhooksArgs<ExtArgs>
     shopifyInstalls?: boolean | Company$shopifyInstallsArgs<ExtArgs>
     stopNotes?: boolean | Company$stopNotesArgs<ExtArgs>
@@ -2972,6 +3074,7 @@ export namespace Prisma {
     pricingProfiles?: boolean | Company$pricingProfilesArgs<ExtArgs>
     quoteRequests?: boolean | Company$quoteRequestsArgs<ExtArgs>
     widgetSettings?: boolean | Company$widgetSettingsArgs<ExtArgs>
+    vehicleRequests?: boolean | Company$vehicleRequestsArgs<ExtArgs>
     webhooks?: boolean | Company$webhooksArgs<ExtArgs>
     shopifyInstalls?: boolean | Company$shopifyInstallsArgs<ExtArgs>
     stopNotes?: boolean | Company$stopNotesArgs<ExtArgs>
@@ -2988,6 +3091,7 @@ export namespace Prisma {
       pricingProfiles: Prisma.$PricingProfilePayload<ExtArgs>[]
       quoteRequests: Prisma.$QuoteRequestPayload<ExtArgs>[]
       widgetSettings: Prisma.$WidgetSettingsPayload<ExtArgs>[]
+      vehicleRequests: Prisma.$VehicleRequestPayload<ExtArgs>[]
       webhooks: Prisma.$WebhookPayload<ExtArgs>[]
       shopifyInstalls: Prisma.$ShopifyInstallPayload<ExtArgs>[]
       stopNotes: Prisma.$StopNotePayload<ExtArgs>[]
@@ -3439,6 +3543,7 @@ export namespace Prisma {
     pricingProfiles<T extends Company$pricingProfilesArgs<ExtArgs> = {}>(args?: Subset<T, Company$pricingProfilesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PricingProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     quoteRequests<T extends Company$quoteRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Company$quoteRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuoteRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     widgetSettings<T extends Company$widgetSettingsArgs<ExtArgs> = {}>(args?: Subset<T, Company$widgetSettingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WidgetSettingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    vehicleRequests<T extends Company$vehicleRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Company$vehicleRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehicleRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     webhooks<T extends Company$webhooksArgs<ExtArgs> = {}>(args?: Subset<T, Company$webhooksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     shopifyInstalls<T extends Company$shopifyInstallsArgs<ExtArgs> = {}>(args?: Subset<T, Company$shopifyInstallsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopifyInstallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stopNotes<T extends Company$stopNotesArgs<ExtArgs> = {}>(args?: Subset<T, Company$stopNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3982,6 +4087,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: WidgetSettingsScalarFieldEnum | WidgetSettingsScalarFieldEnum[]
+  }
+
+  /**
+   * Company.vehicleRequests
+   */
+  export type Company$vehicleRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VehicleRequest
+     */
+    select?: VehicleRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VehicleRequest
+     */
+    omit?: VehicleRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleRequestInclude<ExtArgs> | null
+    where?: VehicleRequestWhereInput
+    orderBy?: VehicleRequestOrderByWithRelationInput | VehicleRequestOrderByWithRelationInput[]
+    cursor?: VehicleRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VehicleRequestScalarFieldEnum | VehicleRequestScalarFieldEnum[]
   }
 
   /**
@@ -10568,6 +10697,1108 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ShopifyInstallInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model VehicleRequest
+   */
+
+  export type AggregateVehicleRequest = {
+    _count: VehicleRequestCountAggregateOutputType | null
+    _min: VehicleRequestMinAggregateOutputType | null
+    _max: VehicleRequestMaxAggregateOutputType | null
+  }
+
+  export type VehicleRequestMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    vehicleName: string | null
+    description: string | null
+    referenceUrl: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VehicleRequestMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    vehicleName: string | null
+    description: string | null
+    referenceUrl: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VehicleRequestCountAggregateOutputType = {
+    id: number
+    companyId: number
+    vehicleName: number
+    description: number
+    referenceUrl: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type VehicleRequestMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    vehicleName?: true
+    description?: true
+    referenceUrl?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VehicleRequestMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    vehicleName?: true
+    description?: true
+    referenceUrl?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VehicleRequestCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    vehicleName?: true
+    description?: true
+    referenceUrl?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type VehicleRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VehicleRequest to aggregate.
+     */
+    where?: VehicleRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VehicleRequests to fetch.
+     */
+    orderBy?: VehicleRequestOrderByWithRelationInput | VehicleRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VehicleRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VehicleRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VehicleRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VehicleRequests
+    **/
+    _count?: true | VehicleRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VehicleRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VehicleRequestMaxAggregateInputType
+  }
+
+  export type GetVehicleRequestAggregateType<T extends VehicleRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateVehicleRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVehicleRequest[P]>
+      : GetScalarType<T[P], AggregateVehicleRequest[P]>
+  }
+
+
+
+
+  export type VehicleRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VehicleRequestWhereInput
+    orderBy?: VehicleRequestOrderByWithAggregationInput | VehicleRequestOrderByWithAggregationInput[]
+    by: VehicleRequestScalarFieldEnum[] | VehicleRequestScalarFieldEnum
+    having?: VehicleRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VehicleRequestCountAggregateInputType | true
+    _min?: VehicleRequestMinAggregateInputType
+    _max?: VehicleRequestMaxAggregateInputType
+  }
+
+  export type VehicleRequestGroupByOutputType = {
+    id: string
+    companyId: string
+    vehicleName: string
+    description: string
+    referenceUrl: string | null
+    status: string
+    createdAt: Date
+    updatedAt: Date
+    _count: VehicleRequestCountAggregateOutputType | null
+    _min: VehicleRequestMinAggregateOutputType | null
+    _max: VehicleRequestMaxAggregateOutputType | null
+  }
+
+  type GetVehicleRequestGroupByPayload<T extends VehicleRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VehicleRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VehicleRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VehicleRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], VehicleRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VehicleRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    vehicleName?: boolean
+    description?: boolean
+    referenceUrl?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vehicleRequest"]>
+
+  export type VehicleRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    vehicleName?: boolean
+    description?: boolean
+    referenceUrl?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vehicleRequest"]>
+
+  export type VehicleRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    vehicleName?: boolean
+    description?: boolean
+    referenceUrl?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vehicleRequest"]>
+
+  export type VehicleRequestSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    vehicleName?: boolean
+    description?: boolean
+    referenceUrl?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type VehicleRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "vehicleName" | "description" | "referenceUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["vehicleRequest"]>
+  export type VehicleRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type VehicleRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type VehicleRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $VehicleRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "VehicleRequest"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      vehicleName: string
+      description: string
+      referenceUrl: string | null
+      status: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["vehicleRequest"]>
+    composites: {}
+  }
+
+  type VehicleRequestGetPayload<S extends boolean | null | undefined | VehicleRequestDefaultArgs> = $Result.GetResult<Prisma.$VehicleRequestPayload, S>
+
+  type VehicleRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VehicleRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VehicleRequestCountAggregateInputType | true
+    }
+
+  export interface VehicleRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VehicleRequest'], meta: { name: 'VehicleRequest' } }
+    /**
+     * Find zero or one VehicleRequest that matches the filter.
+     * @param {VehicleRequestFindUniqueArgs} args - Arguments to find a VehicleRequest
+     * @example
+     * // Get one VehicleRequest
+     * const vehicleRequest = await prisma.vehicleRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VehicleRequestFindUniqueArgs>(args: SelectSubset<T, VehicleRequestFindUniqueArgs<ExtArgs>>): Prisma__VehicleRequestClient<$Result.GetResult<Prisma.$VehicleRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one VehicleRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VehicleRequestFindUniqueOrThrowArgs} args - Arguments to find a VehicleRequest
+     * @example
+     * // Get one VehicleRequest
+     * const vehicleRequest = await prisma.vehicleRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VehicleRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, VehicleRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VehicleRequestClient<$Result.GetResult<Prisma.$VehicleRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VehicleRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleRequestFindFirstArgs} args - Arguments to find a VehicleRequest
+     * @example
+     * // Get one VehicleRequest
+     * const vehicleRequest = await prisma.vehicleRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VehicleRequestFindFirstArgs>(args?: SelectSubset<T, VehicleRequestFindFirstArgs<ExtArgs>>): Prisma__VehicleRequestClient<$Result.GetResult<Prisma.$VehicleRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VehicleRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleRequestFindFirstOrThrowArgs} args - Arguments to find a VehicleRequest
+     * @example
+     * // Get one VehicleRequest
+     * const vehicleRequest = await prisma.vehicleRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VehicleRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, VehicleRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__VehicleRequestClient<$Result.GetResult<Prisma.$VehicleRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more VehicleRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VehicleRequests
+     * const vehicleRequests = await prisma.vehicleRequest.findMany()
+     * 
+     * // Get first 10 VehicleRequests
+     * const vehicleRequests = await prisma.vehicleRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const vehicleRequestWithIdOnly = await prisma.vehicleRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VehicleRequestFindManyArgs>(args?: SelectSubset<T, VehicleRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehicleRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a VehicleRequest.
+     * @param {VehicleRequestCreateArgs} args - Arguments to create a VehicleRequest.
+     * @example
+     * // Create one VehicleRequest
+     * const VehicleRequest = await prisma.vehicleRequest.create({
+     *   data: {
+     *     // ... data to create a VehicleRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends VehicleRequestCreateArgs>(args: SelectSubset<T, VehicleRequestCreateArgs<ExtArgs>>): Prisma__VehicleRequestClient<$Result.GetResult<Prisma.$VehicleRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many VehicleRequests.
+     * @param {VehicleRequestCreateManyArgs} args - Arguments to create many VehicleRequests.
+     * @example
+     * // Create many VehicleRequests
+     * const vehicleRequest = await prisma.vehicleRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VehicleRequestCreateManyArgs>(args?: SelectSubset<T, VehicleRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VehicleRequests and returns the data saved in the database.
+     * @param {VehicleRequestCreateManyAndReturnArgs} args - Arguments to create many VehicleRequests.
+     * @example
+     * // Create many VehicleRequests
+     * const vehicleRequest = await prisma.vehicleRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VehicleRequests and only return the `id`
+     * const vehicleRequestWithIdOnly = await prisma.vehicleRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VehicleRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, VehicleRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehicleRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a VehicleRequest.
+     * @param {VehicleRequestDeleteArgs} args - Arguments to delete one VehicleRequest.
+     * @example
+     * // Delete one VehicleRequest
+     * const VehicleRequest = await prisma.vehicleRequest.delete({
+     *   where: {
+     *     // ... filter to delete one VehicleRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VehicleRequestDeleteArgs>(args: SelectSubset<T, VehicleRequestDeleteArgs<ExtArgs>>): Prisma__VehicleRequestClient<$Result.GetResult<Prisma.$VehicleRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one VehicleRequest.
+     * @param {VehicleRequestUpdateArgs} args - Arguments to update one VehicleRequest.
+     * @example
+     * // Update one VehicleRequest
+     * const vehicleRequest = await prisma.vehicleRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VehicleRequestUpdateArgs>(args: SelectSubset<T, VehicleRequestUpdateArgs<ExtArgs>>): Prisma__VehicleRequestClient<$Result.GetResult<Prisma.$VehicleRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more VehicleRequests.
+     * @param {VehicleRequestDeleteManyArgs} args - Arguments to filter VehicleRequests to delete.
+     * @example
+     * // Delete a few VehicleRequests
+     * const { count } = await prisma.vehicleRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VehicleRequestDeleteManyArgs>(args?: SelectSubset<T, VehicleRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VehicleRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VehicleRequests
+     * const vehicleRequest = await prisma.vehicleRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VehicleRequestUpdateManyArgs>(args: SelectSubset<T, VehicleRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VehicleRequests and returns the data updated in the database.
+     * @param {VehicleRequestUpdateManyAndReturnArgs} args - Arguments to update many VehicleRequests.
+     * @example
+     * // Update many VehicleRequests
+     * const vehicleRequest = await prisma.vehicleRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more VehicleRequests and only return the `id`
+     * const vehicleRequestWithIdOnly = await prisma.vehicleRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VehicleRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, VehicleRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehicleRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one VehicleRequest.
+     * @param {VehicleRequestUpsertArgs} args - Arguments to update or create a VehicleRequest.
+     * @example
+     * // Update or create a VehicleRequest
+     * const vehicleRequest = await prisma.vehicleRequest.upsert({
+     *   create: {
+     *     // ... data to create a VehicleRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VehicleRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VehicleRequestUpsertArgs>(args: SelectSubset<T, VehicleRequestUpsertArgs<ExtArgs>>): Prisma__VehicleRequestClient<$Result.GetResult<Prisma.$VehicleRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of VehicleRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleRequestCountArgs} args - Arguments to filter VehicleRequests to count.
+     * @example
+     * // Count the number of VehicleRequests
+     * const count = await prisma.vehicleRequest.count({
+     *   where: {
+     *     // ... the filter for the VehicleRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends VehicleRequestCountArgs>(
+      args?: Subset<T, VehicleRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VehicleRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VehicleRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VehicleRequestAggregateArgs>(args: Subset<T, VehicleRequestAggregateArgs>): Prisma.PrismaPromise<GetVehicleRequestAggregateType<T>>
+
+    /**
+     * Group by VehicleRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VehicleRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VehicleRequestGroupByArgs['orderBy'] }
+        : { orderBy?: VehicleRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VehicleRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVehicleRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the VehicleRequest model
+   */
+  readonly fields: VehicleRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VehicleRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VehicleRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the VehicleRequest model
+   */
+  interface VehicleRequestFieldRefs {
+    readonly id: FieldRef<"VehicleRequest", 'String'>
+    readonly companyId: FieldRef<"VehicleRequest", 'String'>
+    readonly vehicleName: FieldRef<"VehicleRequest", 'String'>
+    readonly description: FieldRef<"VehicleRequest", 'String'>
+    readonly referenceUrl: FieldRef<"VehicleRequest", 'String'>
+    readonly status: FieldRef<"VehicleRequest", 'String'>
+    readonly createdAt: FieldRef<"VehicleRequest", 'DateTime'>
+    readonly updatedAt: FieldRef<"VehicleRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * VehicleRequest findUnique
+   */
+  export type VehicleRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VehicleRequest
+     */
+    select?: VehicleRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VehicleRequest
+     */
+    omit?: VehicleRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which VehicleRequest to fetch.
+     */
+    where: VehicleRequestWhereUniqueInput
+  }
+
+  /**
+   * VehicleRequest findUniqueOrThrow
+   */
+  export type VehicleRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VehicleRequest
+     */
+    select?: VehicleRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VehicleRequest
+     */
+    omit?: VehicleRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which VehicleRequest to fetch.
+     */
+    where: VehicleRequestWhereUniqueInput
+  }
+
+  /**
+   * VehicleRequest findFirst
+   */
+  export type VehicleRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VehicleRequest
+     */
+    select?: VehicleRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VehicleRequest
+     */
+    omit?: VehicleRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which VehicleRequest to fetch.
+     */
+    where?: VehicleRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VehicleRequests to fetch.
+     */
+    orderBy?: VehicleRequestOrderByWithRelationInput | VehicleRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VehicleRequests.
+     */
+    cursor?: VehicleRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VehicleRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VehicleRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VehicleRequests.
+     */
+    distinct?: VehicleRequestScalarFieldEnum | VehicleRequestScalarFieldEnum[]
+  }
+
+  /**
+   * VehicleRequest findFirstOrThrow
+   */
+  export type VehicleRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VehicleRequest
+     */
+    select?: VehicleRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VehicleRequest
+     */
+    omit?: VehicleRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which VehicleRequest to fetch.
+     */
+    where?: VehicleRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VehicleRequests to fetch.
+     */
+    orderBy?: VehicleRequestOrderByWithRelationInput | VehicleRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VehicleRequests.
+     */
+    cursor?: VehicleRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VehicleRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VehicleRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VehicleRequests.
+     */
+    distinct?: VehicleRequestScalarFieldEnum | VehicleRequestScalarFieldEnum[]
+  }
+
+  /**
+   * VehicleRequest findMany
+   */
+  export type VehicleRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VehicleRequest
+     */
+    select?: VehicleRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VehicleRequest
+     */
+    omit?: VehicleRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which VehicleRequests to fetch.
+     */
+    where?: VehicleRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VehicleRequests to fetch.
+     */
+    orderBy?: VehicleRequestOrderByWithRelationInput | VehicleRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VehicleRequests.
+     */
+    cursor?: VehicleRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VehicleRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VehicleRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VehicleRequests.
+     */
+    distinct?: VehicleRequestScalarFieldEnum | VehicleRequestScalarFieldEnum[]
+  }
+
+  /**
+   * VehicleRequest create
+   */
+  export type VehicleRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VehicleRequest
+     */
+    select?: VehicleRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VehicleRequest
+     */
+    omit?: VehicleRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a VehicleRequest.
+     */
+    data: XOR<VehicleRequestCreateInput, VehicleRequestUncheckedCreateInput>
+  }
+
+  /**
+   * VehicleRequest createMany
+   */
+  export type VehicleRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many VehicleRequests.
+     */
+    data: VehicleRequestCreateManyInput | VehicleRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VehicleRequest createManyAndReturn
+   */
+  export type VehicleRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VehicleRequest
+     */
+    select?: VehicleRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VehicleRequest
+     */
+    omit?: VehicleRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many VehicleRequests.
+     */
+    data: VehicleRequestCreateManyInput | VehicleRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VehicleRequest update
+   */
+  export type VehicleRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VehicleRequest
+     */
+    select?: VehicleRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VehicleRequest
+     */
+    omit?: VehicleRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a VehicleRequest.
+     */
+    data: XOR<VehicleRequestUpdateInput, VehicleRequestUncheckedUpdateInput>
+    /**
+     * Choose, which VehicleRequest to update.
+     */
+    where: VehicleRequestWhereUniqueInput
+  }
+
+  /**
+   * VehicleRequest updateMany
+   */
+  export type VehicleRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update VehicleRequests.
+     */
+    data: XOR<VehicleRequestUpdateManyMutationInput, VehicleRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which VehicleRequests to update
+     */
+    where?: VehicleRequestWhereInput
+    /**
+     * Limit how many VehicleRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VehicleRequest updateManyAndReturn
+   */
+  export type VehicleRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VehicleRequest
+     */
+    select?: VehicleRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VehicleRequest
+     */
+    omit?: VehicleRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update VehicleRequests.
+     */
+    data: XOR<VehicleRequestUpdateManyMutationInput, VehicleRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which VehicleRequests to update
+     */
+    where?: VehicleRequestWhereInput
+    /**
+     * Limit how many VehicleRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VehicleRequest upsert
+   */
+  export type VehicleRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VehicleRequest
+     */
+    select?: VehicleRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VehicleRequest
+     */
+    omit?: VehicleRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the VehicleRequest to update in case it exists.
+     */
+    where: VehicleRequestWhereUniqueInput
+    /**
+     * In case the VehicleRequest found by the `where` argument doesn't exist, create a new VehicleRequest with this data.
+     */
+    create: XOR<VehicleRequestCreateInput, VehicleRequestUncheckedCreateInput>
+    /**
+     * In case the VehicleRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VehicleRequestUpdateInput, VehicleRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * VehicleRequest delete
+   */
+  export type VehicleRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VehicleRequest
+     */
+    select?: VehicleRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VehicleRequest
+     */
+    omit?: VehicleRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleRequestInclude<ExtArgs> | null
+    /**
+     * Filter which VehicleRequest to delete.
+     */
+    where: VehicleRequestWhereUniqueInput
+  }
+
+  /**
+   * VehicleRequest deleteMany
+   */
+  export type VehicleRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VehicleRequests to delete
+     */
+    where?: VehicleRequestWhereInput
+    /**
+     * Limit how many VehicleRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * VehicleRequest without action
+   */
+  export type VehicleRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VehicleRequest
+     */
+    select?: VehicleRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VehicleRequest
+     */
+    omit?: VehicleRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleRequestInclude<ExtArgs> | null
   }
 
 
@@ -19967,6 +21198,20 @@ export namespace Prisma {
   export type ShopifyInstallScalarFieldEnum = (typeof ShopifyInstallScalarFieldEnum)[keyof typeof ShopifyInstallScalarFieldEnum]
 
 
+  export const VehicleRequestScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    vehicleName: 'vehicleName',
+    description: 'description',
+    referenceUrl: 'referenceUrl',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type VehicleRequestScalarFieldEnum = (typeof VehicleRequestScalarFieldEnum)[keyof typeof VehicleRequestScalarFieldEnum]
+
+
   export const PartnerInquiryScalarFieldEnum: {
     id: 'id',
     companyName: 'companyName',
@@ -20276,6 +21521,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileListRelationFilter
     quoteRequests?: QuoteRequestListRelationFilter
     widgetSettings?: WidgetSettingsListRelationFilter
+    vehicleRequests?: VehicleRequestListRelationFilter
     webhooks?: WebhookListRelationFilter
     shopifyInstalls?: ShopifyInstallListRelationFilter
     stopNotes?: StopNoteListRelationFilter
@@ -20334,6 +21580,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileOrderByRelationAggregateInput
     quoteRequests?: QuoteRequestOrderByRelationAggregateInput
     widgetSettings?: WidgetSettingsOrderByRelationAggregateInput
+    vehicleRequests?: VehicleRequestOrderByRelationAggregateInput
     webhooks?: WebhookOrderByRelationAggregateInput
     shopifyInstalls?: ShopifyInstallOrderByRelationAggregateInput
     stopNotes?: StopNoteOrderByRelationAggregateInput
@@ -20395,6 +21642,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileListRelationFilter
     quoteRequests?: QuoteRequestListRelationFilter
     widgetSettings?: WidgetSettingsListRelationFilter
+    vehicleRequests?: VehicleRequestListRelationFilter
     webhooks?: WebhookListRelationFilter
     shopifyInstalls?: ShopifyInstallListRelationFilter
     stopNotes?: StopNoteListRelationFilter
@@ -21143,6 +22391,76 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ShopifyInstall"> | Date | string
   }
 
+  export type VehicleRequestWhereInput = {
+    AND?: VehicleRequestWhereInput | VehicleRequestWhereInput[]
+    OR?: VehicleRequestWhereInput[]
+    NOT?: VehicleRequestWhereInput | VehicleRequestWhereInput[]
+    id?: StringFilter<"VehicleRequest"> | string
+    companyId?: StringFilter<"VehicleRequest"> | string
+    vehicleName?: StringFilter<"VehicleRequest"> | string
+    description?: StringFilter<"VehicleRequest"> | string
+    referenceUrl?: StringNullableFilter<"VehicleRequest"> | string | null
+    status?: StringFilter<"VehicleRequest"> | string
+    createdAt?: DateTimeFilter<"VehicleRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"VehicleRequest"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }
+
+  export type VehicleRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    vehicleName?: SortOrder
+    description?: SortOrder
+    referenceUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type VehicleRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: VehicleRequestWhereInput | VehicleRequestWhereInput[]
+    OR?: VehicleRequestWhereInput[]
+    NOT?: VehicleRequestWhereInput | VehicleRequestWhereInput[]
+    companyId?: StringFilter<"VehicleRequest"> | string
+    vehicleName?: StringFilter<"VehicleRequest"> | string
+    description?: StringFilter<"VehicleRequest"> | string
+    referenceUrl?: StringNullableFilter<"VehicleRequest"> | string | null
+    status?: StringFilter<"VehicleRequest"> | string
+    createdAt?: DateTimeFilter<"VehicleRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"VehicleRequest"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }, "id">
+
+  export type VehicleRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    vehicleName?: SortOrder
+    description?: SortOrder
+    referenceUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: VehicleRequestCountOrderByAggregateInput
+    _max?: VehicleRequestMaxOrderByAggregateInput
+    _min?: VehicleRequestMinOrderByAggregateInput
+  }
+
+  export type VehicleRequestScalarWhereWithAggregatesInput = {
+    AND?: VehicleRequestScalarWhereWithAggregatesInput | VehicleRequestScalarWhereWithAggregatesInput[]
+    OR?: VehicleRequestScalarWhereWithAggregatesInput[]
+    NOT?: VehicleRequestScalarWhereWithAggregatesInput | VehicleRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"VehicleRequest"> | string
+    companyId?: StringWithAggregatesFilter<"VehicleRequest"> | string
+    vehicleName?: StringWithAggregatesFilter<"VehicleRequest"> | string
+    description?: StringWithAggregatesFilter<"VehicleRequest"> | string
+    referenceUrl?: StringNullableWithAggregatesFilter<"VehicleRequest"> | string | null
+    status?: StringWithAggregatesFilter<"VehicleRequest"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"VehicleRequest"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"VehicleRequest"> | Date | string
+  }
+
   export type PartnerInquiryWhereInput = {
     AND?: PartnerInquiryWhereInput | PartnerInquiryWhereInput[]
     OR?: PartnerInquiryWhereInput[]
@@ -21840,6 +23158,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
@@ -21898,6 +23217,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestUncheckedCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
@@ -21956,6 +23276,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
@@ -22014,6 +23335,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUncheckedUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
@@ -22933,6 +24255,82 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type VehicleRequestCreateInput = {
+    id?: string
+    vehicleName: string
+    description: string
+    referenceUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutVehicleRequestsInput
+  }
+
+  export type VehicleRequestUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    vehicleName: string
+    description: string
+    referenceUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VehicleRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vehicleName?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    referenceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutVehicleRequestsNestedInput
+  }
+
+  export type VehicleRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    vehicleName?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    referenceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VehicleRequestCreateManyInput = {
+    id?: string
+    companyId: string
+    vehicleName: string
+    description: string
+    referenceUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VehicleRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vehicleName?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    referenceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VehicleRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    vehicleName?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    referenceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PartnerInquiryCreateInput = {
     id?: string
     companyName: string
@@ -23741,6 +25139,12 @@ export namespace Prisma {
     none?: WidgetSettingsWhereInput
   }
 
+  export type VehicleRequestListRelationFilter = {
+    every?: VehicleRequestWhereInput
+    some?: VehicleRequestWhereInput
+    none?: VehicleRequestWhereInput
+  }
+
   export type WebhookListRelationFilter = {
     every?: WebhookWhereInput
     some?: WebhookWhereInput
@@ -23785,6 +25189,10 @@ export namespace Prisma {
   }
 
   export type WidgetSettingsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type VehicleRequestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -24565,6 +25973,39 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type VehicleRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    vehicleName?: SortOrder
+    description?: SortOrder
+    referenceUrl?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VehicleRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    vehicleName?: SortOrder
+    description?: SortOrder
+    referenceUrl?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VehicleRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    vehicleName?: SortOrder
+    description?: SortOrder
+    referenceUrl?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type PartnerInquiryCountOrderByAggregateInput = {
     id?: SortOrder
     companyName?: SortOrder
@@ -24978,6 +26419,13 @@ export namespace Prisma {
     connect?: WidgetSettingsWhereUniqueInput | WidgetSettingsWhereUniqueInput[]
   }
 
+  export type VehicleRequestCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<VehicleRequestCreateWithoutCompanyInput, VehicleRequestUncheckedCreateWithoutCompanyInput> | VehicleRequestCreateWithoutCompanyInput[] | VehicleRequestUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: VehicleRequestCreateOrConnectWithoutCompanyInput | VehicleRequestCreateOrConnectWithoutCompanyInput[]
+    createMany?: VehicleRequestCreateManyCompanyInputEnvelope
+    connect?: VehicleRequestWhereUniqueInput | VehicleRequestWhereUniqueInput[]
+  }
+
   export type WebhookCreateNestedManyWithoutCompanyInput = {
     create?: XOR<WebhookCreateWithoutCompanyInput, WebhookUncheckedCreateWithoutCompanyInput> | WebhookCreateWithoutCompanyInput[] | WebhookUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: WebhookCreateOrConnectWithoutCompanyInput | WebhookCreateOrConnectWithoutCompanyInput[]
@@ -25032,6 +26480,13 @@ export namespace Prisma {
     connectOrCreate?: WidgetSettingsCreateOrConnectWithoutCompanyInput | WidgetSettingsCreateOrConnectWithoutCompanyInput[]
     createMany?: WidgetSettingsCreateManyCompanyInputEnvelope
     connect?: WidgetSettingsWhereUniqueInput | WidgetSettingsWhereUniqueInput[]
+  }
+
+  export type VehicleRequestUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<VehicleRequestCreateWithoutCompanyInput, VehicleRequestUncheckedCreateWithoutCompanyInput> | VehicleRequestCreateWithoutCompanyInput[] | VehicleRequestUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: VehicleRequestCreateOrConnectWithoutCompanyInput | VehicleRequestCreateOrConnectWithoutCompanyInput[]
+    createMany?: VehicleRequestCreateManyCompanyInputEnvelope
+    connect?: VehicleRequestWhereUniqueInput | VehicleRequestWhereUniqueInput[]
   }
 
   export type WebhookUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -25137,6 +26592,20 @@ export namespace Prisma {
     update?: WidgetSettingsUpdateWithWhereUniqueWithoutCompanyInput | WidgetSettingsUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: WidgetSettingsUpdateManyWithWhereWithoutCompanyInput | WidgetSettingsUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: WidgetSettingsScalarWhereInput | WidgetSettingsScalarWhereInput[]
+  }
+
+  export type VehicleRequestUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<VehicleRequestCreateWithoutCompanyInput, VehicleRequestUncheckedCreateWithoutCompanyInput> | VehicleRequestCreateWithoutCompanyInput[] | VehicleRequestUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: VehicleRequestCreateOrConnectWithoutCompanyInput | VehicleRequestCreateOrConnectWithoutCompanyInput[]
+    upsert?: VehicleRequestUpsertWithWhereUniqueWithoutCompanyInput | VehicleRequestUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: VehicleRequestCreateManyCompanyInputEnvelope
+    set?: VehicleRequestWhereUniqueInput | VehicleRequestWhereUniqueInput[]
+    disconnect?: VehicleRequestWhereUniqueInput | VehicleRequestWhereUniqueInput[]
+    delete?: VehicleRequestWhereUniqueInput | VehicleRequestWhereUniqueInput[]
+    connect?: VehicleRequestWhereUniqueInput | VehicleRequestWhereUniqueInput[]
+    update?: VehicleRequestUpdateWithWhereUniqueWithoutCompanyInput | VehicleRequestUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: VehicleRequestUpdateManyWithWhereWithoutCompanyInput | VehicleRequestUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: VehicleRequestScalarWhereInput | VehicleRequestScalarWhereInput[]
   }
 
   export type WebhookUpdateManyWithoutCompanyNestedInput = {
@@ -25249,6 +26718,20 @@ export namespace Prisma {
     update?: WidgetSettingsUpdateWithWhereUniqueWithoutCompanyInput | WidgetSettingsUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: WidgetSettingsUpdateManyWithWhereWithoutCompanyInput | WidgetSettingsUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: WidgetSettingsScalarWhereInput | WidgetSettingsScalarWhereInput[]
+  }
+
+  export type VehicleRequestUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<VehicleRequestCreateWithoutCompanyInput, VehicleRequestUncheckedCreateWithoutCompanyInput> | VehicleRequestCreateWithoutCompanyInput[] | VehicleRequestUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: VehicleRequestCreateOrConnectWithoutCompanyInput | VehicleRequestCreateOrConnectWithoutCompanyInput[]
+    upsert?: VehicleRequestUpsertWithWhereUniqueWithoutCompanyInput | VehicleRequestUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: VehicleRequestCreateManyCompanyInputEnvelope
+    set?: VehicleRequestWhereUniqueInput | VehicleRequestWhereUniqueInput[]
+    disconnect?: VehicleRequestWhereUniqueInput | VehicleRequestWhereUniqueInput[]
+    delete?: VehicleRequestWhereUniqueInput | VehicleRequestWhereUniqueInput[]
+    connect?: VehicleRequestWhereUniqueInput | VehicleRequestWhereUniqueInput[]
+    update?: VehicleRequestUpdateWithWhereUniqueWithoutCompanyInput | VehicleRequestUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: VehicleRequestUpdateManyWithWhereWithoutCompanyInput | VehicleRequestUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: VehicleRequestScalarWhereInput | VehicleRequestScalarWhereInput[]
   }
 
   export type WebhookUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -25557,6 +27040,20 @@ export namespace Prisma {
     delete?: CompanyWhereInput | boolean
     connect?: CompanyWhereUniqueInput
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutShopifyInstallsInput, CompanyUpdateWithoutShopifyInstallsInput>, CompanyUncheckedUpdateWithoutShopifyInstallsInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutVehicleRequestsInput = {
+    create?: XOR<CompanyCreateWithoutVehicleRequestsInput, CompanyUncheckedCreateWithoutVehicleRequestsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutVehicleRequestsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutVehicleRequestsNestedInput = {
+    create?: XOR<CompanyCreateWithoutVehicleRequestsInput, CompanyUncheckedCreateWithoutVehicleRequestsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutVehicleRequestsInput
+    upsert?: CompanyUpsertWithoutVehicleRequestsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutVehicleRequestsInput, CompanyUpdateWithoutVehicleRequestsInput>, CompanyUncheckedUpdateWithoutVehicleRequestsInput>
   }
 
   export type CompanyCreateNestedOneWithoutStopNotesInput = {
@@ -26442,6 +27939,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type VehicleRequestCreateWithoutCompanyInput = {
+    id?: string
+    vehicleName: string
+    description: string
+    referenceUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VehicleRequestUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    vehicleName: string
+    description: string
+    referenceUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VehicleRequestCreateOrConnectWithoutCompanyInput = {
+    where: VehicleRequestWhereUniqueInput
+    create: XOR<VehicleRequestCreateWithoutCompanyInput, VehicleRequestUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type VehicleRequestCreateManyCompanyInputEnvelope = {
+    data: VehicleRequestCreateManyCompanyInput | VehicleRequestCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type WebhookCreateWithoutCompanyInput = {
     id?: string
     url: string
@@ -26769,6 +28296,36 @@ export namespace Prisma {
     serviceZips?: StringNullableListFilter<"WidgetSettings">
   }
 
+  export type VehicleRequestUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: VehicleRequestWhereUniqueInput
+    update: XOR<VehicleRequestUpdateWithoutCompanyInput, VehicleRequestUncheckedUpdateWithoutCompanyInput>
+    create: XOR<VehicleRequestCreateWithoutCompanyInput, VehicleRequestUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type VehicleRequestUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: VehicleRequestWhereUniqueInput
+    data: XOR<VehicleRequestUpdateWithoutCompanyInput, VehicleRequestUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type VehicleRequestUpdateManyWithWhereWithoutCompanyInput = {
+    where: VehicleRequestScalarWhereInput
+    data: XOR<VehicleRequestUpdateManyMutationInput, VehicleRequestUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type VehicleRequestScalarWhereInput = {
+    AND?: VehicleRequestScalarWhereInput | VehicleRequestScalarWhereInput[]
+    OR?: VehicleRequestScalarWhereInput[]
+    NOT?: VehicleRequestScalarWhereInput | VehicleRequestScalarWhereInput[]
+    id?: StringFilter<"VehicleRequest"> | string
+    companyId?: StringFilter<"VehicleRequest"> | string
+    vehicleName?: StringFilter<"VehicleRequest"> | string
+    description?: StringFilter<"VehicleRequest"> | string
+    referenceUrl?: StringNullableFilter<"VehicleRequest"> | string | null
+    status?: StringFilter<"VehicleRequest"> | string
+    createdAt?: DateTimeFilter<"VehicleRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"VehicleRequest"> | Date | string
+  }
+
   export type WebhookUpsertWithWhereUniqueWithoutCompanyInput = {
     where: WebhookWhereUniqueInput
     update: XOR<WebhookUpdateWithoutCompanyInput, WebhookUncheckedUpdateWithoutCompanyInput>
@@ -26979,6 +28536,7 @@ export namespace Prisma {
     createdAt?: Date | string
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
@@ -27036,6 +28594,7 @@ export namespace Prisma {
     createdAt?: Date | string
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestUncheckedCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
@@ -27180,6 +28739,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
@@ -27237,6 +28797,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUncheckedUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
@@ -27371,6 +28932,7 @@ export namespace Prisma {
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
@@ -27428,6 +28990,7 @@ export namespace Prisma {
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestUncheckedCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
@@ -27552,6 +29115,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
@@ -27609,6 +29173,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUncheckedUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
@@ -27723,6 +29288,7 @@ export namespace Prisma {
     createdAt?: Date | string
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
@@ -27780,6 +29346,7 @@ export namespace Prisma {
     createdAt?: Date | string
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestUncheckedCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
@@ -27931,6 +29498,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
@@ -27988,6 +29556,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUncheckedUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
@@ -28078,6 +29647,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
@@ -28135,6 +29705,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestUncheckedCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
@@ -28208,6 +29779,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
@@ -28265,6 +29837,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUncheckedUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
@@ -28322,6 +29895,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
@@ -28379,6 +29953,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestUncheckedCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
@@ -28452,6 +30027,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
@@ -28509,7 +30085,256 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUncheckedUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutVehicleRequestsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name: string
+    logoUrl?: string | null
+    logoBackdrop?: string
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
+    timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    subscriptionPlan?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripeConnectAccountId?: string | null
+    trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    isSuperAdmin?: boolean
+    lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
+    createdAt?: Date | string
+    pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
+    quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
+    widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
+    webhooks?: WebhookCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
+    jobs?: JobCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutVehicleRequestsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name: string
+    logoUrl?: string | null
+    logoBackdrop?: string
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
+    timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    subscriptionPlan?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripeConnectAccountId?: string | null
+    trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    isSuperAdmin?: boolean
+    lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
+    createdAt?: Date | string
+    pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
+    quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
+    widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
+    jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutVehicleRequestsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutVehicleRequestsInput, CompanyUncheckedCreateWithoutVehicleRequestsInput>
+  }
+
+  export type CompanyUpsertWithoutVehicleRequestsInput = {
+    update: XOR<CompanyUpdateWithoutVehicleRequestsInput, CompanyUncheckedUpdateWithoutVehicleRequestsInput>
+    create: XOR<CompanyCreateWithoutVehicleRequestsInput, CompanyUncheckedCreateWithoutVehicleRequestsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutVehicleRequestsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutVehicleRequestsInput, CompanyUncheckedUpdateWithoutVehicleRequestsInput>
+  }
+
+  export type CompanyUpdateWithoutVehicleRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoBackdrop?: StringFieldUpdateOperationsInput | string
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
+    quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
+    widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
+    webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutVehicleRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoBackdrop?: StringFieldUpdateOperationsInput | string
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
+    quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -28566,6 +30391,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
@@ -28623,6 +30449,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestUncheckedCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
@@ -28780,6 +30607,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
@@ -28837,6 +30665,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUncheckedUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
@@ -29293,6 +31122,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
@@ -29350,6 +31180,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestUncheckedCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
@@ -29576,6 +31407,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
@@ -29633,6 +31465,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUncheckedUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
@@ -29969,6 +31802,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
@@ -30026,6 +31860,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
     quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
     widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestUncheckedCreateNestedManyWithoutCompanyInput
     webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
@@ -30168,6 +32003,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
@@ -30225,6 +32061,7 @@ export namespace Prisma {
     pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
     quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
     widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUncheckedUpdateManyWithoutCompanyNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
@@ -30389,6 +32226,16 @@ export namespace Prisma {
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
+  }
+
+  export type VehicleRequestCreateManyCompanyInput = {
+    id?: string
+    vehicleName: string
+    description: string
+    referenceUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type WebhookCreateManyCompanyInput = {
@@ -30710,6 +32557,36 @@ export namespace Prisma {
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
+  }
+
+  export type VehicleRequestUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vehicleName?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    referenceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VehicleRequestUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vehicleName?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    referenceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VehicleRequestUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vehicleName?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    referenceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WebhookUpdateWithoutCompanyInput = {

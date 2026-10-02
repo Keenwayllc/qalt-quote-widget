@@ -278,6 +278,17 @@ exports.Prisma.ShopifyInstallScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.VehicleRequestScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  vehicleName: 'vehicleName',
+  description: 'description',
+  referenceUrl: 'referenceUrl',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.PartnerInquiryScalarFieldEnum = {
   id: 'id',
   companyName: 'companyName',
@@ -414,6 +425,7 @@ exports.Prisma.ModelName = {
   QuoteRequest: 'QuoteRequest',
   Webhook: 'Webhook',
   ShopifyInstall: 'ShopifyInstall',
+  VehicleRequest: 'VehicleRequest',
   PartnerInquiry: 'PartnerInquiry',
   StopNote: 'StopNote',
   ReadinessCheck: 'ReadinessCheck',

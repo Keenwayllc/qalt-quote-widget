@@ -5,6 +5,7 @@ import type { CustomQuestion } from "@/lib/form-questions";
 import { MAX_CUSTOM_QUESTIONS, MAX_QUESTION_OPTIONS } from "@/lib/form-questions";
 import { inferVehicleArtwork, type VehicleArtworkKey } from "@/lib/form-vehicles";
 import VehicleArtworkPicker from "./VehicleArtworkPicker";
+import VehicleRequestPanel from "./VehicleRequestPanel";
 
 export type FormTemplate = "standard" | "extended" | "quick";
 export type FormFields = {
@@ -129,6 +130,7 @@ export default function FormOptionsEditor({
         </div>
         <button type="button" disabled={vehicles.length >= 40} onClick={() => onVehiclesChange([...vehicles, { name: "", fee: "0" }])}
           className="inline-flex items-center gap-2 text-xs font-bold text-red-600 disabled:opacity-40 dark:text-red-400"><Plus size={14} /> Add your own vehicle</button>
+        <VehicleRequestPanel />
       </section>
     );
   }

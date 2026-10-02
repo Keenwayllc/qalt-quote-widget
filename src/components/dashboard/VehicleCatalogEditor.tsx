@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Check, Plus, Save, Trash2, Truck } from "lucide-react";
 import { inferVehicleArtwork, parseVehicleArtworkKey, type VehicleArtworkKey } from "@/lib/form-vehicles";
 import VehicleArtworkPicker from "./VehicleArtworkPicker";
+import VehicleRequestPanel from "./VehicleRequestPanel";
 
 type VehicleOption = {
   key: string;
@@ -269,6 +270,9 @@ export default function VehicleCatalogEditor({
         >
           <Plus size={14} /> Add vehicle
         </button>
+      </div>
+      <div className="mt-4">
+        <VehicleRequestPanel />
       </div>
     </div>
   );

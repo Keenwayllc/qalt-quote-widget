@@ -65,6 +65,7 @@ model Company {
   pricingProfiles      PricingProfile[]
   quoteRequests        QuoteRequest[]
   widgetSettings       WidgetSettings[]
+  vehicleRequests      VehicleRequest[]
   webhooks             Webhook[]
   shopifyInstalls      ShopifyInstall[]
   stopNotes            StopNote[]
@@ -198,6 +199,23 @@ model ShopifyInstall {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   company       Company? @relation(fields: [companyId], references: [id])
+}
+
+/// A merchant asking Qalt to add a vehicle to the shared catalog. Added vehicles
+/// become available to every merchant.
+model VehicleRequest {
+  id           String   @id @default(cuid())
+  companyId    String
+  company      Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  vehicleName  String
+  description  String   @db.Text
+  referenceUrl String?
+  status       String   @default("NEW") // NEW, IN_PROGRESS, ADDED, DECLINED
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([companyId, createdAt])
+  @@index([status, createdAt])
 }
 
 model PartnerInquiry {
