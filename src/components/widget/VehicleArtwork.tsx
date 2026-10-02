@@ -238,16 +238,44 @@ function Masked({ id, cuts, children }: { id: string; cuts: string; children: Re
 }
 
 function Bicycle() {
-  const y = GROUND - 14;
+  const rearX = 40;
+  const frontX = 120;
+  const r = 15;
+  const cy = GROUND - r;
+  const crankX = 73;
+  const crankY = 50;
+
   return (
     <>
-      <BikeWheel cx={45} r={14} />
-      <BikeWheel cx={117} r={14} />
-      <path className={styles.tube} strokeWidth={3.4} d={`M45 ${y} L75 ${y + 1} L66 28 Z M66 28 L104 27 L75 ${y + 1} M103 23 L117 ${y}`} />
-      <path className={styles.tube} strokeWidth={3} d="M66 28 L64 21 M101 23 L104 17 L111 16.5" />
-      <path className={styles.ink} d="M56 18.5 Q56 16.5 59 16.5 L70 16.5 Q72 16.5 71 19 L70 20.5 L57 20.5 Q56 20.5 56 18.5 Z" />
-      <circle className={styles.tube} cx={75} cy={y + 1} r={4.2} strokeWidth={2.4} />
-      <rect className={styles.lamp} x={106.5} y={21} width={3.4} height={2.6} rx={0.6} />
+      <BikeWheel cx={rearX} r={r} />
+      <BikeWheel cx={frontX} r={r} />
+
+      {/* Fine spokes keep the bicycle readable at dashboard-card size. */}
+      <g className={styles.tube} strokeWidth={0.8}>
+        <path d={`M${rearX - 13} ${cy} L${rearX + 13} ${cy} M${rearX} ${cy - 13} L${rearX} ${cy + 13} M${rearX - 9} ${cy - 9} L${rearX + 9} ${cy + 9} M${rearX - 9} ${cy + 9} L${rearX + 9} ${cy - 9}`} />
+        <path d={`M${frontX - 13} ${cy} L${frontX + 13} ${cy} M${frontX} ${cy - 13} L${frontX} ${cy + 13} M${frontX - 9} ${cy - 9} L${frontX + 9} ${cy + 9} M${frontX - 9} ${cy + 9} L${frontX + 9} ${cy - 9}`} />
+      </g>
+
+      {/* Classic diamond commuter frame, side profile. */}
+      <path
+        className={styles.tube}
+        strokeWidth={3.2}
+        strokeLinejoin="round"
+        d={`M${rearX} ${cy} L${crankX} ${crankY} L62 27 L${rearX} ${cy} M62 27 L101 28 L${crankX} ${crankY} L101 28 L${frontX} ${cy}`}
+      />
+
+      {/* Fork, seat post, handlebar and rear rack. */}
+      <path className={styles.tube} strokeWidth={3} strokeLinecap="round" d="M101 28 L105 18 L113 17 M62 27 L60 19" />
+      <path className={styles.tube} strokeWidth={2.2} strokeLinecap="round" d="M32 26 L60 26 M32 26 L29 31 M107 17 L116 17 L118 20" />
+
+      {/* Saddle, crank and pedals. */}
+      <path className={styles.ink} d="M51 16.8 Q51 15 54 15 L66 15 Q69 15 68.2 17.5 L67.4 19 L52.5 19 Q51 19 51 16.8 Z" />
+      <circle className={styles.tube} cx={crankX} cy={crankY} r={4.2} strokeWidth={2.2} />
+      <path className={styles.tube} strokeWidth={1.8} strokeLinecap="round" d={`M${crankX} ${crankY} L82 54 M64 46 L${crankX} ${crankY}`} />
+
+      {/* Small neutral head/tail details. */}
+      <rect className={styles.lamp} x={108} y={21.5} width={3.2} height={2.5} rx={0.6} />
+      <rect className={styles.lamp} x={29} y={29} width={2.6} height={2.4} rx={0.6} />
     </>
   );
 }
@@ -277,22 +305,40 @@ function FatWheel({ cx, r, motor = false }: { cx: number; r: number; motor?: boo
 }
 
 function CargoBike({ maskId }: { maskId: string }) {
-  const ry = GROUND - 14;
-  const fy = GROUND - 12;
+  const rearX = 39;
+  const frontX = 121;
+  const r = 13.5;
+  const cy = GROUND - r;
+
   return (
     <>
-      <BikeWheel cx={36} r={14} />
-      <BikeWheel cx={118} r={12} />
-      {/* Upright delivery bike: the crate rides on a front rack at handlebar height. */}
-      <path className={styles.tube} strokeWidth={3.4} d={`M36 ${ry} L66 ${ry + 1} L58 29 Z M58 29 L97 27.5 M66 ${ry + 1} L100 35 M99 28 L101.5 35 L118 ${fy}`} />
-      <path className={styles.tube} strokeWidth={2.6} d={`M134.5 37 L118 ${fy} M100 28.5 L104 28.5`} />
-      <path className={styles.tube} strokeWidth={3} d="M58 29 L56 22.5 M98 28 L97 18.5 L89.5 17.5" />
-      <path className={styles.ink} d="M48 19.5 Q48 17.5 51 17.5 L62 17.5 Q64 17.5 63 20 L62 21.5 L49 21.5 Q48 21.5 48 19.5 Z" />
-      <Masked id={maskId} cuts="M105.5 23.5 L138.5 23.5 M106 29.5 L137.5 29.5 M113.5 18.5 L114 35 M122 18.5 L122 35 M130.5 18.5 L130 35">
-        <path className={styles.ink} d="M102 16 L141.5 16 Q143 16 142.8 17.6 L140.6 35.2 Q140.4 37 138.6 37 L105 37 Q103.2 37 103 35.2 L101 17.6 Q100.8 16 102 16 Z" />
+      <FatWheel cx={rearX} r={r} motor />
+      <FatWheel cx={frontX} r={r} />
+      <Fender cx={rearX} r={r} />
+      <Fender cx={frontX} r={r} />
+
+      {/* California-style shared delivery e-bike: step-through frame with front basket and rear battery enclosure. */}
+      <path className={styles.tube} strokeWidth={7.2} strokeLinecap="round" d="M101 31 Q92 49 70 51" />
+      <path className={styles.tube} strokeWidth={3.8} strokeLinecap="round" d={`M${rearX} ${cy} L70 51 M48 35 L70 51 M48 35 L61 29`} />
+      <path className={styles.tube} strokeWidth={4.2} strokeLinecap="round" d={`M101 31 L106 20 M102 31 L${frontX} ${cy}`} />
+      <path className={styles.tube} strokeWidth={3} strokeLinecap="round" d="M106 20 L104 12 L96 11.5" />
+
+      {/* Rear battery / cargo enclosure, kept neutral to match the rest of the Qalt artwork. */}
+      <Masked id={maskId} cuts="M28 31 L57 31">
+        <path className={styles.ink} d="M26 27 Q26 24.5 29 24.5 L56 24.5 Q59 24.5 59 27 L57 40 Q56.5 43 53.5 43 L31 43 Q28 43 27.5 40 Z" />
       </Masked>
-      <circle className={styles.tube} cx={66} cy={ry + 1} r={4.2} strokeWidth={2.4} />
-      <rect className={styles.lamp} x={139.5} y={38.5} width={3.4} height={2.8} rx={0.6} />
+
+      {/* Front basket mounted high, similar to common shared delivery bikes used in California. */}
+      <Masked id={`${maskId}-basket`} cuts="M108 20 L137 20 M109 26 L136 26 M115 15 L115 31 M123 15 L123 31 M131 15 L131 31">
+        <path className={styles.ink} d="M106 13.5 L139 13.5 Q141 13.5 140.5 15.5 L138.5 31 Q138 33 136 33 L110 33 Q108 33 107.5 31 L105 15.5 Q104.5 13.5 106 13.5 Z" />
+      </Masked>
+
+      {/* Saddle, crank, rack and small lamp details. */}
+      <path className={styles.ink} d="M50 20 Q50 17.5 53 17.5 L65 17.5 Q68 17.5 67.2 20 L66.5 22 L52 22 Q50 22 50 20 Z" />
+      <path className={styles.tube} strokeWidth={2.4} d="M29 26 L56 26 M29 26 L27 30" />
+      <circle className={styles.tube} cx={70} cy={51} r={4.1} strokeWidth={2.2} />
+      <rect className={styles.lamp} x={137.5} y={34.5} width={3.2} height={2.8} rx={0.7} />
+      <rect className={styles.lamp} x={25.5} y={29.5} width={2.8} height={2.6} rx={0.7} />
     </>
   );
 }
