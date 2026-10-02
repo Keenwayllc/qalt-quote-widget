@@ -11,6 +11,7 @@ import RouteMapDisplay from "./RouteMapDisplay";
 import PickupDateTime from "./PickupDateTime";
 import ServiceSelector, { type ServiceOption } from "./ServiceSelector";
 import VehicleSelector, { type VehicleOption as VehicleTypeOption } from "./VehicleSelector";
+import VehicleArtwork from "./VehicleArtwork";
 import CustomerCustomQuestions, { type AnswerValues } from "./CustomerCustomQuestions";
 import { normalizeCustomQuestions, validateCustomAnswers } from "@/lib/form-questions";
 import { DEFAULT_QUICK_SUBTITLE } from "@/lib/quick-subtitle";
@@ -831,6 +832,31 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
       <div className={`w-full transition-all duration-700 ease-in-out relative z-10 overflow-hidden bg-white flex flex-col md:flex-row ${quickMode ? "rounded-[30px] shadow-[0_28px_90px_-20px_rgba(15,23,42,.28)] border border-slate-200/80" : "rounded-[32px] shadow-[0_30px_100px_-15px_rgba(0,0,0,0.2)]"}`}>
         <div className={`w-full transition-all duration-700 ${formWidthClass} flex flex-col shrink-0`}>
           {quickMode ? (
+            widgetSettings.backgroundImageUrl ? (
+            <div
+              className="relative overflow-hidden bg-cover bg-center px-6 pt-7 pb-8 sm:px-10 sm:pt-10 sm:pb-10"
+              style={{ backgroundImage: `url(${widgetSettings.backgroundImageUrl})` }}
+            >
+              <div className="absolute inset-0 bg-linear-to-b from-slate-950/35 to-slate-950/65" />
+              <div className="relative z-10 flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-3xl sm:text-4xl font-black tracking-[-0.04em] text-white drop-shadow-md">Instant Quote</h2>
+                  {widgetSettings.quickSubtitleText?.trim() && (
+                    <p className="mt-2 text-sm font-semibold text-white/85 drop-shadow">{widgetSettings.quickSubtitleText}</p>
+                  )}
+                </div>
+                {logoUrlToUse ? (
+                  <div className="flex min-h-11 w-28 shrink-0 items-center justify-end">
+                    <MerchantLogo src={logoUrlToUse} alt={company.name} backdrop={normalizeLogoBackdrop(company.logoBackdrop)} surface="dark" className="max-h-11 w-auto max-w-full object-contain object-right" />
+                  </div>
+                ) : (
+                  <div className="grid h-11 w-11 place-items-center rounded-2xl bg-white/15 ring-1 ring-white/20 backdrop-blur-md">
+                    <Truck size={21} className="text-white" />
+                  </div>
+                )}
+              </div>
+            </div>
+            ) : (
             <div className="bg-white px-6 pt-7 pb-2 sm:px-10 sm:pt-10">
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -850,6 +876,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                 )}
               </div>
             </div>
+            )
           ) : (
           <div
             className="relative px-6 pt-6 pb-7 sm:px-8 sm:pt-8 sm:pb-10 overflow-hidden bg-cover bg-center"
@@ -1240,11 +1267,14 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
                       {quickMode && formData.vehicleType && (
                         <div className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3">
-                          <div>
+                          <div className="min-w-0">
                             <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Selected vehicle</p>
                             <p className="mt-1 text-sm font-black text-slate-800">{formData.vehicleType}</p>
                           </div>
-                          <Truck size={20} style={{ color: primaryColor }} />
+                          <span className="h-[64px] w-[132px] shrink-0 sm:h-[72px] sm:w-[150px]">
+                            <VehicleArtwork name={formData.vehicleType}
+                              artwork={vehicleOptions.find((option) => option.name === formData.vehicleType)?.artwork} />
+                          </span>
                         </div>
                       )}
 
