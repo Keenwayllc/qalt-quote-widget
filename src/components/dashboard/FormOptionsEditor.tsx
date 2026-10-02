@@ -16,12 +16,12 @@ export type FormFields = {
 export type VehicleDraft = { name: string; fee: string; artwork?: VehicleArtworkKey };
 
 const VEHICLES = [
-  "Bicycle", "Cargo Bike", "Electric Bicycle", "Scooter", "Electric Scooter", "Motorcycle",
+  "Bicycle", "Cargo Bike", "Electric Bicycle", "Scooter", "Electric Scooter", "Moped", "Motorcycle",
   "Sedan", "Hatchback", "SUV", "Minivan", "Pickup Truck", "Cargo Van", "High-Roof Cargo Van",
   "Sprinter Van", "Straight Truck", "Box Truck - 16 ft", "Box Truck - 20 ft", "Box Truck - 24 ft",
-  "Box Truck - 26 ft", "Flatbed / Stake Bed", "Refrigerated Van / Truck", "Tractor Trailer - 28 ft",
-  "Tractor Trailer - 47 ft", "Tractor Trailer - 48 ft", "Tractor Trailer - 53 ft",
-  "Doubles", "Triples",
+  "Box Truck - 26 ft", "Flatbed / Stake Bed", "Refrigerated Van / Truck", "Dump Truck", "Tanker Truck",
+  "Roll-Off Truck", "Tractor Trailer - 28 ft", "Tractor Trailer - 40 ft", "Tractor Trailer - 47 ft",
+  "Tractor Trailer - 48 ft", "Tractor Trailer - 53 ft", "Flatbed Tractor Trailer", "Doubles", "Triples",
 ];
 
 const FIELD_CHOICES: { key: keyof FormFields; label: string; detail: string; enterprise?: boolean }[] = [
