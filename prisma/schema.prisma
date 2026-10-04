@@ -71,6 +71,7 @@ model Company {
   stopNotes            StopNote[]
   jobs                 Job[]
   customerDocuments    CustomerDocument[]
+  widgetInstallations  WidgetInstallation[]
 }
 
 model PricingProfile {
@@ -135,6 +136,22 @@ model WidgetSettings {
   serviceZips        String[]        @default([])
   company            Company         @relation(fields: [companyId], references: [id])
   pricingProfile     PricingProfile?
+  widgetInstallations WidgetInstallation[]
+}
+
+model WidgetInstallation {
+  id          String         @id @default(cuid())
+  companyId   String
+  formId      String
+  domain      String
+  firstSeenAt DateTime       @default(now())
+  lastSeenAt  DateTime       @default(now())
+  loadCount   Int            @default(1)
+  company     Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  form        WidgetSettings @relation(fields: [formId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, formId, domain])
+  @@index([companyId, lastSeenAt])
 }
 
 model QuoteRequest {

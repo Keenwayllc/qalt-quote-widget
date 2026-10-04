@@ -3,10 +3,21 @@ import { getCurrentCompany } from "@/lib/session";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { Shield, Building2, FileText, Sparkles, MousePointerClick } from "lucide-react";
+import { widgetInstallationStatus } from "@/lib/widget-installations";
 import PlanSelect from "./PlanSelect";
 import VehicleRequestStatusSelect from "./VehicleRequestStatusSelect";
 
 export const dynamic = "force-dynamic";
+
+type WidgetInstallRow = {
+  companyId: string;
+  formId: string;
+  formName: string;
+  domain: string;
+  firstSeenAt: Date;
+  lastSeenAt: Date;
+  loadCount: number;
+};
 
 type LeadActivity = {
   demoQuotes: number;
@@ -91,6 +102,21 @@ export default async function AdminPage() {
     email: { equals: c.email, mode: "insensitive" as const },
   }));
 
+  const widgetInstalls = await prisma.$queryRaw<WidgetInstallRow[]>`
+    SELECT wi."companyId", wi."formId", ws."name" AS "formName", wi."domain",
+           wi."firstSeenAt", wi."lastSeenAt", wi."loadCount"
+    FROM "WidgetInstallation" wi
+    JOIN "WidgetSettings" ws ON ws."id" = wi."formId"
+    ORDER BY wi."lastSeenAt" DESC
+  `;
+
+  const installsByCompany = new Map<string, WidgetInstallRow[]>();
+  for (const install of widgetInstalls) {
+    const rows = installsByCompany.get(install.companyId) ?? [];
+    rows.push(install);
+    installsByCompany.set(install.companyId, rows);
+  }
+
   const [quoteCounts, totalQuotes, demoQuoteMatches, partnerInquiries] = await Promise.all([
     prisma.quoteRequest.groupBy({
       by: ["companyId"],
@@ -172,7 +198,7 @@ export default async function AdminPage() {
   const stats = [
     { label: "Companies", value: companies.length, icon: Building2 },
     { label: "Total quotes", value: totalQuotes, icon: FileText },
-    { label: "Demo leads", value: demoLeadCount, icon: MousePointerClick },
+    { label: "Widgets installed", value: installsByCompany.size, icon: MousePointerClick },
     {
       label: "On a paid plan",
       value: (planTotals.PRO ?? 0) + (planTotals.ENTERPRISE ?? 0),
@@ -224,6 +250,10 @@ export default async function AdminPage() {
         Plans: {planTotals.STARTER ?? 0} Starter · {planTotals.PRO ?? 0} Pro · {planTotals.ENTERPRISE ?? 0} Enterprise
       </p>
 
+      <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">
+        {installsByCompany.size} accounts with detected embeds. Active means an external widget loaded within 30 days.
+        Detection starts after this feature goes live. Not detected does not confirm absence.
+      </p>
       {/* Company table */}
       <div className="bg-white dark:bg-[#1e1e1e] border border-slate-200 dark:border-white/[0.06] rounded-xl overflow-hidden shadow-sm dark:shadow-none">
         <div className="overflow-x-auto">
@@ -233,6 +263,7 @@ export default async function AdminPage() {
                 <th className="px-4 py-3 font-bold">Company</th>
                 <th className="px-4 py-3 font-bold">Plan</th>
                 <th className="px-4 py-3 font-bold">Quotes</th>
+                <th className="px-4 py-3 font-bold">Widget installation</th>
                 <th className="px-4 py-3 font-bold">Demo activity</th>
                 <th className="px-4 py-3 font-bold">Source</th>
                 <th className="px-4 py-3 font-bold">Last login</th>
@@ -243,6 +274,8 @@ export default async function AdminPage() {
               {sortedCompanies.map((c) => {
                 const leadActivity = leadActivityMap.get(emailKey(c.email));
                 const hasLeadActivity = !!leadActivity && (leadActivity.demoQuotes > 0 || leadActivity.partnerInquiries > 0);
+                const installs = installsByCompany.get(c.id) ?? [];
+                const latestInstall = installs[0];
 
                 return (
                   <tr
@@ -258,6 +291,38 @@ export default async function AdminPage() {
                     </td>
                     <td className="px-4 py-3 font-bold text-slate-700 dark:text-slate-200">
                       {countMap.get(c.id) ?? 0}
+                    </td>
+                    <td className="px-4 py-3 min-w-[220px]">
+                      {latestInstall ? (
+                        <div className="space-y-1">
+                          <span className={`inline-flex rounded-full px-2.5 py-1 text-[11px] font-bold ${widgetInstallationStatus(latestInstall.lastSeenAt) === "Active embed" ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300" : "bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300"}`}>
+                            {widgetInstallationStatus(latestInstall.lastSeenAt)}
+                          </span>
+                          <p className="text-xs font-bold text-slate-700 dark:text-slate-200">{latestInstall.domain}</p>
+                          <p className="text-[11px] text-slate-400 dark:text-slate-500">
+                            {latestInstall.formName} · {latestInstall.loadCount.toLocaleString()} load{latestInstall.loadCount === 1 ? "" : "s"}
+                          </p>
+                          <p className="text-[11px] text-slate-400 dark:text-slate-500">First seen {fmtDate(latestInstall.firstSeenAt)}</p>
+                          <p className="text-[11px] text-slate-400 dark:text-slate-500">Last seen {fmtDate(latestInstall.lastSeenAt)}</p>
+                          {installs.length > 1 && (
+                            <details className="text-[11px] text-slate-500 dark:text-slate-400">
+                              <summary className="cursor-pointer font-semibold">{installs.length - 1} more domain/form {installs.length === 2 ? "install" : "installs"}</summary>
+                              {installs.slice(1).map((install) => (
+                                <p key={`${install.formId}:${install.domain}`} className="mt-1 break-all">
+                                  {install.domain} · {install.formName} · Last seen {fmtDate(install.lastSeenAt)}
+                                </p>
+                              ))}
+                            </details>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="space-y-1">
+                          <span className="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-500 dark:bg-white/[0.06] dark:text-slate-400">
+                            Not detected
+                          </span>
+                          <p className="text-[11px] text-slate-400 dark:text-slate-500">No embedded widget load seen yet</p>
+                        </div>
+                      )}
                     </td>
                     <td className="px-4 py-3 text-slate-600 dark:text-slate-300">
                       {hasLeadActivity ? (
