@@ -1,22 +1,21 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { externalWidgetHost } from "@/lib/widget-installations";
 
 export const runtime = "nodejs";
 
-function cleanDomain(value: unknown): string | null {
-  if (typeof value !== "string") return null;
-  const domain = value.trim().toLowerCase().replace(/^www\./, "");
-  if (!domain || domain.length > 253 || !/^[a-z0-9.-]+$/.test(domain)) return null;
-  return domain;
-}
-
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const companyId = typeof body.companyId === "string" ? body.companyId : "";
-    const formId = typeof body.formId === "string" ? body.formId : "";
-    const domain = cleanDomain(body.domain);
-    if (!companyId || !formId || !domain) return new NextResponse(null, { status: 204 });
+    const origin = new URL(request.url).origin;
+    if (request.headers.get("origin") !== origin) return new NextResponse(null, { status: 403 });
+    const text = await request.text();
+    if (text.length > 4096) return new NextResponse(null, { status: 413 });
+    const body = JSON.parse(text);
+    const companyId = typeof body?.companyId === "string" && body.companyId.length <= 128 ? body.companyId : "";
+    const formId = typeof body?.formId === "string" && body.formId.length <= 128 ? body.formId : "";
+    const domain = typeof body?.domain === "string" && /^[a-z0-9.-]{1,253}$/i.test(body.domain)
+      ? externalWidgetHost(`https://${body.domain}`, origin) : null;
+    if (!companyId || !formId || !domain) return new NextResponse(null, { status: 400 });
 
     const form = await prisma.widgetSettings.findFirst({
       where: { id: formId, companyId },
@@ -26,13 +25,15 @@ export async function POST(request: Request) {
 
     await prisma.$executeRaw`
       INSERT INTO "WidgetInstallation" ("id", "companyId", "formId", "domain", "firstSeenAt", "lastSeenAt", "loadCount")
-      VALUES (gen_random_uuid()::text, ${companyId}, ${formId}, ${domain}, NOW(), NOW(), 1)
+      VALUES (${crypto.randomUUID()}, ${companyId}, ${formId}, ${domain}, NOW(), NOW(), 1)
       ON CONFLICT ("companyId", "formId", "domain")
       DO UPDATE SET "lastSeenAt" = NOW(), "loadCount" = "WidgetInstallation"."loadCount" + 1
     `;
 
     return new NextResponse(null, { status: 204 });
-  } catch {
-    return new NextResponse(null, { status: 204 });
+  } catch (error) {
+    if (error instanceof SyntaxError) return new NextResponse(null, { status: 400 });
+    console.error("Widget installation tracking failed", error);
+    return new NextResponse(null, { status: 503 });
   }
 }
