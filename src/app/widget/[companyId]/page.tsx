@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import QuoteWidgetForm from "@/components/widget/QuoteWidgetForm";
 import AbandonedQuoteTracker from "@/components/widget/AbandonedQuoteTracker";
+import WidgetInstallTracker from "@/components/widget/WidgetInstallTracker";
 import WidgetThemeShell from "@/components/widget/WidgetThemeShell";
 import { getWidgetTheme } from "@/lib/widget-theme";
 import { notFound } from "next/navigation";
@@ -36,6 +37,7 @@ export default async function PublicWidgetPage({ params }: { params: { companyId
     <WidgetThemeShell theme={themeMode}>
       <div className="qalt-widget-stage min-h-screen p-4 sm:p-8 flex items-center justify-center">
         <AbandonedQuoteTracker companyId={company.id} formId={widgetSettings.id} />
+        <WidgetInstallTracker companyId={company.id} formId={widgetSettings.id} />
         <QuoteWidgetForm
           company={{
             id: company.id,
