@@ -1,7 +1,15 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import type { ReactNode } from "react";
+import { motion } from "framer-motion";
+import { useSyncExternalStore, type ReactNode } from "react";
+
+const mediaQuery = "(prefers-reduced-motion: reduce)";
+const subscribe = (onChange: () => void) => {
+  const media = window.matchMedia(mediaQuery);
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+};
+const getReducedMotion = () => window.matchMedia(mediaQuery).matches;
 
 type SecondaryConsoleMotionProps = {
   children: ReactNode;
@@ -12,7 +20,7 @@ export default function SecondaryConsoleMotion({
   children,
   variant,
 }: SecondaryConsoleMotionProps) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useSyncExternalStore(subscribe, getReducedMotion, () => true);
 
   return (
     <motion.div

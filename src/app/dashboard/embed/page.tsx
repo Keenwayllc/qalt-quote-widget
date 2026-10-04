@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import SupportModal from "@/components/shared/SupportModal";
 import { Copy, Check, ExternalLink, Eye, RefreshCw, Monitor, Smartphone, Activity, AlertCircle } from "lucide-react";
 
+import { widgetFormUrl, widgetEmbedCode } from "@/lib/widget-embed";
+
 type PreviewMode = "desktop" | "mobile";
 
 type WidgetDomainState = {
@@ -15,22 +17,34 @@ export default function EmbedCodePage() {
   const [companyId, setCompanyId] = useState<string | null>(null);
   const [customDomain, setCustomDomain] = useState<string | null>(null);
   const [customDomainVerified, setCustomDomainVerified] = useState(false);
+  const [forms, setForms] = useState<Array<{ id: string; name: string }>>([]);
+  const [formId, setFormId] = useState("");
+  const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
   const [previewMode, setPreviewMode] = useState<PreviewMode>("desktop");
   const [previewKey, setPreviewKey] = useState(0); // used to force iframe refresh
   const [quoteCount, setQuoteCount] = useState<number>(0);
-  const [activeTab, setActiveTab] = useState<"generic" | "wordpress" | "webflow" | "shopify">("generic");
+  const [activeTab, setActiveTab] = useState<"generic" | "wordpress" | "webflow" | "shopify" | "systeme.io">("generic");
 
   useEffect(() => {
     async function fetchCompany() {
       try {
-        const [widgetRes, countRes, domainRes] = await Promise.all([
+        const [widgetRes, countRes, domainRes, formsRes] = await Promise.all([
           fetch("/api/dashboard/widget"),
           fetch("/api/dashboard/quote-count"),
           fetch("/api/dashboard/widget-domain"),
+          fetch("/api/dashboard/forms"),
         ]);
+        if (!formsRes.ok || (!widgetRes.ok && widgetRes.status !== 404)) throw new Error("Unable to load your forms. Please refresh and try again.");
+        const formsData = await formsRes.json();
+        const available = formsData.forms ?? [];
+        setForms(available);
+        const requested = new URLSearchParams(window.location.search).get("formId");
+        const selected = requested !== null ? available.find((form: { id: string }) => form.id === requested) : available[0];
+        setFormId(selected?.id ?? "");
+        if (!selected) setError(requested !== null ? "That form is unavailable. Choose an existing form below." : "Create a form before copying embed code.");
         const widgetData = await widgetRes.json();
         const countData = await countRes.json();
         const domainData: WidgetDomainState = domainRes.ok ? await domainRes.json() : {};
@@ -44,8 +58,8 @@ export default function EmbedCodePage() {
           setCustomDomain(null);
           setCustomDomainVerified(false);
         }
-      } catch {
-        // non-critical — embed page still renders without the preview
+      } catch (error) {
+        setError(error instanceof Error ? error.message : "Unable to load your forms. Please refresh and try again.");
       } finally {
         setLoading(false);
       }
@@ -53,26 +67,19 @@ export default function EmbedCodePage() {
     fetchCompany();
   }, []);
 
-  const canonicalWidgetUrl = companyId
-    ? `https://www.qalt.site/widget/${companyId}`
-    : "";
-
-  const widgetUrl = customDomainVerified && customDomain
-    ? `https://${customDomain}`
-    : canonicalWidgetUrl;
-
-  const embedCode = `<iframe
-  src="${widgetUrl}"
-  width="100%"
-  height="700px"
-  frameborder="0"
-  style="border-radius: 24px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);"
-></iframe>`;
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(embedCode);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const widgetUrl = widgetFormUrl(formId);
+  const embedCode = widgetEmbedCode(formId);
+  const copyToClipboard = async () => {
+    if (!embedCode) return;
+    try {
+      await navigator.clipboard.writeText(embedCode);
+      setCopied(true);
+      setError("");
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+      setError("Copy failed. Select the snippet below and copy it manually.");
+    }
   };
 
   if (loading) {
@@ -91,6 +98,18 @@ export default function EmbedCodePage() {
           <p className="text-slate-500 dark:text-slate-400 mt-3 text-base sm:text-lg font-medium">Capture more leads by embedding your smart calculator anywhere.</p>
         </header>
 
+        <label className="mb-6 block text-sm font-semibold">
+          Selected form
+          <select aria-label="Selected form" value={formId} onChange={(event) => {
+            const id = event.target.value;
+            setFormId(id); setCopied(false); setError("");
+            window.history.replaceState(null, "", `/dashboard/embed?formId=${encodeURIComponent(id)}`);
+          }} className="mt-2 block w-full border p-3 bg-white dark:bg-[#1e1e1e]">
+            {!formId && <option value="">Choose a form</option>}
+            {forms.map((form) => <option key={form.id} value={form.id}>{form.name}</option>)}
+          </select>
+        </label>
+        {error && <p role="alert" className="mb-4 text-red-600">{error}</p>}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
 
@@ -101,12 +120,13 @@ export default function EmbedCodePage() {
                   <h2 className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Your Embed Code</h2>
                   {customDomainVerified && customDomain && (
                     <p className="mt-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                      Using verified branded domain: {customDomain}
+                      Your verified domain {customDomain} opens the default form. Selected-form embeds use the Qalt URL below.
                     </p>
                   )}
                 </div>
                 <button
                   onClick={copyToClipboard}
+                  disabled={!widgetUrl}
                   className={`
                     flex items-center gap-2 px-6 py-2.5 rounded-none text-xs font-bold transition-all active:scale-95
                     ${copied ? "bg-emerald-500 text-white" : "bg-slate-900 dark:bg-white/10 text-white hover:bg-slate-800 dark:hover:bg-white/15"}
@@ -149,7 +169,7 @@ export default function EmbedCodePage() {
             </div>
 
             {/* ── Live Widget Preview ───────────────────────────────────────────── */}
-            {companyId && (
+            {companyId && widgetUrl && (
               <div className="bg-white dark:bg-[#1e1e1e] rounded-none p-6 sm:p-8 shadow-sm dark:shadow-none border border-slate-100 dark:border-white/[0.06]">
                 {/* Preview header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -223,7 +243,7 @@ export default function EmbedCodePage() {
                     <div
                       className={`transition-all duration-300 ${
                         previewMode === "mobile"
-                          ? "w-[390px] rounded-none overflow-hidden shadow-2xl dark:shadow-none border border-slate-200 dark:border-white/[0.06]"
+                          ? "w-[390px] max-w-full rounded-none overflow-hidden shadow-2xl dark:shadow-none border border-slate-200 dark:border-white/[0.06]"
                           : "w-full"
                       }`}
                     >
@@ -231,7 +251,7 @@ export default function EmbedCodePage() {
                         key={previewKey}
                         src={widgetUrl}
                         width="100%"
-                        height={previewMode === "desktop" ? "680" : "760"}
+                        height="1000"
                         frameBorder="0"
                         title="Widget Preview"
                         className="block"
@@ -261,7 +281,7 @@ export default function EmbedCodePage() {
 
               {/* Platform tabs */}
               <div className="flex flex-wrap gap-2 mb-6">
-                {(["generic", "wordpress", "webflow", "shopify"] as const).map((tab) => (
+                {(["generic", "wordpress", "webflow", "shopify", "systeme.io"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -276,6 +296,15 @@ export default function EmbedCodePage() {
                 ))}
               </div>
 
+              {activeTab === "systeme.io" && (
+                <ol className="list-decimal pl-5 space-y-2 text-sm">
+                  <li>Open the page or funnel editor.</li>
+                  <li>Add a Raw HTML or Custom HTML element and paste the snippet.</li>
+                  <li>Save and publish the page.</li>
+                  <li>Open the public page in a new tab and complete a test quote.</li>
+                  <li>Ask your Qalt administrator to confirm the detected external domain.</li>
+                </ol>
+              )}
               {activeTab === "generic" && (
                 <ul className="space-y-5">
                   <li className="flex gap-5"><span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-none flex items-center justify-center shadow-lg shadow-red-200 dark:shadow-none">1</span><div><p className="font-bold text-red-900 dark:text-red-300">Copy the snippet</p><p className="text-sm text-slate-700/60 dark:text-slate-400 mt-0.5">Click the Copy button above to grab your unique embed code.</p></div></li>
@@ -287,7 +316,7 @@ export default function EmbedCodePage() {
               {activeTab === "wordpress" && (
                 <ul className="space-y-5">
                   <li className="flex gap-5"><span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-none flex items-center justify-center shadow-lg shadow-red-200 dark:shadow-none">1</span><div><p className="font-bold text-red-900 dark:text-red-300">Open the page editor</p><p className="text-sm text-slate-700/60 dark:text-slate-400 mt-0.5">In WordPress admin, go to Pages → Edit the page where you want the widget.</p></div></li>
-                  <li className="flex gap-5"><span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-none flex items-center justify-center shadow-lg shadow-red-200 dark:shadow-none">2</span><div><p className="font-bold text-red-900 dark:text-red-300">Add a Custom HTML block</p><p className="text-sm text-slate-700/60 dark:text-slate-400 mt-0.5">Click + → search "Custom HTML" → paste your embed code inside the block.</p></div></li>
+                  <li className="flex gap-5"><span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-none flex items-center justify-center shadow-lg shadow-red-200 dark:shadow-none">2</span><div><p className="font-bold text-red-900 dark:text-red-300">Add a Custom HTML block</p><p className="text-sm text-slate-700/60 dark:text-slate-400 mt-0.5">Click + → search &quot;Custom HTML&quot; → paste your embed code inside the block.</p></div></li>
                   <li className="flex gap-5"><span className="shrink-0 w-8 h-8 bg-red-600 text-white text-xs font-black rounded-none flex items-center justify-center shadow-lg shadow-red-200 dark:shadow-none">3</span><div><p className="font-bold text-red-900 dark:text-red-300">Update &amp; preview</p><p className="text-sm text-slate-700/60 dark:text-slate-400 mt-0.5">Click Update, then Preview. The widget should appear exactly where you placed the block.</p></div></li>
                 </ul>
               )}

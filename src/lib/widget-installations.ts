@@ -23,3 +23,22 @@ export function widgetInstallationStatus(lastSeenAt: Date | null, now = new Date
   return now.getTime() - lastSeenAt.getTime() <= 30 * 24 * 60 * 60 * 1000
     ? "Active embed" : "Previously detected";
 }
+
+/** Hostnames are evidence of a load, not proof that a page is published. */
+export function widgetInstallationSource(domain: string): string {
+  const host = domain.toLowerCase();
+  return ["systeme.io", "webflow.io", "myshopify.com", "wordpress.com"].some((builder) => host === builder || host.endsWith(`.${builder}`))
+    ? "Builder/preview detection" : "Unknown external host";
+}
+
+export function embeddingWidgetHost(embedded: boolean, referrer: string, ancestors: readonly string[], appUrl: string): string | null {
+  if (!embedded) return null;
+  // A branded-domain wrapper inside the dashboard is still a dashboard preview.
+  if (ancestors.some((origin) => {
+    try {
+      const host = new URL(origin).hostname;
+      return host === new URL(appUrl).hostname || host === "qalt.site" || host.endsWith(".qalt.site") || host.endsWith(".vercel.app");
+    } catch { return false; }
+  })) return null;
+  return externalWidgetHost(referrer, appUrl) || externalWidgetHost(ancestors[0], appUrl);
+}

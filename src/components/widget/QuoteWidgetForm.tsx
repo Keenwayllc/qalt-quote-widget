@@ -1,5 +1,7 @@
 "use client";
 
+import { safeWidgetUrl } from "@/lib/widget-urls";
+
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import Image from "next/image";
 import { getEntitlements } from "@/lib/plans";
@@ -17,7 +19,7 @@ import { normalizeCustomQuestions, validateCustomAnswers } from "@/lib/form-ques
 import { DEFAULT_QUICK_SUBTITLE } from "@/lib/quick-subtitle";
 import { MAX_INTERMEDIATE_STOPS } from "@/lib/route-stops";
 import MerchantLogo from "@/components/shared/MerchantLogo";
-import { readableForeground } from "@/lib/color";
+import { readableForeground, widgetBrandVariables } from "@/lib/color";
 import { normalizeLogoBackdrop } from "@/lib/logo-plate";
 
 interface WidgetProps {
@@ -180,6 +182,7 @@ const AutocompleteInput = ({
 }) => {
   const {
     ready,
+    init,
     value: inputValue,
     suggestions: { status, data },
     setValue,
@@ -187,10 +190,12 @@ const AutocompleteInput = ({
   } = usePlacesAutocomplete({
     requestOptions: { types: ["address"] },
     debounce: 300,
-    initOnMount: isLoaded,
+    initOnMount: false,
     defaultValue: value,
   });
 
+  const [addressError, setAddressError] = useState("");
+  useEffect(() => { if (isLoaded) init(); }, [isLoaded, init]);
   useEffect(() => {
     setValue(value, false);
   }, [value, setValue]);
@@ -206,6 +211,7 @@ const AutocompleteInput = ({
           value={inputValue}
           onChange={(e) => setValue(e.target.value)}
           disabled={!ready}
+          aria-label={label || placeholder}
           placeholder={placeholder}
           className={`${INPUT_CLASS} pr-10`}
         />
@@ -223,17 +229,28 @@ const AutocompleteInput = ({
           </button>
         )}
       </div>
+      {addressError && <p role="alert" className="mt-1 text-xs text-red-600">{addressError}</p>}
       {status === "OK" && (
         <div className="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2">
           {data.map((suggestion) => (
             <div
               key={suggestion.place_id}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); event.currentTarget.click(); } }}
               onClick={async () => {
                 setValue(suggestion.description, false);
                 clearSuggestions();
-                const results = await getGeocode({ address: suggestion.description });
-                const zipCode = results[0].address_components.find(c => c.types.includes("postal_code"))?.long_name || "";
-                onAddressSelect(suggestion.description, zipCode);
+                try {
+                  const results = await getGeocode({ address: suggestion.description });
+                  const zipCode = results[0]?.address_components.find(c => c.types.includes("postal_code"))?.long_name || "";
+                  if (!zipCode) throw new Error("Missing postal code");
+                  setAddressError("");
+                  onAddressSelect(suggestion.description, zipCode);
+                } catch {
+                  onClear();
+                  setAddressError("Unable to verify this address. Choose another suggestion or try again.");
+                }
               }}
               className="px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 cursor-pointer border-b border-slate-100 last:border-0"
             >
@@ -248,7 +265,9 @@ const AutocompleteInput = ({
 
 export default function QuoteWidgetForm({ company, demoMode = false }: WidgetProps) {
   const entitlements = getEntitlements(company.subscriptionPlan);
-  const reduce = useReducedMotion();
+  const [hydrated, setHydrated] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+  const reduce = !hydrated || prefersReducedMotion;
 
   const widgetSettings = {
     ...(company.widgetSettings || {
@@ -317,7 +336,6 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
   const [loading, setLoading] = useState(false);
   const [quickPriceUpdating, setQuickPriceUpdating] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
-  const [hydrated, setHydrated] = useState(false);
   const [parentUrl, setParentUrl] = useState<string | null>(null);
   const stepRef = useRef(step);
   const estimateRequestRef = useRef(0);
@@ -327,6 +345,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     const BLOCKED_DOMAINS = ["stripe.com", "checkout.stripe.com", "qalt.site", "localhost"];
     const isBlockedUrl = (url: string): boolean => {
       try {
+        if (!safeWidgetUrl(url)) return true;
         const hostname = new URL(url).hostname.toLowerCase();
         return BLOCKED_DOMAINS.some((blocked) => hostname === blocked || hostname.endsWith("." + blocked));
       } catch {
@@ -335,13 +354,13 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     };
 
     try {
-      if (widgetSettings.websiteUrl) {
-        setParentUrl(widgetSettings.websiteUrl);
+      if (safeWidgetUrl(widgetSettings.websiteUrl)) {
+        setParentUrl(safeWidgetUrl(widgetSettings.websiteUrl));
       } else if (document.referrer && !isBlockedUrl(document.referrer)) {
         setParentUrl(document.referrer);
       }
     } catch {
-      if (widgetSettings.websiteUrl) setParentUrl(widgetSettings.websiteUrl);
+      setParentUrl(safeWidgetUrl(widgetSettings.websiteUrl));
     }
   }, [widgetSettings.websiteUrl]);
 
@@ -356,8 +375,9 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     destinationCity: string;
   } | null>(null);
   const [error, setError] = useState("");
+  const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
 
-  const { isLoaded } = useJsApiLoader({
+  const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
     libraries: LIBRARIES
@@ -553,6 +573,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
       const res = await fetch(`/api/widget/${company.id}/estimate`, {
         method: "POST",
+        signal: AbortSignal.timeout(20000),
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           origin: formData.pickupAddress,
@@ -639,6 +660,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     try {
       const res = await fetch(`/api/widget/${company.id}/submit`, {
         method: "POST",
+        signal: AbortSignal.timeout(20000),
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
@@ -688,19 +710,22 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     try {
       const res = await fetch("/api/stripe/quote-payment", {
         method: "POST",
+        signal: AbortSignal.timeout(20000),
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ quoteId }),
       });
       const data = await res.json();
-      if (res.ok && data.checkoutUrl) {
+      const secureCheckout = safeWidgetUrl(data.checkoutUrl);
+      if (res.ok && secureCheckout && new URL(secureCheckout).hostname === "checkout.stripe.com") {
+        setCheckoutUrl(secureCheckout);
         try {
           sessionStorage.setItem(
             draftKey(draftScope),
             JSON.stringify({ savedAt: Date.now(), step: 2, showSummary: false, formData, estimate, distance, durationMinutes, breakdown, routeInfo })
           );
         } catch {}
-        if (window.top) window.top.location.href = data.checkoutUrl;
-        else window.location.href = data.checkoutUrl;
+        // A fresh user click safely leaves cross-origin builder iframes.
+        if (window.top === window.self) window.location.assign(secureCheckout);
       } else {
         setError(data.error || "Could not initiate payment. Please try again.");
         setStep(2);
@@ -826,8 +851,9 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
   return (
     <div
+      data-qalt-brand-owned="true"
       className={`w-full transition-all duration-700 ease-in-out font-sans flex items-start justify-center mx-auto relative ${widgetWidthClass}`}
-      style={{ fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif", ['--ring' as string]: `${primaryColor}59` }}
+      style={{ fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif", ['--ring' as string]: `${primaryColor}59`, ...widgetBrandVariables(primaryColor) }}
     >
       <div className={`w-full transition-all duration-700 ease-in-out relative z-10 overflow-hidden bg-white flex flex-col md:flex-row ${quickMode ? "rounded-[30px] shadow-[0_28px_90px_-20px_rgba(15,23,42,.28)] border border-slate-200/80" : "rounded-[32px] shadow-[0_30px_100px_-15px_rgba(0,0,0,0.2)]"}`}>
         <div className={`w-full transition-all duration-700 ${formWidthClass} flex flex-col shrink-0`}>
@@ -835,7 +861,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
             widgetSettings.backgroundImageUrl ? (
             <div
               className="relative overflow-hidden bg-cover bg-center px-6 pt-7 pb-8 sm:px-10 sm:pt-10 sm:pb-10"
-              style={{ backgroundImage: `url(${widgetSettings.backgroundImageUrl})` }}
+              style={{ backgroundImage: `url(${JSON.stringify(widgetSettings.backgroundImageUrl)})` }}
             >
               <div className="absolute inset-0 bg-linear-to-b from-slate-950/35 to-slate-950/65" />
               <div className="relative z-10 flex items-start justify-between gap-4">
@@ -881,7 +907,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
           <div
             className="relative px-6 pt-6 pb-7 sm:px-8 sm:pt-8 sm:pb-10 overflow-hidden bg-cover bg-center"
             style={widgetSettings.backgroundImageUrl
-              ? { backgroundImage: `url(${widgetSettings.backgroundImageUrl})` }
+              ? { backgroundImage: `url(${JSON.stringify(widgetSettings.backgroundImageUrl)})` }
               : { backgroundColor: primaryColor }}
           >
             {!widgetSettings.backgroundImageUrl && <div className="absolute inset-0 bg-linear-to-br from-white/20 to-transparent mix-blend-overlay" />}
@@ -971,6 +997,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
             ) : (
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div key={bodyKey} variants={bodyVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.28, ease: EASE }}>
+                  {loadError && <p role="alert" className="mb-3 text-sm text-red-600">Address search is temporarily unavailable. Please reload the form to try again.</p>}
                   {step === 1 && (
                     <form onSubmit={getEstimate} className="space-y-5">
                       <div className={quickMode ? "space-y-3" : "space-y-4"}>
@@ -1176,6 +1203,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                           onChange={(customAnswers) => setFormData((previous) => ({ ...previous, customAnswers }))} />
                       )}
 
+                      {checkoutUrl && <a href={checkoutUrl} target="_top" className="inline-flex px-6 py-4 rounded-xl text-white font-bold" style={{ backgroundColor: primaryColor }}>Continue to secure payment</a>}
                       {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><span className="shrink-0 mt-0.5">⚠️</span> {error}</div>}
 
                       {quickMode ? (
@@ -1302,6 +1330,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                         <div><label className={LABEL_CLASS}><Phone size={12} className="text-slate-400" /> Phone</label><input type="tel" name="customerPhone" required placeholder="(555) 000-0000" value={formData.customerPhone} onChange={handleInputChange} className={INPUT_CLASS} /></div>
                       </div>
 
+                      {checkoutUrl && <a href={checkoutUrl} target="_top" className="inline-flex px-6 py-4 rounded-xl text-white font-bold" style={{ backgroundColor: primaryColor }}>Continue to secure payment</a>}
                       {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><span className="shrink-0 mt-0.5">⚠️</span> {error}</div>}
 
                       <div className="space-y-3 pt-1">
@@ -1345,6 +1374,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                         })}
                       </div>
                       <div className="flex items-center justify-between px-1"><span className="text-sm font-semibold text-slate-500">Total</span><span className="text-3xl font-black text-slate-900 tracking-tight tabular-nums">${estimate?.toFixed(2)}</span></div>
+                      {checkoutUrl && <a href={checkoutUrl} target="_top" className="inline-flex px-6 py-4 rounded-xl text-white font-bold" style={{ backgroundColor: primaryColor }}>Continue to secure payment</a>}
                       {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><span className="shrink-0 mt-0.5">⚠️</span> {error}</div>}
                       <div className="space-y-3 pt-1">
                         <button type="button" onClick={() => submitQuote()} disabled={loading} data-qalt-brand-cta
@@ -1372,7 +1402,8 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                   {step === 4 && (
                     <div className="py-10 text-center space-y-6">
                       <div className="w-20 h-20 rounded-[20px] flex items-center justify-center mx-auto shadow-lg" style={{ backgroundColor: `${primaryColor}15` }}><div className="w-10 h-10 border-4 rounded-full animate-spin" style={{ borderColor: `${primaryColor}33`, borderTopColor: primaryColor }} /></div>
-                      <div><h3 className="text-2xl font-black text-slate-900 tracking-tight">Redirecting to payment</h3><p className="text-sm text-slate-500 mt-2 leading-relaxed px-4 font-medium">Secure checkout via Stripe. Please don&apos;t close this window.</p><p className="text-xs text-slate-400 mt-3">Quote total: <strong className="text-slate-600">${estimate?.toFixed(2)}</strong></p></div>
+                      <div><h3 className="text-2xl font-black text-slate-900 tracking-tight">{checkoutUrl ? "Your checkout is ready" : "Preparing secure payment"}</h3><p className="text-sm text-slate-500 mt-2 leading-relaxed px-4 font-medium">Continue to Stripe to pay securely.</p><p className="text-xs text-slate-400 mt-3">Quote total: <strong className="text-slate-600">${estimate?.toFixed(2)}</strong></p></div>
+                      {checkoutUrl && <a href={checkoutUrl} target="_top" className="inline-flex px-6 py-4 rounded-xl text-white font-bold" style={{ backgroundColor: primaryColor }}>Continue to secure payment</a>}
                       {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><span className="shrink-0">⚠️</span><div><p>{error}</p><button onClick={backToEdit} className="mt-2 underline text-red-700">Go back and try again</button></div></div>}
                     </div>
                   )}

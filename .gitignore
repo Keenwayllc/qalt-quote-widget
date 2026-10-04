@@ -60,3 +60,6 @@ qalt-site-production-firebase-adminsdk-fbsvc-*.json
 
 .vercel
 .env*.local
+
+# Automated browser evidence
+/test-results/

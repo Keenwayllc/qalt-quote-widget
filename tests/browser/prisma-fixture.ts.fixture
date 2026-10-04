@@ -1,0 +1,48 @@
+// Test-only Prisma boundary. The runner copies this over prisma.ts in a temporary app.
+import { readFileSync, writeFileSync } from 'node:fs';
+import type { PrismaClient } from '../generated/prisma/client';
+const file = process.env.QALT_FIXTURE_DB!;
+const db = () => JSON.parse(readFileSync(file, 'utf8'));
+const save = (data: unknown) => writeFileSync(file, JSON.stringify(data));
+const matches = (row: Record<string, unknown>, where: Record<string, unknown> = {}) => Object.entries(where).every(([k,v]) => typeof v === 'object' && v !== null ? true : row[k] === v);
+const project = (row: any, query: any = {}): any => {
+  if (!row) return null;
+  if (!query.select) return row;
+  return Object.fromEntries(Object.entries(query.select).map(([k,v]: any) => [k, v === true ? row[k] : Array.isArray(row[k]) ? row[k].slice(0,v.take || Infinity).map((item:any)=>project(item,v)) : project(row[k],v)]));
+};
+const fullCompany = (data:any, company:any) => company && ({...company, widgetSettings:data.forms.filter((f:any)=>f.companyId===company.id).sort((a:any,b:any)=>a.id.localeCompare(b.id)), pricingProfiles:data.prices.filter((p:any)=>p.companyId===company.id)});
+const fullForm = (data:any, form:any) => form && ({...form, company:fullCompany(data,data.companies.find((c:any)=>c.id===form.companyId)),pricingProfile:data.prices.find((p:any)=>p.widgetSettingsId===form.id)});
+const fixture = {
+  company: {
+    findUnique:async(q:any)=>{const d=db();return project(fullCompany(d,d.companies.find((c:any)=>matches(c,q.where))),q)},
+    findFirst:async(q:any)=>{const d=db();return project(fullCompany(d,d.companies[0]),q)},
+  },
+  widgetSettings: {
+    findUnique:async(q:any)=>{const d=db();return project(fullForm(d,d.forms.find((f:any)=>matches(f,q.where))),q)},
+    findFirst:async(q:any)=>{const d=db();return project(fullForm(d,d.forms.find((f:any)=>matches(f,q.where))),q)},
+    findMany:async(q:any)=>{const d=db();return d.forms.filter((f:any)=>matches(f,q.where)).sort((a:any,b:any)=>a.id.localeCompare(b.id)).map((f:any)=>project(f,q))},
+    count:async(q:any)=>db().forms.filter((f:any)=>matches(f,q.where)).length,
+    update:async(q:any)=>{const d=db();const f=d.forms.find((f:any)=>matches(f,q.where));Object.assign(f,q.data);save(d);return f},
+  },
+  pricingProfile: {
+    count:async(q:any)=>db().prices.filter((p:any)=>matches(p,q.where)).length,
+    findFirst:async(q:any)=>project(db().prices.find((p:any)=>matches(p,q.where)),q),
+    findUnique:async(q:any)=>project(db().prices.find((p:any)=>matches(p,q.where)),q),
+  },
+  quoteRequest: {
+    count:async()=>db().quotes.length,
+    create:async(q:any)=>{const d=db();const quote={...q.data,id:`quote${d.quotes.length+1}`,createdAt:new Date().toISOString()};d.quotes.push(quote);save(d);return quote},
+    findUnique:async(q:any)=>{const d=db();const quote=d.quotes.find((v:any)=>matches(v,q.where));return quote?project({...quote,company:d.companies.find((c:any)=>c.id===quote.companyId)},q):null},
+    findFirst:async(q:any)=>{const d=db();const quote=d.quotes.find((v:any)=>matches(v,q.where));return quote?project({...quote,company:d.companies.find((c:any)=>c.id===quote.companyId)},q):null},
+    update:async(q:any)=>{const d=db();const quote=d.quotes.find((v:any)=>matches(v,q.where));Object.assign(quote,q.data);save(d);return quote},
+  },
+  webhook:{findMany:async()=>[]},
+  $executeRawUnsafe:async()=>1,
+  $queryRawUnsafe:async()=>[],
+  $queryRaw:async(strings:any,...values:any[])=>{const d=db();if(strings.join('').includes('customWidgetDomain'))return strings.join('').includes('lower(') ? d.companies.filter((c:any)=>c.customWidgetDomain===values[0]&&c.customWidgetDomainVerified) : d.companies.filter((c:any)=>c.id===values[0]);return [{themeMode:d.forms.find((f:any)=>f.id===values[0])?.themeMode||'light'}]},
+  $executeRaw:async(strings:any,...values:any[])=>{
+    const d=db();if(strings.join('').includes('WidgetInstallation')){const [,companyId,formId,domain]=values;const found=d.installs.find((i:any)=>i.companyId===companyId&&i.formId===formId&&i.domain===domain);if(found)found.loadCount++;else d.installs.push({companyId,formId,domain,loadCount:1});}
+    else if(strings.join('').includes('themeMode')){d.forms.find((f:any)=>f.id===values[1]).themeMode=values[0];}save(d);return 1;
+  },
+};
+export default fixture as unknown as PrismaClient;

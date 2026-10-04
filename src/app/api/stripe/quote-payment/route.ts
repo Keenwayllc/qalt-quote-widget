@@ -1,3 +1,5 @@
+import { quoteWidgetReturnPath } from "@/lib/quote-widget-return";
+import { getEntitlements } from "@/lib/plans";
 import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
 import prisma from "@/lib/prisma";
@@ -34,6 +36,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Quote already paid." }, { status: 400 });
     }
 
+    if (!getEntitlements(quote.company.subscriptionPlan).isPaymentsEnabled || !quote.paymentStatus) {
+      return NextResponse.json({ error: "Payments are unavailable for this quote." }, { status: 400 });
+    }
+    const widgetReturnPath = await quoteWidgetReturnPath(quote.companyId, quote.selectedExtras);
     const stripe = getStripe();
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://qalt.site";
 
@@ -76,7 +82,7 @@ export async function POST(req: Request) {
         },
       ],
       success_url: `${baseUrl}/widget/payment-success?token=${successToken}`,
-      cancel_url: `${baseUrl}/widget/${quote.companyId}?cancelled=1`,
+      cancel_url: `${baseUrl}${widgetReturnPath}?cancelled=1`,
       payment_intent_data: {
         metadata: {
           quoteId: quote.id,
@@ -106,6 +112,6 @@ export async function POST(req: Request) {
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
     console.error("Quote payment error:", message);
-    return NextResponse.json({ error: message || "Failed to create payment session." }, { status: 500 });
+    return NextResponse.json({ error: "Unable to start secure payment. Please try again." }, { status: 500 });
   }
 }

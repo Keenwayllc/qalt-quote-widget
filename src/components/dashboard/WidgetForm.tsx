@@ -4,10 +4,11 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw, ExternalLink, Lock, Sparkles, Info, Globe, Trash2, CheckCircle, XCircle } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
-import { isValidHex, readableForeground } from "@/lib/color";
+import { isValidHex } from "@/lib/color";
 import MerchantLogo, { useLogoTone } from "@/components/shared/MerchantLogo";
 import { normalizeLogoBackdrop, toneForBackdrop, type LogoBackdrop } from "@/lib/logo-plate";
 import { useCompanyProfile } from "@/context/CompanyProfileContext";
+import { widgetFormUrl } from "@/lib/widget-embed";
 import Link from 'next/link';
 
 
@@ -80,6 +81,8 @@ export default function WidgetSettingsForm({
 
   const entitlements = getEntitlements(subscriptionPlan);
   
+  const [savedPreviewKey, setSavedPreviewKey] = useState(0);
+  const savedPreviewUrl = widgetFormUrl(formId) || `https://www.qalt.site/widget/${encodeURIComponent(companyId)}`;
   const [previewData, setPreviewData] = useState({
     ...initialData,
     backgroundImageUrl: entitlements.isAdvancedCustomizationEnabled ? initialData.backgroundImageUrl : null,
@@ -208,6 +211,7 @@ export default function WidgetSettingsForm({
         setSavedLogoBackdrop(logoBackdrop);
         updateProfile({ logoBackdrop });
         setMessage({ type: "success", text: "Widget settings updated!" });
+        setSavedPreviewKey((key) => key + 1);
         router.refresh();
       } else {
         setErrorStatus(data.error || "Failed to update settings.");
@@ -307,7 +311,7 @@ export default function WidgetSettingsForm({
                   )}
                   {logo && (
                     <div className="space-y-1.5 pt-1">
-                      <label htmlFor="logo-backdrop" className="block text-xs font-semibold text-slate-600 dark:text-slate-300">Logo background</label>
+                      <label htmlFor="logo-backdrop" className="block text-xs font-semibold text-slate-600 dark:text-slate-300">Logo background (all forms)</label>
                       <select
                         id="logo-backdrop"
                         value={logoBackdrop}
@@ -346,7 +350,7 @@ export default function WidgetSettingsForm({
                     <div className="relative w-20 h-14 shrink-0 group/thumb">
                       {previewData.backgroundImageUrl ? (
                         <>
-                          <div className="w-20 h-14 rounded-none border border-slate-200 dark:border-white/[0.06] bg-cover bg-center" style={{ backgroundImage: `url(${previewData.backgroundImageUrl})` }} />
+                          <div className="w-20 h-14 rounded-none border border-slate-200 dark:border-white/[0.06] bg-cover bg-center" style={{ backgroundImage: `url(${JSON.stringify(previewData.backgroundImageUrl)})` }} />
                           {entitlements.isAdvancedCustomizationEnabled && (
                             <button
                               type="button"
@@ -843,87 +847,11 @@ export default function WidgetSettingsForm({
             <Eye className="text-slate-400" size={20} />
             <h2 className="text-lg font-bold text-slate-900 dark:text-white">Widget Live Preview</h2>
           </div>
-          <div className="bg-white rounded-2xl border-slate-200 shadow-xl overflow-hidden pointer-events-none opacity-80 scale-95 border-dashed border-2">
-             <div 
-               className="p-6 border-b border-slate-100 flex items-center justify-between bg-cover bg-center relative"
-               style={
-                 previewData.backgroundImageUrl 
-                   ? { backgroundImage: `url(${previewData.backgroundImageUrl})`, minHeight: '100px' } 
-                   : { backgroundColor: previewData.primaryColor, minHeight: '100px' }
-               }
-             >
-                {/* Dark overlay if there's a background image to ensure text is readable */}
-                {previewData.backgroundImageUrl && (
-                  <div className="absolute inset-0 bg-slate-900/40 rounded-t-2xl" />
-                )}
-               <div className="relative z-10 flex flex-col gap-2">
-                 {logo ? (
-                   <div className="flex min-h-8 w-24 items-center">
-                     <MerchantLogo
-                       src={logo}
-                       alt="Logo"
-                       backdrop={logoBackdrop}
-                       surface={previewData.backgroundImageUrl || readableForeground(previewData.primaryColor).toLowerCase() !== "#111827" ? "dark" : "light"}
-                       className="max-h-8 w-auto max-w-full object-contain object-left"
-                     />
-                   </div>
-                 ) : (
-                   <div 
-                     className="text-white font-bold opacity-90 text-lg"
-                     style={{ fontFamily: previewData.companyNameFont || 'Inter' }}
-                   >
-                     {previewData.companyNameText || "Qalt"}
-                   </div>
-                 )}
-                 {initialData.formStyle === "quick" ? (
-                   <div>
-                     <h3 className="font-bold text-white text-xl drop-shadow-md">Instant Quote</h3>
-                     {previewData.quickSubtitleText?.trim() && <p className="mt-1 text-xs text-white/80">{previewData.quickSubtitleText}</p>}
-                   </div>
-                 ) : previewData.headerText?.trim() && <h3 className="font-bold text-white text-xl drop-shadow-md">{previewData.headerText}</h3>}
-               </div>
-             </div>
-             <div className="p-6 space-y-4 text-slate-600">
-               <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">
-                 {initialData.formStyle === "quick" ? "Vehicle Options · Route and vehicle" : initialData.formStyle === "extended" ? "Extended · Route and details" : "Standard Quote · Route preview"}
-               </p>
-               <div className="space-y-2">
-                 <div className="qalt-preview-field rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs">Pickup address</div>
-                 <div className="qalt-preview-field rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs">Dropoff address</div>
-                 {initialData.formStyle === "quick" ? (
-                   <>
-                     {initialData.showVehicles && Array.isArray(initialData.vehicleOptions) && initialData.vehicleOptions.length > 0 && (
-                       <div className="qalt-preview-field rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs">Choose a vehicle · {initialData.vehicleOptions.length} choices</div>
-                     )}
-                     <div className="qalt-preview-field rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs">Instant price</div>
-                   </>
-                 ) : (
-                   <>
-                     {(initialData.showWeight || initialData.showItemCount || initialData.showExtras || initialData.showVehicles) && (
-                       <div className="qalt-preview-field rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs">
-                         {[initialData.showWeight && "Weight", initialData.showItemCount && "Items", initialData.showExtras && "Extras", initialData.showVehicles && "Vehicles"].filter(Boolean).join(" · ")}
-                       </div>
-                     )}
-                     {initialData.formStyle === "extended" && Array.isArray(initialData.customQuestions) && initialData.customQuestions.length > 0 && (
-                       <div className="qalt-preview-field rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs">{initialData.customQuestions.length} custom question{initialData.customQuestions.length === 1 ? "" : "s"}</div>
-                     )}
-                   </>
-                 )}
-               </div>
-               <div className="py-4 border-t border-slate-100">
-                  <div className="w-full h-12 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: previewData.primaryColor }}>
-                    {previewData.buttonText}
-                  </div>
-               </div>
-               <p className="text-[10px] text-slate-400 text-center leading-tight">
-                 {previewData.disclaimerText}
-               </p>
-             </div>
-          </div>
-          <p className="mt-4 text-xs text-slate-400 italic text-center">
-            Note: This is a simplified preview. The actual widget will be responsive and interactive.
-          </p>
-          {formId && <Link href={`/widget/form/${encodeURIComponent(formId)}`} target="_blank" className="mt-2 block text-center text-xs font-bold text-red-600 dark:text-red-400">Open customer form ↗</Link>}
+          <p className="mb-3 text-xs text-slate-500">This interactive preview shows saved settings. Save changes, then refresh to reload pricing or theme changes.</p>
+          <button type="button" onClick={() => setSavedPreviewKey((key) => key + 1)} className="mb-3 text-sm font-semibold">Refresh saved preview</button>
+          <iframe key={savedPreviewKey} src={savedPreviewUrl} title="Saved customer form preview" width="100%" height="1000" className="border-0" />
+          <Link href={savedPreviewUrl} target="_blank" rel="noopener noreferrer" className="mt-2 block text-center text-xs font-bold text-red-600 dark:text-red-400">Open customer form ↗</Link>
+          {formId && <Link href={`/dashboard/embed?formId=${encodeURIComponent(formId)}`} className="mt-2 block text-center text-xs font-bold text-red-600 dark:text-red-400">Get Embed Code</Link>}
         </div>
       </div>
     </div>

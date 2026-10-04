@@ -1,3 +1,4 @@
+import { safeWidgetUrl } from "@/lib/widget-urls";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
@@ -18,10 +19,11 @@ export async function GET(req: Request) {
 
     const { searchParams } = new URL(req.url);
     const formId = searchParams.get("formId");
+    if (formId !== null && (!formId || formId.length > 128)) return NextResponse.json({ error: "Invalid form ID" }, { status: 400 });
 
     const company = await prisma.company.findUnique({
       where: { id: payload.companyId },
-      include: { widgetSettings: true },
+      include: { widgetSettings: { orderBy: { id: "asc" } } },
     });
 
     if (!company) return NextResponse.json({ error: "Company not found" }, { status: 404 });
@@ -65,7 +67,7 @@ export async function POST(req: Request) {
 
     const company = await prisma.company.findUnique({
       where: { id: payload.companyId },
-      include: { widgetSettings: true },
+      include: { widgetSettings: { orderBy: { id: "asc" } } },
     });
 
     if (!company) return NextResponse.json({ error: "Company not found" }, { status: 404 });
@@ -73,6 +75,15 @@ export async function POST(req: Request) {
     const entitlements = getEntitlements(company.subscriptionPlan);
     const data = await req.json();
     const formId: string | undefined = data.formId;
+    if (formId != null && (typeof formId !== "string" || !formId || formId.length > 128)) {
+      return NextResponse.json({ error: "Invalid form ID" }, { status: 400 });
+    }
+
+    for (const field of ["websiteUrl", "logoUrl", "backgroundImageUrl"] as const) {
+      if (data[field] !== undefined && data[field] !== null && data[field] !== "" && !safeWidgetUrl(data[field], field !== "websiteUrl")) {
+        return NextResponse.json({ error: `Invalid ${field}. Use a secure HTTPS URL.` }, { status: 400 });
+      }
+    }
 
     // Brand color: empty/missing -> canonical default; a valid hex is normalized
     // and saved; a malformed value is rejected (never silently replaced).
@@ -119,17 +130,17 @@ export async function POST(req: Request) {
       ...("quickSubtitleText" in data ? {
         quickSubtitleText: normalizeQuickSubtitle(data.quickSubtitleText),
       } : {}),
-      disclaimerText: (entitlements.isAdvancedCustomizationEnabled && data.disclaimerText)
+      disclaimerText: (entitlements.isAdvancedCustomizationEnabled && typeof data.disclaimerText === "string")
                         ? data.disclaimerText
                         : "Estimate only. Final price confirmed after booking.",
-      backgroundImageUrl: entitlements.isAdvancedCustomizationEnabled ? (data.backgroundImageUrl ?? null) : null,
+      backgroundImageUrl: entitlements.isAdvancedCustomizationEnabled ? safeWidgetUrl(data.backgroundImageUrl, true) : null,
       companyNameText: data.companyNameText ?? null,
       ...(entitlements.isAdvancedCustomizationEnabled && "logoUrl" in data
-        ? { logoUrl: data.logoUrl ? String(data.logoUrl) : null }
+        ? { logoUrl: safeWidgetUrl(data.logoUrl, true) }
         : {}),
       companyNameFont: data.companyNameFont || "Inter",
       mapLayout:     ["inline", "side"].includes(data.mapLayout) ? data.mapLayout : "inline",
-      websiteUrl:    data.websiteUrl ? String(data.websiteUrl).trim() : null,
+      websiteUrl:    safeWidgetUrl(data.websiteUrl),
       // Enterprise only: allow customers to pay directly via widget
       paymentsEnabled: entitlements.isPaymentsEnabled ? Boolean(data.paymentsEnabled) : false,
       geoFencingEnabled: Boolean(data.geoFencingEnabled),
@@ -163,7 +174,7 @@ export async function POST(req: Request) {
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
     console.error("Widget settings update error:", msg);
-    return NextResponse.json({ error: msg }, { status: 500 });
+    return NextResponse.json({ error: "Unable to save settings. Please try again." }, { status: 500 });
   }
 }
 
@@ -178,13 +189,16 @@ export async function PATCH(req: Request) {
 
     const company = await prisma.company.findUnique({
       where: { id: payload.companyId },
-      include: { widgetSettings: true },
+      include: { widgetSettings: { orderBy: { id: "asc" } } },
     });
     if (!company) return NextResponse.json({ error: "Company not found" }, { status: 404 });
 
     const entitlements = getEntitlements(company.subscriptionPlan);
     const data = await req.json();
     const formId: string | undefined = data.formId;
+    if (formId != null && (typeof formId !== "string" || !formId || formId.length > 128)) {
+      return NextResponse.json({ error: "Invalid form ID" }, { status: 400 });
+    }
 
     const patch: Record<string, unknown> = {};
     if ("showWeight" in data)    patch.showWeight = Boolean(data.showWeight);
@@ -220,6 +234,6 @@ export async function PATCH(req: Request) {
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
     console.error("Widget PATCH error:", msg);
-    return NextResponse.json({ error: msg }, { status: 500 });
+    return NextResponse.json({ error: "Unable to save settings. Please try again." }, { status: 500 });
   }
 }

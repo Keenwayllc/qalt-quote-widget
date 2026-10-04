@@ -51,3 +51,19 @@ export function readableForeground(bg: unknown): string {
   const lightContrast = contrastRatio(bgLum, relativeLuminance(INK_LIGHT));
   return darkContrast >= lightContrast ? INK_DARK : INK_LIGHT;
 }
+
+/** Render these variables in React so branding does not mutate unhydrated markup. */
+export function widgetBrandVariables(color: string): Record<string, string> {
+  const brand = sanitizeHex(color) || DEFAULT_BRAND;
+  const r = parseInt(brand.slice(1, 3), 16);
+  const g = parseInt(brand.slice(3, 5), 16);
+  const b = parseInt(brand.slice(5, 7), 16);
+  return {
+    "--qalt-brand": brand,
+    "--qalt-brand-ink": readableForeground(brand),
+    "--qalt-brand-soft": `rgba(${r}, ${g}, ${b}, 0.10)`,
+    "--qalt-brand-soft-2": `rgba(${r}, ${g}, ${b}, 0.045)`,
+    "--qalt-brand-border": `rgba(${r}, ${g}, ${b}, 0.20)`,
+    "--qalt-brand-shadow": `rgba(${r}, ${g}, ${b}, 0.35)`,
+  };
+}

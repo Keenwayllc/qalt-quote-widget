@@ -21,7 +21,7 @@ type Snapshot = {
   stage?: "STARTED" | "ROUTE" | "QUOTE" | "CONTACT";
 };
 
-const recoveryKey = (companyId: string) => `qalt-recovery-session-${companyId}`;
+const recoveryKey = (companyId: string, formId: string | null) => `qalt-recovery-session-${companyId}:${formId || "default"}`;
 
 export default function AbandonedQuoteTracker({ companyId, formId = null }: Props) {
   const snapshotRef = useRef<Snapshot>({ stage: "STARTED" });
@@ -30,10 +30,10 @@ export default function AbandonedQuoteTracker({ companyId, formId = null }: Prop
   useEffect(() => {
     let sessionId = "";
     try {
-      sessionId = sessionStorage.getItem(recoveryKey(companyId)) || "";
+      sessionId = sessionStorage.getItem(recoveryKey(companyId, formId)) || "";
       if (!sessionId) {
         sessionId = globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-        sessionStorage.setItem(recoveryKey(companyId), sessionId);
+        sessionStorage.setItem(recoveryKey(companyId, formId), sessionId);
       }
     } catch {
       sessionId = globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -119,7 +119,7 @@ export default function AbandonedQuoteTracker({ companyId, formId = null }: Prop
             }),
           });
           try {
-            sessionStorage.removeItem(recoveryKey(companyId));
+            sessionStorage.removeItem(recoveryKey(companyId, formId));
           } catch {}
         } catch {
           // Successful quote submission always wins over tracking.

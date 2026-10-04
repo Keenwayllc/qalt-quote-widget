@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { externalWidgetHost } from "@/lib/widget-installations";
+import { embeddingWidgetHost } from "@/lib/widget-installations";
 
 export default function WidgetInstallTracker({ companyId, formId }: { companyId: string; formId: string }) {
   const sentFor = useRef("");
   useEffect(() => {
     if (window.top === window.self) return;
-    const parentUrl = document.referrer || window.location.ancestorOrigins?.[0];
-    const domain = externalWidgetHost(parentUrl, window.location.origin);
+    const domain = embeddingWidgetHost(window.top !== window.self, document.referrer, Array.from(window.location.ancestorOrigins || []), window.location.origin);
     if (!domain) return;
     const key = `${companyId}:${formId}:${domain}`;
     if (sentFor.current === key) return;

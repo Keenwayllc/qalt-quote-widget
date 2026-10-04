@@ -31,7 +31,7 @@ export async function computeAuthoritativeQuote(input:ComputeInput):Promise<Quot
   let ownedWidgetSettings:{id:string;showVehicles:boolean;pricePerVehicle:number;vehicleOptions:unknown}|null=null;
   if(formId){const form=await prisma.widgetSettings.findUnique({where:{id:formId},select:{id:true,companyId:true,showVehicles:true,pricePerVehicle:true,vehicleOptions:true}});if(!form||form.companyId!==companyId)return{ok:false,status:404,error:"Form not found"};ownedWidgetSettings={id:form.id,showVehicles:form.showVehicles,pricePerVehicle:form.pricePerVehicle,vehicleOptions:form.vehicleOptions};}
   let pricingProfile:PricingRulesWithServices|null=null;
-  if(formId){const fp=await prisma.pricingProfile.findUnique({where:{widgetSettingsId:formId}});if(fp)pricingProfile=fp as unknown as PricingRulesWithServices;}
+  if(formId){const fp=await prisma.pricingProfile.findFirst({where:{widgetSettingsId:formId,companyId}});if(fp)pricingProfile=fp as unknown as PricingRulesWithServices;}
   if(!pricingProfile){const dp=await prisma.pricingProfile.findFirst({where:{companyId,widgetSettingsId:null}});if(dp)pricingProfile=dp as unknown as PricingRulesWithServices;}
   if(!pricingProfile)return{ok:false,status:404,error:"Pricing not configured"};
 
@@ -59,7 +59,7 @@ export async function computeAuthoritativeQuote(input:ComputeInput):Promise<Quot
   if(vehicleCount&&vehicleCount>0){
     let widgetSettings=ownedWidgetSettings;
     if(!widgetSettings){
-      const fallback=await prisma.widgetSettings.findFirst({where:{companyId},select:{id:true,showVehicles:true,pricePerVehicle:true,vehicleOptions:true}});
+      const fallback=await prisma.widgetSettings.findFirst({where:{companyId},orderBy:{id:"asc"},select:{id:true,showVehicles:true,pricePerVehicle:true,vehicleOptions:true}});
       if(fallback)widgetSettings=fallback;
     }
     if(widgetSettings?.showVehicles){

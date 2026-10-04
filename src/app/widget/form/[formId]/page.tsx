@@ -1,3 +1,6 @@
+import type { ComponentProps } from "react";
+import { pricingProfileForForm } from "@/lib/widget-pricing";
+import { safeWidgetUrl } from "@/lib/widget-urls";
 import prisma from "@/lib/prisma";
 import QuoteWidgetForm from "@/components/widget/QuoteWidgetForm";
 import AbandonedQuoteTracker from "@/components/widget/AbandonedQuoteTracker";
@@ -13,14 +16,13 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function PublicWidgetFormPage({ params }: { params: { formId: string } }) {
+export default async function PublicWidgetFormPage({ params }: { params: Promise<{ formId: string }> }) {
   const { formId } = await params;
 
   const form = await prisma.widgetSettings.findUnique({
     where: { id: formId },
     select: {
       ...publicWidgetSettingsSelect,
-      pricingProfile: { select: publicPricingProfileSelect },
       company: {
         select: {
           ...publicCompanySelect,
@@ -32,11 +34,8 @@ export default async function PublicWidgetFormPage({ params }: { params: { formI
 
   if (!form) notFound();
 
-  const { company, pricingProfile: formPricing, ...widgetSettings } = form;
-  const pricingProfile =
-    formPricing ??
-    company.pricingProfiles.find((p) => p.widgetSettingsId === null) ??
-    undefined;
+  const { company, ...widgetSettings } = form;
+  const pricingProfile = pricingProfileForForm(company.pricingProfiles, formId);
   const themeMode = await getWidgetTheme(formId);
 
   return (
@@ -48,12 +47,18 @@ export default async function PublicWidgetFormPage({ params }: { params: { formI
           company={{
             id: company.id,
             name: company.name,
-            logoUrl: company.logoUrl,
+            logoUrl: safeWidgetUrl(company.logoUrl, true),
+            logoBackdrop: company.logoBackdrop,
             subscriptionPlan: company.subscriptionPlan,
-            widgetSettings,
+            widgetSettings: {
+              ...widgetSettings,
+              logoUrl: safeWidgetUrl(widgetSettings.logoUrl, true),
+              backgroundImageUrl: safeWidgetUrl(widgetSettings.backgroundImageUrl, true),
+              websiteUrl: safeWidgetUrl(widgetSettings.websiteUrl),
+            },
             formId,
             pricingProfile,
-          } as any}
+          } as ComponentProps<typeof QuoteWidgetForm>["company"]}
         />
       </div>
     </WidgetThemeShell>

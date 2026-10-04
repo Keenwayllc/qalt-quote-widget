@@ -1,3 +1,4 @@
+import { widgetRequestAllowed } from "@/lib/widget-rate-limit";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { sendEmail, buildFromAddress } from "@/lib/email";
@@ -18,7 +19,19 @@ export const dynamic = "force-dynamic";
 export async function POST(req: Request, { params }: { params: Promise<{ companyId: string }> }) {
   try {
     const { companyId } = await params;
+    if (!widgetRequestAllowed(req, `quote-submit:${companyId}`, 60)) {
+      return NextResponse.json({ error: "Too many requests. Please wait a minute and try again." }, { status: 429, headers: { "Retry-After": "60" } });
+    }
     const data = await req.json();
+    if (!data || typeof data !== "object" || Array.isArray(data)) return NextResponse.json({ error: "Invalid quote details." }, { status: 400 });
+    if (data.formId && data.widgetSettingsId && data.formId !== data.widgetSettingsId) return NextResponse.json({ error: "Form not found" }, { status: 404 });
+    if ([data.formId, data.widgetSettingsId].some((id) => id !== undefined && id !== null && (typeof id !== "string" || !id || id.length > 128))) return NextResponse.json({ error: "Form not found" }, { status: 404 });
+    const requestedForm = data.formId || data.widgetSettingsId;
+    if (requestedForm !== undefined && requestedForm !== null && (typeof requestedForm !== "string" || !requestedForm || requestedForm.length > 128)) return NextResponse.json({ error: "Form not found" }, { status: 404 });
+    const selectedForm = await prisma.widgetSettings.findFirst({ where: { companyId, ...(requestedForm ? { id: requestedForm } : {}) }, orderBy: { id: "asc" }, select: { id: true } });
+    if (!selectedForm) return NextResponse.json({ error: "Form not found" }, { status: 404 });
+    data.formId = selectedForm.id;
+    data.widgetSettingsId = selectedForm.id;
 
     const company = await prisma.company.findUnique({
       where: { id: companyId },
@@ -234,6 +247,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
           vehicleType: authoritativeVehicleType,
           vehicleCount: vehicleCount > 0 ? vehicleCount : null,
           customAnswers,
+          formId: data.widgetSettingsId || null,
         }),
         paymentStatus: paymentsEnabled ? "PENDING" : null,
       },

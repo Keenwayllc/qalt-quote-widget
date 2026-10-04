@@ -3,7 +3,7 @@ import { getCurrentCompany } from "@/lib/session";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { Shield, Building2, FileText, Sparkles, MousePointerClick } from "lucide-react";
-import { widgetInstallationStatus } from "@/lib/widget-installations";
+import { widgetInstallationStatus, widgetInstallationSource } from "@/lib/widget-installations";
 import PlanSelect from "./PlanSelect";
 import VehicleRequestStatusSelect from "./VehicleRequestStatusSelect";
 
@@ -296,9 +296,10 @@ export default async function AdminPage() {
                       {latestInstall ? (
                         <div className="space-y-1">
                           <span className={`inline-flex rounded-full px-2.5 py-1 text-[11px] font-bold ${widgetInstallationStatus(latestInstall.lastSeenAt) === "Active embed" ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300" : "bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300"}`}>
-                            {widgetInstallationStatus(latestInstall.lastSeenAt)}
+                            {widgetInstallationSource(latestInstall.domain) === "Builder/preview detection" && widgetInstallationStatus(latestInstall.lastSeenAt) === "Active embed" ? "Recent builder load" : widgetInstallationStatus(latestInstall.lastSeenAt)}
                           </span>
                           <p className="text-xs font-bold text-slate-700 dark:text-slate-200">{latestInstall.domain}</p>
+                          <p className="text-[11px] text-slate-500">{widgetInstallationSource(latestInstall.domain)}</p>
                           <p className="text-[11px] text-slate-400 dark:text-slate-500">
                             {latestInstall.formName} · {latestInstall.loadCount.toLocaleString()} load{latestInstall.loadCount === 1 ? "" : "s"}
                           </p>
@@ -309,7 +310,7 @@ export default async function AdminPage() {
                               <summary className="cursor-pointer font-semibold">{installs.length - 1} more domain/form {installs.length === 2 ? "install" : "installs"}</summary>
                               {installs.slice(1).map((install) => (
                                 <p key={`${install.formId}:${install.domain}`} className="mt-1 break-all">
-                                  {install.domain} · {install.formName} · Last seen {fmtDate(install.lastSeenAt)}
+                                  {install.domain} · {widgetInstallationSource(install.domain)} · {install.formName} · Last seen {fmtDate(install.lastSeenAt)}
                                 </p>
                               ))}
                             </details>

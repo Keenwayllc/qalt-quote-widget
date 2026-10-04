@@ -1,3 +1,4 @@
+import { safeWidgetUrl } from "@/lib/widget-urls";
 import type { CSSProperties } from "react";
 import { getCurrentCompany } from "@/lib/session";
 import WidgetForm from "@/components/dashboard/WidgetForm";
@@ -6,7 +7,7 @@ import WidgetThemeSelector from "@/components/dashboard/WidgetThemeSelector";
 import LogoUploadPolicy from "@/components/dashboard/LogoUploadPolicy";
 import { getWidgetTheme } from "@/lib/widget-theme";
 import FormSettingsSelector from "@/components/dashboard/FormSettingsSelector";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import "./widget-preview-theme.css";
 
 export default async function WidgetSettingsPage({
@@ -17,14 +18,14 @@ export default async function WidgetSettingsPage({
   const company = await getCurrentCompany();
   const { formId } = await searchParams;
   const forms = [...company.widgetSettings].sort((a, b) => a.id.localeCompare(b.id));
-  const widgetSettings = formId ? forms.find((form) => form.id === formId) : forms[0];
-  if (formId && !widgetSettings) redirect("/dashboard/widget");
+  const widgetSettings = formId !== undefined ? forms.find((form) => form.id === formId) : forms[0];
+  if (formId !== undefined && !widgetSettings) notFound();
   const selectedFormId = widgetSettings?.id;
   const themeMode = widgetSettings ? await getWidgetTheme(widgetSettings.id) : "light";
 
   const previewStyle = {
-    "--qalt-widget-preview-bg-image": widgetSettings?.backgroundImageUrl
-      ? `url("${widgetSettings.backgroundImageUrl}")`
+    "--qalt-widget-preview-bg-image": safeWidgetUrl(widgetSettings?.backgroundImageUrl, true)
+      ? `url(${JSON.stringify(safeWidgetUrl(widgetSettings?.backgroundImageUrl, true))})`
       : "none",
   } as CSSProperties;
 

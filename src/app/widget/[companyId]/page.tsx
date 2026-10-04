@@ -1,3 +1,4 @@
+import { safeWidgetUrl } from "@/lib/widget-urls";
 import prisma from "@/lib/prisma";
 import QuoteWidgetForm from "@/components/widget/QuoteWidgetForm";
 import AbandonedQuoteTracker from "@/components/widget/AbandonedQuoteTracker";
@@ -15,7 +16,7 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function PublicWidgetPage({ params }: { params: { companyId: string } }) {
+export default async function PublicWidgetPage({ params }: { params: Promise<{ companyId: string }> }) {
   const { companyId } = await params;
 
   const company = await prisma.company.findUnique({
@@ -42,9 +43,15 @@ export default async function PublicWidgetPage({ params }: { params: { companyId
           company={{
             id: company.id,
             name: company.name,
-            logoUrl: company.logoUrl,
+            logoUrl: safeWidgetUrl(company.logoUrl, true),
+            logoBackdrop: company.logoBackdrop,
             subscriptionPlan: company.subscriptionPlan,
-            widgetSettings,
+            widgetSettings: {
+              ...widgetSettings,
+              logoUrl: safeWidgetUrl(widgetSettings.logoUrl, true),
+              backgroundImageUrl: safeWidgetUrl(widgetSettings.backgroundImageUrl, true),
+              websiteUrl: safeWidgetUrl(widgetSettings.websiteUrl),
+            },
             formId: widgetSettings.id,
             pricingProfile,
           } as ComponentProps<typeof QuoteWidgetForm>["company"]}

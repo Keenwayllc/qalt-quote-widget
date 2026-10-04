@@ -79,7 +79,7 @@ export async function GET(req: Request) {
       if (!form || form.companyId !== payload.companyId) {
         return NextResponse.json({ error: "Form not found" }, { status: 404 });
       }
-      const formProfile = await prisma.pricingProfile.findUnique({ where: { widgetSettingsId: formId } });
+      const formProfile = await prisma.pricingProfile.findFirst({ where: { widgetSettingsId: formId, companyId: payload.companyId } });
       return NextResponse.json({ profile: formProfile });
     }
 

@@ -1,3 +1,4 @@
+import { widgetRequestAllowed } from "@/lib/widget-rate-limit";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { externalWidgetHost } from "@/lib/widget-installations";
@@ -8,6 +9,7 @@ export async function POST(request: Request) {
   try {
     const origin = new URL(request.url).origin;
     if (request.headers.get("origin") !== origin) return new NextResponse(null, { status: 403 });
+    if (!widgetRequestAllowed(request, "install-ping", 600)) return new NextResponse(null, { status: 429, headers: { "Retry-After": "60" } });
     const text = await request.text();
     if (text.length > 4096) return new NextResponse(null, { status: 413 });
     const body = JSON.parse(text);

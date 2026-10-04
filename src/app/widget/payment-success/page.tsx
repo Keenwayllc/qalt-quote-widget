@@ -1,3 +1,4 @@
+import { quoteWidgetReturnPath } from "@/lib/quote-widget-return";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { CheckCircle, Calendar, MapPin, ArrowRight, Truck, Clock, FileText, Receipt, Mail } from "lucide-react";
@@ -39,6 +40,7 @@ export default async function PaymentSuccessPage({
   });
 
   if (!quote) notFound();
+  const widgetReturnPath = await quoteWidgetReturnPath(quote.companyId, quote.selectedExtras);
   const intermediateStops = normalizeIntermediateStops(quote.intermediateStops);
 
   const isPaid = quote.paymentStatus === "PAID";
@@ -77,7 +79,7 @@ export default async function PaymentSuccessPage({
             </div>
 
             <Link
-              href={`/widget/${quote.companyId}`}
+              href={widgetReturnPath}
               className="w-full py-4 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg active:scale-[0.98]"
             >
               Return to Widget
@@ -253,7 +255,7 @@ export default async function PaymentSuccessPage({
           </div>
 
           <Link
-            href={`/widget/${quote.companyId}`}
+            href={widgetReturnPath}
             className="w-full py-4 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg active:scale-[0.98]"
           >
             Return to Widget

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import ts from 'typescript';
+import { widgetRequestAllowed } from '../src/lib/widget-rate-limit.ts';
 import { externalWidgetHost } from '../src/lib/widget-installations.ts';
 
 function endpoint(owned = true) {
@@ -12,14 +13,15 @@ function endpoint(owned = true) {
   };
   const source = readFileSync(new URL('../src/app/api/widget/install-ping/route.ts', import.meta.url), 'utf8');
   const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText;
-  const module = { exports: {} };
+  const cjsModule = { exports: {} };
   new Function('require', 'module', 'exports', compiled)((name) => {
     if (name === 'next/server') return { NextResponse: Response };
+    if (name === '@/lib/widget-rate-limit') return { widgetRequestAllowed };
     if (name === '@/lib/prisma') return { default: prisma };
     if (name === '@/lib/widget-installations') return { externalWidgetHost };
     throw new Error(name);
-  }, module, module.exports);
-  return { post: module.exports.POST, calls };
+  }, cjsModule, cjsModule.exports);
+  return { post: cjsModule.exports.POST, calls };
 }
 function request(body, origin = 'https://www.qalt.site') {
   return new Request('https://www.qalt.site/api/widget/install-ping', {

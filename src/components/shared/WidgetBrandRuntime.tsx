@@ -74,6 +74,7 @@ export default function WidgetBrandRuntime() {
       const roots = document.querySelectorAll<HTMLElement>('[style*="--ring"]');
 
       roots.forEach((root) => {
+        if (root.dataset.qaltBrandOwned) return;
         const rawRing = root.style.getPropertyValue("--ring") || getComputedStyle(root).getPropertyValue("--ring");
         const brand = parseBrandColor(rawRing);
         if (!brand) return;

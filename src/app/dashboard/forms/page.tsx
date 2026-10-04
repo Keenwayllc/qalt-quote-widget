@@ -1,5 +1,7 @@
 "use client";
 
+import { widgetFormUrl, widgetEmbedCode } from "@/lib/widget-embed";
+
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Plus, Trash2, Copy, Check, ExternalLink, FormInput, Pencil, X, Settings, DollarSign, Lock, ListChecks } from "lucide-react";
@@ -141,15 +143,16 @@ export default function FormsPage() {
     }
   }
 
-  function getEmbedCode(formId: string) {
-    const origin = typeof window !== "undefined" ? window.location.origin : "https://qalt.site";
-    return `<iframe\n  src="${origin}/widget/form/${formId}"\n  width="100%"\n  height="700px"\n  frameborder="0"\n  style="border: 0;"\n></iframe>`;
-  }
-
-  function copyEmbed(id: string) {
-    navigator.clipboard.writeText(getEmbedCode(id));
-    setCopiedId(id);
-    setTimeout(() => setCopiedId(null), 2000);
+  const getEmbedCode = widgetEmbedCode;
+  async function copyEmbed(id: string) {
+    try {
+      await navigator.clipboard.writeText(getEmbedCode(id));
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch {
+      setCopiedId(null);
+      setError("Copy failed. Select the embed code and copy it manually.");
+    }
   }
 
   if (loading) {
@@ -255,9 +258,7 @@ export default function FormsPage() {
       <div className="space-y-4">
         {forms.map((form, index) => {
           const embedCode = getEmbedCode(form.id);
-          const widgetUrl = typeof window !== "undefined"
-            ? `${window.location.origin}/widget/form/${form.id}`
-            : `/widget/form/${form.id}`;
+          const widgetUrl = widgetFormUrl(form.id);
           const isLocked = maxForms !== "unlimited" && index >= maxForms;
 
           return (
