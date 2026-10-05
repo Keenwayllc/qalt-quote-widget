@@ -49,7 +49,7 @@ export default function QuotaBar({ used, limit, plan }: QuotaBarProps) {
               {isExhausted ? "Monthly quote limit reached" : `${remaining} quote${remaining === 1 ? "" : "s"} remaining this month`}
             </p>
             <p className="mt-0.5 text-xs text-[#777e89] dark:text-slate-400">
-              {used} of {limit} used · Resets on the 1st
+              {used} of {limit} used · Resets on the 1st at 00:00 UTC
             </p>
           </div>
         </div>

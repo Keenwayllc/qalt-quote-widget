@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import { sendEmail, buildFromAddress } from "@/lib/email";
 import { NewQuoteEmail } from "@/components/emails/NewQuoteEmail";
 import { CustomerQuoteEmail } from "@/components/emails/CustomerQuoteEmail";
-import { PLANS, SubscriptionPlan } from "@/lib/plans";
+import { PLANS, SubscriptionPlan, quotaMonthStart } from "@/lib/plans";
 import { fireWebhooks } from "@/lib/webhooks";
 import type { EstimateExtras } from "@/lib/calculator";
 import { computeAuthoritativeQuote } from "@/lib/serverQuotePricing";
@@ -55,9 +55,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
     const entitlements = PLANS[plan] || PLANS.STARTER;
 
     if (entitlements.maxQuotesPerMonth !== "unlimited") {
-      const startOfMonth = new Date();
-      startOfMonth.setDate(1);
-      startOfMonth.setHours(0, 0, 0, 0);
+      const startOfMonth = quotaMonthStart();
 
       const quoteCount = await prisma.quoteRequest.count({
         where: {

@@ -1,5 +1,6 @@
 import { getCurrentCompany, getDefaultPricing } from "@/lib/session";
-import { getEntitlements } from "@/lib/plans";
+import { getEntitlements, quotaMonthStart } from "@/lib/plans";
+import type { Prisma } from "@/generated/prisma/client";
 import prisma from "@/lib/prisma";
 import MetricCard from "@/components/dashboard/MetricCard";
 import QuotaBar from "@/components/dashboard/QuotaBar";
@@ -15,7 +16,6 @@ import {
   ArrowUpRight,
   TrendingUp,
   MapPin,
-  Briefcase,
   AlertCircle,
   CheckCircle2,
   Clock,
@@ -27,8 +27,8 @@ export default async function DashboardOverview() {
   const defaultPricing = getDefaultPricing(company);
 
   const now = new Date();
-  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-  const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const monthStart = quotaMonthStart(now);
+  const prevMonthStart = quotaMonthStart(now, 1);
 
   let recentQuotes: Awaited<ReturnType<typeof prisma.quoteRequest.findMany>> = [];
   let totalQuotes = 0;
@@ -76,7 +76,9 @@ export default async function DashboardOverview() {
     prisma.pricingProfile.findMany({ where: { companyId: company.id } }),
   ]);
 
-  let activeJobs: any[] = [];
+  let activeJobs: Prisma.JobGetPayload<{
+    include: { stops: { include: { stopNote: { select: { companyName: true } } } } };
+  }>[] = [];
   try {
     activeJobs = await prisma.job.findMany({
       where: {
@@ -166,7 +168,7 @@ export default async function DashboardOverview() {
   sevenDaysAgo.setHours(0, 0, 0, 0);
 
   let chartQuotes: { createdAt: Date }[] = [];
-  let serviceTypeGroups: any[] = [];
+  let serviceTypeGroups: { serviceType: string; _count: { serviceType: number } }[] = [];
 
   try {
     [chartQuotes, serviceTypeGroups] = await Promise.all([
@@ -347,11 +349,11 @@ export default async function DashboardOverview() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-              {activeJobs.map((job: any) => {
+              {activeJobs.map((job) => {
                 const status = statusMap[job.status] ?? statusMap.PENDING;
                 const StatusIcon = status.icon;
                 const stopNames = job.stops
-                  .map((stop: any) => stop.stopNote?.companyName)
+                  .map((stop) => stop.stopNote?.companyName)
                   .filter(Boolean)
                   .join(" → ");
 

@@ -1,5 +1,5 @@
 import { getCurrentCompany } from "@/lib/session";
-import { getEntitlements } from "@/lib/plans";
+import { getEntitlements, quotaMonthStart } from "@/lib/plans";
 import prisma from "@/lib/prisma";
 import BillingClient from "./BillingClient";
 import SubscriptionOverview from "./SubscriptionOverview";
@@ -19,7 +19,7 @@ export default async function BillingPage({
   const trialExpired = params.expired === "1";
 
   const now = new Date();
-  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const monthStart = quotaMonthStart(now);
   const monthlyQuotes = await prisma.quoteRequest.count({
     where: { companyId: company.id, createdAt: { gte: monthStart } },
   });

@@ -54,6 +54,15 @@ export const PLANS: Record<SubscriptionPlan, PlanEntitlements> = {
   },
 };
 
+/**
+ * Monthly quote allowances (Starter's 50) reset at 00:00 UTC on the 1st of
+ * each calendar month, which is 5 PM Pacific (4 PM in winter) on the last day
+ * of the previous month. Counting and display both use this boundary.
+ */
+export function quotaMonthStart(now = new Date(), monthsBack = 0): Date {
+  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - monthsBack, 1));
+}
+
 export function getEntitlements(plan: string | null | undefined): PlanEntitlements {
   const planKey = (plan?.toUpperCase() as SubscriptionPlan) || "STARTER";
   return PLANS[planKey] || PLANS.STARTER;
