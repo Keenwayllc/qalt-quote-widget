@@ -10,6 +10,7 @@ import { normalizeLogoBackdrop, toneForBackdrop, type LogoBackdrop } from "@/lib
 import { useCompanyProfile } from "@/context/CompanyProfileContext";
 import { widgetFormUrl } from "@/lib/widget-embed";
 import ZipAreaMap from "@/components/widget/ZipAreaMap";
+import { DEFAULT_WIDGET_FAVICON } from "@/lib/widget-favicon";
 import Link from 'next/link';
 
 
@@ -33,6 +34,7 @@ interface WidgetProps {
       disclaimerText: string;
       backgroundImageUrl?: string | null;
       logoUrl?: string | null;
+      faviconUrl?: string | null;
       formStyle?: string;
       showItemCount?: boolean;
       vehicleOptions?: unknown;
@@ -86,6 +88,7 @@ export default function WidgetSettingsForm({
   const savedPreviewUrl = widgetFormUrl(formId) || `https://www.qalt.site/widget/${encodeURIComponent(companyId)}`;
   const [previewData, setPreviewData] = useState({
     ...initialData,
+    faviconUrl: initialData.faviconUrl ?? null,
     backgroundImageUrl: entitlements.isAdvancedCustomizationEnabled ? initialData.backgroundImageUrl : null,
     companyNameText: initialData.companyNameText || null,
     companyNameFont: initialData.companyNameFont || "Inter",
@@ -127,15 +130,22 @@ export default function WidgetSettingsForm({
     }
   }, [previewData.companyNameFont]);
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'logo' | 'background') => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'logo' | 'background' | 'favicon') => {
     const file = e.target.files?.[0];
+    e.target.value = "";
     if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      setErrorStatus("File must be 5 MB or smaller");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("file", file);
+    if (type === 'favicon') formData.append("purpose", "favicon");
 
     try {
       setLoading(true);
+      setErrorStatus(null);
       const res = await fetch("/api/upload", {
         method: "POST",
         body: formData,
@@ -145,6 +155,8 @@ export default function WidgetSettingsForm({
         if (type === 'logo') {
           setLogo(data.url);
           setLogoChanged(true);
+        } else if (type === 'favicon') {
+          setPreviewData(prev => ({ ...prev, faviconUrl: data.url }));
         } else {
           setPreviewData(prev => ({ ...prev, backgroundImageUrl: data.url }));
         }
@@ -177,6 +189,7 @@ export default function WidgetSettingsForm({
       const widgetPayload = {
         ...previewData,
         formId: formId ?? null,
+        faviconUrl: entitlements.isAdvancedCustomizationEnabled ? previewData.faviconUrl : undefined,
         ...(logoChanged ? { logoUrl: logo || null } : {}),
       };
 
@@ -386,6 +399,33 @@ export default function WidgetSettingsForm({
                     <p className="text-[11px] text-slate-400 dark:text-slate-500">Hover the thumbnail to remove</p>
                   )}
                 </div>
+                {/* Browser tab icon belongs to this selected form. */}
+                <div className="flex flex-col gap-3 md:col-span-2">
+                  <label htmlFor="favicon-upload" className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                    Form Favicon
+                    {!entitlements.isAdvancedCustomizationEnabled && <Lock size={12} className="text-amber-500" />}
+                  </label>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <div className="w-14 h-14 shrink-0 border border-slate-200 dark:border-white/[0.06] bg-white flex items-center justify-center">
+                      {/* Public branding assets are intentionally served at their uploaded URLs. */}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={previewData.faviconUrl || DEFAULT_WIDGET_FAVICON} alt="Form favicon preview" className="w-8 h-8 object-contain" />
+                    </div>
+                    <label className={`flex items-center gap-2 px-4 py-2 border border-slate-300 dark:border-white/[0.06] text-sm font-medium text-slate-700 dark:text-slate-300 focus-within:ring-2 focus-within:ring-red-500 ${loading || !entitlements.isAdvancedCustomizationEnabled ? "opacity-50" : "cursor-pointer hover:bg-slate-50 dark:hover:bg-white/5"}`}>
+                      <Upload size={15} />
+                      {previewData.faviconUrl ? "Replace Favicon" : "Upload Favicon"}
+                      <input id="favicon-upload" type="file" className="sr-only" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" disabled={loading || !entitlements.isAdvancedCustomizationEnabled} onChange={(e) => handleFileUpload(e, 'favicon')} />
+                    </label>
+                    {previewData.faviconUrl && entitlements.isAdvancedCustomizationEnabled && (
+                      <button type="button" disabled={loading} onClick={() => setPreviewData(prev => ({ ...prev, faviconUrl: null }))} aria-label="Remove favicon" className="p-2 text-slate-500 hover:text-red-600 disabled:opacity-50">
+                        <Trash2 size={16} />
+                      </button>
+                    )}
+                  </div>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Browser tab icon for this hosted form. PNG, JPG, WebP, GIF, or simple SVG, up to 5 MB. Square artwork works best.</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Save Settings to publish. Embedded forms use the hosting website’s favicon. Removing your icon restores the Qalt icon.</p>
+                </div>
+
               </div>
 
               {/* Text Branding (Free Plan Option) */}

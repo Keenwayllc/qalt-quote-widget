@@ -7,6 +7,7 @@ import { getEntitlements } from "@/lib/plans";
 import { sanitizeHex } from "@/lib/color";
 import { normalizeQuickSubtitle } from "@/lib/quick-subtitle";
 import { parseVehicleArtworkKey } from "@/lib/form-vehicles";
+import { safeWidgetFavicon } from "@/lib/widget-favicon";
 
 export async function GET(req: Request) {
   try {
@@ -85,6 +86,13 @@ export async function POST(req: Request) {
       }
     }
 
+    if ("faviconUrl" in data && data.faviconUrl !== null && data.faviconUrl !== "" && !safeWidgetFavicon(data.faviconUrl, company.id)) {
+      return NextResponse.json({ error: "Invalid favicon. Upload an image using the favicon setting." }, { status: 400 });
+    }
+    if (data.faviconUrl && !entitlements.isAdvancedCustomizationEnabled) {
+      return NextResponse.json({ error: "Custom favicons require Pro or Enterprise." }, { status: 403 });
+    }
+
     // Brand color: empty/missing -> canonical default; a valid hex is normalized
     // and saved; a malformed value is rejected (never silently replaced).
     const rawColor = data.primaryColor;
@@ -135,6 +143,7 @@ export async function POST(req: Request) {
                         : "Estimate only. Final price confirmed after booking.",
       backgroundImageUrl: entitlements.isAdvancedCustomizationEnabled ? safeWidgetUrl(data.backgroundImageUrl, true) : null,
       companyNameText: data.companyNameText ?? null,
+      ...("faviconUrl" in data ? { faviconUrl: safeWidgetFavicon(data.faviconUrl, company.id) } : {}),
       ...(entitlements.isAdvancedCustomizationEnabled && "logoUrl" in data
         ? { logoUrl: safeWidgetUrl(data.logoUrl, true) }
         : {}),

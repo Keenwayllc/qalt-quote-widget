@@ -1,4 +1,6 @@
-import type { ComponentProps } from "react";
+import { cache, type ComponentProps } from "react";
+import type { Metadata } from "next";
+import { widgetPageMetadata } from "@/lib/widget-favicon";
 import { pricingProfileForForm } from "@/lib/widget-pricing";
 import { safeWidgetUrl } from "@/lib/widget-urls";
 import prisma from "@/lib/prisma";
@@ -16,10 +18,7 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function PublicWidgetFormPage({ params }: { params: Promise<{ formId: string }> }) {
-  const { formId } = await params;
-
-  const form = await prisma.widgetSettings.findUnique({
+const getPublicForm = cache((formId: string) => prisma.widgetSettings.findUnique({
     where: { id: formId },
     select: {
       ...publicWidgetSettingsSelect,
@@ -30,7 +29,18 @@ export default async function PublicWidgetFormPage({ params }: { params: Promise
         },
       },
     },
-  });
+  }));
+
+export async function generateMetadata({ params }: { params: Promise<{ formId: string }> }): Promise<Metadata> {
+  const { formId } = await params;
+  const form = await getPublicForm(formId);
+  if (!form) notFound();
+  return widgetPageMetadata(form.company, form);
+}
+
+export default async function PublicWidgetFormPage({ params }: { params: Promise<{ formId: string }> }) {
+  const { formId } = await params;
+  const form = await getPublicForm(formId);
 
   if (!form) notFound();
 
@@ -58,7 +68,7 @@ export default async function PublicWidgetFormPage({ params }: { params: Promise
             },
             formId,
             pricingProfile,
-          } as ComponentProps<typeof QuoteWidgetForm>["company"]}
+          } as unknown as ComponentProps<typeof QuoteWidgetForm>["company"]}
         />
       </div>
     </WidgetThemeShell>

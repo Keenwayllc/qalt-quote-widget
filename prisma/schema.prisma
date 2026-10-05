@@ -107,6 +107,7 @@ model WidgetSettings {
   formStyle          String          @default("standard") // "standard" | "extended" | "quick"
   customQuestions    Json            @default("[]")
   logoUrl            String?
+  faviconUrl         String?
   // Optional dark variant generated from the uploaded logo. Original artwork is
   // always preserved and remains the default. Merchants explicitly opt in to
   // using this variant on light backgrounds/PDFs.

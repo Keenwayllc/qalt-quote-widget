@@ -12,6 +12,7 @@ const root=resolve(new URL('../..',import.meta.url).pathname);
 const temp=mkdtempSync(join(tmpdir(),'qalt-embed-audit-'));
 const out=join(root,'test-results/embed-audit');mkdirSync(out,{recursive:true});
 const database=join(temp,'fixture.json');
+const uploads=join(temp,'uploads.json');
 const defaults={formStyle:'standard',customQuestions:[],primaryColor:'#1E40AF',headerText:'Default form',quickSubtitleText:'Choose your vehicle',buttonText:'Calculate default',showWeight:false,showItemCount:true,showExtras:false,insideDeliveryLabel:'Inside',addon3Label:'Special',disclaimerText:'Default disclaimer',backgroundImageUrl:null,logoUrl:null,companyNameText:'Merchant default',companyNameFont:'Inter',mapLayout:'inline',websiteUrl:'https://merchant.example',paymentsEnabled:false,showVehicles:false,pricePerVehicle:0,vehicleOptions:[],showAwb:false,geoFencingEnabled:false,serviceZips:[],themeMode:'light'};
 const companies=[{id:'merchantA',name:'A very long merchant name for responsive delivery services',logoUrl:null,logoBackdrop:'dark',subscriptionPlan:'ENTERPRISE',email:'fixture@example.invalid',passwordHash:'PRIVATE_PASSWORD',stripeConnectAccountId:'acct_fixture',customWidgetDomain:'quotes.merchant.example',customWidgetDomainVerified:true,onboardingCompletedAt:new Date().toISOString(),onboardingStep:5,trialEndsAt:null,createdAt:new Date().toISOString()}, {id:'merchantB',name:'Other merchant',subscriptionPlan:'ENTERPRISE',email:'private@example.invalid'}, {id:'empty',name:'Empty',subscriptionPlan:'ENTERPRISE'}];
 const forms=[{...defaults,id:'formA',companyId:'merchantA',name:'Default'}, {...defaults,id:'formB',companyId:'merchantA',name:'Second customized',formStyle:'extended',headerText:'Exact second form',companyNameText:'Long customized delivery company name which must wrap on mobile devices',primaryColor:'#087c68',buttonText:'Calculate second',disclaimerText:'Second disclaimer',showVehicles:true,showWeight:true,showExtras:true,showAwb:true,geoFencingEnabled:true,serviceZips:['90001'],vehicleOptions:[{name:'Cargo Van',fee:35,artwork:'cargo-van'}],customQuestions:[{id:'gate',type:'text',label:'Gate instructions',required:true}],themeMode:'dark',backgroundImageUrl:'/images/qalt-icon-400.jpg',logoUrl:'/images/qalt-icon-400.jpg'}, {...defaults,id:'foreign',companyId:'merchantB',name:'Foreign'}];
@@ -20,6 +21,9 @@ writeFileSync(database,JSON.stringify({companies,forms,prices:[{...price,id:'pA'
 for(const file of ['src','public','prisma','package.json','tsconfig.json','next.config.ts','postcss.config.mjs'])cpSync(join(root,file),join(temp,file),{recursive:true});
 symlinkSync(join(root,'node_modules'),join(temp,'node_modules'),'dir');
 writeFileSync(join(temp,'src/lib/prisma.ts'),readFileSync(join(root,'tests/browser/prisma-fixture.ts.fixture')));
+// Only replace the storage provider. Upload validation and image processing stay real.
+writeFileSync(join(temp,'src/lib/firebase-admin.ts'),`import { writeFileSync } from 'node:fs';
+export function getAdminStorage() { return { bucket: () => ({ name: 'qalt-site-production.firebasestorage.app', file: (name: string) => ({ save: async (bytes: Buffer, options: unknown) => writeFileSync(${JSON.stringify(uploads)}, JSON.stringify({ name, options, bytes: bytes.toString('base64') })), makePublic: async () => {} }) }) }; }`);
 // Exercise the real Stripe SDK with its fetch transport; only provider HTTP is mocked.
 writeFileSync(join(temp,'src/lib/stripe.ts'),readFileSync(join(root,'src/lib/stripe.ts'),'utf8').replace('new Stripe(process.env.STRIPE_SECRET_KEY)', 'new Stripe(process.env.STRIPE_SECRET_KEY, { httpClient: Stripe.createFetchHttpClient() })'));
 // No production credentials or env files are copied.
@@ -29,12 +33,16 @@ const server=spawn(process.execPath,[join(root,'node_modules/next/dist/bin/next'
 let browser; let testPage; const errors=[];
 const results=[];
 const db=()=>JSON.parse(readFileSync(database,'utf8'));
-async function check(name,fn){await fn();results.push(name);console.log(`PASS ${name}`)}
+async function check(name,fn){if(process.env.QALT_BROWSER_CHECK_FILTER && !name.includes(process.env.QALT_BROWSER_CHECK_FILTER))return;await fn();results.push(name);console.log(`PASS ${name}`)}
 try {
   for(let i=0;i<180;i++){try{const response=await fetch(`http://localhost:${port}/widget/form/formB`);if(response.ok)break;}catch{}if(i===179)throw new Error('Next server did not become ready');await new Promise(r=>setTimeout(r,500));}
   browser=await chromium.launch({executablePath:process.env.QALT_CHROMIUM_EXECUTABLE || undefined,headless:true,args:['--no-sandbox']});
   const context=await browser.newContext({viewport:{width:390,height:900},reducedMotion:'reduce'});
   const page=await context.newPage();testPage=page;page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error' && !m.text().includes('/_next/webpack-hmr') && !(m.text().includes('503 (Service Unavailable)') && m.location().url.includes('/api/zip-areas')))errors.push(m.text())});
+  async function apiPost(path,options){
+    const cookie=(await context.cookies('https://www.qalt.site')).map(item=>`${item.name}=${item.value}`).join('; ');
+    return context.request.post(`http://localhost:${port}${path}`,{...options,headers:{cookie}});
+  }
   await context.route('https://www.qalt.site/**',async route=>{
     const request=route.request(); const url=new URL(request.url());
     const headers={...request.headers(),host:'localhost',origin:`http://localhost:${port}`};
@@ -43,6 +51,7 @@ try {
   const maps=readFileSync(join(root,'tests/browser/google-maps-fixture.js'),'utf8');
   await context.route('https://maps.googleapis.com/**',async route=>{await new Promise(r=>setTimeout(r,250));await route.fulfill({contentType:'text/javascript',body:maps})});
   await context.route('https://fonts.googleapis.com/**',route=>route.fulfill({contentType:'text/css',body:''}));
+  await context.route('https://storage.googleapis.com/qalt-site-production.firebasestorage.app/**',route=>route.fulfill({contentType:'image/png',body:Buffer.from(JSON.parse(readFileSync(uploads,'utf8')).bytes,'base64')}));
   await context.route('https://checkout.stripe.com/**',route=>route.fulfill({contentType:'text/html',body:'<h1>Fixture secure checkout</h1>'}));
   const host='https://funnel.systeme.io/quote';
   await context.route(host,route=>route.fulfill({contentType:'text/html',body:`<!doctype html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"></head><body style="margin:0"><main>${widgetEmbedCode('formB')}</main></body></html>`}));
@@ -241,6 +250,56 @@ try {
     const response=page.waitForResponse(r=>r.url().includes('/submit')&&r.request().method()==='POST');await frame().getByRole('button',{name:/Send|Submit|Request|Book/}).click();const result=await response;assert.equal(result.status(),200,await result.text());
     const quote=db().quotes.at(-1);assert.equal(quote.estimatedPrice,164);assert.equal(quote.serviceType,'Rush');
     const saved=JSON.parse(quote.selectedExtras);assert.equal(saved.deliveryWindow,'Within 2 hours after pickup');assert.equal(saved.customAnswers.length,2);assert.ok(!saved.customAnswers.some(a=>a.label.includes('stairs')));assert.ok(!quote.pricingBreakdown.lineItems.some(i=>i.key.startsWith('question:')));
+  });
+  await check('favicon upload rejects unauthenticated, unsafe, corrupt and oversized files',async()=>{
+    const upload=(buffer,mimeType='image/png')=>apiPost('/api/upload',{multipart:{purpose:'favicon',file:{name:'icon.png',mimeType,buffer}}});
+    await context.clearCookies();assert.equal((await upload(Buffer.from('invalid'))).status(),401);
+    await context.addCookies([{name:'qalt_token',value:token,domain:'www.qalt.site',path:'/'}]);
+    assert.equal((await upload(Buffer.from('invalid'))).status(),400);
+    assert.equal((await upload(Buffer.from([137,80,78,71,13,10,26,10]))).status(),400);
+    assert.equal((await upload(Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>'),'image/svg+xml')).status(),400);
+    assert.equal((await upload(Buffer.alloc(5*1024*1024+1))).status(),413);
+    const state=db();state.companies[0].subscriptionPlan='STARTER';writeFileSync(database,JSON.stringify(state));
+    assert.equal((await upload(Buffer.from('invalid'))).status(),403);
+    const restored=db();restored.companies[0].subscriptionPlan='ENTERPRISE';writeFileSync(database,JSON.stringify(restored));
+  });
+  await check('merchant favicon upload, save and fresh hosted form show the correct tab icon',async()=>{
+    await page.goto('https://www.qalt.site/dashboard/widget?formId=formB');
+    const jpeg=await require('sharp')({create:{width:90,height:45,channels:3,background:'#df1731'}}).jpeg().toBuffer();
+    const response=page.waitForResponse(r=>r.url().endsWith('/api/upload')&&r.request().method()==='POST');
+    await page.getByLabel('Form Favicon',{exact:true}).setInputFiles({name:'brand.jpg',mimeType:'image/jpeg',buffer:jpeg});
+    const uploaded=await response;assert.equal(uploaded.status(),200,await uploaded.text());const {url}=await uploaded.json();
+    await page.waitForFunction(expected=>document.querySelector('img[alt="Form favicon preview"]')?.src===expected,url);
+    const stored=JSON.parse(readFileSync(uploads,'utf8'));assert.equal(stored.options.metadata.contentType,'image/png');
+    const info=await require('sharp')(Buffer.from(stored.bytes,'base64')).metadata();assert.equal(info.width,256);assert.equal(info.height,256);
+    const saved=page.waitForResponse(r=>r.url().includes('/api/dashboard/widget')&&r.request().method()==='POST');await page.getByRole('button',{name:'Save Settings',exact:true}).click();assert.equal((await saved).status(),200);
+    await page.getByText('Widget settings updated!',{exact:true}).waitFor();assert.equal(db().forms.find(f=>f.id==='formB').faviconUrl,url);assert.ok(!db().forms.find(f=>f.id==='formA').faviconUrl);
+    await context.clearCookies();await page.goto(widgetFormUrl('formB'));
+    await page.waitForFunction(expected=>Array.from(document.querySelectorAll('link[rel="icon"]')).some(el=>el.getAttribute('href')===expected),url);
+    const icons=await page.locator('link[rel="icon"]').evaluateAll(els=>els.map(el=>el.getAttribute('href')));assert.deepEqual(icons,[url]);assert.match(await page.title(),/Long customized delivery company name/);
+    await page.goto('https://www.qalt.site/widget/merchantA');await page.waitForFunction(()=>document.querySelector('link[rel="icon"]')?.getAttribute('href')==='/images/qalt-icon-400.jpg');
+    await page.goto('https://www.qalt.site/custom-widget/quotes.merchant.example');await page.waitForFunction(()=>document.querySelector('link[rel="icon"]')?.getAttribute('href')==='/images/qalt-icon-400.jpg');
+  });
+  await check('favicon ownership, replacement, removal and custom-domain outer page stay consistent',async()=>{
+    await context.addCookies([{name:'qalt_token',value:token,domain:'www.qalt.site',path:'/'}]);
+    const original=db().forms.find(f=>f.id==='formB');const oldIcon=original.faviconUrl;
+    const invalid=await apiPost('/api/dashboard/widget',{data:{...original,formId:'formB',faviconUrl:oldIcon.replace('/merchantA/','/merchantB/')}});assert.equal(invalid.status(),400);assert.equal(db().forms.find(f=>f.id==='formB').faviconUrl,oldIcon);
+    const foreign=await apiPost('/api/dashboard/widget',{data:{...original,formId:'foreign'}});assert.equal(foreign.status(),404);assert.ok(!db().forms.find(f=>f.id==='foreign').faviconUrl);
+    await page.goto('https://www.qalt.site/dashboard/widget?formId=formB');
+    const png=await require('sharp')({create:{width:32,height:32,channels:4,background:'#087c68'}}).png().toBuffer();
+    const uploaded=page.waitForResponse(r=>r.url().endsWith('/api/upload')&&r.request().method()==='POST');await page.getByLabel('Form Favicon',{exact:true}).setInputFiles({name:'icon.png',mimeType:'image/png',buffer:png});const replacement=(await (await uploaded).json()).url;assert.notEqual(replacement,oldIcon);
+    await page.waitForFunction(expected=>document.querySelector('img[alt="Form favicon preview"]')?.src===expected,replacement);
+    let saved=page.waitForResponse(r=>r.url().includes('/api/dashboard/widget')&&r.request().method()==='POST');await page.getByRole('button',{name:'Save Settings',exact:true}).click();assert.equal((await saved).status(),200);await page.getByText('Widget settings updated!',{exact:true}).waitFor();
+    await page.goto(widgetFormUrl('formB'));await page.waitForFunction(expected=>document.querySelector('link[rel="icon"]')?.getAttribute('href')===expected,replacement);
+    // Default form controls both company URL and the outer branded-domain document.
+    const defaultForm=db().forms.find(f=>f.id==='formA');assert.equal((await apiPost('/api/dashboard/widget',{data:{...defaultForm,formId:'formA',faviconUrl:replacement}})).status(),200);
+    for(const path of ['/widget/merchantA','/custom-widget/quotes.merchant.example']){await page.goto(`https://www.qalt.site${path}`);await page.waitForFunction(expected=>document.querySelector('link[rel="icon"]')?.getAttribute('href')===expected,replacement);}
+    await page.goto('https://www.qalt.site/dashboard/widget?formId=formB');await page.getByRole('button',{name:'Remove favicon',exact:true}).click();
+    saved=page.waitForResponse(r=>r.url().includes('/api/dashboard/widget')&&r.request().method()==='POST');await page.getByRole('button',{name:'Save Settings',exact:true}).click();assert.equal((await saved).status(),200);await page.getByText('Widget settings updated!',{exact:true}).waitFor();assert.equal(db().forms.find(f=>f.id==='formB').faviconUrl,null);
+    await page.goto(widgetFormUrl('formB'));await page.waitForFunction(()=>document.querySelector('link[rel="icon"]')?.getAttribute('href')==='/images/qalt-icon-400.jpg');
+    await page.goto('https://www.qalt.site/dashboard/widget?formId=formB');assert.equal(await page.getByRole('img',{name:'Form favicon preview'}).getAttribute('src'),'/images/qalt-icon-400.jpg');
+    await page.getByRole('region',{name:'Service area map',exact:true}).getByText('Highlighted ZIP areas: 90001',{exact:true}).waitFor();
+    await page.setViewportSize({width:375,height:1000});await page.getByText('Form Favicon',{exact:true}).scrollIntoViewIfNeeded();assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:join(out,'favicon-settings-375.png'),fullPage:true});
   });
   assert.deepEqual(errors,[],'Browser errors');
   writeFileSync(join(out,'results.json'),JSON.stringify({passed:results,errors,limitations:['Google Maps, Stripe and email responses mocked at external boundaries.','In-memory fixture replaces Prisma in temporary application.','Merchant production site and live payment not exercised.']},null,2));

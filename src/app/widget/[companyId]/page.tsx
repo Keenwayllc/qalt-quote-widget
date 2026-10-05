@@ -6,7 +6,9 @@ import WidgetInstallTracker from "@/components/widget/WidgetInstallTracker";
 import WidgetThemeShell from "@/components/widget/WidgetThemeShell";
 import { getWidgetTheme } from "@/lib/widget-theme";
 import { notFound } from "next/navigation";
-import type { ComponentProps } from "react";
+import { cache, type ComponentProps } from "react";
+import type { Metadata } from "next";
+import { widgetPageMetadata } from "@/lib/widget-favicon";
 import { pricingProfileForForm } from "@/lib/widget-pricing";
 import {
   publicCompanySelect,
@@ -16,17 +18,25 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function PublicWidgetPage({ params }: { params: Promise<{ companyId: string }> }) {
-  const { companyId } = await params;
-
-  const company = await prisma.company.findUnique({
+const getPublicCompany = cache((companyId: string) => prisma.company.findUnique({
     where: { id: companyId },
     select: {
       ...publicCompanySelect,
       widgetSettings: { orderBy: { id: "asc" }, select: publicWidgetSettingsSelect },
       pricingProfiles: { select: publicPricingProfileSelect },
     },
-  });
+  }));
+
+export async function generateMetadata({ params }: { params: Promise<{ companyId: string }> }): Promise<Metadata> {
+  const { companyId } = await params;
+  const company = await getPublicCompany(companyId);
+  if (!company || company.widgetSettings.length === 0) notFound();
+  return widgetPageMetadata(company, company.widgetSettings[0]);
+}
+
+export default async function PublicWidgetPage({ params }: { params: Promise<{ companyId: string }> }) {
+  const { companyId } = await params;
+  const company = await getPublicCompany(companyId);
 
   if (!company || company.widgetSettings.length === 0) notFound();
 
@@ -54,7 +64,7 @@ export default async function PublicWidgetPage({ params }: { params: Promise<{ c
             },
             formId: widgetSettings.id,
             pricingProfile,
-          } as ComponentProps<typeof QuoteWidgetForm>["company"]}
+          } as unknown as ComponentProps<typeof QuoteWidgetForm>["company"]}
         />
       </div>
     </WidgetThemeShell>

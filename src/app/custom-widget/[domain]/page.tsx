@@ -1,6 +1,9 @@
 import prisma from "@/lib/prisma";
 import { getEntitlements } from "@/lib/plans";
 import { notFound } from "next/navigation";
+import { cache } from "react";
+import type { Metadata } from "next";
+import { widgetPageMetadata } from "@/lib/widget-favicon";
 
 export const dynamic = "force-dynamic";
 
@@ -10,14 +13,7 @@ type DomainCompanyRow = {
   subscriptionPlan: string;
 };
 
-export default async function CustomDomainWidgetPage({
-  params,
-}: {
-  params: Promise<{ domain: string }>;
-}) {
-  const { domain: rawDomain } = await params;
-  const domain = decodeURIComponent(rawDomain).trim().toLowerCase();
-
+const getDomainWidget = cache(async (domain: string) => {
   const matches = await prisma.$queryRaw<DomainCompanyRow[]>`
     SELECT "id", "name", "subscriptionPlan"
     FROM "Company"
@@ -31,10 +27,25 @@ export default async function CustomDomainWidgetPage({
     notFound();
   }
 
-  const widgetCount = await prisma.widgetSettings.count({
+  const form = await prisma.widgetSettings.findFirst({
     where: { companyId: company.id },
+    orderBy: { id: "asc" },
+    select: { faviconUrl: true, companyNameText: true },
   });
-  if (widgetCount === 0) notFound();
+  if (!form) notFound();
+  return { company, form };
+});
+
+export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
+  const { domain: rawDomain } = await params;
+  const { company, form } = await getDomainWidget(decodeURIComponent(rawDomain).trim().toLowerCase());
+  return widgetPageMetadata(company, form);
+}
+
+export default async function CustomDomainWidgetPage({ params }: { params: Promise<{ domain: string }> }) {
+  const { domain: rawDomain } = await params;
+  const domain = decodeURIComponent(rawDomain).trim().toLowerCase();
+  const { company } = await getDomainWidget(domain);
 
   // Keep the browser on the merchant's branded hostname while running the
   // actual quote experience from Qalt's canonical origin. This is intentional:

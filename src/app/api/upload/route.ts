@@ -4,6 +4,9 @@ import { verifyToken } from "@/lib/auth";
 import { getAdminStorage } from "@/lib/firebase-admin";
 import crypto from "crypto";
 import sharp from "sharp";
+import prisma from "@/lib/prisma";
+import { getEntitlements } from "@/lib/plans";
+import { normalizeFaviconImage } from "@/lib/favicon-image";
 
 // This endpoint is only for PUBLIC merchant branding assets (logos, widget
 // backgrounds). Do not use for private customer documents or PDFs — those need
@@ -102,6 +105,16 @@ export async function POST(req: Request) {
 
     // 2. Extract FormData and confirm the entry is really a File.
     const formData = await req.formData();
+    const purpose = formData.get("purpose");
+    if (purpose !== null && purpose !== "favicon") {
+      return NextResponse.json({ error: "Invalid upload purpose" }, { status: 400 });
+    }
+    if (purpose === "favicon") {
+      const company = await prisma.company.findUnique({ where: { id: companyId }, select: { subscriptionPlan: true } });
+      if (!company || !getEntitlements(company.subscriptionPlan).isAdvancedCustomizationEnabled) {
+        return NextResponse.json({ error: "Custom favicons require Pro or Enterprise." }, { status: 403 });
+      }
+    }
     const file = formData.get("file");
 
     if (!file || typeof file === "string" || typeof (file as File).arrayBuffer !== "function") {
@@ -159,7 +172,15 @@ export async function POST(req: Request) {
 
     // 7. Server-controlled object name. The original filename is never used —
     // the tenant cannot inject a path, "..", extension, or bucket segment.
-    const objectName = `uploads/${companyId}/${crypto.randomUUID()}.${format.ext}`;
+    if (purpose === "favicon") {
+      try {
+        bytes = new Uint8Array(await normalizeFaviconImage(bytes));
+        format = { mime: "image/png", ext: "png" };
+      } catch {
+        return NextResponse.json({ error: "Invalid favicon image. Upload a PNG, JPG, WebP, GIF, or simple SVG." }, { status: 400 });
+      }
+    }
+    const objectName = `uploads/${companyId}/${purpose === "favicon" ? "favicon-" : ""}${crypto.randomUUID()}.${format.ext}`;
 
     const bucket = getAdminStorage().bucket();
     const fileRef = bucket.file(objectName);

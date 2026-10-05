@@ -12,6 +12,7 @@ import { getEntitlements } from '../src/lib/plans.ts';
 import { sanitizeHex } from '../src/lib/color.ts';
 import { normalizeQuickSubtitle } from '../src/lib/quick-subtitle.ts';
 import { parseVehicleArtworkKey } from '../src/lib/form-vehicles.ts';
+import { safeWidgetFavicon, widgetPageMetadata } from '../src/lib/widget-favicon.ts';
 const require = createRequire(import.meta.url);
 function load(file, stubs) {
   const js = ts.transpileModule(readFileSync(new URL(`../${file}`, import.meta.url), 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: false } }).outputText;
@@ -57,7 +58,7 @@ function publicPage(kind) {
   const prisma = { company: { findUnique: async ({where,select}) => where.id === 'merchantA' ? project(company,select) : where.id === 'empty' ? {...project(company,select),widgetSettings:[]} : null }, widgetSettings:{ findUnique:async ({where,select}) => { const form=forms.find(f=>f.id===where.id); return form ? project({...form,company,pricingProfile:company.pricingProfiles.find(p=>p.widgetSettingsId===form.id)},select) : null; } } };
   const components = {};
   for (const name of ['QuoteWidgetForm','AbandonedQuoteTracker','WidgetInstallTracker','WidgetThemeShell']) components[`@/components/widget/${name}`]={default:name};
-  const page=load(`src/app/widget/${kind === 'form' ? 'form/[formId]' : '[companyId]'}/page.tsx`, {...components,'@/lib/prisma':{default:prisma},'@/lib/widget-theme':{getWidgetTheme:async id=>id==='b'?'dark':'light'},'next/navigation':{notFound:()=>{throw new Error('404')}},'@/lib/publicWidget':{publicCompanySelect,publicWidgetSettingsSelect,publicPricingProfileSelect},'@/lib/widget-pricing':{pricingProfileForForm},'@/lib/widget-urls':{safeWidgetUrl}}).default;
+  const page=load(`src/app/widget/${kind === 'form' ? 'form/[formId]' : '[companyId]'}/page.tsx`, {...components,'@/lib/prisma':{default:prisma},'@/lib/widget-theme':{getWidgetTheme:async id=>id==='b'?'dark':'light'},'next/navigation':{notFound:()=>{throw new Error('404')}},'@/lib/publicWidget':{publicCompanySelect,publicWidgetSettingsSelect,publicPricingProfileSelect},'@/lib/widget-pricing':{pricingProfileForForm},'@/lib/widget-urls':{safeWidgetUrl},'@/lib/widget-favicon':{widgetPageMetadata}}).default;
   return page;
 }
 function find(element, type) {
@@ -87,7 +88,7 @@ test('legacy company page uses its own default form and form pricing, missing pa
 function dashboard() {
   const forms=[{id:'a',primaryColor:'#000000'},{id:'b',primaryColor:'#123456'}]; const updates=[];
   const prisma={ company:{findUnique:async()=>({id:'merchantA',name:'Merchant',subscriptionPlan:'ENTERPRISE',widgetSettings:forms})}, widgetSettings:{update:async ({where,data})=>{updates.push({where,data});Object.assign(forms.find(f=>f.id===where.id),data)}} };
-  const routes=load('src/app/api/dashboard/widget/route.ts',{'next/server':{NextResponse:Response},'next/headers':{cookies:async()=>({get:()=>({value:'tokenA'})})},'@/lib/auth':{verifyToken:async()=>({companyId:'merchantA'})},'@/lib/prisma':{default:prisma},'@/lib/plans':{getEntitlements},'@/lib/color':{sanitizeHex},'@/lib/quick-subtitle':{normalizeQuickSubtitle},'@/lib/form-vehicles':{parseVehicleArtworkKey},'@/lib/widget-urls':{safeWidgetUrl}});
+  const routes=load('src/app/api/dashboard/widget/route.ts',{'next/server':{NextResponse:Response},'next/headers':{cookies:async()=>({get:()=>({value:'tokenA'})})},'@/lib/auth':{verifyToken:async()=>({companyId:'merchantA'})},'@/lib/prisma':{default:prisma},'@/lib/plans':{getEntitlements},'@/lib/color':{sanitizeHex},'@/lib/quick-subtitle':{normalizeQuickSubtitle},'@/lib/form-vehicles':{parseVehicleArtworkKey},'@/lib/widget-urls':{safeWidgetUrl},'@/lib/widget-favicon':{safeWidgetFavicon}});
   const req=(data,method='POST')=>new Request('https://www.qalt.site/api/dashboard/widget',{method,body:JSON.stringify(data)});
   return {...routes,req,forms,updates};
 }
