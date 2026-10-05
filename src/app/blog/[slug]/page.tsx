@@ -28,6 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "article",
       publishedTime: post.date,
       siteName: "Qalt",
+      url: `https://www.qalt.site/blog/${post.slug}`,
     },
   };
 }
