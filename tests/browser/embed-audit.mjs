@@ -1,23 +1,26 @@
 import assert from 'node:assert/strict';
-import { cpSync, mkdtempSync, readFileSync, writeFileSync, symlinkSync, mkdirSync, rmSync } from 'node:fs';
+import { cpSync, mkdtempSync, readFileSync, writeFileSync, symlinkSync, mkdirSync, rmSync, renameSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { spawn } from 'node:child_process';
 import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
 import { SignJWT } from 'jose';
 import { widgetEmbedCode, widgetFormUrl } from '../../src/lib/widget-embed.ts';
 const require=createRequire(import.meta.url);
 const {chromium}=require('playwright');
-const root=resolve(new URL('../..',import.meta.url).pathname);
+const root=resolve(fileURLToPath(new URL('../..',import.meta.url)));
 const temp=mkdtempSync(join(tmpdir(),'qalt-embed-audit-'));
 const out=join(root,'test-results/embed-audit');mkdirSync(out,{recursive:true});
 const database=join(temp,'fixture.json');
 const uploads=join(temp,'uploads.json');
+// Replace the fixture DB atomically: the dev server may be reading it, and an in-place rewrite can be read half-written.
+const writeDb=(json)=>{const temporary=`${database}.runner.tmp`;writeFileSync(temporary,json);renameSync(temporary,database);};
 const defaults={formStyle:'standard',customQuestions:[],primaryColor:'#1E40AF',headerText:'Default form',quickSubtitleText:'Choose your vehicle',buttonText:'Calculate default',showWeight:false,showItemCount:true,showExtras:false,insideDeliveryLabel:'Inside',addon3Label:'Special',disclaimerText:'Default disclaimer',backgroundImageUrl:null,logoUrl:null,companyNameText:'Merchant default',companyNameFont:'Inter',mapLayout:'inline',websiteUrl:'https://merchant.example',paymentsEnabled:false,showVehicles:false,pricePerVehicle:0,vehicleOptions:[],showAwb:false,geoFencingEnabled:false,serviceZips:[],themeMode:'light'};
 const companies=[{id:'merchantA',name:'A very long merchant name for responsive delivery services',logoUrl:null,logoBackdrop:'dark',subscriptionPlan:'ENTERPRISE',email:'fixture@example.invalid',passwordHash:'PRIVATE_PASSWORD',stripeConnectAccountId:'acct_fixture',customWidgetDomain:'quotes.merchant.example',customWidgetDomainVerified:true,onboardingCompletedAt:new Date().toISOString(),onboardingStep:5,trialEndsAt:null,createdAt:new Date().toISOString()}, {id:'merchantB',name:'Other merchant',subscriptionPlan:'ENTERPRISE',email:'private@example.invalid'}, {id:'empty',name:'Empty',subscriptionPlan:'ENTERPRISE'}];
 const forms=[{...defaults,id:'formA',companyId:'merchantA',name:'Default'}, {...defaults,id:'formB',companyId:'merchantA',name:'Second customized',formStyle:'extended',headerText:'Exact second form',companyNameText:'Long customized delivery company name which must wrap on mobile devices',primaryColor:'#087c68',buttonText:'Calculate second',disclaimerText:'Second disclaimer',showVehicles:true,showWeight:true,showExtras:true,showAwb:true,geoFencingEnabled:true,serviceZips:['90001'],vehicleOptions:[{name:'Cargo Van',fee:35,artwork:'cargo-van'}],customQuestions:[{id:'gate',type:'text',label:'Gate instructions',required:true}],themeMode:'dark',backgroundImageUrl:'/images/qalt-icon-400.jpg',logoUrl:'/images/qalt-icon-400.jpg'}, {...defaults,id:'foreign',companyId:'merchantB',name:'Foreign'}];
 const price={baseRatePerMile:3,minimumCharge:25,useMinimumCharge:true,minMilesThreshold:0,weightFee:1,itemCountFee:2,additionalStopFee:10,stairsFee:5,insideDeliveryFee:6,addon3Fee:7,afterHoursFee:0,businessHoursStart:'00:00',businessHoursEnd:'23:59',businessDays:'0,1,2,3,4,5,6',largeItemFee:0,largeItemsEnabled:false,largeItemCategories:[],serviceOptions:[]};
-writeFileSync(database,JSON.stringify({companies,forms,prices:[{...price,id:'pA',companyId:'merchantA',widgetSettingsId:'formA'},{...price,id:'pB',companyId:'merchantA',widgetSettingsId:'formB',minimumCharge:99},{...price,id:'pForeign',companyId:'merchantB',widgetSettingsId:'foreign'}],quotes:[],installs:[]}));
+writeDb(JSON.stringify({companies,forms,prices:[{...price,id:'pA',companyId:'merchantA',widgetSettingsId:'formA'},{...price,id:'pB',companyId:'merchantA',widgetSettingsId:'formB',minimumCharge:99},{...price,id:'pForeign',companyId:'merchantB',widgetSettingsId:'foreign'}],quotes:[],installs:[]}));
 for(const file of ['src','public','prisma','package.json','tsconfig.json','next.config.ts','postcss.config.mjs'])cpSync(join(root,file),join(temp,file),{recursive:true});
 symlinkSync(join(root,'node_modules'),join(temp,'node_modules'),'dir');
 writeFileSync(join(temp,'src/lib/prisma.ts'),readFileSync(join(root,'tests/browser/prisma-fixture.ts.fixture')));
@@ -29,7 +32,7 @@ writeFileSync(join(temp,'src/lib/stripe.ts'),readFileSync(join(root,'src/lib/str
 // No production credentials or env files are copied.
 const port=3219;
 const log=join(out,'server.log');const {openSync}=require('node:fs');const fd=openSync(log,'w');
-const server=spawn(process.execPath,[join(root,'node_modules/next/dist/bin/next'),'dev','--webpack','--hostname','127.0.0.1','--port',String(port)],{cwd:temp,env:{...process.env,DATABASE_URL:'postgresql://fixture:fixture@localhost/fixture',JWT_SECRET:'fixture-only-secret',NEXT_PUBLIC_GOOGLE_MAPS_API_KEY:'fixture',GOOGLE_MAPS_API_KEY:'fixture',RESEND_API_KEY:'fixture',STRIPE_SECRET_KEY:'sk_test_fixture',QALT_FIXTURE_CHECKOUT:join(temp,'checkout.json'),QALT_FIXTURE_DB:database,NODE_OPTIONS:`--require=${join(root,'tests/browser/network-fixture.cjs')}`,NEXT_TELEMETRY_DISABLED:'1'},stdio:['ignore',fd,fd]});
+const server=spawn(process.execPath,[join(root,'node_modules/next/dist/bin/next'),'dev','--webpack','--hostname','127.0.0.1','--port',String(port)],{cwd:temp,env:{...process.env,DATABASE_URL:'postgresql://fixture:fixture@localhost/fixture',JWT_SECRET:'fixture-only-secret',NEXT_PUBLIC_GOOGLE_MAPS_API_KEY:'fixture',GOOGLE_MAPS_API_KEY:'fixture',RESEND_API_KEY:'fixture',STRIPE_SECRET_KEY:'sk_test_fixture',QALT_FIXTURE_CHECKOUT:join(temp,'checkout.json'),QALT_FIXTURE_DB:database,NODE_OPTIONS:`--require=${JSON.stringify(join(root,'tests/browser/network-fixture.cjs'))}`,NEXT_TELEMETRY_DISABLED:'1'},stdio:['ignore',fd,fd]});
 let browser; let testPage; const errors=[];
 const results=[];
 const db=()=>JSON.parse(readFileSync(database,'utf8'));
@@ -141,12 +144,12 @@ try {
   await check('verified custom-domain root stays default and unverified domains never alter form embeds',async()=>{
     const result=await fetch(`http://localhost:${port}/custom-widget/quotes.merchant.example`);const html=await result.text();
     assert.ok(html.includes('https://www.qalt.site/widget/merchantA?surface=custom-domain'));
-    const state=db();state.companies[0].customWidgetDomainVerified=false;writeFileSync(database,JSON.stringify(state));
+    const state=db();state.companies[0].customWidgetDomainVerified=false;writeDb(JSON.stringify(state));
     await page.goto('https://www.qalt.site/dashboard/embed?formId=formB');
     await page.waitForFunction(()=>document.querySelector('select[aria-label="Selected form"]')?.value==='formB');
     assert.ok((await page.locator('pre code').textContent()).includes(widgetFormUrl('formB')));
     assert.equal(await page.getByText(/Your verified domain/).count(),0);
-    const restored=db();restored.companies[0].customWidgetDomainVerified=true;writeFileSync(database,JSON.stringify(restored));
+    const restored=db();restored.companies[0].customWidgetDomainVerified=true;writeDb(JSON.stringify(restored));
   });
   await check('save and new session retain selected-form changes without altering default form',async()=>{
     await page.goto('https://www.qalt.site/dashboard/widget?formId=formB');
@@ -217,7 +220,7 @@ try {
     await page.getByRole('button',{name:'Save selections',exact:true}).click();const result=await response;assert.equal(result.status(),200,await result.text());
     assert.equal(db().forms.find(f=>f.id==='formB').customQuestions.length,9);
     assert.equal(db().forms.find(f=>f.id==='formA').customQuestions.length,0);
-    const state=db();state.forms.find(f=>f.id==='formB').paymentsEnabled=false;writeFileSync(database,JSON.stringify(state));
+    const state=db();state.forms.find(f=>f.id==='formB').paymentsEnabled=false;writeDb(JSON.stringify(state));
     await context.clearCookies();await page.goto(widgetFormUrl('formB'));await page.evaluate(()=>sessionStorage.clear());await page.goto(host);
   });
   await check('iframe compares full service totals with conditional furniture handling fees',async()=>{
@@ -259,9 +262,9 @@ try {
     assert.equal((await upload(Buffer.from([137,80,78,71,13,10,26,10]))).status(),400);
     assert.equal((await upload(Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>'),'image/svg+xml')).status(),400);
     assert.equal((await upload(Buffer.alloc(5*1024*1024+1))).status(),413);
-    const state=db();state.companies[0].subscriptionPlan='STARTER';writeFileSync(database,JSON.stringify(state));
+    const state=db();state.companies[0].subscriptionPlan='STARTER';writeDb(JSON.stringify(state));
     assert.equal((await upload(Buffer.from('invalid'))).status(),403);
-    const restored=db();restored.companies[0].subscriptionPlan='ENTERPRISE';writeFileSync(database,JSON.stringify(restored));
+    const restored=db();restored.companies[0].subscriptionPlan='ENTERPRISE';writeDb(JSON.stringify(restored));
   });
   await check('merchant favicon upload, save and fresh hosted form show the correct tab icon',async()=>{
     await page.goto('https://www.qalt.site/dashboard/widget?formId=formB');
@@ -294,7 +297,11 @@ try {
     // Default form controls both company URL and the outer branded-domain document.
     const defaultForm=db().forms.find(f=>f.id==='formA');assert.equal((await apiPost('/api/dashboard/widget',{data:{...defaultForm,formId:'formA',faviconUrl:replacement}})).status(),200);
     for(const path of ['/widget/merchantA','/custom-widget/quotes.merchant.example']){await page.goto(`https://www.qalt.site${path}`);await page.waitForFunction(expected=>document.querySelector('link[rel="icon"]')?.getAttribute('href')===expected,replacement);}
-    await page.goto('https://www.qalt.site/dashboard/widget?formId=formB');await page.getByRole('button',{name:'Remove favicon',exact:true}).click();
+    await page.goto('https://www.qalt.site/dashboard/widget?formId=formB');
+    // A click before the cold dev client hydrates is dropped; repeat until the preview shows the Qalt fallback.
+    const removeIcon=page.getByRole('button',{name:'Remove favicon',exact:true});const preview=page.locator('img[alt="Form favicon preview"]');
+    for(let i=0;i<8 && await preview.getAttribute('src')!=='/images/qalt-icon-400.jpg';i++){if(await removeIcon.count())await removeIcon.click();await page.waitForTimeout(250);}
+    assert.equal(await preview.getAttribute('src'),'/images/qalt-icon-400.jpg');
     saved=page.waitForResponse(r=>r.url().includes('/api/dashboard/widget')&&r.request().method()==='POST');await page.getByRole('button',{name:'Save Settings',exact:true}).click();assert.equal((await saved).status(),200);await page.getByText('Widget settings updated!',{exact:true}).waitFor();assert.equal(db().forms.find(f=>f.id==='formB').faviconUrl,null);
     await page.goto(widgetFormUrl('formB'));await page.waitForFunction(()=>document.querySelector('link[rel="icon"]')?.getAttribute('href')==='/images/qalt-icon-400.jpg');
     await page.goto('https://www.qalt.site/dashboard/widget?formId=formB');assert.equal(await page.getByRole('img',{name:'Form favicon preview'}).getAttribute('src'),'/images/qalt-icon-400.jpg');
