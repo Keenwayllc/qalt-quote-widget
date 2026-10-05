@@ -281,6 +281,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       console.error("Failed to send quote notification email:", emailError);
     }
 
+    let customerEmailSent = false;
     if (data.customerEmail) {
       try {
         const customerFrom = buildFromAddress({
@@ -289,7 +290,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
           domainVerified: company.emailDomainVerified,
           fallbackName: company.name,
         });
-        await sendEmail({
+        const customerEmailResult = await sendEmail({
           to: data.customerEmail,
           subject: `Your Quote from ${company.name}`,
           from: customerFrom,
@@ -302,7 +303,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
               distanceMiles={authoritativeDistance}
               estimatedPrice={authoritativePrice}
               serviceType={authoritativeServiceType}
-            deliveryWindow={priced.quote.deliveryWindow}
+              deliveryWindow={priced.quote.deliveryWindow}
               companyName={company.name}
               logoUrl={company.logoUrl ?? undefined}
               logoTone={await resolveLogoTone(company.logoUrl)}
@@ -310,6 +311,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
             />
           ),
         });
+        customerEmailSent = customerEmailResult.success;
       } catch (emailError) {
         console.error("Failed to send customer confirmation email:", emailError);
       }
@@ -320,6 +322,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       quoteId: quote.id,
       paymentRequired: paymentsEnabled,
       estimatedPrice: authoritativePrice,
+      breakdown: priced.quote.breakdown,
+      deliveryWindow: priced.quote.deliveryWindow || null,
+      customerEmailSent,
       distanceMiles: authoritativeDistance,
       serviceType: authoritativeServiceType,
       vehicleType: authoritativeVehicleType,

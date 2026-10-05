@@ -391,6 +391,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     destinationCity: string;
   } | null>(null);
   const [error, setError] = useState("");
+  const [quoteReceipt, setQuoteReceipt] = useState<{ id: string; emailSent: boolean; deliveryWindow: string | null } | null>(null);
   const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
 
   const { isLoaded, loadError } = useJsApiLoader({
@@ -695,6 +696,10 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
       if (res.ok) {
         const data = await res.json();
+        setEstimate(data.estimatedPrice);
+        setDistance(data.distanceMiles);
+        if (data.breakdown) setBreakdown(data.breakdown);
+        setQuoteReceipt({ id: data.quoteId, emailSent: data.customerEmailSent === true, deliveryWindow: data.deliveryWindow || null });
         if (data.paymentRequired && data.quoteId) {
           setLoading(false);
           setError("");
@@ -1414,11 +1419,38 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
                   {step === 3 && (
                     <div className="py-8 text-center space-y-5">
-                      <div className="w-20 h-20 bg-linear-to-br from-emerald-100 to-teal-100 text-emerald-600 rounded-[20px] flex items-center justify-center mx-auto shadow-lg shadow-emerald-100"><CheckCircle size={36} strokeWidth={2.5} /></div>
-                      <div><h3 className="text-2xl font-black text-slate-900 tracking-tight">You&apos;re all set!</h3><p className="text-sm text-slate-500 mt-3 leading-relaxed px-2 font-medium">Thanks, <strong className="text-slate-700">{formData.customerName}</strong>. {widgetSettings.companyNameText || company.name} will reach out shortly about your <strong className="text-emerald-600">${estimate?.toFixed(2)}</strong> delivery quote.</p></div>
+                      <div className="w-20 h-20 bg-linear-to-br from-emerald-100 to-teal-100 text-emerald-600 rounded-[20px] flex items-center justify-center mx-auto shadow-lg shadow-emerald-100"><CheckCircle size={36} stroke="#047857" strokeWidth={2.5} aria-hidden="true" data-qalt-success-icon /></div>
+                      <div>
+                        <h3 className="text-2xl font-black text-slate-900 tracking-tight">Your quote is ready</h3>
+                        <p className="text-sm text-slate-500 mt-3 leading-relaxed px-2 font-medium">Thanks, <strong className="text-slate-700">{formData.customerName}</strong>. Your delivery estimate from {widgetSettings.companyNameText || company.name} is <strong className="text-emerald-600">{estimate !== null ? money(estimate) : "available below"}</strong>.</p>
+                        <p className="text-xs text-slate-500 mt-2 leading-relaxed">Your quote has been saved. This is an estimate. Your delivery is not booked yet.</p>
+                        <p className="text-xs text-slate-500 mt-2 leading-relaxed">{quoteReceipt?.emailSent ? <>A copy of your quote has been sent to <strong>{formData.customerEmail}</strong>.</> : "We couldn’t email your copy. You can keep the details below for your records."}</p>
+                      </div>
+                      <section aria-label="Saved quote details" className="rounded-2xl border border-slate-200 bg-slate-50 text-left p-4 space-y-3 text-sm">
+                        {quoteReceipt && <p className="text-xs text-slate-500 break-all">Quote reference: {quoteReceipt.id}</p>}
+                        <dl className="space-y-3 text-slate-700">
+                          <div><dt className="text-xs font-bold text-slate-500">Service</dt><dd>{serviceType}</dd></div>
+                          {quoteReceipt?.deliveryWindow && <div><dt className="text-xs font-bold text-slate-500">Delivery window</dt><dd>{quoteReceipt.deliveryWindow}</dd></div>}
+                          <div><dt className="text-xs font-bold text-slate-500">Pickup</dt><dd className="break-words">{formData.pickupAddress}</dd></div>
+                          {formData.intermediateStops.map((stop, index) => <div key={index}><dt className="text-xs font-bold text-slate-500">Stop {index + 1}</dt><dd className="break-words">{stop.address}</dd></div>)}
+                          <div><dt className="text-xs font-bold text-slate-500">Dropoff</dt><dd className="break-words">{formData.dropoffAddress}</dd></div>
+                          {formData.pickupDate && <div><dt className="text-xs font-bold text-slate-500">Requested pickup</dt><dd>{formData.pickupDate}{formData.pickupTime && ` · ${formData.pickupTime}`}</dd></div>}
+                          {formData.vehicleType && <div><dt className="text-xs font-bold text-slate-500">Vehicle</dt><dd>{formData.vehicleType}{formData.vehicleCount && ` × ${formData.vehicleCount}`}</dd></div>}
+                          {distance !== null && <div><dt className="text-xs font-bold text-slate-500">Distance</dt><dd>{distance.toFixed(1)} miles</dd></div>}
+                          {visibleCustomQuestions(customQuestions, formData.customAnswers).map((question) => {
+                            const answer = formData.customAnswers?.[question.id];
+                            return answer && answer.length > 0 ? <div key={question.id}><dt className="text-xs font-bold text-slate-500">{question.label}</dt><dd className="break-words">{Array.isArray(answer) ? answer.join(", ") : answer}</dd></div> : null;
+                          })}
+                        </dl>
+                        {priceRows.length > 0 && <div className="border-t border-slate-200 pt-3 space-y-2 text-slate-700">
+                          <h4 className="font-bold">Price breakdown</h4>
+                          {priceRows.map((row, index) => <div key={`${row.key}-${index}`} className="flex justify-between gap-3"><span>{row.label}</span><span className="shrink-0 tabular-nums">{money(row.amount)}</span></div>)}
+                        </div>}
+                        <div className="border-t border-slate-200 pt-3 flex justify-between gap-3 font-bold text-slate-900"><span>Estimated total</span><span className="tabular-nums">{estimate !== null && money(estimate)}</span></div>
+                      </section>
                       <div className="space-y-3 pt-2">
                         {!demoMode && parentUrl && (() => { let hostname = ""; try { hostname = new URL(parentUrl).hostname.replace(/^www\./, ""); } catch { hostname = ""; } return hostname ? <a href={parentUrl} className="w-full py-4 rounded-2xl text-white font-bold text-sm shadow-lg flex items-center justify-center gap-2.5 transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]" style={{ backgroundColor: primaryColor, boxShadow: `0 8px 24px -4px ${primaryColor}55` }}><ArrowLeft size={16} />Back to {hostname}</a> : null; })()}
-                        <button onClick={startNewQuote} className="w-full font-bold text-sm flex items-center justify-center gap-2 mx-auto px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105" style={{ color: primaryColor, backgroundColor: `${primaryColor}15` }}>Start new quote <ArrowRight size={16} /></button>
+                        <button onClick={startNewQuote} className="w-full bg-slate-100 text-slate-700 font-bold text-sm flex items-center justify-center gap-2 mx-auto px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105">Start new quote <ArrowRight size={16} /></button>
                       </div>
                     </div>
                   )}

@@ -86,8 +86,16 @@ try {
   });
   await check('quote submits through real API with correct form snapshot and custom answers',async()=>{
     await frame().getByPlaceholder('John Doe').fill('Fixture Customer');await frame().getByPlaceholder('john@example.com').fill('customer@example.invalid');await frame().getByPlaceholder('(555) 000-0000').fill('5550000000');
-    const response=page.waitForResponse(r=>r.url().includes('/submit')&&r.request().method()==='POST');await frame().getByRole('button',{name:/Send|Submit|Request|Book/}).click();const r=await response;assert.equal(r.status(),200,await r.text());await frame().getByText(/Request sent|Quote request|Thank you|You're all set/i).first().waitFor();
+    const response=page.waitForResponse(r=>r.url().includes('/submit')&&r.request().method()==='POST');await frame().getByRole('button',{name:/Send|Submit|Request|Book/}).click();const r=await response;assert.equal(r.status(),200,await r.text());await frame().getByText(/Your quote is ready/i).first().waitFor();
     const quote=db().quotes.at(-1);assert.equal(quote.companyId,'merchantA');assert.equal(JSON.parse(quote.selectedExtras).formId,'formB');assert.equal(quote.estimatedPrice,134);assert.ok(quote.selectedExtras.includes('Gate 4'));
+    const receipt=frame().getByRole('region',{name:'Saved quote details'});
+    await receipt.getByText('Gate 4',{exact:true}).waitFor();await receipt.getByText('$134.00',{exact:true}).first().waitFor();
+    await frame().getByText('Your quote has been saved. This is an estimate. Your delivery is not booked yet.',{exact:true}).waitFor();
+    assert.equal(await frame().getByText(/will reach out shortly/).count(),0);
+    const actual=page.frames().find(f=>f.url().includes('/widget/form/formB'));
+    const icon=await actual.locator('[data-qalt-success-icon]').evaluate(el=>({stroke:getComputedStyle(el).stroke,color:getComputedStyle(el.parentElement).color}));
+    assert.equal(icon.stroke,'rgb(4, 120, 87)');
+    for(const width of [375,1440]){await page.setViewportSize({width,height:1000});const layout=await actual.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth}));assert.ok(layout.scroll<=layout.width+1);await page.screenshot({path:join(out,`quote-receipt-${width}.png`),fullPage:true});}
   });
   await check('refresh counts one more iframe load without creating duplicate domain/form rows',async()=>{await page.reload();await frame().getByText('Exact second form',{exact:true}).waitFor();for(let i=0;i<40 && db().installs[0]?.loadCount!==2;i++)await page.waitForTimeout(250);assert.equal(db().installs.length,1);assert.equal(db().installs[0].loadCount,2)});
   const token=await new SignJWT({companyId:'merchantA',email:'fixture@example.invalid'}).setProtectedHeader({alg:'HS256'}).setIssuedAt().setExpirationTime('1h').sign(new TextEncoder().encode('fixture-only-secret'));
