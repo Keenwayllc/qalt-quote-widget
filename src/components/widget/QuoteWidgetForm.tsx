@@ -9,7 +9,6 @@ import { MapPin, CheckCircle, ArrowRight, ArrowLeft, User, Mail, Phone, Truck, S
 import { useJsApiLoader } from "@react-google-maps/api";
 import usePlacesAutocomplete, { getGeocode } from "use-places-autocomplete";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import ZipAreaMap from "./ZipAreaMap";
 import RouteMapDisplay from "./RouteMapDisplay";
 import PickupDateTime from "./PickupDateTime";
 import ServiceSelector, { type ServiceOption } from "./ServiceSelector";
@@ -1074,8 +1073,6 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                           onAddressSelect={(address, zip) => setFormData(prev => ({ ...prev, dropoffAddress: address, dropoffZip: zip }))}
                           onClear={clearDropoff} />
                       </div>
-
-                      <ZipAreaMap zips={[formData.pickupZip, ...formData.intermediateStops.map(stop => stop.zip), formData.dropoffZip]} allowSearch />
 
                       {serviceOptions.length > 0 && (
                         <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, ease: EASE }}>
