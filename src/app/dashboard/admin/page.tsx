@@ -221,8 +221,14 @@ export default async function AdminPage() {
           </p>
         </div>
         <Link
-          href="/dashboard/admin/seo"
+          href="/dashboard/admin/errors"
           className="ml-auto rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 hover:border-red-200 hover:text-red-600 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-slate-200"
+        >
+          Errors
+        </Link>
+        <Link
+          href="/dashboard/admin/seo"
+          className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 hover:border-red-200 hover:text-red-600 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-slate-200"
         >
           SEO Snapshot
         </Link>

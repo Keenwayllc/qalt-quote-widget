@@ -8,14 +8,14 @@ datasource db {
 }
 
 model Company {
-  id                             String             @id @default(cuid())
-  email                          String             @unique
+  id                             String               @id @default(cuid())
+  email                          String               @unique
   passwordHash                   String
   name                           String
   logoUrl                        String?
   // How the logo is backed where contrast is poor: "auto" (detected),
   // "light" (logo is made for light backgrounds), or "dark" (made for dark).
-  logoBackdrop                   String             @default("auto")
+  logoBackdrop                   String               @default("auto")
   profilePicUrl                  String?
   phone                          String?
   website                        String?
@@ -24,31 +24,31 @@ model Company {
   state                          String?
   zip                            String?
   contactName                    String?
-  timezone                       String             @default("UTC")
+  timezone                       String               @default("UTC")
   businessType                   String?
-  onboardingStep                 Int                @default(1)
+  onboardingStep                 Int                  @default(1)
   onboardingCompletedAt          DateTime?
-  subscriptionPlan               String             @default("STARTER")
+  subscriptionPlan               String               @default("STARTER")
   stripeCustomerId               String?
   stripeSubscriptionId           String?
   stripeConnectAccountId         String?
   trialEndsAt                    DateTime?
-  emailVerified                  Boolean            @default(false)
-  emailVerificationToken         String?            @unique
-  passwordResetToken             String?            @unique
+  emailVerified                  Boolean              @default(false)
+  emailVerificationToken         String?              @unique
+  passwordResetToken             String?              @unique
   passwordResetExpires           DateTime?
   customEmailDomain              String?
   customEmailFromName            String?
   resendDomainId                 String?
-  emailDomainVerified            Boolean            @default(false)
+  emailDomainVerified            Boolean              @default(false)
   emailDomainDnsRecords          Json?
-  customWidgetDomain             String?            @unique
-  customWidgetDomainVerified     Boolean            @default(false)
+  customWidgetDomain             String?              @unique
+  customWidgetDomainVerified     Boolean              @default(false)
   customWidgetDomainVerification Json?
-  isAdmin                        Boolean            @default(false)
+  isAdmin                        Boolean              @default(false)
   // God Mode / Qalt Data Operations. Separate from isAdmin so normal platform
   // admins do NOT get super-admin powers (e.g. self plan override).
-  isSuperAdmin                   Boolean            @default(false)
+  isSuperAdmin                   Boolean              @default(false)
   lastLoginAt                    DateTime?
   registrationSource             String?
   registrationReferrer           String?
@@ -58,7 +58,7 @@ model Company {
   registrationUtmCampaign        String?
   registrationUtmTerm            String?
   registrationUtmContent         String?
-  createdAt                      DateTime           @default(now())
+  createdAt                      DateTime             @default(now())
   // NOTE: a DB-level functional unique index "Company_email_lower_key" on
   // lower(email) enforces case-insensitive email uniqueness. Prisma cannot model
   // functional indexes, so it lives in the DB only (applied via manual migration).
@@ -71,6 +71,7 @@ model Company {
   stopNotes                      StopNote[]
   jobs                           Job[]
   customerDocuments              CustomerDocument[]
+  widgetInstallations            WidgetInstallation[]
 }
 
 model PricingProfile {
@@ -100,41 +101,58 @@ model PricingProfile {
 }
 
 model WidgetSettings {
-  id                  String          @id @default(cuid())
+  id                  String               @id @default(cuid())
   companyId           String
-  name                String          @default("Default Form")
-  formStyle           String          @default("standard") // "standard" | "extended" | "quick"
-  customQuestions     Json            @default("[]")
+  name                String               @default("Default Form")
+  formStyle           String               @default("standard") // "standard" | "extended" | "quick"
+  customQuestions     Json                 @default("[]")
   logoUrl             String?
+  faviconUrl          String?
   // Optional dark variant generated from the uploaded logo. Original artwork is
   // always preserved and remains the default. Merchants explicitly opt in to
   // using this variant on light backgrounds/PDFs.
   logoDarkUrl         String?
-  autoContrastLogo    Boolean         @default(false)
-  showWeight          Boolean         @default(false)
-  showItemCount       Boolean         @default(true)
-  showExtras          Boolean         @default(true)
-  insideDeliveryLabel String          @default("Inside Delivery")
-  addon3Label         String          @default("")
-  primaryColor        String          @default("#1E40AF")
-  buttonText          String          @default("Get Instant Quote")
-  headerText          String          @default("Delivery Quote Calculator")
-  quickSubtitleText   String          @default("Enter the route, choose a vehicle, and see your price.")
-  disclaimerText      String          @default("Estimate only. Final price confirmed after booking.")
+  autoContrastLogo    Boolean              @default(false)
+  showWeight          Boolean              @default(false)
+  showItemCount       Boolean              @default(true)
+  showExtras          Boolean              @default(true)
+  insideDeliveryLabel String               @default("Inside Delivery")
+  addon3Label         String               @default("")
+  primaryColor        String               @default("#1E40AF")
+  buttonText          String               @default("Get Instant Quote")
+  headerText          String               @default("Delivery Quote Calculator")
+  quickSubtitleText   String               @default("Enter the route, choose a vehicle, and see your price.")
+  disclaimerText      String               @default("Estimate only. Final price confirmed after booking.")
   companyNameText     String?
-  companyNameFont     String          @default("Inter")
+  companyNameFont     String               @default("Inter")
   backgroundImageUrl  String?
-  mapLayout           String          @default("inline")
+  mapLayout           String               @default("inline")
   websiteUrl          String?
-  paymentsEnabled     Boolean         @default(false) // Enterprise only
-  showVehicles        Boolean         @default(false)
-  pricePerVehicle     Float           @default(0)
-  vehicleOptions      Json            @default("[]")
-  showAwb             Boolean         @default(false)
-  geoFencingEnabled   Boolean         @default(false)
-  serviceZips         String[]        @default([])
-  company             Company         @relation(fields: [companyId], references: [id])
+  paymentsEnabled     Boolean              @default(false) // Enterprise only
+  showVehicles        Boolean              @default(false)
+  pricePerVehicle     Float                @default(0)
+  vehicleOptions      Json                 @default("[]")
+  showAwb             Boolean              @default(false)
+  geoFencingEnabled   Boolean              @default(false)
+  serviceZips         String[]             @default([])
+  company             Company              @relation(fields: [companyId], references: [id])
   pricingProfile      PricingProfile?
+  widgetInstallations WidgetInstallation[]
+}
+
+model WidgetInstallation {
+  id          String         @id @default(cuid())
+  companyId   String
+  formId      String
+  domain      String
+  firstSeenAt DateTime       @default(now())
+  lastSeenAt  DateTime       @default(now())
+  loadCount   Int            @default(1)
+  company     Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  form        WidgetSettings @relation(fields: [formId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, formId, domain])
+  @@index([companyId, lastSeenAt])
 }
 
 model QuoteRequest {
@@ -216,6 +234,28 @@ model VehicleRequest {
 
   @@index([companyId, createdAt])
   @@index([status, createdAt])
+}
+
+/// One row per distinct bug: repeats of the same error are grouped by
+/// fingerprint and counted. Written by src/lib/error-triage.ts.
+model AppError {
+  id          String   @id @default(cuid())
+  fingerprint String   @unique
+  source      String // "client" or "server"
+  message     String   @db.Text
+  stack       String?  @db.Text
+  path        String?
+  userAgent   String?
+  companyId   String?
+  count       Int      @default(1)
+  status      String   @default("NEW") // NEW, INVESTIGATING, FIXED, IGNORED
+  severity    String? // low, medium, high, critical (AI triage)
+  aiSummary   String?  @db.Text
+  aiCause     String?  @db.Text
+  firstSeen   DateTime @default(now())
+  lastSeen    DateTime @default(now())
+
+  @@index([status, lastSeen])
 }
 
 model PartnerInquiry {

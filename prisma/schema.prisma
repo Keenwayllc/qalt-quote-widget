@@ -236,6 +236,28 @@ model VehicleRequest {
   @@index([status, createdAt])
 }
 
+/// One row per distinct bug: repeats of the same error are grouped by
+/// fingerprint and counted. Written by src/lib/error-triage.ts.
+model AppError {
+  id          String   @id @default(cuid())
+  fingerprint String   @unique
+  source      String   // "client" or "server"
+  message     String   @db.Text
+  stack       String?  @db.Text
+  path        String?
+  userAgent   String?
+  companyId   String?
+  count       Int      @default(1)
+  status      String   @default("NEW") // NEW, INVESTIGATING, FIXED, IGNORED
+  severity    String?  // low, medium, high, critical (AI triage)
+  aiSummary   String?  @db.Text
+  aiCause     String?  @db.Text
+  firstSeen   DateTime @default(now())
+  lastSeen    DateTime @default(now())
+
+  @@index([status, lastSeen])
+}
+
 model PartnerInquiry {
   id              String   @id @default(cuid())
   companyName     String

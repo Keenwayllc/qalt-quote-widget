@@ -29,6 +29,11 @@ export type PricingProfile = $Result.DefaultSelection<Prisma.$PricingProfilePayl
  */
 export type WidgetSettings = $Result.DefaultSelection<Prisma.$WidgetSettingsPayload>
 /**
+ * Model WidgetInstallation
+ * 
+ */
+export type WidgetInstallation = $Result.DefaultSelection<Prisma.$WidgetInstallationPayload>
+/**
  * Model QuoteRequest
  * 
  */
@@ -49,6 +54,12 @@ export type ShopifyInstall = $Result.DefaultSelection<Prisma.$ShopifyInstallPayl
  * become available to every merchant.
  */
 export type VehicleRequest = $Result.DefaultSelection<Prisma.$VehicleRequestPayload>
+/**
+ * Model AppError
+ * One row per distinct bug: repeats of the same error are grouped by
+ * fingerprint and counted. Written by src/lib/error-triage.ts.
+ */
+export type AppError = $Result.DefaultSelection<Prisma.$AppErrorPayload>
 /**
  * Model PartnerInquiry
  * 
@@ -242,6 +253,16 @@ export class PrismaClient<
   get widgetSettings(): Prisma.WidgetSettingsDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.widgetInstallation`: Exposes CRUD operations for the **WidgetInstallation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WidgetInstallations
+    * const widgetInstallations = await prisma.widgetInstallation.findMany()
+    * ```
+    */
+  get widgetInstallation(): Prisma.WidgetInstallationDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.quoteRequest`: Exposes CRUD operations for the **QuoteRequest** model.
     * Example usage:
     * ```ts
@@ -280,6 +301,16 @@ export class PrismaClient<
     * ```
     */
   get vehicleRequest(): Prisma.VehicleRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.appError`: Exposes CRUD operations for the **AppError** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AppErrors
+    * const appErrors = await prisma.appError.findMany()
+    * ```
+    */
+  get appError(): Prisma.AppErrorDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.partnerInquiry`: Exposes CRUD operations for the **PartnerInquiry** model.
@@ -797,10 +828,12 @@ export namespace Prisma {
     Company: 'Company',
     PricingProfile: 'PricingProfile',
     WidgetSettings: 'WidgetSettings',
+    WidgetInstallation: 'WidgetInstallation',
     QuoteRequest: 'QuoteRequest',
     Webhook: 'Webhook',
     ShopifyInstall: 'ShopifyInstall',
     VehicleRequest: 'VehicleRequest',
+    AppError: 'AppError',
     PartnerInquiry: 'PartnerInquiry',
     StopNote: 'StopNote',
     ReadinessCheck: 'ReadinessCheck',
@@ -824,7 +857,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "pricingProfile" | "widgetSettings" | "quoteRequest" | "webhook" | "shopifyInstall" | "vehicleRequest" | "partnerInquiry" | "stopNote" | "readinessCheck" | "exceptionLog" | "job" | "jobStop" | "customerDocument" | "documentSequence"
+      modelProps: "company" | "pricingProfile" | "widgetSettings" | "widgetInstallation" | "quoteRequest" | "webhook" | "shopifyInstall" | "vehicleRequest" | "appError" | "partnerInquiry" | "stopNote" | "readinessCheck" | "exceptionLog" | "job" | "jobStop" | "customerDocument" | "documentSequence"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1047,6 +1080,80 @@ export namespace Prisma {
           count: {
             args: Prisma.WidgetSettingsCountArgs<ExtArgs>
             result: $Utils.Optional<WidgetSettingsCountAggregateOutputType> | number
+          }
+        }
+      }
+      WidgetInstallation: {
+        payload: Prisma.$WidgetInstallationPayload<ExtArgs>
+        fields: Prisma.WidgetInstallationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WidgetInstallationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WidgetInstallationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WidgetInstallationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WidgetInstallationPayload>
+          }
+          findFirst: {
+            args: Prisma.WidgetInstallationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WidgetInstallationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WidgetInstallationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WidgetInstallationPayload>
+          }
+          findMany: {
+            args: Prisma.WidgetInstallationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WidgetInstallationPayload>[]
+          }
+          create: {
+            args: Prisma.WidgetInstallationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WidgetInstallationPayload>
+          }
+          createMany: {
+            args: Prisma.WidgetInstallationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WidgetInstallationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WidgetInstallationPayload>[]
+          }
+          delete: {
+            args: Prisma.WidgetInstallationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WidgetInstallationPayload>
+          }
+          update: {
+            args: Prisma.WidgetInstallationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WidgetInstallationPayload>
+          }
+          deleteMany: {
+            args: Prisma.WidgetInstallationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WidgetInstallationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WidgetInstallationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WidgetInstallationPayload>[]
+          }
+          upsert: {
+            args: Prisma.WidgetInstallationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WidgetInstallationPayload>
+          }
+          aggregate: {
+            args: Prisma.WidgetInstallationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWidgetInstallation>
+          }
+          groupBy: {
+            args: Prisma.WidgetInstallationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WidgetInstallationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WidgetInstallationCountArgs<ExtArgs>
+            result: $Utils.Optional<WidgetInstallationCountAggregateOutputType> | number
           }
         }
       }
@@ -1343,6 +1450,80 @@ export namespace Prisma {
           count: {
             args: Prisma.VehicleRequestCountArgs<ExtArgs>
             result: $Utils.Optional<VehicleRequestCountAggregateOutputType> | number
+          }
+        }
+      }
+      AppError: {
+        payload: Prisma.$AppErrorPayload<ExtArgs>
+        fields: Prisma.AppErrorFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AppErrorFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppErrorPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AppErrorFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppErrorPayload>
+          }
+          findFirst: {
+            args: Prisma.AppErrorFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppErrorPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AppErrorFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppErrorPayload>
+          }
+          findMany: {
+            args: Prisma.AppErrorFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppErrorPayload>[]
+          }
+          create: {
+            args: Prisma.AppErrorCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppErrorPayload>
+          }
+          createMany: {
+            args: Prisma.AppErrorCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AppErrorCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppErrorPayload>[]
+          }
+          delete: {
+            args: Prisma.AppErrorDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppErrorPayload>
+          }
+          update: {
+            args: Prisma.AppErrorUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppErrorPayload>
+          }
+          deleteMany: {
+            args: Prisma.AppErrorDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AppErrorUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AppErrorUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppErrorPayload>[]
+          }
+          upsert: {
+            args: Prisma.AppErrorUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppErrorPayload>
+          }
+          aggregate: {
+            args: Prisma.AppErrorAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAppError>
+          }
+          groupBy: {
+            args: Prisma.AppErrorGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AppErrorGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AppErrorCountArgs<ExtArgs>
+            result: $Utils.Optional<AppErrorCountAggregateOutputType> | number
           }
         }
       }
@@ -2049,10 +2230,12 @@ export namespace Prisma {
     company?: CompanyOmit
     pricingProfile?: PricingProfileOmit
     widgetSettings?: WidgetSettingsOmit
+    widgetInstallation?: WidgetInstallationOmit
     quoteRequest?: QuoteRequestOmit
     webhook?: WebhookOmit
     shopifyInstall?: ShopifyInstallOmit
     vehicleRequest?: VehicleRequestOmit
+    appError?: AppErrorOmit
     partnerInquiry?: PartnerInquiryOmit
     stopNote?: StopNoteOmit
     readinessCheck?: ReadinessCheckOmit
@@ -2150,6 +2333,7 @@ export namespace Prisma {
     stopNotes: number
     jobs: number
     customerDocuments: number
+    widgetInstallations: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2162,6 +2346,7 @@ export namespace Prisma {
     stopNotes?: boolean | CompanyCountOutputTypeCountStopNotesArgs
     jobs?: boolean | CompanyCountOutputTypeCountJobsArgs
     customerDocuments?: boolean | CompanyCountOutputTypeCountCustomerDocumentsArgs
+    widgetInstallations?: boolean | CompanyCountOutputTypeCountWidgetInstallationsArgs
   }
 
   // Custom InputTypes
@@ -2236,6 +2421,44 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountCustomerDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CustomerDocumentWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountWidgetInstallationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WidgetInstallationWhereInput
+  }
+
+
+  /**
+   * Count Type WidgetSettingsCountOutputType
+   */
+
+  export type WidgetSettingsCountOutputType = {
+    widgetInstallations: number
+  }
+
+  export type WidgetSettingsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    widgetInstallations?: boolean | WidgetSettingsCountOutputTypeCountWidgetInstallationsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * WidgetSettingsCountOutputType without action
+   */
+  export type WidgetSettingsCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WidgetSettingsCountOutputType
+     */
+    select?: WidgetSettingsCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * WidgetSettingsCountOutputType without action
+   */
+  export type WidgetSettingsCountOutputTypeCountWidgetInstallationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WidgetInstallationWhereInput
   }
 
 
@@ -2916,6 +3139,7 @@ export namespace Prisma {
     stopNotes?: boolean | Company$stopNotesArgs<ExtArgs>
     jobs?: boolean | Company$jobsArgs<ExtArgs>
     customerDocuments?: boolean | Company$customerDocumentsArgs<ExtArgs>
+    widgetInstallations?: boolean | Company$widgetInstallationsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -3080,6 +3304,7 @@ export namespace Prisma {
     stopNotes?: boolean | Company$stopNotesArgs<ExtArgs>
     jobs?: boolean | Company$jobsArgs<ExtArgs>
     customerDocuments?: boolean | Company$customerDocumentsArgs<ExtArgs>
+    widgetInstallations?: boolean | Company$widgetInstallationsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3097,6 +3322,7 @@ export namespace Prisma {
       stopNotes: Prisma.$StopNotePayload<ExtArgs>[]
       jobs: Prisma.$JobPayload<ExtArgs>[]
       customerDocuments: Prisma.$CustomerDocumentPayload<ExtArgs>[]
+      widgetInstallations: Prisma.$WidgetInstallationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3549,6 +3775,7 @@ export namespace Prisma {
     stopNotes<T extends Company$stopNotesArgs<ExtArgs> = {}>(args?: Subset<T, Company$stopNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StopNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     jobs<T extends Company$jobsArgs<ExtArgs> = {}>(args?: Subset<T, Company$jobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     customerDocuments<T extends Company$customerDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, Company$customerDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomerDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    widgetInstallations<T extends Company$widgetInstallationsArgs<ExtArgs> = {}>(args?: Subset<T, Company$widgetInstallationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WidgetInstallationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4231,6 +4458,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CustomerDocumentScalarFieldEnum | CustomerDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * Company.widgetInstallations
+   */
+  export type Company$widgetInstallationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WidgetInstallation
+     */
+    select?: WidgetInstallationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WidgetInstallation
+     */
+    omit?: WidgetInstallationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WidgetInstallationInclude<ExtArgs> | null
+    where?: WidgetInstallationWhereInput
+    orderBy?: WidgetInstallationOrderByWithRelationInput | WidgetInstallationOrderByWithRelationInput[]
+    cursor?: WidgetInstallationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WidgetInstallationScalarFieldEnum | WidgetInstallationScalarFieldEnum[]
   }
 
   /**
@@ -5642,6 +5893,7 @@ export namespace Prisma {
     name: string | null
     formStyle: string | null
     logoUrl: string | null
+    faviconUrl: string | null
     logoDarkUrl: string | null
     autoContrastLogo: boolean | null
     showWeight: boolean | null
@@ -5672,6 +5924,7 @@ export namespace Prisma {
     name: string | null
     formStyle: string | null
     logoUrl: string | null
+    faviconUrl: string | null
     logoDarkUrl: string | null
     autoContrastLogo: boolean | null
     showWeight: boolean | null
@@ -5703,6 +5956,7 @@ export namespace Prisma {
     formStyle: number
     customQuestions: number
     logoUrl: number
+    faviconUrl: number
     logoDarkUrl: number
     autoContrastLogo: number
     showWeight: number
@@ -5745,6 +5999,7 @@ export namespace Prisma {
     name?: true
     formStyle?: true
     logoUrl?: true
+    faviconUrl?: true
     logoDarkUrl?: true
     autoContrastLogo?: true
     showWeight?: true
@@ -5775,6 +6030,7 @@ export namespace Prisma {
     name?: true
     formStyle?: true
     logoUrl?: true
+    faviconUrl?: true
     logoDarkUrl?: true
     autoContrastLogo?: true
     showWeight?: true
@@ -5806,6 +6062,7 @@ export namespace Prisma {
     formStyle?: true
     customQuestions?: true
     logoUrl?: true
+    faviconUrl?: true
     logoDarkUrl?: true
     autoContrastLogo?: true
     showWeight?: true
@@ -5926,6 +6183,7 @@ export namespace Prisma {
     formStyle: string
     customQuestions: JsonValue
     logoUrl: string | null
+    faviconUrl: string | null
     logoDarkUrl: string | null
     autoContrastLogo: boolean
     showWeight: boolean
@@ -5978,6 +6236,7 @@ export namespace Prisma {
     formStyle?: boolean
     customQuestions?: boolean
     logoUrl?: boolean
+    faviconUrl?: boolean
     logoDarkUrl?: boolean
     autoContrastLogo?: boolean
     showWeight?: boolean
@@ -6004,6 +6263,8 @@ export namespace Prisma {
     serviceZips?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     pricingProfile?: boolean | WidgetSettings$pricingProfileArgs<ExtArgs>
+    widgetInstallations?: boolean | WidgetSettings$widgetInstallationsArgs<ExtArgs>
+    _count?: boolean | WidgetSettingsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["widgetSettings"]>
 
   export type WidgetSettingsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6013,6 +6274,7 @@ export namespace Prisma {
     formStyle?: boolean
     customQuestions?: boolean
     logoUrl?: boolean
+    faviconUrl?: boolean
     logoDarkUrl?: boolean
     autoContrastLogo?: boolean
     showWeight?: boolean
@@ -6047,6 +6309,7 @@ export namespace Prisma {
     formStyle?: boolean
     customQuestions?: boolean
     logoUrl?: boolean
+    faviconUrl?: boolean
     logoDarkUrl?: boolean
     autoContrastLogo?: boolean
     showWeight?: boolean
@@ -6081,6 +6344,7 @@ export namespace Prisma {
     formStyle?: boolean
     customQuestions?: boolean
     logoUrl?: boolean
+    faviconUrl?: boolean
     logoDarkUrl?: boolean
     autoContrastLogo?: boolean
     showWeight?: boolean
@@ -6107,10 +6371,12 @@ export namespace Prisma {
     serviceZips?: boolean
   }
 
-  export type WidgetSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "name" | "formStyle" | "customQuestions" | "logoUrl" | "logoDarkUrl" | "autoContrastLogo" | "showWeight" | "showItemCount" | "showExtras" | "insideDeliveryLabel" | "addon3Label" | "primaryColor" | "buttonText" | "headerText" | "quickSubtitleText" | "disclaimerText" | "companyNameText" | "companyNameFont" | "backgroundImageUrl" | "mapLayout" | "websiteUrl" | "paymentsEnabled" | "showVehicles" | "pricePerVehicle" | "vehicleOptions" | "showAwb" | "geoFencingEnabled" | "serviceZips", ExtArgs["result"]["widgetSettings"]>
+  export type WidgetSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "name" | "formStyle" | "customQuestions" | "logoUrl" | "faviconUrl" | "logoDarkUrl" | "autoContrastLogo" | "showWeight" | "showItemCount" | "showExtras" | "insideDeliveryLabel" | "addon3Label" | "primaryColor" | "buttonText" | "headerText" | "quickSubtitleText" | "disclaimerText" | "companyNameText" | "companyNameFont" | "backgroundImageUrl" | "mapLayout" | "websiteUrl" | "paymentsEnabled" | "showVehicles" | "pricePerVehicle" | "vehicleOptions" | "showAwb" | "geoFencingEnabled" | "serviceZips", ExtArgs["result"]["widgetSettings"]>
   export type WidgetSettingsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     pricingProfile?: boolean | WidgetSettings$pricingProfileArgs<ExtArgs>
+    widgetInstallations?: boolean | WidgetSettings$widgetInstallationsArgs<ExtArgs>
+    _count?: boolean | WidgetSettingsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WidgetSettingsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -6124,6 +6390,7 @@ export namespace Prisma {
     objects: {
       company: Prisma.$CompanyPayload<ExtArgs>
       pricingProfile: Prisma.$PricingProfilePayload<ExtArgs> | null
+      widgetInstallations: Prisma.$WidgetInstallationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6132,6 +6399,7 @@ export namespace Prisma {
       formStyle: string
       customQuestions: Prisma.JsonValue
       logoUrl: string | null
+      faviconUrl: string | null
       logoDarkUrl: string | null
       autoContrastLogo: boolean
       showWeight: boolean
@@ -6552,6 +6820,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     pricingProfile<T extends WidgetSettings$pricingProfileArgs<ExtArgs> = {}>(args?: Subset<T, WidgetSettings$pricingProfileArgs<ExtArgs>>): Prisma__PricingProfileClient<$Result.GetResult<Prisma.$PricingProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    widgetInstallations<T extends WidgetSettings$widgetInstallationsArgs<ExtArgs> = {}>(args?: Subset<T, WidgetSettings$widgetInstallationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WidgetInstallationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6587,6 +6856,7 @@ export namespace Prisma {
     readonly formStyle: FieldRef<"WidgetSettings", 'String'>
     readonly customQuestions: FieldRef<"WidgetSettings", 'Json'>
     readonly logoUrl: FieldRef<"WidgetSettings", 'String'>
+    readonly faviconUrl: FieldRef<"WidgetSettings", 'String'>
     readonly logoDarkUrl: FieldRef<"WidgetSettings", 'String'>
     readonly autoContrastLogo: FieldRef<"WidgetSettings", 'Boolean'>
     readonly showWeight: FieldRef<"WidgetSettings", 'Boolean'>
@@ -7031,6 +7301,30 @@ export namespace Prisma {
   }
 
   /**
+   * WidgetSettings.widgetInstallations
+   */
+  export type WidgetSettings$widgetInstallationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WidgetInstallation
+     */
+    select?: WidgetInstallationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WidgetInstallation
+     */
+    omit?: WidgetInstallationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WidgetInstallationInclude<ExtArgs> | null
+    where?: WidgetInstallationWhereInput
+    orderBy?: WidgetInstallationOrderByWithRelationInput | WidgetInstallationOrderByWithRelationInput[]
+    cursor?: WidgetInstallationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WidgetInstallationScalarFieldEnum | WidgetInstallationScalarFieldEnum[]
+  }
+
+  /**
    * WidgetSettings without action
    */
   export type WidgetSettingsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7046,6 +7340,1137 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: WidgetSettingsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WidgetInstallation
+   */
+
+  export type AggregateWidgetInstallation = {
+    _count: WidgetInstallationCountAggregateOutputType | null
+    _avg: WidgetInstallationAvgAggregateOutputType | null
+    _sum: WidgetInstallationSumAggregateOutputType | null
+    _min: WidgetInstallationMinAggregateOutputType | null
+    _max: WidgetInstallationMaxAggregateOutputType | null
+  }
+
+  export type WidgetInstallationAvgAggregateOutputType = {
+    loadCount: number | null
+  }
+
+  export type WidgetInstallationSumAggregateOutputType = {
+    loadCount: number | null
+  }
+
+  export type WidgetInstallationMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    formId: string | null
+    domain: string | null
+    firstSeenAt: Date | null
+    lastSeenAt: Date | null
+    loadCount: number | null
+  }
+
+  export type WidgetInstallationMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    formId: string | null
+    domain: string | null
+    firstSeenAt: Date | null
+    lastSeenAt: Date | null
+    loadCount: number | null
+  }
+
+  export type WidgetInstallationCountAggregateOutputType = {
+    id: number
+    companyId: number
+    formId: number
+    domain: number
+    firstSeenAt: number
+    lastSeenAt: number
+    loadCount: number
+    _all: number
+  }
+
+
+  export type WidgetInstallationAvgAggregateInputType = {
+    loadCount?: true
+  }
+
+  export type WidgetInstallationSumAggregateInputType = {
+    loadCount?: true
+  }
+
+  export type WidgetInstallationMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    formId?: true
+    domain?: true
+    firstSeenAt?: true
+    lastSeenAt?: true
+    loadCount?: true
+  }
+
+  export type WidgetInstallationMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    formId?: true
+    domain?: true
+    firstSeenAt?: true
+    lastSeenAt?: true
+    loadCount?: true
+  }
+
+  export type WidgetInstallationCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    formId?: true
+    domain?: true
+    firstSeenAt?: true
+    lastSeenAt?: true
+    loadCount?: true
+    _all?: true
+  }
+
+  export type WidgetInstallationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WidgetInstallation to aggregate.
+     */
+    where?: WidgetInstallationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WidgetInstallations to fetch.
+     */
+    orderBy?: WidgetInstallationOrderByWithRelationInput | WidgetInstallationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WidgetInstallationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WidgetInstallations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WidgetInstallations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WidgetInstallations
+    **/
+    _count?: true | WidgetInstallationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WidgetInstallationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WidgetInstallationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WidgetInstallationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WidgetInstallationMaxAggregateInputType
+  }
+
+  export type GetWidgetInstallationAggregateType<T extends WidgetInstallationAggregateArgs> = {
+        [P in keyof T & keyof AggregateWidgetInstallation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWidgetInstallation[P]>
+      : GetScalarType<T[P], AggregateWidgetInstallation[P]>
+  }
+
+
+
+
+  export type WidgetInstallationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WidgetInstallationWhereInput
+    orderBy?: WidgetInstallationOrderByWithAggregationInput | WidgetInstallationOrderByWithAggregationInput[]
+    by: WidgetInstallationScalarFieldEnum[] | WidgetInstallationScalarFieldEnum
+    having?: WidgetInstallationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WidgetInstallationCountAggregateInputType | true
+    _avg?: WidgetInstallationAvgAggregateInputType
+    _sum?: WidgetInstallationSumAggregateInputType
+    _min?: WidgetInstallationMinAggregateInputType
+    _max?: WidgetInstallationMaxAggregateInputType
+  }
+
+  export type WidgetInstallationGroupByOutputType = {
+    id: string
+    companyId: string
+    formId: string
+    domain: string
+    firstSeenAt: Date
+    lastSeenAt: Date
+    loadCount: number
+    _count: WidgetInstallationCountAggregateOutputType | null
+    _avg: WidgetInstallationAvgAggregateOutputType | null
+    _sum: WidgetInstallationSumAggregateOutputType | null
+    _min: WidgetInstallationMinAggregateOutputType | null
+    _max: WidgetInstallationMaxAggregateOutputType | null
+  }
+
+  type GetWidgetInstallationGroupByPayload<T extends WidgetInstallationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WidgetInstallationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WidgetInstallationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WidgetInstallationGroupByOutputType[P]>
+            : GetScalarType<T[P], WidgetInstallationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WidgetInstallationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    formId?: boolean
+    domain?: boolean
+    firstSeenAt?: boolean
+    lastSeenAt?: boolean
+    loadCount?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    form?: boolean | WidgetSettingsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["widgetInstallation"]>
+
+  export type WidgetInstallationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    formId?: boolean
+    domain?: boolean
+    firstSeenAt?: boolean
+    lastSeenAt?: boolean
+    loadCount?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    form?: boolean | WidgetSettingsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["widgetInstallation"]>
+
+  export type WidgetInstallationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    formId?: boolean
+    domain?: boolean
+    firstSeenAt?: boolean
+    lastSeenAt?: boolean
+    loadCount?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    form?: boolean | WidgetSettingsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["widgetInstallation"]>
+
+  export type WidgetInstallationSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    formId?: boolean
+    domain?: boolean
+    firstSeenAt?: boolean
+    lastSeenAt?: boolean
+    loadCount?: boolean
+  }
+
+  export type WidgetInstallationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "formId" | "domain" | "firstSeenAt" | "lastSeenAt" | "loadCount", ExtArgs["result"]["widgetInstallation"]>
+  export type WidgetInstallationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    form?: boolean | WidgetSettingsDefaultArgs<ExtArgs>
+  }
+  export type WidgetInstallationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    form?: boolean | WidgetSettingsDefaultArgs<ExtArgs>
+  }
+  export type WidgetInstallationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    form?: boolean | WidgetSettingsDefaultArgs<ExtArgs>
+  }
+
+  export type $WidgetInstallationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WidgetInstallation"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      form: Prisma.$WidgetSettingsPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      formId: string
+      domain: string
+      firstSeenAt: Date
+      lastSeenAt: Date
+      loadCount: number
+    }, ExtArgs["result"]["widgetInstallation"]>
+    composites: {}
+  }
+
+  type WidgetInstallationGetPayload<S extends boolean | null | undefined | WidgetInstallationDefaultArgs> = $Result.GetResult<Prisma.$WidgetInstallationPayload, S>
+
+  type WidgetInstallationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WidgetInstallationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WidgetInstallationCountAggregateInputType | true
+    }
+
+  export interface WidgetInstallationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WidgetInstallation'], meta: { name: 'WidgetInstallation' } }
+    /**
+     * Find zero or one WidgetInstallation that matches the filter.
+     * @param {WidgetInstallationFindUniqueArgs} args - Arguments to find a WidgetInstallation
+     * @example
+     * // Get one WidgetInstallation
+     * const widgetInstallation = await prisma.widgetInstallation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WidgetInstallationFindUniqueArgs>(args: SelectSubset<T, WidgetInstallationFindUniqueArgs<ExtArgs>>): Prisma__WidgetInstallationClient<$Result.GetResult<Prisma.$WidgetInstallationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WidgetInstallation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WidgetInstallationFindUniqueOrThrowArgs} args - Arguments to find a WidgetInstallation
+     * @example
+     * // Get one WidgetInstallation
+     * const widgetInstallation = await prisma.widgetInstallation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WidgetInstallationFindUniqueOrThrowArgs>(args: SelectSubset<T, WidgetInstallationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WidgetInstallationClient<$Result.GetResult<Prisma.$WidgetInstallationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WidgetInstallation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WidgetInstallationFindFirstArgs} args - Arguments to find a WidgetInstallation
+     * @example
+     * // Get one WidgetInstallation
+     * const widgetInstallation = await prisma.widgetInstallation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WidgetInstallationFindFirstArgs>(args?: SelectSubset<T, WidgetInstallationFindFirstArgs<ExtArgs>>): Prisma__WidgetInstallationClient<$Result.GetResult<Prisma.$WidgetInstallationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WidgetInstallation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WidgetInstallationFindFirstOrThrowArgs} args - Arguments to find a WidgetInstallation
+     * @example
+     * // Get one WidgetInstallation
+     * const widgetInstallation = await prisma.widgetInstallation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WidgetInstallationFindFirstOrThrowArgs>(args?: SelectSubset<T, WidgetInstallationFindFirstOrThrowArgs<ExtArgs>>): Prisma__WidgetInstallationClient<$Result.GetResult<Prisma.$WidgetInstallationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WidgetInstallations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WidgetInstallationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WidgetInstallations
+     * const widgetInstallations = await prisma.widgetInstallation.findMany()
+     * 
+     * // Get first 10 WidgetInstallations
+     * const widgetInstallations = await prisma.widgetInstallation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const widgetInstallationWithIdOnly = await prisma.widgetInstallation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WidgetInstallationFindManyArgs>(args?: SelectSubset<T, WidgetInstallationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WidgetInstallationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WidgetInstallation.
+     * @param {WidgetInstallationCreateArgs} args - Arguments to create a WidgetInstallation.
+     * @example
+     * // Create one WidgetInstallation
+     * const WidgetInstallation = await prisma.widgetInstallation.create({
+     *   data: {
+     *     // ... data to create a WidgetInstallation
+     *   }
+     * })
+     * 
+     */
+    create<T extends WidgetInstallationCreateArgs>(args: SelectSubset<T, WidgetInstallationCreateArgs<ExtArgs>>): Prisma__WidgetInstallationClient<$Result.GetResult<Prisma.$WidgetInstallationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WidgetInstallations.
+     * @param {WidgetInstallationCreateManyArgs} args - Arguments to create many WidgetInstallations.
+     * @example
+     * // Create many WidgetInstallations
+     * const widgetInstallation = await prisma.widgetInstallation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WidgetInstallationCreateManyArgs>(args?: SelectSubset<T, WidgetInstallationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WidgetInstallations and returns the data saved in the database.
+     * @param {WidgetInstallationCreateManyAndReturnArgs} args - Arguments to create many WidgetInstallations.
+     * @example
+     * // Create many WidgetInstallations
+     * const widgetInstallation = await prisma.widgetInstallation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WidgetInstallations and only return the `id`
+     * const widgetInstallationWithIdOnly = await prisma.widgetInstallation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WidgetInstallationCreateManyAndReturnArgs>(args?: SelectSubset<T, WidgetInstallationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WidgetInstallationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a WidgetInstallation.
+     * @param {WidgetInstallationDeleteArgs} args - Arguments to delete one WidgetInstallation.
+     * @example
+     * // Delete one WidgetInstallation
+     * const WidgetInstallation = await prisma.widgetInstallation.delete({
+     *   where: {
+     *     // ... filter to delete one WidgetInstallation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WidgetInstallationDeleteArgs>(args: SelectSubset<T, WidgetInstallationDeleteArgs<ExtArgs>>): Prisma__WidgetInstallationClient<$Result.GetResult<Prisma.$WidgetInstallationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WidgetInstallation.
+     * @param {WidgetInstallationUpdateArgs} args - Arguments to update one WidgetInstallation.
+     * @example
+     * // Update one WidgetInstallation
+     * const widgetInstallation = await prisma.widgetInstallation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WidgetInstallationUpdateArgs>(args: SelectSubset<T, WidgetInstallationUpdateArgs<ExtArgs>>): Prisma__WidgetInstallationClient<$Result.GetResult<Prisma.$WidgetInstallationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WidgetInstallations.
+     * @param {WidgetInstallationDeleteManyArgs} args - Arguments to filter WidgetInstallations to delete.
+     * @example
+     * // Delete a few WidgetInstallations
+     * const { count } = await prisma.widgetInstallation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WidgetInstallationDeleteManyArgs>(args?: SelectSubset<T, WidgetInstallationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WidgetInstallations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WidgetInstallationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WidgetInstallations
+     * const widgetInstallation = await prisma.widgetInstallation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WidgetInstallationUpdateManyArgs>(args: SelectSubset<T, WidgetInstallationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WidgetInstallations and returns the data updated in the database.
+     * @param {WidgetInstallationUpdateManyAndReturnArgs} args - Arguments to update many WidgetInstallations.
+     * @example
+     * // Update many WidgetInstallations
+     * const widgetInstallation = await prisma.widgetInstallation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more WidgetInstallations and only return the `id`
+     * const widgetInstallationWithIdOnly = await prisma.widgetInstallation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WidgetInstallationUpdateManyAndReturnArgs>(args: SelectSubset<T, WidgetInstallationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WidgetInstallationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one WidgetInstallation.
+     * @param {WidgetInstallationUpsertArgs} args - Arguments to update or create a WidgetInstallation.
+     * @example
+     * // Update or create a WidgetInstallation
+     * const widgetInstallation = await prisma.widgetInstallation.upsert({
+     *   create: {
+     *     // ... data to create a WidgetInstallation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WidgetInstallation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WidgetInstallationUpsertArgs>(args: SelectSubset<T, WidgetInstallationUpsertArgs<ExtArgs>>): Prisma__WidgetInstallationClient<$Result.GetResult<Prisma.$WidgetInstallationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WidgetInstallations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WidgetInstallationCountArgs} args - Arguments to filter WidgetInstallations to count.
+     * @example
+     * // Count the number of WidgetInstallations
+     * const count = await prisma.widgetInstallation.count({
+     *   where: {
+     *     // ... the filter for the WidgetInstallations we want to count
+     *   }
+     * })
+    **/
+    count<T extends WidgetInstallationCountArgs>(
+      args?: Subset<T, WidgetInstallationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WidgetInstallationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WidgetInstallation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WidgetInstallationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WidgetInstallationAggregateArgs>(args: Subset<T, WidgetInstallationAggregateArgs>): Prisma.PrismaPromise<GetWidgetInstallationAggregateType<T>>
+
+    /**
+     * Group by WidgetInstallation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WidgetInstallationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WidgetInstallationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WidgetInstallationGroupByArgs['orderBy'] }
+        : { orderBy?: WidgetInstallationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WidgetInstallationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWidgetInstallationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WidgetInstallation model
+   */
+  readonly fields: WidgetInstallationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WidgetInstallation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WidgetInstallationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    form<T extends WidgetSettingsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WidgetSettingsDefaultArgs<ExtArgs>>): Prisma__WidgetSettingsClient<$Result.GetResult<Prisma.$WidgetSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WidgetInstallation model
+   */
+  interface WidgetInstallationFieldRefs {
+    readonly id: FieldRef<"WidgetInstallation", 'String'>
+    readonly companyId: FieldRef<"WidgetInstallation", 'String'>
+    readonly formId: FieldRef<"WidgetInstallation", 'String'>
+    readonly domain: FieldRef<"WidgetInstallation", 'String'>
+    readonly firstSeenAt: FieldRef<"WidgetInstallation", 'DateTime'>
+    readonly lastSeenAt: FieldRef<"WidgetInstallation", 'DateTime'>
+    readonly loadCount: FieldRef<"WidgetInstallation", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WidgetInstallation findUnique
+   */
+  export type WidgetInstallationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WidgetInstallation
+     */
+    select?: WidgetInstallationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WidgetInstallation
+     */
+    omit?: WidgetInstallationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WidgetInstallationInclude<ExtArgs> | null
+    /**
+     * Filter, which WidgetInstallation to fetch.
+     */
+    where: WidgetInstallationWhereUniqueInput
+  }
+
+  /**
+   * WidgetInstallation findUniqueOrThrow
+   */
+  export type WidgetInstallationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WidgetInstallation
+     */
+    select?: WidgetInstallationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WidgetInstallation
+     */
+    omit?: WidgetInstallationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WidgetInstallationInclude<ExtArgs> | null
+    /**
+     * Filter, which WidgetInstallation to fetch.
+     */
+    where: WidgetInstallationWhereUniqueInput
+  }
+
+  /**
+   * WidgetInstallation findFirst
+   */
+  export type WidgetInstallationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WidgetInstallation
+     */
+    select?: WidgetInstallationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WidgetInstallation
+     */
+    omit?: WidgetInstallationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WidgetInstallationInclude<ExtArgs> | null
+    /**
+     * Filter, which WidgetInstallation to fetch.
+     */
+    where?: WidgetInstallationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WidgetInstallations to fetch.
+     */
+    orderBy?: WidgetInstallationOrderByWithRelationInput | WidgetInstallationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WidgetInstallations.
+     */
+    cursor?: WidgetInstallationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WidgetInstallations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WidgetInstallations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WidgetInstallations.
+     */
+    distinct?: WidgetInstallationScalarFieldEnum | WidgetInstallationScalarFieldEnum[]
+  }
+
+  /**
+   * WidgetInstallation findFirstOrThrow
+   */
+  export type WidgetInstallationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WidgetInstallation
+     */
+    select?: WidgetInstallationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WidgetInstallation
+     */
+    omit?: WidgetInstallationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WidgetInstallationInclude<ExtArgs> | null
+    /**
+     * Filter, which WidgetInstallation to fetch.
+     */
+    where?: WidgetInstallationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WidgetInstallations to fetch.
+     */
+    orderBy?: WidgetInstallationOrderByWithRelationInput | WidgetInstallationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WidgetInstallations.
+     */
+    cursor?: WidgetInstallationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WidgetInstallations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WidgetInstallations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WidgetInstallations.
+     */
+    distinct?: WidgetInstallationScalarFieldEnum | WidgetInstallationScalarFieldEnum[]
+  }
+
+  /**
+   * WidgetInstallation findMany
+   */
+  export type WidgetInstallationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WidgetInstallation
+     */
+    select?: WidgetInstallationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WidgetInstallation
+     */
+    omit?: WidgetInstallationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WidgetInstallationInclude<ExtArgs> | null
+    /**
+     * Filter, which WidgetInstallations to fetch.
+     */
+    where?: WidgetInstallationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WidgetInstallations to fetch.
+     */
+    orderBy?: WidgetInstallationOrderByWithRelationInput | WidgetInstallationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WidgetInstallations.
+     */
+    cursor?: WidgetInstallationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WidgetInstallations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WidgetInstallations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WidgetInstallations.
+     */
+    distinct?: WidgetInstallationScalarFieldEnum | WidgetInstallationScalarFieldEnum[]
+  }
+
+  /**
+   * WidgetInstallation create
+   */
+  export type WidgetInstallationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WidgetInstallation
+     */
+    select?: WidgetInstallationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WidgetInstallation
+     */
+    omit?: WidgetInstallationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WidgetInstallationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WidgetInstallation.
+     */
+    data: XOR<WidgetInstallationCreateInput, WidgetInstallationUncheckedCreateInput>
+  }
+
+  /**
+   * WidgetInstallation createMany
+   */
+  export type WidgetInstallationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WidgetInstallations.
+     */
+    data: WidgetInstallationCreateManyInput | WidgetInstallationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WidgetInstallation createManyAndReturn
+   */
+  export type WidgetInstallationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WidgetInstallation
+     */
+    select?: WidgetInstallationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WidgetInstallation
+     */
+    omit?: WidgetInstallationOmit<ExtArgs> | null
+    /**
+     * The data used to create many WidgetInstallations.
+     */
+    data: WidgetInstallationCreateManyInput | WidgetInstallationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WidgetInstallationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WidgetInstallation update
+   */
+  export type WidgetInstallationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WidgetInstallation
+     */
+    select?: WidgetInstallationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WidgetInstallation
+     */
+    omit?: WidgetInstallationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WidgetInstallationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WidgetInstallation.
+     */
+    data: XOR<WidgetInstallationUpdateInput, WidgetInstallationUncheckedUpdateInput>
+    /**
+     * Choose, which WidgetInstallation to update.
+     */
+    where: WidgetInstallationWhereUniqueInput
+  }
+
+  /**
+   * WidgetInstallation updateMany
+   */
+  export type WidgetInstallationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WidgetInstallations.
+     */
+    data: XOR<WidgetInstallationUpdateManyMutationInput, WidgetInstallationUncheckedUpdateManyInput>
+    /**
+     * Filter which WidgetInstallations to update
+     */
+    where?: WidgetInstallationWhereInput
+    /**
+     * Limit how many WidgetInstallations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WidgetInstallation updateManyAndReturn
+   */
+  export type WidgetInstallationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WidgetInstallation
+     */
+    select?: WidgetInstallationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WidgetInstallation
+     */
+    omit?: WidgetInstallationOmit<ExtArgs> | null
+    /**
+     * The data used to update WidgetInstallations.
+     */
+    data: XOR<WidgetInstallationUpdateManyMutationInput, WidgetInstallationUncheckedUpdateManyInput>
+    /**
+     * Filter which WidgetInstallations to update
+     */
+    where?: WidgetInstallationWhereInput
+    /**
+     * Limit how many WidgetInstallations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WidgetInstallationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WidgetInstallation upsert
+   */
+  export type WidgetInstallationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WidgetInstallation
+     */
+    select?: WidgetInstallationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WidgetInstallation
+     */
+    omit?: WidgetInstallationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WidgetInstallationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WidgetInstallation to update in case it exists.
+     */
+    where: WidgetInstallationWhereUniqueInput
+    /**
+     * In case the WidgetInstallation found by the `where` argument doesn't exist, create a new WidgetInstallation with this data.
+     */
+    create: XOR<WidgetInstallationCreateInput, WidgetInstallationUncheckedCreateInput>
+    /**
+     * In case the WidgetInstallation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WidgetInstallationUpdateInput, WidgetInstallationUncheckedUpdateInput>
+  }
+
+  /**
+   * WidgetInstallation delete
+   */
+  export type WidgetInstallationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WidgetInstallation
+     */
+    select?: WidgetInstallationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WidgetInstallation
+     */
+    omit?: WidgetInstallationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WidgetInstallationInclude<ExtArgs> | null
+    /**
+     * Filter which WidgetInstallation to delete.
+     */
+    where: WidgetInstallationWhereUniqueInput
+  }
+
+  /**
+   * WidgetInstallation deleteMany
+   */
+  export type WidgetInstallationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WidgetInstallations to delete
+     */
+    where?: WidgetInstallationWhereInput
+    /**
+     * Limit how many WidgetInstallations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WidgetInstallation without action
+   */
+  export type WidgetInstallationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WidgetInstallation
+     */
+    select?: WidgetInstallationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WidgetInstallation
+     */
+    omit?: WidgetInstallationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WidgetInstallationInclude<ExtArgs> | null
   }
 
 
@@ -11799,6 +13224,1170 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: VehicleRequestInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AppError
+   */
+
+  export type AggregateAppError = {
+    _count: AppErrorCountAggregateOutputType | null
+    _avg: AppErrorAvgAggregateOutputType | null
+    _sum: AppErrorSumAggregateOutputType | null
+    _min: AppErrorMinAggregateOutputType | null
+    _max: AppErrorMaxAggregateOutputType | null
+  }
+
+  export type AppErrorAvgAggregateOutputType = {
+    count: number | null
+  }
+
+  export type AppErrorSumAggregateOutputType = {
+    count: number | null
+  }
+
+  export type AppErrorMinAggregateOutputType = {
+    id: string | null
+    fingerprint: string | null
+    source: string | null
+    message: string | null
+    stack: string | null
+    path: string | null
+    userAgent: string | null
+    companyId: string | null
+    count: number | null
+    status: string | null
+    severity: string | null
+    aiSummary: string | null
+    aiCause: string | null
+    firstSeen: Date | null
+    lastSeen: Date | null
+  }
+
+  export type AppErrorMaxAggregateOutputType = {
+    id: string | null
+    fingerprint: string | null
+    source: string | null
+    message: string | null
+    stack: string | null
+    path: string | null
+    userAgent: string | null
+    companyId: string | null
+    count: number | null
+    status: string | null
+    severity: string | null
+    aiSummary: string | null
+    aiCause: string | null
+    firstSeen: Date | null
+    lastSeen: Date | null
+  }
+
+  export type AppErrorCountAggregateOutputType = {
+    id: number
+    fingerprint: number
+    source: number
+    message: number
+    stack: number
+    path: number
+    userAgent: number
+    companyId: number
+    count: number
+    status: number
+    severity: number
+    aiSummary: number
+    aiCause: number
+    firstSeen: number
+    lastSeen: number
+    _all: number
+  }
+
+
+  export type AppErrorAvgAggregateInputType = {
+    count?: true
+  }
+
+  export type AppErrorSumAggregateInputType = {
+    count?: true
+  }
+
+  export type AppErrorMinAggregateInputType = {
+    id?: true
+    fingerprint?: true
+    source?: true
+    message?: true
+    stack?: true
+    path?: true
+    userAgent?: true
+    companyId?: true
+    count?: true
+    status?: true
+    severity?: true
+    aiSummary?: true
+    aiCause?: true
+    firstSeen?: true
+    lastSeen?: true
+  }
+
+  export type AppErrorMaxAggregateInputType = {
+    id?: true
+    fingerprint?: true
+    source?: true
+    message?: true
+    stack?: true
+    path?: true
+    userAgent?: true
+    companyId?: true
+    count?: true
+    status?: true
+    severity?: true
+    aiSummary?: true
+    aiCause?: true
+    firstSeen?: true
+    lastSeen?: true
+  }
+
+  export type AppErrorCountAggregateInputType = {
+    id?: true
+    fingerprint?: true
+    source?: true
+    message?: true
+    stack?: true
+    path?: true
+    userAgent?: true
+    companyId?: true
+    count?: true
+    status?: true
+    severity?: true
+    aiSummary?: true
+    aiCause?: true
+    firstSeen?: true
+    lastSeen?: true
+    _all?: true
+  }
+
+  export type AppErrorAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AppError to aggregate.
+     */
+    where?: AppErrorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AppErrors to fetch.
+     */
+    orderBy?: AppErrorOrderByWithRelationInput | AppErrorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AppErrorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AppErrors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AppErrors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AppErrors
+    **/
+    _count?: true | AppErrorCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AppErrorAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AppErrorSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AppErrorMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AppErrorMaxAggregateInputType
+  }
+
+  export type GetAppErrorAggregateType<T extends AppErrorAggregateArgs> = {
+        [P in keyof T & keyof AggregateAppError]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAppError[P]>
+      : GetScalarType<T[P], AggregateAppError[P]>
+  }
+
+
+
+
+  export type AppErrorGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AppErrorWhereInput
+    orderBy?: AppErrorOrderByWithAggregationInput | AppErrorOrderByWithAggregationInput[]
+    by: AppErrorScalarFieldEnum[] | AppErrorScalarFieldEnum
+    having?: AppErrorScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AppErrorCountAggregateInputType | true
+    _avg?: AppErrorAvgAggregateInputType
+    _sum?: AppErrorSumAggregateInputType
+    _min?: AppErrorMinAggregateInputType
+    _max?: AppErrorMaxAggregateInputType
+  }
+
+  export type AppErrorGroupByOutputType = {
+    id: string
+    fingerprint: string
+    source: string
+    message: string
+    stack: string | null
+    path: string | null
+    userAgent: string | null
+    companyId: string | null
+    count: number
+    status: string
+    severity: string | null
+    aiSummary: string | null
+    aiCause: string | null
+    firstSeen: Date
+    lastSeen: Date
+    _count: AppErrorCountAggregateOutputType | null
+    _avg: AppErrorAvgAggregateOutputType | null
+    _sum: AppErrorSumAggregateOutputType | null
+    _min: AppErrorMinAggregateOutputType | null
+    _max: AppErrorMaxAggregateOutputType | null
+  }
+
+  type GetAppErrorGroupByPayload<T extends AppErrorGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AppErrorGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AppErrorGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AppErrorGroupByOutputType[P]>
+            : GetScalarType<T[P], AppErrorGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AppErrorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fingerprint?: boolean
+    source?: boolean
+    message?: boolean
+    stack?: boolean
+    path?: boolean
+    userAgent?: boolean
+    companyId?: boolean
+    count?: boolean
+    status?: boolean
+    severity?: boolean
+    aiSummary?: boolean
+    aiCause?: boolean
+    firstSeen?: boolean
+    lastSeen?: boolean
+  }, ExtArgs["result"]["appError"]>
+
+  export type AppErrorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fingerprint?: boolean
+    source?: boolean
+    message?: boolean
+    stack?: boolean
+    path?: boolean
+    userAgent?: boolean
+    companyId?: boolean
+    count?: boolean
+    status?: boolean
+    severity?: boolean
+    aiSummary?: boolean
+    aiCause?: boolean
+    firstSeen?: boolean
+    lastSeen?: boolean
+  }, ExtArgs["result"]["appError"]>
+
+  export type AppErrorSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fingerprint?: boolean
+    source?: boolean
+    message?: boolean
+    stack?: boolean
+    path?: boolean
+    userAgent?: boolean
+    companyId?: boolean
+    count?: boolean
+    status?: boolean
+    severity?: boolean
+    aiSummary?: boolean
+    aiCause?: boolean
+    firstSeen?: boolean
+    lastSeen?: boolean
+  }, ExtArgs["result"]["appError"]>
+
+  export type AppErrorSelectScalar = {
+    id?: boolean
+    fingerprint?: boolean
+    source?: boolean
+    message?: boolean
+    stack?: boolean
+    path?: boolean
+    userAgent?: boolean
+    companyId?: boolean
+    count?: boolean
+    status?: boolean
+    severity?: boolean
+    aiSummary?: boolean
+    aiCause?: boolean
+    firstSeen?: boolean
+    lastSeen?: boolean
+  }
+
+  export type AppErrorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fingerprint" | "source" | "message" | "stack" | "path" | "userAgent" | "companyId" | "count" | "status" | "severity" | "aiSummary" | "aiCause" | "firstSeen" | "lastSeen", ExtArgs["result"]["appError"]>
+
+  export type $AppErrorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AppError"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      fingerprint: string
+      source: string
+      message: string
+      stack: string | null
+      path: string | null
+      userAgent: string | null
+      companyId: string | null
+      count: number
+      status: string
+      severity: string | null
+      aiSummary: string | null
+      aiCause: string | null
+      firstSeen: Date
+      lastSeen: Date
+    }, ExtArgs["result"]["appError"]>
+    composites: {}
+  }
+
+  type AppErrorGetPayload<S extends boolean | null | undefined | AppErrorDefaultArgs> = $Result.GetResult<Prisma.$AppErrorPayload, S>
+
+  type AppErrorCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AppErrorFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AppErrorCountAggregateInputType | true
+    }
+
+  export interface AppErrorDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AppError'], meta: { name: 'AppError' } }
+    /**
+     * Find zero or one AppError that matches the filter.
+     * @param {AppErrorFindUniqueArgs} args - Arguments to find a AppError
+     * @example
+     * // Get one AppError
+     * const appError = await prisma.appError.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AppErrorFindUniqueArgs>(args: SelectSubset<T, AppErrorFindUniqueArgs<ExtArgs>>): Prisma__AppErrorClient<$Result.GetResult<Prisma.$AppErrorPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AppError that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AppErrorFindUniqueOrThrowArgs} args - Arguments to find a AppError
+     * @example
+     * // Get one AppError
+     * const appError = await prisma.appError.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AppErrorFindUniqueOrThrowArgs>(args: SelectSubset<T, AppErrorFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AppErrorClient<$Result.GetResult<Prisma.$AppErrorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AppError that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppErrorFindFirstArgs} args - Arguments to find a AppError
+     * @example
+     * // Get one AppError
+     * const appError = await prisma.appError.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AppErrorFindFirstArgs>(args?: SelectSubset<T, AppErrorFindFirstArgs<ExtArgs>>): Prisma__AppErrorClient<$Result.GetResult<Prisma.$AppErrorPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AppError that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppErrorFindFirstOrThrowArgs} args - Arguments to find a AppError
+     * @example
+     * // Get one AppError
+     * const appError = await prisma.appError.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AppErrorFindFirstOrThrowArgs>(args?: SelectSubset<T, AppErrorFindFirstOrThrowArgs<ExtArgs>>): Prisma__AppErrorClient<$Result.GetResult<Prisma.$AppErrorPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AppErrors that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppErrorFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AppErrors
+     * const appErrors = await prisma.appError.findMany()
+     * 
+     * // Get first 10 AppErrors
+     * const appErrors = await prisma.appError.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const appErrorWithIdOnly = await prisma.appError.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AppErrorFindManyArgs>(args?: SelectSubset<T, AppErrorFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AppErrorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AppError.
+     * @param {AppErrorCreateArgs} args - Arguments to create a AppError.
+     * @example
+     * // Create one AppError
+     * const AppError = await prisma.appError.create({
+     *   data: {
+     *     // ... data to create a AppError
+     *   }
+     * })
+     * 
+     */
+    create<T extends AppErrorCreateArgs>(args: SelectSubset<T, AppErrorCreateArgs<ExtArgs>>): Prisma__AppErrorClient<$Result.GetResult<Prisma.$AppErrorPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AppErrors.
+     * @param {AppErrorCreateManyArgs} args - Arguments to create many AppErrors.
+     * @example
+     * // Create many AppErrors
+     * const appError = await prisma.appError.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AppErrorCreateManyArgs>(args?: SelectSubset<T, AppErrorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AppErrors and returns the data saved in the database.
+     * @param {AppErrorCreateManyAndReturnArgs} args - Arguments to create many AppErrors.
+     * @example
+     * // Create many AppErrors
+     * const appError = await prisma.appError.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AppErrors and only return the `id`
+     * const appErrorWithIdOnly = await prisma.appError.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AppErrorCreateManyAndReturnArgs>(args?: SelectSubset<T, AppErrorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AppErrorPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AppError.
+     * @param {AppErrorDeleteArgs} args - Arguments to delete one AppError.
+     * @example
+     * // Delete one AppError
+     * const AppError = await prisma.appError.delete({
+     *   where: {
+     *     // ... filter to delete one AppError
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AppErrorDeleteArgs>(args: SelectSubset<T, AppErrorDeleteArgs<ExtArgs>>): Prisma__AppErrorClient<$Result.GetResult<Prisma.$AppErrorPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AppError.
+     * @param {AppErrorUpdateArgs} args - Arguments to update one AppError.
+     * @example
+     * // Update one AppError
+     * const appError = await prisma.appError.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AppErrorUpdateArgs>(args: SelectSubset<T, AppErrorUpdateArgs<ExtArgs>>): Prisma__AppErrorClient<$Result.GetResult<Prisma.$AppErrorPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AppErrors.
+     * @param {AppErrorDeleteManyArgs} args - Arguments to filter AppErrors to delete.
+     * @example
+     * // Delete a few AppErrors
+     * const { count } = await prisma.appError.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AppErrorDeleteManyArgs>(args?: SelectSubset<T, AppErrorDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AppErrors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppErrorUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AppErrors
+     * const appError = await prisma.appError.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AppErrorUpdateManyArgs>(args: SelectSubset<T, AppErrorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AppErrors and returns the data updated in the database.
+     * @param {AppErrorUpdateManyAndReturnArgs} args - Arguments to update many AppErrors.
+     * @example
+     * // Update many AppErrors
+     * const appError = await prisma.appError.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AppErrors and only return the `id`
+     * const appErrorWithIdOnly = await prisma.appError.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AppErrorUpdateManyAndReturnArgs>(args: SelectSubset<T, AppErrorUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AppErrorPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AppError.
+     * @param {AppErrorUpsertArgs} args - Arguments to update or create a AppError.
+     * @example
+     * // Update or create a AppError
+     * const appError = await prisma.appError.upsert({
+     *   create: {
+     *     // ... data to create a AppError
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AppError we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AppErrorUpsertArgs>(args: SelectSubset<T, AppErrorUpsertArgs<ExtArgs>>): Prisma__AppErrorClient<$Result.GetResult<Prisma.$AppErrorPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AppErrors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppErrorCountArgs} args - Arguments to filter AppErrors to count.
+     * @example
+     * // Count the number of AppErrors
+     * const count = await prisma.appError.count({
+     *   where: {
+     *     // ... the filter for the AppErrors we want to count
+     *   }
+     * })
+    **/
+    count<T extends AppErrorCountArgs>(
+      args?: Subset<T, AppErrorCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AppErrorCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AppError.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppErrorAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AppErrorAggregateArgs>(args: Subset<T, AppErrorAggregateArgs>): Prisma.PrismaPromise<GetAppErrorAggregateType<T>>
+
+    /**
+     * Group by AppError.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppErrorGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AppErrorGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AppErrorGroupByArgs['orderBy'] }
+        : { orderBy?: AppErrorGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AppErrorGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAppErrorGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AppError model
+   */
+  readonly fields: AppErrorFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AppError.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AppErrorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AppError model
+   */
+  interface AppErrorFieldRefs {
+    readonly id: FieldRef<"AppError", 'String'>
+    readonly fingerprint: FieldRef<"AppError", 'String'>
+    readonly source: FieldRef<"AppError", 'String'>
+    readonly message: FieldRef<"AppError", 'String'>
+    readonly stack: FieldRef<"AppError", 'String'>
+    readonly path: FieldRef<"AppError", 'String'>
+    readonly userAgent: FieldRef<"AppError", 'String'>
+    readonly companyId: FieldRef<"AppError", 'String'>
+    readonly count: FieldRef<"AppError", 'Int'>
+    readonly status: FieldRef<"AppError", 'String'>
+    readonly severity: FieldRef<"AppError", 'String'>
+    readonly aiSummary: FieldRef<"AppError", 'String'>
+    readonly aiCause: FieldRef<"AppError", 'String'>
+    readonly firstSeen: FieldRef<"AppError", 'DateTime'>
+    readonly lastSeen: FieldRef<"AppError", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AppError findUnique
+   */
+  export type AppErrorFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppError
+     */
+    select?: AppErrorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppError
+     */
+    omit?: AppErrorOmit<ExtArgs> | null
+    /**
+     * Filter, which AppError to fetch.
+     */
+    where: AppErrorWhereUniqueInput
+  }
+
+  /**
+   * AppError findUniqueOrThrow
+   */
+  export type AppErrorFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppError
+     */
+    select?: AppErrorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppError
+     */
+    omit?: AppErrorOmit<ExtArgs> | null
+    /**
+     * Filter, which AppError to fetch.
+     */
+    where: AppErrorWhereUniqueInput
+  }
+
+  /**
+   * AppError findFirst
+   */
+  export type AppErrorFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppError
+     */
+    select?: AppErrorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppError
+     */
+    omit?: AppErrorOmit<ExtArgs> | null
+    /**
+     * Filter, which AppError to fetch.
+     */
+    where?: AppErrorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AppErrors to fetch.
+     */
+    orderBy?: AppErrorOrderByWithRelationInput | AppErrorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AppErrors.
+     */
+    cursor?: AppErrorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AppErrors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AppErrors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AppErrors.
+     */
+    distinct?: AppErrorScalarFieldEnum | AppErrorScalarFieldEnum[]
+  }
+
+  /**
+   * AppError findFirstOrThrow
+   */
+  export type AppErrorFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppError
+     */
+    select?: AppErrorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppError
+     */
+    omit?: AppErrorOmit<ExtArgs> | null
+    /**
+     * Filter, which AppError to fetch.
+     */
+    where?: AppErrorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AppErrors to fetch.
+     */
+    orderBy?: AppErrorOrderByWithRelationInput | AppErrorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AppErrors.
+     */
+    cursor?: AppErrorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AppErrors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AppErrors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AppErrors.
+     */
+    distinct?: AppErrorScalarFieldEnum | AppErrorScalarFieldEnum[]
+  }
+
+  /**
+   * AppError findMany
+   */
+  export type AppErrorFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppError
+     */
+    select?: AppErrorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppError
+     */
+    omit?: AppErrorOmit<ExtArgs> | null
+    /**
+     * Filter, which AppErrors to fetch.
+     */
+    where?: AppErrorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AppErrors to fetch.
+     */
+    orderBy?: AppErrorOrderByWithRelationInput | AppErrorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AppErrors.
+     */
+    cursor?: AppErrorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AppErrors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AppErrors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AppErrors.
+     */
+    distinct?: AppErrorScalarFieldEnum | AppErrorScalarFieldEnum[]
+  }
+
+  /**
+   * AppError create
+   */
+  export type AppErrorCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppError
+     */
+    select?: AppErrorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppError
+     */
+    omit?: AppErrorOmit<ExtArgs> | null
+    /**
+     * The data needed to create a AppError.
+     */
+    data: XOR<AppErrorCreateInput, AppErrorUncheckedCreateInput>
+  }
+
+  /**
+   * AppError createMany
+   */
+  export type AppErrorCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AppErrors.
+     */
+    data: AppErrorCreateManyInput | AppErrorCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AppError createManyAndReturn
+   */
+  export type AppErrorCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppError
+     */
+    select?: AppErrorSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppError
+     */
+    omit?: AppErrorOmit<ExtArgs> | null
+    /**
+     * The data used to create many AppErrors.
+     */
+    data: AppErrorCreateManyInput | AppErrorCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AppError update
+   */
+  export type AppErrorUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppError
+     */
+    select?: AppErrorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppError
+     */
+    omit?: AppErrorOmit<ExtArgs> | null
+    /**
+     * The data needed to update a AppError.
+     */
+    data: XOR<AppErrorUpdateInput, AppErrorUncheckedUpdateInput>
+    /**
+     * Choose, which AppError to update.
+     */
+    where: AppErrorWhereUniqueInput
+  }
+
+  /**
+   * AppError updateMany
+   */
+  export type AppErrorUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AppErrors.
+     */
+    data: XOR<AppErrorUpdateManyMutationInput, AppErrorUncheckedUpdateManyInput>
+    /**
+     * Filter which AppErrors to update
+     */
+    where?: AppErrorWhereInput
+    /**
+     * Limit how many AppErrors to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AppError updateManyAndReturn
+   */
+  export type AppErrorUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppError
+     */
+    select?: AppErrorSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppError
+     */
+    omit?: AppErrorOmit<ExtArgs> | null
+    /**
+     * The data used to update AppErrors.
+     */
+    data: XOR<AppErrorUpdateManyMutationInput, AppErrorUncheckedUpdateManyInput>
+    /**
+     * Filter which AppErrors to update
+     */
+    where?: AppErrorWhereInput
+    /**
+     * Limit how many AppErrors to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AppError upsert
+   */
+  export type AppErrorUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppError
+     */
+    select?: AppErrorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppError
+     */
+    omit?: AppErrorOmit<ExtArgs> | null
+    /**
+     * The filter to search for the AppError to update in case it exists.
+     */
+    where: AppErrorWhereUniqueInput
+    /**
+     * In case the AppError found by the `where` argument doesn't exist, create a new AppError with this data.
+     */
+    create: XOR<AppErrorCreateInput, AppErrorUncheckedCreateInput>
+    /**
+     * In case the AppError was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AppErrorUpdateInput, AppErrorUncheckedUpdateInput>
+  }
+
+  /**
+   * AppError delete
+   */
+  export type AppErrorDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppError
+     */
+    select?: AppErrorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppError
+     */
+    omit?: AppErrorOmit<ExtArgs> | null
+    /**
+     * Filter which AppError to delete.
+     */
+    where: AppErrorWhereUniqueInput
+  }
+
+  /**
+   * AppError deleteMany
+   */
+  export type AppErrorDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AppErrors to delete
+     */
+    where?: AppErrorWhereInput
+    /**
+     * Limit how many AppErrors to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AppError without action
+   */
+  export type AppErrorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppError
+     */
+    select?: AppErrorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppError
+     */
+    omit?: AppErrorOmit<ExtArgs> | null
   }
 
 
@@ -21109,6 +23698,7 @@ export namespace Prisma {
     formStyle: 'formStyle',
     customQuestions: 'customQuestions',
     logoUrl: 'logoUrl',
+    faviconUrl: 'faviconUrl',
     logoDarkUrl: 'logoDarkUrl',
     autoContrastLogo: 'autoContrastLogo',
     showWeight: 'showWeight',
@@ -21136,6 +23726,19 @@ export namespace Prisma {
   };
 
   export type WidgetSettingsScalarFieldEnum = (typeof WidgetSettingsScalarFieldEnum)[keyof typeof WidgetSettingsScalarFieldEnum]
+
+
+  export const WidgetInstallationScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    formId: 'formId',
+    domain: 'domain',
+    firstSeenAt: 'firstSeenAt',
+    lastSeenAt: 'lastSeenAt',
+    loadCount: 'loadCount'
+  };
+
+  export type WidgetInstallationScalarFieldEnum = (typeof WidgetInstallationScalarFieldEnum)[keyof typeof WidgetInstallationScalarFieldEnum]
 
 
   export const QuoteRequestScalarFieldEnum: {
@@ -21210,6 +23813,27 @@ export namespace Prisma {
   };
 
   export type VehicleRequestScalarFieldEnum = (typeof VehicleRequestScalarFieldEnum)[keyof typeof VehicleRequestScalarFieldEnum]
+
+
+  export const AppErrorScalarFieldEnum: {
+    id: 'id',
+    fingerprint: 'fingerprint',
+    source: 'source',
+    message: 'message',
+    stack: 'stack',
+    path: 'path',
+    userAgent: 'userAgent',
+    companyId: 'companyId',
+    count: 'count',
+    status: 'status',
+    severity: 'severity',
+    aiSummary: 'aiSummary',
+    aiCause: 'aiCause',
+    firstSeen: 'firstSeen',
+    lastSeen: 'lastSeen'
+  };
+
+  export type AppErrorScalarFieldEnum = (typeof AppErrorScalarFieldEnum)[keyof typeof AppErrorScalarFieldEnum]
 
 
   export const PartnerInquiryScalarFieldEnum: {
@@ -21527,6 +24151,7 @@ export namespace Prisma {
     stopNotes?: StopNoteListRelationFilter
     jobs?: JobListRelationFilter
     customerDocuments?: CustomerDocumentListRelationFilter
+    widgetInstallations?: WidgetInstallationListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -21586,6 +24211,7 @@ export namespace Prisma {
     stopNotes?: StopNoteOrderByRelationAggregateInput
     jobs?: JobOrderByRelationAggregateInput
     customerDocuments?: CustomerDocumentOrderByRelationAggregateInput
+    widgetInstallations?: WidgetInstallationOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -21648,6 +24274,7 @@ export namespace Prisma {
     stopNotes?: StopNoteListRelationFilter
     jobs?: JobListRelationFilter
     customerDocuments?: CustomerDocumentListRelationFilter
+    widgetInstallations?: WidgetInstallationListRelationFilter
   }, "id" | "email" | "emailVerificationToken" | "passwordResetToken" | "customWidgetDomain">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -21908,6 +24535,7 @@ export namespace Prisma {
     formStyle?: StringFilter<"WidgetSettings"> | string
     customQuestions?: JsonFilter<"WidgetSettings">
     logoUrl?: StringNullableFilter<"WidgetSettings"> | string | null
+    faviconUrl?: StringNullableFilter<"WidgetSettings"> | string | null
     logoDarkUrl?: StringNullableFilter<"WidgetSettings"> | string | null
     autoContrastLogo?: BoolFilter<"WidgetSettings"> | boolean
     showWeight?: BoolFilter<"WidgetSettings"> | boolean
@@ -21934,6 +24562,7 @@ export namespace Prisma {
     serviceZips?: StringNullableListFilter<"WidgetSettings">
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
     pricingProfile?: XOR<PricingProfileNullableScalarRelationFilter, PricingProfileWhereInput> | null
+    widgetInstallations?: WidgetInstallationListRelationFilter
   }
 
   export type WidgetSettingsOrderByWithRelationInput = {
@@ -21943,6 +24572,7 @@ export namespace Prisma {
     formStyle?: SortOrder
     customQuestions?: SortOrder
     logoUrl?: SortOrderInput | SortOrder
+    faviconUrl?: SortOrderInput | SortOrder
     logoDarkUrl?: SortOrderInput | SortOrder
     autoContrastLogo?: SortOrder
     showWeight?: SortOrder
@@ -21969,6 +24599,7 @@ export namespace Prisma {
     serviceZips?: SortOrder
     company?: CompanyOrderByWithRelationInput
     pricingProfile?: PricingProfileOrderByWithRelationInput
+    widgetInstallations?: WidgetInstallationOrderByRelationAggregateInput
   }
 
   export type WidgetSettingsWhereUniqueInput = Prisma.AtLeast<{
@@ -21981,6 +24612,7 @@ export namespace Prisma {
     formStyle?: StringFilter<"WidgetSettings"> | string
     customQuestions?: JsonFilter<"WidgetSettings">
     logoUrl?: StringNullableFilter<"WidgetSettings"> | string | null
+    faviconUrl?: StringNullableFilter<"WidgetSettings"> | string | null
     logoDarkUrl?: StringNullableFilter<"WidgetSettings"> | string | null
     autoContrastLogo?: BoolFilter<"WidgetSettings"> | boolean
     showWeight?: BoolFilter<"WidgetSettings"> | boolean
@@ -22007,6 +24639,7 @@ export namespace Prisma {
     serviceZips?: StringNullableListFilter<"WidgetSettings">
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
     pricingProfile?: XOR<PricingProfileNullableScalarRelationFilter, PricingProfileWhereInput> | null
+    widgetInstallations?: WidgetInstallationListRelationFilter
   }, "id">
 
   export type WidgetSettingsOrderByWithAggregationInput = {
@@ -22016,6 +24649,7 @@ export namespace Prisma {
     formStyle?: SortOrder
     customQuestions?: SortOrder
     logoUrl?: SortOrderInput | SortOrder
+    faviconUrl?: SortOrderInput | SortOrder
     logoDarkUrl?: SortOrderInput | SortOrder
     autoContrastLogo?: SortOrder
     showWeight?: SortOrder
@@ -22057,6 +24691,7 @@ export namespace Prisma {
     formStyle?: StringWithAggregatesFilter<"WidgetSettings"> | string
     customQuestions?: JsonWithAggregatesFilter<"WidgetSettings">
     logoUrl?: StringNullableWithAggregatesFilter<"WidgetSettings"> | string | null
+    faviconUrl?: StringNullableWithAggregatesFilter<"WidgetSettings"> | string | null
     logoDarkUrl?: StringNullableWithAggregatesFilter<"WidgetSettings"> | string | null
     autoContrastLogo?: BoolWithAggregatesFilter<"WidgetSettings"> | boolean
     showWeight?: BoolWithAggregatesFilter<"WidgetSettings"> | boolean
@@ -22081,6 +24716,77 @@ export namespace Prisma {
     showAwb?: BoolWithAggregatesFilter<"WidgetSettings"> | boolean
     geoFencingEnabled?: BoolWithAggregatesFilter<"WidgetSettings"> | boolean
     serviceZips?: StringNullableListFilter<"WidgetSettings">
+  }
+
+  export type WidgetInstallationWhereInput = {
+    AND?: WidgetInstallationWhereInput | WidgetInstallationWhereInput[]
+    OR?: WidgetInstallationWhereInput[]
+    NOT?: WidgetInstallationWhereInput | WidgetInstallationWhereInput[]
+    id?: StringFilter<"WidgetInstallation"> | string
+    companyId?: StringFilter<"WidgetInstallation"> | string
+    formId?: StringFilter<"WidgetInstallation"> | string
+    domain?: StringFilter<"WidgetInstallation"> | string
+    firstSeenAt?: DateTimeFilter<"WidgetInstallation"> | Date | string
+    lastSeenAt?: DateTimeFilter<"WidgetInstallation"> | Date | string
+    loadCount?: IntFilter<"WidgetInstallation"> | number
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    form?: XOR<WidgetSettingsScalarRelationFilter, WidgetSettingsWhereInput>
+  }
+
+  export type WidgetInstallationOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    formId?: SortOrder
+    domain?: SortOrder
+    firstSeenAt?: SortOrder
+    lastSeenAt?: SortOrder
+    loadCount?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    form?: WidgetSettingsOrderByWithRelationInput
+  }
+
+  export type WidgetInstallationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_formId_domain?: WidgetInstallationCompanyIdFormIdDomainCompoundUniqueInput
+    AND?: WidgetInstallationWhereInput | WidgetInstallationWhereInput[]
+    OR?: WidgetInstallationWhereInput[]
+    NOT?: WidgetInstallationWhereInput | WidgetInstallationWhereInput[]
+    companyId?: StringFilter<"WidgetInstallation"> | string
+    formId?: StringFilter<"WidgetInstallation"> | string
+    domain?: StringFilter<"WidgetInstallation"> | string
+    firstSeenAt?: DateTimeFilter<"WidgetInstallation"> | Date | string
+    lastSeenAt?: DateTimeFilter<"WidgetInstallation"> | Date | string
+    loadCount?: IntFilter<"WidgetInstallation"> | number
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    form?: XOR<WidgetSettingsScalarRelationFilter, WidgetSettingsWhereInput>
+  }, "id" | "companyId_formId_domain">
+
+  export type WidgetInstallationOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    formId?: SortOrder
+    domain?: SortOrder
+    firstSeenAt?: SortOrder
+    lastSeenAt?: SortOrder
+    loadCount?: SortOrder
+    _count?: WidgetInstallationCountOrderByAggregateInput
+    _avg?: WidgetInstallationAvgOrderByAggregateInput
+    _max?: WidgetInstallationMaxOrderByAggregateInput
+    _min?: WidgetInstallationMinOrderByAggregateInput
+    _sum?: WidgetInstallationSumOrderByAggregateInput
+  }
+
+  export type WidgetInstallationScalarWhereWithAggregatesInput = {
+    AND?: WidgetInstallationScalarWhereWithAggregatesInput | WidgetInstallationScalarWhereWithAggregatesInput[]
+    OR?: WidgetInstallationScalarWhereWithAggregatesInput[]
+    NOT?: WidgetInstallationScalarWhereWithAggregatesInput | WidgetInstallationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"WidgetInstallation"> | string
+    companyId?: StringWithAggregatesFilter<"WidgetInstallation"> | string
+    formId?: StringWithAggregatesFilter<"WidgetInstallation"> | string
+    domain?: StringWithAggregatesFilter<"WidgetInstallation"> | string
+    firstSeenAt?: DateTimeWithAggregatesFilter<"WidgetInstallation"> | Date | string
+    lastSeenAt?: DateTimeWithAggregatesFilter<"WidgetInstallation"> | Date | string
+    loadCount?: IntWithAggregatesFilter<"WidgetInstallation"> | number
   }
 
   export type QuoteRequestWhereInput = {
@@ -22459,6 +25165,110 @@ export namespace Prisma {
     status?: StringWithAggregatesFilter<"VehicleRequest"> | string
     createdAt?: DateTimeWithAggregatesFilter<"VehicleRequest"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"VehicleRequest"> | Date | string
+  }
+
+  export type AppErrorWhereInput = {
+    AND?: AppErrorWhereInput | AppErrorWhereInput[]
+    OR?: AppErrorWhereInput[]
+    NOT?: AppErrorWhereInput | AppErrorWhereInput[]
+    id?: StringFilter<"AppError"> | string
+    fingerprint?: StringFilter<"AppError"> | string
+    source?: StringFilter<"AppError"> | string
+    message?: StringFilter<"AppError"> | string
+    stack?: StringNullableFilter<"AppError"> | string | null
+    path?: StringNullableFilter<"AppError"> | string | null
+    userAgent?: StringNullableFilter<"AppError"> | string | null
+    companyId?: StringNullableFilter<"AppError"> | string | null
+    count?: IntFilter<"AppError"> | number
+    status?: StringFilter<"AppError"> | string
+    severity?: StringNullableFilter<"AppError"> | string | null
+    aiSummary?: StringNullableFilter<"AppError"> | string | null
+    aiCause?: StringNullableFilter<"AppError"> | string | null
+    firstSeen?: DateTimeFilter<"AppError"> | Date | string
+    lastSeen?: DateTimeFilter<"AppError"> | Date | string
+  }
+
+  export type AppErrorOrderByWithRelationInput = {
+    id?: SortOrder
+    fingerprint?: SortOrder
+    source?: SortOrder
+    message?: SortOrder
+    stack?: SortOrderInput | SortOrder
+    path?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    companyId?: SortOrderInput | SortOrder
+    count?: SortOrder
+    status?: SortOrder
+    severity?: SortOrderInput | SortOrder
+    aiSummary?: SortOrderInput | SortOrder
+    aiCause?: SortOrderInput | SortOrder
+    firstSeen?: SortOrder
+    lastSeen?: SortOrder
+  }
+
+  export type AppErrorWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    fingerprint?: string
+    AND?: AppErrorWhereInput | AppErrorWhereInput[]
+    OR?: AppErrorWhereInput[]
+    NOT?: AppErrorWhereInput | AppErrorWhereInput[]
+    source?: StringFilter<"AppError"> | string
+    message?: StringFilter<"AppError"> | string
+    stack?: StringNullableFilter<"AppError"> | string | null
+    path?: StringNullableFilter<"AppError"> | string | null
+    userAgent?: StringNullableFilter<"AppError"> | string | null
+    companyId?: StringNullableFilter<"AppError"> | string | null
+    count?: IntFilter<"AppError"> | number
+    status?: StringFilter<"AppError"> | string
+    severity?: StringNullableFilter<"AppError"> | string | null
+    aiSummary?: StringNullableFilter<"AppError"> | string | null
+    aiCause?: StringNullableFilter<"AppError"> | string | null
+    firstSeen?: DateTimeFilter<"AppError"> | Date | string
+    lastSeen?: DateTimeFilter<"AppError"> | Date | string
+  }, "id" | "fingerprint">
+
+  export type AppErrorOrderByWithAggregationInput = {
+    id?: SortOrder
+    fingerprint?: SortOrder
+    source?: SortOrder
+    message?: SortOrder
+    stack?: SortOrderInput | SortOrder
+    path?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    companyId?: SortOrderInput | SortOrder
+    count?: SortOrder
+    status?: SortOrder
+    severity?: SortOrderInput | SortOrder
+    aiSummary?: SortOrderInput | SortOrder
+    aiCause?: SortOrderInput | SortOrder
+    firstSeen?: SortOrder
+    lastSeen?: SortOrder
+    _count?: AppErrorCountOrderByAggregateInput
+    _avg?: AppErrorAvgOrderByAggregateInput
+    _max?: AppErrorMaxOrderByAggregateInput
+    _min?: AppErrorMinOrderByAggregateInput
+    _sum?: AppErrorSumOrderByAggregateInput
+  }
+
+  export type AppErrorScalarWhereWithAggregatesInput = {
+    AND?: AppErrorScalarWhereWithAggregatesInput | AppErrorScalarWhereWithAggregatesInput[]
+    OR?: AppErrorScalarWhereWithAggregatesInput[]
+    NOT?: AppErrorScalarWhereWithAggregatesInput | AppErrorScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AppError"> | string
+    fingerprint?: StringWithAggregatesFilter<"AppError"> | string
+    source?: StringWithAggregatesFilter<"AppError"> | string
+    message?: StringWithAggregatesFilter<"AppError"> | string
+    stack?: StringNullableWithAggregatesFilter<"AppError"> | string | null
+    path?: StringNullableWithAggregatesFilter<"AppError"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"AppError"> | string | null
+    companyId?: StringNullableWithAggregatesFilter<"AppError"> | string | null
+    count?: IntWithAggregatesFilter<"AppError"> | number
+    status?: StringWithAggregatesFilter<"AppError"> | string
+    severity?: StringNullableWithAggregatesFilter<"AppError"> | string | null
+    aiSummary?: StringNullableWithAggregatesFilter<"AppError"> | string | null
+    aiCause?: StringNullableWithAggregatesFilter<"AppError"> | string | null
+    firstSeen?: DateTimeWithAggregatesFilter<"AppError"> | Date | string
+    lastSeen?: DateTimeWithAggregatesFilter<"AppError"> | Date | string
   }
 
   export type PartnerInquiryWhereInput = {
@@ -23164,6 +25974,7 @@ export namespace Prisma {
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -23223,6 +26034,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -23282,6 +26094,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -23341,6 +26154,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -23665,6 +26479,7 @@ export namespace Prisma {
     formStyle?: string
     customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: string | null
+    faviconUrl?: string | null
     logoDarkUrl?: string | null
     autoContrastLogo?: boolean
     showWeight?: boolean
@@ -23691,6 +26506,7 @@ export namespace Prisma {
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
     company: CompanyCreateNestedOneWithoutWidgetSettingsInput
     pricingProfile?: PricingProfileCreateNestedOneWithoutWidgetSettingsInput
+    widgetInstallations?: WidgetInstallationCreateNestedManyWithoutFormInput
   }
 
   export type WidgetSettingsUncheckedCreateInput = {
@@ -23700,6 +26516,7 @@ export namespace Prisma {
     formStyle?: string
     customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: string | null
+    faviconUrl?: string | null
     logoDarkUrl?: string | null
     autoContrastLogo?: boolean
     showWeight?: boolean
@@ -23725,6 +26542,7 @@ export namespace Prisma {
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
     pricingProfile?: PricingProfileUncheckedCreateNestedOneWithoutWidgetSettingsInput
+    widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutFormInput
   }
 
   export type WidgetSettingsUpdateInput = {
@@ -23733,6 +26551,7 @@ export namespace Prisma {
     formStyle?: StringFieldUpdateOperationsInput | string
     customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
@@ -23759,6 +26578,7 @@ export namespace Prisma {
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
     company?: CompanyUpdateOneRequiredWithoutWidgetSettingsNestedInput
     pricingProfile?: PricingProfileUpdateOneWithoutWidgetSettingsNestedInput
+    widgetInstallations?: WidgetInstallationUpdateManyWithoutFormNestedInput
   }
 
   export type WidgetSettingsUncheckedUpdateInput = {
@@ -23768,6 +26588,7 @@ export namespace Prisma {
     formStyle?: StringFieldUpdateOperationsInput | string
     customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
@@ -23793,6 +26614,7 @@ export namespace Prisma {
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
     pricingProfile?: PricingProfileUncheckedUpdateOneWithoutWidgetSettingsNestedInput
+    widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutFormNestedInput
   }
 
   export type WidgetSettingsCreateManyInput = {
@@ -23802,6 +26624,7 @@ export namespace Prisma {
     formStyle?: string
     customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: string | null
+    faviconUrl?: string | null
     logoDarkUrl?: string | null
     autoContrastLogo?: boolean
     showWeight?: boolean
@@ -23834,6 +26657,7 @@ export namespace Prisma {
     formStyle?: StringFieldUpdateOperationsInput | string
     customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
@@ -23867,6 +26691,7 @@ export namespace Prisma {
     formStyle?: StringFieldUpdateOperationsInput | string
     customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
@@ -23891,6 +26716,74 @@ export namespace Prisma {
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
+  }
+
+  export type WidgetInstallationCreateInput = {
+    id?: string
+    domain: string
+    firstSeenAt?: Date | string
+    lastSeenAt?: Date | string
+    loadCount?: number
+    company: CompanyCreateNestedOneWithoutWidgetInstallationsInput
+    form: WidgetSettingsCreateNestedOneWithoutWidgetInstallationsInput
+  }
+
+  export type WidgetInstallationUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    formId: string
+    domain: string
+    firstSeenAt?: Date | string
+    lastSeenAt?: Date | string
+    loadCount?: number
+  }
+
+  export type WidgetInstallationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    firstSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loadCount?: IntFieldUpdateOperationsInput | number
+    company?: CompanyUpdateOneRequiredWithoutWidgetInstallationsNestedInput
+    form?: WidgetSettingsUpdateOneRequiredWithoutWidgetInstallationsNestedInput
+  }
+
+  export type WidgetInstallationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    formId?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    firstSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loadCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type WidgetInstallationCreateManyInput = {
+    id?: string
+    companyId: string
+    formId: string
+    domain: string
+    firstSeenAt?: Date | string
+    lastSeenAt?: Date | string
+    loadCount?: number
+  }
+
+  export type WidgetInstallationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    firstSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loadCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type WidgetInstallationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    formId?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    firstSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loadCount?: IntFieldUpdateOperationsInput | number
   }
 
   export type QuoteRequestCreateInput = {
@@ -24329,6 +27222,132 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AppErrorCreateInput = {
+    id?: string
+    fingerprint: string
+    source: string
+    message: string
+    stack?: string | null
+    path?: string | null
+    userAgent?: string | null
+    companyId?: string | null
+    count?: number
+    status?: string
+    severity?: string | null
+    aiSummary?: string | null
+    aiCause?: string | null
+    firstSeen?: Date | string
+    lastSeen?: Date | string
+  }
+
+  export type AppErrorUncheckedCreateInput = {
+    id?: string
+    fingerprint: string
+    source: string
+    message: string
+    stack?: string | null
+    path?: string | null
+    userAgent?: string | null
+    companyId?: string | null
+    count?: number
+    status?: string
+    severity?: string | null
+    aiSummary?: string | null
+    aiCause?: string | null
+    firstSeen?: Date | string
+    lastSeen?: Date | string
+  }
+
+  export type AppErrorUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fingerprint?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    stack?: NullableStringFieldUpdateOperationsInput | string | null
+    path?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    count?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    severity?: NullableStringFieldUpdateOperationsInput | string | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    aiCause?: NullableStringFieldUpdateOperationsInput | string | null
+    firstSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AppErrorUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fingerprint?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    stack?: NullableStringFieldUpdateOperationsInput | string | null
+    path?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    count?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    severity?: NullableStringFieldUpdateOperationsInput | string | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    aiCause?: NullableStringFieldUpdateOperationsInput | string | null
+    firstSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AppErrorCreateManyInput = {
+    id?: string
+    fingerprint: string
+    source: string
+    message: string
+    stack?: string | null
+    path?: string | null
+    userAgent?: string | null
+    companyId?: string | null
+    count?: number
+    status?: string
+    severity?: string | null
+    aiSummary?: string | null
+    aiCause?: string | null
+    firstSeen?: Date | string
+    lastSeen?: Date | string
+  }
+
+  export type AppErrorUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fingerprint?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    stack?: NullableStringFieldUpdateOperationsInput | string | null
+    path?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    count?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    severity?: NullableStringFieldUpdateOperationsInput | string | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    aiCause?: NullableStringFieldUpdateOperationsInput | string | null
+    firstSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AppErrorUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fingerprint?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    stack?: NullableStringFieldUpdateOperationsInput | string | null
+    path?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    count?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    severity?: NullableStringFieldUpdateOperationsInput | string | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    aiCause?: NullableStringFieldUpdateOperationsInput | string | null
+    firstSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PartnerInquiryCreateInput = {
@@ -25175,6 +28194,12 @@ export namespace Prisma {
     none?: CustomerDocumentWhereInput
   }
 
+  export type WidgetInstallationListRelationFilter = {
+    every?: WidgetInstallationWhereInput
+    some?: WidgetInstallationWhereInput
+    none?: WidgetInstallationWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -25213,6 +28238,10 @@ export namespace Prisma {
   }
 
   export type CustomerDocumentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WidgetInstallationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -25686,6 +28715,7 @@ export namespace Prisma {
     formStyle?: SortOrder
     customQuestions?: SortOrder
     logoUrl?: SortOrder
+    faviconUrl?: SortOrder
     logoDarkUrl?: SortOrder
     autoContrastLogo?: SortOrder
     showWeight?: SortOrder
@@ -25722,6 +28752,7 @@ export namespace Prisma {
     name?: SortOrder
     formStyle?: SortOrder
     logoUrl?: SortOrder
+    faviconUrl?: SortOrder
     logoDarkUrl?: SortOrder
     autoContrastLogo?: SortOrder
     showWeight?: SortOrder
@@ -25752,6 +28783,7 @@ export namespace Prisma {
     name?: SortOrder
     formStyle?: SortOrder
     logoUrl?: SortOrder
+    faviconUrl?: SortOrder
     logoDarkUrl?: SortOrder
     autoContrastLogo?: SortOrder
     showWeight?: SortOrder
@@ -25778,6 +28810,55 @@ export namespace Prisma {
 
   export type WidgetSettingsSumOrderByAggregateInput = {
     pricePerVehicle?: SortOrder
+  }
+
+  export type WidgetSettingsScalarRelationFilter = {
+    is?: WidgetSettingsWhereInput
+    isNot?: WidgetSettingsWhereInput
+  }
+
+  export type WidgetInstallationCompanyIdFormIdDomainCompoundUniqueInput = {
+    companyId: string
+    formId: string
+    domain: string
+  }
+
+  export type WidgetInstallationCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    formId?: SortOrder
+    domain?: SortOrder
+    firstSeenAt?: SortOrder
+    lastSeenAt?: SortOrder
+    loadCount?: SortOrder
+  }
+
+  export type WidgetInstallationAvgOrderByAggregateInput = {
+    loadCount?: SortOrder
+  }
+
+  export type WidgetInstallationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    formId?: SortOrder
+    domain?: SortOrder
+    firstSeenAt?: SortOrder
+    lastSeenAt?: SortOrder
+    loadCount?: SortOrder
+  }
+
+  export type WidgetInstallationMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    formId?: SortOrder
+    domain?: SortOrder
+    firstSeenAt?: SortOrder
+    lastSeenAt?: SortOrder
+    loadCount?: SortOrder
+  }
+
+  export type WidgetInstallationSumOrderByAggregateInput = {
+    loadCount?: SortOrder
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -26004,6 +29085,68 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type AppErrorCountOrderByAggregateInput = {
+    id?: SortOrder
+    fingerprint?: SortOrder
+    source?: SortOrder
+    message?: SortOrder
+    stack?: SortOrder
+    path?: SortOrder
+    userAgent?: SortOrder
+    companyId?: SortOrder
+    count?: SortOrder
+    status?: SortOrder
+    severity?: SortOrder
+    aiSummary?: SortOrder
+    aiCause?: SortOrder
+    firstSeen?: SortOrder
+    lastSeen?: SortOrder
+  }
+
+  export type AppErrorAvgOrderByAggregateInput = {
+    count?: SortOrder
+  }
+
+  export type AppErrorMaxOrderByAggregateInput = {
+    id?: SortOrder
+    fingerprint?: SortOrder
+    source?: SortOrder
+    message?: SortOrder
+    stack?: SortOrder
+    path?: SortOrder
+    userAgent?: SortOrder
+    companyId?: SortOrder
+    count?: SortOrder
+    status?: SortOrder
+    severity?: SortOrder
+    aiSummary?: SortOrder
+    aiCause?: SortOrder
+    firstSeen?: SortOrder
+    lastSeen?: SortOrder
+  }
+
+  export type AppErrorMinOrderByAggregateInput = {
+    id?: SortOrder
+    fingerprint?: SortOrder
+    source?: SortOrder
+    message?: SortOrder
+    stack?: SortOrder
+    path?: SortOrder
+    userAgent?: SortOrder
+    companyId?: SortOrder
+    count?: SortOrder
+    status?: SortOrder
+    severity?: SortOrder
+    aiSummary?: SortOrder
+    aiCause?: SortOrder
+    firstSeen?: SortOrder
+    lastSeen?: SortOrder
+  }
+
+  export type AppErrorSumOrderByAggregateInput = {
+    count?: SortOrder
   }
 
   export type PartnerInquiryCountOrderByAggregateInput = {
@@ -26461,6 +29604,13 @@ export namespace Prisma {
     connect?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
   }
 
+  export type WidgetInstallationCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<WidgetInstallationCreateWithoutCompanyInput, WidgetInstallationUncheckedCreateWithoutCompanyInput> | WidgetInstallationCreateWithoutCompanyInput[] | WidgetInstallationUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: WidgetInstallationCreateOrConnectWithoutCompanyInput | WidgetInstallationCreateOrConnectWithoutCompanyInput[]
+    createMany?: WidgetInstallationCreateManyCompanyInputEnvelope
+    connect?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+  }
+
   export type PricingProfileUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<PricingProfileCreateWithoutCompanyInput, PricingProfileUncheckedCreateWithoutCompanyInput> | PricingProfileCreateWithoutCompanyInput[] | PricingProfileUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: PricingProfileCreateOrConnectWithoutCompanyInput | PricingProfileCreateOrConnectWithoutCompanyInput[]
@@ -26522,6 +29672,13 @@ export namespace Prisma {
     connectOrCreate?: CustomerDocumentCreateOrConnectWithoutCompanyInput | CustomerDocumentCreateOrConnectWithoutCompanyInput[]
     createMany?: CustomerDocumentCreateManyCompanyInputEnvelope
     connect?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
+  }
+
+  export type WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<WidgetInstallationCreateWithoutCompanyInput, WidgetInstallationUncheckedCreateWithoutCompanyInput> | WidgetInstallationCreateWithoutCompanyInput[] | WidgetInstallationUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: WidgetInstallationCreateOrConnectWithoutCompanyInput | WidgetInstallationCreateOrConnectWithoutCompanyInput[]
+    createMany?: WidgetInstallationCreateManyCompanyInputEnvelope
+    connect?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -26678,6 +29835,20 @@ export namespace Prisma {
     deleteMany?: CustomerDocumentScalarWhereInput | CustomerDocumentScalarWhereInput[]
   }
 
+  export type WidgetInstallationUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<WidgetInstallationCreateWithoutCompanyInput, WidgetInstallationUncheckedCreateWithoutCompanyInput> | WidgetInstallationCreateWithoutCompanyInput[] | WidgetInstallationUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: WidgetInstallationCreateOrConnectWithoutCompanyInput | WidgetInstallationCreateOrConnectWithoutCompanyInput[]
+    upsert?: WidgetInstallationUpsertWithWhereUniqueWithoutCompanyInput | WidgetInstallationUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: WidgetInstallationCreateManyCompanyInputEnvelope
+    set?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+    disconnect?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+    delete?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+    connect?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+    update?: WidgetInstallationUpdateWithWhereUniqueWithoutCompanyInput | WidgetInstallationUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: WidgetInstallationUpdateManyWithWhereWithoutCompanyInput | WidgetInstallationUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: WidgetInstallationScalarWhereInput | WidgetInstallationScalarWhereInput[]
+  }
+
   export type PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<PricingProfileCreateWithoutCompanyInput, PricingProfileUncheckedCreateWithoutCompanyInput> | PricingProfileCreateWithoutCompanyInput[] | PricingProfileUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: PricingProfileCreateOrConnectWithoutCompanyInput | PricingProfileCreateOrConnectWithoutCompanyInput[]
@@ -26804,6 +29975,20 @@ export namespace Prisma {
     deleteMany?: CustomerDocumentScalarWhereInput | CustomerDocumentScalarWhereInput[]
   }
 
+  export type WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<WidgetInstallationCreateWithoutCompanyInput, WidgetInstallationUncheckedCreateWithoutCompanyInput> | WidgetInstallationCreateWithoutCompanyInput[] | WidgetInstallationUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: WidgetInstallationCreateOrConnectWithoutCompanyInput | WidgetInstallationCreateOrConnectWithoutCompanyInput[]
+    upsert?: WidgetInstallationUpsertWithWhereUniqueWithoutCompanyInput | WidgetInstallationUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: WidgetInstallationCreateManyCompanyInputEnvelope
+    set?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+    disconnect?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+    delete?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+    connect?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+    update?: WidgetInstallationUpdateWithWhereUniqueWithoutCompanyInput | WidgetInstallationUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: WidgetInstallationUpdateManyWithWhereWithoutCompanyInput | WidgetInstallationUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: WidgetInstallationScalarWhereInput | WidgetInstallationScalarWhereInput[]
+  }
+
   export type CompanyCreateNestedOneWithoutPricingProfilesInput = {
     create?: XOR<CompanyCreateWithoutPricingProfilesInput, CompanyUncheckedCreateWithoutPricingProfilesInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutPricingProfilesInput
@@ -26858,10 +30043,24 @@ export namespace Prisma {
     connect?: PricingProfileWhereUniqueInput
   }
 
+  export type WidgetInstallationCreateNestedManyWithoutFormInput = {
+    create?: XOR<WidgetInstallationCreateWithoutFormInput, WidgetInstallationUncheckedCreateWithoutFormInput> | WidgetInstallationCreateWithoutFormInput[] | WidgetInstallationUncheckedCreateWithoutFormInput[]
+    connectOrCreate?: WidgetInstallationCreateOrConnectWithoutFormInput | WidgetInstallationCreateOrConnectWithoutFormInput[]
+    createMany?: WidgetInstallationCreateManyFormInputEnvelope
+    connect?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+  }
+
   export type PricingProfileUncheckedCreateNestedOneWithoutWidgetSettingsInput = {
     create?: XOR<PricingProfileCreateWithoutWidgetSettingsInput, PricingProfileUncheckedCreateWithoutWidgetSettingsInput>
     connectOrCreate?: PricingProfileCreateOrConnectWithoutWidgetSettingsInput
     connect?: PricingProfileWhereUniqueInput
+  }
+
+  export type WidgetInstallationUncheckedCreateNestedManyWithoutFormInput = {
+    create?: XOR<WidgetInstallationCreateWithoutFormInput, WidgetInstallationUncheckedCreateWithoutFormInput> | WidgetInstallationCreateWithoutFormInput[] | WidgetInstallationUncheckedCreateWithoutFormInput[]
+    connectOrCreate?: WidgetInstallationCreateOrConnectWithoutFormInput | WidgetInstallationCreateOrConnectWithoutFormInput[]
+    createMany?: WidgetInstallationCreateManyFormInputEnvelope
+    connect?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
   }
 
   export type WidgetSettingsUpdateserviceZipsInput = {
@@ -26887,6 +30086,20 @@ export namespace Prisma {
     update?: XOR<XOR<PricingProfileUpdateToOneWithWhereWithoutWidgetSettingsInput, PricingProfileUpdateWithoutWidgetSettingsInput>, PricingProfileUncheckedUpdateWithoutWidgetSettingsInput>
   }
 
+  export type WidgetInstallationUpdateManyWithoutFormNestedInput = {
+    create?: XOR<WidgetInstallationCreateWithoutFormInput, WidgetInstallationUncheckedCreateWithoutFormInput> | WidgetInstallationCreateWithoutFormInput[] | WidgetInstallationUncheckedCreateWithoutFormInput[]
+    connectOrCreate?: WidgetInstallationCreateOrConnectWithoutFormInput | WidgetInstallationCreateOrConnectWithoutFormInput[]
+    upsert?: WidgetInstallationUpsertWithWhereUniqueWithoutFormInput | WidgetInstallationUpsertWithWhereUniqueWithoutFormInput[]
+    createMany?: WidgetInstallationCreateManyFormInputEnvelope
+    set?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+    disconnect?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+    delete?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+    connect?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+    update?: WidgetInstallationUpdateWithWhereUniqueWithoutFormInput | WidgetInstallationUpdateWithWhereUniqueWithoutFormInput[]
+    updateMany?: WidgetInstallationUpdateManyWithWhereWithoutFormInput | WidgetInstallationUpdateManyWithWhereWithoutFormInput[]
+    deleteMany?: WidgetInstallationScalarWhereInput | WidgetInstallationScalarWhereInput[]
+  }
+
   export type PricingProfileUncheckedUpdateOneWithoutWidgetSettingsNestedInput = {
     create?: XOR<PricingProfileCreateWithoutWidgetSettingsInput, PricingProfileUncheckedCreateWithoutWidgetSettingsInput>
     connectOrCreate?: PricingProfileCreateOrConnectWithoutWidgetSettingsInput
@@ -26895,6 +30108,48 @@ export namespace Prisma {
     delete?: PricingProfileWhereInput | boolean
     connect?: PricingProfileWhereUniqueInput
     update?: XOR<XOR<PricingProfileUpdateToOneWithWhereWithoutWidgetSettingsInput, PricingProfileUpdateWithoutWidgetSettingsInput>, PricingProfileUncheckedUpdateWithoutWidgetSettingsInput>
+  }
+
+  export type WidgetInstallationUncheckedUpdateManyWithoutFormNestedInput = {
+    create?: XOR<WidgetInstallationCreateWithoutFormInput, WidgetInstallationUncheckedCreateWithoutFormInput> | WidgetInstallationCreateWithoutFormInput[] | WidgetInstallationUncheckedCreateWithoutFormInput[]
+    connectOrCreate?: WidgetInstallationCreateOrConnectWithoutFormInput | WidgetInstallationCreateOrConnectWithoutFormInput[]
+    upsert?: WidgetInstallationUpsertWithWhereUniqueWithoutFormInput | WidgetInstallationUpsertWithWhereUniqueWithoutFormInput[]
+    createMany?: WidgetInstallationCreateManyFormInputEnvelope
+    set?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+    disconnect?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+    delete?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+    connect?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+    update?: WidgetInstallationUpdateWithWhereUniqueWithoutFormInput | WidgetInstallationUpdateWithWhereUniqueWithoutFormInput[]
+    updateMany?: WidgetInstallationUpdateManyWithWhereWithoutFormInput | WidgetInstallationUpdateManyWithWhereWithoutFormInput[]
+    deleteMany?: WidgetInstallationScalarWhereInput | WidgetInstallationScalarWhereInput[]
+  }
+
+  export type CompanyCreateNestedOneWithoutWidgetInstallationsInput = {
+    create?: XOR<CompanyCreateWithoutWidgetInstallationsInput, CompanyUncheckedCreateWithoutWidgetInstallationsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutWidgetInstallationsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type WidgetSettingsCreateNestedOneWithoutWidgetInstallationsInput = {
+    create?: XOR<WidgetSettingsCreateWithoutWidgetInstallationsInput, WidgetSettingsUncheckedCreateWithoutWidgetInstallationsInput>
+    connectOrCreate?: WidgetSettingsCreateOrConnectWithoutWidgetInstallationsInput
+    connect?: WidgetSettingsWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutWidgetInstallationsNestedInput = {
+    create?: XOR<CompanyCreateWithoutWidgetInstallationsInput, CompanyUncheckedCreateWithoutWidgetInstallationsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutWidgetInstallationsInput
+    upsert?: CompanyUpsertWithoutWidgetInstallationsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutWidgetInstallationsInput, CompanyUpdateWithoutWidgetInstallationsInput>, CompanyUncheckedUpdateWithoutWidgetInstallationsInput>
+  }
+
+  export type WidgetSettingsUpdateOneRequiredWithoutWidgetInstallationsNestedInput = {
+    create?: XOR<WidgetSettingsCreateWithoutWidgetInstallationsInput, WidgetSettingsUncheckedCreateWithoutWidgetInstallationsInput>
+    connectOrCreate?: WidgetSettingsCreateOrConnectWithoutWidgetInstallationsInput
+    upsert?: WidgetSettingsUpsertWithoutWidgetInstallationsInput
+    connect?: WidgetSettingsWhereUniqueInput
+    update?: XOR<XOR<WidgetSettingsUpdateToOneWithWhereWithoutWidgetInstallationsInput, WidgetSettingsUpdateWithoutWidgetInstallationsInput>, WidgetSettingsUncheckedUpdateWithoutWidgetInstallationsInput>
   }
 
   export type CompanyCreateNestedOneWithoutQuoteRequestsInput = {
@@ -27869,6 +31124,7 @@ export namespace Prisma {
     formStyle?: string
     customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: string | null
+    faviconUrl?: string | null
     logoDarkUrl?: string | null
     autoContrastLogo?: boolean
     showWeight?: boolean
@@ -27894,6 +31150,7 @@ export namespace Prisma {
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
     pricingProfile?: PricingProfileCreateNestedOneWithoutWidgetSettingsInput
+    widgetInstallations?: WidgetInstallationCreateNestedManyWithoutFormInput
   }
 
   export type WidgetSettingsUncheckedCreateWithoutCompanyInput = {
@@ -27902,6 +31159,7 @@ export namespace Prisma {
     formStyle?: string
     customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: string | null
+    faviconUrl?: string | null
     logoDarkUrl?: string | null
     autoContrastLogo?: boolean
     showWeight?: boolean
@@ -27927,6 +31185,7 @@ export namespace Prisma {
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
     pricingProfile?: PricingProfileUncheckedCreateNestedOneWithoutWidgetSettingsInput
+    widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutFormInput
   }
 
   export type WidgetSettingsCreateOrConnectWithoutCompanyInput = {
@@ -28151,6 +31410,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type WidgetInstallationCreateWithoutCompanyInput = {
+    id?: string
+    domain: string
+    firstSeenAt?: Date | string
+    lastSeenAt?: Date | string
+    loadCount?: number
+    form: WidgetSettingsCreateNestedOneWithoutWidgetInstallationsInput
+  }
+
+  export type WidgetInstallationUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    formId: string
+    domain: string
+    firstSeenAt?: Date | string
+    lastSeenAt?: Date | string
+    loadCount?: number
+  }
+
+  export type WidgetInstallationCreateOrConnectWithoutCompanyInput = {
+    where: WidgetInstallationWhereUniqueInput
+    create: XOR<WidgetInstallationCreateWithoutCompanyInput, WidgetInstallationUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type WidgetInstallationCreateManyCompanyInputEnvelope = {
+    data: WidgetInstallationCreateManyCompanyInput | WidgetInstallationCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PricingProfileUpsertWithWhereUniqueWithoutCompanyInput = {
     where: PricingProfileWhereUniqueInput
     update: XOR<PricingProfileUpdateWithoutCompanyInput, PricingProfileUncheckedUpdateWithoutCompanyInput>
@@ -28270,6 +31557,7 @@ export namespace Prisma {
     formStyle?: StringFilter<"WidgetSettings"> | string
     customQuestions?: JsonFilter<"WidgetSettings">
     logoUrl?: StringNullableFilter<"WidgetSettings"> | string | null
+    faviconUrl?: StringNullableFilter<"WidgetSettings"> | string | null
     logoDarkUrl?: StringNullableFilter<"WidgetSettings"> | string | null
     autoContrastLogo?: BoolFilter<"WidgetSettings"> | boolean
     showWeight?: BoolFilter<"WidgetSettings"> | boolean
@@ -28486,6 +31774,35 @@ export namespace Prisma {
     metadata?: JsonNullableFilter<"CustomerDocument">
   }
 
+  export type WidgetInstallationUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: WidgetInstallationWhereUniqueInput
+    update: XOR<WidgetInstallationUpdateWithoutCompanyInput, WidgetInstallationUncheckedUpdateWithoutCompanyInput>
+    create: XOR<WidgetInstallationCreateWithoutCompanyInput, WidgetInstallationUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type WidgetInstallationUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: WidgetInstallationWhereUniqueInput
+    data: XOR<WidgetInstallationUpdateWithoutCompanyInput, WidgetInstallationUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type WidgetInstallationUpdateManyWithWhereWithoutCompanyInput = {
+    where: WidgetInstallationScalarWhereInput
+    data: XOR<WidgetInstallationUpdateManyMutationInput, WidgetInstallationUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type WidgetInstallationScalarWhereInput = {
+    AND?: WidgetInstallationScalarWhereInput | WidgetInstallationScalarWhereInput[]
+    OR?: WidgetInstallationScalarWhereInput[]
+    NOT?: WidgetInstallationScalarWhereInput | WidgetInstallationScalarWhereInput[]
+    id?: StringFilter<"WidgetInstallation"> | string
+    companyId?: StringFilter<"WidgetInstallation"> | string
+    formId?: StringFilter<"WidgetInstallation"> | string
+    domain?: StringFilter<"WidgetInstallation"> | string
+    firstSeenAt?: DateTimeFilter<"WidgetInstallation"> | Date | string
+    lastSeenAt?: DateTimeFilter<"WidgetInstallation"> | Date | string
+    loadCount?: IntFilter<"WidgetInstallation"> | number
+  }
+
   export type CompanyCreateWithoutPricingProfilesInput = {
     id?: string
     email: string
@@ -28542,6 +31859,7 @@ export namespace Prisma {
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPricingProfilesInput = {
@@ -28600,6 +31918,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPricingProfilesInput = {
@@ -28613,6 +31932,7 @@ export namespace Prisma {
     formStyle?: string
     customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: string | null
+    faviconUrl?: string | null
     logoDarkUrl?: string | null
     autoContrastLogo?: boolean
     showWeight?: boolean
@@ -28638,6 +31958,7 @@ export namespace Prisma {
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
     company: CompanyCreateNestedOneWithoutWidgetSettingsInput
+    widgetInstallations?: WidgetInstallationCreateNestedManyWithoutFormInput
   }
 
   export type WidgetSettingsUncheckedCreateWithoutPricingProfileInput = {
@@ -28647,6 +31968,7 @@ export namespace Prisma {
     formStyle?: string
     customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: string | null
+    faviconUrl?: string | null
     logoDarkUrl?: string | null
     autoContrastLogo?: boolean
     showWeight?: boolean
@@ -28671,6 +31993,7 @@ export namespace Prisma {
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
+    widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutFormInput
   }
 
   export type WidgetSettingsCreateOrConnectWithoutPricingProfileInput = {
@@ -28745,6 +32068,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPricingProfilesInput = {
@@ -28803,6 +32127,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WidgetSettingsUpsertWithoutPricingProfileInput = {
@@ -28822,6 +32147,7 @@ export namespace Prisma {
     formStyle?: StringFieldUpdateOperationsInput | string
     customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
@@ -28847,6 +32173,7 @@ export namespace Prisma {
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
     company?: CompanyUpdateOneRequiredWithoutWidgetSettingsNestedInput
+    widgetInstallations?: WidgetInstallationUpdateManyWithoutFormNestedInput
   }
 
   export type WidgetSettingsUncheckedUpdateWithoutPricingProfileInput = {
@@ -28856,6 +32183,7 @@ export namespace Prisma {
     formStyle?: StringFieldUpdateOperationsInput | string
     customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
@@ -28880,6 +32208,7 @@ export namespace Prisma {
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
+    widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutFormNestedInput
   }
 
   export type CompanyCreateWithoutWidgetSettingsInput = {
@@ -28938,6 +32267,7 @@ export namespace Prisma {
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWidgetSettingsInput = {
@@ -28996,6 +32326,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWidgetSettingsInput = {
@@ -29052,6 +32383,34 @@ export namespace Prisma {
   export type PricingProfileCreateOrConnectWithoutWidgetSettingsInput = {
     where: PricingProfileWhereUniqueInput
     create: XOR<PricingProfileCreateWithoutWidgetSettingsInput, PricingProfileUncheckedCreateWithoutWidgetSettingsInput>
+  }
+
+  export type WidgetInstallationCreateWithoutFormInput = {
+    id?: string
+    domain: string
+    firstSeenAt?: Date | string
+    lastSeenAt?: Date | string
+    loadCount?: number
+    company: CompanyCreateNestedOneWithoutWidgetInstallationsInput
+  }
+
+  export type WidgetInstallationUncheckedCreateWithoutFormInput = {
+    id?: string
+    companyId: string
+    domain: string
+    firstSeenAt?: Date | string
+    lastSeenAt?: Date | string
+    loadCount?: number
+  }
+
+  export type WidgetInstallationCreateOrConnectWithoutFormInput = {
+    where: WidgetInstallationWhereUniqueInput
+    create: XOR<WidgetInstallationCreateWithoutFormInput, WidgetInstallationUncheckedCreateWithoutFormInput>
+  }
+
+  export type WidgetInstallationCreateManyFormInputEnvelope = {
+    data: WidgetInstallationCreateManyFormInput | WidgetInstallationCreateManyFormInput[]
+    skipDuplicates?: boolean
   }
 
   export type CompanyUpsertWithoutWidgetSettingsInput = {
@@ -29121,6 +32480,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWidgetSettingsInput = {
@@ -29179,6 +32539,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type PricingProfileUpsertWithoutWidgetSettingsInput = {
@@ -29238,6 +32599,430 @@ export namespace Prisma {
     serviceOptions?: JsonNullValueInput | InputJsonValue
   }
 
+  export type WidgetInstallationUpsertWithWhereUniqueWithoutFormInput = {
+    where: WidgetInstallationWhereUniqueInput
+    update: XOR<WidgetInstallationUpdateWithoutFormInput, WidgetInstallationUncheckedUpdateWithoutFormInput>
+    create: XOR<WidgetInstallationCreateWithoutFormInput, WidgetInstallationUncheckedCreateWithoutFormInput>
+  }
+
+  export type WidgetInstallationUpdateWithWhereUniqueWithoutFormInput = {
+    where: WidgetInstallationWhereUniqueInput
+    data: XOR<WidgetInstallationUpdateWithoutFormInput, WidgetInstallationUncheckedUpdateWithoutFormInput>
+  }
+
+  export type WidgetInstallationUpdateManyWithWhereWithoutFormInput = {
+    where: WidgetInstallationScalarWhereInput
+    data: XOR<WidgetInstallationUpdateManyMutationInput, WidgetInstallationUncheckedUpdateManyWithoutFormInput>
+  }
+
+  export type CompanyCreateWithoutWidgetInstallationsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name: string
+    logoUrl?: string | null
+    logoBackdrop?: string
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
+    timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    subscriptionPlan?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripeConnectAccountId?: string | null
+    trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    isSuperAdmin?: boolean
+    lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
+    createdAt?: Date | string
+    pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
+    quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
+    widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestCreateNestedManyWithoutCompanyInput
+    webhooks?: WebhookCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
+    jobs?: JobCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutWidgetInstallationsInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name: string
+    logoUrl?: string | null
+    logoBackdrop?: string
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
+    timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    subscriptionPlan?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripeConnectAccountId?: string | null
+    trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    isSuperAdmin?: boolean
+    lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
+    createdAt?: Date | string
+    pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
+    quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
+    widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestUncheckedCreateNestedManyWithoutCompanyInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
+    jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutWidgetInstallationsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutWidgetInstallationsInput, CompanyUncheckedCreateWithoutWidgetInstallationsInput>
+  }
+
+  export type WidgetSettingsCreateWithoutWidgetInstallationsInput = {
+    id?: string
+    name?: string
+    formStyle?: string
+    customQuestions?: JsonNullValueInput | InputJsonValue
+    logoUrl?: string | null
+    faviconUrl?: string | null
+    logoDarkUrl?: string | null
+    autoContrastLogo?: boolean
+    showWeight?: boolean
+    showItemCount?: boolean
+    showExtras?: boolean
+    insideDeliveryLabel?: string
+    addon3Label?: string
+    primaryColor?: string
+    buttonText?: string
+    headerText?: string
+    quickSubtitleText?: string
+    disclaimerText?: string
+    companyNameText?: string | null
+    companyNameFont?: string
+    backgroundImageUrl?: string | null
+    mapLayout?: string
+    websiteUrl?: string | null
+    paymentsEnabled?: boolean
+    showVehicles?: boolean
+    pricePerVehicle?: number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
+    showAwb?: boolean
+    geoFencingEnabled?: boolean
+    serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
+    company: CompanyCreateNestedOneWithoutWidgetSettingsInput
+    pricingProfile?: PricingProfileCreateNestedOneWithoutWidgetSettingsInput
+  }
+
+  export type WidgetSettingsUncheckedCreateWithoutWidgetInstallationsInput = {
+    id?: string
+    companyId: string
+    name?: string
+    formStyle?: string
+    customQuestions?: JsonNullValueInput | InputJsonValue
+    logoUrl?: string | null
+    faviconUrl?: string | null
+    logoDarkUrl?: string | null
+    autoContrastLogo?: boolean
+    showWeight?: boolean
+    showItemCount?: boolean
+    showExtras?: boolean
+    insideDeliveryLabel?: string
+    addon3Label?: string
+    primaryColor?: string
+    buttonText?: string
+    headerText?: string
+    quickSubtitleText?: string
+    disclaimerText?: string
+    companyNameText?: string | null
+    companyNameFont?: string
+    backgroundImageUrl?: string | null
+    mapLayout?: string
+    websiteUrl?: string | null
+    paymentsEnabled?: boolean
+    showVehicles?: boolean
+    pricePerVehicle?: number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
+    showAwb?: boolean
+    geoFencingEnabled?: boolean
+    serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
+    pricingProfile?: PricingProfileUncheckedCreateNestedOneWithoutWidgetSettingsInput
+  }
+
+  export type WidgetSettingsCreateOrConnectWithoutWidgetInstallationsInput = {
+    where: WidgetSettingsWhereUniqueInput
+    create: XOR<WidgetSettingsCreateWithoutWidgetInstallationsInput, WidgetSettingsUncheckedCreateWithoutWidgetInstallationsInput>
+  }
+
+  export type CompanyUpsertWithoutWidgetInstallationsInput = {
+    update: XOR<CompanyUpdateWithoutWidgetInstallationsInput, CompanyUncheckedUpdateWithoutWidgetInstallationsInput>
+    create: XOR<CompanyCreateWithoutWidgetInstallationsInput, CompanyUncheckedCreateWithoutWidgetInstallationsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutWidgetInstallationsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutWidgetInstallationsInput, CompanyUncheckedUpdateWithoutWidgetInstallationsInput>
+  }
+
+  export type CompanyUpdateWithoutWidgetInstallationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoBackdrop?: StringFieldUpdateOperationsInput | string
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
+    quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
+    widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUpdateManyWithoutCompanyNestedInput
+    webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutWidgetInstallationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoBackdrop?: StringFieldUpdateOperationsInput | string
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
+    quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type WidgetSettingsUpsertWithoutWidgetInstallationsInput = {
+    update: XOR<WidgetSettingsUpdateWithoutWidgetInstallationsInput, WidgetSettingsUncheckedUpdateWithoutWidgetInstallationsInput>
+    create: XOR<WidgetSettingsCreateWithoutWidgetInstallationsInput, WidgetSettingsUncheckedCreateWithoutWidgetInstallationsInput>
+    where?: WidgetSettingsWhereInput
+  }
+
+  export type WidgetSettingsUpdateToOneWithWhereWithoutWidgetInstallationsInput = {
+    where?: WidgetSettingsWhereInput
+    data: XOR<WidgetSettingsUpdateWithoutWidgetInstallationsInput, WidgetSettingsUncheckedUpdateWithoutWidgetInstallationsInput>
+  }
+
+  export type WidgetSettingsUpdateWithoutWidgetInstallationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    formStyle?: StringFieldUpdateOperationsInput | string
+    customQuestions?: JsonNullValueInput | InputJsonValue
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
+    showWeight?: BoolFieldUpdateOperationsInput | boolean
+    showItemCount?: BoolFieldUpdateOperationsInput | boolean
+    showExtras?: BoolFieldUpdateOperationsInput | boolean
+    insideDeliveryLabel?: StringFieldUpdateOperationsInput | string
+    addon3Label?: StringFieldUpdateOperationsInput | string
+    primaryColor?: StringFieldUpdateOperationsInput | string
+    buttonText?: StringFieldUpdateOperationsInput | string
+    headerText?: StringFieldUpdateOperationsInput | string
+    quickSubtitleText?: StringFieldUpdateOperationsInput | string
+    disclaimerText?: StringFieldUpdateOperationsInput | string
+    companyNameText?: NullableStringFieldUpdateOperationsInput | string | null
+    companyNameFont?: StringFieldUpdateOperationsInput | string
+    backgroundImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mapLayout?: StringFieldUpdateOperationsInput | string
+    websiteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentsEnabled?: BoolFieldUpdateOperationsInput | boolean
+    showVehicles?: BoolFieldUpdateOperationsInput | boolean
+    pricePerVehicle?: FloatFieldUpdateOperationsInput | number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
+    showAwb?: BoolFieldUpdateOperationsInput | boolean
+    geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
+    company?: CompanyUpdateOneRequiredWithoutWidgetSettingsNestedInput
+    pricingProfile?: PricingProfileUpdateOneWithoutWidgetSettingsNestedInput
+  }
+
+  export type WidgetSettingsUncheckedUpdateWithoutWidgetInstallationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    formStyle?: StringFieldUpdateOperationsInput | string
+    customQuestions?: JsonNullValueInput | InputJsonValue
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
+    showWeight?: BoolFieldUpdateOperationsInput | boolean
+    showItemCount?: BoolFieldUpdateOperationsInput | boolean
+    showExtras?: BoolFieldUpdateOperationsInput | boolean
+    insideDeliveryLabel?: StringFieldUpdateOperationsInput | string
+    addon3Label?: StringFieldUpdateOperationsInput | string
+    primaryColor?: StringFieldUpdateOperationsInput | string
+    buttonText?: StringFieldUpdateOperationsInput | string
+    headerText?: StringFieldUpdateOperationsInput | string
+    quickSubtitleText?: StringFieldUpdateOperationsInput | string
+    disclaimerText?: StringFieldUpdateOperationsInput | string
+    companyNameText?: NullableStringFieldUpdateOperationsInput | string | null
+    companyNameFont?: StringFieldUpdateOperationsInput | string
+    backgroundImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mapLayout?: StringFieldUpdateOperationsInput | string
+    websiteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentsEnabled?: BoolFieldUpdateOperationsInput | boolean
+    showVehicles?: BoolFieldUpdateOperationsInput | boolean
+    pricePerVehicle?: FloatFieldUpdateOperationsInput | number
+    vehicleOptions?: JsonNullValueInput | InputJsonValue
+    showAwb?: BoolFieldUpdateOperationsInput | boolean
+    geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
+    pricingProfile?: PricingProfileUncheckedUpdateOneWithoutWidgetSettingsNestedInput
+  }
+
   export type CompanyCreateWithoutQuoteRequestsInput = {
     id?: string
     email: string
@@ -29294,6 +33079,7 @@ export namespace Prisma {
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutQuoteRequestsInput = {
@@ -29352,6 +33138,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutQuoteRequestsInput = {
@@ -29504,6 +33291,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutQuoteRequestsInput = {
@@ -29562,6 +33350,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type JobUpsertWithWhereUniqueWithoutQuoteRequestInput = {
@@ -29652,6 +33441,7 @@ export namespace Prisma {
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWebhooksInput = {
@@ -29710,6 +33500,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWebhooksInput = {
@@ -29784,6 +33575,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWebhooksInput = {
@@ -29842,6 +33634,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutShopifyInstallsInput = {
@@ -29900,6 +33693,7 @@ export namespace Prisma {
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutShopifyInstallsInput = {
@@ -29958,6 +33752,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutShopifyInstallsInput = {
@@ -30032,6 +33827,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutShopifyInstallsInput = {
@@ -30090,6 +33886,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutVehicleRequestsInput = {
@@ -30148,6 +33945,7 @@ export namespace Prisma {
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutVehicleRequestsInput = {
@@ -30206,6 +34004,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutVehicleRequestsInput = {
@@ -30280,6 +34079,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutVehicleRequestsInput = {
@@ -30338,6 +34138,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutStopNotesInput = {
@@ -30396,6 +34197,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutStopNotesInput = {
@@ -30454,6 +34256,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutStopNotesInput = {
@@ -30612,6 +34415,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutStopNotesInput = {
@@ -30670,6 +34474,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ReadinessCheckUpsertWithWhereUniqueWithoutStopNoteInput = {
@@ -31127,6 +34932,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutJobsInput = {
@@ -31185,6 +34991,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutJobsInput = {
@@ -31412,6 +35219,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutJobsInput = {
@@ -31470,6 +35278,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type QuoteRequestUpsertWithoutJobsInput = {
@@ -31807,6 +35616,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCustomerDocumentsInput = {
@@ -31865,6 +35675,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCustomerDocumentsInput = {
@@ -32008,6 +35819,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCustomerDocumentsInput = {
@@ -32066,6 +35878,7 @@ export namespace Prisma {
     shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type QuoteRequestUpsertWithoutCustomerDocumentsInput = {
@@ -32202,6 +36015,7 @@ export namespace Prisma {
     formStyle?: string
     customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: string | null
+    faviconUrl?: string | null
     logoDarkUrl?: string | null
     autoContrastLogo?: boolean
     showWeight?: boolean
@@ -32296,6 +36110,15 @@ export namespace Prisma {
     lastEmailedAt?: Date | string | null
     lastViewedAt?: Date | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type WidgetInstallationCreateManyCompanyInput = {
+    id?: string
+    formId: string
+    domain: string
+    firstSeenAt?: Date | string
+    lastSeenAt?: Date | string
+    loadCount?: number
   }
 
   export type PricingProfileUpdateWithoutCompanyInput = {
@@ -32467,6 +36290,7 @@ export namespace Prisma {
     formStyle?: StringFieldUpdateOperationsInput | string
     customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
@@ -32492,6 +36316,7 @@ export namespace Prisma {
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
     pricingProfile?: PricingProfileUpdateOneWithoutWidgetSettingsNestedInput
+    widgetInstallations?: WidgetInstallationUpdateManyWithoutFormNestedInput
   }
 
   export type WidgetSettingsUncheckedUpdateWithoutCompanyInput = {
@@ -32500,6 +36325,7 @@ export namespace Prisma {
     formStyle?: StringFieldUpdateOperationsInput | string
     customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
@@ -32525,6 +36351,7 @@ export namespace Prisma {
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
     pricingProfile?: PricingProfileUncheckedUpdateOneWithoutWidgetSettingsNestedInput
+    widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutFormNestedInput
   }
 
   export type WidgetSettingsUncheckedUpdateManyWithoutCompanyInput = {
@@ -32533,6 +36360,7 @@ export namespace Prisma {
     formStyle?: StringFieldUpdateOperationsInput | string
     customQuestions?: JsonNullValueInput | InputJsonValue
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoDarkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     autoContrastLogo?: BoolFieldUpdateOperationsInput | boolean
     showWeight?: BoolFieldUpdateOperationsInput | boolean
@@ -32779,6 +36607,69 @@ export namespace Prisma {
     lastEmailedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type WidgetInstallationUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    firstSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loadCount?: IntFieldUpdateOperationsInput | number
+    form?: WidgetSettingsUpdateOneRequiredWithoutWidgetInstallationsNestedInput
+  }
+
+  export type WidgetInstallationUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    formId?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    firstSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loadCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type WidgetInstallationUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    formId?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    firstSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loadCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type WidgetInstallationCreateManyFormInput = {
+    id?: string
+    companyId: string
+    domain: string
+    firstSeenAt?: Date | string
+    lastSeenAt?: Date | string
+    loadCount?: number
+  }
+
+  export type WidgetInstallationUpdateWithoutFormInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    firstSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loadCount?: IntFieldUpdateOperationsInput | number
+    company?: CompanyUpdateOneRequiredWithoutWidgetInstallationsNestedInput
+  }
+
+  export type WidgetInstallationUncheckedUpdateWithoutFormInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    firstSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loadCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type WidgetInstallationUncheckedUpdateManyWithoutFormInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    firstSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loadCount?: IntFieldUpdateOperationsInput | number
   }
 
   export type JobCreateManyQuoteRequestInput = {

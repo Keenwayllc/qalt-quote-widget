@@ -6,6 +6,7 @@ import GlobalScrollToTop from "@/components/shared/GlobalScrollToTop";
 import MarketingDemoDiversity from "@/components/shared/MarketingDemoDiversity";
 import WidgetBrandRuntime from "@/components/shared/WidgetBrandRuntime";
 import NavigationBoost from "@/components/shared/NavigationBoost";
+import ErrorReporter from "@/components/shared/ErrorReporter";
 import RegistrationAttributionTracker from "@/components/shared/RegistrationAttribution";
 import IntroJourney from "@/components/landing/intro/IntroJourney";
 import { INTRO_BOOT_SCRIPT } from "@/lib/intro-boot";
@@ -65,6 +66,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <ErrorReporter />
           <NavigationBoost />
           <RegistrationAttributionTracker />
           {children}

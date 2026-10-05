@@ -201,6 +201,7 @@ exports.Prisma.WidgetSettingsScalarFieldEnum = {
   formStyle: 'formStyle',
   customQuestions: 'customQuestions',
   logoUrl: 'logoUrl',
+  faviconUrl: 'faviconUrl',
   logoDarkUrl: 'logoDarkUrl',
   autoContrastLogo: 'autoContrastLogo',
   showWeight: 'showWeight',
@@ -225,6 +226,16 @@ exports.Prisma.WidgetSettingsScalarFieldEnum = {
   showAwb: 'showAwb',
   geoFencingEnabled: 'geoFencingEnabled',
   serviceZips: 'serviceZips'
+};
+
+exports.Prisma.WidgetInstallationScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  formId: 'formId',
+  domain: 'domain',
+  firstSeenAt: 'firstSeenAt',
+  lastSeenAt: 'lastSeenAt',
+  loadCount: 'loadCount'
 };
 
 exports.Prisma.QuoteRequestScalarFieldEnum = {
@@ -287,6 +298,24 @@ exports.Prisma.VehicleRequestScalarFieldEnum = {
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AppErrorScalarFieldEnum = {
+  id: 'id',
+  fingerprint: 'fingerprint',
+  source: 'source',
+  message: 'message',
+  stack: 'stack',
+  path: 'path',
+  userAgent: 'userAgent',
+  companyId: 'companyId',
+  count: 'count',
+  status: 'status',
+  severity: 'severity',
+  aiSummary: 'aiSummary',
+  aiCause: 'aiCause',
+  firstSeen: 'firstSeen',
+  lastSeen: 'lastSeen'
 };
 
 exports.Prisma.PartnerInquiryScalarFieldEnum = {
@@ -422,10 +451,12 @@ exports.Prisma.ModelName = {
   Company: 'Company',
   PricingProfile: 'PricingProfile',
   WidgetSettings: 'WidgetSettings',
+  WidgetInstallation: 'WidgetInstallation',
   QuoteRequest: 'QuoteRequest',
   Webhook: 'Webhook',
   ShopifyInstall: 'ShopifyInstall',
   VehicleRequest: 'VehicleRequest',
+  AppError: 'AppError',
   PartnerInquiry: 'PartnerInquiry',
   StopNote: 'StopNote',
   ReadinessCheck: 'ReadinessCheck',
