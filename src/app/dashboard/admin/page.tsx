@@ -42,6 +42,8 @@ function referrerHost(value: string | null): string | null {
 function fmtDate(d: Date | null): string {
   if (!d) return "—";
   return new Date(d).toLocaleString("en-US", {
+    timeZone: "America/Los_Angeles",
+    timeZoneName: "short",
     month: "short",
     day: "numeric",
     hour: "numeric",
@@ -200,7 +202,7 @@ export default async function AdminPage() {
     { label: "Total quotes", value: totalQuotes, icon: FileText },
     { label: "Widgets installed", value: installsByCompany.size, icon: MousePointerClick },
     {
-      label: "On a paid plan",
+      label: "Pro / Enterprise accounts",
       value: (planTotals.PRO ?? 0) + (planTotals.ENTERPRISE ?? 0),
       icon: Sparkles,
     },
@@ -250,6 +252,9 @@ export default async function AdminPage() {
         Plans: {planTotals.STARTER ?? 0} Starter · {planTotals.PRO ?? 0} Pro · {planTotals.ENTERPRISE ?? 0} Enterprise
       </p>
 
+      <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">
+        Times are shown in Pacific time. Plan counts reflect assigned tiers, not confirmed payments.
+      </p>
       <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">
         {installsByCompany.size} accounts with detected embeds. Active means an external widget loaded within 30 days.
         Detection starts after this feature goes live. Not detected does not confirm absence.
