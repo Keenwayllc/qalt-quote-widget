@@ -1,9 +1,21 @@
 // Served in place of Google's JS at the network boundary. No Qalt UI is mocked.
 (() => {
   const result = address => ({formatted_address:address,address_components:[{types:['postal_code'],long_name:address.includes('Outside')?'99999':address.includes('Dropoff')?'90002':'90001'}]});
-  const inert = class { constructor(element) { this.map=element; if(element?.setAttribute){element.setAttribute('data-fixture-map','ready');element.style.background='#dce7e1';} } setOptions(){} setMap(){} setDirections(){} setCenter(){} setZoom(){} setPosition(){} setIcon(){} setLabel(){} setVisible(){} setClickable(){} setDraggable(){} setAnimation(){} setCursor(){} setOpacity(){} setTitle(){} setZIndex(){} getMap(){return this.map} addListener(){return {remove(){}}} };
+  const inert = class { constructor(element) { this.map=element;this.element=element; if(element?.setAttribute){element.setAttribute('data-fixture-map','ready');element.style.background='#dce7e1';} } setOptions(){} setMap(){} setDirections(){} fitBounds(bounds){this.element?.setAttribute?.("data-fixture-bounds",JSON.stringify(bounds.points || bounds))} setCenter(){} setZoom(){} setPosition(){} setIcon(){} setLabel(){} setVisible(){} setClickable(){} setDraggable(){} setAnimation(){} setCursor(){} setOpacity(){} setTitle(){} setZIndex(){} getMap(){return this.map} addListener(){return {remove(){}}} };
   const maps = {
-    version:'fixture',Map:inert,Marker:inert,DirectionsRenderer:inert,
+    version:'fixture',
+    LatLngBounds:class {constructor(){this.points=[]} extend(point){this.points.push(point);return this}},
+    Data:class {
+      constructor({map}){this.map=map;this.features=[]}
+      setStyle(style){this.style=style}
+      addGeoJson(areas){
+        this.features=areas.features.map(feature=>({getGeometry:()=>({forEachLatLng:fn=>{const visit=c=>{if(typeof c[0]==='number')fn({lat:c[1],lng:c[0]});else c.forEach(visit)};visit(feature.geometry.coordinates)}})}));
+        const el=this.map.element;el.setAttribute('data-fixture-zip-areas',areas.features.map(f=>f.properties.zip).join(','));el.setAttribute('data-fixture-fill',this.style.fillColor);el.setAttribute('data-fixture-opacity',String(this.style.fillOpacity));
+        return this.features;
+      }
+      setMap(map){if(!map && this.map?.element)this.map.element.removeAttribute('data-fixture-zip-areas');this.map=map}
+    },
+    Map:inert,Marker:inert,DirectionsRenderer:inert,
     event:{addListener:()=>({remove(){}}),removeListener(){},clearInstanceListeners(){}},
     places:{AutocompleteService:class {getPlacePredictions({input},callback){callback([{description:`${input} fixture address`,place_id:input}], 'OK')}},AutocompleteSessionToken:class{}},
     Geocoder:class {geocode({address},callback){callback([result(address)],'OK')}},

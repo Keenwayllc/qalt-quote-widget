@@ -9,6 +9,7 @@ import MerchantLogo, { useLogoTone } from "@/components/shared/MerchantLogo";
 import { normalizeLogoBackdrop, toneForBackdrop, type LogoBackdrop } from "@/lib/logo-plate";
 import { useCompanyProfile } from "@/context/CompanyProfileContext";
 import { widgetFormUrl } from "@/lib/widget-embed";
+import ZipAreaMap from "@/components/widget/ZipAreaMap";
 import Link from 'next/link';
 
 
@@ -694,6 +695,8 @@ export default function WidgetSettingsForm({
                     ))}
                   </div>
                 )}
+
+                <ZipAreaMap zips={previewData.serviceZips ?? []} title="Service area map" />
 
                 {previewData.geoFencingEnabled && (previewData.serviceZips ?? []).length === 0 && (
                   <p className="text-xs text-amber-600 dark:text-amber-400 font-semibold">

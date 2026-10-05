@@ -1,7 +1,13 @@
 // Server-side external HTTP boundary only. Actual Qalt routes/calculator stay intact.
 const nativeFetch = global.fetch;
+const nationalAreas = require('../fixtures/zip-areas-national.json');
 global.fetch = async (input, options) => {
   const url = String(input.url || input);
+  if (url.startsWith('https://tigerweb.geo.census.gov/')) {
+    const zips=[...new URL(url).searchParams.get('where').matchAll(/'(\d{5})'/g)].map(match=>match[1]);
+    if(zips.includes('88888'))return Response.json({error:{message:'Fixture boundary outage'}},{status:503});
+    return Response.json({type:'FeatureCollection',features:zips.filter(zip=>zip!=='00000').map((zip,index)=>nationalAreas.features.find(feature=>feature.properties.ZCTA5===zip) || ({type:'Feature',properties:{ZCTA5:zip},geometry:{type:'Polygon',coordinates:[[[-118.4+index*.1,34],[-118.3+index*.1,34],[-118.3+index*.1,34.1],[-118.4+index*.1,34.1],[-118.4+index*.1,34]]]}}))});
+  }
   if (url.startsWith('https://maps.googleapis.com/')) {
     const parsed = new URL(url);
     if (url.includes('geocode')) {

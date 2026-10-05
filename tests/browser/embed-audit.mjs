@@ -34,7 +34,7 @@ try {
   for(let i=0;i<180;i++){try{const response=await fetch(`http://localhost:${port}/widget/form/formB`);if(response.ok)break;}catch{}if(i===179)throw new Error('Next server did not become ready');await new Promise(r=>setTimeout(r,500));}
   browser=await chromium.launch({executablePath:process.env.QALT_CHROMIUM_EXECUTABLE || undefined,headless:true,args:['--no-sandbox']});
   const context=await browser.newContext({viewport:{width:390,height:900},reducedMotion:'reduce'});
-  const page=await context.newPage();testPage=page;page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error' && !m.text().includes('/_next/webpack-hmr'))errors.push(m.text())});
+  const page=await context.newPage();testPage=page;page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error' && !m.text().includes('/_next/webpack-hmr') && !(m.text().includes('503 (Service Unavailable)') && m.location().url.includes('/api/zip-areas')))errors.push(m.text())});
   await context.route('https://www.qalt.site/**',async route=>{
     const request=route.request(); const url=new URL(request.url());
     const headers={...request.headers(),host:'localhost',origin:`http://localhost:${port}`};
@@ -79,6 +79,33 @@ try {
     await frame().getByRole('button',{name:/Cargo Van/}).click();await frame().locator('input[name="vehicleCount"]').fill('1');await frame().getByLabel('Gate instructions').fill('Gate 4');
     await frame().getByRole('button',{name:/Calculate second/}).click();await frame().getByText(/don't currently service that area/).waitFor();
     await address('Enter pickup address','Pickup');await address('Enter dropoff address','Dropoff');
+  });
+  await check('customer ZIP map highlights selected addresses, manual lookup and missing boundaries',async()=>{
+    const area=frame().getByRole('region',{name:'ZIP area map',exact:true});
+    await area.getByText('Highlighted ZIP areas: 90001, 90002',{exact:true}).waitFor();
+    assert.equal(await area.locator('[data-fixture-zip-areas]').getAttribute('data-fixture-fill'),'#df1731');
+    assert.equal(await area.locator('[data-fixture-zip-areas]').getAttribute('data-fixture-opacity'),'0.18');
+    await area.getByLabel('Look up a ZIP code').fill('91601');await area.getByRole('button',{name:'Highlight ZIP',exact:true}).click();
+    await area.getByText('Highlighted ZIP areas: 90001, 90002, 91601',{exact:true}).waitFor();
+    await area.getByRole('button',{name:'Clear lookup',exact:true}).click();await area.getByText('Highlighted ZIP areas: 90001, 90002',{exact:true}).waitFor();
+    await area.getByLabel('Look up a ZIP code').fill('00000');await area.getByRole('button',{name:'Highlight ZIP',exact:true}).click();await area.getByText(/No mapped area available for: 00000/).waitFor();
+    await area.getByRole('button',{name:'Clear lookup',exact:true}).click();
+  });
+  await check('Alaska and Hawaii ZIP polygons fit their actual national coordinates',async()=>{
+    const area=frame().getByRole('region',{name:'ZIP area map',exact:true});
+    for(const zip of ['99701','96813','99546']){
+      await area.getByLabel('Look up a ZIP code').fill(zip);await area.getByRole('button',{name:'Highlight ZIP',exact:true}).click();
+      await area.getByText(new RegExp(`Highlighted ZIP areas: .*${zip}`)).waitFor();
+      const boundaries=await area.locator('[data-fixture-zip-areas]').getAttribute('data-fixture-bounds');assert.ok(boundaries);
+      const bounds=JSON.parse(boundaries);if(zip==='99701')assert.ok(bounds.north>60);if(zip==='96813')assert.ok(bounds.west<-150);if(zip==='99546')assert.ok(bounds.east<0 || bounds.west>0);
+    }
+    await area.getByRole('button',{name:'Clear lookup',exact:true}).click();await area.getByText('Highlighted ZIP areas: 90001, 90002',{exact:true}).waitFor();
+  });
+  await check('boundary outages show a retry message and leave quote form usable',async()=>{
+    const area=frame().getByRole('region',{name:'ZIP area map',exact:true});
+    await area.getByLabel('Look up a ZIP code').fill('88888');await area.getByRole('button',{name:'Highlight ZIP',exact:true}).click();
+    await area.getByRole('button',{name:'Retry ZIP map',exact:true}).waitFor();assert.equal(await area.locator('[data-fixture-zip-areas]').count(),0);
+    await area.getByRole('button',{name:'Clear lookup',exact:true}).click();await area.getByText('Highlighted ZIP areas: 90001, 90002',{exact:true}).waitFor();
   });
   await check('route calculation and form-specific quote pricing use real estimate API',async()=>{
     const response=page.waitForResponse(r=>r.url().includes('/estimate')&&r.request().method()==='POST');await frame().getByRole('button',{name:/Calculate second/}).click();const r=await response;assert.equal(r.status(),200);const data=await r.json();assert.equal(data.estimate,134);await frame().getByPlaceholder('John Doe').waitFor();
@@ -137,6 +164,14 @@ try {
   await check('save and new session retain selected-form changes without altering default form',async()=>{
     await page.goto('https://www.qalt.site/dashboard/widget?formId=formB');
     await page.getByLabel('Header Title').fill('Saved second form');
+    const serviceMap=page.getByRole('region',{name:'Service area map',exact:true});
+    await serviceMap.getByText('Highlighted ZIP areas: 90001',{exact:true}).waitFor();
+    const zipInput=page.getByPlaceholder('e.g. 60601, 60602, 60603');await zipInput.fill('91601, 90024');await zipInput.press('Enter');
+    await serviceMap.getByText('Highlighted ZIP areas: 90001, 90024, 91601',{exact:true}).waitFor();
+    await page.getByRole('button',{name:'Remove 90024',exact:true}).click();await serviceMap.getByText('Highlighted ZIP areas: 90001, 91601',{exact:true}).waitFor();
+    await serviceMap.screenshot({path:join(out,'service-area-map.png')});
+    await page.getByRole('button',{name:'Remove 91601',exact:true}).click();
+
     await page.getByText('Enable Pay & Book',{exact:true}).click();
     assert.equal(await page.locator('input[name="paymentsEnabled"]').isChecked(),true);
     const saved=page.waitForResponse(r=>r.url().includes('/api/dashboard/widget') && r.request().method()==='POST');
