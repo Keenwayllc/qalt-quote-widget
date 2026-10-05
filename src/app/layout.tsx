@@ -36,8 +36,17 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.qalt.site"),
   title: "Qalt - Embeddable Quote Calculators for Delivery Companies",
   description: "The easiest way to add an instant delivery quote widget to your website. Boost your leads and save time with Qalt.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "Qalt - Embeddable Quote Calculators for Delivery Companies",
+    description: "Add an instant delivery quote widget to your website using your pricing rules, services, fees, and branding.",
+    url: "/",
+    siteName: "Qalt",
+    type: "website",
+  },
   icons: {
     icon: "/images/qalt-icon-400.jpg",
     shortcut: "/images/qalt-icon-400.jpg",
