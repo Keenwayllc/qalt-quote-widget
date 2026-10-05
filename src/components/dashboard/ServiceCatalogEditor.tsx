@@ -162,7 +162,7 @@ export default function ServiceCatalogEditor({
   };
 
   return (
-    <section className="px-8 pb-8 max-w-4xl">
+    <section className="w-full">
       <div className="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-700 shadow-sm p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>

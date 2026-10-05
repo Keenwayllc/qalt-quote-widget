@@ -6,10 +6,15 @@
   --pricing-red: #df1731;
 }
 
-.stage > div {
+.stage > div,
+.stage > section {
   max-width: 1180px;
   margin: 0 auto;
   padding: 32px 24px 64px;
+}
+
+.stage > section {
+  padding-top: 0;
 }
 
 .stage > div > div:first-child {
@@ -37,7 +42,8 @@
   gap: 20px;
 }
 
-.stage form {
+.stage form,
+.stage > section > div {
   border: 1px solid var(--pricing-line) !important;
   border-radius: 20px !important;
   background: #fff !important;
@@ -162,11 +168,17 @@
 }
 
 @media (max-width: 767px) {
-  .stage > div {
+  .stage > div,
+  .stage > section {
     padding: 22px 16px 48px;
   }
 
-  .stage form {
+  .stage > section {
+    padding-top: 0;
+  }
+
+  .stage form,
+  .stage > section > div {
     padding: 20px !important;
     border-radius: 16px !important;
   }
@@ -184,6 +196,7 @@
 }
 
 :global(.dark) .stage form,
+:global(.dark) .stage > section > div,
 :global(.dark) .stage input[type="number"],
 :global(.dark) .stage input[type="text"],
 :global(.dark) .stage input[type="time"],
