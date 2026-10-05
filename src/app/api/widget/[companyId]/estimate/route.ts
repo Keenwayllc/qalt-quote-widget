@@ -8,7 +8,7 @@ import { hasDuplicateConsecutiveLocations, normalizeIntermediateStops, routeLoca
 export async function POST(req: Request, { params }: { params: Promise<{ companyId: string }> }) {
   try {
     const { companyId } = await params;
-    const { origin, destination, pickupZip, dropoffZip, intermediateStops: rawStops, clientDistance, extras, formId, vehicleCount, vehicleType, serviceType } = await req.json();
+    const { origin, destination, pickupZip, dropoffZip, intermediateStops: rawStops, clientDistance, extras, formId, vehicleCount, vehicleType, serviceType, compareServices, customAnswers } = await req.json();
 
     const startLocation = origin || pickupZip;
     const endLocation = destination || dropoffZip;
@@ -28,6 +28,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
 
     const result = await computeAuthoritativeQuote({
       companyId,
+      compareServices: compareServices === true,
+      customAnswers,
       formId: formId ?? null,
       startLocation,
       endLocation,
@@ -47,8 +49,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
       return NextResponse.json({ error: result.error }, { status: result.status });
     }
 
-    const { total, distance, durationMinutes, breakdown, serviceType: resolvedServiceType, vehicleType: resolvedVehicleType } = result.quote;
-    return NextResponse.json({ estimate: total, distance, durationMinutes, breakdown, serviceType: resolvedServiceType, vehicleType: resolvedVehicleType });
+    const { total, distance, durationMinutes, breakdown, serviceType: resolvedServiceType, vehicleType: resolvedVehicleType, serviceComparisons } = result.quote;
+    return NextResponse.json({ estimate: total, distance, durationMinutes, breakdown, serviceType: resolvedServiceType, vehicleType: resolvedVehicleType, serviceComparisons });
   } catch (error) {
     console.error("Estimate error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

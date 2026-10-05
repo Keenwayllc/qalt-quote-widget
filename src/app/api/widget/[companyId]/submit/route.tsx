@@ -152,6 +152,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
 
     const priced = await computeAuthoritativeQuote({
       companyId,
+      customAnswers: data.customAnswers,
       formId: data.formId ?? null,
       startLocation: pickupCanonical,
       endLocation: dropoffCanonical,
@@ -244,6 +245,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
           pickupDateTime: extras.pickupDateTime ?? null,
           selectedLargeItems: extras.selectedLargeItems ?? [],
           serviceType: authoritativeServiceType,
+          deliveryWindow: priced.quote.deliveryWindow || null,
           vehicleType: authoritativeVehicleType,
           vehicleCount: vehicleCount > 0 ? vehicleCount : null,
           customAnswers,
@@ -270,6 +272,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
             distanceMiles={authoritativeDistance}
             estimatedPrice={authoritativePrice}
             serviceType={authoritativeServiceType}
+            deliveryWindow={priced.quote.deliveryWindow}
             customAnswers={customAnswers}
           />
         ),
@@ -299,6 +302,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ company
               distanceMiles={authoritativeDistance}
               estimatedPrice={authoritativePrice}
               serviceType={authoritativeServiceType}
+            deliveryWindow={priced.quote.deliveryWindow}
               companyName={company.name}
               logoUrl={company.logoUrl ?? undefined}
               logoTone={await resolveLogoTone(company.logoUrl)}

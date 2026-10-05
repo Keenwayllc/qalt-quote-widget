@@ -10,6 +10,7 @@ interface NewQuoteEmailProps {
   distanceMiles: number;
   estimatedPrice: number;
   serviceType: string;
+  deliveryWindow?: string;
   customAnswers?: Array<{ id: string; label: string; answer: string | string[] }>;
 }
 
@@ -23,6 +24,7 @@ export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
   distanceMiles,
   estimatedPrice,
   serviceType,
+  deliveryWindow,
   customAnswers = [],
 }) => (
   <div style={{ fontFamily: 'Arial, Helvetica, sans-serif', maxWidth: '640px', margin: '0 auto', backgroundColor: '#f7f7f5', padding: '24px 12px' }}>
@@ -59,6 +61,7 @@ export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
           </p>
           <p style={{ margin: '10px 0 0', fontSize: '13px', color: '#73777f' }}>
             {serviceType} &nbsp;·&nbsp; {distanceMiles.toFixed(1)} miles
+            {deliveryWindow && <><br />{deliveryWindow}</>}
           </p>
           <div style={{ width: '36px', height: '3px', borderRadius: '999px', backgroundColor: '#df1731', margin: '18px auto 0' }} />
         </div>

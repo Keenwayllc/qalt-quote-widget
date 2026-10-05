@@ -45,13 +45,13 @@ export default async function PricingRulesPage({
       />
       <div className={styles.stage}>
         <PricingForm
-          key={selectedFormId ?? "company-default"}
+          key={`pricing-${selectedFormId ?? "company-default"}`}
           initialData={pricingData as unknown as ComponentProps<typeof PricingForm>["initialData"]}
           formId={selectedFormId}
           widgetSettings={selectedForm}
           entitlements={entitlements}
         />
-        <ServiceCatalogEditor key={selectedFormId ?? "company-default"} initialOptions={serviceOptions} formId={selectedFormId} formName={selectedForm?.name} />
+        <ServiceCatalogEditor key={`services-${selectedFormId ?? "company-default"}`} initialOptions={serviceOptions} formId={selectedFormId} formName={selectedForm?.name} />
       </div>
     </>
   );

@@ -187,8 +187,8 @@ export async function deletePricingRule(companyId: string, id: string) {
   await prisma.$executeRawUnsafe(`DELETE FROM "PricingRule" WHERE "id"=$1 AND "companyId"=$2`, id, companyId);
 }
 
-export async function applyPricingRules(companyId: string, distance: number, extras: EstimateExtras, startingTotal: number): Promise<{ total: number; lineItems: PriceLineItem[] }> {
-  const rules = (await listPricingRules(companyId)).filter((r) => r.active);
+export async function applyPricingRules(companyId: string, distance: number, extras: EstimateExtras, startingTotal: number, configuredRules?: PricingRuleRecord[]): Promise<{ total: number; lineItems: PriceLineItem[] }> {
+  const rules = (configuredRules ?? await listPricingRules(companyId)).filter((r) => r.active);
   let total = startingTotal;
   const lineItems: PriceLineItem[] = [];
   for (const rule of rules) {

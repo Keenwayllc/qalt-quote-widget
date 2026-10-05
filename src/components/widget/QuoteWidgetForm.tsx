@@ -15,7 +15,7 @@ import ServiceSelector, { type ServiceOption } from "./ServiceSelector";
 import VehicleSelector, { type VehicleOption as VehicleTypeOption } from "./VehicleSelector";
 import VehicleArtwork from "./VehicleArtwork";
 import CustomerCustomQuestions, { type AnswerValues } from "./CustomerCustomQuestions";
-import { normalizeCustomQuestions, validateCustomAnswers } from "@/lib/form-questions";
+import { normalizeCustomQuestions, validateCustomAnswers, visibleCustomQuestions } from "@/lib/form-questions";
 import { DEFAULT_QUICK_SUBTITLE } from "@/lib/quick-subtitle";
 import { MAX_INTERMEDIATE_STOPS } from "@/lib/route-stops";
 import MerchantLogo from "@/components/shared/MerchantLogo";
@@ -364,10 +364,26 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     }
   }, [widgetSettings.websiteUrl]);
 
+  const [formData, setFormData] = useState<FormData>(EMPTY_FORM);
+  type ComparedService = { name: string; total: number; breakdown: QuoteBreakdown };
+  const [comparison, setComparison] = useState<{ fingerprint: string; options: ComparedService[] } | null>(null);
+  const quoteFingerprint = JSON.stringify({
+    pickup: formData.pickupAddress, dropoff: formData.dropoffAddress, stops: formData.intermediateStops,
+    vehicle: formData.vehicleType, count: formData.vehicleCount, weight: formData.packageWeight, items: formData.itemCount,
+    stairs: formData.hasStairs, flights: formData.stairsFlights, inside: formData.needsInsideDelivery, addon: formData.needsAddon3,
+    date: formData.pickupDate, time: formData.pickupTime, largeItems: formData.selectedLargeItems,
+    answers: formData.customAnswers,
+  });
+  const comparisonOptions = comparison?.fingerprint === quoteFingerprint ? comparison.options : [];
   const [estimate, setEstimate] = useState<number | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
   const [durationMinutes, setDurationMinutes] = useState<number | null>(null);
   const [breakdown, setBreakdown] = useState<QuoteBreakdown | null>(null);
+  const selectService = (serviceType: string) => {
+    setFormData((previous) => ({ ...previous, serviceType }));
+    const selected = comparisonOptions.find((option) => option.name === serviceType);
+    if (selected) { setEstimate(selected.total); setBreakdown(selected.breakdown); }
+  };
   const [routeInfo, setRouteInfo] = useState<{
     distance: string;
     duration: string;
@@ -383,7 +399,6 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     libraries: LIBRARIES
   });
 
-  const [formData, setFormData] = useState<FormData>(EMPTY_FORM);
   const draftScope = company.formId || company.id;
 
   useIsoLayoutEffect(() => {
@@ -538,7 +553,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     setError("");
 
     try {
-      if (serviceOptions.length > 0 && !serviceType) {
+      if (serviceOptions.length === 1 && !serviceType) {
         setError("Please select a delivery service.");
         return false;
       }
@@ -584,6 +599,8 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
           clientDistance,
           formId: company.formId || null,
           serviceType,
+          compareServices: serviceOptions.length > 1,
+          customAnswers: formData.customAnswers,
           extras: {
             hasStairs: formData.hasStairs,
             stairsFlights: formData.hasStairs ? (parseInt(formData.stairsFlights) || 1) : 0,
@@ -605,6 +622,13 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
       if (requestId !== estimateRequestRef.current) return false;
 
       if (res.ok) {
+        if (Array.isArray(data.serviceComparisons)) setComparison({ fingerprint: quoteFingerprint, options: data.serviceComparisons });
+        if (serviceOptions.length > 1 && !serviceType) {
+          setEstimate(null);
+          setBreakdown(null);
+          setError("Choose a delivery option to continue.");
+          return true;
+        }
         setEstimate(data.estimate);
         setDistance(data.distance);
         if (typeof data.durationMinutes === "number") setDurationMinutes(data.durationMinutes);
@@ -640,12 +664,6 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     const customCheck = validateCustomAnswers(customQuestions, formData.customAnswers ?? {});
     if (customCheck.error) {
       setError(customCheck.error);
-      return;
-    }
-
-    if (quickMode && estimate !== null && breakdown && formData.pickupAddress && formData.dropoffAddress && formData.vehicleType) {
-      setError("");
-      setStep(2);
       return;
     }
 
@@ -751,6 +769,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     setDurationMinutes(null);
     setBreakdown(null);
     setRouteInfo(null);
+    setComparison(null);
     setFormData(EMPTY_FORM);
     setStep(1);
   };
@@ -765,7 +784,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
   useEffect(() => {
     if (!quickMode || step !== 1) return;
 
-    const serviceReady = serviceOptions.length === 0 || Boolean(formData.serviceType);
+    const serviceReady = serviceOptions.length !== 1 || Boolean(formData.serviceType);
     const vehicleReady = !widgetSettings.showVehicles || vehicleOptions.length === 0 || Boolean(formData.vehicleType);
 
     if (!routeComplete || !serviceReady || !vehicleReady) {
@@ -1055,8 +1074,10 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                           <ServiceSelector
                             options={serviceOptions}
                             value={formData.serviceType}
-                            onChange={(serviceType) => setFormData((prev) => ({ ...prev, serviceType }))}
+                            onChange={selectService}
                             primaryColor={primaryColor}
+                            prices={comparisonOptions.length > 0 ? Object.fromEntries(comparisonOptions.map((option) => [option.name, option.total])) : undefined}
+                            comparing={loading || quickPriceUpdating}
                           />
                         </motion.div>
                       )}
@@ -1234,7 +1255,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                                 {!routeComplete
                                   ? "Enter pickup and dropoff"
                                   : serviceOptions.length > 0 && !formData.serviceType
-                                    ? "Choose a service"
+                                    ? serviceOptions.length > 1 ? "Compare delivery options" : "Choose a service"
                                     : widgetSettings.showVehicles && vehicleOptions.length > 0 && !formData.vehicleType
                                       ? "Choose a vehicle"
                                       : "Ready to price"}
@@ -1270,6 +1291,9 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
                   {step === 2 && !showSummary && (
                     <form onSubmit={handleStep2Submit} className="space-y-6">
+                      {comparisonOptions.length > 1 && <ServiceSelector options={serviceOptions} value={formData.serviceType}
+                        onChange={selectService} primaryColor={primaryColor}
+                        prices={Object.fromEntries(comparisonOptions.map((option) => [option.name, option.total]))} /> }
                       <motion.div className="relative bg-linear-to-br from-emerald-50 to-teal-50/50 border border-emerald-100/80 rounded-[20px] p-6 text-center overflow-hidden"
                         initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: reduce ? 0.2 : 0.4, ease: EASE }}>
                         <div className="absolute top-2 right-3"><Sparkles size={16} className="text-emerald-400/50" /></div>
@@ -1364,7 +1388,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                             {formData.selectedLargeItems.map((item) => <span key={item} className="text-[11px] font-bold px-2.5 py-1 bg-white text-slate-600 rounded-lg border border-slate-200">{item}</span>)}
                           </div></div>
                         )}
-                        {customQuestions.map((question) => {
+                        {visibleCustomQuestions(customQuestions, formData.customAnswers).map((question) => {
                           const answer = formData.customAnswers?.[question.id];
                           if (!answer || (Array.isArray(answer) && answer.length === 0)) return null;
                           return <div key={question.id} className="flex items-start justify-between gap-3 px-4 py-3">

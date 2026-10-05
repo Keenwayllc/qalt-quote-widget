@@ -1,9 +1,13 @@
 // Test-only Prisma boundary. The runner copies this over prisma.ts in a temporary app.
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, renameSync } from 'node:fs';
 import type { PrismaClient } from '../generated/prisma/client';
 const file = process.env.QALT_FIXTURE_DB!;
 const db = () => JSON.parse(readFileSync(file, 'utf8'));
-const save = (data: unknown) => writeFileSync(file, JSON.stringify(data));
+const save = (data: unknown) => {
+  const temporary = `${file}.${process.pid}.tmp`;
+  writeFileSync(temporary, JSON.stringify(data));
+  renameSync(temporary, file);
+};
 const matches = (row: Record<string, unknown>, where: Record<string, unknown> = {}) => Object.entries(where).every(([k,v]) => typeof v === 'object' && v !== null ? true : row[k] === v);
 const project = (row: any, query: any = {}): any => {
   if (!row) return null;
@@ -25,6 +29,7 @@ const fixture = {
     update:async(q:any)=>{const d=db();const f=d.forms.find((f:any)=>matches(f,q.where));Object.assign(f,q.data);save(d);return f},
   },
   pricingProfile: {
+    update:async(q:any)=>{const d=db();const row=d.prices.find((p:any)=>matches(p,q.where));Object.assign(row,q.data);save(d);return row},
     count:async(q:any)=>db().prices.filter((p:any)=>matches(p,q.where)).length,
     findFirst:async(q:any)=>project(db().prices.find((p:any)=>matches(p,q.where)),q),
     findUnique:async(q:any)=>project(db().prices.find((p:any)=>matches(p,q.where)),q),

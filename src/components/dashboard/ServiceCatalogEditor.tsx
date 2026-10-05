@@ -7,6 +7,7 @@ type ServiceOption = {
   key: string;
   name: string;
   description: string;
+  deliveryWindow?: string;
   fee: string;
 };
 
@@ -45,6 +46,7 @@ function cleanInitial(value: unknown): ServiceOption[] {
       key: `saved-${index}`,
       name,
       description: String(item.description ?? ""),
+      deliveryWindow: String(item.deliveryWindow ?? ""),
       fee: Number.isFinite(parsedFee) && parsedFee >= 0 ? String(parsedFee) : "0",
     }];
   });
@@ -106,7 +108,7 @@ export default function ServiceCatalogEditor({
 
   const updateOption = (
     key: string,
-    field: "name" | "description" | "fee",
+    field: "name" | "description" | "deliveryWindow" | "fee",
     value: string
   ) => {
     if (field === "fee" && value !== "" && !/^\d{0,6}(?:\.\d{0,2})?$/.test(value)) {
@@ -147,6 +149,7 @@ export default function ServiceCatalogEditor({
           serviceOptions: options.map((option) => ({
             name: option.name.trim(),
             description: option.description.trim(),
+            deliveryWindow: option.deliveryWindow?.trim() || "",
             fee: parseFee(option.fee),
           })),
         }),
@@ -168,9 +171,9 @@ export default function ServiceCatalogEditor({
               Delivery Services
             </h2>
             <p className="text-sm text-slate-500 dark:text-zinc-400 mt-2 max-w-2xl">
-              Add the service levels or specialized delivery types your company offers. Customers choose one before Qalt calculates their quote. Each service can add a flat charge on top of your normal pricing.
+              Add the service levels or specialized delivery types your company offers. Customers compare full quote totals before choosing a service. Each service can add a flat charge on top of your normal pricing.
             </p>
-            {formName && <p className="mt-2 text-xs font-semibold text-slate-600 dark:text-zinc-300">Editing services for {formName}. Save with Update, then preview this form to check the customer view.</p>}
+            {formName && <p className="mt-2 text-xs font-semibold text-slate-600 dark:text-zinc-300">Editing services for {formName}. Save with Save services, then preview this form to check the customer view.</p>}
           </div>
           <div className="flex shrink-0 flex-wrap items-center gap-2">
             {formId && <a href={`/widget/form/${encodeURIComponent(formId)}`} target="_blank" rel="noopener noreferrer"
@@ -183,7 +186,7 @@ export default function ServiceCatalogEditor({
               disabled={status === "saving"}
               className={`flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-bold transition-all disabled:opacity-60 ${status === "saved" ? "bg-emerald-600 text-white" : status === "error" ? "border border-red-300 bg-red-50 text-red-600" : "bg-red-600 text-white hover:bg-red-700"}`}
             >
-              {status === "saving" ? "Saving…" : status === "saved" ? <><Check size={15} /> Saved</> : status === "error" ? "Failed. Retry" : <><Save size={15} /> Update</>}
+              {status === "saving" ? "Saving…" : status === "saved" ? <><Check size={15} /> Saved</> : status === "error" ? "Failed. Retry" : <><Save size={15} /> Save services</>}
             </button>
           </div>
         </div>
@@ -253,6 +256,10 @@ export default function ServiceCatalogEditor({
                     placeholder="Short explanation shown in the quote form"
                     className="w-full px-3 py-2.5 rounded-lg border border-slate-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
                   />
+                  <label htmlFor={`service-window-${option.key}`} className="mt-3 block text-xs font-bold text-slate-500 dark:text-zinc-400">Delivery window</label>
+                  <input id={`service-window-${option.key}`} type="text" maxLength={120} value={option.deliveryWindow ?? ""}
+                    onChange={(event) => updateOption(option.key, "deliveryWindow", event.target.value)} placeholder="e.g. Within 2–4 hours after pickup"
+                    className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm dark:border-zinc-600 dark:bg-zinc-800 dark:text-white" />
                 </div>
                 <div>
                   <label htmlFor={`service-fee-${option.key}`} className="block text-xs font-bold text-slate-500 dark:text-zinc-400 mb-1.5">Service fee</label>

@@ -1,6 +1,6 @@
 # Qalt embed audit
 
-2026-10-04. Changes are uncommitted. No production deployment or database migration was performed.
+2026-10-04. The embed audit fixes were deployed in commit `3cc45f8`. The audit introduced no schema changes.
 
 The selected form now supplies the copied URL, iframe HTML, editor preview, and embed-page preview. Existing company URLs continue to select that company's first form in ID order. Verified custom-domain roots still open the default form; the embed page explains this and always uses the canonical selected-form URL.
 
@@ -63,3 +63,15 @@ This verifies the isolated merchant flow, not a published merchant account. Actu
 The HTML uses a conservative fixed height and scrolling rather than parent-side resize JavaScript, because builders can remove scripts. Very long forms may still scroll internally. Nested preview exclusion depends on browser-provided ancestor/referrer information. Hostnames alone cannot prove that a page is published, and builder-owned domains can also host published pages. Rate limits are per server process and should be supplemented by distributed/edge controls. Next.js streamed not-found responses may carry HTTP 200 while rendering its safe 404 boundary; non-streamed/API failures retain explicit status codes.
 
 Before production acceptance, publish one merchant test page, complete a real quote and test payment, confirm its published domain in Admin, then change and re-save that same form and reload the published page.
+
+
+## Delivery comparison and shipment questions, 2026-10-04
+
+- Forms with multiple configured services compare full server-calculated quote totals. Mileage, minimum charges, vehicle charges, shipment answer fees, and pricing rules are included. One route lookup and one pricing-rule read serve the comparison.
+- Merchants configure service windows under Pricing Settings. Customers select or switch services before booking. The selected window is saved in the quote snapshot and included in merchant and customer emails.
+- Extended forms support conditions based on earlier choice questions, positive numeric answers, and optional fees for answer choices. A furniture/pallet preset adds eight relevant questions without assigning merchant prices.
+- Hidden answers are excluded from validation, fee calculation, and saved quote answers. Conditions cannot reference later questions or form cycles. Server-owned definitions determine charges, including legacy requests without a form ID.
+- Existing JSON settings and quote snapshots store the new configuration. No schema migration is needed. Existing forms retain their settings until merchants edit them.
+- Service windows are merchant-provided descriptions. This release does not reserve driver capacity. Numeric and text custom answers collect information; configured choice fees affect pricing. Existing built-in weight pricing remains separate.
+
+Verification: 65 automated tests pass. The expanded browser suite covers 20 scenarios, including real settings saves, conditional fees, mobile comparison cards, service switching, saved totals and windows, and hidden-answer removal. TypeScript and changed-file lint pass with two existing email-image warnings. Browser providers and Prisma use isolated fixtures, as described above. Live payments and publishing in a merchant's Systeme.io account were not exercised.

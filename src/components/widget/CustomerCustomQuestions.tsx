@@ -1,6 +1,6 @@
 "use client";
 
-import type { CustomQuestion } from "@/lib/form-questions";
+import { visibleCustomQuestions, type CustomQuestion } from "@/lib/form-questions";
 
 export type AnswerValues = Record<string, string | string[]>;
 
@@ -14,7 +14,7 @@ export default function CustomerCustomQuestions({ questions, answers, onChange }
   return (
     <fieldset className="space-y-4 border-t border-slate-200 pt-5">
       <legend className="text-sm font-black text-slate-800">Additional details</legend>
-      {questions.map((question) => {
+      {visibleCustomQuestions(questions, answers).map((question) => {
         const current = answers[question.id];
         const selected = Array.isArray(current) ? current : [];
         const inputId = `custom-question-${question.id}`;
@@ -23,8 +23,8 @@ export default function CustomerCustomQuestions({ questions, answers, onChange }
             <label htmlFor={inputId} className="block text-xs font-bold text-slate-700">
               {question.label}{question.required && <span className="ml-1 text-red-600">*</span>}
             </label>
-            {question.type === "text" ? (
-              <input id={inputId} type="text" maxLength={500} required={question.required}
+            {question.type === "text" || question.type === "number" ? (
+              <input id={inputId} type={question.type === "number" ? "number" : "text"} min={question.type === "number" ? "0.01" : undefined} step={question.type === "number" ? "any" : undefined} maxLength={500} required={question.required}
                 value={typeof current === "string" ? current : ""}
                 onChange={(event) => onChange({ ...answers, [question.id]: event.target.value })}
                 className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800 outline-none focus:border-transparent focus:ring-2 focus:ring-[color:var(--ring)]" />
@@ -33,7 +33,7 @@ export default function CustomerCustomQuestions({ questions, answers, onChange }
                 onChange={(event) => onChange({ ...answers, [question.id]: event.target.value })}
                 className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800 outline-none focus:border-transparent focus:ring-2 focus:ring-[color:var(--ring)]">
                 <option value="">Choose an answer</option>
-                {question.options.map((option) => <option key={option} value={option}>{option}</option>)}
+                {question.options.map((option) => <option key={option} value={option}>{option}{(question.optionFees?.[option] ?? 0) > 0 ? ` (+$${question.optionFees![option].toFixed(2)})` : ""}</option>)}
               </select>
             ) : (
               <div id={inputId} className="grid gap-2 sm:grid-cols-2">
@@ -44,7 +44,7 @@ export default function CustomerCustomQuestions({ questions, answers, onChange }
                         ? [...selected, option]
                         : selected.filter((item) => item !== option) })}
                       className="h-4 w-4 accent-red-600" />
-                    {option}
+                    {option}{(question.optionFees?.[option] ?? 0) > 0 ? ` (+$${question.optionFees![option].toFixed(2)})` : ""}
                   </label>
                 ))}
               </div>

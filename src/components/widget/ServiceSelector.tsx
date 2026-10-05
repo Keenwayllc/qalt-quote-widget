@@ -6,6 +6,7 @@ export type ServiceOption = {
   name: string;
   description?: string;
   fee: number;
+  deliveryWindow?: string;
 };
 
 export default function ServiceSelector({
@@ -13,18 +14,22 @@ export default function ServiceSelector({
   value,
   onChange,
   primaryColor,
+  prices,
+  comparing,
 }: {
   options: ServiceOption[];
   value: string;
   onChange: (name: string) => void;
   primaryColor: string;
+  prices?: Record<string, number>;
+  comparing?: boolean;
 }) {
   if (options.length === 0) return null;
 
   return (
     <div className="space-y-3">
       <p className="text-xs font-semibold text-slate-500 flex items-center gap-1.5 ml-0.5">
-        <Zap size={12} className="text-slate-400" /> Delivery service
+        <Zap size={12} className="text-slate-400" /> Compare delivery options
       </p>
       <div className="grid grid-cols-1 gap-2.5">
         {options.map((option) => {
@@ -53,6 +58,7 @@ export default function ServiceSelector({
                   <span className={`block text-[13px] font-extrabold ${selected ? "text-slate-900" : "text-slate-700"}`}>
                     {option.name}
                   </span>
+                  {option.deliveryWindow && <span className="mt-1 block text-xs font-semibold text-slate-600">{option.deliveryWindow}</span>}
                   {option.description && (
                     <span className="mt-0.5 block text-[11px] font-medium leading-relaxed text-slate-400">
                       {option.description}
@@ -60,7 +66,7 @@ export default function ServiceSelector({
                   )}
                 </span>
                 <span className="flex shrink-0 items-center gap-2">
-                  {option.fee > 0 && (
+                  {prices?.[option.name] !== undefined ? <span className="text-base font-black tabular-nums text-slate-800">${prices[option.name].toFixed(2)}<span className="block text-[10px] font-medium text-slate-500">Quote total</span></span> : option.fee > 0 && (
                     <span className={`text-[11px] font-bold ${selected ? "text-slate-700" : "text-slate-400"}`}>
                       +${option.fee.toFixed(2)}
                     </span>
@@ -79,6 +85,7 @@ export default function ServiceSelector({
           );
         })}
       </div>
+      <p className="text-[11px] text-slate-500" aria-live="polite">{comparing ? "Comparing prices…" : prices ? "Totals include your route, shipment details, and configured fees." : "Enter your route and shipment details, then compare full prices. Amounts shown now are service surcharges."}</p>
     </div>
   );
 }

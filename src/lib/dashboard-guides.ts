@@ -57,14 +57,14 @@ export const pageGuides: Record<string, PageGuide> = {
   "/dashboard/forms": {
     title: "My Forms",
     purpose: "Manage the quote forms customers use for your services.",
-    controls: ["Create a named form and choose its questions and vehicle options.", "Use each form's pricing, appearance, preview, and embed actions to configure that form."],
+    controls: ["Create a named form and choose its questions and vehicle options. Extended forms support shipment presets, conditional questions, and answer fees.", "Use each form's pricing, appearance, preview, and embed actions to configure that form."],
     configure: "Keep questions relevant to the service. Starter allows 1 form, Pro 5, and Enterprise unlimited forms. Vehicle quoting requires Enterprise.",
     next: { label: "Review quote requests", href: "/dashboard/quotes" },
   },
   "/dashboard/pricing": {
     title: "Pricing Settings",
     purpose: "Set the rates and extras used to calculate customer estimates.",
-    controls: ["Check the selected form before editing; form-specific pricing and default pricing are separate.", "Review your base rate, minimum charge, and enabled service extras, then save."],
+    controls: ["Check the selected form before editing; form-specific pricing and default pricing are separate.", "Review your base rate, minimum charge, and enabled service extras, then save. Add delivery services and their windows so customers compare full quote totals."],
     configure: "Use rates that match your delivery costs. Vehicle pricing is available on Enterprise.",
     next: { label: "Customize widget appearance", href: "/dashboard/widget" },
   },

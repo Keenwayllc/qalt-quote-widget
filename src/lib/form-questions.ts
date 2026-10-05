@@ -1,9 +1,11 @@
 export type CustomQuestion = {
   id: string;
   label: string;
-  type: "text" | "single" | "multiple";
+  type: "text" | "number" | "single" | "multiple";
   required: boolean;
   options: string[];
+  showWhen?: { questionId: string; answer: string };
+  optionFees?: Record<string, number>;
 };
 
 export type CustomAnswer = {
@@ -23,8 +25,19 @@ export function validateCustomQuestionDefinitions(value: unknown): string | null
   if (normalized.length !== value.length) return "Every question needs a unique title and valid choices.";
   for (let index = 0; index < value.length; index++) {
     const raw = value[index] as Record<string, unknown>;
-    if (!['text', 'single', 'multiple'].includes(String(raw.type))) return "Choose a valid answer type for every question.";
-    if (raw.type === "text") continue;
+    if (!['text', 'number', 'single', 'multiple'].includes(String(raw.type))) return "Choose a valid answer type for every question.";
+    if (raw.showWhen !== undefined) {
+      const condition = raw.showWhen as CustomQuestion["showWhen"];
+      const parent = normalized.slice(0, index).find((question) => question.id === condition?.questionId);
+      if (!parent || !parent.options.includes(condition?.answer ?? "")) return "Conditional questions must use an answer from an earlier choice question.";
+    }
+    if (raw.optionFees !== undefined) {
+      if (!raw.optionFees || typeof raw.optionFees !== "object" || Array.isArray(raw.optionFees) ||
+        Object.entries(raw.optionFees).some(([choice, fee]) => !normalized[index].options.includes(choice) || typeof fee !== "number" || !Number.isFinite(fee) || fee < 0 || fee > 100000)) {
+        return "Answer fees must match a choice and be between $0 and $100,000.";
+      }
+    }
+    if (raw.type === "text" || raw.type === "number") continue;
     if (!Array.isArray(raw.options) || raw.options.length > MAX_QUESTION_OPTIONS ||
       raw.options.length !== normalized[index].options.length) {
       return "Choice questions need two to twelve unique, named answers.";
@@ -50,15 +63,67 @@ export function normalizeCustomQuestions(value: unknown): CustomQuestion[] {
     if (seen.has(id)) continue;
     seen.add(id);
 
-    const type = item.type === "single" || item.type === "multiple" ? item.type : "text";
+    const type = item.type === "single" || item.type === "multiple" || item.type === "number" ? item.type : "text";
     const options = Array.isArray(item.options)
       ? [...new Set(item.options.map((option: unknown) => String(option ?? "").trim().slice(0, 80)).filter(Boolean))].slice(0, MAX_QUESTION_OPTIONS)
       : [];
-    if (type !== "text" && options.length < 2) continue;
-    questions.push({ id, label, type, required: Boolean(item.required), options: type === "text" ? [] : options });
+    const isChoice = type === "single" || type === "multiple";
+    if (isChoice && options.length < 2) continue;
+    const question: CustomQuestion = { id, label, type, required: Boolean(item.required), options: isChoice ? options : [] };
+    if (item.showWhen && typeof item.showWhen === "object") {
+      const condition = item.showWhen as Record<string, unknown>;
+      // Earlier parents only: no cycles, dangling dependencies, or hidden-parent answers.
+      const parent = questions.find((entry) => entry.id === condition.questionId);
+      if (parent?.options.includes(String(condition.answer))) question.showWhen = { questionId: parent.id, answer: String(condition.answer) };
+      else continue;
+    }
+    if (isChoice && item.optionFees && typeof item.optionFees === "object") {
+      question.optionFees = Object.fromEntries(Object.entries(item.optionFees).filter(([choice, fee]) => options.includes(choice) && typeof fee === "number" && Number.isFinite(fee) && fee >= 0 && fee <= 100000));
+    }
+    questions.push(question);
   }
 
   return questions;
+}
+
+export function visibleCustomQuestions(questions: CustomQuestion[], value: unknown): CustomQuestion[] {
+  const answers = value && typeof value === "object" ? value as Record<string, unknown> : {};
+  const visible = new Set<string>();
+  return questions.filter((question) => {
+    const condition = question.showWhen;
+    const answer = condition ? answers[condition.questionId] : undefined;
+    const show = !condition || (visible.has(condition.questionId) &&
+      (Array.isArray(answer) ? answer.includes(condition.answer) : answer === condition.answer));
+    if (show) visible.add(question.id);
+    return show;
+  });
+}
+
+export function customAnswerCharges(questions: CustomQuestion[], answers: CustomAnswer[]) {
+  return answers.flatMap((answer) => {
+    const question = questions.find((entry) => entry.id === answer.id);
+    return (Array.isArray(answer.answer) ? answer.answer : [answer.answer]).flatMap((choice) => {
+      const amount = question?.optionFees?.[choice] ?? 0;
+      return amount > 0 ? [{ key: `question:${answer.id}:${choice}`, label: `${answer.label}: ${choice}`, amount, detail: "Shipment handling charge" }] : [];
+    });
+  });
+}
+
+export function shipmentQuestionPreset(prefix: string): CustomQuestion[] {
+  const id = `${prefix}-shipment`;
+  const conditional = (suffix: string, label: string, type: CustomQuestion["type"], answer: string): CustomQuestion => ({
+    id: `${prefix}-${suffix}`, label, type, required: true, options: type === "single" ? ["Yes", "No"] : [], showWhen: { questionId: id, answer },
+  });
+  return [
+    { id, label: "What are you shipping?", type: "single", required: true, options: ["Documents / parcels", "Furniture", "Pallets"] },
+    conditional("stairs", "Are there stairs at pickup or delivery?", "single", "Furniture"),
+    conditional("elevator", "Is an elevator available?", "single", "Furniture"),
+    conditional("team", "Do you need two-person handling?", "single", "Furniture"),
+    conditional("furniture-size", "Furniture dimensions (L × W × H, inches)", "text", "Furniture"),
+    conditional("weight", "Total pallet weight (lb)", "number", "Pallets"),
+    conditional("dimensions", "Pallet dimensions (L × W × H, inches)", "text", "Pallets"),
+    conditional("dock", "Is a loading dock available?", "single", "Pallets"),
+  ];
 }
 
 export function validateCustomAnswers(
@@ -70,7 +135,7 @@ export function validateCustomAnswers(
     : {};
   const answers: CustomAnswer[] = [];
 
-  for (const question of questions) {
+  for (const question of visibleCustomQuestions(questions, submitted)) {
     const raw = submitted[question.id];
     if (question.type === "multiple") {
       const selected = Array.isArray(raw)
@@ -92,6 +157,9 @@ export function validateCustomAnswers(
     }
     if (question.required && !answer) {
       return { answers: [], error: `Please answer ${question.label}.` };
+    }
+    if (question.type === "number" && answer && (!Number.isFinite(Number(answer)) || Number(answer) <= 0 || Number(answer) > 1000000)) {
+      return { answers: [], error: `Enter a number greater than zero for ${question.label}.` };
     }
     if (answer) answers.push({ id: question.id, label: question.label, answer });
   }

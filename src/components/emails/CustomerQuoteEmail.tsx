@@ -9,6 +9,7 @@ interface CustomerQuoteEmailProps {
   distanceMiles: number;
   estimatedPrice: number;
   serviceType: string;
+  deliveryWindow?: string;
   companyName: string;
   logoUrl?: string;
   /** From getLogoTone; picks the plate behind the logo. */
@@ -33,6 +34,7 @@ export const CustomerQuoteEmail: React.FC<Readonly<CustomerQuoteEmailProps>> = (
   distanceMiles,
   estimatedPrice,
   serviceType,
+  deliveryWindow,
   companyName,
   logoUrl,
   logoTone,
@@ -85,6 +87,7 @@ export const CustomerQuoteEmail: React.FC<Readonly<CustomerQuoteEmailProps>> = (
           </p>
           <p style={{ margin: '10px 0 0', fontSize: '13px', color: '#71717a' }}>
             {serviceType} &nbsp;·&nbsp; {distanceMiles.toFixed(1)} miles
+            {deliveryWindow && <><br />{deliveryWindow}</>}
           </p>
         </div>
 

@@ -89,7 +89,7 @@ try {
     const response=page.waitForResponse(r=>r.url().includes('/submit')&&r.request().method()==='POST');await frame().getByRole('button',{name:/Send|Submit|Request|Book/}).click();const r=await response;assert.equal(r.status(),200,await r.text());await frame().getByText(/Request sent|Quote request|Thank you|You're all set/i).first().waitFor();
     const quote=db().quotes.at(-1);assert.equal(quote.companyId,'merchantA');assert.equal(JSON.parse(quote.selectedExtras).formId,'formB');assert.equal(quote.estimatedPrice,134);assert.ok(quote.selectedExtras.includes('Gate 4'));
   });
-  await check('refresh counts one more iframe load without creating duplicate domain/form rows',async()=>{await page.reload();await frame().getByText('Exact second form',{exact:true}).waitFor();await page.waitForTimeout(500);assert.equal(db().installs.length,1);assert.equal(db().installs[0].loadCount,2)});
+  await check('refresh counts one more iframe load without creating duplicate domain/form rows',async()=>{await page.reload();await frame().getByText('Exact second form',{exact:true}).waitFor();for(let i=0;i<40 && db().installs[0]?.loadCount!==2;i++)await page.waitForTimeout(250);assert.equal(db().installs.length,1);assert.equal(db().installs[0].loadCount,2)});
   const token=await new SignJWT({companyId:'merchantA',email:'fixture@example.invalid'}).setProtectedHeader({alg:'HS256'}).setIssuedAt().setExpirationTime('1h').sign(new TextEncoder().encode('fixture-only-secret'));
   await context.addCookies([{name:'qalt_token',value:token,domain:'www.qalt.site',path:'/'}]);
   await check('embed selector honors non-default form and preview URL equals copied HTML URL',async()=>{
@@ -150,8 +150,68 @@ try {
     await page.waitForFunction(()=>document.querySelector('input[placeholder="Enter pickup address"]')?.disabled === false);
     assert.equal(await page.locator('[data-nextjs-dialog]').count(),0);
   });
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await context.addCookies([{name:'qalt_token',value:token,domain:'www.qalt.site',path:'/'}]);
+  await check('merchant saves service fees and delivery windows for the selected form',async()=>{
+    await page.goto('https://www.qalt.site/dashboard/pricing?formId=formB');
+    const consent=page.getByRole('button',{name:'Accept all',exact:true});if(await consent.isVisible())await consent.click();
+    // The server-rendered preset can appear before the cold dev client hydrates.
+    const standardPreset=page.getByRole('button',{name:/^[+✓] Standard$/});
+    for(let i=0;i<8 && !await standardPreset.isDisabled();i++){await standardPreset.click();await page.waitForTimeout(250);}
+    assert.equal(await standardPreset.isDisabled(),true);
+    await page.getByRole('button',{name:'+ Rush',exact:true}).click();
+    await page.getByRole('button',{name:'+ Scheduled Route',exact:true}).click();
+    const fees=page.locator('input[id^="service-fee-"]');await fees.nth(0).fill('10');await fees.nth(1).fill('30');await fees.nth(2).fill('0');
+    const windows=page.locator('input[id^="service-window-"]');await windows.nth(0).fill('Today by 6 PM');await windows.nth(1).fill('Within 2 hours after pickup');await windows.nth(2).fill('Selected delivery date');
+    const response=page.waitForResponse(r=>r.url().includes('/api/dashboard/pricing')&&r.request().method()==='PATCH');
+    await page.getByRole('button',{name:'Save services',exact:true}).click();assert.equal((await response).status(),200);
+    assert.equal(db().prices.find(p=>p.widgetSettingsId==='formA').serviceOptions.length,0);
+    assert.equal(db().prices.find(p=>p.widgetSettingsId==='formB').serviceOptions[1].deliveryWindow,'Within 2 hours after pickup');
+  });
+  await check('merchant adds conditional shipment preset and saves answer fees through real editor',async()=>{
+    await page.goto('https://www.qalt.site/dashboard/forms');await page.getByRole('button',{name:'Edit fields & questions',exact:true}).click();
+    await page.getByRole('button',{name:'Add furniture and pallet questions',exact:true}).click();
+    await page.getByLabel('Fee for Yes',{exact:true}).nth(0).fill('25');await page.getByLabel('Fee for Yes',{exact:true}).nth(2).fill('40');
+    const response=page.waitForResponse(r=>r.url().includes('/api/dashboard/forms/formB')&&r.request().method()==='PATCH');
+    await page.getByRole('button',{name:'Save selections',exact:true}).click();const result=await response;assert.equal(result.status(),200,await result.text());
+    assert.equal(db().forms.find(f=>f.id==='formB').customQuestions.length,9);
+    assert.equal(db().forms.find(f=>f.id==='formA').customQuestions.length,0);
+    const state=db();state.forms.find(f=>f.id==='formB').paymentsEnabled=false;writeFileSync(database,JSON.stringify(state));
+    await context.clearCookies();await page.goto(widgetFormUrl('formB'));await page.evaluate(()=>sessionStorage.clear());await page.goto(host);
+  });
+  await check('iframe compares full service totals with conditional furniture handling fees',async()=>{
+    await address('Enter pickup address','Pickup');await address('Enter dropoff address','Dropoff');
+    await frame().getByRole('button',{name:/Cargo Van/}).click();await frame().locator('input[name="vehicleCount"]').fill('1');
+    await frame().getByLabel('Gate instructions').fill('Gate 8');await frame().getByLabel('What are you shipping?').selectOption('Furniture');
+    await frame().getByLabel('Are there stairs at pickup or delivery?').selectOption('Yes');await frame().getByLabel('Is an elevator available?').selectOption('No');
+    await frame().getByLabel('Do you need two-person handling?').selectOption('Yes');await frame().getByLabel('Furniture dimensions (L × W × H, inches)').fill('72 × 30 × 28');
+    assert.equal(await frame().getByLabel('Total pallet weight (lb)').count(),0);
+    const response=page.waitForResponse(r=>r.url().includes('/estimate')&&r.request().method()==='POST');await frame().getByRole('button',{name:'Calculate second',exact:true}).click();
+    const result=await response;assert.equal(result.status(),200,await result.text());const prices=await result.json();
+    assert.deepEqual(prices.serviceComparisons.map(s=>s.total),[209,229,199]);
+    await frame().getByRole('button',{name:/^Rush/}).getByText('$229.00',{exact:false}).waitFor();await frame().getByText('Within 2 hours after pickup',{exact:true}).waitFor();
+    await page.setViewportSize({width:375,height:1000});const actual=page.frames().find(f=>f.url().includes('/widget/form/formB'));
+    const sizes=await actual.evaluate(()=>[innerWidth,document.documentElement.scrollWidth]);assert.ok(sizes[1]<=sizes[0]+1);
+    await frame().getByRole('button',{name:/^Rush/}).scrollIntoViewIfNeeded();await page.screenshot({path:join(out,'shipment-comparison-375.png'),fullPage:true});
+  });
+  await check('changing shipment clears displayed totals and ignores hidden handling answers',async()=>{
+    await frame().getByLabel('What are you shipping?').selectOption('Documents / parcels');
+    assert.equal(await frame().getByLabel('Are there stairs at pickup or delivery?').count(),0);
+    assert.equal(await frame().getByText('Quote total',{exact:true}).count(),0);
+    const response=page.waitForResponse(r=>r.url().includes('/estimate')&&r.request().method()==='POST');await frame().getByRole('button',{name:'Calculate second',exact:true}).click();
+    const result=await response;assert.equal(result.status(),200);assert.deepEqual((await result.json()).serviceComparisons.map(s=>s.total),[144,164,134]);
+    await frame().getByRole('button',{name:/^Rush/}).click();await frame().getByRole('button',{name:'Calculate second',exact:true}).click();await frame().getByPlaceholder('John Doe').waitFor();
+    await frame().getByRole('button',{name:/^Scheduled Route/}).click();await frame().getByText('$134.00',{exact:true}).first().waitFor();
+    await frame().getByRole('button',{name:/^Rush/}).click();
+  });
+  await check('selected comparison persists authoritative total and only visible answers on booking',async()=>{
+    await frame().getByPlaceholder('John Doe').fill('Comparison Customer');await frame().getByPlaceholder('john@example.com').fill('compare@example.invalid');await frame().getByPlaceholder('(555) 000-0000').fill('5550000000');
+    const response=page.waitForResponse(r=>r.url().includes('/submit')&&r.request().method()==='POST');await frame().getByRole('button',{name:/Send|Submit|Request|Book/}).click();const result=await response;assert.equal(result.status(),200,await result.text());
+    const quote=db().quotes.at(-1);assert.equal(quote.estimatedPrice,164);assert.equal(quote.serviceType,'Rush');
+    const saved=JSON.parse(quote.selectedExtras);assert.equal(saved.deliveryWindow,'Within 2 hours after pickup');assert.equal(saved.customAnswers.length,2);assert.ok(!saved.customAnswers.some(a=>a.label.includes('stairs')));assert.ok(!quote.pricingBreakdown.lineItems.some(i=>i.key.startsWith('question:')));
+  });
   assert.deepEqual(errors,[],'Browser errors');
   writeFileSync(join(out,'results.json'),JSON.stringify({passed:results,errors,limitations:['Google Maps, Stripe and email responses mocked at external boundaries.','In-memory fixture replaces Prisma in temporary application.','Merchant production site and live payment not exercised.']},null,2));
   console.log(`All ${results.length} browser scenarios passed. Evidence: ${out}`);
 } catch(error){console.error(error);console.error('Browser errors:',errors);if(testPage){console.error(await testPage.locator('body').innerText().catch(()=>''));await testPage.screenshot({path:join(out,'failure.png'),fullPage:true}).catch(()=>{});}writeFileSync(join(out,'results.json'),JSON.stringify({passed:results,failure:String(error)},null,2));process.exitCode=1;}
-finally{await browser?.close();const closed=new Promise(r=>server.once('exit',r));server.kill('SIGTERM');await Promise.race([closed,new Promise(r=>setTimeout(r,3000))]);if(server.exitCode===null){server.kill('SIGKILL');await closed;}if(!process.env.QALT_KEEP_FIXTURE)rmSync(temp,{recursive:true,force:true});}
+finally{for(const context of browser?.contexts() ?? [])await context.unrouteAll({behavior:'wait'});await browser?.close();const closed=new Promise(r=>server.once('exit',r));server.kill('SIGTERM');await Promise.race([closed,new Promise(r=>setTimeout(r,3000))]);if(server.exitCode===null){server.kill('SIGKILL');await closed;}if(!process.env.QALT_KEEP_FIXTURE)rmSync(temp,{recursive:true,force:true});}

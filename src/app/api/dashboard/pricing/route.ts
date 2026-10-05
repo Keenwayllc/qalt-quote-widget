@@ -11,6 +11,7 @@ const safeNum = (val: unknown, fallback: number) => {
 type ServiceOption = {
   name: string;
   description: string;
+  deliveryWindow?: string;
   fee: number;
 };
 
@@ -36,7 +37,7 @@ const normalizeServiceOptions = (value: unknown): ServiceOption[] => {
       ? Math.min(Math.max(feeValue, 0), 100000)
       : 0;
 
-    result.push({ name, description, fee });
+    result.push({ name, description, fee, ...(item.deliveryWindow ? { deliveryWindow: String(item.deliveryWindow).trim().slice(0, 120) } : {}) });
   }
 
   return result;
