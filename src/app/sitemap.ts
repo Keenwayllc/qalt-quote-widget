@@ -5,11 +5,9 @@ const base = "https://www.qalt.site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = ["", "/pricing", "/compare", "/demo", "/what-qalt-does", "/courier-quote-software", "/blog", "/partners", "/security"];
-  const now = new Date();
   return [
     ...staticRoutes.map((route) => ({
       url: `${base}${route}`,
-      lastModified: now,
       changeFrequency: route === "" ? "weekly" as const : "monthly" as const,
       priority: route === "" ? 1 : route === "/courier-quote-software" ? 0.9 : 0.7,
     })),
