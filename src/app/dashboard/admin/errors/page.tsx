@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Bug } from "lucide-react";
 import prisma from "@/lib/prisma";
 import { getCurrentCompany } from "@/lib/session";
+import { MAX_ALERTS_PER_HOUR, aiDailyAttemptBudget } from "@/lib/error-triage";
 import ErrorStatusSelect from "./ErrorStatusSelect";
 
 export const dynamic = "force-dynamic";
@@ -38,6 +39,21 @@ export default async function AdminErrorsPage({ searchParams }: { searchParams: 
     : [];
   const companyName = new Map(companies.map((c) => [c.id, c.name]));
 
+  // Measured usage from the shared MonitorEvent ledger.
+  const at = await prisma.$queryRaw<{ now: Date }[]>`SELECT now() AS now`;
+  const nowMs = new Date(at[0].now).getTime();
+  const [alertsLastHour, aiAttemptsToday, aiTokens30d] = await Promise.all([
+    prisma.monitorEvent.count({ where: { kind: "alert", createdAt: { gt: new Date(nowMs - 3_600_000) } } }),
+    prisma.monitorEvent.count({ where: { kind: "ai_attempt", createdAt: { gt: new Date(nowMs - 86_400_000) } } }),
+    prisma.monitorEvent.aggregate({
+      where: { kind: "ai_attempt", createdAt: { gt: new Date(nowMs - 30 * 86_400_000) } },
+      _sum: { inputTokens: true, outputTokens: true },
+      _count: true,
+    }),
+  ]);
+  const aiBudget = aiDailyAttemptBudget();
+  const aiOn = aiBudget > 0 && !!process.env.ANTHROPIC_API_KEY;
+
   return (
     <div className="max-w-7xl p-6 sm:p-8">
       <div className="mb-6 flex flex-wrap items-center gap-3">
@@ -45,7 +61,13 @@ export default async function AdminErrorsPage({ searchParams }: { searchParams: 
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Errors</h1>
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            Bugs caught across Qalt, grouped and explained by Claude. New bugs are emailed to support@qalt.site.
+            Bugs caught across Qalt, grouped by cause. New bugs are emailed to support@qalt.site.
+          </p>
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+            Alerts {alertsLastHour}/{MAX_ALERTS_PER_HOUR} this hour · Claude triage{" "}
+            {aiOn ? `on, ${aiAttemptsToday}/${aiBudget} attempts in 24h` : "off"} · last 30 days:{" "}
+            {aiTokens30d._count} attempts, {(aiTokens30d._sum.inputTokens ?? 0).toLocaleString()} input /{" "}
+            {(aiTokens30d._sum.outputTokens ?? 0).toLocaleString()} output tokens
           </p>
         </div>
         <div className="ml-auto flex gap-2 text-sm font-bold">

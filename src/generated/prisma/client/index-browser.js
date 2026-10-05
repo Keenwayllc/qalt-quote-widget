@@ -318,6 +318,16 @@ exports.Prisma.AppErrorScalarFieldEnum = {
   lastSeen: 'lastSeen'
 };
 
+exports.Prisma.MonitorEventScalarFieldEnum = {
+  id: 'id',
+  kind: 'kind',
+  errorId: 'errorId',
+  detail: 'detail',
+  inputTokens: 'inputTokens',
+  outputTokens: 'outputTokens',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.PartnerInquiryScalarFieldEnum = {
   id: 'id',
   companyName: 'companyName',
@@ -457,6 +467,7 @@ exports.Prisma.ModelName = {
   ShopifyInstall: 'ShopifyInstall',
   VehicleRequest: 'VehicleRequest',
   AppError: 'AppError',
+  MonitorEvent: 'MonitorEvent',
   PartnerInquiry: 'PartnerInquiry',
   StopNote: 'StopNote',
   ReadinessCheck: 'ReadinessCheck',

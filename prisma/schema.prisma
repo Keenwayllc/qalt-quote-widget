@@ -258,6 +258,20 @@ model AppError {
   @@index([status, lastSeen])
 }
 
+/// One row per alert email or AI triage attempt. Shared across server
+/// instances so the hourly alert cap and AI budget survive restarts.
+model MonitorEvent {
+  id           String   @id @default(cuid())
+  kind         String   // "alert" or "ai_attempt"
+  errorId      String?
+  detail       String?
+  inputTokens  Int?
+  outputTokens Int?
+  createdAt    DateTime @default(now())
+
+  @@index([kind, createdAt])
+}
+
 model PartnerInquiry {
   id              String   @id @default(cuid())
   companyName     String

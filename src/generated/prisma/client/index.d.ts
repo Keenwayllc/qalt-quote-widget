@@ -61,6 +61,12 @@ export type VehicleRequest = $Result.DefaultSelection<Prisma.$VehicleRequestPayl
  */
 export type AppError = $Result.DefaultSelection<Prisma.$AppErrorPayload>
 /**
+ * Model MonitorEvent
+ * One row per alert email or AI triage attempt. Shared across server
+ * instances so the hourly alert cap and AI budget survive restarts.
+ */
+export type MonitorEvent = $Result.DefaultSelection<Prisma.$MonitorEventPayload>
+/**
  * Model PartnerInquiry
  * 
  */
@@ -311,6 +317,16 @@ export class PrismaClient<
     * ```
     */
   get appError(): Prisma.AppErrorDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.monitorEvent`: Exposes CRUD operations for the **MonitorEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MonitorEvents
+    * const monitorEvents = await prisma.monitorEvent.findMany()
+    * ```
+    */
+  get monitorEvent(): Prisma.MonitorEventDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.partnerInquiry`: Exposes CRUD operations for the **PartnerInquiry** model.
@@ -834,6 +850,7 @@ export namespace Prisma {
     ShopifyInstall: 'ShopifyInstall',
     VehicleRequest: 'VehicleRequest',
     AppError: 'AppError',
+    MonitorEvent: 'MonitorEvent',
     PartnerInquiry: 'PartnerInquiry',
     StopNote: 'StopNote',
     ReadinessCheck: 'ReadinessCheck',
@@ -857,7 +874,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "pricingProfile" | "widgetSettings" | "widgetInstallation" | "quoteRequest" | "webhook" | "shopifyInstall" | "vehicleRequest" | "appError" | "partnerInquiry" | "stopNote" | "readinessCheck" | "exceptionLog" | "job" | "jobStop" | "customerDocument" | "documentSequence"
+      modelProps: "company" | "pricingProfile" | "widgetSettings" | "widgetInstallation" | "quoteRequest" | "webhook" | "shopifyInstall" | "vehicleRequest" | "appError" | "monitorEvent" | "partnerInquiry" | "stopNote" | "readinessCheck" | "exceptionLog" | "job" | "jobStop" | "customerDocument" | "documentSequence"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1524,6 +1541,80 @@ export namespace Prisma {
           count: {
             args: Prisma.AppErrorCountArgs<ExtArgs>
             result: $Utils.Optional<AppErrorCountAggregateOutputType> | number
+          }
+        }
+      }
+      MonitorEvent: {
+        payload: Prisma.$MonitorEventPayload<ExtArgs>
+        fields: Prisma.MonitorEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MonitorEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitorEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MonitorEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitorEventPayload>
+          }
+          findFirst: {
+            args: Prisma.MonitorEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitorEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MonitorEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitorEventPayload>
+          }
+          findMany: {
+            args: Prisma.MonitorEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitorEventPayload>[]
+          }
+          create: {
+            args: Prisma.MonitorEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitorEventPayload>
+          }
+          createMany: {
+            args: Prisma.MonitorEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MonitorEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitorEventPayload>[]
+          }
+          delete: {
+            args: Prisma.MonitorEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitorEventPayload>
+          }
+          update: {
+            args: Prisma.MonitorEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitorEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.MonitorEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MonitorEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MonitorEventUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitorEventPayload>[]
+          }
+          upsert: {
+            args: Prisma.MonitorEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MonitorEventPayload>
+          }
+          aggregate: {
+            args: Prisma.MonitorEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMonitorEvent>
+          }
+          groupBy: {
+            args: Prisma.MonitorEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MonitorEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MonitorEventCountArgs<ExtArgs>
+            result: $Utils.Optional<MonitorEventCountAggregateOutputType> | number
           }
         }
       }
@@ -2236,6 +2327,7 @@ export namespace Prisma {
     shopifyInstall?: ShopifyInstallOmit
     vehicleRequest?: VehicleRequestOmit
     appError?: AppErrorOmit
+    monitorEvent?: MonitorEventOmit
     partnerInquiry?: PartnerInquiryOmit
     stopNote?: StopNoteOmit
     readinessCheck?: ReadinessCheckOmit
@@ -14392,6 +14484,1070 @@ export namespace Prisma {
 
 
   /**
+   * Model MonitorEvent
+   */
+
+  export type AggregateMonitorEvent = {
+    _count: MonitorEventCountAggregateOutputType | null
+    _avg: MonitorEventAvgAggregateOutputType | null
+    _sum: MonitorEventSumAggregateOutputType | null
+    _min: MonitorEventMinAggregateOutputType | null
+    _max: MonitorEventMaxAggregateOutputType | null
+  }
+
+  export type MonitorEventAvgAggregateOutputType = {
+    inputTokens: number | null
+    outputTokens: number | null
+  }
+
+  export type MonitorEventSumAggregateOutputType = {
+    inputTokens: number | null
+    outputTokens: number | null
+  }
+
+  export type MonitorEventMinAggregateOutputType = {
+    id: string | null
+    kind: string | null
+    errorId: string | null
+    detail: string | null
+    inputTokens: number | null
+    outputTokens: number | null
+    createdAt: Date | null
+  }
+
+  export type MonitorEventMaxAggregateOutputType = {
+    id: string | null
+    kind: string | null
+    errorId: string | null
+    detail: string | null
+    inputTokens: number | null
+    outputTokens: number | null
+    createdAt: Date | null
+  }
+
+  export type MonitorEventCountAggregateOutputType = {
+    id: number
+    kind: number
+    errorId: number
+    detail: number
+    inputTokens: number
+    outputTokens: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type MonitorEventAvgAggregateInputType = {
+    inputTokens?: true
+    outputTokens?: true
+  }
+
+  export type MonitorEventSumAggregateInputType = {
+    inputTokens?: true
+    outputTokens?: true
+  }
+
+  export type MonitorEventMinAggregateInputType = {
+    id?: true
+    kind?: true
+    errorId?: true
+    detail?: true
+    inputTokens?: true
+    outputTokens?: true
+    createdAt?: true
+  }
+
+  export type MonitorEventMaxAggregateInputType = {
+    id?: true
+    kind?: true
+    errorId?: true
+    detail?: true
+    inputTokens?: true
+    outputTokens?: true
+    createdAt?: true
+  }
+
+  export type MonitorEventCountAggregateInputType = {
+    id?: true
+    kind?: true
+    errorId?: true
+    detail?: true
+    inputTokens?: true
+    outputTokens?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type MonitorEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MonitorEvent to aggregate.
+     */
+    where?: MonitorEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MonitorEvents to fetch.
+     */
+    orderBy?: MonitorEventOrderByWithRelationInput | MonitorEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MonitorEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MonitorEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MonitorEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MonitorEvents
+    **/
+    _count?: true | MonitorEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MonitorEventAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MonitorEventSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MonitorEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MonitorEventMaxAggregateInputType
+  }
+
+  export type GetMonitorEventAggregateType<T extends MonitorEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateMonitorEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMonitorEvent[P]>
+      : GetScalarType<T[P], AggregateMonitorEvent[P]>
+  }
+
+
+
+
+  export type MonitorEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MonitorEventWhereInput
+    orderBy?: MonitorEventOrderByWithAggregationInput | MonitorEventOrderByWithAggregationInput[]
+    by: MonitorEventScalarFieldEnum[] | MonitorEventScalarFieldEnum
+    having?: MonitorEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MonitorEventCountAggregateInputType | true
+    _avg?: MonitorEventAvgAggregateInputType
+    _sum?: MonitorEventSumAggregateInputType
+    _min?: MonitorEventMinAggregateInputType
+    _max?: MonitorEventMaxAggregateInputType
+  }
+
+  export type MonitorEventGroupByOutputType = {
+    id: string
+    kind: string
+    errorId: string | null
+    detail: string | null
+    inputTokens: number | null
+    outputTokens: number | null
+    createdAt: Date
+    _count: MonitorEventCountAggregateOutputType | null
+    _avg: MonitorEventAvgAggregateOutputType | null
+    _sum: MonitorEventSumAggregateOutputType | null
+    _min: MonitorEventMinAggregateOutputType | null
+    _max: MonitorEventMaxAggregateOutputType | null
+  }
+
+  type GetMonitorEventGroupByPayload<T extends MonitorEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MonitorEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MonitorEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MonitorEventGroupByOutputType[P]>
+            : GetScalarType<T[P], MonitorEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MonitorEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    kind?: boolean
+    errorId?: boolean
+    detail?: boolean
+    inputTokens?: boolean
+    outputTokens?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["monitorEvent"]>
+
+  export type MonitorEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    kind?: boolean
+    errorId?: boolean
+    detail?: boolean
+    inputTokens?: boolean
+    outputTokens?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["monitorEvent"]>
+
+  export type MonitorEventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    kind?: boolean
+    errorId?: boolean
+    detail?: boolean
+    inputTokens?: boolean
+    outputTokens?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["monitorEvent"]>
+
+  export type MonitorEventSelectScalar = {
+    id?: boolean
+    kind?: boolean
+    errorId?: boolean
+    detail?: boolean
+    inputTokens?: boolean
+    outputTokens?: boolean
+    createdAt?: boolean
+  }
+
+  export type MonitorEventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "kind" | "errorId" | "detail" | "inputTokens" | "outputTokens" | "createdAt", ExtArgs["result"]["monitorEvent"]>
+
+  export type $MonitorEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MonitorEvent"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      kind: string
+      errorId: string | null
+      detail: string | null
+      inputTokens: number | null
+      outputTokens: number | null
+      createdAt: Date
+    }, ExtArgs["result"]["monitorEvent"]>
+    composites: {}
+  }
+
+  type MonitorEventGetPayload<S extends boolean | null | undefined | MonitorEventDefaultArgs> = $Result.GetResult<Prisma.$MonitorEventPayload, S>
+
+  type MonitorEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MonitorEventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MonitorEventCountAggregateInputType | true
+    }
+
+  export interface MonitorEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MonitorEvent'], meta: { name: 'MonitorEvent' } }
+    /**
+     * Find zero or one MonitorEvent that matches the filter.
+     * @param {MonitorEventFindUniqueArgs} args - Arguments to find a MonitorEvent
+     * @example
+     * // Get one MonitorEvent
+     * const monitorEvent = await prisma.monitorEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MonitorEventFindUniqueArgs>(args: SelectSubset<T, MonitorEventFindUniqueArgs<ExtArgs>>): Prisma__MonitorEventClient<$Result.GetResult<Prisma.$MonitorEventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MonitorEvent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MonitorEventFindUniqueOrThrowArgs} args - Arguments to find a MonitorEvent
+     * @example
+     * // Get one MonitorEvent
+     * const monitorEvent = await prisma.monitorEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MonitorEventFindUniqueOrThrowArgs>(args: SelectSubset<T, MonitorEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MonitorEventClient<$Result.GetResult<Prisma.$MonitorEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MonitorEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MonitorEventFindFirstArgs} args - Arguments to find a MonitorEvent
+     * @example
+     * // Get one MonitorEvent
+     * const monitorEvent = await prisma.monitorEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MonitorEventFindFirstArgs>(args?: SelectSubset<T, MonitorEventFindFirstArgs<ExtArgs>>): Prisma__MonitorEventClient<$Result.GetResult<Prisma.$MonitorEventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MonitorEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MonitorEventFindFirstOrThrowArgs} args - Arguments to find a MonitorEvent
+     * @example
+     * // Get one MonitorEvent
+     * const monitorEvent = await prisma.monitorEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MonitorEventFindFirstOrThrowArgs>(args?: SelectSubset<T, MonitorEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__MonitorEventClient<$Result.GetResult<Prisma.$MonitorEventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MonitorEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MonitorEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MonitorEvents
+     * const monitorEvents = await prisma.monitorEvent.findMany()
+     * 
+     * // Get first 10 MonitorEvents
+     * const monitorEvents = await prisma.monitorEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const monitorEventWithIdOnly = await prisma.monitorEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MonitorEventFindManyArgs>(args?: SelectSubset<T, MonitorEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MonitorEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MonitorEvent.
+     * @param {MonitorEventCreateArgs} args - Arguments to create a MonitorEvent.
+     * @example
+     * // Create one MonitorEvent
+     * const MonitorEvent = await prisma.monitorEvent.create({
+     *   data: {
+     *     // ... data to create a MonitorEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends MonitorEventCreateArgs>(args: SelectSubset<T, MonitorEventCreateArgs<ExtArgs>>): Prisma__MonitorEventClient<$Result.GetResult<Prisma.$MonitorEventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MonitorEvents.
+     * @param {MonitorEventCreateManyArgs} args - Arguments to create many MonitorEvents.
+     * @example
+     * // Create many MonitorEvents
+     * const monitorEvent = await prisma.monitorEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MonitorEventCreateManyArgs>(args?: SelectSubset<T, MonitorEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MonitorEvents and returns the data saved in the database.
+     * @param {MonitorEventCreateManyAndReturnArgs} args - Arguments to create many MonitorEvents.
+     * @example
+     * // Create many MonitorEvents
+     * const monitorEvent = await prisma.monitorEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MonitorEvents and only return the `id`
+     * const monitorEventWithIdOnly = await prisma.monitorEvent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MonitorEventCreateManyAndReturnArgs>(args?: SelectSubset<T, MonitorEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MonitorEventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MonitorEvent.
+     * @param {MonitorEventDeleteArgs} args - Arguments to delete one MonitorEvent.
+     * @example
+     * // Delete one MonitorEvent
+     * const MonitorEvent = await prisma.monitorEvent.delete({
+     *   where: {
+     *     // ... filter to delete one MonitorEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MonitorEventDeleteArgs>(args: SelectSubset<T, MonitorEventDeleteArgs<ExtArgs>>): Prisma__MonitorEventClient<$Result.GetResult<Prisma.$MonitorEventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MonitorEvent.
+     * @param {MonitorEventUpdateArgs} args - Arguments to update one MonitorEvent.
+     * @example
+     * // Update one MonitorEvent
+     * const monitorEvent = await prisma.monitorEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MonitorEventUpdateArgs>(args: SelectSubset<T, MonitorEventUpdateArgs<ExtArgs>>): Prisma__MonitorEventClient<$Result.GetResult<Prisma.$MonitorEventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MonitorEvents.
+     * @param {MonitorEventDeleteManyArgs} args - Arguments to filter MonitorEvents to delete.
+     * @example
+     * // Delete a few MonitorEvents
+     * const { count } = await prisma.monitorEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MonitorEventDeleteManyArgs>(args?: SelectSubset<T, MonitorEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MonitorEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MonitorEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MonitorEvents
+     * const monitorEvent = await prisma.monitorEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MonitorEventUpdateManyArgs>(args: SelectSubset<T, MonitorEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MonitorEvents and returns the data updated in the database.
+     * @param {MonitorEventUpdateManyAndReturnArgs} args - Arguments to update many MonitorEvents.
+     * @example
+     * // Update many MonitorEvents
+     * const monitorEvent = await prisma.monitorEvent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MonitorEvents and only return the `id`
+     * const monitorEventWithIdOnly = await prisma.monitorEvent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MonitorEventUpdateManyAndReturnArgs>(args: SelectSubset<T, MonitorEventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MonitorEventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MonitorEvent.
+     * @param {MonitorEventUpsertArgs} args - Arguments to update or create a MonitorEvent.
+     * @example
+     * // Update or create a MonitorEvent
+     * const monitorEvent = await prisma.monitorEvent.upsert({
+     *   create: {
+     *     // ... data to create a MonitorEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MonitorEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MonitorEventUpsertArgs>(args: SelectSubset<T, MonitorEventUpsertArgs<ExtArgs>>): Prisma__MonitorEventClient<$Result.GetResult<Prisma.$MonitorEventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MonitorEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MonitorEventCountArgs} args - Arguments to filter MonitorEvents to count.
+     * @example
+     * // Count the number of MonitorEvents
+     * const count = await prisma.monitorEvent.count({
+     *   where: {
+     *     // ... the filter for the MonitorEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends MonitorEventCountArgs>(
+      args?: Subset<T, MonitorEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MonitorEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MonitorEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MonitorEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MonitorEventAggregateArgs>(args: Subset<T, MonitorEventAggregateArgs>): Prisma.PrismaPromise<GetMonitorEventAggregateType<T>>
+
+    /**
+     * Group by MonitorEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MonitorEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MonitorEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MonitorEventGroupByArgs['orderBy'] }
+        : { orderBy?: MonitorEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MonitorEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMonitorEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MonitorEvent model
+   */
+  readonly fields: MonitorEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MonitorEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MonitorEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MonitorEvent model
+   */
+  interface MonitorEventFieldRefs {
+    readonly id: FieldRef<"MonitorEvent", 'String'>
+    readonly kind: FieldRef<"MonitorEvent", 'String'>
+    readonly errorId: FieldRef<"MonitorEvent", 'String'>
+    readonly detail: FieldRef<"MonitorEvent", 'String'>
+    readonly inputTokens: FieldRef<"MonitorEvent", 'Int'>
+    readonly outputTokens: FieldRef<"MonitorEvent", 'Int'>
+    readonly createdAt: FieldRef<"MonitorEvent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MonitorEvent findUnique
+   */
+  export type MonitorEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitorEvent
+     */
+    select?: MonitorEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitorEvent
+     */
+    omit?: MonitorEventOmit<ExtArgs> | null
+    /**
+     * Filter, which MonitorEvent to fetch.
+     */
+    where: MonitorEventWhereUniqueInput
+  }
+
+  /**
+   * MonitorEvent findUniqueOrThrow
+   */
+  export type MonitorEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitorEvent
+     */
+    select?: MonitorEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitorEvent
+     */
+    omit?: MonitorEventOmit<ExtArgs> | null
+    /**
+     * Filter, which MonitorEvent to fetch.
+     */
+    where: MonitorEventWhereUniqueInput
+  }
+
+  /**
+   * MonitorEvent findFirst
+   */
+  export type MonitorEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitorEvent
+     */
+    select?: MonitorEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitorEvent
+     */
+    omit?: MonitorEventOmit<ExtArgs> | null
+    /**
+     * Filter, which MonitorEvent to fetch.
+     */
+    where?: MonitorEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MonitorEvents to fetch.
+     */
+    orderBy?: MonitorEventOrderByWithRelationInput | MonitorEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MonitorEvents.
+     */
+    cursor?: MonitorEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MonitorEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MonitorEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MonitorEvents.
+     */
+    distinct?: MonitorEventScalarFieldEnum | MonitorEventScalarFieldEnum[]
+  }
+
+  /**
+   * MonitorEvent findFirstOrThrow
+   */
+  export type MonitorEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitorEvent
+     */
+    select?: MonitorEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitorEvent
+     */
+    omit?: MonitorEventOmit<ExtArgs> | null
+    /**
+     * Filter, which MonitorEvent to fetch.
+     */
+    where?: MonitorEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MonitorEvents to fetch.
+     */
+    orderBy?: MonitorEventOrderByWithRelationInput | MonitorEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MonitorEvents.
+     */
+    cursor?: MonitorEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MonitorEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MonitorEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MonitorEvents.
+     */
+    distinct?: MonitorEventScalarFieldEnum | MonitorEventScalarFieldEnum[]
+  }
+
+  /**
+   * MonitorEvent findMany
+   */
+  export type MonitorEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitorEvent
+     */
+    select?: MonitorEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitorEvent
+     */
+    omit?: MonitorEventOmit<ExtArgs> | null
+    /**
+     * Filter, which MonitorEvents to fetch.
+     */
+    where?: MonitorEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MonitorEvents to fetch.
+     */
+    orderBy?: MonitorEventOrderByWithRelationInput | MonitorEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MonitorEvents.
+     */
+    cursor?: MonitorEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MonitorEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MonitorEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MonitorEvents.
+     */
+    distinct?: MonitorEventScalarFieldEnum | MonitorEventScalarFieldEnum[]
+  }
+
+  /**
+   * MonitorEvent create
+   */
+  export type MonitorEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitorEvent
+     */
+    select?: MonitorEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitorEvent
+     */
+    omit?: MonitorEventOmit<ExtArgs> | null
+    /**
+     * The data needed to create a MonitorEvent.
+     */
+    data: XOR<MonitorEventCreateInput, MonitorEventUncheckedCreateInput>
+  }
+
+  /**
+   * MonitorEvent createMany
+   */
+  export type MonitorEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MonitorEvents.
+     */
+    data: MonitorEventCreateManyInput | MonitorEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MonitorEvent createManyAndReturn
+   */
+  export type MonitorEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitorEvent
+     */
+    select?: MonitorEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitorEvent
+     */
+    omit?: MonitorEventOmit<ExtArgs> | null
+    /**
+     * The data used to create many MonitorEvents.
+     */
+    data: MonitorEventCreateManyInput | MonitorEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MonitorEvent update
+   */
+  export type MonitorEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitorEvent
+     */
+    select?: MonitorEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitorEvent
+     */
+    omit?: MonitorEventOmit<ExtArgs> | null
+    /**
+     * The data needed to update a MonitorEvent.
+     */
+    data: XOR<MonitorEventUpdateInput, MonitorEventUncheckedUpdateInput>
+    /**
+     * Choose, which MonitorEvent to update.
+     */
+    where: MonitorEventWhereUniqueInput
+  }
+
+  /**
+   * MonitorEvent updateMany
+   */
+  export type MonitorEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MonitorEvents.
+     */
+    data: XOR<MonitorEventUpdateManyMutationInput, MonitorEventUncheckedUpdateManyInput>
+    /**
+     * Filter which MonitorEvents to update
+     */
+    where?: MonitorEventWhereInput
+    /**
+     * Limit how many MonitorEvents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MonitorEvent updateManyAndReturn
+   */
+  export type MonitorEventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitorEvent
+     */
+    select?: MonitorEventSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitorEvent
+     */
+    omit?: MonitorEventOmit<ExtArgs> | null
+    /**
+     * The data used to update MonitorEvents.
+     */
+    data: XOR<MonitorEventUpdateManyMutationInput, MonitorEventUncheckedUpdateManyInput>
+    /**
+     * Filter which MonitorEvents to update
+     */
+    where?: MonitorEventWhereInput
+    /**
+     * Limit how many MonitorEvents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MonitorEvent upsert
+   */
+  export type MonitorEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitorEvent
+     */
+    select?: MonitorEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitorEvent
+     */
+    omit?: MonitorEventOmit<ExtArgs> | null
+    /**
+     * The filter to search for the MonitorEvent to update in case it exists.
+     */
+    where: MonitorEventWhereUniqueInput
+    /**
+     * In case the MonitorEvent found by the `where` argument doesn't exist, create a new MonitorEvent with this data.
+     */
+    create: XOR<MonitorEventCreateInput, MonitorEventUncheckedCreateInput>
+    /**
+     * In case the MonitorEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MonitorEventUpdateInput, MonitorEventUncheckedUpdateInput>
+  }
+
+  /**
+   * MonitorEvent delete
+   */
+  export type MonitorEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitorEvent
+     */
+    select?: MonitorEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitorEvent
+     */
+    omit?: MonitorEventOmit<ExtArgs> | null
+    /**
+     * Filter which MonitorEvent to delete.
+     */
+    where: MonitorEventWhereUniqueInput
+  }
+
+  /**
+   * MonitorEvent deleteMany
+   */
+  export type MonitorEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MonitorEvents to delete
+     */
+    where?: MonitorEventWhereInput
+    /**
+     * Limit how many MonitorEvents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MonitorEvent without action
+   */
+  export type MonitorEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonitorEvent
+     */
+    select?: MonitorEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MonitorEvent
+     */
+    omit?: MonitorEventOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model PartnerInquiry
    */
 
@@ -23836,6 +24992,19 @@ export namespace Prisma {
   export type AppErrorScalarFieldEnum = (typeof AppErrorScalarFieldEnum)[keyof typeof AppErrorScalarFieldEnum]
 
 
+  export const MonitorEventScalarFieldEnum: {
+    id: 'id',
+    kind: 'kind',
+    errorId: 'errorId',
+    detail: 'detail',
+    inputTokens: 'inputTokens',
+    outputTokens: 'outputTokens',
+    createdAt: 'createdAt'
+  };
+
+  export type MonitorEventScalarFieldEnum = (typeof MonitorEventScalarFieldEnum)[keyof typeof MonitorEventScalarFieldEnum]
+
+
   export const PartnerInquiryScalarFieldEnum: {
     id: 'id',
     companyName: 'companyName',
@@ -25269,6 +26438,70 @@ export namespace Prisma {
     aiCause?: StringNullableWithAggregatesFilter<"AppError"> | string | null
     firstSeen?: DateTimeWithAggregatesFilter<"AppError"> | Date | string
     lastSeen?: DateTimeWithAggregatesFilter<"AppError"> | Date | string
+  }
+
+  export type MonitorEventWhereInput = {
+    AND?: MonitorEventWhereInput | MonitorEventWhereInput[]
+    OR?: MonitorEventWhereInput[]
+    NOT?: MonitorEventWhereInput | MonitorEventWhereInput[]
+    id?: StringFilter<"MonitorEvent"> | string
+    kind?: StringFilter<"MonitorEvent"> | string
+    errorId?: StringNullableFilter<"MonitorEvent"> | string | null
+    detail?: StringNullableFilter<"MonitorEvent"> | string | null
+    inputTokens?: IntNullableFilter<"MonitorEvent"> | number | null
+    outputTokens?: IntNullableFilter<"MonitorEvent"> | number | null
+    createdAt?: DateTimeFilter<"MonitorEvent"> | Date | string
+  }
+
+  export type MonitorEventOrderByWithRelationInput = {
+    id?: SortOrder
+    kind?: SortOrder
+    errorId?: SortOrderInput | SortOrder
+    detail?: SortOrderInput | SortOrder
+    inputTokens?: SortOrderInput | SortOrder
+    outputTokens?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MonitorEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MonitorEventWhereInput | MonitorEventWhereInput[]
+    OR?: MonitorEventWhereInput[]
+    NOT?: MonitorEventWhereInput | MonitorEventWhereInput[]
+    kind?: StringFilter<"MonitorEvent"> | string
+    errorId?: StringNullableFilter<"MonitorEvent"> | string | null
+    detail?: StringNullableFilter<"MonitorEvent"> | string | null
+    inputTokens?: IntNullableFilter<"MonitorEvent"> | number | null
+    outputTokens?: IntNullableFilter<"MonitorEvent"> | number | null
+    createdAt?: DateTimeFilter<"MonitorEvent"> | Date | string
+  }, "id">
+
+  export type MonitorEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    kind?: SortOrder
+    errorId?: SortOrderInput | SortOrder
+    detail?: SortOrderInput | SortOrder
+    inputTokens?: SortOrderInput | SortOrder
+    outputTokens?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: MonitorEventCountOrderByAggregateInput
+    _avg?: MonitorEventAvgOrderByAggregateInput
+    _max?: MonitorEventMaxOrderByAggregateInput
+    _min?: MonitorEventMinOrderByAggregateInput
+    _sum?: MonitorEventSumOrderByAggregateInput
+  }
+
+  export type MonitorEventScalarWhereWithAggregatesInput = {
+    AND?: MonitorEventScalarWhereWithAggregatesInput | MonitorEventScalarWhereWithAggregatesInput[]
+    OR?: MonitorEventScalarWhereWithAggregatesInput[]
+    NOT?: MonitorEventScalarWhereWithAggregatesInput | MonitorEventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MonitorEvent"> | string
+    kind?: StringWithAggregatesFilter<"MonitorEvent"> | string
+    errorId?: StringNullableWithAggregatesFilter<"MonitorEvent"> | string | null
+    detail?: StringNullableWithAggregatesFilter<"MonitorEvent"> | string | null
+    inputTokens?: IntNullableWithAggregatesFilter<"MonitorEvent"> | number | null
+    outputTokens?: IntNullableWithAggregatesFilter<"MonitorEvent"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"MonitorEvent"> | Date | string
   }
 
   export type PartnerInquiryWhereInput = {
@@ -27350,6 +28583,76 @@ export namespace Prisma {
     lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MonitorEventCreateInput = {
+    id?: string
+    kind: string
+    errorId?: string | null
+    detail?: string | null
+    inputTokens?: number | null
+    outputTokens?: number | null
+    createdAt?: Date | string
+  }
+
+  export type MonitorEventUncheckedCreateInput = {
+    id?: string
+    kind: string
+    errorId?: string | null
+    detail?: string | null
+    inputTokens?: number | null
+    outputTokens?: number | null
+    createdAt?: Date | string
+  }
+
+  export type MonitorEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    errorId?: NullableStringFieldUpdateOperationsInput | string | null
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    inputTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MonitorEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    errorId?: NullableStringFieldUpdateOperationsInput | string | null
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    inputTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MonitorEventCreateManyInput = {
+    id?: string
+    kind: string
+    errorId?: string | null
+    detail?: string | null
+    inputTokens?: number | null
+    outputTokens?: number | null
+    createdAt?: Date | string
+  }
+
+  export type MonitorEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    errorId?: NullableStringFieldUpdateOperationsInput | string | null
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    inputTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MonitorEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    errorId?: NullableStringFieldUpdateOperationsInput | string | null
+    detail?: NullableStringFieldUpdateOperationsInput | string | null
+    inputTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PartnerInquiryCreateInput = {
     id?: string
     companyName: string
@@ -29147,6 +30450,46 @@ export namespace Prisma {
 
   export type AppErrorSumOrderByAggregateInput = {
     count?: SortOrder
+  }
+
+  export type MonitorEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    kind?: SortOrder
+    errorId?: SortOrder
+    detail?: SortOrder
+    inputTokens?: SortOrder
+    outputTokens?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MonitorEventAvgOrderByAggregateInput = {
+    inputTokens?: SortOrder
+    outputTokens?: SortOrder
+  }
+
+  export type MonitorEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    kind?: SortOrder
+    errorId?: SortOrder
+    detail?: SortOrder
+    inputTokens?: SortOrder
+    outputTokens?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MonitorEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    kind?: SortOrder
+    errorId?: SortOrder
+    detail?: SortOrder
+    inputTokens?: SortOrder
+    outputTokens?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MonitorEventSumOrderByAggregateInput = {
+    inputTokens?: SortOrder
+    outputTokens?: SortOrder
   }
 
   export type PartnerInquiryCountOrderByAggregateInput = {
