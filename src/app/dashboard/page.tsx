@@ -43,15 +43,13 @@ export default async function DashboardOverview() {
         take: 5,
       }),
       prisma.quoteRequest.count({ where: { companyId: company.id, deletedAt: null } }),
+      // Monthly counts include deleted quotes, matching quota enforcement in the
+      // submit API: deleting a quote does not give back allowance.
       prisma.quoteRequest.count({
-        where: { companyId: company.id, deletedAt: null, createdAt: { gte: monthStart } },
+        where: { companyId: company.id, createdAt: { gte: monthStart } },
       }),
       prisma.quoteRequest.count({
-        where: {
-          companyId: company.id,
-          deletedAt: null,
-          createdAt: { gte: prevMonthStart, lt: monthStart },
-        },
+        where: { companyId: company.id, createdAt: { gte: prevMonthStart, lt: monthStart } },
       }),
     ]);
   } catch {
