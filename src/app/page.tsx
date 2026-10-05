@@ -196,7 +196,7 @@ export default function LandingPage() {
                 style={{ "--d": "320ms" } as React.CSSProperties}
                 className="q-rise mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs font-semibold text-white/42 lg:justify-start"
               >
-                {["Free plan, no card needed", "14-day Pro trial", "Payments optional"].map((item) => (
+                {["Free plan, no card needed", "Free Starter plan", "Payments optional"].map((item) => (
                   <span key={item} className="inline-flex items-center gap-1.5">
                     <Check size={12} className="text-emerald-400" />
                     {item}
@@ -399,7 +399,7 @@ export default function LandingPage() {
               <SectionLabel>Pricing</SectionLabel>
               <h2 className="mt-6 text-4xl font-black tracking-[-0.045em] sm:text-5xl">Start free. Pay when it&apos;s earning you jobs.</h2>
               <p className="mx-auto mt-5 max-w-2xl text-base font-medium leading-7 text-slate-500 sm:text-lg">
-                Start with the free plan and a 14-day Pro trial. Upgrade when you need more forms, branding, operations, payments, or fleet quoting.
+                Start with the free Starter plan. Upgrade when you need more forms, branding, operations, payments, or fleet quoting.
               </p>
             </motion.div>
 
@@ -472,7 +472,7 @@ export default function LandingPage() {
                   View Live Demo
                 </Link>
               </div>
-              <p className="mt-4 text-xs font-semibold text-slate-400">No card required · Free plan available · 14-day Pro trial</p>
+              <p className="mt-4 text-xs font-semibold text-slate-400">No card required · Free Starter plan available</p>
             </motion.div>
           </div>
         </section>
