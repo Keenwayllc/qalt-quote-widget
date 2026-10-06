@@ -34,7 +34,7 @@ export default function ForgotPasswordPage() {
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
         <div className="w-full max-w-md bg-white rounded-[32px] shadow-xl border border-slate-100 overflow-hidden">
           <div className="bg-red-600 px-8 py-10 text-center">
-            <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg">
+            <div className="w-20 h-20 bg-white flex items-center justify-center mx-auto mb-5 shadow-lg">
               <MailCheck size={36} className="text-red-600" />
             </div>
             <h1 className="text-2xl font-black text-white tracking-tight">Check your inbox</h1>
@@ -48,7 +48,7 @@ export default function ForgotPasswordPage() {
             <p className="text-slate-400 text-xs font-medium">Check your spam folder if you don&apos;t see it.</p>
             <Link
               href="/login"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-800 transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white font-bold text-sm hover:bg-slate-800 transition-all"
             >
               Back to Login <ArrowRight size={14} />
             </Link>
@@ -76,13 +76,13 @@ export default function ForgotPasswordPage() {
                 autoComplete="email"
                 required
                 placeholder="hello@company.com"
-                className="w-full pl-14 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#1E40AF] transition-all font-semibold text-slate-900 text-sm placeholder:text-slate-400 shadow-sm"
+                className="w-full pl-14 pr-5 py-4 bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#1E40AF] transition-all font-semibold text-slate-900 text-sm placeholder:text-slate-400 shadow-sm"
               />
             </div>
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2.5 py-4 bg-red-600 hover:bg-red-700 text-white font-black text-sm uppercase tracking-[0.15em] rounded-2xl transition-all shadow-lg shadow-red-900/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2.5 py-4 bg-red-600 hover:bg-red-700 text-white font-black text-sm uppercase tracking-[0.15em] transition-all shadow-lg shadow-red-900/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (<><Loader2 className="w-4 h-4 animate-spin" /> Sending...</>) : (<>Send reset link <ArrowRight size={16} /></>)}
             </button>
