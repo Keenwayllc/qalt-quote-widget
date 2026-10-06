@@ -42,19 +42,19 @@ export default function MarketingFooter() {
   const [supportOpen, setSupportOpen] = useState(false);
 
   return (
-    <footer className="border-t border-slate-100 bg-white py-14">
+    <footer className="border-t border-slate-950/10 bg-[#f4f2ec] py-14">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_.8fr_.7fr_.7fr]">
           <div>
             <QaltLogo size="md" />
             <p className="mt-4 max-w-xs text-sm font-medium leading-6 text-slate-500">
-              Instant delivery quotes using your rates, your services, and your brand.
+              The customer-facing quote layer for delivery companies. Your rates, your services, your coverage, your brand.
             </p>
           </div>
           {COLUMNS.map((column) => (
             <div key={column.title}>
-              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">{column.title}</p>
-              <div className="mt-4 space-y-3 text-sm font-semibold text-slate-600">
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-500">{column.title}</p>
+              <div className="mt-4 space-y-3 text-sm font-bold text-slate-700">
                 {column.links.map((link) => (
                   <Link key={link.href} className="block hover:text-red-600" href={link.href}>{link.label}</Link>
                 ))}
@@ -65,7 +65,7 @@ export default function MarketingFooter() {
             </div>
           ))}
         </div>
-        <div className="mt-12 flex flex-col gap-4 border-t border-slate-100 pt-7 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-4 border-t border-slate-950/10 pt-7 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs font-medium text-slate-400">© 2026 Qalt Systems. All rights reserved.</p>
           <TrustBadgeStrip keys={["https", "stripe", "passwords"]} />
         </div>
