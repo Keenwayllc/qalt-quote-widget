@@ -3,10 +3,16 @@ import MarketingFooter from "@/components/shared/MarketingFooter";
 
 export default function TermsOfService() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white text-slate-950">
     <PublicNav />
-    <div className="max-w-4xl mx-auto px-4 pt-32 pb-16 prose prose-slate">
-      <h1 className="text-4xl font-bold mb-8">Terms of Service</h1>
+    <section className="bg-[#f4f2ec] px-5 pb-14 pt-28 sm:px-8 sm:pt-32">
+      <div className="mx-auto max-w-4xl">
+        <p className="mb-5 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500">Qalt Systems</p>
+        <h1 className="text-[clamp(3rem,6vw,5.5rem)] font-black leading-[0.9] tracking-[-0.055em] text-slate-950">Terms of Service</h1>
+      </div>
+    </section>
+    <div className="prose prose-slate mx-auto max-w-4xl px-5 py-14 sm:px-8">
+      
       <p className="text-slate-600 mb-6">Last updated: {new Date().toLocaleDateString()}</p>
       
       <section className="mb-8">
