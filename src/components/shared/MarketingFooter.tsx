@@ -44,7 +44,7 @@ export default function MarketingFooter() {
   return (
     <footer className="border-t border-slate-950/10 bg-[#f4f2ec] py-14">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_.8fr_.7fr_.7fr]">
+        <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-[1.3fr_.8fr_.7fr_.7fr]">
           <div>
             <QaltLogo size="md" />
             <p className="mt-4 max-w-xs text-sm font-medium leading-6 text-slate-500">
@@ -65,7 +65,7 @@ export default function MarketingFooter() {
             </div>
           ))}
         </div>
-        <div className="mt-12 flex flex-col gap-4 border-t border-slate-950/10 pt-7 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-4 border-t border-slate-950/10 pt-7 md:flex-row md:items-center md:justify-between">
           <p className="text-xs font-medium text-slate-400">© 2026 Qalt Systems. All rights reserved.</p>
           <TrustBadgeStrip keys={["https", "stripe", "passwords"]} />
         </div>
