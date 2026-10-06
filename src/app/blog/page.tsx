@@ -24,19 +24,18 @@ export default function BlogIndex() {
   const posts = getAllPosts();
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-white text-slate-950">
       <PublicNav />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-14">
-        <div className="mb-12">
-          <p className="text-xs font-black text-red-600 uppercase tracking-widest mb-2">Qalt Blog</p>
-          <h1 className="text-4xl font-black text-slate-900 tracking-tight">
-            Resources for Courier &amp; Delivery Businesses
-          </h1>
-          <p className="text-slate-500 mt-3 text-lg font-medium max-w-2xl">
-            Guides on pricing, lead generation, website tools, and growing a delivery business.
-          </p>
-        </div>
+      <main>
+        <section className="bg-[#f4f2ec] px-5 pb-20 pt-28 sm:px-8 sm:pb-24 sm:pt-32">
+          <div className="mx-auto max-w-6xl">
+            <p className="mb-6 flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500"><span className="h-2 w-2 bg-red-600" />Qalt field notes</p>
+            <h1 className="max-w-5xl text-[clamp(3.1rem,7vw,6.2rem)] font-black leading-[0.88] tracking-[-0.06em] text-slate-950">Resources for courier and delivery operators.</h1>
+            <p className="mt-8 max-w-3xl text-base font-medium leading-7 text-slate-600 sm:text-lg">Pricing, lead generation, website quoting and practical operating ideas for delivery companies.</p>
+          </div>
+        </section>
+        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
 
         {/* Featured external insight */}
         <a
@@ -46,7 +45,7 @@ export default function BlogIndex() {
           className="mb-12 block group"
           aria-label={`${featuredInsight.title} (opens on LinkedIn in a new tab)`}
         >
-          <div className="overflow-hidden rounded-3xl border border-slate-800 bg-slate-950 p-8 text-white shadow-xl shadow-slate-200/70 transition duration-300 hover:-translate-y-0.5 hover:border-slate-700 hover:shadow-2xl sm:p-10">
+          <div className="overflow-hidden border border-slate-950 bg-[#0b0b0c] p-8 text-white transition duration-300 hover:-translate-y-0.5 sm:p-10">
             <div className="mb-5 flex flex-wrap items-center gap-3">
               <span className="rounded-full bg-red-600 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-white">
                 Featured insight
@@ -74,7 +73,7 @@ export default function BlogIndex() {
             <Link
               key={post.slug}
               href={`/blog/${post.slug}`}
-              className="group bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition-shadow flex flex-col"
+              className="group flex flex-col border border-slate-200 bg-white p-6 transition-colors hover:border-slate-400"
             >
               <div className="flex items-center gap-2 mb-4">
                 <span className={`px-2 py-0.5 rounded-full text-[11px] font-black ${CATEGORY_COLORS[post.category] ?? "bg-slate-100 text-slate-600"}`}>
@@ -95,14 +94,14 @@ export default function BlogIndex() {
         </div>
 
         {/* CTA */}
-        <div className="mt-16 bg-slate-900 rounded-3xl p-10 text-center">
+        <div className="mt-16 bg-[#0b0b0c] p-10 text-center">
           <h2 className="text-2xl font-black text-white mb-3">Ready to add a quote widget to your site?</h2>
           <p className="text-slate-400 font-medium mb-6">
             Start free on the Starter plan, build your first quote form, and upgrade when you need more.
           </p>
           <Link
             href="/register"
-            className="inline-block px-8 py-3.5 bg-red-600 text-white rounded-xl font-black hover:bg-red-500 transition-colors shadow-lg"
+            className="inline-block bg-red-600 px-8 py-3.5 font-black text-white transition-colors hover:bg-red-700"
           >
             Get Started Free →
           </Link>
