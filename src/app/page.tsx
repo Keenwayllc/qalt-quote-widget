@@ -138,39 +138,32 @@ export default function LandingPage() {
       <PublicNav />
 
       <main>
-        <section className="relative overflow-hidden bg-[#08090c] pt-28 sm:pt-32">
+        <section className="relative overflow-hidden bg-[#f4f2ec] pt-24 sm:pt-28 lg:pt-32">
           <div className="pointer-events-none absolute inset-0">
-            <div
-              className="absolute inset-0 opacity-[0.035]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(rgba(255,255,255,.7) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.7) 1px,transparent 1px)",
-                backgroundSize: "64px 64px",
-              }}
-            />
+            <div className="absolute inset-x-0 top-0 h-px bg-slate-950/[0.08]" />
+            <div className="absolute -right-24 top-12 h-72 w-72 rounded-full bg-red-600/[0.055] blur-3xl" />
           </div>
 
-          <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 pb-20 sm:px-8 sm:pb-28 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 lg:px-10">
+          <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 pb-20 sm:px-8 sm:pb-24 lg:grid-cols-[0.84fr_1.16fr] lg:gap-16 lg:px-10 lg:pb-28">
             <div className="text-center lg:text-left">
-              <div
-                className="q-rise mb-6 text-sm font-semibold text-white/60"
-              >
-                For courier, delivery and final-mile companies
+              <div className="q-rise mb-7 flex items-center justify-center gap-3 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500 lg:justify-start">
+                <span className="h-2 w-2 bg-red-600" />
+                Built for courier, delivery and final-mile operators
               </div>
 
               <h1
                 style={{ "--d": "60ms" } as React.CSSProperties}
-                className="q-reveal text-[clamp(3rem,6.4vw,5.7rem)] font-black leading-[0.92] tracking-[-0.055em] text-white"
+                className="q-reveal text-[clamp(3.35rem,7vw,6.55rem)] font-black leading-[0.86] tracking-[-0.065em] text-slate-950"
               >
-                Stop making customers
-                <span className="block text-red-500">wait for a quote.</span>
+                Instant delivery quotes.
+                <span className="block text-slate-400">Built for logistics.</span>
               </h1>
 
               <p
                 style={{ "--d": "140ms" } as React.CSSProperties}
-                className="q-rise mx-auto mt-7 max-w-xl text-base font-medium leading-7 text-white/58 sm:text-lg lg:mx-0"
+                className="q-rise mx-auto mt-8 max-w-xl text-base font-medium leading-7 text-slate-600 sm:text-lg lg:mx-0"
               >
-                Put an instant delivery quote form on your website using your rates, services, vehicles, fees, and branding. Use Qalt for quotes only, or add booking and payment when your workflow is ready.
+                Qalt gives delivery companies a branded quote experience for pricing, service areas, vehicles, fees and payments, without replacing the systems already running the operation.
               </p>
 
               <div
@@ -179,44 +172,47 @@ export default function LandingPage() {
               >
                 <Link
                   href="/register"
-                  className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 px-7 py-4 text-sm font-black text-white shadow-[0_18px_45px_-18px_rgba(220,38,38,.85)] transition hover:-translate-y-0.5 hover:bg-red-500 sm:w-auto"
+                  className="group inline-flex w-full items-center justify-center gap-2 bg-red-600 px-7 py-4 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-red-700 sm:w-auto"
                 >
-                  Start Free
+                  Get Started
                   <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                 </Link>
                 <Link
                   href="/demo"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.06] px-7 py-4 text-sm font-bold text-white transition hover:bg-white/[0.1] sm:w-auto"
+                  className="inline-flex w-full items-center justify-center gap-2 border border-slate-950/15 bg-white/55 px-7 py-4 text-sm font-black text-slate-900 transition hover:border-slate-950/30 hover:bg-white sm:w-auto"
                 >
-                  See the Live Demo
+                  View Live Demo
                 </Link>
               </div>
 
               <div
                 style={{ "--d": "320ms" } as React.CSSProperties}
-                className="q-rise mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs font-semibold text-white/42 lg:justify-start"
+                className="q-rise mt-7 grid max-w-xl grid-cols-1 gap-px overflow-hidden border border-slate-950/10 bg-slate-950/10 text-left md:grid-cols-3"
               >
-                {["Free plan, no card needed", "Free Starter plan", "Payments optional"].map((item) => (
-                  <span key={item} className="inline-flex items-center gap-1.5">
-                    <Check size={12} className="text-emerald-400" />
-                    {item}
-                  </span>
+                {[
+                  ["01", "Your rates", "Mileage, minimums, service levels and fees."],
+                  ["02", "Your coverage", "ZIP codes, map areas and geo-fenced quoting."],
+                  ["03", "Your brand", "Logo, colors, vehicle choices and customer flow."],
+                ].map(([number, title, description]) => (
+                  <div key={number} className="bg-[#f4f2ec] p-4">
+                    <p className="text-[9px] font-black uppercase tracking-[0.18em] text-red-600">{number}</p>
+                    <p className="mt-2 text-sm font-black text-slate-950">{title}</p>
+                    <p className="mt-1 text-xs font-medium leading-5 text-slate-500">{description}</p>
+                  </div>
                 ))}
               </div>
             </div>
 
-            {/* Hero entrance is CSS (q-*) so it can wait for the intro journey's door. */}
             <div
               style={{ "--d": "160ms" } as React.CSSProperties}
-              className="q-slide-in relative mx-auto w-full max-w-[720px]"
+              className="q-slide-in relative mx-auto w-full max-w-[760px]"
             >
               <HeroDashboardMockup />
             </div>
           </div>
-
         </section>
 
-        <section id="features" className="scroll-mt-24 bg-[#f7f8fa] py-24 sm:py-32">
+        <section id="features" className="scroll-mt-24 bg-white py-24 sm:py-32">
           <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
             <motion.div
               initial="hidden"
@@ -225,11 +221,12 @@ export default function LandingPage() {
               variants={reveal}
               className="mx-auto max-w-3xl text-center"
             >
-                            <h2 className="mt-6 text-4xl font-black tracking-[-0.045em] text-slate-950 sm:text-5xl">
-                Replace the “we’ll get back to you” form.
+              <SectionLabel>Front-end quoting</SectionLabel>
+              <h2 className="mt-5 text-4xl font-black leading-[0.96] tracking-[-0.055em] text-slate-950 sm:text-6xl">
+                Better software at the part your customer sees first.
               </h2>
-              <p className="mx-auto mt-5 max-w-2xl text-base font-medium leading-7 text-slate-500 sm:text-lg">
-                Qalt turns a basic inquiry form into a pricing experience your customers can actually use, without forcing you to change how you run the rest of your business.
+              <p className="mx-auto mt-6 max-w-2xl text-base font-medium leading-7 text-slate-500 sm:text-lg">
+                Qalt turns your website from a contact form into a working delivery quote experience, while your dispatch and operations stack stays in place.
               </p>
             </motion.div>
 
@@ -244,7 +241,7 @@ export default function LandingPage() {
                     viewport={{ once: true, margin: "-50px" }}
                     variants={reveal}
                     custom={index}
-                    className="rounded-2xl border border-slate-200 bg-white p-7"
+                    className="border border-slate-200 bg-white p-7 transition-colors hover:border-slate-400"
                   >
                     <Icon size={20} className="text-red-600" />
                     <h3 className="mt-5 text-lg font-black tracking-tight text-slate-950">{feature.title}</h3>
@@ -262,7 +259,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="overflow-hidden bg-slate-950 py-24 text-white sm:py-32">
+        <section className="overflow-hidden bg-[#0b0b0c] py-24 text-white sm:py-32">
           <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
             <div className="grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={reveal}>
@@ -310,15 +307,16 @@ export default function LandingPage() {
         <section id="use-cases" className="scroll-mt-24 bg-white py-24 sm:py-32">
           <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={reveal} className="max-w-3xl">
-                            <h2 className="mt-6 text-4xl font-black tracking-[-0.045em] sm:text-5xl">
-                Who uses Qalt
+              <SectionLabel>Built for transportation</SectionLabel>
+              <h2 className="mt-5 text-4xl font-black leading-[0.96] tracking-[-0.055em] sm:text-6xl">
+                Software people understand. Logistics people recognize.
               </h2>
               <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-500 sm:text-lg">
                 A one-van courier and a fleet running box trucks price jobs differently. The form follows the rules you set, not a template.
               </p>
             </motion.div>
 
-            <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-12 grid gap-px overflow-hidden border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-3">
               {useCases.map(([title, description], index) => (
                 <motion.div
                   key={title}

@@ -19,8 +19,8 @@ import QaltLogo from "@/components/shared/QaltLogo";
 
 function ProductPreview() {
   return (
-    <div className="relative mx-auto w-full max-w-[520px] overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.07] p-3 shadow-[0_35px_90px_-35px_rgba(0,0,0,.8)] backdrop-blur-xl">
-      <div className="overflow-hidden rounded-[24px] bg-[#f7f8fa]">
+    <div className="relative mx-auto w-full max-w-[520px] overflow-hidden border border-white/10 bg-white/[0.07] p-3 shadow-[0_28px_80px_-48px_rgba(0,0,0,.85)]">
+      <div className="overflow-hidden bg-[#f7f8fa]">
         <div className="flex h-10 items-center gap-1.5 border-b border-slate-200 bg-white px-4">
           <span className="h-2.5 w-2.5 rounded-full bg-slate-200" />
           <span className="h-2.5 w-2.5 rounded-full bg-slate-200" />
@@ -38,7 +38,7 @@ function ProductPreview() {
                 ["Analytics", false],
                 ["My Forms", false],
               ].map(([label, active]) => (
-                <div key={String(label)} className={`rounded-lg px-2.5 py-2 text-[9px] font-semibold ${active ? "bg-[#df1731] text-white" : "text-slate-500"}`}>
+                <div key={String(label)} className={`px-2.5 py-2 text-[9px] font-semibold ${active ? "bg-[#df1731] text-white" : "text-slate-500"}`}>
                   {label}
                 </div>
               ))}
@@ -56,14 +56,14 @@ function ProductPreview() {
 
             <div className="mt-4 grid grid-cols-3 gap-2">
               {[["Quotes", "128"], ["Booked", "41"], ["Avg. quote", "$142"]].map(([label, value]) => (
-                <div key={label} className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+                <div key={label} className="border border-slate-200 bg-white p-3 shadow-sm">
                   <div className="text-[7px] font-bold uppercase tracking-wider text-slate-400">{label}</div>
                   <div className="mt-1 text-base font-bold text-slate-950">{value}</div>
                 </div>
               ))}
             </div>
 
-            <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div className="mt-3 border border-slate-200 bg-white p-4 shadow-sm">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <div className="text-[8px] font-bold uppercase tracking-[0.14em] text-slate-400">Latest booking</div>
@@ -72,7 +72,7 @@ function ProductPreview() {
                 <div className="text-sm font-bold text-slate-950">$127</div>
               </div>
 
-              <div className="relative mt-4 h-28 overflow-hidden rounded-xl bg-[#f7f8fa]">
+              <div className="relative mt-4 h-28 overflow-hidden bg-[#f7f8fa]">
                 <div className="absolute inset-0 opacity-70" style={{ backgroundImage: "linear-gradient(#e4e7eb 1px,transparent 1px),linear-gradient(90deg,#e4e7eb 1px,transparent 1px)", backgroundSize: "24px 24px" }} />
                 <svg className="absolute inset-0 h-full w-full" viewBox="0 0 320 112" aria-hidden="true">
                   <path d="M38 22 V52 Q38 61 48 61 H140 Q152 61 152 73 V87 Q152 96 164 96 H275" fill="none" stroke="#df1731" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
@@ -138,8 +138,8 @@ function LoginForm() {
   };
 
   return (
-    <main className="min-h-screen bg-[#f7f8fa] text-slate-950 lg:grid lg:grid-cols-[1.04fr_.96fr]">
-      <section className="relative hidden min-h-screen overflow-hidden bg-[#17191e] px-10 py-9 lg:flex lg:flex-col xl:px-14 xl:py-11">
+    <main className="min-h-screen bg-[#f4f2ec] text-slate-950 lg:grid lg:grid-cols-[1.04fr_.96fr]">
+      <section className="relative hidden min-h-screen overflow-hidden bg-[#0b0b0c] px-10 py-9 lg:flex lg:flex-col xl:px-14 xl:py-11">
         <div className="absolute -left-32 top-12 h-80 w-80 rounded-full bg-[#df1731]/20 blur-[120px]" />
         <div className="absolute -right-32 bottom-0 h-80 w-80 rounded-full bg-white/10 blur-[120px]" />
 
@@ -151,7 +151,7 @@ function LoginForm() {
         <div className="relative z-10 my-auto py-10">
           <div className="mb-8 max-w-xl">
             <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-red-300">Merchant Console</div>
-            <h1 className="mt-4 max-w-lg text-4xl font-bold leading-[1.02] tracking-[-0.045em] text-white xl:text-5xl">
+            <h1 className="mt-4 max-w-lg text-4xl font-black leading-[0.94] tracking-[-0.055em] text-white xl:text-6xl">
               Welcome back.
             </h1>
             <p className="mt-4 max-w-md text-sm font-medium leading-6 text-white/55">
@@ -174,14 +174,14 @@ function LoginForm() {
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: "easeOut" }}>
             <div className="mb-8">
               <div className="text-[10px] font-bold uppercase tracking-[0.17em] text-[#df1731]">Welcome back</div>
-              <h2 className="mt-3 text-[34px] font-bold leading-tight tracking-[-0.04em] text-slate-950">Sign in to Qalt</h2>
+              <h2 className="mt-3 text-[38px] font-black leading-[0.95] tracking-[-0.05em] text-slate-950">Sign in to Qalt</h2>
               <p className="mt-2 text-sm font-medium text-slate-500">
                 New here? <Link href="/register" className="font-semibold text-[#df1731] transition hover:text-red-700">Create an account</Link>
               </p>
             </div>
 
             {resetSuccess && (
-              <div className="mb-5 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">
+              <div className="mb-5 border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">
                 Password updated. Sign in with your new password.
               </div>
             )}
@@ -191,7 +191,7 @@ function LoginForm() {
                 <label htmlFor="email" className="mb-2 block text-sm font-semibold text-slate-700">Email address</label>
                 <div className="relative">
                   <Mail className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <input id="email" name="email" type="email" autoComplete="email" required placeholder="you@company.com" className="h-13 w-full rounded-2xl border border-slate-200 bg-white pl-11 pr-4 text-[15px] font-medium text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-4 focus:ring-slate-900/5" />
+                  <input id="email" name="email" type="email" autoComplete="email" required placeholder="you@company.com" className="h-13 w-full border border-slate-200 bg-white pl-11 pr-4 text-[15px] font-medium text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-4 focus:ring-slate-900/5" />
                 </div>
               </div>
 
@@ -202,15 +202,15 @@ function LoginForm() {
                 </div>
                 <div className="relative">
                   <Lock className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <input id="password" name="password" type={showPassword ? "text" : "password"} autoComplete="current-password" required placeholder="Enter your password" className="h-13 w-full rounded-2xl border border-slate-200 bg-white pl-11 pr-12 text-[15px] font-medium text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-4 focus:ring-slate-900/5" />
-                  <button type="button" onClick={() => setShowPassword((value) => !value)} className="absolute right-3 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-700" aria-label={showPassword ? "Hide password" : "Show password"}>
+                  <input id="password" name="password" type={showPassword ? "text" : "password"} autoComplete="current-password" required placeholder="Enter your password" className="h-13 w-full border border-slate-200 bg-white pl-11 pr-12 text-[15px] font-medium text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-4 focus:ring-slate-900/5" />
+                  <button type="button" onClick={() => setShowPassword((value) => !value)} className="absolute right-3 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center text-slate-400 transition hover:bg-slate-100 hover:text-slate-700" aria-label={showPassword ? "Hide password" : "Show password"}>
                     {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
                   </button>
                 </div>
               </div>
 
               {error && (
-                <motion.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3.5">
+                <motion.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} className="border border-rose-200 bg-rose-50 px-4 py-3.5">
                   <p className="text-sm font-medium text-rose-800">{error}</p>
                   {isVerificationError && (
                     <button type="button" disabled={resendLoading || resendSent} onClick={async () => {
@@ -225,7 +225,7 @@ function LoginForm() {
                 </motion.div>
               )}
 
-              <button type="submit" disabled={loading} className="group flex h-13 w-full items-center justify-center gap-2 rounded-2xl bg-[#df1731] px-5 text-sm font-bold text-white shadow-[0_12px_30px_-14px_rgba(223,23,49,.75)] transition hover:bg-[#c9142b] active:scale-[.99] disabled:cursor-not-allowed disabled:opacity-55">
+              <button type="submit" disabled={loading} className="group flex h-13 w-full items-center justify-center gap-2 bg-[#df1731] px-5 text-sm font-bold text-white shadow-[0_12px_30px_-14px_rgba(223,23,49,.75)] transition hover:bg-[#c9142b] active:scale-[.99] disabled:cursor-not-allowed disabled:opacity-55">
                 {loading ? <><Loader2 size={17} className="animate-spin" /> Signing in...</> : <>Sign in <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" /></>}
               </button>
             </form>

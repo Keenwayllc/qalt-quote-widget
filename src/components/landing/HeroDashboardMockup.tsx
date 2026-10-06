@@ -520,10 +520,10 @@ export default function HeroDashboardMockup() {
       <motion.div
         animate={reduceMotion ? undefined : { opacity: [0.24, 0.48, 0.24], scale: [0.98, 1.025, 0.98] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-        className="pointer-events-none absolute -inset-7 rounded-full bg-red-500/10 blur-3xl"
+        className="pointer-events-none absolute -inset-4 bg-red-500/[0.045] blur-3xl"
       />
 
-      <div className="relative overflow-hidden rounded-[15px] border border-white/10 bg-white shadow-2xl shadow-black/45">
+      <div className="relative overflow-hidden border border-slate-950/15 bg-white shadow-[0_24px_80px_-48px_rgba(15,23,42,0.55)]">
         <div className="flex items-center gap-2 border-b border-slate-200 bg-[#f8f9fa] px-4 py-3">
           <div className="flex gap-1.5">
             <div className="h-2 w-2 rounded-full bg-slate-300" />

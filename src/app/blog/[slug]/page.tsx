@@ -34,11 +34,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
-  "How-To": "bg-blue-100 text-blue-700",
-  "Industry": "bg-purple-100 text-purple-700",
-  "Product": "bg-emerald-100 text-emerald-700",
-  "Growth": "bg-amber-100 text-amber-700",
-  "Operations": "bg-rose-100 text-rose-700",
+  "How-To": "bg-red-50 text-red-700",
+  "Industry": "bg-slate-100 text-slate-700",
+  "Product": "bg-red-50 text-red-700",
+  "Growth": "bg-slate-100 text-slate-700",
+  "Operations": "bg-red-50 text-red-700",
 };
 
 export default async function BlogPost({ params }: Props) {
@@ -61,22 +61,15 @@ export default async function BlogPost({ params }: Props) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-white text-slate-950">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
       <PublicNav />
 
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-12">
-        {/* Back */}
-        <Link
-          href="/blog"
-          className="inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-red-600 transition-colors mb-8"
-        >
-          <ArrowLeft size={15} />
-          All posts
-        </Link>
-
-        {/* Header */}
-        <div className="mb-10">
+      <main>
+        <section className="bg-[#f4f2ec] px-5 pb-16 pt-28 sm:px-8 sm:pb-20 sm:pt-32">
+          <div className="mx-auto max-w-4xl">
+            <Link href="/blog" className="mb-8 inline-flex items-center gap-2 text-sm font-bold text-slate-500 transition-colors hover:text-red-600"><ArrowLeft size={15} />All posts</Link>
+            <div className="mb-2">
           <div className="flex items-center gap-3 mb-4">
             <span className={`px-2.5 py-1 rounded-full text-xs font-black ${CATEGORY_COLORS[post.category] ?? "bg-slate-100 text-slate-600"}`}>
               {post.category}
@@ -85,14 +78,13 @@ export default async function BlogPost({ params }: Props) {
               {new Date(post.date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })} · {post.readTime}
             </span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-4">
-            {post.title}
-          </h1>
-          <p className="text-lg text-slate-500 font-medium leading-relaxed">
-            {post.description}
-          </p>
-        </div>
+          <h1 className="mb-5 max-w-4xl text-[clamp(2.6rem,6vw,5.2rem)] font-black leading-[0.92] tracking-[-0.055em] text-slate-950">{post.title}</h1>
+          <p className="max-w-3xl text-lg font-medium leading-8 text-slate-600">{post.description}</p>
+            </div>
+          </div>
+        </section>
 
+        <div className="mx-auto max-w-3xl px-5 py-14 sm:px-6">
         {/* Content */}
         <article
           className="prose prose-slate prose-lg max-w-none
@@ -109,14 +101,14 @@ export default async function BlogPost({ params }: Props) {
         />
 
         {/* CTA */}
-        <div className="mt-16 bg-slate-900 rounded-3xl p-8 text-center">
+        <div className="mt-16 bg-[#0b0b0c] p-8 text-center">
           <h2 className="text-xl font-black text-white mb-2">Add an instant quote widget to your site</h2>
           <p className="text-slate-400 font-medium text-sm mb-5">
             Start free on the Starter plan. Your pricing, your brand, one embed code.
           </p>
           <Link
             href="/register"
-            className="inline-block px-7 py-3 bg-red-600 text-white rounded-xl font-black text-sm hover:bg-red-500 transition-colors shadow-lg"
+            className="inline-block bg-red-600 px-7 py-3 text-sm font-black text-white transition-colors hover:bg-red-700"
           >
             Get Started Free →
           </Link>
@@ -131,7 +123,7 @@ export default async function BlogPost({ params }: Props) {
                 <Link
                   key={p.slug}
                   href={`/blog/${p.slug}`}
-                  className="flex items-start justify-between gap-4 bg-white rounded-2xl border border-slate-200 p-5 hover:shadow-sm transition-shadow group"
+                  className="group flex items-start justify-between gap-4 border border-slate-200 bg-white p-5 transition-colors hover:border-slate-400"
                 >
                   <div>
                     <p className="text-sm font-black text-slate-900 group-hover:text-red-600 transition-colors leading-snug mb-1">
@@ -145,6 +137,7 @@ export default async function BlogPost({ params }: Props) {
             </div>
           </div>
         )}
+        </div>
       </main>
       <MarketingFooter />
     </div>

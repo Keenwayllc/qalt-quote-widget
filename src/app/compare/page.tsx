@@ -207,31 +207,31 @@ function Cell({ value, qalt = false }: { value: CellValue; qalt?: boolean }) {
 
 export default function ComparePage() {
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="min-h-screen bg-white text-slate-950">
       <PublicNav />
 
       <main className="pt-16 sm:pt-20">
-        <section className="relative isolate overflow-hidden border-b border-slate-200 bg-[#080B14] px-6 py-20 sm:py-28">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(223,23,49,0.18),transparent_34%),radial-gradient(circle_at_80%_10%,rgba(245,158,11,0.08),transparent_28%)]" />
+        <section className="relative isolate overflow-hidden border-b border-slate-950/10 bg-[#f4f2ec] px-6 py-20 sm:py-28">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(220,38,38,0.07),transparent_34%)]" />
           <CompareHeroDevices />
           <div className="relative z-10 mx-auto max-w-5xl text-center">
-            <p className="relative mb-5 text-xs font-bold uppercase tracking-[0.14em] text-red-400">Delivery software comparison</p>
-            <h1 className="text-4xl font-black tracking-tight text-white [text-shadow:0_2px_4px_rgba(8,11,20,0.95),0_8px_24px_rgba(8,11,20,0.85)] sm:text-6xl lg:text-7xl">
+            <p className="relative mb-5 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Delivery software comparison</p>
+            <h1 className="text-[clamp(3.1rem,7vw,6.2rem)] font-black leading-[0.88] tracking-[-0.06em] text-slate-950">
               How Qalt compares
             </h1>
-            <p className="mx-auto mt-7 max-w-3xl text-base font-medium leading-relaxed text-white [text-shadow:0_1px_3px_rgba(8,11,20,1),0_4px_12px_rgba(8,11,20,0.9)] sm:text-lg">
+            <p className="mx-auto mt-8 max-w-3xl text-base font-medium leading-7 text-slate-600 sm:text-lg">
               Most delivery software starts at dispatch. Qalt starts earlier, when a customer on your website wants a price. Here is how it lines up against the tools couriers usually look at.
             </p>
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/demo"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 px-7 py-3.5 text-sm font-black text-white transition hover:bg-red-500 sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 bg-red-600 px-7 py-3.5 text-sm font-black text-white transition hover:bg-red-500 sm:w-auto"
               >
                 See Qalt Live <ArrowRight size={16} />
               </Link>
               <Link
                 href="/pricing"
-                className="inline-flex w-full items-center justify-center rounded-xl border border-white/15 bg-[#151822] px-7 py-3.5 text-sm font-black text-white/85 transition hover:bg-[#232735] sm:w-auto"
+                className="inline-flex w-full items-center justify-center border border-slate-950/15 bg-white/55 px-7 py-3.5 text-sm font-black text-slate-900 transition hover:bg-white sm:w-auto"
               >
                 View Qalt Pricing
               </Link>
@@ -240,7 +240,7 @@ export default function ComparePage() {
         </section>
 
         <section className="border-b border-slate-200 bg-white px-4 py-8 sm:px-6 lg:px-8">
-          <div className="mx-auto flex max-w-7xl flex-col gap-2 rounded-2xl border border-red-100 bg-red-50/60 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <div className="mx-auto flex max-w-7xl flex-col gap-2 border border-red-100 bg-red-50/60 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
             <div>
               <p className="text-sm font-semibold leading-relaxed text-slate-700 sm:text-base">
                 Qalt ships updates most weeks, so this table can go out of date. Check the blog for what changed recently.
@@ -252,7 +252,7 @@ export default function ComparePage() {
           </div>
         </section>
 
-        <section className="bg-slate-50 py-16 sm:py-24">
+        <section className="bg-white py-16 sm:py-24">
           <div className="w-full">
             <div className="mb-10 max-w-3xl px-4 sm:px-6 lg:px-8">
               <p className="mb-3 text-xs font-black uppercase tracking-[0.18em] text-red-600">Feature matrix</p>
@@ -311,21 +311,21 @@ export default function ComparePage() {
 
         <section className="border-y border-slate-200 bg-white px-6 py-20 sm:py-24">
           <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-3">
-            <div className="rounded-2xl border border-slate-200 p-7">
+            <div className="border border-slate-200 p-7">
               <div className="mb-4 text-xs font-black uppercase tracking-[0.18em] text-red-600">Why choose Qalt</div>
               <h3 className="text-2xl font-black tracking-tight">Your website becomes the sales counter.</h3>
               <p className="mt-4 text-sm font-medium leading-relaxed text-slate-500">
                 Give customers a delivery-specific quote and booking experience without sending them to a generic appointment page or making every quote a phone call.
               </p>
             </div>
-            <div className="rounded-2xl border border-slate-200 p-7">
+            <div className="border border-slate-200 p-7">
               <div className="mb-4 text-xs font-black uppercase tracking-[0.18em] text-red-600">From quote to customer record</div>
               <h3 className="text-2xl font-black tracking-tight">Choose one platform for the sale.</h3>
               <p className="mt-4 text-sm font-medium leading-relaxed text-slate-500">
                 Qalt brings delivery pricing, branded quotes, booking, optional online payments, and customer documents together. Start with quoting and choose a plan that adds the capabilities your business needs.
               </p>
             </div>
-            <div className="rounded-2xl border border-slate-200 p-7">
+            <div className="border border-slate-200 p-7">
               <div className="mb-4 text-xs font-black uppercase tracking-[0.18em] text-red-600">Built for small carriers</div>
               <h3 className="text-2xl font-black tracking-tight">Look established without enterprise overhead.</h3>
               <p className="mt-4 text-sm font-medium leading-relaxed text-slate-500">

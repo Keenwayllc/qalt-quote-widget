@@ -48,7 +48,7 @@ function ResetForm() {
         <ShieldAlert size={40} className="text-red-600 mx-auto" />
         <h2 className="text-xl font-black text-slate-900">Invalid reset link</h2>
         <p className="text-sm font-medium text-slate-500">This link is missing or malformed. Request a new one.</p>
-        <Link href="/forgot-password" className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-800 transition-all">
+        <Link href="/forgot-password" className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white font-bold text-sm hover:bg-slate-800 transition-all">
           Request new link <ArrowRight size={14} />
         </Link>
       </div>
@@ -68,7 +68,7 @@ function ResetForm() {
             autoComplete="new-password"
             required
             placeholder="New password (min. 8 characters)"
-            className="w-full pl-14 pr-14 py-4 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#1E40AF] transition-all font-semibold text-slate-900 text-sm placeholder:text-slate-400 shadow-sm"
+            className="w-full pl-14 pr-14 py-4 bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#1E40AF] transition-all font-semibold text-slate-900 text-sm placeholder:text-slate-400 shadow-sm"
           />
           <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-5 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none" aria-label={showPassword ? "Hide password" : "Show password"}>
             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -82,7 +82,7 @@ function ResetForm() {
             autoComplete="new-password"
             required
             placeholder="Confirm new password"
-            className="w-full pl-14 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#1E40AF] transition-all font-semibold text-slate-900 text-sm placeholder:text-slate-400 shadow-sm"
+            className="w-full pl-14 pr-5 py-4 bg-white border border-slate-200 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#1E40AF] transition-all font-semibold text-slate-900 text-sm placeholder:text-slate-400 shadow-sm"
           />
         </div>
         {error && (
@@ -91,7 +91,7 @@ function ResetForm() {
             <p className="text-sm font-semibold text-rose-700">{error}</p>
           </div>
         )}
-        <button type="submit" disabled={loading} className="w-full flex items-center justify-center gap-2.5 py-4 bg-red-600 hover:bg-red-700 text-white font-black text-sm uppercase tracking-[0.15em] rounded-2xl transition-all shadow-lg shadow-red-900/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+        <button type="submit" disabled={loading} className="w-full flex items-center justify-center gap-2.5 py-4 bg-red-600 hover:bg-red-700 text-white font-black text-sm uppercase tracking-[0.15em] transition-all shadow-lg shadow-red-900/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
           {loading ? (<><Loader2 className="w-4 h-4 animate-spin" /> Updating...</>) : (<>Update password <ArrowRight size={16} /></>)}
         </button>
       </form>
