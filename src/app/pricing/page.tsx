@@ -209,7 +209,7 @@ export default function PricingPage() {
           custom={1}
           className="max-w-5xl mx-auto px-6 mb-24"
         >
-          <div className="grid overflow-hidden border border-slate-200 bg-white md:grid-cols-3">
+          <div className="grid overflow-hidden border border-slate-200 bg-white lg:grid-cols-3">
             {/* Starter */}
             <div className="bg-white p-10 flex flex-col">
               <div className="h-[280px]">
@@ -312,13 +312,15 @@ export default function PricingPage() {
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
           variants={fadeIn}
-          className="max-w-5xl mx-auto px-6"
+          className="mx-auto max-w-5xl px-4 sm:px-6"
         >
           <h2 className="text-3xl font-black tracking-tight text-center mb-4">Compare All Features</h2>
           <p className="text-center text-slate-500 font-medium mb-12">See what is included at each stage as your quoting workflow grows.</p>
 
+          <div className="-mx-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:px-0">
+            <div className="min-w-[720px]">
           {/* Header row */}
-          <div className="grid grid-cols-4 gap-4 pb-4 border-b-2 border-slate-200 mb-1">
+          <div className="mb-1 grid grid-cols-4 gap-4 border-b-2 border-slate-200 pb-4">
             <div />
             {(["Starter", "Pro", "Enterprise"] as const).map((label, i) => (
               <div key={label} className="text-center">
@@ -352,7 +354,7 @@ export default function PricingPage() {
           </div>
 
           {/* CTA row */}
-          <div className="grid grid-cols-4 gap-4 mt-8 pt-8 border-t border-slate-200">
+          <div className="mt-8 grid grid-cols-4 gap-4 border-t border-slate-200 pt-8">
             <div />
             <Link href="/register" className="text-center py-4 bg-slate-100 border border-slate-200 text-slate-700 font-bold text-sm hover:bg-slate-200 active:scale-[0.98] transition-all">
               Get Started
@@ -363,6 +365,8 @@ export default function PricingPage() {
             <Link href="/register" className="text-center py-4 bg-slate-900 text-white font-bold text-sm hover:bg-slate-800 active:scale-[0.98] transition-all">
               Upgrade to Enterprise
             </Link>
+          </div>
+            </div>
           </div>
         </motion.div>
 
