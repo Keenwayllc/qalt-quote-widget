@@ -13,11 +13,11 @@ export const metadata: Metadata = {
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
-  "How-To": "bg-blue-100 text-blue-700",
-  "Industry": "bg-purple-100 text-purple-700",
-  "Product": "bg-emerald-100 text-emerald-700",
-  "Growth": "bg-amber-100 text-amber-700",
-  "Operations": "bg-rose-100 text-rose-700",
+  "How-To": "bg-red-50 text-red-700",
+  "Industry": "bg-slate-100 text-slate-700",
+  "Product": "bg-red-50 text-red-700",
+  "Growth": "bg-slate-100 text-slate-700",
+  "Operations": "bg-red-50 text-red-700",
 };
 
 export default function BlogIndex() {
@@ -105,6 +105,7 @@ export default function BlogIndex() {
           >
             Get Started Free →
           </Link>
+        </div>
         </div>
       </main>
       <MarketingFooter />
