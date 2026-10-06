@@ -56,7 +56,7 @@ export function TrustBadgeGrid({ tone = "light", keys }: { tone?: "light" | "dar
   const badges = keys ? TRUST_BADGES.filter((b) => keys.includes(b.key)) : TRUST_BADGES;
   const dark = tone === "dark";
   return (
-    <ul className={`grid gap-px overflow-hidden rounded-2xl border sm:grid-cols-2 ${badges.length >= 5 ? "lg:grid-cols-5" : badges.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"} ${dark ? "border-white/10 bg-white/10" : "border-slate-200 bg-slate-200"}`}>
+    <ul className={`grid gap-px overflow-hidden rounded-2xl border md:grid-cols-2 ${badges.length >= 5 ? "xl:grid-cols-5" : badges.length === 4 ? "xl:grid-cols-4" : "lg:grid-cols-3"} ${dark ? "border-white/10 bg-white/10" : "border-slate-200 bg-slate-200"}`}>
       {badges.map(({ key, icon: Icon, title, detail }) => (
         <li key={key} className={`p-5 ${dark ? "bg-slate-950" : "bg-white"}`}>
           <div className="flex items-center gap-2">
