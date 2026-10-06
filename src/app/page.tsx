@@ -187,7 +187,7 @@ export default function LandingPage() {
 
               <div
                 style={{ "--d": "320ms" } as React.CSSProperties}
-                className="q-rise mt-7 grid max-w-xl grid-cols-1 gap-px overflow-hidden border border-slate-950/10 bg-slate-950/10 text-left sm:grid-cols-3"
+                className="q-rise mt-7 grid max-w-xl grid-cols-1 gap-px overflow-hidden border border-slate-950/10 bg-slate-950/10 text-left md:grid-cols-3"
               >
                 {[
                   ["01", "Your rates", "Mileage, minimums, service levels and fees."],
