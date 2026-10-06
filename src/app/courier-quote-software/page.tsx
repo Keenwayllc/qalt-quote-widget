@@ -66,7 +66,7 @@ export default function CourierQuoteSoftwarePage() {
             <p className="mb-6 flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500"><span className="h-2 w-2 bg-red-600" />Courier quote software</p>
             <h1 className="max-w-5xl text-[clamp(3.1rem,7vw,6.2rem)] font-black leading-[0.88] tracking-[-0.06em] text-slate-950">Give customers a price before they leave your website.</h1>
             <p className="mt-8 max-w-3xl text-base font-medium leading-7 text-slate-600 sm:text-lg">Qalt adds instant delivery quoting to an existing courier, delivery, or final-mile website. Customers enter the job, Qalt applies your supported pricing rules, and the request lands in your dashboard.</p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-9 flex flex-col gap-3 md:flex-row">
               <Link href="/register" className="inline-flex items-center justify-center gap-2 bg-red-600 px-7 py-4 font-black text-white hover:bg-red-700">Get Started <ArrowRight size={17} /></Link>
               <Link href="/demo" className="border border-slate-950/15 bg-white/55 px-7 py-4 text-center font-black text-slate-900 hover:bg-white">View Live Demo</Link>
               <Link href="/pricing" className="border border-slate-950/15 px-7 py-4 text-center font-black text-slate-700 hover:bg-white/60">View Pricing</Link>
