@@ -225,7 +225,7 @@ export default function RegisterPage() {
 
   if (registered) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#f7f8fa] px-5 py-10">
+      <main className="flex min-h-screen items-center justify-center bg-[#f4f2ec] px-5 py-10">
         <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: "easeOut" }} className="w-full max-w-[470px]">
           <Link href="/" className="mb-8 flex justify-center"><QaltLogo size="sm" /></Link>
           <div className="border border-slate-200 bg-white p-7 shadow-[0_24px_70px_-38px_rgba(15,23,42,.35)] sm:p-9">
