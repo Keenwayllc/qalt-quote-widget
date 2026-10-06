@@ -140,7 +140,7 @@ export default function LandingPage() {
       <main>
         <section className="relative overflow-hidden bg-[#f4f2ec] pt-24 sm:pt-28 lg:pt-32">
           <div className="pointer-events-none absolute inset-0">
-            <div className="absolute inset-x-0 top-0 h-px bg-slate-950/8" />
+            <div className="absolute inset-x-0 top-0 h-px bg-slate-950/[0.08]" />
             <div className="absolute -right-24 top-12 h-72 w-72 rounded-full bg-red-600/[0.055] blur-3xl" />
           </div>
 
