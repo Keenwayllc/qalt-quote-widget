@@ -124,7 +124,7 @@ function FeatureCell({ value }: { value: FeatureValue }) {
 function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+    <div className="bg-white border border-slate-200 overflow-hidden">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -159,42 +159,38 @@ export default function PricingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="min-h-screen bg-white text-slate-950">
 
       <PublicNav />
 
-      <main className="pt-28 sm:pt-32 pb-32">
+      <main className="pb-32 pt-16">
 
         {/* Header */}
         <motion.div
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          className="text-center mb-16 px-6"
+          className="mb-16 bg-[#f4f2ec] px-6 py-20 text-center sm:py-24"
         >
-          <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-5">
-            Pricing
-          </h1>
-          <p className="text-xl text-slate-500 font-medium max-w-xl mx-auto mb-6">
-            Start free. Upgrade when you need more quote volume, more forms, and more control. No hidden fees.
-          </p>
-          <p className="text-sm text-slate-400 font-medium mb-10">
-            New features and improvements are included in every plan.
-          </p>
+          <div className="mx-auto max-w-5xl">
+            <p className="mb-6 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500">Plans built around your quoting workflow</p>
+            <h1 className="text-[clamp(3.1rem,7vw,6.2rem)] font-black leading-[0.88] tracking-[-0.06em] text-slate-950">Start free. Scale when the workflow earns it.</h1>
+            <p className="mx-auto mt-8 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:text-lg">Choose the level of quote volume, branding, operations and payment control your delivery company needs.</p>
+          </div>
 
           {/* Billing Toggle */}
-          <div className="inline-flex items-center bg-slate-100 border border-slate-200 rounded-lg p-1">
+          <div className="inline-flex items-center border border-slate-300 bg-white/60 p-1">
             <button
               type="button"
               onClick={() => setAnnual(false)}
-              className={`px-6 py-2.5 rounded-md text-sm font-black transition-all ${!annual ? "bg-white shadow-sm text-slate-900 border border-slate-200" : "text-slate-500 hover:text-slate-700"}`}
+              className={`px-6 py-2.5 text-sm font-black transition-all ${!annual ? "bg-white shadow-sm text-slate-900 border border-slate-200" : "text-slate-500 hover:text-slate-700"}`}
             >
               Monthly
             </button>
             <button
               type="button"
               onClick={() => setAnnual(true)}
-              className={`px-6 py-2.5 rounded-md text-sm font-black transition-all flex items-center gap-2 ${annual ? "bg-white shadow-sm text-slate-900 border border-slate-200" : "text-slate-500 hover:text-slate-700"}`}
+              className={`px-6 py-2.5 text-sm font-black transition-all flex items-center gap-2 ${annual ? "bg-white shadow-sm text-slate-900 border border-slate-200" : "text-slate-500 hover:text-slate-700"}`}
             >
               Annually
               <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-[10px] font-black uppercase tracking-widest">
@@ -213,7 +209,7 @@ export default function PricingPage() {
           custom={1}
           className="max-w-5xl mx-auto px-6 mb-24"
         >
-          <div className="grid md:grid-cols-3 rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white">
+          <div className="grid overflow-hidden border border-slate-200 bg-white md:grid-cols-3">
             {/* Starter */}
             <div className="bg-white p-10 flex flex-col">
               <div className="h-[280px]">
@@ -228,7 +224,7 @@ export default function PricingPage() {
                 </div>
                 <p className="text-slate-500 text-sm font-medium mb-8">Free forever. No card required.</p>
               </div>
-              <Link href="/register" className="block w-full text-center py-4 bg-slate-900 text-white rounded-xl font-bold text-sm hover:opacity-90 active:scale-[0.98] transition-all mb-8">
+              <Link href="/register" className="block w-full text-center py-4 bg-slate-900 text-white font-bold text-sm hover:opacity-90 active:scale-[0.98] transition-all mb-8">
                 Get Started Free
               </Link>
               <ul className="space-y-3">
@@ -241,7 +237,7 @@ export default function PricingPage() {
             </div>
 
             {/* Pro */}
-            <div className="bg-linear-to-bl from-[#150f0f] via-[#1c0f0f] to-[#2d1215] p-10 flex flex-col relative">
+            <div className="bg-[#0b0b0c] p-10 flex flex-col relative">
               <div className="h-[280px]">
                 <div className="mb-8 p-0">
                   <div className="flex items-center gap-3 mb-2">
@@ -258,7 +254,7 @@ export default function PricingPage() {
                   {annual ? "Billed $348 annually · save $120" : "Switch to annual & save $120/yr"}
                 </p>
               </div>
-              <Link href="/register" className="block w-full text-center py-4 bg-red-600 text-white rounded-xl font-bold text-sm hover:bg-red-700 active:scale-[0.98] transition-all mb-8 shadow-lg shadow-red-900/20">
+              <Link href="/register" className="block w-full text-center py-4 bg-red-600 text-white font-bold text-sm hover:bg-red-700 active:scale-[0.98] transition-all mb-8">
                 Upgrade to Pro
               </Link>
               <ul className="space-y-3">
@@ -287,7 +283,7 @@ export default function PricingPage() {
                   {annual ? "Billed $948 annually · save $240" : "Billed monthly"}
                 </p>
               </div>
-              <Link href="/register" className="block w-full text-center py-4 bg-slate-900 text-white rounded-xl font-bold text-sm hover:opacity-90 active:scale-[0.98] transition-all mb-8">
+              <Link href="/register" className="block w-full text-center py-4 bg-slate-900 text-white font-bold text-sm hover:opacity-90 active:scale-[0.98] transition-all mb-8">
                 Upgrade to Enterprise
               </Link>
               <ul className="space-y-3">
@@ -358,13 +354,13 @@ export default function PricingPage() {
           {/* CTA row */}
           <div className="grid grid-cols-4 gap-4 mt-8 pt-8 border-t border-slate-200">
             <div />
-            <Link href="/register" className="text-center py-4 bg-slate-100 border border-slate-200 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-200 active:scale-[0.98] transition-all">
+            <Link href="/register" className="text-center py-4 bg-slate-100 border border-slate-200 text-slate-700 font-bold text-sm hover:bg-slate-200 active:scale-[0.98] transition-all">
               Get Started
             </Link>
-            <Link href="/register" className="text-center py-4 bg-red-600 text-white rounded-xl font-bold text-sm hover:bg-red-700 active:scale-[0.98] transition-all shadow-md shadow-red-200">
+            <Link href="/register" className="text-center py-4 bg-red-600 text-white font-bold text-sm hover:bg-red-700 active:scale-[0.98] transition-all">
               Upgrade to Pro
             </Link>
-            <Link href="/register" className="text-center py-4 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-800 active:scale-[0.98] transition-all">
+            <Link href="/register" className="text-center py-4 bg-slate-900 text-white font-bold text-sm hover:bg-slate-800 active:scale-[0.98] transition-all">
               Upgrade to Enterprise
             </Link>
           </div>
@@ -378,7 +374,7 @@ export default function PricingPage() {
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
         variants={fadeUp}
-        className="py-20 bg-white border-t border-slate-100"
+        className="border-t border-slate-200 bg-white py-20"
       >
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-6">A single booked job can cover the monthly cost</h2>
@@ -406,7 +402,7 @@ export default function PricingPage() {
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
         variants={fadeUp}
-        className="py-24 bg-slate-50 border-t border-slate-100"
+        className="border-t border-slate-200 bg-[#f4f2ec] py-24"
       >
         <div className="max-w-3xl mx-auto px-6">
           <h2 className="text-3xl font-black tracking-tight text-center mb-12">Common Questions</h2>
@@ -440,10 +436,10 @@ export default function PricingPage() {
             Launch your first quote widget, test your workflow, and upgrade when you need more.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
-            <Link href="/register" className="px-10 py-4 bg-red-600 text-white rounded-xl font-bold text-base hover:bg-red-700 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-red-200">
+            <Link href="/register" className="px-10 py-4 bg-red-600 text-white font-bold text-base hover:bg-red-700 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-red-200">
               Get Started Free
             </Link>
-            <Link href="/register" className="px-10 py-4 bg-slate-900 text-white rounded-xl font-bold text-base hover:opacity-90 active:scale-[0.98] transition-all shadow-xl shadow-slate-200">
+            <Link href="/register" className="px-10 py-4 bg-slate-900 text-white font-bold text-base hover:opacity-90 active:scale-[0.98] transition-all shadow-xl shadow-slate-200">
               Upgrade to Enterprise
             </Link>
           </div>
