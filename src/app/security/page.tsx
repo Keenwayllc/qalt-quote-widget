@@ -39,20 +39,18 @@ const SECTIONS = [
 
 export default function SecurityPage() {
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="min-h-screen bg-white text-slate-950">
       <PublicNav />
       <main>
-        <section className="bg-[#080B14] pb-16 pt-32 sm:pb-20 sm:pt-40">
-          <div className="mx-auto max-w-4xl px-6 sm:px-8">
-            <p className="mb-5 text-xs font-bold uppercase tracking-[0.14em] text-red-400">Security</p>
-            <h1 className="text-4xl font-black tracking-tight text-white sm:text-6xl">How Qalt keeps quotes and payments safe.</h1>
-            <p className="mt-6 max-w-2xl text-base font-medium leading-relaxed text-white/60 sm:text-lg">
-              Delivery companies trust Qalt with their pricing and their customers trust it with addresses and payment. Here is exactly what we do to protect both, in plain terms.
-            </p>
+        <section className="bg-[#f4f2ec] pb-20 pt-28 sm:pb-24 sm:pt-32">
+          <div className="mx-auto max-w-6xl px-6 sm:px-8">
+            <p className="mb-6 flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500"><span className="h-2 w-2 bg-red-600" />Security</p>
+            <h1 className="max-w-5xl text-[clamp(3.1rem,7vw,6.2rem)] font-black leading-[0.88] tracking-[-0.06em] text-slate-950">Security built into the quote flow.</h1>
+            <p className="mt-8 max-w-3xl text-base font-medium leading-7 text-slate-600 sm:text-lg">Delivery companies trust Qalt with pricing and customer data. Here is how the platform protects quotes, accounts and payments in plain terms.</p>
           </div>
         </section>
 
-        <section className="bg-slate-50 py-14 sm:py-20">
+        <section className="border-y border-slate-200 bg-white py-14 sm:py-20">
           <div className="mx-auto max-w-6xl px-6 sm:px-8">
             <TrustBadgeGrid />
           </div>
@@ -65,13 +63,13 @@ export default function SecurityPage() {
                 <h2 className="text-2xl font-black tracking-tight text-slate-950">{section.title}</h2>
                 <ul className="mt-5 space-y-3">
                   {section.points.map((point) => (
-                    <li key={point} className="border-l-2 border-emerald-500 pl-4 text-[15px] font-medium leading-7 text-slate-600">{point}</li>
+                    <li key={point} className="border-l-2 border-red-600 pl-4 text-[15px] font-medium leading-7 text-slate-600">{point}</li>
                   ))}
                 </ul>
               </div>
             ))}
 
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+            <div className="border border-slate-200 bg-slate-50 p-6">
               <h2 className="text-lg font-black text-slate-950">Found a security problem?</h2>
               <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
                 Email us and we will look into it right away. Please include the page and the steps to reproduce it.
@@ -82,10 +80,10 @@ export default function SecurityPage() {
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Link href="/register" className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-7 py-4 text-sm font-black text-white hover:bg-red-500">
+              <Link href="/register" className="inline-flex items-center justify-center gap-2 bg-red-600 px-7 py-4 text-sm font-black text-white hover:bg-red-500">
                 Start free <ArrowRight size={16} />
               </Link>
-              <Link href="/legal/privacy" className="inline-flex items-center justify-center rounded-xl border border-slate-200 px-7 py-4 text-sm font-black text-slate-700 hover:bg-slate-50">
+              <Link href="/legal/privacy" className="inline-flex items-center justify-center border border-slate-200 px-7 py-4 text-sm font-black text-slate-700 hover:bg-slate-50">
                 Privacy policy
               </Link>
             </div>
