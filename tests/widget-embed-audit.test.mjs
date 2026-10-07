@@ -1,4 +1,4 @@
-import assert from 'node:assert/strict';
+﻿import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -52,13 +52,13 @@ test('tracking separates direct visits, dashboard wrappers, builders and ordinar
 });
 
 function publicPage(kind) {
-  const forms = [{ id: 'a', headerText: 'Default', companyId: 'merchantA', logoUrl: null }, { id: 'b', headerText: 'Second', companyId: 'merchantA', logoUrl: 'https://images.example/logo.png', customQuestions: [{id:'q', label:'Gate', type:'text'}], geoFencingEnabled: true, serviceZips:['90001'], vehicleOptions:[{name:'Van',fee:35}], backgroundImageUrl:'https://images.example/bg.png' }];
+  const forms = [{ id: 'a', headerText: 'Default', companyId: 'merchantA', logoUrl: null }, { id: 'b', headerText: 'Second', companyId: 'merchantA', logoUrl: 'https://images.example/logo.png', customQuestions: [{id:'q', label:'Gate', type:'text'}], geoFencingEnabled: true, serviceZips:['90001'], vehicleOptions:[{name:'Van',fee:35}], backgroundImageUrl:'https://images.example/bg.png', advancedAppearance:{marker:'TOKENS'} }];
   const company = { id:'merchantA', name:'Merchant', logoUrl:'https://images.example/company.png', logoBackdrop:'dark', subscriptionPlan:'ENTERPRISE', email:'PRIVATE', passwordHash:'SECRET', widgetSettings:forms, pricingProfiles:[{id:'priceA',widgetSettingsId:'a',minimumCharge:25},{id:'priceB',widgetSettingsId:'b',minimumCharge:99}] };
   const project = (value, select) => Object.fromEntries(Object.entries(select).map(([key, rule]) => [key, rule === true ? value[key] : Array.isArray(value[key]) ? value[key].map(v=>project(v,rule.select)) : value[key] ? project(value[key],rule.select) : null]));
   const prisma = { company: { findUnique: async ({where,select}) => where.id === 'merchantA' ? project(company,select) : where.id === 'empty' ? {...project(company,select),widgetSettings:[]} : null }, widgetSettings:{ findUnique:async ({where,select}) => { const form=forms.find(f=>f.id===where.id); return form ? project({...form,company,pricingProfile:company.pricingProfiles.find(p=>p.widgetSettingsId===form.id)},select) : null; } } };
   const components = {};
-  for (const name of ['QuoteWidgetForm','AbandonedQuoteTracker','WidgetInstallTracker','WidgetThemeShell']) components[`@/components/widget/${name}`]={default:name};
-  const page=load(`src/app/widget/${kind === 'form' ? 'form/[formId]' : '[companyId]'}/page.tsx`, {...components,'@/lib/prisma':{default:prisma},'@/lib/widget-theme':{getWidgetTheme:async id=>id==='b'?'dark':'light'},'next/navigation':{notFound:()=>{throw new Error('404')}},'@/lib/publicWidget':{publicCompanySelect,publicWidgetSettingsSelect,publicPricingProfileSelect},'@/lib/widget-pricing':{pricingProfileForForm},'@/lib/widget-urls':{safeWidgetUrl},'@/lib/widget-favicon':{widgetPageMetadata}}).default;
+  for (const name of ['QuoteWidgetForm','AbandonedQuoteTracker','WidgetInstallTracker','WidgetAppearanceShell']) components[`@/components/widget/${name}`]={default:name};
+  const page=load(`src/app/widget/${kind === 'form' ? 'form/[formId]' : '[companyId]'}/page.tsx`, {...components,'@/lib/prisma':{default:prisma},'@/lib/advanced-appearance':{effectiveAppearance:(raw,plan)=>plan==='ENTERPRISE'&&raw?raw:null},'@/lib/widget-theme':{getWidgetTheme:async id=>id==='b'?'dark':'light'},'next/navigation':{notFound:()=>{throw new Error('404')}},'@/lib/publicWidget':{publicCompanySelect,publicWidgetSettingsSelect,publicPricingProfileSelect},'@/lib/widget-pricing':{pricingProfileForForm},'@/lib/widget-urls':{safeWidgetUrl},'@/lib/widget-favicon':{widgetPageMetadata}}).default;
   return page;
 }
 function find(element, type) {
@@ -67,7 +67,7 @@ function find(element, type) {
   for (const child of [element.props?.children].flat(Infinity)) { const found=find(child,type); if(found)return found; }
 }
 test('actual public page selects second-form customization, theme and pricing without private fields', async () => {
-  const tree = await publicPage('form')({params:Promise.resolve({formId:'b'})});
+  const tree = await publicPage('form')({params:Promise.resolve({formId:'b'}),searchParams:Promise.resolve({})});
   assert.equal(tree.props.theme,'dark');
   const payload=find(tree,'QuoteWidgetForm').props.company;
   assert.equal(payload.formId,'b'); assert.equal(payload.widgetSettings.headerText,'Second');
@@ -77,12 +77,29 @@ test('actual public page selects second-form customization, theme and pricing wi
   assert.equal(payload.widgetSettings.customQuestions[0].label,'Gate');
   assert.ok(!JSON.stringify(tree).includes('PRIVATE') && !JSON.stringify(tree).includes('SECRET'));
 });
+test('advanced appearance reaches the shell plan-checked, never as a raw form field', async () => {
+  const live = await publicPage('form')({params:Promise.resolve({formId:'b'}),searchParams:Promise.resolve({})});
+  assert.equal(live.type,'WidgetAppearanceShell');
+  assert.deepEqual(live.props.appearance,{marker:'TOKENS'});
+  assert.equal(live.props.allowPreview,false);
+  assert.equal('advancedAppearance' in find(live,'QuoteWidgetForm').props.company.widgetSettings,false);
+  const preview = await publicPage('form')({params:Promise.resolve({formId:'b'}),searchParams:Promise.resolve({preview:'appearance'})});
+  assert.equal(preview.props.allowPreview,true);
+  const basic = await publicPage('form')({params:Promise.resolve({formId:'a'}),searchParams:Promise.resolve({})});
+  assert.equal(basic.props.appearance,null);
+});
+test('basic Widget Appearance saves never touch advanced appearance', async () => {
+  const d=dashboard();
+  const res=await d.POST(d.req({formId:'b',primaryColor:'#ABCDEF',advancedAppearance:null}));
+  assert.equal(res.status,200);
+  assert.equal('advancedAppearance' in d.updates[0].data,false);
+});
 test('legacy company page uses its own default form and form pricing, missing pages are safe 404s', async () => {
   const page=publicPage('company'); const tree=await page({params:Promise.resolve({companyId:'merchantA'})});
   const payload=find(tree,'QuoteWidgetForm').props.company;
   assert.equal(payload.formId,'a'); assert.equal(payload.pricingProfile.minimumCharge,25);
   for (const companyId of ['empty','missing']) await assert.rejects(page({params:Promise.resolve({companyId})}), /404/);
-  await assert.rejects(publicPage('form')({params:Promise.resolve({formId:'deleted'})}), /404/);
+  await assert.rejects(publicPage('form')({params:Promise.resolve({formId:'deleted'}),searchParams:Promise.resolve({})}), /404/);
 });
 
 function dashboard() {

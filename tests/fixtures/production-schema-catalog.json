@@ -288,6 +288,7 @@
   "WidgetInstallation.lastSeenAt timestamp(3) without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP",
   "WidgetInstallation.loadCount integer NOT NULL DEFAULT 1",
   "WidgetSettings.addon3Label text NOT NULL DEFAULT ''::text",
+  "WidgetSettings.advancedAppearance jsonb",
   "WidgetSettings.autoContrastLogo boolean NOT NULL DEFAULT false",
   "WidgetSettings.backgroundImageUrl text",
   "WidgetSettings.buttonText text NOT NULL DEFAULT 'Get Instant Quote'::text",

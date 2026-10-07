@@ -80,6 +80,7 @@ const FEATURE_SECTIONS: FeatureSection[] = [
       { name: "Custom colors & fonts",          starter: false, pro: true,  enterprise: true  },
       { name: "Custom logo",                    starter: false, pro: true,  enterprise: true  },
       { name: "Custom success messages",        starter: false, pro: true,  enterprise: true  },
+      { name: "Website-matching form design",   starter: false, pro: false, enterprise: true  },
       { name: "Fully custom CSS",               starter: false, pro: false, enterprise: true  },
     ],
   },
@@ -290,6 +291,7 @@ export default function PricingPage() {
                 {[
                   { t: "Everything in Pro", hl: false },
                   { t: "Accept payments in your widget", hl: true },
+                  { t: "Website-matching form design", hl: false },
                   { t: "Multi-vehicle & fleet quoting", hl: false },
                   { t: "Unlimited quote forms", hl: false },
                   { t: "Custom CSS & domain embed", hl: false },
@@ -412,7 +414,7 @@ export default function PricingPage() {
           <h2 className="text-3xl font-black tracking-tight text-center mb-12">Common Questions</h2>
           <div className="space-y-3">
             {[
-              { q: "What's the difference between Pro and Enterprise?", a: "Pro gives you everything to quote and capture unlimited leads with your own branding: unlimited quotes, up to 5 forms, the full Ops Console, white-label, and analytics. Enterprise adds the ability to accept payment in your widget, multi-vehicle and fleet quoting, custom CSS and domain embedding, and webhooks, for operators who want customers to pay through Qalt." },
+              { q: "What's the difference between Pro and Enterprise?", a: "Pro gives you everything to quote and capture unlimited leads with your own branding: unlimited quotes, up to 5 forms, the full Ops Console, white-label, and analytics. Enterprise adds the ability to accept payment in your widget, website-matching form design (your colors, fonts, shapes and light or dark mode), multi-vehicle and fleet quoting, custom CSS and domain embedding, and webhooks, for operators who want customers to pay through Qalt." },
               { q: "Can customers pay through the widget?", a: "Yes, on Enterprise. Customers can pay a deposit or the full amount at booking through Stripe, so you capture payment up front instead of chasing invoices." },
               { q: "Is the Ops Console included in Pro?", a: "Yes. Every Pro plan includes the full Ops Console (Jobs, Saved Stop Notes, Delivery Readiness, and Exception Logging) at no extra cost." },
               { q: "What happens if I exceed my limit on the free plan?", a: "The free Starter plan includes 50 quotes per calendar month, resetting on the 1st at 00:00 UTC. Once you reach it, upgrade to Pro for unlimited quotes without interruption." },

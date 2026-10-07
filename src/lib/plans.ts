@@ -5,6 +5,7 @@ export interface PlanEntitlements {
   maxForms: number | "unlimited";
   isWhiteLabelEnabled: boolean;
   isAdvancedCustomizationEnabled: boolean; // Custom fonts, colors, etc.
+  isAdvancedAppearanceEnabled: boolean; // Enterprise only: website-matching form design tokens
   isAnalyticsDashboardEnabled: boolean;
   isCustomCSSEnabled: boolean;
   isWebhookEnabled: boolean;
@@ -19,6 +20,7 @@ export const PLANS: Record<SubscriptionPlan, PlanEntitlements> = {
     maxForms: 1,
     isWhiteLabelEnabled: false,
     isAdvancedCustomizationEnabled: false,
+    isAdvancedAppearanceEnabled: false,
     isAnalyticsDashboardEnabled: false,
     isCustomCSSEnabled: false,
     isWebhookEnabled: false,
@@ -31,6 +33,7 @@ export const PLANS: Record<SubscriptionPlan, PlanEntitlements> = {
     maxForms: 5,
     isWhiteLabelEnabled: true,
     isAdvancedCustomizationEnabled: true,
+    isAdvancedAppearanceEnabled: false,
     isAnalyticsDashboardEnabled: true,
     isCustomCSSEnabled: false,
     // Webhooks are an Enterprise integration feature (matches the pricing page
@@ -45,6 +48,7 @@ export const PLANS: Record<SubscriptionPlan, PlanEntitlements> = {
     maxForms: "unlimited",
     isWhiteLabelEnabled: true,
     isAdvancedCustomizationEnabled: true,
+    isAdvancedAppearanceEnabled: true,
     isAnalyticsDashboardEnabled: true,
     isCustomCSSEnabled: true,
     isWebhookEnabled: true,

@@ -7,6 +7,9 @@ import WidgetThemeSelector from "@/components/dashboard/WidgetThemeSelector";
 import LogoUploadPolicy from "@/components/dashboard/LogoUploadPolicy";
 import { getWidgetTheme } from "@/lib/widget-theme";
 import FormSettingsSelector from "@/components/dashboard/FormSettingsSelector";
+import AdvancedAppearanceStudio from "@/components/dashboard/AdvancedAppearanceStudio";
+import { effectiveAppearance, readStoredAppearance } from "@/lib/advanced-appearance";
+import { getEntitlements } from "@/lib/plans";
 import { notFound } from "next/navigation";
 import "./widget-preview-theme.css";
 
@@ -50,7 +53,21 @@ export default async function WidgetSettingsPage({
       />
       <LogoUploadPolicy />
       {widgetSettings && (
-        <WidgetThemeSelector key={`theme-${widgetSettings.id}`} formId={widgetSettings.id} initialTheme={themeMode} />
+        <WidgetThemeSelector
+          key={`theme-${widgetSettings.id}`}
+          formId={widgetSettings.id}
+          initialTheme={themeMode}
+          advancedActive={Boolean(effectiveAppearance(widgetSettings.advancedAppearance, company.subscriptionPlan))}
+        />
+      )}
+      {widgetSettings && (
+        <AdvancedAppearanceStudio
+          key={`appearance-${widgetSettings.id}`}
+          formId={widgetSettings.id}
+          entitled={getEntitlements(company.subscriptionPlan).isAdvancedAppearanceEnabled}
+          initialAppearance={readStoredAppearance(widgetSettings.advancedAppearance)}
+          basicPrimary={widgetSettings.primaryColor}
+        />
       )}
       <BrandColorPresets />
       {widgetSettings && (

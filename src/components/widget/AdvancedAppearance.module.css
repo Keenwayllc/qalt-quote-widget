@@ -1,0 +1,357 @@
+/* Enterprise Advanced appearance (src/lib/advanced-appearance.ts).
+   The shell receives resolved tokens as custom properties; this sheet maps
+   them onto the quote form. It replaces the basic Light/Dark theme classes
+   (never stacks on them) and outranks the generic .qalt-widget-stage rules in
+   globals.css and WidgetBrandRuntime by selector weight, not source order.
+   Exact class matches ([class~=]) keep hover:/focus: variants untouched. */
+
+.shell {
+  --qa-accent: var(--qa-l-accent);
+  --qa-background: var(--qa-l-background);
+  --qa-surface: var(--qa-l-surface);
+  --qa-text: var(--qa-l-text);
+  --qa-muted: var(--qa-l-muted);
+  --qa-border: var(--qa-l-border);
+  --qa-focus: var(--qa-l-focus);
+  --qa-error: var(--qa-l-error);
+  --qa-field: var(--qa-l-field);
+  --qa-subtle: var(--qa-l-subtle);
+  --qa-subtle-strong: var(--qa-l-subtle-strong);
+  --qa-border-strong: var(--qa-l-border-strong);
+  --qa-accent-soft: var(--qa-l-accent-soft);
+  --qa-accent-border: var(--qa-l-accent-border);
+  --qa-error-soft: var(--qa-l-error-soft);
+  --qa-error-border: var(--qa-l-error-border);
+  --qa-focus-ring: var(--qa-l-focus-ring);
+  --qa-primary-soft: var(--qa-l-primary-soft);
+  --qa-shadow: var(--qa-l-shadow);
+  --qa-card-border: var(--qa-l-card-border);
+
+  min-height: 100vh;
+  width: 100%;
+  background: var(--qa-background);
+  color: var(--qa-text);
+  color-scheme: light;
+}
+
+.shell[data-qa-scheme="dark"] {
+  --qa-accent: var(--qa-d-accent);
+  --qa-background: var(--qa-d-background);
+  --qa-surface: var(--qa-d-surface);
+  --qa-text: var(--qa-d-text);
+  --qa-muted: var(--qa-d-muted);
+  --qa-border: var(--qa-d-border);
+  --qa-focus: var(--qa-d-focus);
+  --qa-error: var(--qa-d-error);
+  --qa-field: var(--qa-d-field);
+  --qa-subtle: var(--qa-d-subtle);
+  --qa-subtle-strong: var(--qa-d-subtle-strong);
+  --qa-border-strong: var(--qa-d-border-strong);
+  --qa-accent-soft: var(--qa-d-accent-soft);
+  --qa-accent-border: var(--qa-d-accent-border);
+  --qa-error-soft: var(--qa-d-error-soft);
+  --qa-error-border: var(--qa-d-error-border);
+  --qa-focus-ring: var(--qa-d-focus-ring);
+  --qa-primary-soft: var(--qa-d-primary-soft);
+  --qa-shadow: var(--qa-d-shadow);
+  --qa-card-border: var(--qa-d-card-border);
+  color-scheme: dark;
+}
+
+/* "auto" follows the visitor's device setting as seen inside the form's own
+   document (iframes inherit prefers-color-scheme from the browser). */
+@media (prefers-color-scheme: dark) {
+  .shell[data-qa-scheme="auto"] {
+    --qa-accent: var(--qa-d-accent);
+    --qa-background: var(--qa-d-background);
+    --qa-surface: var(--qa-d-surface);
+    --qa-text: var(--qa-d-text);
+    --qa-muted: var(--qa-d-muted);
+    --qa-border: var(--qa-d-border);
+    --qa-focus: var(--qa-d-focus);
+    --qa-error: var(--qa-d-error);
+    --qa-field: var(--qa-d-field);
+    --qa-subtle: var(--qa-d-subtle);
+    --qa-subtle-strong: var(--qa-d-subtle-strong);
+    --qa-border-strong: var(--qa-d-border-strong);
+    --qa-accent-soft: var(--qa-d-accent-soft);
+    --qa-accent-border: var(--qa-d-accent-border);
+    --qa-error-soft: var(--qa-d-error-soft);
+    --qa-error-border: var(--qa-d-error-border);
+    --qa-focus-ring: var(--qa-d-focus-ring);
+    --qa-primary-soft: var(--qa-d-primary-soft);
+    --qa-shadow: var(--qa-d-shadow);
+    --qa-card-border: var(--qa-d-card-border);
+    color-scheme: dark;
+  }
+}
+
+/* ---- Stage, card, width --------------------------------------------------- */
+
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) {
+  background: var(--qa-background) !important;
+  background-image: none !important;
+}
+
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) > :global([data-qalt-widget-root]) {
+  font-family: var(--qa-font-body) !important;
+  min-width: 0;
+}
+
+.shell[data-qa-width="fixed"] :global(.qalt-widget-stage) > :global([data-qalt-layout="single"]) {
+  max-width: min(100%, var(--qa-max-width)) !important;
+}
+
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :global([data-qalt-card]) {
+  background: var(--qa-surface) !important;
+  color: var(--qa-text);
+  border: var(--qa-card-border-width) solid var(--qa-card-border) !important;
+  border-radius: var(--qa-radius-card) !important;
+  box-shadow: var(--qa-shadow) !important;
+}
+
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :is(h1, h2, h3, h4) {
+  font-family: var(--qa-font-heading) !important;
+}
+
+/* Quick Quote header without a photo sits on the form surface. */
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :global([data-qalt-quick-header]) {
+  background: var(--qa-surface) !important;
+}
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :global([data-qalt-quick-header]) h2 {
+  color: var(--qa-text) !important;
+}
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :global([data-qalt-quick-header]) p,
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :global([data-qalt-quick-header]) :global([class~="border-slate-200"]) {
+  color: var(--qa-muted) !important;
+  border-color: var(--qa-border) !important;
+}
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :global([data-qalt-quick-header]) :global([class~="bg-slate-50"]) {
+  background: var(--qa-subtle) !important;
+}
+
+/* Disclaimer and trust line under the form: always on the themed surface so
+   legal text stays readable in every palette. */
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :global([data-qalt-footer]) {
+  background: var(--qa-subtle) !important;
+  border-color: var(--qa-border) !important;
+}
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :global([data-qalt-footer]) :is(p, a, span) {
+  color: var(--qa-muted) !important;
+}
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :global([data-qalt-footer]) svg {
+  color: var(--qa-accent) !important;
+}
+
+/* ---- Body: surfaces, text, borders ---------------------------------------- */
+
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :global([data-qalt-body]) {
+  background: var(--qa-surface) !important;
+  color: var(--qa-text);
+  padding: var(--qa-body-pad) !important;
+  overflow-wrap: anywhere;
+}
+
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :global([data-qalt-body]) form[class*="space-y"] > :not(:last-child) {
+  margin-block-end: var(--qa-gap) !important;
+}
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :is(
+  :global([class~="bg-white"]),
+  :global([class~="bg-white/70"]),
+  :global([class~="bg-white/95"])
+) {
+  background-color: var(--qa-surface) !important;
+}
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :is(
+  :global([class~="bg-slate-50"]),
+  :global([class~="bg-slate-50/50"]),
+  :global([class~="bg-slate-50/60"]),
+  :global([class~="bg-slate-50/70"]),
+  :global([class~="bg-[#f7f8fa]"])
+) {
+  background-color: var(--qa-subtle) !important;
+}
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :is(
+  :global([class~="bg-slate-100"]),
+  :global([class~="bg-slate-200"])
+) {
+  background-color: var(--qa-subtle-strong) !important;
+  color: var(--qa-muted) !important;
+}
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :is(
+  :global([class~="hover:bg-slate-50"]),
+  :global([class~="hover:bg-slate-100"]),
+  :global([class~="hover:bg-white"])
+):hover {
+  background-color: var(--qa-subtle) !important;
+}
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :is(
+  :global([class~="text-slate-950"]),
+  :global([class~="text-slate-900"]),
+  :global([class~="text-slate-800"]),
+  :global([class~="text-slate-700"])
+) {
+  color: var(--qa-text) !important;
+}
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :is(
+  :global([class~="text-slate-600"]),
+  :global([class~="text-slate-500"]),
+  :global([class~="text-slate-400"]),
+  :global([class~="text-zinc-400"])
+) {
+  color: var(--qa-muted) !important;
+}
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :is(
+  :global([class~="border-slate-100"]),
+  :global([class~="border-slate-200"]),
+  :global([class~="border-slate-300"]),
+  :global([class~="border-emerald-100"]),
+  :global([class~="border-t"]),
+  :global([class~="border-b"])
+) {
+  border-color: var(--qa-border) !important;
+}
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :global([class*="divide-slate"]) > * {
+  border-color: var(--qa-border) !important;
+}
+
+/* ---- Fields ----------------------------------------------------------------- */
+
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :global([data-qalt-body]) :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  background: var(--qa-field) !important;
+  border: 1px solid var(--qa-border) !important;
+  border-radius: var(--qa-radius) !important;
+  color: var(--qa-text) !important;
+  min-height: 44px;
+}
+
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :global([data-qalt-body]) :global(.qalt-field) {
+  padding-top: var(--qa-field-py) !important;
+  padding-bottom: var(--qa-field-py) !important;
+}
+
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :global([data-qalt-body]) :is(input, textarea)::placeholder {
+  color: var(--qa-muted) !important;
+  opacity: 1;
+}
+
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :global([data-qalt-body]) :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea):hover {
+  border-color: var(--qa-border-strong) !important;
+}
+
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :global([data-qalt-body]) :is(input, select, textarea):focus {
+  border-color: var(--qa-focus) !important;
+  box-shadow: 0 0 0 3px var(--qa-focus-ring) !important;
+  outline: none !important;
+}
+
+/* Every keyboard-reachable control keeps a visible focus ring. */
+.shell[data-qalt-advanced] :global(.qalt-widget-stage) :is(button, a, [role="button"], [tabindex], label):focus-visible {
+  outline: 2px solid var(--qa-focus) !important;
+  outline-offset: 2px !important;
+}
+
+/* ---- Shape ------------------------------------------------------------------ */
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :is(
+  :global([class~="rounded-2xl"]),
+  :global([class~="rounded-xl"]),
+  :global([class~="rounded-lg"]),
+  :global([class~="rounded-[20px]"])
+) {
+  border-radius: var(--qa-radius) !important;
+}
+
+/* ---- Errors ----------------------------------------------------------------- */
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :is(
+  :global([class~="text-red-500"]),
+  :global([class~="text-red-600"]),
+  :global([class~="text-red-700"])
+) {
+  color: var(--qa-error) !important;
+}
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :global([class~="bg-red-50"]) {
+  background-color: var(--qa-error-soft) !important;
+}
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :global([class~="border-red-100"]) {
+  border-color: var(--qa-error-border) !important;
+}
+
+/* ---- Price, totals, success: accent --------------------------------------- */
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :global([class*="from-emerald-50"]),
+.shell[data-qalt-advanced] :global([data-qalt-body]) :global([class*="from-emerald-100"]) {
+  background: var(--qa-accent-soft) !important;
+  background-image: none !important;
+  border-color: var(--qa-accent-border) !important;
+  box-shadow: none !important;
+}
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :global([class*="from-emerald-50"]) :is(p, span, svg),
+.shell[data-qalt-advanced] :global([data-qalt-body]) :global([class*="text-emerald-"]) {
+  color: var(--qa-accent) !important;
+  -webkit-text-fill-color: currentColor !important;
+  text-shadow: none !important;
+}
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :global([class*="from-emerald-50"]) :global([class~="bg-white/70"]) {
+  background: var(--qa-surface) !important;
+  border-color: var(--qa-accent-border) !important;
+}
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :global([data-qalt-success-icon]) {
+  stroke: var(--qa-accent) !important;
+}
+
+/* ---- Buttons ---------------------------------------------------------------- */
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :is(:global([data-qalt-brand-cta]), button[class*="bg-emerald-600"]) {
+  background-color: var(--qa-primary) !important;
+  color: var(--qa-primary-ink) !important;
+  border-radius: var(--qa-radius-button) !important;
+  box-shadow: 0 10px 24px -14px var(--qa-primary-soft) !important;
+  min-height: 48px;
+}
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :is(:global([data-qalt-brand-cta]), button[class*="bg-emerald-600"]) :global(.animate-spin) {
+  border-color: transparent !important;
+  border-top-color: currentColor !important;
+}
+
+.shell[data-qa-button="outline"] :global([data-qalt-body]) :is(:global([data-qalt-brand-cta]), button[class*="bg-emerald-600"]) {
+  background-color: transparent !important;
+  color: var(--qa-primary) !important;
+  box-shadow: inset 0 0 0 2px var(--qa-primary) !important;
+}
+
+.shell[data-qa-button="outline"] :global([data-qalt-body]) :is(:global([data-qalt-brand-cta]), button[class*="bg-emerald-600"]) > span:first-child:empty,
+.shell[data-qa-button="outline"] :global([data-qalt-body]) :global([data-qalt-brand-cta]) > div[class*="absolute"] {
+  display: none !important;
+}
+
+.shell[data-qalt-advanced] :global([data-qalt-body]) :global([data-qalt-brand-cta]):disabled {
+  opacity: 0.55 !important;
+}
+
+/* ---- Motion ----------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .shell *,
+  .shell *::before,
+  .shell *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

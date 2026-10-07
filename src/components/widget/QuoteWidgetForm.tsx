@@ -21,6 +21,7 @@ import { MAX_INTERMEDIATE_STOPS } from "@/lib/route-stops";
 import MerchantLogo from "@/components/shared/MerchantLogo";
 import { readableForeground, widgetBrandVariables } from "@/lib/color";
 import { normalizeLogoBackdrop } from "@/lib/logo-plate";
+import { useWidgetAppearance } from "./WidgetAppearanceShell";
 
 interface WidgetProps {
   company: {
@@ -128,8 +129,8 @@ const EMPTY_FORM: FormData = {
   customAnswers: {},
 };
 
-const LABEL_CLASS = "text-xs font-semibold text-slate-500 flex items-center gap-1.5 mb-2 ml-0.5";
-const INPUT_CLASS = "w-full px-4 py-3.5 bg-slate-50/70 border border-slate-200 rounded-2xl text-[15px] font-semibold text-slate-800 placeholder:text-slate-400 placeholder:font-medium focus:bg-white focus:ring-2 focus:ring-[color:var(--ring)] focus:border-transparent outline-none transition-all duration-200";
+const LABEL_CLASS = "qalt-label text-xs font-semibold text-slate-500 flex items-center gap-1.5 mb-2 ml-0.5";
+const INPUT_CLASS = "qalt-field w-full px-4 py-3.5 bg-slate-50/70 border border-slate-200 rounded-2xl text-[15px] font-semibold text-slate-800 placeholder:text-slate-400 placeholder:font-medium focus:bg-white focus:ring-2 focus:ring-[color:var(--ring)] focus:border-transparent outline-none transition-all duration-200";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 function formatDuration(minutes: number): string {
@@ -265,6 +266,7 @@ const AutocompleteInput = ({
 
 export default function QuoteWidgetForm({ company, demoMode = false }: WidgetProps) {
   const entitlements = getEntitlements(company.subscriptionPlan);
+  const advancedAppearance = useWidgetAppearance();
   const [hydrated, setHydrated] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const reduce = !hydrated || prefersReducedMotion;
@@ -779,7 +781,8 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     setStep(1);
   };
 
-  const primaryColor = (widgetSettings.primaryColor && widgetSettings.primaryColor.length >= 4) ? widgetSettings.primaryColor : "#1E40AF";
+  const primaryColor = advancedAppearance?.primary
+    ?? ((widgetSettings.primaryColor && widgetSettings.primaryColor.length >= 4) ? widgetSettings.primaryColor : "#1E40AF");
   const routeComplete = Boolean(
     formData.pickupAddress &&
     formData.dropoffAddress &&
@@ -876,10 +879,12 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
   return (
     <div
       data-qalt-brand-owned="true"
+      data-qalt-widget-root=""
+      data-qalt-layout={showSideMap ? "side" : "single"}
       className={`w-full transition-all duration-700 ease-in-out font-sans flex items-start justify-center mx-auto relative ${widgetWidthClass}`}
       style={{ fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif", ['--ring' as string]: `${primaryColor}59`, ...widgetBrandVariables(primaryColor) }}
     >
-      <div className={`w-full transition-all duration-700 ease-in-out relative z-10 overflow-hidden bg-white flex flex-col md:flex-row ${quickMode ? "rounded-[30px] shadow-[0_28px_90px_-20px_rgba(15,23,42,.28)] border border-slate-200/80" : "rounded-[32px] shadow-[0_30px_100px_-15px_rgba(0,0,0,0.2)]"}`}>
+      <div data-qalt-card="" className={`w-full transition-all duration-700 ease-in-out relative z-10 overflow-hidden bg-white flex flex-col md:flex-row ${quickMode ? "rounded-[30px] shadow-[0_28px_90px_-20px_rgba(15,23,42,.28)] border border-slate-200/80" : "rounded-[32px] shadow-[0_30px_100px_-15px_rgba(0,0,0,0.2)]"}`}>
         <div className={`w-full transition-all duration-700 ${formWidthClass} flex flex-col shrink-0`}>
           {quickMode ? (
             widgetSettings.backgroundImageUrl ? (
@@ -907,7 +912,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
               </div>
             </div>
             ) : (
-            <div className="bg-white px-6 pt-7 pb-2 sm:px-10 sm:pt-10">
+            <div data-qalt-quick-header="" className="bg-white px-6 pt-7 pb-2 sm:px-10 sm:pt-10">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h2 className="text-3xl sm:text-4xl font-black tracking-[-0.04em] text-slate-950">Instant Quote</h2>
@@ -1013,7 +1018,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
           </div>
           )}
 
-          <div className={`bg-white flex-1 ${quickMode ? "px-6 pt-5 pb-7 sm:px-10 sm:pt-6 sm:pb-9" : "px-6 py-7 sm:px-8 sm:py-8"}`}>
+          <div data-qalt-body="" className={`bg-white flex-1 ${quickMode ? "px-6 pt-5 pb-7 sm:px-10 sm:pt-6 sm:pb-9" : "px-6 py-7 sm:px-8 sm:py-8"}`}>
             {!hydrated ? (
               <div className="py-16 flex items-center justify-center">
                 <div className="w-8 h-8 border-[3px] rounded-full animate-spin" style={{ borderColor: `${primaryColor}22`, borderTopColor: primaryColor }} />
@@ -1468,7 +1473,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
             )}
           </div>
 
-          <div className={`${quickMode ? "px-8 py-4 bg-white border-t border-slate-100" : "px-8 py-5 bg-slate-50/80 border-t border-slate-100/80"}`}>
+          <div data-qalt-footer="" className={`${quickMode ? "px-8 py-4 bg-white border-t border-slate-100" : "px-8 py-5 bg-slate-50/80 border-t border-slate-100/80"}`}>
             <p className="text-[10px] text-slate-400 text-center leading-relaxed font-medium">{widgetSettings.disclaimerText}</p>
             <p className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[10px] font-semibold text-slate-400">
               <span className="inline-flex items-center gap-1"><Lock size={10} className="text-emerald-500" aria-hidden="true" /> Encrypted connection</span>

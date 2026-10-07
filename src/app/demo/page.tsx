@@ -43,7 +43,8 @@ async function resolveDemoCompany() {
   });
   if (!company || company.widgetSettings.length === 0) return null;
 
-  const widgetSettings = company.widgetSettings[0];
+  // The inline demo uses the basic theme; raw appearance tokens stay server-side.
+  const widgetSettings = { ...company.widgetSettings[0], advancedAppearance: undefined };
   const pricingProfile = company.pricingProfiles.find((p) => p.widgetSettingsId === null);
   return {
     id: company.id,

@@ -1,0 +1,54 @@
+/* The studio sits inside .qalt-widget-studio, whose globals.css rules restyle
+   every input (44px, white, rounded). Swatches and sliders opt back out. */
+
+.studio input.swatch {
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  flex-shrink: 0;
+  padding: 3px !important;
+  border: 1px solid var(--studio-line, #e2e4e9) !important;
+  border-radius: 12px !important;
+  background: transparent !important;
+  cursor: pointer;
+}
+
+.studio input.swatch::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.studio input.swatch::-webkit-color-swatch {
+  border: 0;
+  border-radius: 9px;
+}
+
+.studio input.swatch::-moz-color-swatch {
+  border: 0;
+  border-radius: 9px;
+}
+
+.studio input.hex {
+  min-height: 36px !important;
+  border-radius: 10px !important;
+}
+
+.studio input.range {
+  width: 100%;
+  min-height: 32px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  accent-color: #dc2626;
+  cursor: pointer;
+}
+
+.studio input.range:focus-visible {
+  outline: 2px solid #dc2626;
+  outline-offset: 2px;
+}
+
+.studio fieldset:disabled input.swatch,
+.studio fieldset:disabled input.range {
+  cursor: not-allowed;
+}

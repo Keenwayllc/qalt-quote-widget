@@ -92,8 +92,8 @@ export const pageGuides: Record<string, PageGuide> = {
   "/dashboard/widget": {
     title: "Widget Appearance",
     purpose: "Choose how your customer quote widget looks and reads.",
-    controls: ["Check the selected form, adjust the available text and color controls, then save.", "Use the preview to check the customer experience and the service-area settings."],
-    configure: "Keep labels clear. Logo uploads, backgrounds, and advanced customization require Pro or Enterprise. Widget payments and custom CSS require Enterprise.",
+    controls: ["Check the selected form, adjust the available text and color controls, then save.", "Use the preview to check the customer experience and the service-area settings.", "On Enterprise, use Advanced appearance to match the form's colors, fonts, shapes and light or dark mode to your website."],
+    configure: "Keep labels clear. Logo uploads, backgrounds, and advanced customization require Pro or Enterprise. Advanced appearance, widget payments and custom CSS require Enterprise.",
     next: { label: "Get embed code", href: "/dashboard/embed" },
   },
   "/dashboard/embed": {

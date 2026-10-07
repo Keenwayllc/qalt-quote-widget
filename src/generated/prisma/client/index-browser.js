@@ -225,7 +225,8 @@ exports.Prisma.WidgetSettingsScalarFieldEnum = {
   vehicleOptions: 'vehicleOptions',
   showAwb: 'showAwb',
   geoFencingEnabled: 'geoFencingEnabled',
-  serviceZips: 'serviceZips'
+  serviceZips: 'serviceZips',
+  advancedAppearance: 'advancedAppearance'
 };
 
 exports.Prisma.WidgetInstallationScalarFieldEnum = {

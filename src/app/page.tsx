@@ -50,7 +50,7 @@ const features = [
   {
     icon: Palette,
     title: "Your brand, not ours",
-    description: "Use your logo, colors, and branded quote experience. Pro and Enterprise can remove Qalt branding.",
+    description: "Use your logo, colors, and branded quote experience. Pro and Enterprise can remove Qalt branding, and Enterprise can style the form to match your website.",
   },
   {
     icon: FileText,
@@ -106,7 +106,7 @@ const plans = [
     suffix: "/mo",
     note: "$79/mo billed annually",
     description: "For operators that want payments and deeper control.",
-    items: ["Everything in Pro", "Stripe payments", "Vehicle & fleet quoting", "Unlimited forms + webhooks"],
+    items: ["Everything in Pro", "Stripe payments", "Website-matching form design", "Vehicle & fleet quoting", "Unlimited forms + webhooks"],
     cta: "Explore Enterprise",
     href: "/pricing",
     dark: false,

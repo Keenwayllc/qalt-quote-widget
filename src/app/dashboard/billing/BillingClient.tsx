@@ -61,6 +61,7 @@ const PLANS: PlanConfig[] = [
     features: [
       "Everything in Pro",
       "Accept payments in your widget",
+      "Website-matching form design",
       "Multi-vehicle & fleet quoting",
       "Unlimited quote forms",
       "Custom CSS & domain embed",

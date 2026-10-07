@@ -42,6 +42,9 @@ export const publicWidgetSettingsSelect = {
   showAwb: true,
   geoFencingEnabled: true,
   serviceZips: true,
+  // Read server-side only: pages pass the plan-checked effectiveAppearance()
+  // to the client, never this raw column.
+  advancedAppearance: true,
 } satisfies Prisma.WidgetSettingsSelect;
 
 export const publicPricingProfileSelect = {

@@ -6073,6 +6073,7 @@ export namespace Prisma {
     showAwb: number
     geoFencingEnabled: number
     serviceZips: number
+    advancedAppearance: number
     _all: number
   }
 
@@ -6179,6 +6180,7 @@ export namespace Prisma {
     showAwb?: true
     geoFencingEnabled?: true
     serviceZips?: true
+    advancedAppearance?: true
     _all?: true
   }
 
@@ -6300,6 +6302,7 @@ export namespace Prisma {
     showAwb: boolean
     geoFencingEnabled: boolean
     serviceZips: string[]
+    advancedAppearance: JsonValue | null
     _count: WidgetSettingsCountAggregateOutputType | null
     _avg: WidgetSettingsAvgAggregateOutputType | null
     _sum: WidgetSettingsSumAggregateOutputType | null
@@ -6353,6 +6356,7 @@ export namespace Prisma {
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: boolean
+    advancedAppearance?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     pricingProfile?: boolean | WidgetSettings$pricingProfileArgs<ExtArgs>
     widgetInstallations?: boolean | WidgetSettings$widgetInstallationsArgs<ExtArgs>
@@ -6391,6 +6395,7 @@ export namespace Prisma {
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: boolean
+    advancedAppearance?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["widgetSettings"]>
 
@@ -6426,6 +6431,7 @@ export namespace Prisma {
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: boolean
+    advancedAppearance?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["widgetSettings"]>
 
@@ -6461,9 +6467,10 @@ export namespace Prisma {
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: boolean
+    advancedAppearance?: boolean
   }
 
-  export type WidgetSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "name" | "formStyle" | "customQuestions" | "logoUrl" | "faviconUrl" | "logoDarkUrl" | "autoContrastLogo" | "showWeight" | "showItemCount" | "showExtras" | "insideDeliveryLabel" | "addon3Label" | "primaryColor" | "buttonText" | "headerText" | "quickSubtitleText" | "disclaimerText" | "companyNameText" | "companyNameFont" | "backgroundImageUrl" | "mapLayout" | "websiteUrl" | "paymentsEnabled" | "showVehicles" | "pricePerVehicle" | "vehicleOptions" | "showAwb" | "geoFencingEnabled" | "serviceZips", ExtArgs["result"]["widgetSettings"]>
+  export type WidgetSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "name" | "formStyle" | "customQuestions" | "logoUrl" | "faviconUrl" | "logoDarkUrl" | "autoContrastLogo" | "showWeight" | "showItemCount" | "showExtras" | "insideDeliveryLabel" | "addon3Label" | "primaryColor" | "buttonText" | "headerText" | "quickSubtitleText" | "disclaimerText" | "companyNameText" | "companyNameFont" | "backgroundImageUrl" | "mapLayout" | "websiteUrl" | "paymentsEnabled" | "showVehicles" | "pricePerVehicle" | "vehicleOptions" | "showAwb" | "geoFencingEnabled" | "serviceZips" | "advancedAppearance", ExtArgs["result"]["widgetSettings"]>
   export type WidgetSettingsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     pricingProfile?: boolean | WidgetSettings$pricingProfileArgs<ExtArgs>
@@ -6516,6 +6523,7 @@ export namespace Prisma {
       showAwb: boolean
       geoFencingEnabled: boolean
       serviceZips: string[]
+      advancedAppearance: Prisma.JsonValue | null
     }, ExtArgs["result"]["widgetSettings"]>
     composites: {}
   }
@@ -6973,6 +6981,7 @@ export namespace Prisma {
     readonly showAwb: FieldRef<"WidgetSettings", 'Boolean'>
     readonly geoFencingEnabled: FieldRef<"WidgetSettings", 'Boolean'>
     readonly serviceZips: FieldRef<"WidgetSettings", 'String[]'>
+    readonly advancedAppearance: FieldRef<"WidgetSettings", 'Json'>
   }
     
 
@@ -24878,7 +24887,8 @@ export namespace Prisma {
     vehicleOptions: 'vehicleOptions',
     showAwb: 'showAwb',
     geoFencingEnabled: 'geoFencingEnabled',
-    serviceZips: 'serviceZips'
+    serviceZips: 'serviceZips',
+    advancedAppearance: 'advancedAppearance'
   };
 
   export type WidgetSettingsScalarFieldEnum = (typeof WidgetSettingsScalarFieldEnum)[keyof typeof WidgetSettingsScalarFieldEnum]
@@ -25729,6 +25739,7 @@ export namespace Prisma {
     showAwb?: BoolFilter<"WidgetSettings"> | boolean
     geoFencingEnabled?: BoolFilter<"WidgetSettings"> | boolean
     serviceZips?: StringNullableListFilter<"WidgetSettings">
+    advancedAppearance?: JsonNullableFilter<"WidgetSettings">
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
     pricingProfile?: XOR<PricingProfileNullableScalarRelationFilter, PricingProfileWhereInput> | null
     widgetInstallations?: WidgetInstallationListRelationFilter
@@ -25766,6 +25777,7 @@ export namespace Prisma {
     showAwb?: SortOrder
     geoFencingEnabled?: SortOrder
     serviceZips?: SortOrder
+    advancedAppearance?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     pricingProfile?: PricingProfileOrderByWithRelationInput
     widgetInstallations?: WidgetInstallationOrderByRelationAggregateInput
@@ -25806,6 +25818,7 @@ export namespace Prisma {
     showAwb?: BoolFilter<"WidgetSettings"> | boolean
     geoFencingEnabled?: BoolFilter<"WidgetSettings"> | boolean
     serviceZips?: StringNullableListFilter<"WidgetSettings">
+    advancedAppearance?: JsonNullableFilter<"WidgetSettings">
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
     pricingProfile?: XOR<PricingProfileNullableScalarRelationFilter, PricingProfileWhereInput> | null
     widgetInstallations?: WidgetInstallationListRelationFilter
@@ -25843,6 +25856,7 @@ export namespace Prisma {
     showAwb?: SortOrder
     geoFencingEnabled?: SortOrder
     serviceZips?: SortOrder
+    advancedAppearance?: SortOrderInput | SortOrder
     _count?: WidgetSettingsCountOrderByAggregateInput
     _avg?: WidgetSettingsAvgOrderByAggregateInput
     _max?: WidgetSettingsMaxOrderByAggregateInput
@@ -25885,6 +25899,7 @@ export namespace Prisma {
     showAwb?: BoolWithAggregatesFilter<"WidgetSettings"> | boolean
     geoFencingEnabled?: BoolWithAggregatesFilter<"WidgetSettings"> | boolean
     serviceZips?: StringNullableListFilter<"WidgetSettings">
+    advancedAppearance?: JsonNullableWithAggregatesFilter<"WidgetSettings">
   }
 
   export type WidgetInstallationWhereInput = {
@@ -27737,6 +27752,7 @@ export namespace Prisma {
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
     company: CompanyCreateNestedOneWithoutWidgetSettingsInput
     pricingProfile?: PricingProfileCreateNestedOneWithoutWidgetSettingsInput
     widgetInstallations?: WidgetInstallationCreateNestedManyWithoutFormInput
@@ -27774,6 +27790,7 @@ export namespace Prisma {
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
     pricingProfile?: PricingProfileUncheckedCreateNestedOneWithoutWidgetSettingsInput
     widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutFormInput
   }
@@ -27809,6 +27826,7 @@ export namespace Prisma {
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
     company?: CompanyUpdateOneRequiredWithoutWidgetSettingsNestedInput
     pricingProfile?: PricingProfileUpdateOneWithoutWidgetSettingsNestedInput
     widgetInstallations?: WidgetInstallationUpdateManyWithoutFormNestedInput
@@ -27846,6 +27864,7 @@ export namespace Prisma {
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
     pricingProfile?: PricingProfileUncheckedUpdateOneWithoutWidgetSettingsNestedInput
     widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutFormNestedInput
   }
@@ -27882,6 +27901,7 @@ export namespace Prisma {
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type WidgetSettingsUpdateManyMutationInput = {
@@ -27915,6 +27935,7 @@ export namespace Prisma {
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type WidgetSettingsUncheckedUpdateManyInput = {
@@ -27949,6 +27970,7 @@ export namespace Prisma {
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type WidgetInstallationCreateInput = {
@@ -30043,6 +30065,7 @@ export namespace Prisma {
     showAwb?: SortOrder
     geoFencingEnabled?: SortOrder
     serviceZips?: SortOrder
+    advancedAppearance?: SortOrder
   }
 
   export type WidgetSettingsAvgOrderByAggregateInput = {
@@ -32492,6 +32515,7 @@ export namespace Prisma {
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
     pricingProfile?: PricingProfileCreateNestedOneWithoutWidgetSettingsInput
     widgetInstallations?: WidgetInstallationCreateNestedManyWithoutFormInput
   }
@@ -32527,6 +32551,7 @@ export namespace Prisma {
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
     pricingProfile?: PricingProfileUncheckedCreateNestedOneWithoutWidgetSettingsInput
     widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutFormInput
   }
@@ -32925,6 +32950,7 @@ export namespace Prisma {
     showAwb?: BoolFilter<"WidgetSettings"> | boolean
     geoFencingEnabled?: BoolFilter<"WidgetSettings"> | boolean
     serviceZips?: StringNullableListFilter<"WidgetSettings">
+    advancedAppearance?: JsonNullableFilter<"WidgetSettings">
   }
 
   export type VehicleRequestUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -33300,6 +33326,7 @@ export namespace Prisma {
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
     company: CompanyCreateNestedOneWithoutWidgetSettingsInput
     widgetInstallations?: WidgetInstallationCreateNestedManyWithoutFormInput
   }
@@ -33336,6 +33363,7 @@ export namespace Prisma {
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
     widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutFormInput
   }
 
@@ -33515,6 +33543,7 @@ export namespace Prisma {
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
     company?: CompanyUpdateOneRequiredWithoutWidgetSettingsNestedInput
     widgetInstallations?: WidgetInstallationUpdateManyWithoutFormNestedInput
   }
@@ -33551,6 +33580,7 @@ export namespace Prisma {
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
     widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutFormNestedInput
   }
 
@@ -34112,6 +34142,7 @@ export namespace Prisma {
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
     company: CompanyCreateNestedOneWithoutWidgetSettingsInput
     pricingProfile?: PricingProfileCreateNestedOneWithoutWidgetSettingsInput
   }
@@ -34148,6 +34179,7 @@ export namespace Prisma {
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
     pricingProfile?: PricingProfileUncheckedCreateNestedOneWithoutWidgetSettingsInput
   }
 
@@ -34327,6 +34359,7 @@ export namespace Prisma {
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
     company?: CompanyUpdateOneRequiredWithoutWidgetSettingsNestedInput
     pricingProfile?: PricingProfileUpdateOneWithoutWidgetSettingsNestedInput
   }
@@ -34363,6 +34396,7 @@ export namespace Prisma {
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
     pricingProfile?: PricingProfileUncheckedUpdateOneWithoutWidgetSettingsNestedInput
   }
 
@@ -37383,6 +37417,7 @@ export namespace Prisma {
     showAwb?: boolean
     geoFencingEnabled?: boolean
     serviceZips?: WidgetSettingsCreateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type VehicleRequestCreateManyCompanyInput = {
@@ -37658,6 +37693,7 @@ export namespace Prisma {
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
     pricingProfile?: PricingProfileUpdateOneWithoutWidgetSettingsNestedInput
     widgetInstallations?: WidgetInstallationUpdateManyWithoutFormNestedInput
   }
@@ -37693,6 +37729,7 @@ export namespace Prisma {
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
     pricingProfile?: PricingProfileUncheckedUpdateOneWithoutWidgetSettingsNestedInput
     widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutFormNestedInput
   }
@@ -37728,6 +37765,7 @@ export namespace Prisma {
     showAwb?: BoolFieldUpdateOperationsInput | boolean
     geoFencingEnabled?: BoolFieldUpdateOperationsInput | boolean
     serviceZips?: WidgetSettingsUpdateserviceZipsInput | string[]
+    advancedAppearance?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type VehicleRequestUpdateWithoutCompanyInput = {

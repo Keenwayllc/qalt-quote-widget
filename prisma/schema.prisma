@@ -135,6 +135,9 @@ model WidgetSettings {
   showAwb            Boolean         @default(false)
   geoFencingEnabled  Boolean         @default(false)
   serviceZips        String[]        @default([])
+  // Enterprise "Advanced appearance" tokens (src/lib/advanced-appearance.ts).
+  // null = basic theme. Kept on downgrade, rendered only while entitled.
+  advancedAppearance Json?
   company            Company         @relation(fields: [companyId], references: [id])
   pricingProfile     PricingProfile?
   widgetInstallations WidgetInstallation[]

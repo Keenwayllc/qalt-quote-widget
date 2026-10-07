@@ -95,6 +95,17 @@ const rows: ComparisonRow[] = [
     setmore: "Pro",
   },
   {
+    feature: "Form styled to match your website",
+    note: "Colors, light and dark palettes, fonts, corner shape, spacing and button style for the embedded quote form.",
+    qalt: "Enterprise",
+    shipday: "Varies",
+    onfleet: "Varies",
+    tookan: "Varies",
+    onro: "Varies",
+    ontime: "Varies",
+    setmore: "Varies",
+  },
+  {
     feature: "Online payment collection",
     qalt: "yes",
     shipday: "partial",

@@ -3,8 +3,9 @@ import prisma from "@/lib/prisma";
 import QuoteWidgetForm from "@/components/widget/QuoteWidgetForm";
 import AbandonedQuoteTracker from "@/components/widget/AbandonedQuoteTracker";
 import WidgetInstallTracker from "@/components/widget/WidgetInstallTracker";
-import WidgetThemeShell from "@/components/widget/WidgetThemeShell";
+import WidgetAppearanceShell from "@/components/widget/WidgetAppearanceShell";
 import { getWidgetTheme } from "@/lib/widget-theme";
+import { effectiveAppearance } from "@/lib/advanced-appearance";
 import { notFound } from "next/navigation";
 import { cache, type ComponentProps } from "react";
 import type { Metadata } from "next";
@@ -40,12 +41,12 @@ export default async function PublicWidgetPage({ params }: { params: Promise<{ c
 
   if (!company || company.widgetSettings.length === 0) notFound();
 
-  const widgetSettings = company.widgetSettings[0];
+  const { advancedAppearance, ...widgetSettings } = company.widgetSettings[0];
   const pricingProfile = pricingProfileForForm(company.pricingProfiles, widgetSettings.id);
   const themeMode = await getWidgetTheme(widgetSettings.id);
 
   return (
-    <WidgetThemeShell theme={themeMode}>
+    <WidgetAppearanceShell theme={themeMode} appearance={effectiveAppearance(advancedAppearance, company.subscriptionPlan)}>
       <div className="qalt-widget-stage min-h-screen p-4 sm:p-8 flex items-center justify-center">
         <AbandonedQuoteTracker companyId={company.id} formId={widgetSettings.id} />
         <WidgetInstallTracker companyId={company.id} formId={widgetSettings.id} />
@@ -67,6 +68,6 @@ export default async function PublicWidgetPage({ params }: { params: Promise<{ c
           } as unknown as ComponentProps<typeof QuoteWidgetForm>["company"]}
         />
       </div>
-    </WidgetThemeShell>
+    </WidgetAppearanceShell>
   );
 }

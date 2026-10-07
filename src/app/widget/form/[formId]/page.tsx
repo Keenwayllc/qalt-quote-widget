@@ -7,8 +7,9 @@ import prisma from "@/lib/prisma";
 import QuoteWidgetForm from "@/components/widget/QuoteWidgetForm";
 import AbandonedQuoteTracker from "@/components/widget/AbandonedQuoteTracker";
 import WidgetInstallTracker from "@/components/widget/WidgetInstallTracker";
-import WidgetThemeShell from "@/components/widget/WidgetThemeShell";
+import WidgetAppearanceShell from "@/components/widget/WidgetAppearanceShell";
 import { getWidgetTheme } from "@/lib/widget-theme";
+import { effectiveAppearance } from "@/lib/advanced-appearance";
 import { notFound } from "next/navigation";
 import {
   publicCompanySelect,
@@ -38,18 +39,29 @@ export async function generateMetadata({ params }: { params: Promise<{ formId: s
   return widgetPageMetadata(form.company, form);
 }
 
-export default async function PublicWidgetFormPage({ params }: { params: Promise<{ formId: string }> }) {
+export default async function PublicWidgetFormPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ formId: string }>;
+  searchParams: Promise<{ preview?: string }>;
+}) {
   const { formId } = await params;
+  const { preview } = await searchParams;
   const form = await getPublicForm(formId);
 
   if (!form) notFound();
 
-  const { company, ...widgetSettings } = form;
+  const { company, advancedAppearance, ...widgetSettings } = form;
   const pricingProfile = pricingProfileForForm(company.pricingProfiles, formId);
   const themeMode = await getWidgetTheme(formId);
 
   return (
-    <WidgetThemeShell theme={themeMode}>
+    <WidgetAppearanceShell
+      theme={themeMode}
+      appearance={effectiveAppearance(advancedAppearance, company.subscriptionPlan)}
+      allowPreview={preview === "appearance"}
+    >
       <div className="qalt-widget-stage min-h-screen p-4 sm:p-8 flex items-center justify-center">
         <AbandonedQuoteTracker companyId={company.id} formId={formId} />
         <WidgetInstallTracker companyId={company.id} formId={formId} />
@@ -71,6 +83,6 @@ export default async function PublicWidgetFormPage({ params }: { params: Promise
           } as unknown as ComponentProps<typeof QuoteWidgetForm>["company"]}
         />
       </div>
-    </WidgetThemeShell>
+    </WidgetAppearanceShell>
   );
 }

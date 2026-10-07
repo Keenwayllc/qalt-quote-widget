@@ -37,6 +37,16 @@ function contrastRatio(l1: number, l2: number): number {
   return (hi + 0.05) / (lo + 0.05);
 }
 
+/** WCAG contrast ratio between two hex colors (1 to 21). */
+export function contrastBetween(a: string, b: string): number {
+  return contrastRatio(relativeLuminance(a), relativeLuminance(b));
+}
+
+/** True when the color is closer to black than white (WCAG luminance). */
+export function isDarkColor(hex: string): boolean {
+  return relativeLuminance(hex) < 0.179;
+}
+
 const INK_DARK = "#111827"; // slate-900
 const INK_LIGHT = "#FFFFFF";
 

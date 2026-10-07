@@ -7,9 +7,12 @@ import type { WidgetThemeMode } from "@/lib/widget-theme";
 export default function WidgetThemeSelector({
   formId,
   initialTheme,
+  advancedActive = false,
 }: {
   formId: string;
   initialTheme: WidgetThemeMode;
+  /** Advanced appearance is live, so its color mode wins over this one. */
+  advancedActive?: boolean;
 }) {
   const [theme, setTheme] = useState<WidgetThemeMode>(initialTheme);
   const [saving, setSaving] = useState(false);
@@ -97,6 +100,12 @@ export default function WidgetThemeSelector({
         <span className={`h-2 w-2 rounded-full ${theme === "dark" ? "bg-slate-800 dark:bg-white" : "bg-white border border-slate-300"}`} />
         {saving ? "Saving theme…" : `${theme === "dark" ? "Dark" : "Light"} form is active`}
       </div>
+
+      {advancedActive && (
+        <p className="mt-3 text-xs font-semibold text-slate-500 dark:text-slate-400">
+          Advanced appearance is live on this form and sets its color mode. This choice applies again if you reset to basic.
+        </p>
+      )}
 
       {error && (
         <p className="mt-3 text-sm font-semibold text-red-600 dark:text-red-400" role="alert">
