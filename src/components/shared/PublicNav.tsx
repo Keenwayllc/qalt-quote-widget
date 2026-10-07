@@ -61,7 +61,7 @@ export default function PublicNav() {
   const groupIsActive = (group: NavGroup) => group.items.some((item) => isActive(item.href));
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 border-b border-slate-950/10 bg-[#f4f2ec]/95 backdrop-blur-md">
+    <nav className="fixed inset-x-0 top-0 z-[55] border-b border-slate-950/10 bg-[#f4f2ec]/95 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8 xl:px-10">
         <Link href="/" className="min-w-0 shrink-0" aria-label="Qalt home">
           <QaltLogo size="md" linked={false} />

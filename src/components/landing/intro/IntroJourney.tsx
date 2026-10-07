@@ -156,6 +156,7 @@ export default function IntroJourney() {
   const [active, setActive] = useState(0);
   const scroller = useRef<HTMLDivElement>(null);
   const released = useRef(false);
+  const finished = useRef(false);
 
   const { scrollY } = useScroll({ container: scroller });
   const progress = useTransform(scrollY, (y) => y / (scroller.current?.clientHeight || 1));
@@ -166,18 +167,25 @@ export default function IntroJourney() {
   const carX = useTransform(travel, (p) => `${(p / LAST) * 100}%`);
 
   const finish = useCallback(() => {
+    if (finished.current) return;
+    finished.current = true;
     document.documentElement.removeAttribute("data-intro");
     setMounted(false);
     window.dispatchEvent(new Event(INTRO_DONE_EVENT));
   }, []);
 
   // Start the hero's entrance as the door begins to lift, so it lands while
-  // the door clears.
+  // the door clears. Once lifting starts the door always finishes: a lift
+  // that stalls part way would leave the transparent overlay above the
+  // homepage, swallowing clicks on the nav (Log in, Get Started).
   const release = useCallback(() => {
     if (released.current) return;
     released.current = true;
     document.documentElement.setAttribute("data-intro", "leaving");
-  }, []);
+    const el = scroller.current;
+    el?.scrollTo({ top: (LAST + 1) * el.clientHeight, behavior: "smooth" });
+    window.setTimeout(finish, 1500);
+  }, [finish]);
 
   useMotionValueEvent(progress, "change", (p) => {
     const next = Math.round(Math.min(p, LAST));
