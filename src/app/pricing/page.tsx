@@ -176,7 +176,7 @@ export default function PricingPage() {
           <div className="mx-auto max-w-5xl">
             <p className="mb-6 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500">Plans built around your quoting workflow</p>
             <h1 className="text-[clamp(3.1rem,7vw,6.2rem)] font-black leading-[0.88] tracking-[-0.06em] text-slate-950">Start free. Scale when the workflow earns it.</h1>
-            <p className="mx-auto mt-8 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:text-lg">Choose the level of quote volume, branding, operations and payment control your delivery company needs.</p>
+            <p className="mx-auto mt-8 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:text-lg">Choose the quote volume, branding, pricing controls and payment options your delivery website needs. Keep your existing dispatch workflow.</p>
           </div>
 
           {/* Billing Toggle */}
@@ -243,9 +243,9 @@ export default function PricingPage() {
                 <div className="mb-8 p-0">
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-2xl font-black tracking-tight text-white">Pro</h3>
-                    <span className="px-2 py-0.5 bg-white text-slate-900 rounded-full text-[10px] font-black uppercase tracking-widest">Most Popular</span>
+                    <span className="px-2 py-0.5 bg-white text-slate-900 rounded-full text-[10px] font-black uppercase tracking-widest">Custom Branding</span>
                   </div>
-                  <p className="text-slate-300 text-sm font-medium leading-relaxed">Everything to run your quoting, look professional, and capture unlimited leads.</p>
+                  <p className="text-slate-300 text-sm font-medium leading-relaxed">For delivery companies needing unlimited quotes, custom pricing and their own branding.</p>
                 </div>
                 <div className="mb-1 flex items-end gap-2">
                   <span className="text-5xl font-black text-white">{annual ? "$29" : "$39"}</span>
@@ -307,6 +307,23 @@ export default function PricingPage() {
           </div>
           <TrustBadgeStrip keys={["https", "stripe", "passwords", "atRest"]} className="mt-8 justify-center" />
         </motion.div>
+
+        <section aria-labelledby="plan-fit-heading" className="mx-auto mb-20 max-w-5xl px-6">
+          <h2 id="plan-fit-heading" className="text-3xl font-black tracking-tight">Which plan fits my business?</h2>
+          <dl className="mt-7 grid gap-6 border-t border-slate-200 pt-7 lg:grid-cols-3">
+            {[
+              ["Starter", "Try one quote widget with 50 quotes per month and lead capture. No card required."],
+              ["Pro", "Use your logo and pricing rules across up to five forms, with unlimited quotes, analytics and the Ops Console."],
+              ["Enterprise", "Add vehicle and fleet quoting, unlimited forms, website-matching design, webhooks and optional Stripe payments."],
+            ].map(([name, description]) => (
+              <div key={name}>
+                <dt className="text-lg font-black">{name}</dt>
+                <dd className="mt-2 text-sm font-medium leading-6 text-slate-500">{description}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="mt-6 text-sm leading-6 text-slate-500">Payments require Enterprise, a connected Stripe account and payments enabled on your form. Quoting and lead capture work without taking payment.</p>
+        </section>
 
         {/* Feature Comparison Table */}
         <motion.div
@@ -383,9 +400,9 @@ export default function PricingPage() {
         className="border-t border-slate-200 bg-white py-20"
       >
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-6">A single booked job can cover the monthly cost</h2>
+          <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-6">Spend less time answering routine quote requests</h2>
           <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto mb-10">
-            Qalt helps reduce manual quoting, capture leads around the clock, and move customers from pricing to inquiry faster. On Enterprise you can collect payment at booking. For most teams, one extra booked delivery more than pays for the plan.
+            Give customers consistent pricing from your configured rules and capture inquiries outside office hours. Keep your dispatch workflow. Add payment at booking on Enterprise when it fits your business.
           </p>
           <div className="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-x-10 gap-y-4">
             {[
@@ -419,6 +436,7 @@ export default function PricingPage() {
               { q: "Is the Ops Console included in Pro?", a: "Yes. Every Pro plan includes the full Ops Console (Jobs, Saved Stop Notes, Delivery Readiness, and Exception Logging) at no extra cost." },
               { q: "What happens if I exceed my limit on the free plan?", a: "The free Starter plan includes 50 quotes per calendar month, resetting on the 1st at 00:00 UTC. Once you reach it, upgrade to Pro for unlimited quotes without interruption." },
               { q: "Can I cancel or switch plans at any time?", a: "Yes. You can change, upgrade, downgrade, or cancel your plan at any time as your business needs change." },
+              { q: "Do I need to replace my dispatch software?", a: "No. Qalt adds customer-facing pricing and lead capture to your website. You keep the systems already running your operation. This does not imply a direct integration with your dispatch software." },
               { q: "Do I need code to use Qalt?", a: "No custom build is required. Qalt is designed to be embedded on your site quickly with a simple snippet." },
               { q: "Can I remove Qalt branding?", a: "Yes. White-label, with no Qalt branding, is included on Pro and Enterprise." },
             ].map((item, i) => (

@@ -29,14 +29,14 @@ const stages = [
     id: "quote",
     eyebrow: "02 · Instant quote",
     title: "Your pricing appears clearly",
-    description: "Distance, service charges, and the final estimate are shown before the customer books.",
+    description: "Your pricing rules produce a breakdown and total before the customer submits a request.",
     icon: ReceiptText,
   },
   {
     id: "pay",
-    eyebrow: "03 · Pay & book",
-    title: "The customer confirms the job",
-    description: "Contact details, route information, and the booking move forward without starting over.",
+    eyebrow: "03 · Optional payment",
+    title: "Payment when enabled",
+    description: "Enterprise supports payment through a connected Stripe account. Quote requests also work without payment.",
     icon: CreditCard,
   },
 ];
@@ -287,11 +287,13 @@ export default function HowItWorksAnimation() {
       <div>
         <p className="text-xs font-bold uppercase tracking-[0.14em] text-red-600">How it works</p>
         <h2 className="mt-5 text-4xl font-black leading-[1.02] tracking-[-0.04em] text-slate-950 sm:text-5xl">
-          The same Qalt flow your customer actually sees.
+          From delivery details to a quote.
         </h2>
         <p className="mt-5 max-w-xl text-base font-medium leading-relaxed text-slate-500 sm:text-lg">
-          This is the form your customers use: they enter the job, see your price with the math shown, and book.
+          This animated example uses sample data. Customers enter delivery details, see calculated pricing and submit a request. Payment is optional on Enterprise.
         </p>
+
+        <a href="/demo/try" className="mt-5 inline-flex min-h-11 items-center text-sm font-bold text-red-600 underline underline-offset-4 hover:text-red-700">Try the working Qalt form</a>
 
         <div className="mt-8 space-y-3">
           {stages.map((stage, index) => {

@@ -530,7 +530,7 @@ export default function HeroDashboardMockup() {
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
             <span className="truncate text-[8px] font-medium text-slate-400">your-delivery-business.com</span>
           </div>
-          <span className="hidden text-[7px] font-bold uppercase tracking-[0.16em] text-slate-400 sm:block">Interactive product preview</span>
+          <span className="hidden text-[7px] font-bold uppercase tracking-[0.16em] text-slate-400 sm:block">Sample product preview</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-[41%_59%]">
@@ -541,6 +541,7 @@ export default function HeroDashboardMockup() {
         </div>
 
         <div className="border-t border-slate-200 bg-white px-4 py-3">
+          <p className="mb-3 text-[11px] leading-4 text-slate-500">Illustrative demo with sample company data. Payments require Enterprise and connected Stripe. Your dispatch system stays in place.</p>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-wrap items-center gap-1.5">
               {STAGES.map((item, index) => {

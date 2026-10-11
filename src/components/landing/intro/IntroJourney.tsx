@@ -50,7 +50,7 @@ const STOPS: Stop[] = [
     label: "Start",
     kicker: "The route",
     title: "Every delivery starts with one question: how much?",
-    body: "Right now the answer takes a phone call, a text thread, or an email chain. Follow one job from your website to a paid booking.",
+    body: "Give website visitors instant pricing without replacing your dispatch system. Follow a sample request from delivery details to a quote, with optional payment.",
     Visual: InboxVisual,
   },
   {

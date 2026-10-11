@@ -8,7 +8,6 @@ import {
   ArrowUp,
   Calculator,
   CheckCircle2,
-  Code2,
   CreditCard,
   ExternalLink,
   FileText,
@@ -155,14 +154,14 @@ export default function LandingPage() {
                 className="q-reveal text-[clamp(3.35rem,7vw,6.55rem)] font-black leading-[0.86] tracking-[-0.065em] text-slate-950"
               >
                 Instant delivery quotes.
-                <span className="block text-slate-400">Built for logistics.</span>
+                <span className="block text-slate-400">On your website.</span>
               </h1>
 
               <p
                 style={{ "--d": "140ms" } as React.CSSProperties}
                 className="q-rise mx-auto mt-8 max-w-xl text-base font-medium leading-7 text-slate-600 sm:text-lg lg:mx-0"
               >
-                Qalt gives delivery companies a branded quote experience for pricing, service areas, vehicles, fees and payments, without replacing the systems already running the operation.
+                Give customers instant prices using your rates, vehicles, service options and pricing rules. Capture quote requests while keeping your existing dispatch software.
               </p>
 
               <div
@@ -173,16 +172,18 @@ export default function LandingPage() {
                   href="/register"
                   className="group inline-flex w-full items-center justify-center gap-2 bg-red-600 px-7 py-4 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-red-700 sm:w-auto"
                 >
-                  Get Started
+                  Get Started Free
                   <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                 </Link>
                 <Link
                   href="/demo"
                   className="inline-flex w-full items-center justify-center gap-2 border border-slate-950/15 bg-white/55 px-7 py-4 text-sm font-black text-slate-900 transition hover:border-slate-950/30 hover:bg-white sm:w-auto"
                 >
-                  View Live Demo
+                  See Live Demo
                 </Link>
               </div>
+
+              <p className="mt-4 text-xs font-medium text-slate-500">No credit card required. No dispatch migration.</p>
 
               <div
                 style={{ "--d": "320ms" } as React.CSSProperties}
@@ -263,10 +264,10 @@ export default function LandingPage() {
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={reveal}>
                 <p className="text-xs font-bold uppercase tracking-[0.14em] text-red-400">Built around your workflow</p>
                 <h2 className="mt-6 text-4xl font-black leading-[1.02] tracking-[-0.045em] sm:text-5xl">
-                  Start with quoting. Add booking and payment later, if ever.
+                  Keep your dispatch system. Upgrade your website.
                 </h2>
                 <p className="mt-5 max-w-xl text-base font-medium leading-7 text-slate-400 sm:text-lg">
-                  You keep your dispatch system and your current way of getting paid. Qalt handles the first thing a customer asks for, which is a price.
+                  Qalt handles pricing and lead capture before dispatch. Website visitors get a branded quote using your rules. You receive their request and manage delivery in the systems already running your operation.
                 </p>
                 <Link href="/what-qalt-does" className="mt-8 inline-flex items-center gap-2 text-sm font-black text-white hover:text-red-400">
                   See exactly what Qalt does <ArrowRight size={15} />
@@ -275,10 +276,10 @@ export default function LandingPage() {
 
               <div className="grid gap-3 sm:grid-cols-2">
                 {[
-                  [Calculator, "Quote only", "Give instant estimates and capture the lead. Keep booking and payment manual."],
-                  [Code2, "Embed anywhere", "Add the quote experience to your existing site with a simple embed."],
-                  [CreditCard, "Add payments", "Enterprise can connect Stripe when you want customers to pay at booking."],
-                  [Route, "Keep the job moving", "Carry quote, route, stops, and readiness context into the Ops Console."],
+                  [Calculator, "Quote", "The customer sees calculated pricing and a clear breakdown before submitting a request."],
+                  [FileText, "Lead", "The customer submits contact and delivery details. You receive an actionable quote request."],
+                  [Route, "Booking request", "The customer submits the job through your configured form. You control confirmation and dispatch."],
+                  [CreditCard, "Optional payment", "Enterprise supports Stripe checkout when you connect Stripe and enable payments on the form."],
                 ].map(([Icon, title, description], index) => {
                   const ItemIcon = Icon as typeof Calculator;
                   return (
@@ -299,6 +300,21 @@ export default function LandingPage() {
                 })}
               </div>
             </div>
+            <ol aria-label="Where Qalt fits in your operation" className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+              {[
+                ["Your website", "Your customer starts here."],
+                ["Qalt", "Your configured pricing rules."],
+                ["Quote", "An instant price and breakdown."],
+                ["Lead or booking request", "Customer submits their details."],
+                ["Your existing operations", "You manage confirmation and dispatch."],
+              ].map(([title, description], index) => (
+                <li key={title} className="min-w-0 border-t border-white/20 pt-4">
+                  <p className="text-xs font-bold tabular-nums text-red-400">{String(index + 1).padStart(2, "0")}</p>
+                  <p className="mt-2 text-sm font-bold">{title}</p>
+                  <p className="mt-2 text-xs leading-5 text-slate-400">{description}</p>
+                </li>
+              ))}
+            </ol>
           </div>
         </section>
 
@@ -395,7 +411,7 @@ export default function LandingPage() {
           <div className="mx-auto max-w-6xl px-5 sm:px-8">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={reveal} className="text-center">
               <SectionLabel>Pricing</SectionLabel>
-              <h2 className="mt-6 text-4xl font-black tracking-[-0.045em] sm:text-5xl">Start free. Pay when it&apos;s earning you jobs.</h2>
+              <h2 className="mt-6 text-4xl font-black tracking-[-0.045em] sm:text-5xl">Start free. Add control as you grow.</h2>
               <p className="mx-auto mt-5 max-w-2xl text-base font-medium leading-7 text-slate-500 sm:text-lg">
                 Start with the free Starter plan. Upgrade when you need more forms, branding, operations, payments, or fleet quoting.
               </p>
@@ -414,7 +430,7 @@ export default function LandingPage() {
                 >
                   {plan.dark && (
                     <span className="absolute right-5 top-5 rounded-full bg-red-600 px-2.5 py-1 text-[9px] font-black uppercase tracking-widest text-white">
-                      Most popular
+                      Custom branding
                     </span>
                   )}
                   <h3 className="text-xl font-black">{plan.name}</h3>

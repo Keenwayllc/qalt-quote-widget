@@ -22,7 +22,7 @@ const OUTCOMES: { title: string; body: string }[] = [
   { title: "Quote instantly", body: "Customers see a delivery price without calling or waiting for a response." },
   { title: "Use your pricing", body: "Qalt uses your mileage, weight, item, vehicle, stairs, inside delivery, after-hours, and large-item rules." },
   { title: "Show the breakdown", body: "Customers see where the price comes from, which builds trust and cuts the back-and-forth." },
-  { title: "Capture the booking", body: "Qalt collects customer and delivery details before you follow up." },
+  { title: "Capture the request", body: "Customers submit contact and delivery details so you receive a complete lead or booking request." },
   { title: "Add it to your website", body: "Embed Qalt with one snippet instead of rebuilding your site." },
 ];
 
@@ -40,9 +40,9 @@ const WITH = [
   "Customer enters details",
   "Quote calculates instantly",
   "Pricing is transparent",
-  "Customer submits the booking",
+  "Customer submits a quote or booking request",
   "You receive a complete lead",
-  "Payment flow on supported plans",
+  "Optional Stripe payments on Enterprise",
 ];
 
 const PRICING_RULES = [
@@ -62,7 +62,7 @@ export default async function DemoPage() {
         <div className="relative z-10 mx-auto max-w-6xl px-6 sm:px-8">
           <p className="mb-6 flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500"><span className="h-2 w-2 bg-red-600" />Live demo</p>
           <h1 className="max-w-5xl text-[clamp(3.1rem,7vw,6.2rem)] font-black leading-[0.88] tracking-[-0.06em] text-slate-950">Try the quote flow your customers would use.</h1>
-          <p className="mt-8 max-w-3xl text-base font-medium leading-7 text-slate-600 sm:text-lg">This is a working Qalt form with sample courier pricing. Enter a pickup and dropoff to see the price, the breakdown and the booking experience.</p>
+          <p className="mt-8 max-w-3xl text-base font-medium leading-7 text-slate-600 sm:text-lg">This working Qalt form uses sample courier rates. Enter a pickup and dropoff to see instant pricing, the breakdown and the request flow. Payments are disabled in the demo.</p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Link href="/demo/try" className="w-full border border-slate-950/15 bg-white px-8 py-4 text-center text-sm font-bold text-slate-900 hover:bg-slate-50 sm:w-auto">Open full-size demo</Link>
             <a href="#live-demo" className="group/btn flex w-full items-center justify-center gap-3 bg-red-600 px-8 py-4 text-sm font-black text-white transition hover:bg-red-700 sm:w-auto">
@@ -136,7 +136,7 @@ export default async function DemoPage() {
           <div className="max-w-2xl mb-14">
             <p className="text-xs font-black uppercase tracking-widest text-red-600 mb-4">What you get</p>
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 leading-tight">
-              Your customers get answers faster. You get better leads.
+              Your customers get prices faster. You receive complete requests.
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">

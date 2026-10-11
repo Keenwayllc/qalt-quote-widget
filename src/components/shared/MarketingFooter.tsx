@@ -48,7 +48,7 @@ export default function MarketingFooter() {
           <div>
             <QaltLogo size="md" />
             <p className="mt-4 max-w-xs text-sm font-medium leading-6 text-slate-500">
-              The customer-facing quote layer for delivery companies. Your rates, your services, your coverage, your brand.
+              Pricing, instant quoting and lead capture for delivery company websites. Your rates and your brand. Keep your existing dispatch workflow.
             </p>
           </div>
           {COLUMNS.map((column) => (
