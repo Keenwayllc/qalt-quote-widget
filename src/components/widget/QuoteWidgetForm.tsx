@@ -1478,7 +1478,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
         </div>
 
         {showSideMap && (
-          <div className="hidden md:flex min-w-0 flex-col flex-1 min-h-[500px] animate-in slide-in-from-left-4 fade-in duration-700 bg-slate-50 relative border-l border-slate-100">
+          <div className="flex min-w-0 w-full md:w-auto flex-col flex-1 min-h-[320px] md:min-h-[500px] animate-in slide-in-from-left-4 fade-in duration-700 bg-slate-50 relative border-t md:border-t-0 md:border-l border-slate-100">
             <div className="relative flex-1 min-h-[320px]"><div className="absolute inset-0"><RouteMapDisplay pickupAddress={formData.pickupAddress} intermediateStops={formData.intermediateStops} dropoffAddress={formData.dropoffAddress} isLoaded={isLoaded} onRouteInfo={(info) => setRouteInfo(info)} /></div><div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-white/20 text-[10px] uppercase font-black text-slate-800 tracking-[0.15em] flex items-center gap-2 z-10"><div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />Route Overview</div></div>
             <div className="bg-white p-5 border-t border-slate-100 relative z-10 space-y-4">
               <div className="grid grid-cols-2 gap-3 pb-4 border-b border-slate-100">

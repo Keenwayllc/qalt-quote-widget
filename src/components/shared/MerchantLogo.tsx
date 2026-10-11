@@ -44,6 +44,11 @@ export function useLogoTone(src: string | null | undefined, backdrop?: LogoBackd
 
   useBeforePaint(() => {
     if (!src) return;
+    // Browser-only demo artwork must never be sent to the logo analysis API.
+    if (src.startsWith("blob:") || src.startsWith("data:")) {
+      setTone("unknown");
+      return;
+    }
     const cached = readCached(src);
     if (cached) {
       setTone(cached);

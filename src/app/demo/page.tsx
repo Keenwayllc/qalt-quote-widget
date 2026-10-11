@@ -1,12 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import prisma from "@/lib/prisma";
-import { pricingProfileForForm } from "@/lib/widget-pricing";
-import {
-  publicCompanySelect,
-  publicWidgetSettingsSelect,
-  publicPricingProfileSelect,
-} from "@/lib/publicWidget";
+import { resolveDemoCompanies } from "@/lib/demo-company";
 import PublicNav from "@/components/shared/PublicNav";
 import DemoLeadForm from "@/components/landing/DemoLeadForm";
 import GatedDemo from "@/components/landing/GatedDemo";
@@ -23,38 +17,6 @@ export const metadata: Metadata = {
     "Try Qalt like a real customer. Delivery companies add an instant quote and booking form to their website so customers see transparent pricing, book the job, and move toward payment without calling.",
 };
 
-// Points ONLY at a dedicated demo merchant configured via env, and only if that
-// company actually exists with a widget. It must NEVER fall back to a real
-// customer's widget — a missing OR invalid id just shows the neutral placeholder.
-// Returns the full company (pricing + widget settings) so the widget can render
-// inline on this page, exactly like the standalone /widget/[id] embed does — no
-// iframe, so the route map and address autocomplete load as normal in-page elements.
-async function resolveDemoCompany() {
-  const id = (process.env.DEMO_COMPANY_ID || process.env.NEXT_PUBLIC_DEMO_COMPANY_ID)?.trim();
-  if (!id) return null;
-  // Strict public select — never the full Company row (see lib/publicWidget).
-  const company = await prisma.company.findUnique({
-    where: { id },
-    select: {
-      ...publicCompanySelect,
-      widgetSettings: { orderBy: { id: "asc" }, select: publicWidgetSettingsSelect },
-      pricingProfiles: { select: publicPricingProfileSelect },
-    },
-  });
-  if (!company || company.widgetSettings.length === 0) return null;
-
-  // The inline demo uses the basic theme; raw appearance tokens stay server-side.
-  const widgetSettings = { ...company.widgetSettings[0], advancedAppearance: undefined };
-  const pricingProfile = pricingProfileForForm(company.pricingProfiles, widgetSettings.id);
-  return {
-    id: company.id,
-    name: company.name,
-    logoUrl: company.logoUrl,
-    subscriptionPlan: company.subscriptionPlan,
-    widgetSettings,
-    pricingProfile,
-  };
-}
 
 const OUTCOMES: { title: string; body: string }[] = [
   { title: "Quote instantly", body: "Customers see a delivery price without calling or waiting for a response." },
@@ -89,7 +51,7 @@ const PRICING_RULES = [
 ];
 
 export default async function DemoPage() {
-  const demoCompany = await resolveDemoCompany();
+  const demoCompanies = await resolveDemoCompanies();
 
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-red-100 selection:text-red-900">
@@ -102,6 +64,7 @@ export default async function DemoPage() {
           <h1 className="max-w-5xl text-[clamp(3.1rem,7vw,6.2rem)] font-black leading-[0.88] tracking-[-0.06em] text-slate-950">Try the quote flow your customers would use.</h1>
           <p className="mt-8 max-w-3xl text-base font-medium leading-7 text-slate-600 sm:text-lg">This is a working Qalt form with sample courier pricing. Enter a pickup and dropoff to see the price, the breakdown and the booking experience.</p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <Link href="/demo/try" className="w-full border border-slate-950/15 bg-white px-8 py-4 text-center text-sm font-bold text-slate-900 hover:bg-slate-50 sm:w-auto">Open full-size demo</Link>
             <a href="#live-demo" className="group/btn flex w-full items-center justify-center gap-3 bg-red-600 px-8 py-4 text-sm font-black text-white transition hover:bg-red-700 sm:w-auto">
               Try the Live Demo <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-1.5" />
             </a>
@@ -120,8 +83,22 @@ export default async function DemoPage() {
             Try Qalt like a real customer
           </h2>
           <p className="text-slate-500 font-medium text-base sm:text-lg leading-relaxed">
-            Enter a pickup and dropoff, add shipment details, and see how Qalt calculates a delivery quote using real merchant pricing rules.
+            Choose Standard, Extended, or Vehicle Options, then try the same quote form your customers would use. Preview your branding and watch the route map expand beside the quote.
           </p>
+        </div>
+
+        <div className="mb-8 grid gap-4 sm:grid-cols-3">
+          {[
+            ["Standard", "A guided delivery quote with route, shipment, and contact details."],
+            ["Extended", "The Standard flow plus custom questions and answer choices."],
+            ["Vehicle Options", "Visual vehicle selection with instant pricing and a full breakdown."],
+          ].map(([title, description]) => (
+            <div key={title} className="border-t-2 border-slate-900 pt-4">
+              <h3 className="text-sm font-bold text-slate-900">{title}</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-500">{description}</p>
+            </div>
+          ))}
+          <p className="text-xs leading-5 text-slate-500 sm:col-span-3">All three templates are available in the dashboard. Pro and Enterprise support custom logos and branding. Enterprise adds payments and advanced appearance settings. This demo uses sample rates, with payments disabled.</p>
         </div>
 
         <div className="overflow-hidden border border-slate-950/15 bg-white shadow-[0_30px_80px_-45px_rgba(0,0,0,0.35)]">
@@ -135,12 +112,12 @@ export default async function DemoPage() {
               yourdeliverycompany.com
             </div>
           </div>
-          {demoCompany ? (
+          {demoCompanies.length > 0 ? (
             // Gated: the interactive widget (and Google Maps) only mount after a
             // visitor completes the human-verified access form. Until then a
             // static, non-interactive preview is shown. Not iframed, so once
             // unlocked the map and address autocomplete work as in-page elements.
-            <GatedDemo company={demoCompany} />
+            <GatedDemo companies={demoCompanies} />
           ) : (
             <div className="h-[420px] flex flex-col items-center justify-center text-center px-8 bg-slate-50 gap-3">
               <p className="text-sm font-bold text-slate-700">Live demo coming online</p>

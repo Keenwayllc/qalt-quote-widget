@@ -77,7 +77,7 @@ test('dedicated demo restore creates a usable sample form and rates without a lo
   assert.equal(company.emailVerified, false);
   assert.equal(company.registrationSource, 'demo');
   assert.equal(company.stripeSubscriptionId, null);
-  const form = (await client.query(`SELECT "paymentsEnabled", "headerText" FROM "WidgetSettings" WHERE "companyId" = 'cmtjk5po0000004jzgud1ar9o'`)).rows[0];
+  const form = (await client.query(`SELECT "paymentsEnabled", "headerText" FROM "WidgetSettings" WHERE id = 'qalt-dedicated-demo-form'`)).rows[0];
   assert.equal(form.paymentsEnabled, false);
   assert.equal(form.headerText, 'Try an instant delivery quote');
   const pricing = (await client.query(`SELECT "baseRatePerMile", "minimumCharge" FROM "PricingProfile" WHERE "companyId" = 'cmtjk5po0000004jzgud1ar9o' AND "widgetSettingsId" IS NULL`)).rows[0];
@@ -107,4 +107,25 @@ test('cleanup cannot delete the demo account, form or pricing but can delete ord
     DELETE FROM "WidgetSettings" WHERE "companyId" = 'real-customer';
     DELETE FROM "Company" WHERE id = 'real-customer'`);
   assert.equal((await client.query(`SELECT count(*)::int AS count FROM "Company" WHERE id = 'real-customer'`)).rows[0].count, 0);
+});
+
+
+test('showroom creates all three real form styles on the demo tenant only', async () => {
+  const { rows } = await client.query(`SELECT id, "formStyle", "mapLayout", "paymentsEnabled", "customQuestions", "vehicleOptions" FROM "WidgetSettings" WHERE "companyId" = 'cmtjk5po0000004jzgud1ar9o' ORDER BY id`);
+  assert.equal(rows.length, 3);
+  assert.deepEqual(rows.map(row => row.formStyle).sort(), ['extended', 'quick', 'standard']);
+  assert.ok(rows.every(row => row.mapLayout === 'side' && row.paymentsEnabled === false));
+  const extended = rows.find(row => row.formStyle === 'extended');
+  assert.equal(extended.customQuestions[0].label, 'What are you delivering?');
+  const quick = rows.find(row => row.formStyle === 'quick');
+  assert.deepEqual(quick.vehicleOptions.map(option => [option.name, option.fee]), [['Car', 0], ['Cargo Van', 25], ['Box Truck', 60]]);
+});
+
+test('showroom migration can replay without duplicating forms or editing other tenants', async () => {
+  await client.query(`INSERT INTO "Company" (id,email,"passwordHash",name) VALUES ('showroom-unrelated','unrelated@example.invalid','private','Ordinary Company');
+    INSERT INTO "WidgetSettings" (id,"companyId","mapLayout") VALUES ('unrelated-showroom-form','showroom-unrelated','inline')`);
+  const snapshot = async () => (await client.query(`SELECT * FROM "WidgetSettings" ORDER BY id`)).rows;
+  const before = await snapshot();
+  await client.query(readFileSync(new URL('../../prisma/migrations/20261011224000_demo_form_showroom/migration.sql', import.meta.url), 'utf8'));
+  assert.deepEqual(await snapshot(), before);
 });
