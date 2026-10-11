@@ -11,7 +11,23 @@
 }
 .device { position: absolute; bottom: 0; animation: rise 1.35s cubic-bezier(.16, 1, .3, 1) both; }
 .float { animation: drift 7s ease-in-out infinite; animation-delay: 1.5s; }
-.artwork { width: 100%; background-image: url('/images/qalt-device-reference.png'); background-repeat: no-repeat; }
+.artwork { position: relative; width: 100%; background-image: url('/images/qalt-device-reference.png'); background-repeat: no-repeat; }
+
+/* Preserve the supplied device frames while updating their captured branding. */
+.artwork::after,
+.desktop .artwork::before {
+  content: "";
+  position: absolute;
+  background-color: #f6f7f9;
+  background-image: url('/images/qalt-wordmark-2026-10.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 90% auto;
+}
+.phone .artwork::after { left: 8%; top: 20.6%; width: 26%; height: 4.4%; }
+.tablet .artwork::after { left: 22%; top: 17.8%; width: 15%; height: 4.6%; }
+.desktop .artwork::after { left: 3%; top: 10.4%; width: 18%; height: 7%; background-color: #e7e7e7; }
+.desktop .artwork::before { left: 42%; top: 83%; width: 5.5%; height: 3.5%; background-color: #ffffff; }
 
 /* Pixel windows in the supplied 2134 x 1146 screenshot, including its frames. */
 .phone { width: 11.2%; left: 17%; }

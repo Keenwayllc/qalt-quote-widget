@@ -3,7 +3,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import CookieBanner from "@/components/shared/CookieBanner";
 import GlobalScrollToTop from "@/components/shared/GlobalScrollToTop";
-import MarketingDemoDiversity from "@/components/shared/MarketingDemoDiversity";
 import WidgetBrandRuntime from "@/components/shared/WidgetBrandRuntime";
 import NavigationBoost from "@/components/shared/NavigationBoost";
 import ErrorReporter from "@/components/shared/ErrorReporter";
@@ -48,9 +47,9 @@ export const metadata: Metadata = {
     type: "website",
   },
   icons: {
-    icon: "/images/qalt-icon-400.jpg",
-    shortcut: "/images/qalt-icon-400.jpg",
-    apple: "/images/qalt-icon-400.jpg",
+    icon: "/images/qalt-icon-2026-10.png",
+    shortcut: "/images/qalt-icon-2026-10.png",
+    apple: "/images/qalt-apple-touch-2026-10.png",
   },
 };
 
@@ -79,7 +78,6 @@ export default function RootLayout({
           <NavigationBoost />
           <RegistrationAttributionTracker />
           {children}
-          <MarketingDemoDiversity />
           <WidgetBrandRuntime />
           <GlobalScrollToTop />
           <CookieBanner />

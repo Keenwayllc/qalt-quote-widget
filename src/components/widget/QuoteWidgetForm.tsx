@@ -3,7 +3,7 @@
 import { safeWidgetUrl } from "@/lib/widget-urls";
 
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
-import Image from "next/image";
+import QaltAnimatedLogo from "@/components/shared/QaltAnimatedLogo";
 import { getEntitlements } from "@/lib/plans";
 import { MapPin, CheckCircle, ArrowRight, ArrowLeft, User, Mail, Phone, Truck, Sparkles, Weight, Hash, Footprints, Home, Clock, Box, Navigation, Check, Lock, ShieldCheck, Plus, Trash2 } from "lucide-react";
 import { useJsApiLoader } from "@react-google-maps/api";
@@ -1480,7 +1480,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
               {widgetSettings.paymentsEnabled && <span className="inline-flex items-center gap-1"><ShieldCheck size={10} className="text-emerald-500" aria-hidden="true" /> Card payments by Stripe</span>}
             </p>
             {!demoMode && parentUrl && step !== 3 && (() => { let hostname = ""; try { hostname = new URL(parentUrl).hostname.replace(/^www\./, ""); } catch { hostname = ""; } return hostname ? <a href={parentUrl} className="mt-3 flex items-center justify-center gap-1.5 text-[10px] font-bold text-slate-400 hover:text-slate-600 transition-colors group"><ArrowLeft size={11} className="group-hover:-translate-x-0.5 transition-transform" />Back to {hostname}</a> : null; })()}
-            {!showWhiteLabel && <a href="https://qalt.site" target="_blank" rel="noopener noreferrer" className="mt-4 flex items-center justify-center gap-2 opacity-80 hover:opacity-100 transition-opacity"><span className="text-[11px] text-slate-500 font-bold uppercase tracking-[0.2em] leading-none">Powered by</span><Image src="/images/qalt-logo-main-2026.png" alt="Qalt Logo" width={1080} height={1080} className="h-[75px] w-auto object-contain relative -top-[3.78px] -left-[7.56px]" /></a>}
+            {!showWhiteLabel && <a href="https://qalt.site" target="_blank" rel="noopener noreferrer" className="mt-4 flex items-center justify-center gap-2 opacity-80 hover:opacity-100 transition-opacity"><span className="text-[11px] text-slate-500 font-bold uppercase tracking-[0.2em] leading-none">Powered by</span><QaltAnimatedLogo widgetTheme noAnimate className="h-5 w-auto" /></a>}
           </div>
         </div>
 

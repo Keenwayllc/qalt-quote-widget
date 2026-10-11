@@ -23,7 +23,7 @@ export const VerifyEmail: React.FC<Readonly<VerifyEmailProps>> = ({
       textAlign: "center",
     }}>
       <img
-        src="https://qalt.site/images/qalt-logo-main-2026.png"
+        src="https://qalt.site/images/qalt-wordmark-2026-10.png"
         alt="Qalt Logo"
         height="44"
         style={{ display: "block", margin: "0 auto 16px", borderRadius: "8px", padding: "6px 16px", backgroundColor: "#ffffff" }}

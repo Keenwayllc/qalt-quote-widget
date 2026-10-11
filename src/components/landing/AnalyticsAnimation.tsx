@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
+import QaltAnimatedLogo from "@/components/shared/QaltAnimatedLogo";
 import {
   Activity,
   ArrowUpRight,
@@ -47,8 +48,7 @@ function Shell({ currentStep }: { currentStep: number }) {
       <div className="flex min-h-[500px]">
         <aside className="hidden w-[128px] shrink-0 border-r border-slate-200 bg-white p-3 sm:block">
           <div className="flex items-center gap-2 px-1 py-2">
-            <div className="grid h-8 w-8 place-items-center rounded-lg bg-slate-900 text-xs font-black text-white">Q</div>
-            <div className="text-lg font-black tracking-tight text-slate-800">QALT</div>
+            <QaltAnimatedLogo noAnimate className="h-5 w-auto" />
           </div>
           <div className="mt-5 px-1 text-[7px] font-black uppercase tracking-[0.18em] text-slate-400">Merchant Console</div>
           <div className="mt-2 space-y-1">

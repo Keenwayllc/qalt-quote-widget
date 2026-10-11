@@ -275,7 +275,7 @@ export default function EmbedCodePage() {
             {/* Installation Guide with platform tabs */}
             <div className="bg-red-50 dark:bg-red-500/10 rounded-none p-8 border border-red-100 dark:border-red-500/30 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none scale-150">
-                <img src="/images/qalt-icon-400.jpg" alt="" width={120} height={120} className="w-[120px] h-[120px] object-contain" />
+                <img src="/images/qalt-icon-2026-10.png" alt="" width={120} height={120} className="w-[120px] h-[120px] object-contain" />
               </div>
               <h3 className="text-xl font-black text-red-900 dark:text-red-300 mb-5">Installation Guide</h3>
 

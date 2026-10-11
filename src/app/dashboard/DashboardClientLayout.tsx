@@ -219,7 +219,7 @@ function DashboardLayoutInner({
                   />
                 </div>
               ) : (
-                <QaltLogo size="lg" />
+                <QaltLogo size="lg" linked={false} autoDark />
               )}
             </button>
             <button
@@ -432,7 +432,7 @@ function DashboardLayoutInner({
             // eslint-disable-next-line @next/next/no-img-element -- remote merchant upload
             <img src={logoUrl} alt={`${displayName || "Company"} logo`} className="h-9 w-auto max-w-[138px] object-contain object-left" />
           ) : (
-            <QaltLogo size="md" />
+            <QaltLogo size="md" autoDark />
           )}
           <button
             onClick={() => setIsSidebarOpen(true)}

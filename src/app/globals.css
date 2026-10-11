@@ -357,3 +357,23 @@ h6 {
 .dark .qalt-widget-studio .pointer-events-none.opacity-80 > div:last-child {
   background: #171717;
 }
+
+/* Qalt credit follows the form palette, including Enterprise custom themes. */
+[data-qalt-widget-theme="dark"] .qalt-widget-logo-light {
+  display: none;
+}
+
+[data-qalt-widget-theme="dark"] .qalt-widget-logo-dark {
+  display: block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .qalt-logo-entrance {
+    animation: qalt-logo-enter 450ms ease-out both;
+  }
+}
+
+@keyframes qalt-logo-enter {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

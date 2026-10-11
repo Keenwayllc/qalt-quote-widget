@@ -19,6 +19,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 import QaltLogo from "@/components/shared/QaltLogo";
+import MarketingDemoDiversity from "@/components/shared/MarketingDemoDiversity";
 import { getRegistrationAttribution } from "@/components/shared/RegistrationAttribution";
 import { TrustBadgeStrip } from "@/components/shared/TrustBadges";
 
@@ -227,7 +228,7 @@ export default function RegisterPage() {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#f4f2ec] px-5 py-10">
         <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: "easeOut" }} className="w-full max-w-[470px]">
-          <Link href="/" className="mb-8 flex justify-center"><QaltLogo size="sm" /></Link>
+          <Link href="/" className="mb-8 flex justify-center"><QaltLogo size="sm" linked={false} /></Link>
           <div className="border border-slate-200 bg-white p-7 shadow-[0_24px_70px_-38px_rgba(15,23,42,.35)] sm:p-9">
             <div className="mx-auto grid h-14 w-14 place-items-center bg-red-50 text-[#df1731]">
               <MailCheck size={27} />
@@ -256,7 +257,8 @@ export default function RegisterPage() {
             <p className="mt-5 text-center text-[11px] font-medium text-slate-400">Confirmation links expire after 24 hours.</p>
           </div>
         </motion.div>
-      </main>
+        <MarketingDemoDiversity routes={["/register"]} />
+    </main>
     );
   }
 
@@ -286,7 +288,7 @@ export default function RegisterPage() {
         <div className="absolute inset-x-0 top-0 h-px bg-slate-200 lg:hidden" />
         <div className="w-full max-w-[440px]">
           <div className="mb-8 flex items-center justify-between lg:hidden">
-            <Link href="/" aria-label="Back to Qalt homepage"><QaltLogo size="sm" /></Link>
+            <Link href="/" aria-label="Back to Qalt homepage"><QaltLogo size="sm" linked={false} /></Link>
             <Link href="/login" className="text-sm font-semibold text-[#df1731]">Sign in</Link>
           </div>
 
@@ -347,6 +349,7 @@ export default function RegisterPage() {
           </motion.div>
         </div>
       </section>
+      <MarketingDemoDiversity routes={["/register"]} />
     </main>
   );
 }

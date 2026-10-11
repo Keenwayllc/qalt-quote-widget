@@ -16,6 +16,7 @@ import {
   MapPin,
 } from "lucide-react";
 import QaltLogo from "@/components/shared/QaltLogo";
+import MarketingDemoDiversity from "@/components/shared/MarketingDemoDiversity";
 
 function ProductPreview() {
   return (
@@ -167,7 +168,7 @@ function LoginForm() {
         <div className="absolute inset-x-0 top-0 h-px bg-slate-200 lg:hidden" />
         <div className="w-full max-w-[440px]">
           <div className="mb-10 flex items-center justify-between lg:hidden">
-            <Link href="/" aria-label="Back to Qalt homepage"><QaltLogo size="sm" /></Link>
+            <Link href="/" aria-label="Back to Qalt homepage"><QaltLogo size="sm" linked={false} /></Link>
             <Link href="/register" className="text-sm font-semibold text-[#df1731]">Create account</Link>
           </div>
 
@@ -236,6 +237,7 @@ function LoginForm() {
           </motion.div>
         </div>
       </section>
+      <MarketingDemoDiversity routes={["/login"]} />
     </main>
   );
 }

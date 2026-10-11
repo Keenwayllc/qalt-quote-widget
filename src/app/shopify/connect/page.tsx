@@ -63,7 +63,7 @@ function ShopifyConnectInner() {
           <div className="flex items-center gap-3">
             <ShoppingBag size={22} className="text-emerald-400" />
             <span className="text-white/60 font-bold text-sm">+</span>
-            <QaltLogo className="h-6 w-auto brightness-0 invert" />
+            <QaltLogo white />
           </div>
         </div>
 

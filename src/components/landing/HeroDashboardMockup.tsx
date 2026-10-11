@@ -288,7 +288,7 @@ function MiniSidebar({ stage }: { stage: number }) {
   return (
     <aside className="hidden w-[106px] shrink-0 border-r border-slate-200 bg-white p-2.5 sm:block">
       <div className="mb-4 px-1">
-        <Image src="/images/qalt-logo-main-2026.png" alt="Qalt" width={48} height={18} className="object-contain" />
+        <Image src="/images/qalt-wordmark-2026-10.png" alt="Qalt" width={70} height={15} className="object-contain" />
       </div>
       <p className="mb-2 px-1 text-[5px] font-bold uppercase tracking-[0.18em] text-slate-400">Merchant Console</p>
       <div className="space-y-1">
