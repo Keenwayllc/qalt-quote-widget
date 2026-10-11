@@ -7,7 +7,6 @@ import {
   ArrowRight,
   ArrowUp,
   Calculator,
-  Check,
   CheckCircle2,
   Code2,
   CreditCard,
@@ -26,6 +25,7 @@ import MarketingDemoDiversity from "@/components/shared/MarketingDemoDiversity";
 import { featuredInsight } from "@/lib/featuredInsight";
 import { TrustBadgeGrid } from "@/components/shared/TrustBadges";
 import MarketingFooter from "@/components/shared/MarketingFooter";
+import BrandedFleetPosters from "@/components/landing/BrandedFleetPosters";
 
 const reveal = {
   hidden: { opacity: 0, y: 24 },
@@ -313,6 +313,8 @@ export default function LandingPage() {
                 A one-van courier and a fleet running box trucks price jobs differently. The form follows the rules you set, not a template.
               </p>
             </motion.div>
+
+            <BrandedFleetPosters />
 
             <div className="mt-12 grid gap-px overflow-hidden border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-3">
               {useCases.map(([title, description], index) => (
