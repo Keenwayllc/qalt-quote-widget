@@ -69,3 +69,42 @@ test('re-running the reconcile migration on a production-shaped database is a lo
     await client.query('ROLLBACK');
   }
 });
+
+test('dedicated demo restore creates a usable sample form and rates without a login', async () => {
+  const company = (await client.query(`SELECT "email", "passwordHash", "emailVerified", "registrationSource", "stripeSubscriptionId" FROM "Company" WHERE id = 'cmtjk5po0000004jzgud1ar9o'`)).rows[0];
+  assert.equal(company.email, 'showroom@demo.qalt.invalid');
+  assert.equal(company.passwordHash, '!disabled-demo-account');
+  assert.equal(company.emailVerified, false);
+  assert.equal(company.registrationSource, 'demo');
+  assert.equal(company.stripeSubscriptionId, null);
+  const form = (await client.query(`SELECT "paymentsEnabled", "headerText" FROM "WidgetSettings" WHERE "companyId" = 'cmtjk5po0000004jzgud1ar9o'`)).rows[0];
+  assert.equal(form.paymentsEnabled, false);
+  assert.equal(form.headerText, 'Try an instant delivery quote');
+  const pricing = (await client.query(`SELECT "baseRatePerMile", "minimumCharge" FROM "PricingProfile" WHERE "companyId" = 'cmtjk5po0000004jzgud1ar9o' AND "widgetSettingsId" IS NULL`)).rows[0];
+  assert.equal(pricing.baseRatePerMile, 2.5);
+  assert.equal(pricing.minimumCharge, 35);
+});
+
+test('replaying demo restore preserves existing demo customization and all customer data', async () => {
+  await client.query(`INSERT INTO "Company" (id,email,"passwordHash",name) VALUES ('real-customer','real@example.invalid','private-hash','Real Courier');
+    INSERT INTO "WidgetSettings" (id,"companyId","primaryColor") VALUES ('real-form','real-customer','#123456');
+    INSERT INTO "PricingProfile" (id,"companyId","minimumCharge") VALUES ('real-pricing','real-customer',91);
+    UPDATE "WidgetSettings" SET "primaryColor" = '#654321' WHERE "companyId" = 'cmtjk5po0000004jzgud1ar9o';
+    UPDATE "PricingProfile" SET "minimumCharge" = 73 WHERE "companyId" = 'cmtjk5po0000004jzgud1ar9o'`);
+  const snapshot = async () => Promise.all(['Company','WidgetSettings','PricingProfile'].map(async table => (await client.query(`SELECT * FROM "${table}" ORDER BY id`)).rows));
+  const before = await snapshot();
+  await client.query(readFileSync(new URL('../../prisma/migrations/20261011210000_restore_dedicated_demo/migration.sql', import.meta.url), 'utf8'));
+  assert.deepEqual(await snapshot(), before);
+});
+
+
+test('cleanup cannot delete the demo account, form or pricing but can delete ordinary customers', async () => {
+  for (const table of ['Company', 'WidgetSettings', 'PricingProfile']) {
+    const column = table === 'Company' ? 'id' : 'companyId';
+    await assert.rejects(client.query(`DELETE FROM "${table}" WHERE "${column}" = 'cmtjk5po0000004jzgud1ar9o'`), /dedicated Qalt public demo cannot be deleted/);
+  }
+  await client.query(`DELETE FROM "PricingProfile" WHERE "companyId" = 'real-customer';
+    DELETE FROM "WidgetSettings" WHERE "companyId" = 'real-customer';
+    DELETE FROM "Company" WHERE id = 'real-customer'`);
+  assert.equal((await client.query(`SELECT count(*)::int AS count FROM "Company" WHERE id = 'real-customer'`)).rows[0].count, 0);
+});

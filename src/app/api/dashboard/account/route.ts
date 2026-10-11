@@ -25,6 +25,10 @@ export async function DELETE() {
     const company = await getCompany();
     if (!company) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
+    if (company.id === "cmtjk5po0000004jzgud1ar9o") {
+      return NextResponse.json({ error: "The dedicated public demo account cannot be deleted." }, { status: 403 });
+    }
+
     // Cancel Stripe subscription if active
     if (company.stripeSubscriptionId) {
       try {

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import prisma from "@/lib/prisma";
+import { pricingProfileForForm } from "@/lib/widget-pricing";
 import {
   publicCompanySelect,
   publicWidgetSettingsSelect,
@@ -37,7 +38,7 @@ async function resolveDemoCompany() {
     where: { id },
     select: {
       ...publicCompanySelect,
-      widgetSettings: { select: publicWidgetSettingsSelect },
+      widgetSettings: { orderBy: { id: "asc" }, select: publicWidgetSettingsSelect },
       pricingProfiles: { select: publicPricingProfileSelect },
     },
   });
@@ -45,7 +46,7 @@ async function resolveDemoCompany() {
 
   // The inline demo uses the basic theme; raw appearance tokens stay server-side.
   const widgetSettings = { ...company.widgetSettings[0], advancedAppearance: undefined };
-  const pricingProfile = company.pricingProfiles.find((p) => p.widgetSettingsId === null);
+  const pricingProfile = pricingProfileForForm(company.pricingProfiles, widgetSettings.id);
   return {
     id: company.id,
     name: company.name,
