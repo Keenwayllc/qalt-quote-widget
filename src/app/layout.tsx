@@ -8,6 +8,7 @@ import NavigationBoost from "@/components/shared/NavigationBoost";
 import ErrorReporter from "@/components/shared/ErrorReporter";
 import RegistrationAttributionTracker from "@/components/shared/RegistrationAttribution";
 import IntroJourney from "@/components/landing/intro/IntroJourney";
+import RecentActivity from "@/components/landing/RecentActivity";
 import { INTRO_BOOT_SCRIPT } from "@/lib/intro-boot";
 
 // Inter is the typography used by the approved Astra reference. It is loaded
@@ -81,6 +82,7 @@ export default function RootLayout({
           <WidgetBrandRuntime />
           <GlobalScrollToTop />
           <CookieBanner />
+          <RecentActivity />
           <IntroJourney />
         </ThemeProvider>
       </body>

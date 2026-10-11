@@ -1,6 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useHydratedReducedMotion } from "@/hooks/useHydratedReducedMotion";
 import { useEffect, useState } from "react";
 import {
   ArrowRight,
@@ -271,7 +272,7 @@ function QuotePanel({ currentStep }: { currentStep: number }) {
 
 export default function HowItWorksAnimation() {
   const [currentStep, setCurrentStep] = useState(0);
-  const reducedMotion = useReducedMotion();
+  const reducedMotion = useHydratedReducedMotion();
 
   useEffect(() => {
     if (reducedMotion) return;

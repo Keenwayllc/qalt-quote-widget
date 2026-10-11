@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useHydratedReducedMotion } from "@/hooks/useHydratedReducedMotion";
 import {
   Activity,
   ArrowRight,
@@ -507,7 +508,7 @@ function MerchantConsole({ stage, reduceMotion }: { stage: number; reduceMotion:
 export default function HeroDashboardMockup() {
   const [stage, setStage] = useState(0);
   const [accent, setAccent] = useState(BRAND_COLORS[0].value);
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useHydratedReducedMotion();
 
   useEffect(() => {
     if (reduceMotion) return;
