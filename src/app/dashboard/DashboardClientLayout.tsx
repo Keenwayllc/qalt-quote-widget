@@ -22,7 +22,7 @@ import {
   HelpCircle,
   Webhook,
   MapPin,
-  Briefcase,
+  ClipboardList,
   Star,
   Shield,
   Mail,
@@ -155,7 +155,7 @@ function DashboardLayoutInner({
   ];
 
   const opsNavItems = [
-    { name: "Jobs Dashboard", href: "/dashboard/ops/jobs", icon: Briefcase },
+    { name: "Jobs Dashboard", href: "/dashboard/ops/jobs", icon: ClipboardList },
     { name: "Saved Stop Notes", href: "/dashboard/ops/stops", icon: MapPin },
     { name: "Delivery Readiness", href: "/dashboard/ops/readiness", icon: Eye },
   ];
@@ -234,7 +234,7 @@ function DashboardLayoutInner({
           {trialEnded && !pathname.startsWith("/dashboard/billing") && (
             <div className="mx-4 mb-2 rounded-xl px-4 py-3 text-sm font-bold bg-slate-900 text-white">
               <div className="flex items-center gap-2 mb-1">
-                <span>✨</span>
+
                 <span className="font-black">Your PRO trial ended</span>
               </div>
               <p className="text-xs text-white/80 mb-1">You&apos;re on STARTER. Upgrade to restore PRO features.</p>
@@ -251,7 +251,7 @@ function DashboardLayoutInner({
                 : "bg-amber-50 text-amber-800 border border-amber-200"
             }`}>
               <div className="flex items-center gap-2 mb-1">
-                <span>{trialDaysLeft <= 3 ? "⚠️" : "🕐"}</span>
+
                 <span className="font-black">
                   {trialDaysLeft === 0
                     ? "Trial expires today"

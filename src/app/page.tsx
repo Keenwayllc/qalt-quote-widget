@@ -141,7 +141,6 @@ export default function LandingPage() {
         <section className="relative overflow-hidden bg-[#f4f2ec] pt-24 sm:pt-28 lg:pt-32">
           <div className="pointer-events-none absolute inset-0">
             <div className="absolute inset-x-0 top-0 h-px bg-slate-950/[0.08]" />
-            <div className="absolute -right-24 top-12 h-72 w-72 rounded-full bg-red-600/[0.055] blur-3xl" />
           </div>
 
           <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 pb-20 sm:px-8 sm:pb-24 lg:grid-cols-[0.84fr_1.16fr] lg:gap-16 lg:px-10 lg:pb-28">
@@ -232,7 +231,6 @@ export default function LandingPage() {
 
             <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {features.map((feature, index) => {
-                const Icon = feature.icon;
                 return (
                   <motion.div
                     key={feature.title}
@@ -243,7 +241,7 @@ export default function LandingPage() {
                     custom={index}
                     className="border border-slate-200 bg-white p-7 transition-colors hover:border-slate-400"
                   >
-                    <Icon size={20} className="text-red-600" />
+                    <span className="text-xs font-semibold tabular-nums text-slate-400" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                     <h3 className="mt-5 text-lg font-black tracking-tight text-slate-950">{feature.title}</h3>
                     <p className="mt-2 text-sm font-medium leading-6 text-slate-500">{feature.description}</p>
                   </motion.div>

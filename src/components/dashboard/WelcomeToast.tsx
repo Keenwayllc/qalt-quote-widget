@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, Suspense } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, X, ArrowRight, Sparkles } from "lucide-react";
+import { CheckCircle2, X, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 const DURATION = 8000;
@@ -86,8 +86,7 @@ function WelcomeToastInner({ companyName }: { companyName?: string }) {
                     <p className="font-black text-slate-900 dark:text-white text-sm tracking-tight">
                       Account verified!
                     </p>
-                    <Sparkles size={12} className="text-amber-400 shrink-0" />
-                  </div>
+                    </div>
                   <p className="text-xs font-medium text-slate-500 dark:text-zinc-400 leading-relaxed">
                     {companyName ? (
                       <>Welcome, <span className="font-bold text-slate-700 dark:text-zinc-200">{companyName}</span>. Your 14-day free trial has started.</>

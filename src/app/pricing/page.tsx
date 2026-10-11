@@ -6,7 +6,7 @@ import PublicNav from "@/components/shared/PublicNav";
 import SupportModal from "@/components/shared/SupportModal";
 import { motion } from "framer-motion";
 import { TrustBadgeStrip } from "@/components/shared/TrustBadges";
-import { CheckCircle2, Minus, ChevronDown, ChevronUp, ArrowUp } from "lucide-react";
+import { Check, Minus, ChevronDown, ChevronUp, ArrowUp } from "lucide-react";
 import MarketingFooter from "@/components/shared/MarketingFooter";
 
 const fadeUp = {
@@ -117,7 +117,7 @@ function FeatureCell({ value }: { value: FeatureValue }) {
     return <span className="text-sm font-bold text-slate-700">{value}</span>;
   }
   if (value === true) {
-    return <CheckCircle2 size={18} className="text-red-600 mx-auto" />;
+    return <Check size={18} className="text-red-600 mx-auto" />;
   }
   return <Minus size={16} className="text-slate-300 mx-auto" />;
 }
@@ -231,7 +231,7 @@ export default function PricingPage() {
               <ul className="space-y-3">
                 {["1 Quote Widget", "50 Quotes / month", "Instant quote calculator", "Lead capture & storage", "Email notifications", "Email support"].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
-                    <CheckCircle2 size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
+                    <Check size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
                   </li>
                 ))}
               </ul>
@@ -261,7 +261,7 @@ export default function PricingPage() {
               <ul className="space-y-3">
                 {["Unlimited quotes", "Up to 5 quote forms", "Full Ops Console (Jobs, Stops, Readiness)", "White-label (no Qalt branding)", "Custom colors, fonts & logo", "Analytics dashboard", "Priority support"].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-300 font-medium text-sm">
-                    <CheckCircle2 size={16} className="text-red-400 shrink-0 mt-0.5" />{item}
+                    <Check size={16} className="text-red-400 shrink-0 mt-0.5" />{item}
                   </li>
                 ))}
               </ul>
@@ -299,7 +299,7 @@ export default function PricingPage() {
                   { t: "Dedicated priority support", hl: false },
                 ].map((item) => (
                   <li key={item.t} className={`flex items-start gap-3 text-sm ${item.hl ? "text-slate-900 font-bold" : "text-slate-600 font-medium"}`}>
-                    <CheckCircle2 size={16} className={`shrink-0 mt-0.5 ${item.hl ? "text-red-600" : "text-slate-400"}`} />{item.t}
+                    <Check size={16} className={`shrink-0 mt-0.5 ${item.hl ? "text-red-600" : "text-slate-400"}`} />{item.t}
                   </li>
                 ))}
               </ul>
@@ -394,7 +394,7 @@ export default function PricingPage() {
               "Help customers price jobs faster",
             ].map((item) => (
               <div key={item} className="inline-flex items-center gap-2.5 whitespace-nowrap">
-                <CheckCircle2 size={16} className="text-red-600 shrink-0" />
+                <Check size={16} className="text-red-600 shrink-0" />
                 <span className="text-sm font-medium text-slate-700">{item}</span>
               </div>
             ))}

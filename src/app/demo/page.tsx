@@ -11,8 +11,7 @@ import PublicNav from "@/components/shared/PublicNav";
 import DemoLeadForm from "@/components/landing/DemoLeadForm";
 import GatedDemo from "@/components/landing/GatedDemo";
 import {
-  ArrowRight, Zap, Globe, ReceiptText,
-  SlidersHorizontal, PackageCheck, Check, X, Mail,
+  ArrowRight, Check, X, Mail,
 } from "lucide-react";
 import MarketingFooter from "@/components/shared/MarketingFooter";
 
@@ -57,12 +56,12 @@ async function resolveDemoCompany() {
   };
 }
 
-const OUTCOMES: { icon: React.ComponentType<{ size?: number; className?: string }>; title: string; body: string }[] = [
-  { icon: Zap, title: "Quote instantly", body: "Customers see a delivery price without calling or waiting for a response." },
-  { icon: SlidersHorizontal, title: "Use your pricing", body: "Qalt uses your mileage, weight, item, vehicle, stairs, inside delivery, after-hours, and large-item rules." },
-  { icon: ReceiptText, title: "Show the breakdown", body: "Customers see where the price comes from, which builds trust and cuts the back-and-forth." },
-  { icon: PackageCheck, title: "Capture the booking", body: "Qalt collects customer and delivery details before you follow up." },
-  { icon: Globe, title: "Add it to your website", body: "Embed Qalt with one snippet instead of rebuilding your site." },
+const OUTCOMES: { title: string; body: string }[] = [
+  { title: "Quote instantly", body: "Customers see a delivery price without calling or waiting for a response." },
+  { title: "Use your pricing", body: "Qalt uses your mileage, weight, item, vehicle, stairs, inside delivery, after-hours, and large-item rules." },
+  { title: "Show the breakdown", body: "Customers see where the price comes from, which builds trust and cuts the back-and-forth." },
+  { title: "Capture the booking", body: "Qalt collects customer and delivery details before you follow up." },
+  { title: "Add it to your website", body: "Embed Qalt with one snippet instead of rebuilding your site." },
 ];
 
 const BEFORE = [
@@ -98,7 +97,6 @@ export default async function DemoPage() {
 
       {/* 1. Hero */}
       <section className="relative overflow-hidden bg-[#f4f2ec] pb-20 pt-28 sm:pb-24 sm:pt-32">
-        <div className="pointer-events-none absolute -right-24 top-14 h-72 w-72 rounded-full bg-red-600/[0.05] blur-3xl" />
         <div className="relative z-10 mx-auto max-w-6xl px-6 sm:px-8">
           <p className="mb-6 flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500"><span className="h-2 w-2 bg-red-600" />Live demo</p>
           <h1 className="max-w-5xl text-[clamp(3.1rem,7vw,6.2rem)] font-black leading-[0.88] tracking-[-0.06em] text-slate-950">Try the quote flow your customers would use.</h1>
@@ -129,9 +127,9 @@ export default async function DemoPage() {
         <div className="overflow-hidden border border-slate-950/15 bg-white shadow-[0_30px_80px_-45px_rgba(0,0,0,0.35)]">
           <div className="flex items-center gap-2 px-4 py-2.5 bg-slate-100 border-b border-slate-200">
             <div className="flex gap-1.5">
-              <span className="w-3 h-3 rounded-full bg-red-400" />
-              <span className="w-3 h-3 rounded-full bg-amber-400" />
-              <span className="w-3 h-3 rounded-full bg-emerald-400" />
+              <span className="w-3 h-3 rounded-full bg-slate-300" />
+              <span className="w-3 h-3 rounded-full bg-slate-300" />
+              <span className="w-3 h-3 rounded-full bg-slate-300" />
             </div>
             <div className="ml-2 flex-1 max-w-[240px] px-3 py-1 rounded-md bg-white border border-slate-200 text-[11px] text-slate-400 font-semibold truncate">
               yourdeliverycompany.com
@@ -165,11 +163,9 @@ export default async function DemoPage() {
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
-            {OUTCOMES.map((o) => (
+            {OUTCOMES.map((o, index) => (
               <div key={o.title} className="flex gap-4">
-                <div className="shrink-0 w-11 h-11 bg-white border border-slate-200 text-red-600 flex items-center justify-center shadow-sm">
-                  <o.icon size={20} />
-                </div>
+                <span className="shrink-0 pt-0.5 text-xs font-semibold tabular-nums text-slate-400" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                 <div>
                   <h3 className="text-base font-black text-slate-900 mb-1.5">{o.title}</h3>
                   <p className="text-sm text-slate-500 font-medium leading-relaxed">{o.body}</p>

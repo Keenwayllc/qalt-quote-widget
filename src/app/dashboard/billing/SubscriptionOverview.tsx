@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CheckCircle2, Gauge, Sparkles } from "lucide-react";
+import { CheckCircle2, Gauge } from "lucide-react";
 
 export default function SubscriptionOverview({
   plan,
@@ -38,7 +38,6 @@ export default function SubscriptionOverview({
       <div className="relative z-10 grid gap-8 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
         <div>
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-white/65">
-            <Sparkles size={12} className="text-red-400" />
             Qalt Subscription
           </div>
           <p className="mb-2 text-sm font-semibold text-white/45">Current plan</p>

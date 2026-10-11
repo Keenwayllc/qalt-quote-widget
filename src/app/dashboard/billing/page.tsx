@@ -7,7 +7,7 @@ import SuccessBanner from "./SuccessBanner";
 import CancelSubscriptionButton from "./CancelSubscriptionButton";
 import DeleteAccountButton from "./DeleteAccountButton";
 import Link from "next/link";
-import { ArrowRight, Clock, Sparkles, Zap } from "lucide-react";
+import { ArrowRight, Clock, CreditCard, Zap } from "lucide-react";
 
 export default async function BillingPage({
   searchParams,
@@ -32,7 +32,7 @@ export default async function BillingPage({
     <div className="mx-auto max-w-7xl space-y-8 p-4 pb-20 sm:p-6 lg:p-10">
       <header className="max-w-3xl">
         <div className="mb-3 inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.16em] text-red-600 dark:text-red-400">
-          <Sparkles size={12} /> Billing & Subscription
+          <CreditCard size={12} /> Billing & Subscription
         </div>
         <h1 className="text-3xl font-[800] tracking-[-0.04em] text-slate-900 dark:text-white sm:text-4xl">
           Your Qalt plan, without the guesswork.

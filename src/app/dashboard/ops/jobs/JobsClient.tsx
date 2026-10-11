@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   Plus, Search, MapPin, CalendarDays, 
   CheckCircle2, Clock, AlertCircle, ChevronRight, 
-  X, Briefcase, Hash, Map, User, Check
+  X, ClipboardList, Hash, Map, User, Check
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -110,7 +110,7 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
       {jobs.length === 0 ? (
         <div className="bg-white dark:bg-[#141414] rounded-[32px] border border-slate-200/60 dark:border-white/6 shadow-xl dark:shadow-none p-12 text-center">
           <div className="p-6 bg-red-50 dark:bg-red-500/10 rounded-3xl w-24 h-24 flex items-center justify-center mx-auto mb-6 text-red-600 dark:text-red-400">
-            <Briefcase size={40} />
+            <ClipboardList size={40} />
           </div>
           <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">No Active Jobs</h2>
           <p className="text-slate-500 dark:text-zinc-400 font-medium mb-8 max-w-sm mx-auto">
@@ -133,7 +133,7 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
                 >
                     <div className="flex items-center gap-4 shrink-0">
                         <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-white/5 flex items-center justify-center text-slate-400 dark:text-zinc-500 group-hover:bg-zinc-900 dark:group-hover:bg-zinc-700 group-hover:text-white transition-all">
-                           <Briefcase size={28} />
+                           <ClipboardList size={28} />
                         </div>
                         <div>
                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">
@@ -255,7 +255,7 @@ export default function JobsClient({ initialJobs, stops, quotes }: { initialJobs
                 </div>
                 {stopError && (
                   <p className="text-xs font-black text-rose-500 px-1 flex items-center gap-1">
-                    <span>⚠</span> Select at least one stop to create a job.
+                    Select at least one stop to create a job.
                   </p>
                 )}
               </div>

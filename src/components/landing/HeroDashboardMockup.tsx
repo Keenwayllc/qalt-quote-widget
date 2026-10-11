@@ -8,7 +8,7 @@ import {
   Activity,
   ArrowRight,
   BarChart3,
-  Briefcase,
+  ClipboardList,
   Calculator,
   Check,
   CheckCircle2,
@@ -27,7 +27,7 @@ const STAGES = [
   { label: "Details", icon: MapPin },
   { label: "Instant quote", icon: Calculator },
   { label: "Book & pay", icon: CreditCard },
-  { label: "Ops Console", icon: Briefcase },
+  { label: "Ops Console", icon: ClipboardList },
 ];
 
 const BRAND_COLORS = [
@@ -306,7 +306,7 @@ function MiniSidebar({ stage }: { stage: number }) {
 
       <p className="mb-2 mt-5 px-1 text-[5px] font-bold uppercase tracking-[0.18em] text-slate-400">Field Operations</p>
       <div className={`flex items-center gap-1.5 rounded-md px-2 py-2 text-[6px] font-semibold ${stage === 3 ? "bg-slate-900 text-white" : "text-slate-500"}`}>
-        <Briefcase size={9} className={stage === 3 ? "text-white" : "text-slate-400"} />
+        <ClipboardList size={9} className={stage === 3 ? "text-white" : "text-slate-400"} />
         <span>Jobs Dashboard</span>
       </div>
     </aside>
@@ -453,7 +453,7 @@ function JobsDashboard({ reduceMotion }: { reduceMotion: boolean | null }) {
         className="mt-3 rounded-md border border-slate-200 bg-white p-3 shadow-sm"
       >
         <div className="flex items-center gap-3">
-          <div className="grid h-10 w-10 place-items-center rounded-md bg-slate-50 text-slate-400"><Briefcase size={18} /></div>
+          <div className="grid h-10 w-10 place-items-center rounded-md bg-slate-50 text-slate-400"><ClipboardList size={18} /></div>
           <div>
             <p className="text-[5px] font-bold uppercase tracking-[0.18em] text-slate-400">JOB #Q1042</p>
             <span className="mt-1 inline-flex items-center gap-1 rounded-full border border-emerald-100 bg-emerald-50 px-2 py-1 text-[5px] font-bold uppercase tracking-wider text-emerald-700">
@@ -518,11 +518,6 @@ export default function HeroDashboardMockup() {
 
   return (
     <div className="relative w-full max-w-[670px] select-none" style={{ fontFamily: "var(--font-inter), Inter, Arial, Helvetica, sans-serif" }}>
-      <motion.div
-        animate={reduceMotion ? undefined : { opacity: [0.24, 0.48, 0.24], scale: [0.98, 1.025, 0.98] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-        className="pointer-events-none absolute -inset-4 bg-red-500/[0.045] blur-3xl"
-      />
 
       <div className="relative overflow-hidden border border-slate-950/15 bg-white shadow-[0_24px_80px_-48px_rgba(15,23,42,0.55)]">
         <div className="flex items-center gap-2 border-b border-slate-200 bg-[#f8f9fa] px-4 py-3">

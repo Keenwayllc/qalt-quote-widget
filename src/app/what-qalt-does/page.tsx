@@ -32,7 +32,6 @@ export default function WhatQaltDoesPage() {
 
       <main>
         <section className="relative overflow-hidden bg-[#f4f2ec] pb-20 pt-28 sm:pb-24 sm:pt-32">
-          <div className="pointer-events-none absolute -right-24 top-16 h-72 w-72 rounded-full bg-red-600/[0.05] blur-3xl" />
           <div className="relative z-10 mx-auto max-w-6xl px-6 sm:px-8">
             <p className="mb-6 flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500">
               <span className="h-2 w-2 bg-red-600" /> What Qalt does

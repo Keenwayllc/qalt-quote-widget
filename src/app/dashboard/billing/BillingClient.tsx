@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, Zap, Rocket, ShieldCheck, ExternalLink, Sparkles } from "lucide-react";
+import { Check, Zap, ClipboardList, ShieldCheck, ExternalLink, CreditCard } from "lucide-react";
 
 type Interval = "monthly" | "annual";
 
@@ -38,7 +38,7 @@ const PLANS: PlanConfig[] = [
     id: "PRO",
     name: "Pro",
     description: "Everything to run your quoting, look professional, and capture unlimited leads.",
-    icon: Rocket,
+    icon: ClipboardList,
     monthly: { price: "$39", detail: "/mo · Billed monthly" },
     annual: { price: "$29", detail: "/mo · Billed $348/yr", badge: "Save $120" },
     features: [
@@ -114,7 +114,7 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
       <div className="mb-8 flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-end">
         <div>
           <div className="mb-2 inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.16em] text-red-600 dark:text-red-400">
-            <Sparkles size={12} /> Choose your Qalt plan
+            <CreditCard size={12} /> Choose your Qalt plan
           </div>
           <h2 className="text-2xl font-[800] tracking-[-0.035em] text-slate-900 dark:text-white sm:text-3xl">Plans that grow with your operation</h2>
           <p className="mt-2 max-w-2xl text-sm font-medium leading-6 text-slate-500 dark:text-zinc-400">

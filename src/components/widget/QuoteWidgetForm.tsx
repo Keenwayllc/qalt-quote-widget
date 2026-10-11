@@ -5,7 +5,7 @@ import { safeWidgetUrl } from "@/lib/widget-urls";
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import QaltAnimatedLogo from "@/components/shared/QaltAnimatedLogo";
 import { getEntitlements } from "@/lib/plans";
-import { MapPin, CheckCircle, ArrowRight, ArrowLeft, User, Mail, Phone, Truck, Sparkles, Weight, Hash, Footprints, Home, Clock, Box, Navigation, Check, Lock, ShieldCheck, Plus, Trash2 } from "lucide-react";
+import { MapPin, CheckCircle, ArrowRight, ArrowLeft, User, Mail, Phone, Plane, AlertTriangle, Truck, Weight, Hash, Footprints, Home, Clock, Box, Navigation, Check, Lock, ShieldCheck, Plus, Trash2 } from "lucide-react";
 import { useJsApiLoader } from "@react-google-maps/api";
 import usePlacesAutocomplete, { getGeocode } from "use-places-autocomplete";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
@@ -329,6 +329,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
     }
   }, [widgetSettings.companyNameFont]);
 
+  const companyMonogram = company.name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join("").toUpperCase();
   const showWhiteLabel = entitlements.isWhiteLabelEnabled;
   const logoUrlToUse = entitlements.isAdvancedCustomizationEnabled
     ? (company.widgetSettings.logoUrl || company.logoUrl)
@@ -906,7 +907,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                   </div>
                 ) : (
                   <div className="grid h-11 w-11 place-items-center rounded-2xl bg-white/15 ring-1 ring-white/20 backdrop-blur-md">
-                    <Truck size={21} className="text-white" />
+                    <span className="text-sm font-bold text-white" aria-hidden="true">{companyMonogram}</span>
                   </div>
                 )}
               </div>
@@ -926,7 +927,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                   </div>
                 ) : (
                   <div className="grid h-11 w-11 place-items-center rounded-2xl border border-slate-200 bg-slate-50">
-                    <Truck size={21} style={{ color: primaryColor }} />
+                    <span className="text-sm font-bold" style={{ color: primaryColor }} aria-hidden="true">{companyMonogram}</span>
                   </div>
                 )}
               </div>
@@ -939,14 +940,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
               ? { backgroundImage: `url(${JSON.stringify(widgetSettings.backgroundImageUrl)})` }
               : { backgroundColor: primaryColor }}
           >
-            {!widgetSettings.backgroundImageUrl && <div className="absolute inset-0 bg-linear-to-br from-white/20 to-transparent mix-blend-overlay" />}
             {widgetSettings.backgroundImageUrl && <div className="absolute inset-0 bg-slate-900/40" />}
-            {!widgetSettings.backgroundImageUrl && (
-              <>
-                <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-10" style={{ background: 'white' }} />
-                <div className="absolute -bottom-6 -left-6 w-28 h-28 rounded-full opacity-10" style={{ background: 'white' }} />
-              </>
-            )}
 
             <div className="relative z-10">
               <div className="flex items-center gap-3 mb-3">
@@ -963,7 +957,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                   </div>
                 ) : (
                   <div className="p-2.5 bg-white/15 rounded-2xl backdrop-blur-md ring-1 ring-white/20">
-                    <Truck size={22} className="text-white" />
+                    <span className="text-sm font-bold text-white" aria-hidden="true">{companyMonogram}</span>
                   </div>
                 )}
                 <h2 {...(!widgetSettings.backgroundImageUrl ? { "data-qalt-brand-title": "" } : {})} className="text-xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">{widgetSettings.headerText}</h2>
@@ -1157,7 +1151,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
                               {!quickMode && widgetSettings.showAwb && (
                                 <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }}>
-                                  <label className={LABEL_CLASS}><span className="text-slate-400">✈</span> AWB number <span className="font-medium text-slate-400">(airport pickup)</span></label>
+                                  <label className={LABEL_CLASS}><Plane size={12} className="text-slate-400" /> AWB number <span className="font-medium text-slate-400">(airport pickup)</span></label>
                                   <input type="text" name="awbNumber" placeholder="e.g. 123-45678901" value={formData.awbNumber} onChange={handleInputChange} className={INPUT_CLASS} />
                                 </motion.div>
                               )}
@@ -1174,7 +1168,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                                       const config: Record<string, { label: string; icon: React.ReactNode }> = {
                                         hasStairs: { label: 'Stairs', icon: <Footprints size={15} /> },
                                         needsInsideDelivery: { label: widgetSettings.insideDeliveryLabel || 'Inside delivery', icon: <Home size={15} /> },
-                                        needsAddon3: { label: widgetSettings.addon3Label || 'Add-on', icon: <Sparkles size={15} /> },
+                                        needsAddon3: { label: widgetSettings.addon3Label || 'Add-on', icon: <Plus size={15} /> },
                                       };
                                       const active = formData[id];
                                       return (
@@ -1235,7 +1229,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                       )}
 
                       {checkoutUrl && <a href={checkoutUrl} target="_top" className="inline-flex px-6 py-4 rounded-xl text-white font-bold" style={{ backgroundColor: primaryColor }}>Continue to secure payment</a>}
-                      {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><span className="shrink-0 mt-0.5">⚠️</span> {error}</div>}
+                      {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><AlertTriangle size={14} className="shrink-0 mt-0.5" /> {error}</div>}
 
                       {quickMode ? (
                         <div className="mt-2 border-t border-slate-200 pt-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -1304,9 +1298,8 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                       {comparisonOptions.length > 1 && <ServiceSelector options={serviceOptions} value={formData.serviceType}
                         onChange={selectService} primaryColor={primaryColor}
                         prices={Object.fromEntries(comparisonOptions.map((option) => [option.name, option.total]))} /> }
-                      <motion.div className="relative bg-linear-to-br from-emerald-50 to-teal-50/50 border border-emerald-100/80 rounded-[20px] p-6 text-center overflow-hidden"
+                      <motion.div className="relative bg-slate-50 border border-slate-200 rounded-xl p-6 text-center overflow-hidden"
                         initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: reduce ? 0.2 : 0.4, ease: EASE }}>
-                        <div className="absolute top-2 right-3"><Sparkles size={16} className="text-emerald-400/50" /></div>
                         <p className="text-[10px] uppercase font-extrabold text-emerald-600/80 tracking-[0.2em] mb-2">Your estimated rate</p>
                         <div className="flex flex-col items-center">
                           <p className="text-5xl font-black text-emerald-700 tracking-tight tabular-nums">${animatedEstimate.toFixed(2)}</p>
@@ -1365,7 +1358,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                       </div>
 
                       {checkoutUrl && <a href={checkoutUrl} target="_top" className="inline-flex px-6 py-4 rounded-xl text-white font-bold" style={{ backgroundColor: primaryColor }}>Continue to secure payment</a>}
-                      {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><span className="shrink-0 mt-0.5">⚠️</span> {error}</div>}
+                      {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><AlertTriangle size={14} className="shrink-0 mt-0.5" /> {error}</div>}
 
                       <div className="space-y-3 pt-1">
                         <button type="submit" disabled={loading} data-qalt-brand-cta
@@ -1409,7 +1402,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                       </div>
                       <div className="flex items-center justify-between px-1"><span className="text-sm font-semibold text-slate-500">Total</span><span className="text-3xl font-black text-slate-900 tracking-tight tabular-nums">${estimate?.toFixed(2)}</span></div>
                       {checkoutUrl && <a href={checkoutUrl} target="_top" className="inline-flex px-6 py-4 rounded-xl text-white font-bold" style={{ backgroundColor: primaryColor }}>Continue to secure payment</a>}
-                      {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><span className="shrink-0 mt-0.5">⚠️</span> {error}</div>}
+                      {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><AlertTriangle size={14} className="shrink-0 mt-0.5" /> {error}</div>}
                       <div className="space-y-3 pt-1">
                         <button type="button" onClick={() => submitQuote()} disabled={loading} data-qalt-brand-cta
                           className="w-full py-4 rounded-2xl text-white font-bold text-sm shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2.5 disabled:opacity-50 relative overflow-hidden group"
@@ -1465,7 +1458,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                       <div className="w-20 h-20 rounded-[20px] flex items-center justify-center mx-auto shadow-lg" style={{ backgroundColor: `${primaryColor}15` }}><div className="w-10 h-10 border-4 rounded-full animate-spin" style={{ borderColor: `${primaryColor}33`, borderTopColor: primaryColor }} /></div>
                       <div><h3 className="text-2xl font-black text-slate-900 tracking-tight">{checkoutUrl ? "Your checkout is ready" : "Preparing secure payment"}</h3><p className="text-sm text-slate-500 mt-2 leading-relaxed px-4 font-medium">Continue to Stripe to pay securely.</p><p className="text-xs text-slate-400 mt-3">Quote total: <strong className="text-slate-600">${estimate?.toFixed(2)}</strong></p></div>
                       {checkoutUrl && <a href={checkoutUrl} target="_top" className="inline-flex px-6 py-4 rounded-xl text-white font-bold" style={{ backgroundColor: primaryColor }}>Continue to secure payment</a>}
-                      {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><span className="shrink-0">⚠️</span><div><p>{error}</p><button onClick={backToEdit} className="mt-2 underline text-red-700">Go back and try again</button></div></div>}
+                      {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><AlertTriangle size={14} className="shrink-0 mt-0.5" /><div><p>{error}</p><button onClick={backToEdit} className="mt-2 underline text-red-700">Go back and try again</button></div></div>}
                     </div>
                   )}
                 </motion.div>

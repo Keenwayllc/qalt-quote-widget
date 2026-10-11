@@ -1,17 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import Script from "next/script";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { ArrowRight, Loader2, Lock, Mail, ShieldCheck } from "lucide-react";
+import { ArrowRight, Loader2, Mail, ShieldCheck } from "lucide-react";
 import QuoteWidgetForm from "@/components/widget/QuoteWidgetForm";
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 const UNLOCK_KEY = "qalt_demo_unlocked";
 
 const INPUT =
-  "w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-[15px] font-medium text-slate-900 placeholder:text-slate-400 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 outline-none transition-all";
+  "w-full px-4 py-3 bg-white border border-slate-200 rounded-md text-[15px] font-medium text-slate-900 placeholder:text-slate-400 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 outline-none transition-all";
 const LABEL = "block text-[13px] font-bold text-slate-700 mb-1.5";
 
 declare global {
@@ -161,25 +160,11 @@ export default function GatedDemo({ company }: { company: any }) {
 
   return (
     <div className="relative bg-slate-100 min-h-[560px] sm:min-h-[640px] flex items-center justify-center px-4 py-12 sm:px-8">
-      {/* Static, non-interactive preview — no widget mounted, no Maps loaded */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none select-none" aria-hidden>
-        <Image
-          src="/images/demo-preview.png"
-          alt=""
-          fill
-          priority
-          className="object-cover object-top blur-[7px] scale-[1.06]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/65 to-white/85" />
-      </div>
-
       {/* Access form */}
       <div className="relative z-10 w-full max-w-md">
-        <div className="rounded-3xl border border-slate-200 bg-white/95 backdrop-blur-sm shadow-[0_30px_80px_-25px_rgba(0,0,0,0.35)] p-6 sm:p-8">
+        <div className="rounded-lg border border-slate-200 bg-white shadow-sm p-6 sm:p-8">
           <div className="flex items-center gap-2.5 mb-5">
-            <div className="w-10 h-10 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center shrink-0">
-              <Lock size={18} />
-            </div>
+            <span className="h-10 w-1 shrink-0 bg-red-600" aria-hidden="true" />
             <div>
               <h3 className="text-xl font-black text-slate-900 tracking-tight leading-tight">Try the Live Demo</h3>
               <p className="text-[13px] text-slate-500 font-medium leading-snug">
@@ -226,7 +211,7 @@ export default function GatedDemo({ company }: { company: any }) {
             <button
               type="submit"
               disabled={status === "submitting"}
-              className="group/btn w-full px-6 py-3.5 bg-red-600 text-white font-black rounded-none flex items-center justify-center gap-3 hover:bg-red-500 transition-all active:scale-[0.99] disabled:opacity-60 shadow-xl shadow-red-900/20 text-sm tracking-wide"
+              className="group/btn w-full px-6 py-3.5 bg-red-600 text-white font-black rounded-none flex items-center justify-center gap-3 hover:bg-red-500 transition-all active:scale-[0.99] disabled:opacity-60 shadow-none text-sm tracking-wide"
             >
               {status === "submitting" ? (
                 <><Loader2 size={16} className="animate-spin" /> Verifying…</>

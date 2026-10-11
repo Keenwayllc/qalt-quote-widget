@@ -337,7 +337,6 @@ export default function HowItWorksAnimation() {
       </div>
 
       <div className="relative">
-        <div className="absolute -inset-5 rounded-[36px] bg-gradient-to-br from-red-100/70 via-white to-emerald-100/50 blur-2xl" />
         <div className="relative overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-[0_30px_80px_-34px_rgba(15,23,42,0.42)]">
           <div className="flex h-10 items-center gap-1.5 border-b border-slate-200 bg-slate-50 px-4">
             <span className="h-2.5 w-2.5 rounded-full bg-slate-300" />

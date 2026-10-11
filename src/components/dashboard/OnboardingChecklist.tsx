@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { CheckCircle2, Circle, ChevronDown, ChevronUp, Rocket, Sparkles } from "lucide-react";
+import { CheckCircle2, Circle, ChevronDown, ChevronUp, ClipboardList } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface ChecklistStep {
@@ -61,7 +61,7 @@ export default function OnboardingChecklist({ steps }: Props) {
           <div className={`relative w-11 h-11 rounded-none flex items-center justify-center shadow-none shrink-0 ${
             isNew ? "bg-red-600 shadow-none dark:shadow-none" : "bg-red-600 shadow-none dark:shadow-none"
           }`}>
-            <Rocket size={18} className="text-white" />
+            <ClipboardList size={18} className="text-white" />
             {isNew && (
               <span className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full border-2 border-slate-900 animate-pulse" />
             )}
@@ -69,11 +69,10 @@ export default function OnboardingChecklist({ steps }: Props) {
           <div className="text-left">
             <div className="flex items-center gap-2">
               <p className={`font-black tracking-tight text-base ${isNew ? "text-white" : "text-slate-900 dark:text-white"}`}>
-                {isNew ? "Welcome! Let's get you set up 👋" : "Get started with Qalt"}
+                {isNew ? "Set up your Qalt account" : "Get started with Qalt"}
               </p>
               {isNew && (
                 <span className="flex items-center gap-1 px-2 py-0.5 bg-amber-400/20 border border-amber-400/30 text-amber-300 text-[10px] font-black rounded-full uppercase tracking-widest">
-                  <Sparkles size={8} />
                   Start here
                 </span>
               )}

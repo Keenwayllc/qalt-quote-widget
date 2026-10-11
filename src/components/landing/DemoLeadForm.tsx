@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ArrowRight, CheckCircle2, Loader2, Mail } from "lucide-react";
 
 const INPUT =
-  "w-full px-4 py-3.5 bg-white border border-slate-200 rounded-xl text-[15px] font-medium text-slate-900 placeholder:text-slate-400 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 outline-none transition-all";
+  "w-full px-4 py-3.5 bg-white border border-slate-200 rounded-md text-[15px] font-medium text-slate-900 placeholder:text-slate-400 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 outline-none transition-all";
 const LABEL = "block text-sm font-bold text-slate-700 mb-1.5";
 
 export default function DemoLeadForm() {
@@ -40,7 +40,7 @@ export default function DemoLeadForm() {
 
   if (status === "success") {
     return (
-      <div className="rounded-3xl border border-slate-200 bg-white p-8 sm:p-12 text-center shadow-sm">
+      <div className="rounded-lg border border-slate-200 bg-white p-8 sm:p-12 text-center shadow-sm">
         <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-6">
           <CheckCircle2 size={30} />
         </div>
@@ -59,7 +59,7 @@ export default function DemoLeadForm() {
   }
 
   return (
-    <form onSubmit={submit} className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-5">
+    <form onSubmit={submit} className="rounded-lg border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-5">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
           <label htmlFor="companyName" className={LABEL}>Company name</label>
@@ -92,7 +92,7 @@ export default function DemoLeadForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="group/btn w-full px-8 py-4 bg-red-600 text-white font-black rounded-none flex items-center justify-center gap-3 hover:bg-red-500 transition-all active:scale-[0.99] disabled:opacity-60 shadow-xl shadow-red-900/20 text-sm tracking-wide"
+        className="group/btn w-full px-8 py-4 bg-red-600 text-white font-black rounded-none flex items-center justify-center gap-3 hover:bg-red-500 transition-all active:scale-[0.99] disabled:opacity-60 shadow-none text-sm tracking-wide"
       >
         {status === "submitting" ? (
           <><Loader2 size={16} className="animate-spin" /> Sending…</>

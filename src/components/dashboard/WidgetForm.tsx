@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw, ExternalLink, Lock, Sparkles, Info, Globe, Trash2, CheckCircle, XCircle } from "lucide-react";
+import { Settings, Save, Eye, Upload, Image as ImageIcon, RotateCcw, ExternalLink, Lock, BadgeCheck, Info, Globe, Trash2, CheckCircle, XCircle } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
 import { isValidHex } from "@/lib/color";
 import MerchantLogo, { useLogoTone } from "@/components/shared/MerchantLogo";
@@ -261,7 +261,7 @@ export default function WidgetSettingsForm({
             {!entitlements.isAdvancedCustomizationEnabled && (
               <div className="p-4 bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/30 rounded-none flex items-start gap-4 mb-6">
                 <div className="p-2 bg-amber-100 dark:bg-amber-500/20 rounded-none shrink-0">
-                   <Sparkles className="text-amber-600 dark:text-amber-400" size={20} />
+                   <BadgeCheck className="text-amber-600 dark:text-amber-400" size={20} />
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-amber-900 dark:text-amber-300 leading-none mb-1">Unlock Pro Features</h3>
@@ -740,7 +740,7 @@ export default function WidgetSettingsForm({
 
                 {previewData.geoFencingEnabled && (previewData.serviceZips ?? []).length === 0 && (
                   <p className="text-xs text-amber-600 dark:text-amber-400 font-semibold">
-                    ⚠️ Geo-fencing is on but no ZIP codes are added — all requests will be blocked. Add at least one ZIP.
+                    Geo-fencing is on but no ZIP codes are added — all requests will be blocked. Add at least one ZIP.
                   </p>
                 )}
               </div>
@@ -750,7 +750,7 @@ export default function WidgetSettingsForm({
           {/* Payments Toggle — Enterprise Only */}
           <div className="bg-white dark:bg-[#1e1e1e] rounded-none border border-slate-200 dark:border-white/[0.06] shadow-sm dark:shadow-none p-6 space-y-4">
             <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <span className="text-xl">💳</span>
+              <span className="text-xs font-semibold text-slate-500">Payments</span>
               Accept Payments
               {!entitlements.isPaymentsEnabled && (
                 <span className="ml-2 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-red-100 dark:bg-red-500/15 text-red-700 dark:text-red-400 border border-transparent dark:border-red-500/30 rounded-full">Enterprise</span>
@@ -780,7 +780,7 @@ export default function WidgetSettingsForm({
                     </div>
                     {stripeConnectAccountId ? (
                       <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px] font-black uppercase tracking-wider rounded-full border border-emerald-100 dark:border-emerald-500/30 italic">
-                        <Sparkles size={10} /> Connected
+                        <BadgeCheck size={10} /> Connected
                       </span>
                     ) : (
                       <span className="px-3 py-1 bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-[10px] font-black uppercase tracking-wider rounded-full border border-amber-100 dark:border-amber-500/30">
@@ -833,7 +833,7 @@ export default function WidgetSettingsForm({
                 </label>
                 {previewData.paymentsEnabled && (
                   <div className="flex items-start gap-2 p-3 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-500/30 rounded-none text-xs text-emerald-800 dark:text-emerald-300">
-                    <span>✅</span>
+                    <CheckCircle size={14} aria-hidden="true" />
                     <span>Payments are <strong>active</strong>. Stripe will process customer payments and you&apos;ll receive a webhook confirmation on each successful booking.</span>
                   </div>
                 )}

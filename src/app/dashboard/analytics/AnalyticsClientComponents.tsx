@@ -24,7 +24,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { motion, AnimatePresence } from "framer-motion";
 import { formatDistanceToNow } from "date-fns";
 
-export function KPICard({ title, value, subtitle, trend, icon, color, delay }: {
+export function KPICard({ title, value, subtitle, trend, icon, delay }: {
   title: string;
   value: string;
   subtitle: string;
@@ -33,20 +33,14 @@ export function KPICard({ title, value, subtitle, trend, icon, color, delay }: {
   color: string;
   delay: number;
 }) {
-  const colorMap: Record<string, string> = {
-    blue: "from-red-500/10 to-slate-500/5 border-red-100/50",
-    emerald: "from-emerald-500/10 to-teal-500/5 border-emerald-100/50",
-    purple: "from-rose-500/10 to-fuchsia-500/5 border-rose-100/50"
-  };
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay }}
-      className="bg-white dark:bg-[#141414] rounded-[32px] border border-slate-200/60 dark:border-white/6 shadow-xl shadow-slate-200/40 dark:shadow-none p-8 flex flex-col justify-between relative overflow-hidden group hover:shadow-2xl dark:hover:shadow-none transition-all duration-500"
+      className="bg-white dark:bg-[#141414] rounded-xl border border-slate-200/60 dark:border-white/6 shadow-sm dark:shadow-none p-8 flex flex-col justify-between relative overflow-hidden group hover:shadow-md dark:hover:shadow-none transition-all duration-500"
     >
-      <div className={`absolute top-0 right-0 w-32 h-32 bg-linear-to-br ${colorMap[color]} blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
       <div className="relative z-10">
         <div className="flex items-center justify-between mb-6">
           <div className="p-4 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/6 rounded-2xl group-hover:bg-white dark:group-hover:bg-white/8 group-hover:shadow-md dark:group-hover:shadow-none transition-all">
@@ -76,7 +70,7 @@ export function PremiumChart({ data }: { data: { date: string; quotes: number }[
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.7 }}
-      className="bg-white dark:bg-[#141414] rounded-[40px] border border-slate-200/60 dark:border-white/6 shadow-xl shadow-slate-200/40 dark:shadow-none p-10 h-[450px] relative overflow-hidden"
+      className="bg-white dark:bg-[#141414] rounded-[40px] border border-slate-200/60 dark:border-white/6 shadow-sm dark:shadow-none p-10 h-[450px] relative overflow-hidden"
     >
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
         <div>
@@ -269,7 +263,7 @@ export function InsightsCard() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8 }}
-        className="h-full overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,#111827_0%,#0f172a_100%)] p-8 text-white shadow-[0_24px_70px_rgba(0,0,0,0.28)]"
+        className="h-full overflow-hidden rounded-xl border border-white/10 bg-[linear-gradient(180deg,#111827_0%,#0f172a_100%)] p-8 text-white shadow-[0_24px_70px_rgba(0,0,0,0.28)]"
       >
         <div className="flex h-full flex-col">
           <div className="mb-8">
@@ -440,7 +434,7 @@ export function PremiumTable({ quotes }: { quotes: {
       </div>
       <div className="grid grid-cols-1 gap-4">
         {quotes.map((quote) => (
-          <div key={quote.id} className="group bg-white dark:bg-[#141414] rounded-[32px] border border-slate-200/60 dark:border-white/6 shadow-lg dark:shadow-none p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-red-200 dark:hover:border-white/10 transition-all duration-300">
+          <div key={quote.id} className="group bg-white dark:bg-[#141414] rounded-xl border border-slate-200/60 dark:border-white/6 shadow-lg dark:shadow-none p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-red-200 dark:hover:border-white/10 transition-all duration-300">
             <div className="flex items-center gap-5">
               <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/6 flex items-center justify-center shrink-0 group-hover:bg-red-50 dark:group-hover:bg-red-500/10 transition-colors">
                 <User size={24} className="text-slate-400 dark:text-zinc-500 group-hover:text-red-600 dark:group-hover:text-red-400" />

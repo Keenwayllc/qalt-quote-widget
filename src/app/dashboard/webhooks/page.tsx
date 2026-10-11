@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import {
-  Bot,
+  Cable,
   Check,
   ChevronDown,
   ChevronUp,
@@ -413,7 +413,7 @@ export default function IntegrationsPage() {
 
       <section className="bg-white dark:bg-[#141414] border border-slate-200/70 dark:border-white/[0.07] p-7 shadow-lg shadow-slate-200/30 dark:shadow-none">
         <div className="flex items-start gap-3 mb-6">
-          <Bot size={20} className="text-red-600 dark:text-red-400 mt-0.5" />
+          <Cable size={20} className="text-red-600 dark:text-red-400 mt-0.5" />
           <div>
             <h2 className="text-xl font-black text-slate-900 dark:text-white">Connect your AI platform</h2>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-3xl">

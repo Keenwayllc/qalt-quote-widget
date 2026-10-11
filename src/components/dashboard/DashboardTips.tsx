@@ -18,7 +18,7 @@ import {
   UserCircle,
   Star,
   HelpCircle,
-  Briefcase,
+  ClipboardList,
   MapPin,
   Eye,
   Lightbulb,
@@ -37,7 +37,7 @@ const destinations = [
   { name: "Account Settings", href: "/dashboard/settings", icon: UserCircle, keywords: "profile company account", group: "Settings" },
   { name: "What's New", href: "/dashboard/whats-new", icon: Star, keywords: "updates features changelog", group: "Settings" },
   { name: "Help & FAQ", href: "/dashboard/support", icon: HelpCircle, keywords: "support help questions", group: "Settings" },
-  { name: "Jobs Dashboard", href: "/dashboard/ops/jobs", icon: Briefcase, keywords: "field operations jobs dispatch", group: "Field Operations" },
+  { name: "Jobs Dashboard", href: "/dashboard/ops/jobs", icon: ClipboardList, keywords: "field operations jobs dispatch", group: "Field Operations" },
   { name: "Saved Stop Notes", href: "/dashboard/ops/stops", icon: MapPin, keywords: "stops notes delivery", group: "Field Operations" },
   { name: "Delivery Readiness", href: "/dashboard/ops/readiness", icon: Eye, keywords: "readiness checks operations", group: "Field Operations" },
 ];

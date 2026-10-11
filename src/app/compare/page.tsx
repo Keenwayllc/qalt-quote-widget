@@ -223,7 +223,6 @@ export default function ComparePage() {
 
       <main className="pt-16 sm:pt-20">
         <section className="relative isolate overflow-hidden border-b border-slate-950/10 bg-[#f4f2ec] px-6 py-20 sm:py-28">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(220,38,38,0.07),transparent_34%)]" />
           <CompareHeroDevices />
           <div className="relative z-10 mx-auto max-w-5xl text-center">
             <p className="relative mb-5 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Delivery software comparison</p>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getCurrentCompany } from "@/lib/session";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
-import { Shield, Building2, FileText, Sparkles, MousePointerClick } from "lucide-react";
+import { Shield, Building2, FileText, BadgeCheck, MousePointerClick } from "lucide-react";
 import { widgetInstallationStatus, widgetInstallationSource } from "@/lib/widget-installations";
 import PlanSelect from "./PlanSelect";
 import VehicleRequestStatusSelect from "./VehicleRequestStatusSelect";
@@ -204,7 +204,7 @@ export default async function AdminPage() {
     {
       label: "Pro / Enterprise accounts",
       value: (planTotals.PRO ?? 0) + (planTotals.ENTERPRISE ?? 0),
-      icon: Sparkles,
+      icon: BadgeCheck,
     },
   ];
 

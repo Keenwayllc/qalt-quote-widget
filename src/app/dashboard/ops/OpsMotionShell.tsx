@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { BadgeCheck, BriefcaseBusiness, MapPinned } from "lucide-react";
+import { BadgeCheck, ClipboardList, MapPinned } from "lucide-react";
 
 const navItems = [
   {
     href: "/dashboard/ops/jobs",
     label: "Jobs & Dispatch",
     description: "Plan deliveries and assign work",
-    icon: BriefcaseBusiness,
+    icon: ClipboardList,
   },
   {
     href: "/dashboard/ops/readiness",

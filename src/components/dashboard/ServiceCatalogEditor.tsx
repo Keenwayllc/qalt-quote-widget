@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { BriefcaseBusiness, Check, Plus, Save, Sparkles, Trash2 } from "lucide-react";
+import { ClipboardList, Check, Plus, Save, ListPlus, Trash2 } from "lucide-react";
 
 type ServiceOption = {
   key: string;
@@ -167,7 +167,7 @@ export default function ServiceCatalogEditor({
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <BriefcaseBusiness className="text-red-600" size={20} />
+              <ClipboardList className="text-red-600" size={20} />
               Delivery Services
             </h2>
             <p className="text-sm text-slate-500 dark:text-zinc-400 mt-2 max-w-2xl">
@@ -193,7 +193,7 @@ export default function ServiceCatalogEditor({
 
         <div className="mt-6 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-50/70 dark:bg-zinc-800/60 p-4">
           <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-slate-500 dark:text-zinc-400 mb-3">
-            <Sparkles size={14} /> Quick add common services
+            <ListPlus size={14} /> Quick add common services
           </div>
           <div className="flex flex-wrap gap-2">
             {PRESETS.map((preset) => {
