@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { BILLING_DISPLAY, billingDisplay } from "@/lib/billing-display";
+import { PLANS } from "@/lib/plans";
+import QuoteOutcomeFAQ from "@/components/shared/QuoteOutcomeFAQ";
 import {
   ArrowRight,
   ArrowUp,
@@ -83,16 +86,16 @@ const plans = [
     price: "Free",
     note: "Free forever",
     description: "Launch your first instant quote form.",
-    items: ["1 quote widget", "50 quotes / month", "Instant quote calculator", "Lead capture & storage"],
+    items: [`${PLANS.STARTER.maxForms} quote widget`, `${PLANS.STARTER.maxQuotesPerMonth} requests / month`, "Instant quote calculator", "Lead capture & storage"],
     cta: "Start Free",
     href: "/register",
     dark: false,
   },
   {
     name: "Pro",
-    price: "$39",
+    price: billingDisplay("PRO", false).price,
     suffix: "/mo",
-    note: "$29/mo billed annually",
+    note: `${billingDisplay("PRO", true).price}/mo, $${BILLING_DISPLAY.PRO.annualTotal} billed annually`,
     description: "For delivery companies ready to automate quoting.",
     items: ["Unlimited quotes", "Up to 5 quote forms", "White-label branding", "Ops Console + analytics"],
     cta: "Try Pro",
@@ -101,9 +104,9 @@ const plans = [
   },
   {
     name: "Enterprise",
-    price: "$99",
+    price: billingDisplay("ENTERPRISE", false).price,
     suffix: "/mo",
-    note: "$79/mo billed annually",
+    note: `${billingDisplay("ENTERPRISE", true).price}/mo, $${BILLING_DISPLAY.ENTERPRISE.annualTotal} billed annually`,
     description: "For operators that want payments and deeper control.",
     items: ["Everything in Pro", "Stripe payments", "Website-matching form design", "Vehicle & fleet quoting", "Unlimited forms + webhooks"],
     cta: "Explore Enterprise",
@@ -119,6 +122,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 export default function LandingPage() {
+  const reduceMotion = useReducedMotion();
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
 
@@ -394,7 +398,7 @@ export default function LandingPage() {
                 <SectionLabel>Security</SectionLabel>
                 <h2 className="mt-4 text-4xl font-black tracking-[-0.045em] sm:text-5xl">Safe for you and your customers.</h2>
                 <p className="mt-5 text-base font-medium leading-7 text-slate-500 sm:text-lg">
-                  Your customers type addresses and phone numbers into your form, and sometimes a card. Here is how that data is protected.
+                  Your customers enter addresses and contact details in your form. Optional card payments use Stripe Checkout. Here is how Qalt handles this data.
                 </p>
               </div>
               <Link href="/security" className="inline-flex items-center gap-2 text-sm font-black text-red-600 hover:text-red-700">
@@ -413,7 +417,7 @@ export default function LandingPage() {
               <SectionLabel>Pricing</SectionLabel>
               <h2 className="mt-6 text-4xl font-black tracking-[-0.045em] sm:text-5xl">Start free. Add control as you grow.</h2>
               <p className="mx-auto mt-5 max-w-2xl text-base font-medium leading-7 text-slate-500 sm:text-lg">
-                Start with the free Starter plan. Upgrade when you need more forms, branding, operations, payments, or fleet quoting.
+                New accounts include a 14-day Pro trial without a card, then continue on Starter unless you subscribe. Upgrade when you need more forms, branding, operations, payments, or fleet quoting.
               </p>
             </motion.div>
 
@@ -469,6 +473,8 @@ export default function LandingPage() {
           </div>
         </section>
 
+        <QuoteOutcomeFAQ />
+
         <section className="bg-white py-24 sm:py-32">
           <div className="mx-auto max-w-5xl px-5 text-center sm:px-8">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={reveal}>
@@ -499,7 +505,7 @@ export default function LandingPage() {
       {showScrollTop && (
         <button
           type="button"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          onClick={() => window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" })}
           className="fixed bottom-6 right-6 z-50 grid h-11 w-11 place-items-center rounded-full bg-slate-950 text-white shadow-xl transition hover:-translate-y-0.5 hover:bg-red-600"
           aria-label="Back to top"
         >

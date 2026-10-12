@@ -1,5 +1,8 @@
 "use client";
 
+import { PLANS } from "@/lib/plans";
+import { BILLING_DISPLAY, billingDisplay } from "@/lib/billing-display";
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useMotionValueEvent, useScroll, useTransform, type MotionValue } from "framer-motion";
@@ -84,8 +87,8 @@ const STOPS: Stop[] = [
   {
     label: "Pay & book",
     kicker: "Stop 05 · Pay & book",
-    title: "The customer confirms the job",
-    body: "Contact details, route information, and the booking move forward without starting over. Online payment is available on Enterprise.",
+    title: "The customer submits the request",
+    body: "Contact and route details stay with the saved request. Enterprise adds optional full-amount Stripe payment. The operator handles scheduling and dispatch.",
     Visual: BookVisual,
   },
   {
@@ -105,8 +108,8 @@ const STOPS: Stop[] = [
   {
     label: "Arrived",
     kicker: "Delivered",
-    title: "One booked job pays for a full month.",
-    body: "Start free with 50 quotes a month, no card required. Pro is $29/mo billed annually for unlimited quotes and full white-label.",
+    title: "Start with your first quote form.",
+    body: `Start with a 14-day Pro trial, no card required. Starter includes ${PLANS.STARTER.maxQuotesPerMonth} requests a month. Pro is ${billingDisplay("PRO", false).price}/mo, or ${billingDisplay("PRO", true).price}/mo billed annually at $${BILLING_DISPLAY.PRO.annualTotal}.`,
     Visual: ArrivalVisual,
   },
 ];

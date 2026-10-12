@@ -1,0 +1,6 @@
+// Matches widget submit, quote-payment, Stripe webhook and quota counting behavior.
+export const QUOTE_OUTCOME_FAQS = [
+  { question: "Is a quote a confirmed delivery?", answer: "No. Qalt calculates an estimate using the operator's saved rates, route, services and fees. Submitting contact and delivery details saves a pending quote request. The operator handles acceptance, scheduling and dispatch." },
+  { question: "What happens after a request is submitted?", answer: "The request appears in the merchant's quote dashboard. Qalt attempts an email notification to the operator and a quote summary to the customer. Enterprise merchants with webhooks enabled also send quote events to their configured endpoint. This is not an automatic sync to dispatch software." },
+  { question: "How do optional payments work?", answer: "Enterprise merchants need a connected Stripe account and payments enabled on the form. Stripe Checkout collects the full quoted amount, not a deposit. A verified Stripe event marks the quote paid and confirmed. Payment does not assign a driver or confirm a delivery time. The merchant manages Stripe fees, payouts and refunds through their connected account." },
+] as const;

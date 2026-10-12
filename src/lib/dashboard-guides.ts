@@ -116,7 +116,7 @@ export const pageGuides: Record<string, PageGuide> = {
     title: "Subscription",
     purpose: "Review your plan, usage, and subscription options.",
     controls: ["Compare the included features and form or quote limits.", "Use the available subscription controls to manage your plan."],
-    configure: "Choose the plan that fits the features you need. Review any confirmation carefully before changing or cancelling a subscription.",
+    configure: "Starter counts saved requests, not estimate calculations. Usage resets on the 1st at 00:00 UTC. Review the effective date and amount in Stripe before changing or cancelling a paid subscription.",
     next: { label: "Review account settings", href: "/dashboard/settings" },
   },
   "/dashboard/settings": {

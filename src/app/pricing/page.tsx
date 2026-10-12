@@ -1,10 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useId } from "react";
 import Link from "next/link";
 import PublicNav from "@/components/shared/PublicNav";
 import SupportModal from "@/components/shared/SupportModal";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { billingDisplay } from "@/lib/billing-display";
+import { PLANS } from "@/lib/plans";
+import { QUOTE_OUTCOME_FAQS } from "@/lib/quote-outcomes";
 import { TrustBadgeStrip } from "@/components/shared/TrustBadges";
 import { Check, Minus, ChevronDown, ChevronUp, ArrowUp } from "lucide-react";
 import MarketingFooter from "@/components/shared/MarketingFooter";
@@ -45,8 +48,8 @@ const FEATURE_SECTIONS: FeatureSection[] = [
   {
     title: "Quote Widget",
     rows: [
-      { name: "Quote Forms (unique embed codes)",       starter: "1",      pro: "5",         enterprise: "Unlimited" },
-      { name: "Quotes per month",                      starter: "50",     pro: "Unlimited", enterprise: "Unlimited" },
+      { name: "Quote Forms (unique embed codes)",       starter: String(PLANS.STARTER.maxForms), pro: String(PLANS.PRO.maxForms), enterprise: "Unlimited" },
+      { name: "Submitted requests per month",                      starter: String(PLANS.STARTER.maxQuotesPerMonth), pro: "Unlimited", enterprise: "Unlimited" },
       { name: "Multi-step quote form",                 starter: true,     pro: true,        enterprise: true        },
       { name: "Instant price calculation",             starter: true,     pro: true,        enterprise: true        },
       { name: "Lead capture & storage",                starter: true,     pro: true,        enterprise: true        },
@@ -60,7 +63,7 @@ const FEATURE_SECTIONS: FeatureSection[] = [
     title: "Payments & Checkout",
     rows: [
       { name: "Accept payment in your widget (Stripe)", starter: false, pro: false, enterprise: true },
-      { name: "Take a deposit or full amount at booking", starter: false, pro: false, enterprise: true },
+      { name: "Collect the full quoted amount", starter: false, pro: false, enterprise: true },
     ],
   },
   {
@@ -98,8 +101,8 @@ const FEATURE_SECTIONS: FeatureSection[] = [
     rows: [
       { name: "Email notifications",   starter: true,  pro: true,  enterprise: true             },
       { name: "Advanced webhooks",     starter: false, pro: false, enterprise: true             },
-      { name: "Full developer API",    starter: false, pro: false, enterprise: "Coming Soon"    },
-      { name: "Team members (multi-user)", starter: "1", pro: "1",  enterprise: "Coming Soon"   },
+      { name: "Read-only quote & analytics API", starter: false, pro: false, enterprise: "Scoped access" },
+      { name: "Account users (multi-user not available)", starter: "1", pro: "1", enterprise: "1" },
       { name: "Email support",         starter: true,  pro: true,  enterprise: true             },
       { name: "Priority support",      starter: false, pro: true,  enterprise: true             },
       { name: "Dedicated support",     starter: false, pro: false, enterprise: true             },
@@ -117,18 +120,21 @@ function FeatureCell({ value }: { value: FeatureValue }) {
     return <span className="text-sm font-bold text-slate-700">{value}</span>;
   }
   if (value === true) {
-    return <Check size={18} className="text-red-600 mx-auto" />;
+    return <><Check size={18} aria-hidden="true" className="text-red-600 mx-auto" /><span className="sr-only">Included</span></>;
   }
-  return <Minus size={16} className="text-slate-300 mx-auto" />;
+  return <><Minus size={16} aria-hidden="true" className="text-slate-300 mx-auto" /><span className="sr-only">Not included</span></>;
 }
 
 function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
+  const answerId = useId();
   return (
     <div className="bg-white border border-slate-200 overflow-hidden">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-controls={answerId}
         className="w-full flex items-center justify-between px-8 py-5 text-left hover:bg-slate-50 transition-colors"
       >
         <span className="font-bold text-slate-800">{question}</span>
@@ -137,11 +143,9 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
           : <ChevronDown size={17} className="text-slate-400 shrink-0" />
         }
       </button>
-      {open && (
-        <div className="px-8 pb-5 text-slate-500 font-medium leading-relaxed text-sm border-t border-slate-100">
+      <div id={answerId} hidden={!open} className="px-8 pb-5 text-slate-500 font-medium leading-relaxed text-sm border-t border-slate-100">
           {answer}
         </div>
-      )}
     </div>
   );
 }
@@ -150,6 +154,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 
 export default function PricingPage() {
   const [annual, setAnnual] = useState(true);
+  const reduceMotion = useReducedMotion();
   const [showScroll, setShowScroll] = useState(false);
   const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
 
@@ -184,6 +189,7 @@ export default function PricingPage() {
             <button
               type="button"
               onClick={() => setAnnual(false)}
+              aria-pressed={!annual}
               className={`px-6 py-2.5 text-sm font-black transition-all ${!annual ? "bg-white shadow-sm text-slate-900 border border-slate-200" : "text-slate-500 hover:text-slate-700"}`}
             >
               Monthly
@@ -191,6 +197,7 @@ export default function PricingPage() {
             <button
               type="button"
               onClick={() => setAnnual(true)}
+              aria-pressed={annual}
               className={`px-6 py-2.5 text-sm font-black transition-all flex items-center gap-2 ${annual ? "bg-white shadow-sm text-slate-900 border border-slate-200" : "text-slate-500 hover:text-slate-700"}`}
             >
               Annually
@@ -213,7 +220,7 @@ export default function PricingPage() {
           <div className="grid overflow-hidden border border-slate-200 bg-white lg:grid-cols-3">
             {/* Starter */}
             <div className="bg-white p-10 flex flex-col">
-              <div className="h-[280px]">
+              <div className="min-h-[280px]">
                 <div className="mb-8 p-0">
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-2xl font-black tracking-tight text-slate-900">Starter</h3>
@@ -229,7 +236,7 @@ export default function PricingPage() {
                 Get Started Free
               </Link>
               <ul className="space-y-3">
-                {["1 Quote Widget", "50 Quotes / month", "Instant quote calculator", "Lead capture & storage", "Email notifications", "Email support"].map((item) => (
+                {["1 Quote Widget", `${PLANS.STARTER.maxQuotesPerMonth} requests / month`, "Instant quote calculator", "Lead capture & storage", "Email notifications", "Email support"].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-600 font-medium text-sm">
                     <Check size={16} className="text-slate-400 shrink-0 mt-0.5" />{item}
                   </li>
@@ -239,7 +246,7 @@ export default function PricingPage() {
 
             {/* Pro */}
             <div className="bg-[#0b0b0c] p-10 flex flex-col relative">
-              <div className="h-[280px]">
+              <div className="min-h-[280px]">
                 <div className="mb-8 p-0">
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-2xl font-black tracking-tight text-white">Pro</h3>
@@ -248,11 +255,11 @@ export default function PricingPage() {
                   <p className="text-slate-300 text-sm font-medium leading-relaxed">For delivery companies needing unlimited quotes, custom pricing and their own branding.</p>
                 </div>
                 <div className="mb-1 flex items-end gap-2">
-                  <span className="text-5xl font-black text-white">{annual ? "$29" : "$39"}</span>
+                  <span className="text-5xl font-black text-white">{billingDisplay("PRO", annual).price}</span>
                   <span className="text-slate-300 font-medium text-lg mb-1">/mo</span>
                 </div>
                 <p className="text-slate-400 text-sm font-medium mb-8">
-                  {annual ? "Billed $348 annually · save $120" : "Switch to annual & save $120/yr"}
+                  {billingDisplay("PRO", annual).detail}
                 </p>
               </div>
               <Link href="/register" className="block w-full text-center py-4 bg-red-600 text-white font-bold text-sm hover:bg-red-700 active:scale-[0.98] transition-all mb-8">
@@ -269,7 +276,7 @@ export default function PricingPage() {
 
             {/* Enterprise */}
             <div className="bg-white p-10 flex flex-col relative">
-              <div className="h-[280px]">
+              <div className="min-h-[280px]">
                 <div className="mb-8 p-0">
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-2xl font-black tracking-tight text-slate-900">Enterprise</h3>
@@ -277,11 +284,11 @@ export default function PricingPage() {
                   <p className="text-slate-500 text-sm font-medium leading-relaxed">For operators who want to get paid through their widget and scale.</p>
                 </div>
                 <div className="mb-1 flex items-end gap-2">
-                  <span className="text-5xl font-black text-slate-900">{annual ? "$79" : "$99"}</span>
+                  <span className="text-5xl font-black text-slate-900">{billingDisplay("ENTERPRISE", annual).price}</span>
                   <span className="text-slate-400 font-medium text-lg mb-1">/mo</span>
                 </div>
                 <p className="text-slate-500 text-sm font-medium mb-8">
-                  {annual ? "Billed $948 annually · save $240" : "Billed monthly"}
+                  {billingDisplay("ENTERPRISE", annual).detail}
                 </p>
               </div>
               <Link href="/register" className="block w-full text-center py-4 bg-slate-900 text-white font-bold text-sm hover:opacity-90 active:scale-[0.98] transition-all mb-8">
@@ -305,7 +312,8 @@ export default function PricingPage() {
               </ul>
             </div>
           </div>
-          <TrustBadgeStrip keys={["https", "stripe", "passwords", "atRest"]} className="mt-8 justify-center" />
+          <p className="mt-6 text-sm leading-6 text-slate-600">New accounts start with a 14-day Pro trial, no card required. After the trial, Starter remains available unless you subscribe. Annual prices show a monthly equivalent, charged as one yearly payment in USD.</p>
+          <TrustBadgeStrip keys={["https", "stripe", "passwords", "tenant"]} className="mt-8 justify-center" />
         </motion.div>
 
         <section aria-labelledby="plan-fit-heading" className="mx-auto mb-20 max-w-5xl px-6">
@@ -336,13 +344,13 @@ export default function PricingPage() {
           <h2 className="text-3xl font-black tracking-tight text-center mb-4">Compare All Features</h2>
           <p className="text-center text-slate-500 font-medium mb-12">See what is included at each stage as your quoting workflow grows.</p>
 
-          <div className="-mx-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:px-0">
-            <div className="min-w-[720px]">
+          <div className="relative w-full max-w-full overflow-x-auto pb-2">
+            <div className="min-w-[720px]" role="table" aria-label="Qalt plan feature comparison">
           {/* Header row */}
-          <div className="mb-1 grid grid-cols-4 gap-4 border-b-2 border-slate-200 pb-4">
-            <div />
+          <div role="row" className="mb-1 grid grid-cols-4 gap-4 border-b-2 border-slate-200 pb-4">
+            <div role="columnheader"><span className="sr-only">Feature</span></div>
             {(["Starter", "Pro", "Enterprise"] as const).map((label, i) => (
-              <div key={label} className="text-center">
+              <div role="columnheader" key={label} className="text-center">
                 <span className={`text-[11px] font-black uppercase tracking-widest ${i === 1 ? "text-red-600" : i === 2 ? "text-slate-600" : "text-slate-400"}`}>
                   {label}
                 </span>
@@ -353,27 +361,29 @@ export default function PricingPage() {
           {/* Feature sections */}
           <div className="divide-y divide-slate-100">
             {FEATURE_SECTIONS.map((section) => (
-              <div key={section.title}>
-                <div className="px-2 py-3 bg-slate-50">
+              <div role="rowgroup" key={section.title}>
+                <div role="row" className="px-2 py-3 bg-slate-50"><div role="columnheader" aria-colspan={4}>
                   <span className="text-[11px] font-black uppercase tracking-widest text-slate-500">{section.title}</span>
-                </div>
+                </div></div>
                 {section.rows.map((row, i) => (
                   <div
                     key={row.name}
+                    role="row"
                     className={`grid grid-cols-4 gap-4 px-2 py-3.5 items-center border-t border-slate-100 ${i % 2 === 0 ? "bg-white" : "bg-slate-50/40"}`}
                   >
-                    <span className="text-sm font-medium text-slate-600">{row.name}</span>
-                    <div className="text-center"><FeatureCell value={row.starter} /></div>
-                    <div className="text-center"><FeatureCell value={row.pro} /></div>
-                    <div className="text-center"><FeatureCell value={row.enterprise} /></div>
+                    <span role="rowheader" className="text-sm font-medium text-slate-600">{row.name}</span>
+                    <div role="cell" className="text-center"><FeatureCell value={row.starter} /></div>
+                    <div role="cell" className="text-center"><FeatureCell value={row.pro} /></div>
+                    <div role="cell" className="text-center"><FeatureCell value={row.enterprise} /></div>
                   </div>
                 ))}
               </div>
             ))}
           </div>
 
+          </div>
           {/* CTA row */}
-          <div className="mt-8 grid grid-cols-4 gap-4 border-t border-slate-200 pt-8">
+          <div className="mt-8 grid min-w-[720px] grid-cols-4 gap-4 border-t border-slate-200 pt-8">
             <div />
             <Link href="/register" className="text-center py-4 bg-slate-100 border border-slate-200 text-slate-700 font-bold text-sm hover:bg-slate-200 active:scale-[0.98] transition-all">
               Get Started
@@ -385,7 +395,6 @@ export default function PricingPage() {
               Upgrade to Enterprise
             </Link>
           </div>
-            </div>
           </div>
         </motion.div>
 
@@ -432,10 +441,11 @@ export default function PricingPage() {
           <div className="space-y-3">
             {[
               { q: "What's the difference between Pro and Enterprise?", a: "Pro gives you everything to quote and capture unlimited leads with your own branding: unlimited quotes, up to 5 forms, the full Ops Console, white-label, and analytics. Enterprise adds the ability to accept payment in your widget, website-matching form design (your colors, fonts, shapes and light or dark mode), multi-vehicle and fleet quoting, custom CSS and domain embedding, and webhooks, for operators who want customers to pay through Qalt." },
-              { q: "Can customers pay through the widget?", a: "Yes, on Enterprise. Customers can pay a deposit or the full amount at booking through Stripe, so you capture payment up front instead of chasing invoices." },
+              ...QUOTE_OUTCOME_FAQS.map(({ question, answer }) => ({ q: question, a: answer })),
+              { q: "How does the free trial work?", a: "Registration starts a 14-day Pro trial without a card. If you do not subscribe, the account returns to Starter after the trial. Pro subscription checkout offers a separate 7-day trial with a card required, followed by the selected monthly or annual charge. Review Stripe Checkout before subscribing. Enterprise checkout has no trial." },
               { q: "Is the Ops Console included in Pro?", a: "Yes. Every Pro plan includes the full Ops Console (Jobs, Saved Stop Notes, Delivery Readiness, and Exception Logging) at no extra cost." },
-              { q: "What happens if I exceed my limit on the free plan?", a: "The free Starter plan includes 50 quotes per calendar month, resetting on the 1st at 00:00 UTC. Once you reach it, upgrade to Pro for unlimited quotes without interruption." },
-              { q: "Can I cancel or switch plans at any time?", a: "Yes. You can change, upgrade, downgrade, or cancel your plan at any time as your business needs change." },
+              { q: "What happens if I exceed my limit on the free plan?", a: "Starter counts saved quote requests across your account, not calculations or displayed estimates. The allowance resets on the 1st at 00:00 UTC. At the limit, new submissions are blocked until the reset or an upgrade. Existing requests remain in the dashboard. Pro and Enterprise allow unlimited requests." },
+              { q: "Can I cancel or switch plans at any time?", a: "Open Billing in your dashboard to manage a paid subscription through Stripe. Review the effective date and any charges in the portal before confirming. When a subscription ends, the account returns to Starter and its limits. Cancelling a subscription does not delete your account. Refunds are not automatic." },
               { q: "Do I need to replace my dispatch software?", a: "No. Qalt adds customer-facing pricing and lead capture to your website. You keep the systems already running your operation. This does not imply a direct integration with your dispatch software." },
               { q: "Do I need code to use Qalt?", a: "No custom build is required. Qalt is designed to be embedded on your site quickly with a simple snippet." },
               { q: "Can I remove Qalt branding?", a: "Yes. White-label, with no Qalt branding, is included on Pro and Enterprise." },
@@ -473,7 +483,7 @@ export default function PricingPage() {
       {/* Scroll to top */}
       {showScroll && (
         <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          onClick={() => window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" })}
           className="fixed bottom-8 right-8 z-50 w-11 h-11 bg-slate-900 text-white rounded-full shadow-xl flex items-center justify-center hover:bg-red-600 transition-all hover:-translate-y-0.5 active:scale-95"
           aria-label="Scroll to top"
         >

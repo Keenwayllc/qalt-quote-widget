@@ -38,7 +38,7 @@ export default async function BillingPage({
           Your Qalt plan, without the guesswork.
         </h1>
         <p className="mt-3 text-sm font-medium leading-6 text-slate-500 dark:text-zinc-400 sm:text-base">
-          The same clean plan story customers see on Qalt&apos;s public site now continues inside the Merchant Console. Review usage, compare plans, and manage billing in one place.
+          Review saved request usage, compare plans, and manage your subscription. Starter allowances count saved requests across your account and reset on the 1st of each month at 00:00 UTC. Calculating an estimate does not use the allowance.
         </p>
       </header>
 

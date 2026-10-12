@@ -246,8 +246,8 @@ function QuotePanel({ currentStep }: { currentStep: number }) {
               </motion.div>
               <div className="mt-5 text-center">
                 <div className="text-[9px] font-black uppercase tracking-[0.2em] text-emerald-600">Payment complete</div>
-                <h4 className="mt-1 text-2xl font-black tracking-tight text-slate-900">Delivery booked</h4>
-                <p className="mx-auto mt-2 max-w-[260px] text-xs font-medium leading-relaxed text-slate-500">The customer is done. Qalt keeps the quote, route, and booking details together.</p>
+                <h4 className="mt-1 text-2xl font-black tracking-tight text-slate-900">Payment recorded</h4>
+                <p className="mx-auto mt-2 max-w-[260px] text-xs font-medium leading-relaxed text-slate-500">Qalt records payment with the quote and route. The operator handles scheduling and dispatch.</p>
               </div>
               <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
                 <div className="flex items-center justify-between">

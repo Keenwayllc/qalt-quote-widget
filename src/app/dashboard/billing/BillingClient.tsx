@@ -4,6 +4,9 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Zap, ClipboardList, ShieldCheck, ExternalLink, CreditCard } from "lucide-react";
 
+import { BILLING_DISPLAY, billingDisplay } from "@/lib/billing-display";
+import { PLANS as ENTITLEMENTS } from "@/lib/plans";
+
 type Interval = "monthly" | "annual";
 
 interface PlanConfig {
@@ -26,7 +29,7 @@ const PLANS: PlanConfig[] = [
     annual: { price: "Free", detail: "Forever · No card required", badge: "" },
     features: [
       "1 Quote Widget",
-      "50 Quotes / month",
+      `${ENTITLEMENTS.STARTER.maxQuotesPerMonth} requests / month`,
       "Instant quote calculator",
       "Lead capture & storage",
       "Email notifications",
@@ -39,8 +42,8 @@ const PLANS: PlanConfig[] = [
     name: "Pro",
     description: "Everything to run your quoting, look professional, and capture unlimited leads.",
     icon: ClipboardList,
-    monthly: { price: "$39", detail: "/mo · Billed monthly" },
-    annual: { price: "$29", detail: "/mo · Billed $348/yr", badge: "Save $120" },
+    monthly: { ...billingDisplay("PRO", false), detail: "/mo · Billed monthly" },
+    annual: { ...billingDisplay("PRO", true), detail: `/mo · $${BILLING_DISPLAY.PRO.annualTotal} billed annually` },
     features: [
       "Unlimited quotes",
       "Up to 5 quote forms",
@@ -56,8 +59,8 @@ const PLANS: PlanConfig[] = [
     name: "Enterprise",
     description: "For operators who want to get paid through their widget and scale.",
     icon: ShieldCheck,
-    monthly: { price: "$99", detail: "/mo · Billed monthly" },
-    annual: { price: "$79", detail: "/mo · Billed $948/yr", badge: "Save $240" },
+    monthly: { ...billingDisplay("ENTERPRISE", false), detail: "/mo · Billed monthly" },
+    annual: { ...billingDisplay("ENTERPRISE", true), detail: `/mo · $${BILLING_DISPLAY.ENTERPRISE.annualTotal} billed annually` },
     features: [
       "Everything in Pro",
       "Accept payments in your widget",
@@ -74,11 +77,13 @@ const PLANS: PlanConfig[] = [
 const PLAN_RANK: Record<string, number> = { STARTER: 0, PRO: 1, ENTERPRISE: 2 };
 
 export default function BillingClient({ currentPlan }: { currentPlan: string }) {
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState<string | null>(null);
   const [interval, setInterval] = useState<Interval>("monthly");
 
   const handleUpgrade = async (planId: string) => {
     setLoading(planId);
+    setError("");
     try {
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
@@ -86,9 +91,10 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
         body: JSON.stringify({ plan: planId, interval }),
       });
       const data = await res.json();
-      if (data.url) window.location.href = data.url;
+      if (!res.ok || !data.url) throw new Error(data.error || "Unable to open billing. Please try again.");
+      window.location.href = data.url;
     } catch (error) {
-      console.error(error);
+      setError(error instanceof Error ? error.message : "Unable to open billing. Please try again.");
     } finally {
       setLoading(null);
     }
@@ -96,12 +102,14 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
 
   const handlePortal = async (loadingKey: string) => {
     setLoading(loadingKey);
+    setError("");
     try {
       const res = await fetch("/api/stripe/portal", { method: "POST" });
       const data = await res.json();
-      if (data.url) window.location.href = data.url;
+      if (!res.ok || !data.url) throw new Error(data.error || "Unable to open billing. Please try again.");
+      window.location.href = data.url;
     } catch (error) {
-      console.error(error);
+      setError(error instanceof Error ? error.message : "Unable to open billing. Please try again.");
     } finally {
       setLoading(null);
     }
@@ -118,7 +126,7 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
           </div>
           <h2 className="text-2xl font-[800] tracking-[-0.035em] text-slate-900 dark:text-white sm:text-3xl">Plans that grow with your operation</h2>
           <p className="mt-2 max-w-2xl text-sm font-medium leading-6 text-slate-500 dark:text-zinc-400">
-            The plan names, prices, and feature positioning match Qalt&apos;s public pricing experience so customers see the same product story before and after they sign in.
+            Compare the tools and limits for your account. Annual prices show a monthly equivalent charged in one yearly payment. Review the amount and any trial terms in Stripe Checkout before confirming.
           </p>
         </div>
 
@@ -130,6 +138,7 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
                 key={value}
                 type="button"
                 onClick={() => setInterval(value)}
+                aria-pressed={active}
                 className={`relative z-10 flex items-center gap-2 rounded-full px-4 py-2 text-xs font-black transition-colors ${active ? "text-slate-900 dark:text-white" : "text-slate-500 dark:text-zinc-400"}`}
               >
                 {active && (
@@ -151,6 +160,7 @@ export default function BillingClient({ currentPlan }: { currentPlan: string }) 
         </div>
       </div>
 
+      {error && <p role="alert" className="mb-5 border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-800">{error} Your plan has not changed. Select the button again to retry.</p>}
       <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
         {PLANS.map((plan, index) => {
           const isCurrentPlan = currentPlan === plan.id;

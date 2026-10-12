@@ -7,7 +7,7 @@ import MarketingFooter from "@/components/shared/MarketingFooter";
 
 export const metadata: Metadata = {
   title: "Security · Qalt",
-  description: "How Qalt protects delivery companies and their customers: encrypted connections, Stripe payments, hashed passwords, and encrypted storage.",
+  description: "How Qalt protects delivery companies and their customers: encrypted connections, Stripe payments, hashed passwords, and account-scoped records.",
 };
 
 const SECTIONS = [
@@ -16,23 +16,23 @@ const SECTIONS = [
     points: [
       "The quote form on your website loads over HTTPS, so addresses, names, emails, and phone numbers are encrypted on the way to Qalt.",
       "When you take payments, customers pay on Stripe's own checkout page. Card numbers go to Stripe, not to Qalt and not to you.",
-      "Quote links you send are long random codes that can't be guessed, so one customer can't open another customer's quote.",
+      "Shared quote links use random tokens. Payment success links use signed, expiring tokens. Anyone with a shared link should treat it as private and avoid forwarding it.",
     ],
   },
   {
     title: "For your business",
     points: [
-      "Your password is stored as a bcrypt hash. Nobody at Qalt can read it, and password resets go only to your account email.",
+      "Your password is stored as a bcrypt hash. Account records do not store plain-text passwords, and password resets use your account email.",
       "You sign in with a session cookie the browser keeps away from page scripts (HttpOnly).",
-      "Your quotes, pricing, and customer records are stored in a Postgres database that is encrypted at rest.",
-      "Sign-up is protected by Cloudflare's human check to keep bots and fake accounts out.",
+      "Merchant dashboard queries are scoped to your authenticated company. Public forms receive selected form and pricing settings, not the full account record.",
+      "Sign-up is protected by Cloudflare's human check to reduce automated submissions.",
     ],
   },
   {
     title: "Payments",
     points: [
-      "Online payments run through Stripe, which is certified PCI DSS Level 1, the highest level for card payment processors.",
-      "Qalt never stores card numbers, CVC codes, or bank details. Payouts go straight from Stripe to the delivery company's own Stripe account.",
+      "Enterprise payment-enabled forms open Stripe Checkout for the full quoted amount. You need a connected Stripe account before collecting payment.",
+      "Qalt stores payment references and status, while card entry happens on Stripe Checkout. Charges use the delivery company's connected Stripe account, which handles Stripe fees, payout schedules and refunds.",
     ],
   },
 ];

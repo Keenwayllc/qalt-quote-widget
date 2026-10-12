@@ -1,7 +1,11 @@
+import type { Metadata } from "next";
+import QuoteOutcomeFAQ from "@/components/shared/QuoteOutcomeFAQ";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import PublicNav from "@/components/shared/PublicNav";
 import MarketingFooter from "@/components/shared/MarketingFooter";
+
+export const metadata: Metadata = { title: "What Qalt Does | Qalt Systems", description: "Instant delivery estimates and quote requests on your website, using your rates and branding. Keep your dispatch software.", alternates: { canonical: "/what-qalt-does" } };
 
 const steps = [
   {
@@ -9,12 +13,12 @@ const steps = [
     body: "Customers enter their pickup, delivery, and job details. Qalt applies your pricing rules and shows a clear price instantly.",
   },
   {
-    title: "Online booking",
-    body: "Once the price works, the customer can submit the job and booking details without waiting for a phone call or email reply.",
+    title: "Quote and booking requests",
+    body: "Customers submit contact and delivery details as a pending quote request. You handle acceptance, scheduling and dispatch.",
   },
   {
     title: "Payment at booking",
-    body: "On Enterprise, you can connect Stripe so customers pay when they book. On other plans you keep collecting payment the way you do now.",
+    body: "Enterprise adds optional full-amount Stripe Checkout when you connect Stripe and enable payments on the form. A verified Stripe event marks the quote paid and confirmed, without assigning a driver or confirming a delivery time.",
   },
 ];
 
@@ -124,6 +128,7 @@ export default function WhatQaltDoesPage() {
           </div>
         </section>
       </main>
+      <QuoteOutcomeFAQ />
       <MarketingFooter />
     </div>
   );
