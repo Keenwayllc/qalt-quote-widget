@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CreditCard, Database, KeyRound, Lock, ShieldCheck, type LucideIcon } from "lucide-react";
+import { CreditCard, KeyRound, Lock, ShieldCheck, type LucideIcon } from "lucide-react";
 
 /**
  * Security badges shown across Qalt. Every claim here must stay true of the
@@ -9,7 +9,8 @@ import { CreditCard, Database, KeyRound, Lock, ShieldCheck, type LucideIcon } fr
  *   stripe    Payments use Stripe Checkout (stripe.checkout.sessions.create);
  *             card numbers are typed on Stripe's page and never reach Qalt.
  *   passwords bcrypt hashing in src/lib/auth.ts.
- *   atRest    Supabase Postgres, encrypted at rest (AES-256) by the host.
+ *   tenant    Dashboard queries scope records to the authenticated company.
+ *             Storage encryption requires provider verification, not a badge.
  *   bots      Cloudflare Turnstile on sign-up and demo access.
  *
  * Do not add compliance certifications (SOC 2, HIPAA, PCI for Qalt itself),
@@ -23,7 +24,7 @@ export const TRUST_BADGES: TrustBadge[] = [
     key: "https",
     icon: Lock,
     title: "Encrypted connection",
-    detail: "Every page, quote form, and dashboard screen loads over HTTPS (TLS), so data can't be read in transit.",
+    detail: "Every page, quote form, and dashboard screen loads over HTTPS (TLS), protecting data in transit.",
   },
   {
     key: "stripe",
@@ -35,19 +36,19 @@ export const TRUST_BADGES: TrustBadge[] = [
     key: "passwords",
     icon: KeyRound,
     title: "Hashed passwords",
-    detail: "Account passwords are stored as bcrypt hashes. Nobody at Qalt can see your password.",
+    detail: "Account passwords are stored as bcrypt hashes. Plain-text passwords are not stored in account records.",
   },
   {
-    key: "atRest",
-    icon: Database,
-    title: "Encrypted at rest",
-    detail: "Quotes, customer details, and account data live in a Postgres database that is encrypted at rest.",
+    key: "tenant",
+    icon: ShieldCheck,
+    title: "Account-scoped records",
+    detail: "Merchant dashboard queries use the signed-in company to scope quote and account records.",
   },
   {
     key: "bots",
     icon: ShieldCheck,
     title: "Bot protection",
-    detail: "Sign-up and demo access are guarded by Cloudflare's human check to keep fake accounts out.",
+    detail: "Sign-up and demo access are guarded by Cloudflare's human check to reduce automated submissions.",
   },
 ];
 

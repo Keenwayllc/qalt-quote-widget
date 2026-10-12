@@ -97,7 +97,8 @@ function TurnstileWidget() {
 
 function ProductPreview() {
   return (
-    <div className="relative mx-auto w-full max-w-[520px] overflow-hidden border border-white/10 bg-white/[0.07] p-3 shadow-[0_28px_80px_-48px_rgba(0,0,0,.85)]">
+    <div aria-label="Illustrative quote preview with sample data" className="relative mx-auto w-full max-w-[520px] overflow-hidden border border-white/10 bg-white/[0.07] p-3 shadow-[0_28px_80px_-48px_rgba(0,0,0,.85)]">
+      <p className="mb-2 text-xs text-white/70">Illustrative preview. Sample rates. Payments require Enterprise.</p>
       <div className="overflow-hidden bg-[#f7f8fa]">
         <div className="flex h-10 items-center gap-1.5 border-b border-slate-200 bg-white px-4">
           <span className="h-2.5 w-2.5 rounded-full bg-slate-200" />
@@ -296,6 +297,7 @@ export default function RegisterPage() {
             <div className="mb-7">
               <div className="text-[10px] font-bold uppercase tracking-[0.17em] text-[#df1731]">Create your workspace</div>
               <h2 className="mt-3 text-[38px] font-black leading-[0.95] tracking-[-0.05em] text-slate-950">Start using Qalt</h2>
+              <p className="mt-3 text-sm font-medium leading-6 text-slate-600">14-day Pro trial. No card required. Continue on Starter after the trial unless you subscribe.</p>
               <p className="mt-2 text-sm font-medium text-slate-500">Already have an account? <Link href="/login" className="font-semibold text-[#df1731] hover:text-red-700">Sign in</Link></p>
             </div>
 
@@ -328,7 +330,7 @@ export default function RegisterPage() {
               </div>
 
               {error && (
-                <motion.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} className="border border-rose-200 bg-rose-50 px-4 py-3.5 text-sm font-medium text-rose-800">{error}</motion.div>
+                <motion.div role="alert" initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} className="border border-rose-200 bg-rose-50 px-4 py-3.5 text-sm font-medium text-rose-800">{error}</motion.div>
               )}
 
               {TURNSTILE_SITE_KEY && <TurnstileWidget />}

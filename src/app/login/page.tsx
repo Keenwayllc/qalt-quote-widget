@@ -56,6 +56,7 @@ function ProductPreview() {
             </div>
 
             <div className="mt-4 grid grid-cols-3 gap-2">
+              <p className="col-span-3 text-xs text-slate-600">Illustrative dashboard. Sample data.</p>
               {[["Quotes", "128"], ["Booked", "41"], ["Avg. quote", "$142"]].map(([label, value]) => (
                 <div key={label} className="border border-slate-200 bg-white p-3 shadow-sm">
                   <div className="text-[7px] font-bold uppercase tracking-wider text-slate-400">{label}</div>

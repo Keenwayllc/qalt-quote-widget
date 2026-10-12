@@ -226,9 +226,9 @@ function CustomerWidget({
               <Check size={25} />
             </motion.div>
             <p className="mt-4 text-[7px] font-bold uppercase tracking-[0.18em]" style={{ color: accent }}>Sample payment received</p>
-            <h3 className="mt-1 text-[19px] font-extrabold tracking-[-0.04em] text-slate-950">Booked. Paid. Ready.</h3>
+            <h3 className="mt-1 text-[19px] font-extrabold tracking-[-0.04em] text-slate-950">Payment recorded.</h3>
             <p className="mt-2 max-w-[220px] text-[8px] font-medium leading-relaxed text-slate-400">
-              Booking and payment move together while the delivery details stay attached to the job.
+              A verified payment updates the quote. The operator handles scheduling and dispatch.
             </p>
             <div className="mt-5 w-full border border-slate-200 bg-slate-50 p-3 text-left">
               <div className="flex items-center justify-between">
@@ -257,7 +257,7 @@ function CustomerWidget({
               Qalt carries the quote, route, payment state, stops, and readiness context into the merchant workflow.
             </p>
             <div className="mt-5 space-y-2">
-              {["Quote details attached", "Pickup & delivery stops", "Payment status saved", "Ready for operations"].map((item, index) => (
+              {["Quote details attached", "Pickup & delivery stops", "Payment status saved", "Review scheduling and readiness"].map((item, index) => (
                 <motion.div
                   key={item}
                   initial={reduceMotion ? false : { opacity: 0, x: -8 }}

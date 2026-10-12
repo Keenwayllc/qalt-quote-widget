@@ -7,14 +7,16 @@ import GatedDemo from "@/components/landing/GatedDemo";
 import {
   ArrowRight, Check, X, Mail,
 } from "lucide-react";
+import QuoteOutcomeFAQ from "@/components/shared/QuoteOutcomeFAQ";
 import MarketingFooter from "@/components/shared/MarketingFooter";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Live Demo · Qalt",
+  alternates: { canonical: "/demo" },
   description:
-    "Try Qalt like a real customer. Delivery companies add an instant quote and booking form to their website so customers see transparent pricing, book the job, and move toward payment without calling.",
+    "Try a working delivery quote form with sample rates, transparent pricing and request capture. Demo payments are disabled. Keep your existing dispatch software.",
 };
 
 
@@ -257,6 +259,7 @@ export default async function DemoPage() {
       </section>
 
       {/* Footer */}
+      <QuoteOutcomeFAQ />
       <MarketingFooter />
     </div>
   );

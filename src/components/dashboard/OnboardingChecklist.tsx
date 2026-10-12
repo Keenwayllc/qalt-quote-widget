@@ -52,12 +52,14 @@ export default function OnboardingChecklist({ steps }: Props) {
 
       {/* Header */}
       <button
+        type="button"
+        aria-expanded={!collapsed}
         onClick={() => setCollapsed((c) => !c)}
-        className={`relative w-full flex items-center justify-between px-6 py-5 transition-colors group ${
+        className={`relative w-full flex items-center justify-between gap-3 px-4 py-5 sm:px-6 transition-colors group ${
           isNew ? "hover:bg-white/5" : "hover:bg-slate-50/60 dark:hover:bg-white/[0.02]"
         }`}
       >
-        <div className="flex items-center gap-4">
+        <div className="flex min-w-0 items-center gap-3">
           <div className={`relative w-11 h-11 rounded-none flex items-center justify-center shadow-none shrink-0 ${
             isNew ? "bg-red-600 shadow-none dark:shadow-none" : "bg-red-600 shadow-none dark:shadow-none"
           }`}>
@@ -86,7 +88,7 @@ export default function OnboardingChecklist({ steps }: Props) {
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex min-w-0 items-center gap-3">
           <div className={`hidden sm:block w-32 h-2 rounded-none overflow-hidden ${isNew ? "bg-slate-700" : "bg-slate-100 dark:bg-white/[0.06]"}`}>
             <motion.div
               className="h-full bg-red-500 rounded-none"
@@ -190,7 +192,7 @@ export default function OnboardingChecklist({ steps }: Props) {
             {isNew && (
               <div className="px-6 py-4 border-t border-slate-700/40">
                 <p className="text-xs text-slate-500 font-medium text-center">
-                  Complete these steps to go live — it takes less than 5 minutes.
+                  Configure your rates, test a sample request, then verify your embedded form on your website.
                 </p>
               </div>
             )}

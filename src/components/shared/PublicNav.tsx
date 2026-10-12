@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -42,14 +42,15 @@ const NAV_GROUPS: NavGroup[] = [
 ];
 
 export default function PublicNav() {
+  const navRef = useRef<HTMLElement>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [desktopOpen, setDesktopOpen] = useState<string | null>(null);
   const [mobileSection, setMobileSection] = useState<string | null>("Product");
   const pathname = usePathname();
 
   useEffect(() => {
-    setMobileOpen(false);
-    setDesktopOpen(null);
+    const frame = requestAnimationFrame(() => { setMobileOpen(false); setDesktopOpen(null); });
+    return () => cancelAnimationFrame(frame);
   }, [pathname]);
 
   const isActive = (href: string) => {
@@ -61,7 +62,16 @@ export default function PublicNav() {
   const groupIsActive = (group: NavGroup) => group.items.some((item) => isActive(item.href));
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-[55] border-b border-slate-950/10 bg-[#f4f2ec]/95 backdrop-blur-md">
+    <nav ref={navRef} aria-label="Main navigation"
+      onKeyDown={(event) => {
+        if (event.key === "Escape") {
+          const trigger = navRef.current?.querySelector<HTMLButtonElement>('button[aria-expanded="true"]');
+          trigger?.focus();
+          setMobileOpen(false);
+          setDesktopOpen(null);
+        }
+      }}
+      className="fixed inset-x-0 top-0 z-[55] border-b border-slate-950/10 bg-[#f4f2ec]/95 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8 xl:px-10">
         <Link href="/" className="min-w-0 shrink-0" aria-label="Qalt home">
           <QaltLogo size="md" linked={false} />
@@ -76,13 +86,14 @@ export default function PublicNav() {
                 className="relative"
                 onMouseEnter={() => setDesktopOpen(group.label)}
                 onMouseLeave={() => setDesktopOpen(null)}
+                onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setDesktopOpen(null); }}
               >
                 <button
                   type="button"
                   onClick={() => setDesktopOpen(open ? null : group.label)}
                   onFocus={() => setDesktopOpen(group.label)}
                   aria-expanded={open}
-                  aria-haspopup="menu"
+                  aria-controls={`nav-${group.label}`}
                   className={`inline-flex items-center gap-1.5 px-3 py-3 text-sm font-bold transition-colors hover:text-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600/30 ${groupIsActive(group) ? "text-red-600" : "text-slate-600"}`}
                 >
                   {group.label}
@@ -91,7 +102,7 @@ export default function PublicNav() {
 
                 <AnimatePresence>
                   {open && (
-                    <motion.div
+                    <motion.div id={`nav-${group.label}`}
                       initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 6 }}
@@ -103,7 +114,6 @@ export default function PublicNav() {
                           <Link
                             key={item.href}
                             href={item.href}
-                            role="menuitem"
                             onClick={() => setDesktopOpen(null)}
                             className={`block border-l-2 px-4 py-3 transition-colors hover:border-red-600 hover:bg-slate-50 ${isActive(item.href) ? "border-red-600 bg-red-50/60" : "border-transparent"}`}
                           >

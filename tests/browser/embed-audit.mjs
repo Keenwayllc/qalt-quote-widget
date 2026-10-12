@@ -39,9 +39,12 @@ const db=()=>JSON.parse(readFileSync(database,'utf8'));
 async function check(name,fn){if(process.env.QALT_BROWSER_CHECK_FILTER && !name.includes(process.env.QALT_BROWSER_CHECK_FILTER))return;await fn();results.push(name);console.log(`PASS ${name}`)}
 try {
   for(let i=0;i<180;i++){try{const response=await fetch(`http://localhost:${port}/widget/form/formB`);if(response.ok)break;}catch{}if(i===179)throw new Error('Next server did not become ready');await new Promise(r=>setTimeout(r,500));}
+  // Compile the optional recovery route before concurrent quote/keepalive traffic.
+  const warmedRecovery=await fetch(`http://localhost:${port}/api/widget/merchantA/recovery`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'warmup',formId:'formB'})});
+  assert.equal(warmedRecovery.status,200);
   browser=await chromium.launch({executablePath:process.env.QALT_CHROMIUM_EXECUTABLE || undefined,headless:true,args:['--no-sandbox']});
   const context=await browser.newContext({viewport:{width:390,height:900},reducedMotion:'reduce'});
-  const page=await context.newPage();testPage=page;page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error' && !m.text().includes('/_next/webpack-hmr') && !(m.text().includes('503 (Service Unavailable)') && m.location().url.includes('/api/zip-areas')))errors.push(m.text())});
+  const page=await context.newPage();testPage=page;page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error' && !m.text().includes('/_next/webpack-hmr') && !(m.text().includes('503 (Service Unavailable)') && m.location().url.includes('/api/zip-areas')) && !m.location().url.includes('/api/stripe/checkout'))errors.push(m.text())});
   async function apiPost(path,options){
     const cookie=(await context.cookies('https://www.qalt.site')).map(item=>`${item.name}=${item.value}`).join('; ');
     return context.request.post(`http://localhost:${port}${path}`,{...options,headers:{cookie}});
@@ -307,6 +310,22 @@ try {
     await page.goto('https://www.qalt.site/dashboard/widget?formId=formB');assert.equal(await page.getByRole('img',{name:'Form favicon preview'}).getAttribute('src'),'/images/qalt-icon-2026-10.png');
     await page.getByRole('region',{name:'Service area map',exact:true}).getByText('Highlighted ZIP areas: 90001',{exact:true}).waitFor();
     await page.setViewportSize({width:375,height:1000});await page.getByText('Form Favicon',{exact:true}).scrollIntoViewIfNeeded();assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:join(out,'favicon-settings-375.png'),fullPage:true});
+  });
+  await check('billing failures are announced and allow retry without changing the plan',async()=>{
+    const state=db();state.companies[0].subscriptionPlan='STARTER';writeDb(JSON.stringify(state));
+    await context.addCookies([{name:'qalt_token',value:token,domain:'www.qalt.site',path:'/'}]);
+    let attempts=0;
+    await page.route('**/api/stripe/checkout',route=>{attempts++;return route.fulfill({status:503,contentType:'application/json',body:JSON.stringify({error:'Fixture checkout unavailable'})});});
+    await page.goto('https://www.qalt.site/dashboard/billing');
+    await page.waitForTimeout(1000);
+    const upgrade=page.getByRole('button',{name:'Upgrade to Pro',exact:true});
+    await page.waitForFunction(()=>[...document.querySelectorAll('button')].filter(button=>button.textContent==='Upgrade to Pro').some(button=>Object.keys(button).some(key=>key.startsWith('__reactProps'))));
+    await upgrade.click();
+    await page.getByRole('alert').getByText(/Fixture checkout unavailable/).waitFor();assert.ok(await upgrade.isEnabled());
+    await upgrade.click();assert.equal(attempts,2);assert.equal(db().companies[0].subscriptionPlan,'STARTER');
+    await page.getByRole('button',{name:/Annually/}).click();await page.getByText(/348 billed annually/).waitFor();
+    await page.setViewportSize({width:375,height:1000});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+    await page.screenshot({path:join(out,'billing-retry-375.png'),fullPage:true});
   });
   assert.deepEqual(errors,[],'Browser errors');
   writeFileSync(join(out,'results.json'),JSON.stringify({passed:results,errors,limitations:['Google Maps, Stripe and email responses mocked at external boundaries.','In-memory fixture replaces Prisma in temporary application.','Merchant production site and live payment not exercised.']},null,2));

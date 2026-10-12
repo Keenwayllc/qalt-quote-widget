@@ -1143,9 +1143,9 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
 
                               {!quickMode && (widgetSettings.showWeight || widgetSettings.showItemCount || widgetSettings.showVehicles) && (
                                 <motion.div variants={revealItem} transition={{ duration: 0.3, ease: EASE }} className="grid grid-cols-2 gap-4">
-                                  {widgetSettings.showWeight && <div><label className={LABEL_CLASS}><Weight size={12} className="text-slate-400" /> Weight (lbs)</label><input type="number" name="packageWeight" placeholder="0" value={formData.packageWeight} onChange={handleInputChange} className={INPUT_CLASS} /></div>}
-                                  {widgetSettings.showItemCount && <div><label className={LABEL_CLASS}><Hash size={12} className="text-slate-400" /> Items</label><input type="number" name="itemCount" placeholder="1" min="1" value={formData.itemCount} onChange={handleInputChange} className={INPUT_CLASS} /></div>}
-                                  {widgetSettings.showVehicles && <div><label className={LABEL_CLASS}><Truck size={12} className="text-slate-400" /> {vehicleOptions.length > 0 ? "Vehicle quantity" : "Vehicles"}</label><input type="number" name="vehicleCount" placeholder="1" min="1" value={formData.vehicleCount} onChange={handleInputChange} className={INPUT_CLASS} /></div>}
+                                  {widgetSettings.showWeight && <div><label className={LABEL_CLASS}><Weight size={12} className="text-slate-400" /> Weight (lbs)</label><input type="number" name="packageWeight" aria-label="Weight (lbs)" placeholder="0" value={formData.packageWeight} onChange={handleInputChange} className={INPUT_CLASS} /></div>}
+                                  {widgetSettings.showItemCount && <div><label className={LABEL_CLASS}><Hash size={12} className="text-slate-400" /> Items</label><input type="number" name="itemCount" aria-label="Items" placeholder="1" min="1" value={formData.itemCount} onChange={handleInputChange} className={INPUT_CLASS} /></div>}
+                                  {widgetSettings.showVehicles && <div><label className={LABEL_CLASS}><Truck size={12} className="text-slate-400" /> {vehicleOptions.length > 0 ? "Vehicle quantity" : "Vehicles"}</label><input type="number" name="vehicleCount" aria-label="Vehicle quantity" placeholder="1" min="1" value={formData.vehicleCount} onChange={handleInputChange} className={INPUT_CLASS} /></div>}
                                 </motion.div>
                               )}
 
@@ -1229,7 +1229,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                       )}
 
                       {checkoutUrl && <a href={checkoutUrl} target="_top" className="inline-flex px-6 py-4 rounded-xl text-white font-bold" style={{ backgroundColor: primaryColor }}>Continue to secure payment</a>}
-                      {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><AlertTriangle size={14} className="shrink-0 mt-0.5" /> {error}</div>}
+                      {error && <div role="alert" className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><AlertTriangle size={14} className="shrink-0 mt-0.5" /> {error}</div>}
 
                       {quickMode ? (
                         <div className="mt-2 border-t border-slate-200 pt-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -1352,13 +1352,13 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                       )}
 
                       <div className="space-y-4">
-                        <div><label className={LABEL_CLASS}><User size={12} className="text-slate-400" /> Full name</label><input type="text" name="customerName" required placeholder="John Doe" value={formData.customerName} onChange={handleInputChange} className={INPUT_CLASS} /></div>
-                        <div><label className={LABEL_CLASS}><Mail size={12} className="text-slate-400" /> Email</label><input type="email" name="customerEmail" required placeholder="john@example.com" value={formData.customerEmail} onChange={handleInputChange} className={INPUT_CLASS} /></div>
-                        <div><label className={LABEL_CLASS}><Phone size={12} className="text-slate-400" /> Phone</label><input type="tel" name="customerPhone" required placeholder="(555) 000-0000" value={formData.customerPhone} onChange={handleInputChange} className={INPUT_CLASS} /></div>
+                        <div><label className={LABEL_CLASS}><User size={12} className="text-slate-400" /> Full name</label><input type="text" name="customerName" aria-label="Full name" required placeholder="John Doe" value={formData.customerName} onChange={handleInputChange} className={INPUT_CLASS} /></div>
+                        <div><label className={LABEL_CLASS}><Mail size={12} className="text-slate-400" /> Email</label><input type="email" name="customerEmail" aria-label="Email" required placeholder="john@example.com" value={formData.customerEmail} onChange={handleInputChange} className={INPUT_CLASS} /></div>
+                        <div><label className={LABEL_CLASS}><Phone size={12} className="text-slate-400" /> Phone</label><input type="tel" name="customerPhone" aria-label="Phone" required placeholder="(555) 000-0000" value={formData.customerPhone} onChange={handleInputChange} className={INPUT_CLASS} /></div>
                       </div>
 
                       {checkoutUrl && <a href={checkoutUrl} target="_top" className="inline-flex px-6 py-4 rounded-xl text-white font-bold" style={{ backgroundColor: primaryColor }}>Continue to secure payment</a>}
-                      {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><AlertTriangle size={14} className="shrink-0 mt-0.5" /> {error}</div>}
+                      {error && <div role="alert" className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><AlertTriangle size={14} className="shrink-0 mt-0.5" /> {error}</div>}
 
                       <div className="space-y-3 pt-1">
                         <button type="submit" disabled={loading} data-qalt-brand-cta
@@ -1402,7 +1402,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                       </div>
                       <div className="flex items-center justify-between px-1"><span className="text-sm font-semibold text-slate-500">Total</span><span className="text-3xl font-black text-slate-900 tracking-tight tabular-nums">${estimate?.toFixed(2)}</span></div>
                       {checkoutUrl && <a href={checkoutUrl} target="_top" className="inline-flex px-6 py-4 rounded-xl text-white font-bold" style={{ backgroundColor: primaryColor }}>Continue to secure payment</a>}
-                      {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><AlertTriangle size={14} className="shrink-0 mt-0.5" /> {error}</div>}
+                      {error && <div role="alert" className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><AlertTriangle size={14} className="shrink-0 mt-0.5" /> {error}</div>}
                       <div className="space-y-3 pt-1">
                         <button type="button" onClick={() => submitQuote()} disabled={loading} data-qalt-brand-cta
                           className="w-full py-4 rounded-2xl text-white font-bold text-sm shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2.5 disabled:opacity-50 relative overflow-hidden group"
@@ -1424,7 +1424,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                         <p className="text-xs text-slate-500 mt-2 leading-relaxed">Your quote has been saved. This is an estimate. Your delivery is not booked yet.</p>
                         <p className="text-xs text-slate-500 mt-2 leading-relaxed">{quoteReceipt?.emailSent ? <>A copy of your quote has been sent to <strong>{formData.customerEmail}</strong>.</> : "We couldn’t email your copy. You can keep the details below for your records."}</p>
                       </div>
-                      <section aria-label="Saved quote details" className="rounded-2xl border border-slate-200 bg-slate-50 text-left p-4 space-y-3 text-sm">
+                      <section aria-label="Saved quote details" aria-live="polite" className="rounded-2xl border border-slate-200 bg-slate-50 text-left p-4 space-y-3 text-sm">
                         {quoteReceipt && <p className="text-xs text-slate-500 break-all">Quote reference: {quoteReceipt.id}</p>}
                         <dl className="space-y-3 text-slate-700">
                           <div><dt className="text-xs font-bold text-slate-500">Service</dt><dd>{serviceType}</dd></div>
@@ -1458,7 +1458,7 @@ export default function QuoteWidgetForm({ company, demoMode = false }: WidgetPro
                       <div className="w-20 h-20 rounded-[20px] flex items-center justify-center mx-auto shadow-lg" style={{ backgroundColor: `${primaryColor}15` }}><div className="w-10 h-10 border-4 rounded-full animate-spin" style={{ borderColor: `${primaryColor}33`, borderTopColor: primaryColor }} /></div>
                       <div><h3 className="text-2xl font-black text-slate-900 tracking-tight">{checkoutUrl ? "Your checkout is ready" : "Preparing secure payment"}</h3><p className="text-sm text-slate-500 mt-2 leading-relaxed px-4 font-medium">Continue to Stripe to pay securely.</p><p className="text-xs text-slate-400 mt-3">Quote total: <strong className="text-slate-600">${estimate?.toFixed(2)}</strong></p></div>
                       {checkoutUrl && <a href={checkoutUrl} target="_top" className="inline-flex px-6 py-4 rounded-xl text-white font-bold" style={{ backgroundColor: primaryColor }}>Continue to secure payment</a>}
-                      {error && <div className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><AlertTriangle size={14} className="shrink-0 mt-0.5" /><div><p>{error}</p><button onClick={backToEdit} className="mt-2 underline text-red-700">Go back and try again</button></div></div>}
+                      {error && <div role="alert" className="text-xs text-red-600 font-semibold bg-red-50 p-4 rounded-2xl border border-red-100 flex items-start gap-2"><AlertTriangle size={14} className="shrink-0 mt-0.5" /><div><p>{error}</p><button onClick={backToEdit} className="mt-2 underline text-red-700">Go back and try again</button></div></div>}
                     </div>
                   )}
                 </motion.div>
