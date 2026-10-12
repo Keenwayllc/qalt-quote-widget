@@ -153,9 +153,9 @@ function LoginForm() {
         <div className="relative z-10 my-auto py-10">
           <div className="mb-8 max-w-xl">
             <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-red-300">Merchant Console</div>
-            <h1 className="mt-4 max-w-lg text-4xl font-black leading-[0.94] tracking-[-0.055em] text-white xl:text-6xl">
+            <h2 className="mt-4 max-w-lg text-4xl font-black leading-[0.94] tracking-[-0.055em] text-white xl:text-6xl">
               Welcome back.
-            </h1>
+            </h2>
             <p className="mt-4 max-w-md text-sm font-medium leading-6 text-white/55">
               Sign in to see new quote requests, edit your pricing, and manage your forms.
             </p>
@@ -176,7 +176,7 @@ function LoginForm() {
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: "easeOut" }}>
             <div className="mb-8">
               <div className="text-[10px] font-bold uppercase tracking-[0.17em] text-[#df1731]">Welcome back</div>
-              <h2 className="mt-3 text-[38px] font-black leading-[0.95] tracking-[-0.05em] text-slate-950">Sign in to Qalt</h2>
+              <h1 className="mt-3 text-[38px] font-black leading-[0.95] tracking-[-0.05em] text-slate-950">Sign in to Qalt</h1>
               <p className="mt-2 text-sm font-medium text-slate-500">
                 New here? <Link href="/register" className="font-semibold text-[#df1731] transition hover:text-red-700">Create an account</Link>
               </p>

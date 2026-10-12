@@ -32,7 +32,14 @@ writeFileSync(join(temp,'src/lib/stripe.ts'),readFileSync(join(root,'src/lib/str
 // No production credentials or env files are copied.
 const port=3219;
 const log=join(out,'server.log');const {openSync}=require('node:fs');const fd=openSync(log,'w');
-const server=spawn(process.execPath,[join(root,'node_modules/next/dist/bin/next'),'dev','--webpack','--hostname','127.0.0.1','--port',String(port)],{cwd:temp,env:{...process.env,DATABASE_URL:'postgresql://fixture:fixture@localhost/fixture',JWT_SECRET:'fixture-only-secret',NEXT_PUBLIC_GOOGLE_MAPS_API_KEY:'fixture',GOOGLE_MAPS_API_KEY:'fixture',RESEND_API_KEY:'fixture',STRIPE_SECRET_KEY:'sk_test_fixture',QALT_FIXTURE_CHECKOUT:join(temp,'checkout.json'),QALT_FIXTURE_DB:database,NODE_OPTIONS:`--require=${JSON.stringify(join(root,'tests/browser/network-fixture.cjs'))}`,NEXT_TELEMETRY_DISABLED:'1'},stdio:['ignore',fd,fd]});
+const fixtureEnv={...process.env,DATABASE_URL:'postgresql://fixture:fixture@localhost/fixture',JWT_SECRET:'fixture-only-secret',NEXT_PUBLIC_GOOGLE_MAPS_API_KEY:'fixture',GOOGLE_MAPS_API_KEY:'fixture',RESEND_API_KEY:'fixture',STRIPE_SECRET_KEY:'sk_test_fixture',QALT_FIXTURE_CHECKOUT:join(temp,'checkout.json'),QALT_FIXTURE_DB:database,NODE_OPTIONS:`--require=${JSON.stringify(join(root,'tests/browser/network-fixture.cjs'))}`,NEXT_TELEMETRY_DISABLED:'1'};
+if(process.env.QALT_FIXTURE_PRODUCTION==='1') {
+  const build=spawn(process.execPath,[join(root,'node_modules/next/dist/bin/next'),'build','--webpack'],{cwd:temp,env:fixtureEnv,stdio:['ignore',fd,fd]});
+  const code=await new Promise(resolve=>build.once('exit',resolve));
+  if(code!==0)throw new Error(`Fixture production build failed (${code}), see ${log}`);
+}
+const command=process.env.QALT_FIXTURE_PRODUCTION==='1' ? ['start'] : ['dev','--webpack'];
+const server=spawn(process.execPath,[join(root,'node_modules/next/dist/bin/next'),...command,'--hostname','127.0.0.1','--port',String(port)],{cwd:temp,env:fixtureEnv,stdio:['ignore',fd,fd]});
 let browser; let testPage; const errors=[];
 const results=[];
 const db=()=>JSON.parse(readFileSync(database,'utf8'));

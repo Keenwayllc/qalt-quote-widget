@@ -277,7 +277,7 @@ export default function RegisterPage() {
         <div className="relative z-10 my-auto py-10">
           <div className="mb-8 max-w-xl">
             <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-red-300">Start free</div>
-            <h1 className="mt-4 max-w-lg text-4xl font-black leading-[0.94] tracking-[-0.055em] text-white xl:text-6xl">Get a quote form on your website today.</h1>
+            <h2 className="mt-4 max-w-lg text-4xl font-black leading-[0.94] tracking-[-0.055em] text-white xl:text-6xl">Get a quote form on your website today.</h2>
             <p className="mt-4 max-w-md text-sm font-medium leading-6 text-white/55">Enter your rates, copy one line of code onto your site, and customers can price a delivery themselves. Every quote lands in your dashboard.</p>
           </div>
           <ProductPreview />
@@ -296,7 +296,7 @@ export default function RegisterPage() {
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: "easeOut" }}>
             <div className="mb-7">
               <div className="text-[10px] font-bold uppercase tracking-[0.17em] text-[#df1731]">Create your workspace</div>
-              <h2 className="mt-3 text-[38px] font-black leading-[0.95] tracking-[-0.05em] text-slate-950">Start using Qalt</h2>
+              <h1 className="mt-3 text-[38px] font-black leading-[0.95] tracking-[-0.05em] text-slate-950">Start using Qalt</h1>
               <p className="mt-3 text-sm font-medium leading-6 text-slate-600">14-day Pro trial. No card required. Continue on Starter after the trial unless you subscribe.</p>
               <p className="mt-2 text-sm font-medium text-slate-500">Already have an account? <Link href="/login" className="font-semibold text-[#df1731] hover:text-red-700">Sign in</Link></p>
             </div>

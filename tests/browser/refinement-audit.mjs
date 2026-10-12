@@ -1,9 +1,10 @@
 // Read-only public smoke checks. No accounts, leads, subscriptions or charges are created.
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
+import { createInterface } from 'node:readline';
 import { spawn } from 'node:child_process';
 import { mkdirSync, writeFileSync, openSync } from 'node:fs';
-const base = process.env.QALT_AUDIT_URL || 'http://127.0.0.1:3201';
+const base = process.env.QALT_AUDIT_URL || 'http://localhost:3201';
 const out = process.env.QALT_AUDIT_OUT || 'test-results/refinement-audit';
 mkdirSync(out, {recursive:true});
 let server;
@@ -11,8 +12,13 @@ if(!base.startsWith('https:')) {
   server=spawn(process.execPath,['node_modules/next/dist/bin/next','start','--hostname','127.0.0.1','--port','3201'],{env:{...process.env,DATABASE_URL:'postgresql://fixture:fixture@localhost/fixture',JWT_SECRET:'fixture-only-secret',RESEND_API_KEY:'re_fixture',NEXT_PUBLIC_APP_URL:base},stdio:['ignore',openSync(`${out}/server.log`,'w'),openSync(`${out}/server-error.log`,'w')]});
   for(let i=0;i<60;i++){try{if((await fetch(base)).ok)break;}catch{}await new Promise(r=>setTimeout(r,250));}
 }
-const browser = await chromium.launch({executablePath:process.env.QALT_CHROMIUM_EXECUTABLE || undefined,headless:true,args:['--no-sandbox','--disable-dev-shm-usage'],proxy:base.startsWith('https:') && process.env.HTTPS_PROXY ? {server:process.env.HTTPS_PROXY} : undefined});
+const browser = await chromium.launch({executablePath:process.env.QALT_CHROMIUM_EXECUTABLE || undefined,headless:true,args:['--no-sandbox','--disable-dev-shm-usage','--host-resolver-rules=MAP localhost 127.0.0.1'],proxy:base.startsWith('https:') && process.env.HTTPS_PROXY ? {server:process.env.HTTPS_PROXY} : undefined});
 const context = await browser.newContext({ignoreHTTPSErrors:true,reducedMotion:'reduce'});
+if(process.env.QALT_AUDIT_ACCESS_STDIN==='1') {
+  const reader=createInterface({input:process.stdin});
+  const accessUrl=await new Promise(resolve=>reader.once('line',line=>{reader.close();resolve(line);}));
+  await context.request.get(accessUrl,{timeout:60000});
+}
 const page=await context.newPage();const errors=[];const passed=[];const measurements=[];
 page.on('pageerror',error=>errors.push(error.message));
 async function check(name,fn){await fn();passed.push(name);console.log(`PASS ${name}`);}
