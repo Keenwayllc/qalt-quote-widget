@@ -17,8 +17,8 @@ export type PageGuide = {
 export const pageGuides: Record<string, PageGuide> = {
   "/dashboard": {
     title: "Overview",
-    purpose: "See recent quote activity, usage, and setup progress in one place.",
-    controls: ["Use the setup checklist to find unfinished tasks.", "Open Quotes to follow up on incoming requests. The sidebar takes you to every console section."],
+    purpose: "Review quote momentum, pending decisions, active jobs, workspace setup and monthly capacity.",
+    controls: ["Use workspace setup to review pricing, your form, embed detection and customer contact.", "Open recent quotes or active jobs, refresh the snapshot, or follow the recommended next step. Daily data and full Analytics provide more detail."],
     configure: "Start with pricing, then check the widget customers will see.",
     next: { label: "Set your pricing", href: "/dashboard/pricing" },
   },
