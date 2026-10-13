@@ -495,7 +495,7 @@ export default function PricingPage() {
       <MarketingFooter />
 
       {/* Support Modal */}
-      <SupportModal isOpen={isSupportModalOpen} onClose={() => setIsSupportModalOpen(false)} />
+      <SupportModal variant="contact" isOpen={isSupportModalOpen} onClose={() => setIsSupportModalOpen(false)} />
     </div>
   );
 }

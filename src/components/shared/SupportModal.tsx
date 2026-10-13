@@ -14,6 +14,7 @@ import {
 interface SupportModalProps {
   isOpen: boolean;
   onClose: () => void;
+  variant?: "support" | "contact";
 }
 
 type FormState = "idle" | "submitting" | "success" | "error";
@@ -29,7 +30,8 @@ const PLATFORMS = [
   "Other AI / API client",
 ];
 
-export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
+export default function SupportModal({ isOpen, onClose, variant = "support" }: SupportModalProps) {
+  const isContact = variant === "contact";
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [platform, setPlatform] = useState(PLATFORMS[0]);
@@ -116,11 +118,11 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
       const formData = new FormData();
       formData.set("name", name);
       formData.set("email", email);
-      formData.set("platform", platform);
+      formData.set("platform", isContact ? "Public website inquiry" : platform);
       formData.set("subject", subject);
       formData.set("message", message);
-      formData.set("exactError", exactError);
-      if (screenshot) formData.set("screenshot", screenshot);
+      formData.set("exactError", isContact ? "" : exactError);
+      if (!isContact && screenshot) formData.set("screenshot", screenshot);
 
       const response = await fetch("/api/support", {
         method: "POST",
@@ -167,9 +169,9 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
                 id="support-modal-title"
                 className="text-lg font-black tracking-tight text-slate-900 dark:text-white"
               >
-                Contact Qalt Support
+                {isContact ? "Contact Qalt Systems" : "Contact Qalt Support"}
               </h2>
-              <button
+              {!isContact ? <button
                 type="button"
                 onClick={() => setShowHelp((value) => !value)}
                 className={iconButtonClass}
@@ -179,13 +181,13 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
                 title="How to submit a useful support request"
               >
                 <CircleHelp size={19} aria-hidden="true" />
-              </button>
+              </button> : null}
             </div>
             <p
               id="support-modal-description"
               className="mt-0.5 text-sm font-medium text-slate-500 dark:text-slate-400"
             >
-              Tell us what happened and include a screenshot if it helps.
+              {isContact ? "Have a question about Qalt? Send us a message." : "Tell us what happened and include a screenshot if it helps."}
             </p>
           </div>
           <button
@@ -198,7 +200,7 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
           </button>
         </div>
 
-        {showHelp ? (
+        {!isContact && showHelp ? (
           <div
             id="support-form-help"
             className="border-b border-blue-100 bg-blue-50 px-6 py-4 text-sm text-blue-950 dark:border-blue-400/15 dark:bg-blue-400/10 dark:text-blue-100"
@@ -226,10 +228,10 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
               </div>
               <div>
                 <h3 className="mb-2 text-xl font-black text-slate-900 dark:text-white">
-                  Support request sent
+                  {isContact ? "Message sent" : "Support request sent"}
                 </h3>
                 <p className="max-w-md text-sm font-medium leading-relaxed text-slate-500 dark:text-slate-400">
-                  We received the details{screenshot ? " and screenshot" : ""}. Our support team can use them to trace the Qalt connection or app issue.
+                  {isContact ? "Thank you for contacting Qalt Systems. Our team will reply to your email." : <>We received the details{screenshot ? " and screenshot" : ""}. Our support team can use them to trace the Qalt connection or app issue.</>}
                 </p>
               </div>
               <button
@@ -241,7 +243,7 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label htmlFor="support-name" className={labelClass}>
@@ -279,7 +281,7 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
                 </div>
               </div>
 
-              <div>
+              {!isContact ? <div>
                 <label htmlFor="support-platform" className={labelClass}>
                   Where did the problem happen?
                 </label>
@@ -295,7 +297,7 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
                     </option>
                   ))}
                 </select>
-              </div>
+              </div> : null}
 
               <div>
                 <label htmlFor="support-subject" className={labelClass}>
@@ -308,14 +310,14 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
                   required
                   aria-required="true"
                   maxLength={160}
-                  placeholder="Example: Claude cannot list my recent quotes"
+                  placeholder={isContact ? "How can we help?" : "Example: Claude cannot list my recent quotes"}
                   className={fieldClass}
                 />
               </div>
 
               <div>
                 <label htmlFor="support-message" className={labelClass}>
-                  What were you trying to do, and what happened? <span aria-hidden="true">*</span>
+                  {isContact ? "Message" : "What were you trying to do, and what happened?"} <span aria-hidden="true">*</span>
                 </label>
                 <textarea
                   id="support-message"
@@ -325,11 +327,12 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
                   aria-required="true"
                   maxLength={6000}
                   rows={5}
-                  placeholder="Tell us the steps you took, what you expected, and what happened instead."
+                  placeholder={isContact ? "Tell us about your question or how Qalt could help your business." : "Tell us the steps you took, what you expected, and what happened instead."}
                   className={`${fieldClass} resize-y`}
                 />
               </div>
 
+              {!isContact ? <>
               <div>
                 <label htmlFor="support-error" className={labelClass}>
                   Exact error message{" "}
@@ -393,6 +396,8 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
                 </p>
               </div>
 
+              </> : null}
+
               {formState === "error" && errorMessage ? (
                 <div
                   className="flex items-start gap-3 rounded-xl border border-red-100 bg-red-50 px-4 py-3 dark:border-red-400/20 dark:bg-red-400/10"
@@ -407,7 +412,7 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
               <div className="flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between dark:border-white/10">
                 <p className="text-xs font-medium text-slate-400 dark:text-slate-500">
                   Sent securely to{" "}
-                  <span className="font-bold text-slate-600 dark:text-slate-300">support@qalt.site</span>. Screenshots are attached to the support email.
+                  <span className="font-bold text-slate-600 dark:text-slate-300">support@qalt.site</span>.{!isContact ? " Screenshots are attached to the support email." : ""}
                 </p>
                 <button
                   type="submit"
@@ -422,7 +427,7 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
                   ) : (
                     <>
                       <Send size={15} aria-hidden="true" />
-                      Send Support Request
+                      {isContact ? "Send Message" : "Send Support Request"}
                     </>
                   )}
                 </button>

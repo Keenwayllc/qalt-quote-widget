@@ -70,7 +70,7 @@ export default function MarketingFooter() {
           <TrustBadgeStrip keys={["https", "stripe", "passwords"]} />
         </div>
       </div>
-      <SupportModal isOpen={supportOpen} onClose={() => setSupportOpen(false)} />
+      <SupportModal variant="contact" isOpen={supportOpen} onClose={() => setSupportOpen(false)} />
     </footer>
   );
 }

@@ -500,7 +500,7 @@ export default function LandingPage() {
 
       <MarketingFooter />
 
-      <SupportModal isOpen={isSupportModalOpen} onClose={() => setIsSupportModalOpen(false)} />
+      <SupportModal variant="contact" isOpen={isSupportModalOpen} onClose={() => setIsSupportModalOpen(false)} />
 
       {showScrollTop && (
         <button
