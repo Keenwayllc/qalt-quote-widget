@@ -1,4 +1,4 @@
-export const DEFAULT_WIDGET_FAVICON = "/images/qalt-icon-2026-10.png";
+export const DEFAULT_WIDGET_FAVICON = "/images/qalt-icon-2026-10-clean.png";
 const FAVICON_PREFIX = "https://storage.googleapis.com/qalt-site-production.firebasestorage.app/uploads/";
 
 /** Only normalized public icons uploaded by this merchant belong on its forms. */
