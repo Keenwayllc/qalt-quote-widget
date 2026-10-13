@@ -21,7 +21,7 @@ export const PLANS: Record<SubscriptionPlan, PlanEntitlements> = {
     isWhiteLabelEnabled: false,
     isAdvancedCustomizationEnabled: false,
     isAdvancedAppearanceEnabled: false,
-    isAnalyticsDashboardEnabled: false,
+    isAnalyticsDashboardEnabled: true,
     isCustomCSSEnabled: false,
     isWebhookEnabled: false,
     isPaymentsEnabled: false,

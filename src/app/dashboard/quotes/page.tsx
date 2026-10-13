@@ -7,7 +7,8 @@ import QuotesClient from "./QuotesClient";
 import styles from "./quotes-polish.module.css";
 import { normalizeIntermediateStops } from "@/lib/route-stops";
 
-export default async function QuotesListPage() {
+export default async function QuotesListPage({ searchParams }: { searchParams: Promise<{ quoteId?: string }> }) {
+  const { quoteId } = await searchParams;
   const company = await getCurrentCompany();
 
   const [quotes, abandoned] = await Promise.all([
@@ -48,6 +49,8 @@ export default async function QuotesListPage() {
       </div>
 
       <QuotesClient
+        key={quoteId ?? "quotes"}
+        initialQuoteId={quoteId}
         quotes={quotes.map((quote) => ({ ...quote, intermediateStops: normalizeIntermediateStops(quote.intermediateStops) }))}
         insideDeliveryLabel={widget?.insideDeliveryLabel ?? "Inside Delivery"}
         addon3Label={widget?.addon3Label ?? ""}

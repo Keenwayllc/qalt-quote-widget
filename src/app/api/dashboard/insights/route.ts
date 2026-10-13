@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getCurrentCompany } from "@/lib/session";
 import prisma from "@/lib/prisma";
-import { subDays, getDay, getHours, startOfWeek, endOfWeek } from "date-fns";
+import { subDays, getDay, getHours, startOfWeek } from "date-fns";
 
 const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -25,9 +25,10 @@ export async function GET() {
       estimatedPrice: number;
       distanceMiles: number;
       status: string;
+      paymentStatus: string | null;
     };
     const allQuotes: QuoteRow[] = await prisma.quoteRequest.findMany({
-      where: { companyId: company.id, createdAt: { gte: ninetyDaysAgo } },
+      where: { companyId: company.id, deletedAt: null, createdAt: { gte: ninetyDaysAgo } },
       select: {
         id: true,
         createdAt: true,
@@ -37,6 +38,7 @@ export async function GET() {
         estimatedPrice: true,
         distanceMiles: true,
         status: true,
+        paymentStatus: true,
       },
     });
 
@@ -73,9 +75,9 @@ export async function GET() {
     }
 
     // Conversion rate (last 30 days)
-    const converted30 = last30.filter((q) => q.status === "CONFIRMED" || q.status === "PAID").length;
+    const converted30 = last30.filter((q) => q.status === "WON" || q.status === "CONFIRMED" || q.status === "PAID" || q.paymentStatus === "PAID").length;
     const convRate30 = last30.length > 0 ? (converted30 / last30.length) * 100 : 0;
-    const converted30prev = prev30.filter((q) => q.status === "CONFIRMED" || q.status === "PAID").length;
+    const converted30prev = prev30.filter((q) => q.status === "WON" || q.status === "CONFIRMED" || q.status === "PAID" || q.paymentStatus === "PAID").length;
     const convRatePrev = prev30.length > 0 ? (converted30prev / prev30.length) * 100 : 0;
     const convTrend: "up" | "down" | "neutral" =
       convRate30 > convRatePrev ? "up" : convRate30 < convRatePrev ? "down" : "neutral";

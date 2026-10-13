@@ -39,10 +39,10 @@ export const pageGuides: Record<string, PageGuide> = {
   "/dashboard/analytics": {
     title: "Analytics",
     purpose: "Understand quote volume, trends, and service activity.",
-    controls: ["Review the charts and summary metrics.", "Compare activity before deciding whether pricing or your form needs adjustment."],
+    controls: ["Choose 7, 30, or 90 days. Compare quote activity with the preceding period.", "Review quote outcomes, services, and pickup areas. Export the summary or refresh for updated data."],
     configure: "There is no setup here. Collect quote requests first so the charts have useful data.",
     feature: "isAnalyticsDashboardEnabled",
-    requirement: "Analytics is available on Pro and Enterprise. Starter includes the Overview and Quotes pages.",
+    requirement: "Analytics is available on every plan. Each dashboard shows only its own company data.",
     next: { label: "Review your forms", href: "/dashboard/forms" },
   },
   "/dashboard/analytics/funnel": {
@@ -51,7 +51,7 @@ export const pageGuides: Record<string, PageGuide> = {
     controls: ["Read the conversion rates alongside the number of starts.", "Paid metrics depend on actual payments; widget payments require Enterprise."],
     configure: "Use the drop-off points to decide what to review in your customer form.",
     feature: "isAnalyticsDashboardEnabled",
-    requirement: "Analytics guidance is for Pro and Enterprise. Starter merchants can review requests in Quotes.",
+    requirement: "Analytics is available on every plan. Widget payments still require Enterprise.",
     next: { label: "Review your forms", href: "/dashboard/forms" },
   },
   "/dashboard/forms": {
@@ -186,7 +186,7 @@ export const pageGuides: Record<string, PageGuide> = {
     title: "Growth tools",
     purpose: "Find the console's follow-up, funnel, booking, and pricing tools.",
     controls: ["Open a tool from its link to review the available controls."],
-    configure: "Start with saved pricing and real quote activity. Analytics requires Pro or Enterprise.",
+    configure: "Start with saved pricing and real quote activity. Analytics is available on every plan.",
     next: { label: "Test your pricing", href: "/dashboard/pricing/simulator" },
   },
   "/dashboard/onboarding": {

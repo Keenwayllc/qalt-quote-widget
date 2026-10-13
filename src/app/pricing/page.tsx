@@ -90,10 +90,10 @@ const FEATURE_SECTIONS: FeatureSection[] = [
   {
     title: "Analytics & Reporting",
     rows: [
-      { name: "Quote volume dashboard",     starter: false, pro: true,  enterprise: true  },
-      { name: "Lead conversion tracking",   starter: false, pro: true,  enterprise: true  },
-      { name: "Drop-off funnel analysis",   starter: false, pro: true,  enterprise: true  },
-      { name: "Revenue pipeline estimates", starter: false, pro: true,  enterprise: true  },
+      { name: "Quote volume dashboard",     starter: true, pro: true,  enterprise: true  },
+      { name: "Lead conversion tracking",   starter: true, pro: true,  enterprise: true  },
+      { name: "Drop-off funnel analysis",   starter: true, pro: true,  enterprise: true  },
+      { name: "Revenue pipeline estimates", starter: true, pro: true,  enterprise: true  },
     ],
   },
   {

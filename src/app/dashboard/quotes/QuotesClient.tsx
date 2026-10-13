@@ -388,10 +388,10 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
   );
 }
 
-export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabel, addon3Label }: { quotes: Quote[]; insideDeliveryLabel: string; addon3Label: string }) {
+export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabel, addon3Label, initialQuoteId }: { quotes: Quote[]; insideDeliveryLabel: string; addon3Label: string; initialQuoteId?: string }) {
   const router = useRouter();
   const [quotes, setQuotes] = useState<Quote[]>(initialQuotes);
-  const [selected, setSelected] = useState<Quote | null>(null);
+  const [selected, setSelected] = useState<Quote | null>(() => initialQuotes.find(q => q.id === initialQuoteId) ?? null);
   const [view, setView] = useState<"list" | "kanban">("list");
   const [confirmingId, setConfirmingId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);

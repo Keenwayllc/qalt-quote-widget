@@ -1,482 +1,659 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
 import {
-  TrendingUp,
-  TrendingDown,
-  Zap,
-  DollarSign,
-  Users,
-  Calculator,
-  ChevronRight,
-  MapPin,
-  Mail,
-  Clock,
-  User,
-  X,
-  Target,
-  BarChart2,
-  ArrowUpRight,
-  Lightbulb,
-  AlertCircle,
-} from "lucide-react";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
-import { motion, AnimatePresence } from "framer-motion";
-import { formatDistanceToNow } from "date-fns";
+  Area,
+  CartesianGrid,
+  ComposedChart,
+  Line,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import type { AnalyticsReport } from "@/lib/analytics-report";
+import styles from "./analytics.module.css";
 
-export function KPICard({ title, value, subtitle, trend, icon, delay }: {
+const money = (value: number) =>
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(value);
+const count = (value: number) => value.toLocaleString("en-US");
+function change(value: number | null, previous: number) {
+  return value === null
+    ? previous === 0
+      ? "No previous activity to compare"
+      : "No comparison available"
+    : `${value > 0 ? "+" : ""}${value.toFixed(1)}% vs previous period`;
+}
+function csvCell(value: string | number) {
+  return `"${String(value).replaceAll('"', '""')}"`;
+}
+function exportSummary(report: AnalyticsReport) {
+  const rows: (string | number)[][] = [
+    ["Qalt analytics summary"],
+    ["Window (UTC)", report.start, report.updatedAt],
+    ["Metric", "Value"],
+    ["Quote requests", report.summary.count],
+    ["Quoted value (USD)", report.summary.quotedValue],
+    ["Open quote value (USD)", report.summary.openValue],
+    ["Booked incl. paid", report.summary.booked],
+    ["Paid quotes", report.summary.paid],
+    ["Estimated value of paid quotes (USD)", report.summary.paidValue],
+    ["Booking rate (%)", report.summary.bookingRate ?? "No data"],
+    ["Average quote (USD)", report.summary.average ?? "No data"],
+    [],
+    ["Date (UTC)", "Quote requests", "Previous period aligned by day"],
+    ...report.daily.map((d) => [d.date, d.quotes, d.previous]),
+    [],
+    ["Service", "Requests", "Quoted value (USD)"],
+    ...report.services.map((s) => [s.label, s.count, s.value]),
+    [],
+    ["Pickup ZIP area", "Requests", "Quoted value (USD)"],
+    ...report.regions.map((s) => [s.label, s.count, s.value]),
+  ];
+  // Prefix formula-like values so spreadsheet apps treat merchant-controlled labels as text.
+  const content = rows
+    .map((row) =>
+      row
+        .map((v) =>
+          csvCell(
+            typeof v === "string" && /^[=+@\-\t\r]/.test(v) ? `'${v}` : v,
+          ),
+        )
+        .join(","),
+    )
+    .join("\r\n");
+  const url = URL.createObjectURL(
+    new Blob([content], { type: "text/csv;charset=utf-8;" }),
+  );
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `qalt-analytics-${report.days}d-${report.updatedAt.slice(0, 10)}.csv`;
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function Breakdown({
+  title,
+  description,
+  rows,
+  total,
+}: {
   title: string;
-  value: string;
-  subtitle: string;
-  trend: "up" | "down" | "neutral";
-  icon: React.ReactNode;
-  color: string;
-  delay: number;
+  description: string;
+  rows: AnalyticsReport["services"];
+  total: number;
 }) {
-
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay }}
-      className="bg-white dark:bg-[#141414] rounded-xl border border-slate-200/60 dark:border-white/6 shadow-sm dark:shadow-none p-8 flex flex-col justify-between relative overflow-hidden group hover:shadow-md dark:hover:shadow-none transition-all duration-500"
-    >
-      <div className="relative z-10">
-        <div className="flex items-center justify-between mb-6">
-          <div className="p-4 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/6 rounded-2xl group-hover:bg-white dark:group-hover:bg-white/8 group-hover:shadow-md dark:group-hover:shadow-none transition-all">
-            {icon}
-          </div>
-          {trend !== "neutral" && (
-            <div className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-black tracking-tight ${trend === "up" ? "bg-emerald-50 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400" : "bg-red-50 dark:bg-red-500/15 text-red-600 dark:text-red-400"}`}>
-              {trend === "up" ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
-              +12%
-            </div>
-          )}
-        </div>
-        <p className="text-sm font-bold text-slate-500 dark:text-zinc-500 tracking-widest uppercase mb-1">{title}</p>
-        <h3 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">{value}</h3>
-      </div>
-      <div className="mt-6 flex items-center gap-2 relative z-10 text-sm font-semibold text-slate-400 dark:text-zinc-500">
-        <div className="w-1.5 h-1.5 rounded-full bg-slate-200" />
-        {subtitle}
-      </div>
-    </motion.div>
-  );
-}
-
-export function PremiumChart({ data }: { data: { date: string; quotes: number }[] }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.7 }}
-      className="bg-white dark:bg-[#141414] rounded-[40px] border border-slate-200/60 dark:border-white/6 shadow-sm dark:shadow-none p-10 h-[450px] relative overflow-hidden"
-    >
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
+    <section className={styles.panel}>
+      <div className={styles.sectionHeading}>
         <div>
-          <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Lead Velocity</h2>
-          <p className="text-sm text-slate-500 dark:text-zinc-400 font-medium font-['Outfit']">Quote volume distribution over the last 30 days.</p>
+          <h2>{title}</h2>
+          <p>{description}</p>
         </div>
-        <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-white/5 rounded-2xl border border-slate-100 dark:border-white/6">
-          <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-          <span className="text-[10px] font-black text-slate-600 dark:text-zinc-400 uppercase tracking-widest">Real-time Data</span>
+        <span className={styles.tag}>{rows.length} groups</span>
+      </div>
+      {rows.length ? (
+        <ol className={styles.breakdown}>
+          {rows.slice(0, 5).map((row) => (
+            <li key={row.label}>
+              <div className={styles.rowLabel}>
+                <strong>{row.label}</strong>
+                <span>
+                  {count(row.count)} · {((row.count / total) * 100).toFixed(0)}%
+                </span>
+              </div>
+              <div className={styles.track} aria-hidden="true">
+                <div style={{ width: `${(row.count / total) * 100}%` }} />
+              </div>
+              <p>{money(row.value)} quoted value</p>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <div className={styles.smallEmpty}>
+          No requests in this period. Your top groups appear as quotes arrive.
         </div>
-      </div>
-      <div className="h-[280px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-            <defs>
-              <linearGradient id="colorQuotes" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%"   stopColor="#2563eb" stopOpacity={0.18}/>
-                <stop offset="100%" stopColor="#2563eb" stopOpacity={0}/>
-              </linearGradient>
-            </defs>
-            <CartesianGrid strokeDasharray="2 4" vertical={false} stroke="#e2e8f0" strokeOpacity={0.7} />
-            <XAxis
-              dataKey="date"
-              axisLine={false}
-              tickLine={false}
-              tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 700, letterSpacing: '0.04em' }}
-              dy={12}
-            />
-            <YAxis
-              axisLine={false}
-              tickLine={false}
-              tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 700 }}
-              allowDecimals={false}
-              width={32}
-            />
-            <Tooltip
-              cursor={{ stroke: '#cbd5e1', strokeWidth: 1, strokeDasharray: '4 3' }}
-              contentStyle={{
-                borderRadius: '16px',
-                border: '1px solid #e2e8f0',
-                boxShadow: '0 8px 32px -8px rgb(0 0 0 / 0.12)',
-                padding: '10px 16px',
-                backgroundColor: '#ffffff',
-              }}
-              itemStyle={{ color: '#0f172a', fontWeight: 800, fontSize: '15px' }}
-              labelStyle={{ color: '#64748b', fontWeight: 700, fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '2px' }}
-            />
-            <Area
-              type="linear"
-              dataKey="quotes"
-              stroke="#2563eb"
-              strokeWidth={2}
-              fill="url(#colorQuotes)"
-              animationDuration={1200}
-              dot={false}
-              activeDot={{ r: 5, fill: "#2563eb", stroke: "#fff", strokeWidth: 2 }}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
-    </motion.div>
+      )}
+      {rows.length > 5 && (
+        <p className={styles.note}>
+          {rows.length - 5} additional groups are included in the summary
+          export.
+        </p>
+      )}
+    </section>
   );
 }
-
-interface InsightsData {
-  busiestTime: string;
-  topRegion: string;
-  conversionRate: number;
-  convTrend: "up" | "down" | "neutral";
-  topService: string;
-  avgQuoteValue: number;
-  valueTrend: "up" | "down" | "neutral";
-  avgDistance: number;
-  weekOverWeek: number | null;
-  thisWeekCount: number;
-  totalLast30: number;
-}
-
-function buildRecommendations(data: InsightsData) {
-  const tips: { icon: React.ReactNode; priority: "high" | "medium" | "quick"; title: string; desc: string; action: string; href: string }[] = [];
-
-  if (data.conversionRate < 5) {
-    tips.push({
-      icon: <Target size={18} className="text-red-400" />,
-      priority: "high",
-      title: "Low conversion rate detected",
-      desc: `Your conversion rate is ${data.conversionRate.toFixed(1)}%. Most businesses see 10-20%. Review your pricing. Quotes may be coming in too high or your widget isn't collecting enough context to price accurately.`,
-      action: "Review Pricing Settings",
-      href: "/dashboard/pricing",
-    });
-  }
-
-  if (data.totalLast30 < 10) {
-    tips.push({
-      icon: <BarChart2 size={18} className="text-amber-400" />,
-      priority: "high",
-      title: "Quote volume is low",
-      desc: `Only ${data.totalLast30} quotes in the last 30 days. Copy your embed code and paste it on a high-traffic page, ideally your homepage or a dedicated "Get a Quote" page. More visibility = more quotes.`,
-      action: "Copy Embed Code",
-      href: "/dashboard/embed",
-    });
-  }
-
-  if (data.avgQuoteValue > 0 && data.avgQuoteValue < 50) {
-    tips.push({
-      icon: <DollarSign size={18} className="text-emerald-400" />,
-      priority: "medium",
-      title: "Average quote value is low",
-      desc: `Your average quote is $${data.avgQuoteValue.toFixed(0)}. Consider adding extras like after-hours, special handling, or rush delivery options to increase order value.`,
-      action: "Add Pricing Extras",
-      href: "/dashboard/pricing",
-    });
-  }
-
-  if (data.avgDistance > 80) {
-    tips.push({
-      icon: <MapPin size={18} className="text-red-400" />,
-      priority: "medium",
-      title: "Long-distance jobs are common",
-      desc: `Average distance is ${data.avgDistance.toFixed(0)} miles. Make sure your per-mile rate is profitable at this range. Consider a tiered rate for jobs over 50 miles.`,
-      action: "Update Pricing Rules",
-      href: "/dashboard/pricing",
-    });
-  }
-
-  if (data.thisWeekCount === 0) {
-    tips.push({
-      icon: <AlertCircle size={18} className="text-orange-400" />,
-      priority: "quick",
-      title: "No quotes this week",
-      desc: "You haven't received any quotes this week. Check that your widget is still live on your site and that the embed code hasn't been removed.",
-      action: "Check Your Embed Code",
-      href: "/dashboard/embed",
-    });
-  }
-
-  tips.push({
-    icon: <Lightbulb size={18} className="text-yellow-400" />,
-    priority: "quick",
-    title: "Your busiest time is " + data.busiestTime,
-    desc: `Schedule promotions or social posts just before your peak time to drive more traffic when conversion is highest. Even a small boost in traffic during peak hours compounds quickly.`,
-    action: "View Widget Appearance",
-    href: "/dashboard/widget",
+export default function AnalyticsDashboard({
+  report,
+}: {
+  report: AnalyticsReport;
+}) {
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
+  const [compare, setCompare] = useState(true);
+  const [tableOpen, setTableOpen] = useState(false);
+  const [sort, setSort] = useState("newest");
+  const [exported, setExported] = useState(false);
+  const s = report.summary;
+  const hasData = s.count > 0;
+  const recent = [...report.recent].sort((a, b) =>
+    sort === "value"
+      ? b.value - a.value
+      : new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  );
+  const periodStart = new Date(report.start).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
   });
-
-  return tips;
-}
-
-const priorityLabel: Record<string, { label: string; cls: string }> = {
-  high:   { label: "High Impact",   cls: "bg-red-500/20 text-red-300 border-red-500/20" },
-  medium: { label: "Medium Impact", cls: "bg-amber-500/20 text-amber-300 border-amber-500/20" },
-  quick:  { label: "Quick Win",     cls: "bg-emerald-500/20 text-emerald-300 border-emerald-500/20" },
-};
-
-export function InsightsCard() {
-  const [data, setData] = useState<InsightsData | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
-
-  useEffect(() => {
-    fetch("/api/dashboard/insights")
-      .then((r) => r.json())
-      .then((d) => setData(d))
-      .catch(() => {});
-  }, []);
-
-  useEffect(() => {
-    if (!modalOpen) return;
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setModalOpen(false); };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [modalOpen]);
-
-  const items = data
-    ? [
-        { label: "Busiest Time", value: data.busiestTime },
-        { label: "Top Region", value: data.topRegion },
-        { label: "Conv. Rate", value: `${data.conversionRate.toFixed(1)}%` },
-      ]
-    : [
-        { label: "Busiest Time", value: "Loading…" },
-        { label: "Top Region", value: "Loading…" },
-        { label: "Conv. Rate", value: "Loading…" },
-      ];
-
-  const recommendations = data ? buildRecommendations(data) : [];
-
+  const updated = new Date(report.updatedAt).toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "UTC",
+  });
+  const metricCards = [
+    {
+      label: "Quote requests",
+      value: count(s.count),
+      help: "Requests received in this period",
+      comparison: change(report.quoteChange, report.prior.count),
+    },
+    {
+      label: "Quoted value",
+      value: money(s.quotedValue),
+      help: "All estimates; this is not revenue",
+      comparison: change(report.valueChange, report.prior.quotedValue),
+    },
+    {
+      label: "Booking rate",
+      value: s.bookingRate === null ? "—" : `${s.bookingRate.toFixed(1)}%`,
+      help: "Won, confirmed or paid ÷ all requests",
+      comparison: `${count(s.booked)} booked, including ${count(s.paid)} paid`,
+    },
+    {
+      label: "Average quote",
+      value: s.average === null ? "—" : money(s.average),
+      help: "Estimated value per request",
+      comparison:
+        report.prior.average === null
+          ? "No previous average to compare"
+          : `${money(report.prior.average)} in previous period`,
+    },
+  ];
   return (
-    <>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
-        className="h-full overflow-hidden rounded-xl border border-white/10 bg-[linear-gradient(180deg,#111827_0%,#0f172a_100%)] p-8 text-white shadow-[0_24px_70px_rgba(0,0,0,0.28)]"
-      >
-        <div className="flex h-full flex-col">
-          <div className="mb-8">
-            <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] shadow-inner shadow-white/[0.03]">
-              <Zap size={21} className="text-red-400" />
-            </div>
-            <h3 className="mb-2 text-2xl font-black tracking-tight text-white">Qalt Insights</h3>
-            <p className="font-['Outfit'] font-medium leading-relaxed text-slate-400">Live metrics from your last 90 days of quote activity.</p>
-          </div>
-
-          <div className="flex-1 space-y-3">
-            {items.map((item) => (
-              <div key={item.label} className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-4">
-                <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-slate-500">{item.label}</p>
-                <p className="text-[15px] font-bold tracking-tight text-white">{item.value}</p>
-              </div>
-            ))}
-          </div>
-
-          {data && (
-            <div className="mt-3 grid grid-cols-2 gap-3">
-              <div className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-3.5">
-                <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-slate-500">Avg Value</p>
-                <p className="text-[15px] font-bold tracking-tight text-white">${data.avgQuoteValue.toFixed(0)}</p>
-              </div>
-              <div className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-3.5">
-                <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-slate-500">This Week</p>
-                <p className="text-[15px] font-bold tracking-tight text-white">{data.thisWeekCount} quotes</p>
-              </div>
-            </div>
-          )}
-
+    <div className={styles.root} aria-busy={pending}>
+      <header className={styles.header}>
+        <div>
+          <span className={styles.eyebrow}>
+            <span aria-hidden="true" /> Performance overview
+          </span>
+          <h1>Analytics</h1>
+          <p>
+            Understand your quote demand, see what gets booked, and find your
+            next opportunity.
+          </p>
+        </div>
+        <div className={styles.actions}>
           <button
-            onClick={() => setModalOpen(true)}
-            className="group mt-6 flex w-full items-center justify-between rounded-2xl border border-white/10 bg-white/[0.045] p-4 text-sm font-bold text-white transition-all hover:bg-white/[0.075] active:scale-[0.99]"
+            disabled={pending}
+            onClick={() => startTransition(() => router.refresh())}
           >
-            <span>Optimize Conversion</span>
-            <ChevronRight size={18} className="text-red-400 transition-transform group-hover:translate-x-1" />
+            {pending ? "Refreshing…" : "Refresh data"}
+          </button>
+          <button
+            className={styles.primary}
+            onClick={() => {
+              exportSummary(report);
+              setExported(true);
+            }}
+          >
+            Export summary
           </button>
         </div>
-      </motion.div>
-
-      <AnimatePresence>
-        {modalOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setModalOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
-            />
-
-            <motion.div
-              initial={{ opacity: 0, x: "100%" }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: "100%" }}
-              transition={{ type: "spring", damping: 28, stiffness: 260 }}
-              className="fixed top-0 right-0 h-full w-full max-w-lg bg-slate-950 z-50 overflow-y-auto shadow-2xl"
+      </header>
+      <div className={styles.toolbar}>
+        <nav aria-label="Reporting window" className={styles.switcher}>
+          {[7, 30, 90].map((days) => (
+            <Link
+              key={days}
+              href={`/dashboard/analytics?days=${days}`}
+              aria-current={report.days === days ? "page" : undefined}
+              onClick={() => setExported(false)}
             >
-              <div className="sticky top-0 bg-slate-950/95 backdrop-blur-md border-b border-white/10 px-6 py-5 flex items-center justify-between z-10">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 bg-red-600 rounded-xl flex items-center justify-center">
-                    <ArrowUpRight size={18} className="text-white" />
-                  </div>
-                  <div>
-                    <h2 className="text-white font-black text-lg tracking-tight">Optimize Conversion</h2>
-                    <p className="text-slate-500 text-xs font-medium">Based on your last 90 days of data</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setModalOpen(false)}
-                  className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all active:scale-90"
-                >
-                  <X size={18} />
-                </button>
-              </div>
-
-              {data && (
-                <div className="px-6 py-4 grid grid-cols-3 gap-3 border-b border-white/5">
-                  {[
-                    { label: "Conv. Rate", value: `${data.conversionRate.toFixed(1)}%` },
-                    { label: "Avg Value", value: `$${data.avgQuoteValue.toFixed(0)}` },
-                    { label: "This Week", value: `${data.thisWeekCount} quotes` },
-                  ].map((s) => (
-                    <div key={s.label} className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-3 text-center">
-                      <p className="mb-1 text-[9px] font-black uppercase tracking-widest text-slate-500">{s.label}</p>
-                      <p className="text-sm font-black text-white">{s.value}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              <div className="px-6 py-6 space-y-4">
-                <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-2">
-                  {recommendations.length} recommendation{recommendations.length !== 1 ? "s" : ""} for your account
-                </p>
-                {recommendations.length === 0 && (
-                  <div className="text-center py-12 text-slate-500 font-medium">
-                    Loading recommendations…
-                  </div>
-                )}
-                {recommendations.map((tip, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.07 }}
-                    className="bg-white/5 border border-white/5 rounded-2xl p-5"
-                  >
-                    <div className="flex items-start gap-3 mb-3">
-                      <div className="w-8 h-8 bg-white/5 rounded-xl flex items-center justify-center shrink-0 mt-0.5">
-                        {tip.icon}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap mb-1">
-                          <span className="text-white font-black text-sm">{tip.title}</span>
-                          <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border ${priorityLabel[tip.priority].cls}`}>
-                            {priorityLabel[tip.priority].label}
-                          </span>
-                        </div>
-                        <p className="text-slate-400 text-xs leading-relaxed font-medium">{tip.desc}</p>
-                      </div>
-                    </div>
-                    <a
-                      href={tip.href}
-                      className="flex items-center gap-1.5 text-xs font-black text-red-600 hover:text-red-700 transition-colors mt-2 group/link"
-                    >
-                      {tip.action}
-                      <ArrowUpRight size={13} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
-                    </a>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </>
-  );
-}
-
-export function PremiumTable({ quotes }: { quotes: {
-  id: string;
-  customerName: string;
-  customerEmail: string;
-  pickupZip: string;
-  dropoffZip: string;
-  intermediateStops: Array<{ address: string; zip: string }>;
-  distanceMiles: number | null;
-  estimatedPrice: number;
-  status: string;
-  createdAt: Date;
-}[] }) {
-  if (quotes.length === 0) return null;
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.9 }}
-      className="space-y-6"
-    >
-      <div className="flex items-center justify-between px-2">
-        <div>
-          <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Recent Opportunities</h2>
-          <p className="text-sm text-slate-500 dark:text-zinc-400 font-medium font-['Outfit']">The latest incoming leads from your platform.</p>
+              {days} days
+            </Link>
+          ))}
+        </nav>
+        <div className={styles.reporting}>
+          <strong>
+            {periodStart} –{" "}
+            {new Date(report.updatedAt).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              timeZone: "UTC",
+            })}
+          </strong>
+          <span>UTC · Updated {updated} · Refresh for latest</span>
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-4">
-        {quotes.map((quote) => (
-          <div key={quote.id} className="group bg-white dark:bg-[#141414] rounded-xl border border-slate-200/60 dark:border-white/6 shadow-lg dark:shadow-none p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-red-200 dark:hover:border-white/10 transition-all duration-300">
-            <div className="flex items-center gap-5">
-              <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/6 flex items-center justify-center shrink-0 group-hover:bg-red-50 dark:group-hover:bg-red-500/10 transition-colors">
-                <User size={24} className="text-slate-400 dark:text-zinc-500 group-hover:text-red-600 dark:group-hover:text-red-400" />
-              </div>
-              <div>
-                <h3 className="font-bold text-slate-900 dark:text-white text-lg">{quote.customerName}</h3>
-                <div className="flex items-center gap-3 mt-1 underline-offset-4 decoration-red-500/30">
-                  <span className="text-xs font-bold text-slate-500 dark:text-zinc-500 flex items-center gap-1"><Mail size={12} /> {quote.customerEmail}</span>
-                </div>
-              </div>
+      {exported && (
+        <p role="status" className={styles.exportStatus}>
+          Summary downloaded. The export contains aggregate metrics and no
+          customer contact details.
+        </p>
+      )}
+      <div className={styles.metrics}>
+        {metricCards.map((metric, i) => (
+          <section key={metric.label} className={styles.metric}>
+            <div className={styles.metricLabel}>
+              <span>{metric.label}</span>
+              <span aria-hidden="true" className={styles.metricIndex}>
+                0{i + 1}
+              </span>
             </div>
-            <div className="flex-1 flex flex-col md:flex-row md:items-center justify-center gap-8 group-hover:scale-[1.02] transition-transform">
-               <div className="flex items-center gap-4">
-                  <div className="text-center">
-                    <div className="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center mx-auto mb-1"><MapPin size={14} className="text-emerald-500" /></div>
-                    <span className="text-[10px] font-black text-slate-400">{quote.pickupZip}</span>
-                  </div>
-                  <div className="flex flex-col items-center gap-1">
-                    <div className="w-20 h-0.5 bg-slate-100 dark:bg-white/5 group-hover:bg-red-200 dark:group-hover:bg-red-500/20 transition-colors" />
-                    <span className="text-[8px] font-bold text-slate-300 dark:text-zinc-600 uppercase">{quote.distanceMiles?.toFixed(1)} miles</span>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-1"><MapPin size={14} className="text-red-500" /></div>
-                    <span className="text-[10px] font-black text-slate-400">{quote.dropoffZip}</span>
-                  </div>
-                  {quote.intermediateStops.length > 0 && <span className="text-[10px] font-black text-slate-400">via {quote.intermediateStops.length} stop{quote.intermediateStops.length === 1 ? "" : "s"}</span>}
-               </div>
-               <div className="text-center md:text-right min-w-[120px]">
-                  <div className="text-2xl font-black text-slate-900 dark:text-white tracking-tight flex items-center justify-center md:justify-end gap-1">
-                    <DollarSign size={18} className="text-emerald-500" />
-                    {quote.estimatedPrice.toFixed(2)}
-                  </div>
-                  <span className="text-[10px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest">Est. Revenue</span>
-               </div>
-            </div>
-            <div className="flex items-center justify-between md:flex-col md:items-end gap-3 min-w-[140px]">
-              <span className={`px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest ${quote.status === "PENDING" ? "bg-amber-50 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400" : "bg-emerald-50 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400"}`}>{quote.status}</span>
-              <span className="text-xs font-bold text-slate-400 dark:text-zinc-500 flex items-center gap-1"><Clock size={12} /> {formatDistanceToNow(new Date(quote.createdAt), { addSuffix: true })}</span>
-            </div>
-          </div>
+            <strong>{metric.value}</strong>
+            <p>{metric.help}</p>
+            <div className={styles.comparison}>{metric.comparison}</div>
+          </section>
         ))}
       </div>
-    </motion.div>
+      {!hasData && (
+        <section className={styles.onboarding}>
+          <div>
+            <span className={styles.eyebrow}>
+              Ready when your customers are
+            </span>
+            <h2>No quote requests in this period</h2>
+            <p>
+              {report.prior.count
+                ? "There was activity in the previous period. Try a wider reporting window to see more history."
+                : "Once customers submit quotes, this page will show demand, outcomes and estimated value. No sample numbers are mixed into your analytics."}
+            </p>
+          </div>
+          <Link href="/dashboard/embed">
+            Check your embed setup <span aria-hidden="true">↗</span>
+          </Link>
+        </section>
+      )}
+      <div className={styles.mainGrid}>
+        <section className={styles.panel}>
+          <div className={styles.sectionHeading}>
+            <div>
+              <h2>Quote activity</h2>
+              <p>
+                Daily requests over {report.days} days. Today is still in
+                progress.
+              </p>
+            </div>
+            <label className={styles.check}>
+              <input
+                type="checkbox"
+                checked={compare}
+                onChange={(e) => setCompare(e.target.checked)}
+              />{" "}
+              Compare previous period
+            </label>
+          </div>
+          <div className={styles.legend}>
+            <span>
+              <i /> Selected period
+            </span>
+            {compare && (
+              <span>
+                <i className={styles.previousDot} /> Previous period, aligned by
+                day
+              </span>
+            )}
+          </div>
+          {hasData || report.prior.count ? (
+            <div
+              className={styles.chart}
+              role="img"
+              aria-label={`Daily quote requests. ${s.count} in selected period and ${report.prior.count} in previous period. A data table follows.`}
+            >
+              <ResponsiveContainer width="100%" height="100%">
+                <ComposedChart
+                  data={report.daily}
+                  margin={{ top: 12, right: 12, left: -12, bottom: 8 }}
+                  accessibilityLayer
+                >
+                  <defs>
+                    <linearGradient
+                      id="analyticsFill"
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                    >
+                      <stop offset="0%" stopColor="#b92e3b" stopOpacity={0.2} />
+                      <stop
+                        offset="100%"
+                        stopColor="#b92e3b"
+                        stopOpacity={0.02}
+                      />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid vertical={false} stroke="var(--chart-grid)" />
+                  <XAxis
+                    dataKey="label"
+                    minTickGap={35}
+                    tick={{ fill: "var(--muted)", fontSize: 11 }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    allowDecimals={false}
+                    tick={{ fill: "var(--muted)", fontSize: 11 }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      background: "var(--surface)",
+                      border: "1px solid var(--line)",
+                      borderRadius: 10,
+                      color: "var(--ink)",
+                    }}
+                    labelFormatter={(_, payload) =>
+                      payload?.[0]?.payload?.date ?? ""
+                    }
+                  />
+                  <Area
+                    name="Selected period"
+                    dataKey="quotes"
+                    type="linear"
+                    stroke="#b92e3b"
+                    fill="url(#analyticsFill)"
+                    strokeWidth={2.5}
+                    isAnimationActive={false}
+                  />
+                  {compare && (
+                    <Line
+                      name="Previous period"
+                      dataKey="previous"
+                      stroke="#94a3b8"
+                      strokeDasharray="5 5"
+                      dot={false}
+                      strokeWidth={1.5}
+                      isAnimationActive={false}
+                    />
+                  )}
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+          ) : (
+            <div className={styles.emptyChart}>
+              <div className={styles.emptyBars} aria-hidden="true">
+                {[25, 45, 32, 65, 50, 80, 60, 95, 75, 110, 90, 125].map(
+                  (height, i) => (
+                    <span key={i} style={{ height }} />
+                  ),
+                )}
+              </div>
+              <strong>Your activity trend will appear here</strong>
+              <p>Collect quote requests to start tracking daily demand.</p>
+            </div>
+          )}
+          <button
+            className={styles.textButton}
+            aria-expanded={tableOpen}
+            aria-controls="analytics-daily-table"
+            onClick={() => setTableOpen(!tableOpen)}
+          >
+            {tableOpen ? "Hide" : "View"} daily data table
+          </button>
+          {tableOpen && (
+            <div id="analytics-daily-table" className={styles.tableScroll}>
+              <table>
+                <caption>
+                  Daily quote requests. Previous period uses the same day
+                  position.
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Date (UTC)</th>
+                    <th scope="col">Requests</th>
+                    {compare && <th scope="col">Previous period</th>}
+                  </tr>
+                </thead>
+                <tbody>
+                  {report.daily.map((day) => (
+                    <tr key={day.date}>
+                      <th scope="row">{day.date}</th>
+                      <td>{day.quotes}</td>
+                      {compare && <td>{day.previous}</td>}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+        <section className={`${styles.panel} ${styles.outcomes}`}>
+          <div className={styles.sectionHeading}>
+            <div>
+              <h2>Quote outcomes</h2>
+              <p>Current status of requests created in this window.</p>
+            </div>
+          </div>
+          <div className={styles.outcomeTotal}>
+            <strong>{count(s.count)}</strong>
+            <span>total requests</span>
+          </div>
+          <div className={styles.outcomeStack} aria-hidden="true">
+            {report.outcomes.map((o, i) => (
+              <span
+                key={o.label}
+                className={styles[`status${i}`]}
+                style={{ width: `${s.count ? (o.count / s.count) * 100 : 0}%` }}
+              />
+            ))}
+          </div>
+          <ul className={styles.outcomeList}>
+            {report.outcomes
+              .filter((o) => o.label !== "Other" || o.count)
+              .map((o, i) => (
+                <li key={o.label}>
+                  <span>
+                    <i className={styles[`status${i}`]} />
+                    {o.label}
+                  </span>
+                  <strong>
+                    {o.count}
+                    <small>
+                      {s.count
+                        ? `${((o.count / s.count) * 100).toFixed(0)}%`
+                        : "—"}
+                    </small>
+                  </strong>
+                </li>
+              ))}
+          </ul>
+          <p className={styles.note}>
+            Booked excludes paid here to avoid double counting. The booking rate
+            above includes both.
+          </p>
+          <Link className={styles.textButton} href="/dashboard/quotes">
+            Review quote decisions →
+          </Link>
+        </section>
+      </div>
+      <div className={styles.detailGrid}>
+        <Breakdown
+          title="Service demand"
+          description="Top services by request volume."
+          rows={report.services}
+          total={s.count}
+        />
+        <Breakdown
+          title="Pickup areas"
+          description="Grouped by the first 3 digits of the pickup ZIP."
+          rows={report.regions}
+          total={s.count}
+        />
+        <section className={styles.panel}>
+          <div className={styles.sectionHeading}>
+            <div>
+              <h2>Operational snapshot</h2>
+              <p>Signals to help plan your next move.</p>
+            </div>
+          </div>
+          <dl className={styles.snapshot}>
+            <div>
+              <dt>Open quote value</dt>
+              <dd>{money(s.openValue)}</dd>
+              <p>Pending requests awaiting a decision.</p>
+            </div>
+            <div>
+              <dt>Paid quote value</dt>
+              <dd>{money(s.paidValue)}</dd>
+              <p>Estimates on paid quotes, not settled revenue.</p>
+            </div>
+            <div>
+              <dt>Average route distance</dt>
+              <dd>
+                {report.averageDistance === null
+                  ? "—"
+                  : `${report.averageDistance.toFixed(1)} mi`}
+              </dd>
+              <p>Requests with a recorded distance above zero.</p>
+            </div>
+            <div>
+              <dt>Most active hour</dt>
+              <dd>{report.peakHour ?? "—"}</dd>
+              <p>
+                {report.peakHour
+                  ? "Most requests in this hour; ties use the earliest hour."
+                  : "Available when requests arrive."}
+              </p>
+            </div>
+          </dl>
+        </section>
+      </div>
+      <section className={styles.nextSteps}>
+        <div>
+          <span className={styles.eyebrow}>Suggested next step</span>
+          <h2>
+            {!hasData ? "Start collecting demand" : "Keep your pipeline moving"}
+          </h2>
+          <p>
+            {!hasData
+              ? "Publish your quote form and submit a test request to verify the customer journey."
+              : s.count < 10
+                ? "This is a small sample. Collect more requests before drawing conclusions about pricing or conversion."
+                : s.count > s.booked
+                  ? `${s.count - s.booked} requests are not currently booked. Review pending decisions and closed quotes to understand the reasons.`
+                  : "Your requests are booked or paid. Compare service demand and pickup areas to plan capacity."}
+          </p>
+        </div>
+        <div>
+          <Link href={hasData ? "/dashboard/quotes" : "/dashboard/embed"}>
+            {hasData ? "Open quotes" : "Get embed code"} ↗
+          </Link>
+          <Link href="/dashboard/analytics/funnel">
+            Explore the quote funnel ↗
+          </Link>
+        </div>
+      </section>
+      <section className={styles.panel}>
+        <div className={styles.sectionHeading}>
+          <div>
+            <h2>Recent quote activity</h2>
+            <p>Your six latest requests from this reporting window.</p>
+          </div>
+          <label className={styles.sort}>
+            Sort by
+            <select value={sort} onChange={(e) => setSort(e.target.value)}>
+              <option value="newest">Newest first</option>
+              <option value="value">Highest value</option>
+            </select>
+          </label>
+        </div>
+        {recent.length ? (
+          <div className={styles.tableScroll}>
+            <table>
+              <caption className={styles.srOnly}>Recent quote requests</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Quote</th>
+                  <th scope="col">Route</th>
+                  <th scope="col">Outcome</th>
+                  <th scope="col">Estimate</th>
+                  <th scope="col">Received (UTC)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recent.map((q) => (
+                  <tr key={q.id}>
+                    <th scope="row">
+                      <Link
+                        href={`/dashboard/quotes?quoteId=${encodeURIComponent(q.id)}`}
+                      >
+                        …{q.id.slice(-7)}
+                      </Link>
+                    </th>
+                    <td>{q.route}</td>
+                    <td>
+                      <span className={styles.tag}>{q.status}</span>
+                    </td>
+                    <td>{money(q.value)}</td>
+                    <td>
+                      {new Date(q.createdAt).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        timeZone: "UTC",
+                      })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className={styles.smallEmpty}>
+            No recent requests to show. Choose a wider window or check your form
+            setup.
+          </div>
+        )}
+        <Link className={styles.textButton} href="/dashboard/quotes">
+          View all quotes →
+        </Link>
+      </section>
+      <details className={styles.definitions}>
+        <summary>How to read these numbers</summary>
+        <div>
+          <p>
+            <strong>Reporting window:</strong> UTC calendar days including
+            today. The previous period is the same number of days immediately
+            before this window; today is partial.
+          </p>
+          <p>
+            <strong>Quoted value:</strong> The sum of estimated prices on
+            requests created in the window, including closed requests. Open
+            quote value includes pending requests only. Neither is collected
+            revenue.
+          </p>
+          <p>
+            <strong>Booking rate:</strong> Requests currently marked Won,
+            Confirmed or Paid, or with a Paid payment status, divided by all
+            requests in this window. It describes this quote cohort, not
+            payments received during the window.
+          </p>
+          <p>
+            <strong>Data scope:</strong> Only this company’s non-deleted quote
+            requests. Archived/deleted requests are excluded. No activity means
+            no measured rate or average. Refresh updates the snapshot.
+          </p>
+        </div>
+      </details>
+    </div>
   );
 }

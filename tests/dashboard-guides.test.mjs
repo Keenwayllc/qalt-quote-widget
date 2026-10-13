@@ -75,7 +75,7 @@ test("walkthrough order and navigation respect plans and selected forms", () => 
   assert.deepEqual(gettingStartedSteps.map((step) => step.label),
     ["Pricing Settings", "Widget Appearance", "Preview Widget", "Get Embed Code", "My Forms", "Quotes", "Analytics"]);
   const analytics = gettingStartedSteps.at(-1);
-  assert.equal(guideActionHref(analytics, getEntitlements("STARTER"), "merchant"), "/dashboard/billing");
+  assert.equal(guideActionHref(analytics, getEntitlements("STARTER"), "merchant"), "/dashboard/analytics");
   for (const plan of ["PRO", "ENTERPRISE"]) {
     assert.equal(guideActionHref(analytics, getEntitlements(plan), "merchant"), "/dashboard/analytics");
   }
