@@ -24,13 +24,13 @@ export default function QaltAnimatedLogo({
 }: QaltAnimatedLogoProps) {
   const light = white || onDark;
   const variant = iconOnly ? "icon" : "wordmark";
-  const darkSrc = `/images/qalt-${variant}-2026-10.png`;
-  const lightSrc = `/images/qalt-${variant}-light-2026-10.png`;
+  const darkSrc = `/images/qalt-${variant}-2026-10-clean.svg`;
+  const lightSrc = `/images/qalt-${variant}-light-2026-10-clean.svg`;
   const imageProps = {
     width: iconOnly ? 512 : 1961,
     height: iconOnly ? 512 : 422,
     sizes: iconOnly ? "48px" : "(max-width: 767px) 150px, 224px",
-    // These shared PNGs are also used in external embeds and email branding.
+    // Outlined SVG artwork stays sharp at every screen size.
     unoptimized: true,
     draggable: false,
   } as const;

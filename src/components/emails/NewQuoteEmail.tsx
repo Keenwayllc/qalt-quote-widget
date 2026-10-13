@@ -32,7 +32,7 @@ export const NewQuoteEmail: React.FC<Readonly<NewQuoteEmailProps>> = ({
       {/* Header */}
       <div style={{ padding: '32px 32px 24px', textAlign: 'center', backgroundColor: '#ffffff', borderBottom: '1px solid #eeeeeb' }}>
         <img
-          src="https://qalt.site/images/qalt-wordmark-2026-10.png"
+          src="https://qalt.site/images/qalt-wordmark-2026-10.png?v=20261013"
           alt="Qalt"
           height="64"
           style={{ display: 'block', margin: '0 auto 16px', width: 'auto', maxWidth: '240px', objectFit: 'contain' }}

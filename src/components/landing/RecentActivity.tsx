@@ -102,7 +102,7 @@ function ActivityCards() {
         <button onClick={dismiss} aria-label="Dismiss activity cards" className="-mr-1 -mt-1 rounded-md p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline-2 focus-visible:outline-red-600"><X size={16} /></button>
       </div>
       <div key={item.id} className="mt-1 flex items-center gap-3 motion-safe:animate-[qalt-logo-enter_250ms_ease-out_both]">
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-slate-50"><Image src="/images/qalt-icon-2026-10.png" alt="" width={36} height={36} unoptimized /></div>
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-slate-50"><Image src="/images/qalt-icon-2026-10-clean.svg" alt="" width={36} height={36} unoptimized /></div>
         <div className="min-w-0"><p className="text-xs text-slate-500">A company</p><p className="mt-0.5 text-sm font-bold">{activityMessage(item)}</p><p className="mt-1 text-[11px] text-slate-500">{activityAge(item.occurredAt, now)}</p></div>
       </div>
       <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-2.5">

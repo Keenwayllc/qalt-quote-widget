@@ -20,7 +20,7 @@ export default function BrandedFleetPosters() {
     <div className="mt-12 grid gap-5 lg:grid-cols-2">
       <article className="relative isolate flex min-w-0 flex-col overflow-hidden border border-slate-200 bg-[#f4f2ec] px-6 pb-6 pt-7 sm:px-9 sm:pb-8 sm:pt-9">
         <BrandDiagonal />
-        <Image src="/images/qalt-wordmark-2026-10.png" alt="Qalt" width={1961} height={422} className="relative h-auto w-24 sm:w-28" sizes="112px" />
+        <Image src="/images/qalt-wordmark-2026-10-clean.svg" alt="Qalt" width={1961} height={422} className="relative h-auto w-24 sm:w-28" sizes="112px" />
         <h3 className="relative mt-9 text-[clamp(2.25rem,5vw,3.75rem)] font-black leading-[0.95] tracking-[-0.055em]">
           Your fleet.<br />Your pricing.
         </h3>
@@ -40,7 +40,7 @@ export default function BrandedFleetPosters() {
 
       <article className="relative isolate flex min-w-0 flex-col overflow-hidden bg-[#151719] px-6 pb-6 pt-7 text-white sm:px-9 sm:pb-8 sm:pt-9">
         <BrandDiagonal dark />
-        <Image src="/images/qalt-wordmark-light-2026-10.png" alt="Qalt" width={1961} height={422} className="relative h-auto w-24 sm:w-28" sizes="112px" />
+        <Image src="/images/qalt-wordmark-light-2026-10-clean.svg" alt="Qalt" width={1961} height={422} className="relative h-auto w-24 sm:w-28" sizes="112px" />
         <h3 className="relative mt-9 text-[clamp(2.25rem,5vw,3.75rem)] font-black leading-[0.95] tracking-[-0.055em]">
           From two wheels.<br />To a full fleet.
         </h3>

@@ -29,7 +29,7 @@ export const SupportContactEmail: React.FC<Readonly<SupportContactEmailProps>> =
 }) => (
   <div style={{ fontFamily: "system-ui, -apple-system, sans-serif", padding: "40px 20px", maxWidth: "640px", margin: "0 auto", backgroundColor: "#ffffff" }}>
     <div style={{ backgroundColor: "#17191e", borderRadius: "24px 24px 0 0", padding: "40px 32px", textAlign: "center", marginBottom: "28px" }}>
-      <img src="https://qalt.site/images/qalt-wordmark-2026-10.png" alt="Qalt Logo" height="44" style={{ display: "block", margin: "0 auto 16px", borderRadius: "8px", padding: "6px 16px", backgroundColor: "#ffffff" }} />
+      <img src="https://qalt.site/images/qalt-wordmark-2026-10.png?v=20261013" alt="Qalt Logo" height="44" style={{ display: "block", margin: "0 auto 16px", borderRadius: "8px", padding: "6px 16px", backgroundColor: "#ffffff" }} />
       <p style={{ margin: 0, color: "#fda4af", fontSize: "13px", fontWeight: "800", letterSpacing: "0.12em", textTransform: "uppercase" }}>
         Customer Support Request
       </p>

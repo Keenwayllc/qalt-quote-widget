@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1961" height="422" viewBox="0 0 1961 422">
+  <title>qalt-wordmark-light-vector-source.svg</title>
+  <g id="Layer_1" data-name="Layer 1">
+    <path d="M218 0 L310 0 C447 0 527 83 527 211 C527 258 515 301 490 332 L411 239 L411 218 C411 143 381 106 311 106 L214 106 C145 106 115 144 115 213 C115 286 145 323 214 323 L248 323 L331 422 L217 422 C80 422 0 343 0 213 C0 83 80 0 218 0 Z" fill="#f4f4f4"/>
+    <path d="M214 233 L362 233 L522 422 L374 422 Z" fill="#ed0c14"/>
+    <path d="M787 0 L902 0 L1112 422 L974 422 L842 134 L693 422 L559 422 Z" fill="#f4f4f4"/>
+    <path d="M1183 0 L1312 0 L1312 326 L1566 326 L1566 422 L1183 422 Z" fill="#f4f4f4"/>
+    <path d="M1508 0 L1961 0 L1961 98 L1787 98 L1787 422 L1655 422 L1655 98 L1508 98 Z" fill="#f4f4f4"/>
+  </g>
+</svg>

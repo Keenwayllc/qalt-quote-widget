@@ -22,7 +22,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
       marginBottom: '32px'
     }}>
       <img 
-        src="https://qalt.site/images/qalt-wordmark-2026-10.png"
+        src="https://qalt.site/images/qalt-wordmark-2026-10.png?v=20261013"
         alt="Qalt Logo"
         height="44"
         style={{ display: 'block', margin: '0 auto 16px', borderRadius: '8px', padding: '6px 16px', backgroundColor: '#ffffff' }} 

@@ -48,9 +48,9 @@ export const metadata: Metadata = {
     type: "website",
   },
   icons: {
-    icon: "/images/qalt-icon-2026-10.png",
-    shortcut: "/images/qalt-icon-2026-10.png",
-    apple: "/images/qalt-apple-touch-2026-10.png",
+    icon: "/images/qalt-favicon-2026-10-clean.svg",
+    shortcut: "/images/qalt-icon-2026-10.png?v=20261013",
+    apple: "/images/qalt-icon-2026-10.png?v=20261013",
   },
 };
 
