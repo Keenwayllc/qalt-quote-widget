@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
+import { CustomerContactPreview } from "@/components/customer-contact-preview";
 import { ArrowLeft, Building2, CheckCircle2, Clock3, FileText, Mail, Phone, Save } from "lucide-react";
 
 type Contact = {
@@ -16,6 +17,7 @@ const EMPTY: Contact = { department: "", email: "", phone: "", hours: "", websit
 
 export default function CustomerContactSettingsPage() {
   const [contact, setContact] = useState<Contact>(EMPTY);
+  const [persisted, setPersisted] = useState<Contact | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -26,13 +28,15 @@ export default function CustomerContactSettingsPage() {
       .then(async (r) => {
         const data = await r.json();
         if (!r.ok) throw new Error(data.error || "Could not load settings");
-        setContact({
+        const loaded = {
           department: data.department ?? "",
           email: data.email ?? "",
           phone: data.phone ?? "",
           hours: data.hours ?? "",
           website: data.website ?? "",
-        });
+        };
+        setContact(loaded);
+        setPersisted(loaded);
       })
       .catch((e) => setError(e instanceof Error ? e.message : "Could not load settings"))
       .finally(() => setLoading(false));
@@ -61,14 +65,16 @@ export default function CustomerContactSettingsPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Could not save settings");
-      setContact((prev) => ({
-        ...prev,
+      const committed = {
+        ...contact,
         department: data.contact.department ?? "",
         email: data.contact.email ?? "",
         phone: data.contact.phone ?? "",
         hours: data.contact.hours ?? "",
-        website: data.contact.website ?? prev.website,
-      }));
+        website: data.contact.website ?? contact.website,
+      };
+      setContact(committed);
+      setPersisted(committed);
       setSaved(true);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Could not save settings");
@@ -81,10 +87,10 @@ export default function CustomerContactSettingsPage() {
     return <div className="grid min-h-[280px] place-items-center"><div className="h-6 w-6 animate-spin rounded-full border-2 border-red-600 border-t-transparent" /></div>;
   }
 
-  const hasPublicContact = contact.department || contact.email || contact.phone || contact.hours;
+  const dirty = persisted !== null && (["department", "email", "phone", "hours"] as const).some((key) => contact[key] !== persisted[key]);
 
   return (
-    <div className="max-w-4xl p-4 sm:p-8">
+    <div className="max-w-6xl p-4 sm:p-8">
       <Link href="/dashboard/settings" className="mb-5 inline-flex items-center gap-2 text-sm font-bold text-slate-500 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
         <ArrowLeft size={16} /> Account Settings
       </Link>
@@ -109,58 +115,42 @@ export default function CustomerContactSettingsPage() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,400px)]">
         <form onSubmit={save} className="space-y-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-white/[0.07] dark:bg-[#151515] sm:p-7">
           <div>
             <h2 className="text-base font-black text-slate-900 dark:text-white">Default customer contact</h2>
             <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">This is the contact identity customers see across quote and payment communications. You can change it at any time.</p>
           </div>
 
-          <Field icon={Building2} label="Department or team" value={contact.department} onChange={set("department")} placeholder="Quotes & Customer Service" />
-          <Field icon={Mail} label="Customer-facing email" value={contact.email} onChange={set("email")} placeholder="quotes@yourcompany.com" type="email" hint="Shown to customers on quotes, emails, invoices, and PDFs. Customer replies are sent here." />
-          <Field icon={Phone} label="Customer-facing phone" value={contact.phone} onChange={set("phone")} placeholder="(555) 555-0123" type="tel" />
-          <Field icon={Clock3} label="Support hours" value={contact.hours} onChange={set("hours")} placeholder="Mon-Fri, 8 AM-6 PM" />
+          <Field disabled={saving || persisted === null} icon={Building2} label="Department or team" value={contact.department} onChange={set("department")} placeholder="Quotes & Customer Service" />
+          <Field disabled={saving || persisted === null} icon={Mail} label="Customer-facing email" value={contact.email} onChange={set("email")} placeholder="quotes@yourcompany.com" type="email" hint="Shown to customers on quotes, emails, invoices, and PDFs. Customer replies are sent here." />
+          <Field disabled={saving || persisted === null} icon={Phone} label="Customer-facing phone" value={contact.phone} onChange={set("phone")} placeholder="(555) 555-0123" type="tel" />
+          <Field disabled={saving || persisted === null} icon={Clock3} label="Support hours" value={contact.hours} onChange={set("hours")} placeholder="Mon-Fri, 8 AM-6 PM" />
 
-          {error && <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-300">{error}</div>}
-          {saved && <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300"><CheckCircle2 size={16} /> Customer contact saved.</div>}
+          {error && <div role="alert" className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-300">{error}</div>}
+          {saved && <div role="status" className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300"><CheckCircle2 size={16} /> Customer contact saved.</div>}
 
-          <button type="submit" disabled={saving} className="inline-flex h-11 items-center gap-2 rounded-xl bg-red-600 px-5 text-sm font-black text-white transition hover:bg-red-700 disabled:opacity-50">
+          <button type="submit" disabled={saving || persisted === null} className="inline-flex h-11 items-center gap-2 rounded-xl bg-red-600 px-5 text-sm font-black text-white transition hover:bg-red-700 disabled:opacity-50">
             <Save size={16} /> {saving ? "Saving..." : "Save customer contact"}
           </button>
         </form>
 
-        <aside className="h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-white/[0.07] dark:bg-[#151515]">
-          <div className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Customer preview</div>
-          <div className="mt-5 rounded-2xl border border-slate-200 p-5 dark:border-white/[0.08]">
-            <div className="text-sm font-black text-slate-900 dark:text-white">Need help?</div>
-            <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">Contact your delivery provider about this quote.</p>
-            {hasPublicContact ? (
-              <div className="mt-4 space-y-2 text-sm font-bold text-slate-700 dark:text-slate-200">
-                {contact.department && <div>{contact.department}</div>}
-                {contact.email && <div>{contact.email}</div>}
-                {contact.phone && <div>{contact.phone}</div>}
-                {contact.hours && <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">{contact.hours}</div>}
-                {contact.website && <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">{contact.website}</div>}
-              </div>
-            ) : (
-              <p className="mt-4 text-xs font-semibold leading-5 text-slate-500 dark:text-slate-400">Add a customer-facing contact so customers know who to reach with questions about their quote.</p>
-            )}
-          </div>
-        </aside>
+        <CustomerContactPreview contact={contact} status={persisted === null ? "unavailable" : dirty ? "draft" : "saved"} />
       </div>
     </div>
   );
 }
 
-function Field({ icon: Icon, label, value, onChange, placeholder, type = "text", hint }: { icon: React.ElementType; label: string; value: string; onChange: (value: string) => void; placeholder: string; type?: string; hint?: string }) {
+function Field({ icon: Icon, label, value, onChange, placeholder, type = "text", hint, disabled }: { icon: React.ElementType; label: string; value: string; onChange: (value: string) => void; placeholder: string; type?: string; hint?: string; disabled?: boolean }) {
+  const id = useId();
   return (
     <div>
-      <label className="mb-1.5 block text-sm font-bold text-slate-700 dark:text-slate-300">{label}</label>
+      <label htmlFor={id} className="mb-1.5 block text-sm font-bold text-slate-700 dark:text-slate-300">{label}</label>
       <div className="relative">
         <Icon size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-        <input type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} className="w-full rounded-xl border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm font-semibold text-slate-900 outline-none transition placeholder:font-medium placeholder:text-slate-400 focus:border-red-400 focus:ring-4 focus:ring-red-500/10 dark:border-white/[0.08] dark:bg-[#1d1d1d] dark:text-white" />
+        <input id={id} disabled={disabled} aria-describedby={hint ? `${id}-hint` : undefined} type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} className="w-full rounded-xl border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm font-semibold text-slate-900 outline-none transition placeholder:font-medium placeholder:text-slate-400 focus:border-red-400 focus:ring-4 focus:ring-red-500/10 dark:border-white/[0.08] dark:bg-[#1d1d1d] dark:text-white" />
       </div>
-      {hint && <p className="mt-1.5 text-xs text-slate-400">{hint}</p>}
+      {hint && <p id={`${id}-hint`} className="mt-1.5 text-xs text-slate-400">{hint}</p>}
     </div>
   );
 }
