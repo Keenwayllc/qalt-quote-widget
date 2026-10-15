@@ -48,9 +48,9 @@ export const metadata: Metadata = {
     type: "website",
   },
   icons: {
-    icon: "/images/qalt-favicon-2026-10-clean.svg",
-    shortcut: "/images/qalt-icon-2026-10.png?v=20261013",
-    apple: "/images/qalt-icon-2026-10.png?v=20261013",
+    icon: [{ url: "/images/qalt-favicon-2026-10-clean.svg?v=20261015", type: "image/svg+xml", sizes: "any" }, { url: "/images/qalt-icon-2026-10.png?v=20261015", type: "image/png", sizes: "512x512" }],
+    shortcut: "/images/qalt-favicon-2026-10-clean.svg?v=20261015",
+    apple: "/images/qalt-icon-2026-10.png?v=20261015",
   },
 };
 
