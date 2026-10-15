@@ -72,6 +72,32 @@ model Company {
   jobs                 Job[]
   customerDocuments    CustomerDocument[]
   widgetInstallations  WidgetInstallation[]
+  costProfiles         MerchantCostProfile[]
+}
+
+// Merchant-only cost assumptions for profit estimates (src/lib/merchant-intelligence.ts).
+// vehicleKey "" is the company default; per-vehicle rows override it and a null
+// field inherits the default. Never used to price quotes or Stripe charges.
+model MerchantCostProfile {
+  id                  String   @id @default(cuid())
+  companyId           String
+  vehicleKey          String   @default("")
+  label               String   @default("All vehicles")
+  fuelPricePerGallon  Float?
+  milesPerGallon      Float?
+  driverHourlyCost    Float?
+  averageSpeedMph     Float?
+  handlingMinutes     Float?
+  deadheadMiles       Float?
+  tollsPerJob         Float?
+  otherCostPerJob     Float?
+  targetMarginPercent Float?
+  followUpAfterHours  Int?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @default(now()) @updatedAt
+  company             Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, vehicleKey])
 }
 
 model PricingProfile {

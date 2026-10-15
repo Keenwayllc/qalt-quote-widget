@@ -45,6 +45,20 @@ export const pageGuides: Record<string, PageGuide> = {
     requirement: "Analytics is available on every plan. Each dashboard shows only its own company data.",
     next: { label: "Review your forms", href: "/dashboard/forms" },
   },
+  "/dashboard/intelligence": {
+    title: "Intelligence",
+    purpose: "See which quotes need a follow-up, which ones make money, and where your pricing may be too low.",
+    controls: ["Choose today, 7 days or 30 days for quote insights. Select a pipeline number or filter to narrow the quote list.", "Ask Qalt a question about your quotes, or review a pricing recommendation. Nothing changes until you confirm it."],
+    configure: "Add your cost settings so every quote shows an estimated profit. Customers never see these numbers.",
+    next: { label: "Set up your costs", href: "/dashboard/intelligence/costs" },
+  },
+  "/dashboard/intelligence/costs": {
+    title: "Cost settings",
+    purpose: "Tell Qalt what a delivery costs you so it can estimate profit on each quote.",
+    controls: ["Fuel price, fuel efficiency, driver cost and average speed are needed for an estimate. Other costs are optional.", "Add a vehicle override only for numbers that differ, such as fuel efficiency."],
+    configure: "These numbers are private and never change a customer price or checkout amount.",
+    next: { label: "Back to Intelligence", href: "/dashboard/intelligence" },
+  },
   "/dashboard/analytics/funnel": {
     title: "Quote funnel",
     purpose: "Compare quote starts, completed quotes, bookings, and payments over the last 30 days.",

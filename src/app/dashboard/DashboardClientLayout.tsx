@@ -26,6 +26,7 @@ import {
   Star,
   Shield,
   Mail,
+  Sparkles,
 } from "lucide-react";
 import { getEntitlements } from "@/lib/plans";
 import ThemeToggle from "@/components/shared/ThemeToggle";
@@ -137,6 +138,7 @@ function DashboardLayoutInner({
       icon: BarChart3,
       isLocked: !entitlements.isAnalyticsDashboardEnabled
     },
+    { name: "Intelligence", href: "/dashboard/intelligence", icon: Sparkles },
     { name: "My Forms", href: "/dashboard/forms", icon: FormInput },
     { name: "Pricing Settings", href: "/dashboard/pricing", icon: DollarSign },
     { name: "Widget Appearance", href: "/dashboard/widget", icon: Settings },

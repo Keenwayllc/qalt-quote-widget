@@ -28,6 +28,7 @@ const destinations = [
   { name: "Overview", href: "/dashboard", icon: LayoutDashboard, keywords: "home dashboard", group: "Navigation" },
   { name: "Quotes", href: "/dashboard/quotes", icon: FileText, keywords: "customers estimates sales pipeline pdf documents", group: "Navigation" },
   { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3, keywords: "reports metrics performance", group: "Navigation" },
+  { name: "Intelligence", href: "/dashboard/intelligence", icon: BarChart3, keywords: "profit margin follow-up alerts assistant recommendations costs", group: "Navigation" },
   { name: "My Forms", href: "/dashboard/forms", icon: FormInput, keywords: "quote forms widgets", group: "Build" },
   { name: "Pricing Settings", href: "/dashboard/pricing", icon: DollarSign, keywords: "rates mileage fees price", group: "Build" },
   { name: "Widget Appearance", href: "/dashboard/widget", icon: Settings, keywords: "branding colors logo theme light dark", group: "Build" },
