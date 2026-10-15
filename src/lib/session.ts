@@ -55,9 +55,25 @@ export const getCurrentCompany = cache(async function getCurrentCompany() {
   return company;
 });
 
-/** Returns the company-level default pricing (widgetSettingsId === null) */
+/**
+ * Returns the company-level default pricing (widgetSettingsId === null). If a
+ * company has more than one (older form deletions left orphans), the oldest
+ * wins, matching every `findFirst({ orderBy: { id: "asc" } })` lookup.
+ */
 export function getDefaultPricing(company: Awaited<ReturnType<typeof getCurrentCompany>>) {
-  return company.pricingProfiles.find((p) => p.widgetSettingsId === null) ?? null;
+  return company.pricingProfiles.filter((p) => p.widgetSettingsId === null).sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))[0] ?? null;
+}
+
+/**
+ * The pricing customers actually get when the company has exactly one form:
+ * that form's own profile if it has one, else the company default.
+ */
+export function getEffectivePricing(company: Awaited<ReturnType<typeof getCurrentCompany>>) {
+  if (company.widgetSettings.length === 1) {
+    const own = company.pricingProfiles.find((p) => p.widgetSettingsId === company.widgetSettings[0].id);
+    if (own) return own;
+  }
+  return getDefaultPricing(company);
 }
 
 /**

@@ -85,8 +85,7 @@ export async function GET(req: Request) {
     }
 
     const profile = await prisma.pricingProfile.findFirst({
-      where: { companyId: payload.companyId, widgetSettingsId: null },
-    });
+      where: { companyId: payload.companyId, widgetSettingsId: null }, orderBy: { id: "asc" } });
 
     return NextResponse.json({ profile });
   } catch (error) {
@@ -120,8 +119,7 @@ export async function POST(req: Request) {
       });
     } else {
       const existing = await prisma.pricingProfile.findFirst({
-        where: { companyId: payload.companyId, widgetSettingsId: null },
-      });
+        where: { companyId: payload.companyId, widgetSettingsId: null }, orderBy: { id: "asc" } });
 
       if (existing) {
         await prisma.pricingProfile.update({ where: { id: existing.id }, data: fields as Parameters<typeof prisma.pricingProfile.update>[0]["data"] });
@@ -192,8 +190,7 @@ export async function PATCH(req: Request) {
         await prisma.pricingProfile.update({ where: { id: dedicated.id }, data: patch as Parameters<typeof prisma.pricingProfile.update>[0]["data"] });
       } else {
         const companyDefault = await prisma.pricingProfile.findFirst({
-          where: { companyId: payload.companyId, widgetSettingsId: null },
-        });
+          where: { companyId: payload.companyId, widgetSettingsId: null }, orderBy: { id: "asc" } });
         const baseFields = companyDefault ? {
           baseRatePerMile: companyDefault.baseRatePerMile,
           minimumCharge: companyDefault.minimumCharge,
@@ -228,8 +225,7 @@ export async function PATCH(req: Request) {
     }
 
     const profile = await prisma.pricingProfile.findFirst({
-      where: { companyId: payload.companyId, widgetSettingsId: null },
-    });
+      where: { companyId: payload.companyId, widgetSettingsId: null }, orderBy: { id: "asc" } });
 
     if (profile) {
       await prisma.pricingProfile.update({ where: { id: profile.id }, data: patch as Parameters<typeof prisma.pricingProfile.update>[0]["data"] });

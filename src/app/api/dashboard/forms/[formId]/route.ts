@@ -112,7 +112,12 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ form
       return NextResponse.json({ error: "You must keep at least one form." }, { status: 400 });
     }
 
-    await prisma.widgetSettings.delete({ where: { id: formId } });
+    // Delete the form's own pricing with it. The foreign key is ON DELETE SET
+    // NULL, which would otherwise turn it into a second "company default".
+    await prisma.$transaction([
+      prisma.pricingProfile.deleteMany({ where: { widgetSettingsId: formId, companyId: payload.companyId } }),
+      prisma.widgetSettings.delete({ where: { id: formId } }),
+    ]);
 
     return NextResponse.json({ success: true });
   } catch (error) {

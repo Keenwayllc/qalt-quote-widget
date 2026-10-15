@@ -84,7 +84,7 @@ function loader({
     name === "@/lib/session"
       ? {
           getCurrentCompany: async () => company,
-          getDefaultPricing: () => null,
+          getEffectivePricing: () => null,
         }
       : name === "@/lib/plans"
         ? { getEntitlements, quotaMonthStart }

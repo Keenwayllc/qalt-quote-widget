@@ -492,7 +492,7 @@ export default function OverviewWorkspace({ data }: { data: OverviewData }) {
             </div>
             <dl className={s.configuration}>
               <div>
-                <dt>Default base rate</dt>
+                <dt>Base rate</dt>
                 <dd>
                   {data.baseRate === null
                     ? "Not configured"

@@ -1,4 +1,4 @@
-import { getCurrentCompany, getDefaultPricing } from "@/lib/session";
+import { getCurrentCompany, getEffectivePricing } from "@/lib/session";
 import { getEntitlements, quotaMonthStart } from "@/lib/plans";
 import prisma from "@/lib/prisma";
 import { getCustomerFacingContact } from "@/lib/customer-contact";
@@ -11,7 +11,8 @@ function result<T>(value: PromiseSettledResult<T>): T | null {
 }
 export async function loadOverview(now = new Date()) {
   const company = await getCurrentCompany();
-  const pricing = getDefaultPricing(company);
+  // The rate customers are quoted: the only form's own pricing, else the company default.
+  const pricing = getEffectivePricing(company);
   const monthStart = quotaMonthStart(now);
   const { previousStart } = analyticsWindow(7, now);
   const tenant = { companyId: company.id, deletedAt: null };
