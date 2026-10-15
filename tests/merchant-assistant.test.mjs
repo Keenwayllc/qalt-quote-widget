@@ -97,3 +97,7 @@ test("unknown questions get help, not a guess", () => {
   assert.equal(a.intent, "help");
   assert.equal(a.matched, false);
 });
+
+test("the assistant introduces itself as Quinn", () => {
+  assert.match(ask("what's the weather?").answer, /^I'm Quinn\./);
+});

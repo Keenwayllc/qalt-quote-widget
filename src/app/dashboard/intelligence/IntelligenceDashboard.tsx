@@ -521,8 +521,8 @@ function AssistantPanel({ suggestions }: { suggestions: string[] }) {
     <section className={`${styles.panel} ${styles.assistant}`} aria-labelledby="assistant-title">
       <div className={styles.panelHead}>
         <div>
-          <h2 id="assistant-title">Ask Qalt</h2>
-          <p>Answers come from your quotes and cost settings. It can&apos;t change prices, bookings or message customers.</p>
+          <h2 id="assistant-title">Ask Quinn</h2>
+          <p>Quinn, your Qalt assistant, answers from your quotes and cost settings. Quinn can&apos;t change prices or bookings, or message customers.</p>
         </div>
       </div>
       <form
@@ -539,7 +539,7 @@ function AssistantPanel({ suggestions }: { suggestions: string[] }) {
           className={styles.input}
           value={question}
           maxLength={300}
-          placeholder="Which deliveries have low margins?"
+          placeholder="Ask Quinn: which deliveries have low margins?"
           onChange={(e) => setQuestion(e.target.value)}
         />
         <button type="submit" className={styles.buttonPrimary} disabled={busy || !question.trim()}>

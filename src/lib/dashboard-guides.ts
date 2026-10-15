@@ -48,7 +48,7 @@ export const pageGuides: Record<string, PageGuide> = {
   "/dashboard/intelligence": {
     title: "Intelligence",
     purpose: "See which quotes need a follow-up, which ones make money, and where your pricing may be too low.",
-    controls: ["Choose today, 7 days or 30 days for quote insights. Select a pipeline number or filter to narrow the quote list.", "Ask Qalt a question about your quotes, or review a pricing recommendation. Nothing changes until you confirm it."],
+    controls: ["Choose today, 7 days or 30 days for quote insights. Select a pipeline number or filter to narrow the quote list.", "Ask Quinn, your Qalt assistant, a question about your quotes, or review a pricing recommendation. Nothing changes until you confirm it."],
     configure: "Add your cost settings so every quote shows an estimated profit. Customers never see these numbers.",
     next: { label: "Set up your costs", href: "/dashboard/intelligence/costs" },
   },
