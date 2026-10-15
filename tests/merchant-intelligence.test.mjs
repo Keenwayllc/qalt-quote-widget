@@ -197,3 +197,28 @@ test("minimum charge proposal reaches target and is withheld when forms have the
   const blocked = mi.buildRecommendations(rows, [base], { ...pricing, hasFormSpecificPricing: true }, now);
   assert.equal(blocked.find((r) => r.kind === "minimum_charge").proposal, null);
 });
+
+test("table filters, search and pagination stay server side and bounded", () => {
+  const rows = mi.analyzeQuotes(
+    Array.from({ length: 45 }, (_, i) => quote({ id: `t${i}`, customerName: i === 7 ? "Rosa Diaz" : `C${i}`, createdAt: hoursAgo(i * 2) })),
+    [base],
+    now,
+  );
+  assert.equal(mi.parseFilter("nope"), "all");
+  assert.equal(mi.searchQuotes(rows, "rosa").length, 1);
+  assert.equal(mi.searchQuotes(rows, "  ").length, 45);
+  const followUps = rows.filter((q) => mi.matchesFilter(q, "follow_up", new Set()));
+  assert.ok(followUps.every((q) => q.ageHours > 24));
+  const last = mi.paginate(rows, 99);
+  assert.deepEqual([last.page, last.pages, last.rows.length, last.total], [3, 3, 5, 45]);
+  assert.equal(mi.paginate([], 1).pages, 1);
+  assert.equal(mi.paginate(rows, Number.NaN).page, 1);
+});
+
+test("booked low-margin quotes are not alerts but stay filterable", () => {
+  const rows = mi.analyzeQuotes([quote({ id: "bk", status: "WON", estimatedPrice: 90 }), quote({ id: "op", estimatedPrice: 90 })], [base], now);
+  const alerts = mi.buildAlerts(rows, [], [base], now);
+  assert.deepEqual(alerts.map((a) => a.quoteId), ["op"]);
+  assert.equal(alerts[0].reasons[0], "Estimated loss of $7.00");
+  assert.ok(mi.matchesFilter(rows[0], "low_margin", new Set()));
+});

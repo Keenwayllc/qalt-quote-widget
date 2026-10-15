@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import KanbanBoard from "./KanbanBoard";
 import QuoteDocumentsCard from "./QuoteDocumentsCard";
+import QuoteProfitCard from "./QuoteProfitCard";
 
 interface Quote {
   id: string;
@@ -264,6 +265,8 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
                 <span className="text-2xl font-black text-slate-900 dark:text-white">${quote.estimatedPrice.toFixed(2)}</span>
               </div>
             </div>
+
+            <QuoteProfitCard quoteId={quote.id} />
 
             <QuoteDocumentsCard quoteId={quote.id} />
 

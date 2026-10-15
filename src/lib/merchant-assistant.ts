@@ -92,7 +92,7 @@ function inPeriod(quotes: AnalyzedQuote[], period: InsightPeriod, now: Date) {
 }
 
 function line(q: Estimated) {
-  return `${who(q)} (${when(q)}): ${money(q.estimatedPrice)} quote, ${money(q.estimate.profit)} estimated profit, ${pct(q.estimate.marginPercent)} margin`;
+  return `${who(q)} (${when(q)}): ${money(q.estimatedPrice, 2)} quote, ${money(q.estimate.profit, 2)} estimated profit, ${pct(q.estimate.marginPercent)} margin`;
 }
 
 export function answerQuestion(question: string, ctx: Ctx): AssistantAnswer {

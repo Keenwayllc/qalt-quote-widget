@@ -212,7 +212,7 @@ test("quote drill-down opens only a request already present in the tenant-scoped
             default: ({ children, ...props }) =>
               React.createElement("a", props, children),
           }
-        : name === "./KanbanBoard" || name === "./QuoteDocumentsCard"
+        : name === "./KanbanBoard" || name === "./QuoteDocumentsCard" || name === "./QuoteProfitCard"
           ? { __esModule: true, default: () => null }
           : require(name);
   new Function("require", "module", "exports", code)(

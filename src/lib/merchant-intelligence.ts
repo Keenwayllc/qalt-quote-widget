@@ -338,8 +338,11 @@ export function buildAlerts(quotes: AnalyzedQuote[], jobs: IntelJob[], profiles:
       });
     }
     if (issueJobs.has(q.id)) found.push({ kind: "job_issue", reason: "Delivery job marked Issue" });
-    if (q.estimate.status === "ok" && !isClosed(q)) {
-      if (q.estimate.tone === "loss") found.push({ kind: "loss", reason: `Estimated loss of ${money(-q.estimate.profit)}` });
+    // Margin alerts only while the quote is still open: that is when the price
+    // can still change. Booked low-margin quotes stay visible in filters and
+    // recommendations instead of crowding the attention list.
+    if (q.estimate.status === "ok" && (q.stage === "new" || q.stage === "follow_up")) {
+      if (q.estimate.tone === "loss") found.push({ kind: "loss", reason: `Estimated loss of ${money(-q.estimate.profit, 2)}` });
       else if (q.estimate.tone === "below") {
         found.push({
           kind: "below_target",
@@ -700,6 +703,50 @@ export function buildRecommendations(quotes: AnalyzedQuote[], profiles: CostProf
   const rank = { high: 0, medium: 1, info: 2 };
   const unique = new Map(recs.map((r) => [r.id, r]));
   return [...unique.values()].sort((a, b) => rank[a.severity] - rank[b.severity] || b.sampleSize - a.sampleSize);
+}
+
+// ---------------------------------------------------------------------------
+// Quote table: filters, search and pagination (server side, so only one page
+// of rows is ever sent to the browser).
+// ---------------------------------------------------------------------------
+
+export const QUOTE_FILTERS = ["all", "attention", "follow_up", "low_margin", "new", "booked"] as const;
+export type QuoteFilter = (typeof QUOTE_FILTERS)[number];
+export const PAGE_SIZE = 20;
+
+export function parseFilter(value: unknown): QuoteFilter {
+  return QUOTE_FILTERS.includes(value as QuoteFilter) ? (value as QuoteFilter) : "all";
+}
+
+export function matchesFilter(q: AnalyzedQuote, filter: QuoteFilter, alertQuoteIds: Set<string>): boolean {
+  switch (filter) {
+    case "attention":
+      return alertQuoteIds.has(q.id);
+    case "follow_up":
+      return q.stage === "follow_up";
+    case "low_margin":
+      return q.estimate.status === "ok" && q.estimate.tone !== "healthy" && !isClosed(q);
+    case "new":
+      return q.stage === "new";
+    case "booked":
+      return q.stage === "booked";
+    default:
+      return true;
+  }
+}
+
+export function searchQuotes(quotes: AnalyzedQuote[], term: string): AnalyzedQuote[] {
+  const t = term.trim().toLowerCase().slice(0, 80);
+  if (!t) return quotes;
+  return quotes.filter((q) =>
+    [q.customerName, q.pickupZip, q.dropoffZip, q.vehicleType ?? "", q.serviceType, q.id].some((v) => (v ?? "").toLowerCase().includes(t)),
+  );
+}
+
+export function paginate<T>(rows: T[], page: number) {
+  const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+  const current = Math.min(pages, Math.max(1, Number.isInteger(page) ? page : 1));
+  return { rows: rows.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE), page: current, pages, total: rows.length };
 }
 
 // ---------------------------------------------------------------------------

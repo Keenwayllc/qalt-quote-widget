@@ -32,7 +32,8 @@ export async function PUT(request: Request) {
     if (key && !profiles.some((p) => p.vehicleKey === key) && profiles.filter((p) => p.vehicleKey).length >= MAX_VEHICLE_PROFILES) {
       return NextResponse.json({ error: `You can save up to ${MAX_VEHICLE_PROFILES} vehicle cost profiles` }, { status: 400, headers: PRIVATE });
     }
-    const { vehicleKey: _key, ...data } = parsed.profile;
+    const data = { ...parsed.profile } as Partial<typeof parsed.profile>;
+    delete data.vehicleKey;
     const saved = await prisma.merchantCostProfile.upsert({
       where: { companyId_vehicleKey: { companyId: company.id, vehicleKey: key } },
       create: { companyId: company.id, vehicleKey: key, ...data },
