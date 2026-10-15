@@ -832,6 +832,98 @@
   margin-top: 14px;
 }
 
+/* Vehicle picker on the cost settings page */
+.groupHeading {
+  font-size: 11px !important;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 20px 0 10px !important;
+}
+.vehicleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+.vehicleCard {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 12px 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: center;
+  min-width: 0;
+}
+.vehicleCard:hover {
+  border-color: var(--muted);
+}
+.vehicleCard[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.vehicleArt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 64px;
+  color: var(--muted);
+}
+.vehicleArt img {
+  max-width: 100%;
+  max-height: 64px;
+  object-fit: contain;
+}
+.artDark {
+  display: none;
+}
+:global(.dark) .artLight {
+  display: none;
+}
+:global(.dark) .artDark {
+  display: block;
+}
+.vehicleName {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.vehicleEditor {
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 8px;
+  background: var(--surface);
+}
+.requestRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.requestRow > div:first-child p {
+  margin-top: 4px;
+  font-size: 12px;
+}
+.requestRow > :last-child {
+  flex: 1 1 320px;
+  max-width: 560px;
+}
+@media (max-width: 720px) {
+  .vehicleGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 1100px) {
   .root {
     padding: 28px 24px 60px;

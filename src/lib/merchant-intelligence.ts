@@ -9,6 +9,7 @@
  * server-authoritative QuoteRequest.estimatedPrice.
  */
 import { estimateQuoteProfit } from "./quote-profit-intelligence";
+import { VEHICLE_ARTWORK_CHOICES, inferVehicleArtwork } from "./form-vehicles";
 
 // ---------------------------------------------------------------------------
 // Cost profiles
@@ -52,11 +53,31 @@ export function vehicleKey(name: string | null | undefined): string {
   return (name ?? "").trim().toLowerCase().replace(/\s+/g, " ").slice(0, 80);
 }
 
-/** Per-vehicle row overrides the default row field by field; null inherits. */
+/**
+ * Cost key of the Qalt catalog vehicle a custom name maps to ("Big Box Truck
+ * 26ft" -> "box truck - 26 ft"), or null when the name is not recognisable.
+ */
+export function catalogVehicleKey(name: string | null | undefined): string | null {
+  const n = (name ?? "").trim().toLowerCase();
+  if (!n) return null;
+  const kind = inferVehicleArtwork(n);
+  // inferVehicleArtwork falls back to cargo van for unknown names; only trust it for vans.
+  if (kind === "cargo-van" && !/\bvan\b/.test(n)) return null;
+  const choice = VEHICLE_ARTWORK_CHOICES.find((c) => c.key === kind);
+  return choice ? vehicleKey(choice.label) : null;
+}
+
+/**
+ * Per-vehicle row overrides the default row field by field; null inherits.
+ * An exact name match wins, then the catalog vehicle the name maps to.
+ */
 export function resolveCosts(profiles: CostProfile[], vehicleType: string | null | undefined): ResolvedCosts {
   const base = profiles.find((p) => p.vehicleKey === "");
   const key = vehicleKey(vehicleType);
-  const specific = key ? profiles.find((p) => p.vehicleKey === key) : undefined;
+  const catalogKey = catalogVehicleKey(vehicleType);
+  const specific = key
+    ? profiles.find((p) => p.vehicleKey === key) ?? (catalogKey ? profiles.find((p) => p.vehicleKey === catalogKey) : undefined)
+    : undefined;
   const values = {} as ResolvedCosts["values"];
   const inherited: CostFieldKey[] = [];
   for (const { key: field } of COST_FIELDS) {

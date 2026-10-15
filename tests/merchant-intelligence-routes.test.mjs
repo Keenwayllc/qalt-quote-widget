@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import ts from "typescript";
 import * as engine from "../src/lib/quote-profit-intelligence.ts";
+import * as formVehicles from "../src/lib/form-vehicles.ts";
 
 const require = createRequire(import.meta.url);
 function load(file, deps) {
@@ -17,7 +18,7 @@ function load(file, deps) {
   }, module, module.exports);
   return module.exports;
 }
-const mi = load("lib/merchant-intelligence.ts", { "./quote-profit-intelligence": engine });
+const mi = load("lib/merchant-intelligence.ts", { "./quote-profit-intelligence": engine, "./form-vehicles": formVehicles });
 const assistant = load("lib/merchant-assistant.ts", { "./merchant-intelligence": mi });
 const nextServer = { NextResponse: { json: (body, init = {}) => ({ status: init.status ?? 200, body, headers: init.headers }) } };
 

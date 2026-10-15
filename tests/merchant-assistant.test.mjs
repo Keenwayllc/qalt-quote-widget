@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import ts from "typescript";
 import * as engine from "../src/lib/quote-profit-intelligence.ts";
+import * as formVehicles from "../src/lib/form-vehicles.ts";
 
 const require = createRequire(import.meta.url);
 function load(file, deps) {
@@ -14,7 +15,7 @@ function load(file, deps) {
   new Function("require", "module", "exports", code)((n) => deps[n] ?? require(n), module, module.exports);
   return module.exports;
 }
-const mi = load("merchant-intelligence.ts", { "./quote-profit-intelligence": engine });
+const mi = load("merchant-intelligence.ts", { "./quote-profit-intelligence": engine, "./form-vehicles": formVehicles });
 const assistant = load("merchant-assistant.ts", { "./merchant-intelligence": mi });
 
 const now = new Date("2026-10-14T18:00:00Z");
