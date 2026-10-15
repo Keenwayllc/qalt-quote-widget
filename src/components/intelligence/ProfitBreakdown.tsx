@@ -79,7 +79,8 @@ export default function ProfitBreakdown({ estimate }: { estimate: ProfitEstimate
       </dl>
       <p className={styles.note}>
         Assumes {a.estimatedHours} hours on the job with your {a.vehicleSpecific ? `${a.profileLabel} ` : ""}cost settings. A planning estimate only: customers never see it, and it
-        never changes the quote or the checkout amount. <Link href="/dashboard/intelligence/costs">Edit assumptions</Link>
+        never changes the quote or the checkout amount.
+        {a.unsetOptional?.length ? ` Not set, counted as $0: ${a.unsetOptional.join(", ").toLowerCase()}.` : ""} <Link href="/dashboard/intelligence/costs">Edit assumptions</Link>
       </p>
     </div>
   );

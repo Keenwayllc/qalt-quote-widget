@@ -192,7 +192,8 @@ test("minimum charge proposal reaches target and is withheld when forms have the
   const rows = mi.analyzeQuotes(short, [base], now);
   const rec = mi.buildRecommendations(rows, [base], pricing, now).find((r) => r.kind === "minimum_charge");
   // cost = fuel (13/20)*4=2.6 + driver (0.5+13/30)*30=28 + 10 = 40.6 -> 40.6/0.75 = 54.13 -> 55
-  assert.equal(rec.proposal.proposed, 55);
+  assert.equal(rec.proposal.proposed, 52, "capped at floor(35 * 1.5)");
+  assert.match(rec.reasoning, /would need about \$55/);
   assert.equal(rec.proposal.current, 35);
   const blocked = mi.buildRecommendations(rows, [base], { ...pricing, hasFormSpecificPricing: true }, now);
   assert.equal(blocked.find((r) => r.kind === "minimum_charge").proposal, null);
@@ -221,4 +222,45 @@ test("booked low-margin quotes are not alerts but stay filterable", () => {
   assert.deepEqual(alerts.map((a) => a.quoteId), ["op"]);
   assert.equal(alerts[0].reasons[0], "Estimated loss of $7.00");
   assert.ok(mi.matchesFilter(rows[0], "low_margin", new Set()));
+});
+
+test("only Qalt checkout payments count as collected online", () => {
+  const rows = mi.analyzeQuotes([quote({ id: "manual", status: "PAID", estimatedPrice: 500 }), quote({ id: "stripe", status: "CONFIRMED", paymentStatus: "PAID", estimatedPrice: 80 })], [base], now);
+  const s = mi.buildInsights(rows, "week", now);
+  assert.equal(s.paidRevenue, 80);
+  assert.equal(s.paidCount, 1);
+  assert.equal(s.bookedValue, 580, "a hand-marked PAID quote is still booked");
+});
+
+test("required revenue is null at a 100% target and proposals are capped at +50%", () => {
+  const e = mi.estimateProfit(quote(), [base]);
+  assert.equal(mi.requiredRevenue({ ...e, targetMarginPercent: 100 }), null);
+  assert.equal(mi.requiredRevenue({ ...e, targetMarginPercent: 120 }), null);
+  const pricey = { ...base, targetMarginPercent: 95 };
+  const rows = mi.analyzeQuotes([1, 2, 3, 4, 5].map((i) => quote({ id: `x${i}`, estimatedPrice: 35, distanceMiles: 20, pricingBreakdown: { minimumApplied: true } })), [pricey], now);
+  const rec = mi.buildRecommendations(rows, [pricey], { defaultProfileId: "pp", baseRatePerMile: 2, minimumCharge: 35, useMinimumCharge: true, hasFormSpecificPricing: false }, now).find((r) => r.kind === "minimum_charge");
+  assert.equal(rec.proposal.proposed, 52, "floor(35 * 1.5)");
+  assert.match(rec.reasoning, /50% step/);
+});
+
+test("per-mile proposal spreads the shortfall over billable miles only", () => {
+  const rows = mi.analyzeQuotes([1, 2, 3, 4, 5].map((i) => quote({ id: `r${i}`, estimatedPrice: 90, distanceMiles: 30, pricingBreakdown: { billableMiles: 30, minimumApplied: false } })), [base], now);
+  const rec = mi.buildRecommendations(rows, [base], { defaultProfileId: "pp", baseRatePerMile: 2, minimumCharge: 35, useMinimumCharge: true, hasFormSpecificPricing: false }, now).find((r) => r.kind === "rate_per_mile");
+  const e = rows[0].estimate;
+  const expected = Math.ceil((2 + (mi.requiredRevenue(e) - 90) / 30) * 20) / 20;
+  assert.equal(rec.proposal.proposed, expected);
+  assert.ok(rec.proposal.proposed <= 3.05);
+});
+
+test("issue jobs alert even when their quote is outside the analysed window", () => {
+  const alerts = mi.buildAlerts([], [{ id: "j9", status: "ISSUE", quoteRequestId: "gone", scheduledDate: now, updatedAt: now }], [base], now);
+  assert.deepEqual(alerts.map((a) => [a.kind, a.jobId]), [["job_issue", "j9"]]);
+});
+
+test("optional costs left blank are listed, and time zones fall back to UTC", () => {
+  const e = mi.estimateProfit(quote(), [{ ...base, tollsPerJob: null, handlingMinutes: null }]);
+  assert.deepEqual(e.assumptions.unsetOptional, ["Loading and handling time", "Tolls"]);
+  assert.equal(mi.safeTimeZone("America/Chicago"), "America/Chicago");
+  assert.equal(mi.safeTimeZone("Not/AZone"), "UTC");
+  assert.equal(mi.safeTimeZone(null), "UTC");
 });

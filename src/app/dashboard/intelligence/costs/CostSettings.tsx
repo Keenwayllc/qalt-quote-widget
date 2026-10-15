@@ -162,6 +162,7 @@ function ProfileForm({
     try {
       const res = await fetch(`/api/dashboard/intelligence/cost-profiles?vehicleKey=${encodeURIComponent(vehicleKey)}`, { method: "DELETE" });
       if (!res.ok) throw new Error();
+      setDraft(toDraft(undefined));
       setStatus({ busy: null, message: "Removed. This vehicle uses All vehicles costs.", error: false });
       router.refresh();
     } catch {

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { unstable_rethrow } from "next/navigation";
 import { getCurrentCompany } from "@/lib/session";
 import prisma from "@/lib/prisma";
 import { parseCostProfile, vehicleKey } from "@/lib/merchant-intelligence";
@@ -14,6 +15,7 @@ export async function GET() {
     const { profiles, available } = await loadCostProfiles(company.id);
     return NextResponse.json({ profiles, available }, { headers: PRIVATE });
   } catch (error) {
+    unstable_rethrow(error);
     console.error("[intelligence] load cost profiles failed:", error instanceof Error ? error.message : String(error));
     return NextResponse.json({ error: "Could not load cost settings" }, { status: 500, headers: PRIVATE });
   }
@@ -41,6 +43,7 @@ export async function PUT(request: Request) {
     });
     return NextResponse.json({ ok: true, updatedAt: saved.updatedAt }, { headers: PRIVATE });
   } catch (error) {
+    unstable_rethrow(error);
     console.error("[intelligence] save cost profile failed:", error instanceof Error ? error.message : String(error));
     return NextResponse.json({ error: "Could not save cost settings" }, { status: 500, headers: PRIVATE });
   }
@@ -57,6 +60,7 @@ export async function DELETE(request: Request) {
     await prisma.merchantCostProfile.deleteMany({ where: { companyId: company.id, vehicleKey: key } });
     return NextResponse.json({ ok: true }, { headers: PRIVATE });
   } catch (error) {
+    unstable_rethrow(error);
     console.error("[intelligence] delete cost profile failed:", error instanceof Error ? error.message : String(error));
     return NextResponse.json({ error: "Could not remove cost profile" }, { status: 500, headers: PRIVATE });
   }

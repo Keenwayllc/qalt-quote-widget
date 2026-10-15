@@ -14,6 +14,7 @@ import {
   money,
   pct,
   ageText,
+  requiredRevenue,
   targetMargin,
   vehicleKey,
   vehicleLabel,
@@ -55,13 +56,14 @@ export const SUGGESTED_QUESTIONS = [
 
 export const MAX_QUESTION_LENGTH = 300;
 
-type Ctx = { quotes: AnalyzedQuote[]; profiles: CostProfile[]; recommendations: Recommendation[]; now: Date; quoteId?: string | null };
+type Ctx = { quotes: AnalyzedQuote[]; profiles: CostProfile[]; recommendations: Recommendation[]; now: Date; quoteId?: string | null; timeZone?: string };
 type Estimated = AnalyzedQuote & { estimate: Extract<AnalyzedQuote["estimate"], { status: "ok" }> };
 
 const ok = (q: AnalyzedQuote): q is Estimated => q.estimate.status === "ok";
 const time = (v: Date | string) => new Date(v).getTime();
 const who = (q: AnalyzedQuote) => q.customerName?.trim() || "Unnamed customer";
-const when = (q: AnalyzedQuote) => new Date(q.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+let zone = "UTC";
+const when = (q: AnalyzedQuote) => new Date(q.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: zone });
 const NO_COSTS = "I can't estimate profit yet because your cost settings are incomplete. Add fuel, driver cost and average speed under Cost settings and I'll answer from your real numbers.";
 
 export function detectPeriod(text: string, fallback: InsightPeriod): InsightPeriod {
@@ -96,6 +98,7 @@ function line(q: Estimated) {
 }
 
 export function answerQuestion(question: string, ctx: Ctx): AssistantAnswer {
+  zone = ctx.timeZone ?? "UTC";
   const text = question.slice(0, MAX_QUESTION_LENGTH).toLowerCase();
   const intent = detectIntent(text);
   const base = { intent, facts: [] as AssistantAnswer["facts"], quoteIds: [] as string[], matched: intent !== "help" };
@@ -163,7 +166,7 @@ export function answerQuestion(question: string, ctx: Ctx): AssistantAnswer {
         .filter(([, v]) => v > 0)
         .sort((a, b) => b[1] - a[1]);
       const [topName, topValue] = drivers[0] ?? ["costs", e.totalCost];
-      const needed = Math.ceil(e.totalCost / (1 - e.targetMarginPercent / 100));
+      const needed = requiredRevenue(e);
       const minimum =
         picked.pricingBreakdown && typeof picked.pricingBreakdown === "object" && (picked.pricingBreakdown as { minimumApplied?: unknown }).minimumApplied === true;
       const verdict =
@@ -172,7 +175,7 @@ export function answerQuestion(question: string, ctx: Ctx): AssistantAnswer {
           : `Estimated costs of ${money(e.totalCost, 2)} against a ${money(e.revenue, 2)} quote leave ${money(e.profit, 2)} (${pct(e.marginPercent)}), under your ${pct(e.targetMarginPercent)} target.`;
       return {
         ...base,
-        answer: `${who(picked)}'s quote (${when(picked)}): ${verdict} The biggest cost is ${topName} at ${money(topValue, 2)}, based on ${e.assumptions.estimatedHours} estimated hours and ${e.assumptions.loadedMiles + e.assumptions.deadheadMiles} total miles.${minimum ? " This price came from your minimum charge, so the minimum may be too low for this trip." : ""}${e.tone === "healthy" ? "" : ` To hit your target this trip would need about ${money(needed)}.`}`,
+        answer: `${who(picked)}'s quote (${when(picked)}): ${verdict} The biggest cost is ${topName} at ${money(topValue, 2)}, based on ${e.assumptions.estimatedHours} estimated hours and ${e.assumptions.loadedMiles + e.assumptions.deadheadMiles} total miles.${minimum ? " This price came from your minimum charge, so the minimum may be too low for this trip." : ""}${e.tone === "healthy" || needed === null ? "" : ` To hit your target this trip would need about ${money(Math.ceil(needed))}.`}`,
         facts: drivers.map(([k, v]) => ({ label: k[0].toUpperCase() + k.slice(1), value: money(v, 2) })),
         quoteIds: [picked.id],
       };

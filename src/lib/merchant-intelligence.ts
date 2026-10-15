@@ -165,6 +165,7 @@ export type ProfitEstimate =
         estimatedHours: number;
         profileLabel: string;
         vehicleSpecific: boolean;
+        unsetOptional: string[]; // optional costs left blank and counted as $0
       };
     }
   | { status: "unavailable"; reason: string; missing: string[] };
@@ -240,6 +241,7 @@ export function estimateProfit(quote: Pick<IntelQuote, "estimatedPrice" | "dista
       estimatedHours: cents(hours),
       profileLabel: resolved.profileLabel,
       vehicleSpecific: resolved.vehicleSpecific,
+      unsetOptional: COST_FIELDS.filter((f) => !f.critical && f.key !== "targetMarginPercent" && v[f.key] === null).map((f) => f.label),
     },
   };
 }
@@ -252,6 +254,8 @@ export type QuoteStage = "new" | "follow_up" | "booked" | "closed" | "other";
 
 const time = (value: Date | string) => new Date(value).getTime();
 export const isPaid = (q: Pick<IntelQuote, "status" | "paymentStatus">) => q.status === "PAID" || q.paymentStatus === "PAID";
+/** Money actually collected through Qalt checkout. A status of PAID can be set by hand after an offline payment. */
+export const isPaidOnline = (q: Pick<IntelQuote, "paymentStatus">) => q.paymentStatus === "PAID";
 export const isBooked = (q: Pick<IntelQuote, "status" | "paymentStatus">) => isPaid(q) || q.status === "WON" || q.status === "CONFIRMED";
 export const isClosed = (q: Pick<IntelQuote, "status">) => q.status === "LOST" || q.status === "CANCELLED";
 
@@ -369,6 +373,21 @@ export function buildAlerts(quotes: AnalyzedQuote[], jobs: IntelJob[], profiles:
       createdAt: new Date(q.createdAt).toISOString(),
     });
   }
+  const alertedJobs = new Set(alerts.map((a) => a.jobId));
+  for (const job of issueJobs.values()) {
+    if (alertedJobs.has(job.id)) continue;
+    alerts.push({
+      key: `job:${job.id}`,
+      kind: "job_issue",
+      severity: "high",
+      title: "A booked order needs attention",
+      detail: "A job in your Ops Console is marked Issue. Review it and update the status.",
+      reasons: ["Job marked Issue"],
+      quoteId: null,
+      jobId: job.id,
+      createdAt: new Date(job.updatedAt).toISOString(),
+    });
+  }
   return alerts.sort(
     (a, b) =>
       (a.severity === b.severity ? 0 : a.severity === "high" ? -1 : 1) ||
@@ -411,7 +430,7 @@ export function buildInsights(quotes: AnalyzedQuote[], period: InsightPeriod, no
   const start = now.getTime() - PERIOD_DAYS[period] * 86_400_000;
   const inPeriod = quotes.filter((q) => time(q.createdAt) >= start && time(q.createdAt) <= now.getTime());
   const booked = inPeriod.filter(isBooked);
-  const paid = inPeriod.filter(isPaid);
+  const paid = inPeriod.filter(isPaidOnline);
   const pending = inPeriod.filter((q) => q.stage === "new" || q.stage === "follow_up");
   const bookedEstimated = booked.filter((q) => q.estimate.status === "ok");
   const sum = (rows: AnalyzedQuote[], pick: (q: AnalyzedQuote) => number) => cents(rows.reduce((s, q) => s + pick(q), 0));
@@ -519,7 +538,17 @@ const median = (values: number[]) => {
 };
 
 /** Revenue needed for this estimate to reach its target margin. */
-const requiredRevenue = (e: Extract<ProfitEstimate, { status: "ok" }>) => e.totalCost / (1 - e.targetMarginPercent / 100);
+/** Revenue needed to reach the target margin, or null when no price can (target of 100% or more). */
+export function requiredRevenue(e: Extract<ProfitEstimate, { status: "ok" }>): number | null {
+  if (e.targetMarginPercent >= 100) return null;
+  const value = e.totalCost / (1 - e.targetMarginPercent / 100);
+  return Number.isFinite(value) && value >= 0 ? value : null;
+}
+const MAX_INCREASE = 1.5; // proposals never raise a rate by more than 50% at once
+const billableMiles = (q: IntelQuote) => {
+  const b = q.pricingBreakdown && typeof q.pricingBreakdown === "object" ? (q.pricingBreakdown as { billableMiles?: unknown }).billableMiles : undefined;
+  return typeof b === "number" && Number.isFinite(b) ? b : q.distanceMiles;
+};
 const minimumApplied = (q: IntelQuote) =>
   !!q.pricingBreakdown && typeof q.pricingBreakdown === "object" && (q.pricingBreakdown as { minimumApplied?: unknown }).minimumApplied === true;
 
@@ -572,14 +601,16 @@ export function buildRecommendations(quotes: AnalyzedQuote[], profiles: CostProf
     const floor = estimated.filter((x) => minimumApplied(x.q));
     const below = floor.filter((x) => x.e.tone !== "healthy");
     if (floor.length >= MIN_SAMPLE && below.length / floor.length >= 0.5) {
-      const proposed = Math.ceil(median(floor.map((x) => requiredRevenue(x.e))));
-      if (proposed > pricing.minimumCharge) {
+      const needed = floor.map((x) => requiredRevenue(x.e)).filter((v): v is number => v !== null);
+      const raw = needed.length ? Math.ceil(median(needed)) : 0;
+      const proposed = Math.min(raw, Math.floor(pricing.minimumCharge * MAX_INCREASE));
+      if (needed.length >= MIN_SAMPLE && proposed > pricing.minimumCharge) {
         recs.push({
           id: "minimum_charge:default",
           kind: "minimum_charge",
           severity: "medium",
           title: "Your minimum charge may be too low",
-          reasoning: `${below.length} of ${floor.length} short trips priced at your ${money(pricing.minimumCharge)} minimum are below your target margin. A minimum of about ${money(proposed)} would reach your target on a typical short trip with your current costs.`,
+          reasoning: `${below.length} of ${floor.length} short trips priced at your ${money(pricing.minimumCharge)} minimum are below your target margin. ${proposed < raw ? `A typical short trip would need about ${money(raw)}. Raising the minimum to ${money(proposed)} (a 50% step) gets you closer; review your costs too.` : `A minimum of about ${money(proposed)} would reach your target on a typical short trip with your current costs.`}`,
           sampleSize: floor.length,
           proposal: canPropose
             ? {
@@ -601,15 +632,22 @@ export function buildRecommendations(quotes: AnalyzedQuote[], profiles: CostProf
     const distance = estimated.filter((x) => !minimumApplied(x.q) && x.q.distanceMiles >= 10);
     const below = distance.filter((x) => x.e.tone !== "healthy");
     if (distance.length >= MIN_SAMPLE && below.length / distance.length >= 0.5) {
-      const factor = Math.min(1.5, median(distance.map((x) => requiredRevenue(x.e) / x.e.revenue)));
-      const proposed = Math.ceil(pricing.baseRatePerMile * factor * 20) / 20; // round up to $0.05
-      if (factor > 1 && proposed > pricing.baseRatePerMile) {
+      // Each trip's shortfall spread over its billable miles: flat fees are not scaled.
+      const extra = distance.flatMap((x) => {
+        const need = requiredRevenue(x.e);
+        const miles = billableMiles(x.q);
+        return need !== null && miles > 0 ? [Math.max(0, need - x.e.revenue) / miles] : [];
+      });
+      const raw = extra.length ? pricing.baseRatePerMile + median(extra) : 0;
+      const capped = raw > pricing.baseRatePerMile * MAX_INCREASE;
+      const proposed = Math.ceil(Math.min(raw, pricing.baseRatePerMile * MAX_INCREASE) * 20) / 20; // round up to $0.05
+      if (extra.length >= MIN_SAMPLE && proposed > pricing.baseRatePerMile) {
         recs.push({
           id: "rate_per_mile:default",
           kind: "rate_per_mile",
           severity: "medium",
           title: "Your per-mile rate may be too low",
-          reasoning: `${below.length} of ${distance.length} trips over 10 miles are below your target margin at ${money(pricing.baseRatePerMile, 2)} per mile. Raising it to about ${money(proposed, 2)} would bring a typical trip to target${factor === 1.5 ? " (capped at a 50% increase; review your costs too)" : ""}.`,
+          reasoning: `${below.length} of ${distance.length} trips over 10 miles are below your target margin at ${money(pricing.baseRatePerMile, 2)} per mile. Raising it to about ${money(proposed, 2)} would bring a typical trip ${capped ? "closer to" : "to"} target, assuming your other fees stay the same${capped ? " (capped at a 50% increase; review your costs too)" : ""}.`,
           sampleSize: distance.length,
           proposal: canPropose
             ? {
@@ -762,6 +800,16 @@ export function money(value: number, digits = 0): string {
   }).format(value);
 }
 export const pct = (value: number) => `${Math.round(value * 10) / 10}%`;
+/** The company's IANA time zone if valid, else UTC. Used so server and browser format dates identically. */
+export function safeTimeZone(zone: string | null | undefined): string {
+  try {
+    if (zone) {
+      new Intl.DateTimeFormat("en-US", { timeZone: zone });
+      return zone;
+    }
+  } catch {}
+  return "UTC";
+}
 export function ageText(hours: number): string {
   if (hours < 1) return "under an hour";
   if (hours < 48) return `${Math.floor(hours)}h`;

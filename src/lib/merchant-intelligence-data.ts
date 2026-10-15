@@ -9,6 +9,7 @@ import {
   type IntelJob,
   type IntelQuote,
   type PricingContext,
+  safeTimeZone,
 } from "@/lib/merchant-intelligence";
 
 // Recommendations look back 90 days; the cap keeps the page fast for very busy
@@ -106,6 +107,7 @@ export async function loadMerchantIntelligence(now = new Date()) {
   return {
     companyId: company.id,
     companyName: company.name,
+    timeZone: safeTimeZone(company.timezone),
     now,
     profiles,
     costTableReady: costs.available,

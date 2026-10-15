@@ -38,6 +38,7 @@ export type IntelligenceView = {
   filter: QuoteFilter;
   search: string;
   updatedAt: string;
+  timeZone: string;
   costTableReady: boolean;
   costsConfigured: boolean;
   truncated: boolean;
@@ -62,7 +63,8 @@ export type IntelligenceView = {
 const usd = (value: number, digits = 0) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: digits, maximumFractionDigits: digits }).format(value);
 const pct = (value: number) => `${Math.round(value * 10) / 10}%`;
-const shortDate = (iso: string) => new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+// Explicit zone so the server render and the browser produce the same text.
+const shortDate = (iso: string, timeZone: string) => new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone });
 
 const PERIODS: { id: InsightPeriod; label: string }[] = [
   { id: "day", label: "Today" },
@@ -688,7 +690,7 @@ function QuoteTable({ view, nav, sectionRef }: { view: IntelligenceView; nav: Re
             </thead>
             <tbody>
               {table.rows.map((row) => (
-                <QuoteRow key={row.id} row={row} open={open === row.id} onToggle={() => setOpen((cur) => (cur === row.id ? null : row.id))} />
+                <QuoteRow key={row.id} row={row} timeZone={view.timeZone} open={open === row.id} onToggle={() => setOpen((cur) => (cur === row.id ? null : row.id))} />
               ))}
             </tbody>
           </table>
@@ -713,7 +715,7 @@ function QuoteTable({ view, nav, sectionRef }: { view: IntelligenceView; nav: Re
   );
 }
 
-function QuoteRow({ row, open, onToggle }: { row: Row; open: boolean; onToggle: () => void }) {
+function QuoteRow({ row, timeZone, open, onToggle }: { row: Row; timeZone: string; open: boolean; onToggle: () => void }) {
   const e = row.estimate;
   return (
     <>
@@ -724,7 +726,7 @@ function QuoteRow({ row, open, onToggle }: { row: Row; open: boolean; onToggle: 
             {row.customerName || "Unnamed customer"}
           </button>
           <span className={styles.sub}>
-            {shortDate(row.createdAt)} · {row.serviceType}
+            {shortDate(row.createdAt, timeZone)} · {row.serviceType}
           </span>
         </td>
         <td data-label="Route">

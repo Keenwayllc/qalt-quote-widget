@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { unstable_rethrow } from "next/navigation";
 import { getCurrentCompany } from "@/lib/session";
 import prisma from "@/lib/prisma";
 import { estimateProfit, type IntelQuote } from "@/lib/merchant-intelligence";
@@ -21,6 +22,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
       { headers: PRIVATE },
     );
   } catch (error) {
+    unstable_rethrow(error);
     console.error("[intelligence] quote estimate failed:", error instanceof Error ? error.message : String(error));
     return NextResponse.json({ error: "Could not estimate this quote" }, { status: 500, headers: PRIVATE });
   }

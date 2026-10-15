@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { unstable_rethrow } from "next/navigation";
 import { getCurrentCompany } from "@/lib/session";
 import { answerQuestion, MAX_QUESTION_LENGTH } from "@/lib/merchant-assistant";
 import { loadMerchantIntelligence } from "@/lib/merchant-intelligence-data";
@@ -37,10 +38,12 @@ export async function POST(request: Request) {
       profiles: data.profiles,
       recommendations: data.recommendations,
       now: data.now,
+      timeZone: data.timeZone,
       quoteId: typeof body?.quoteId === "string" ? body.quoteId : null,
     });
     return NextResponse.json({ answer }, { headers: PRIVATE });
   } catch (error) {
+    unstable_rethrow(error);
     console.error("[intelligence] assistant failed:", error instanceof Error ? error.message : String(error));
     return NextResponse.json({ error: "The assistant is unavailable right now. Try again shortly." }, { status: 500, headers: PRIVATE });
   }

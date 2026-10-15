@@ -41,6 +41,7 @@ export default async function IntelligencePage({
         filter,
         search,
         updatedAt: now.toISOString(),
+        timeZone: data.timeZone,
         costTableReady: data.costTableReady,
         costsConfigured: data.costsConfigured,
         truncated: data.truncated,

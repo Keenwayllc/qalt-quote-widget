@@ -71,7 +71,7 @@ function world({ table = true } = {}) {
       },
     },
   };
-  const company = (id) => ({ id, name: id, widgetSettings: [], pricingProfiles: pricing.filter((p) => p.companyId === id) });
+  const company = (id) => ({ id, name: id, timezone: "America/Los_Angeles", widgetSettings: [], pricingProfiles: pricing.filter((p) => p.companyId === id) });
   const routes = (companyId) => {
     const session = {
       getCurrentCompany: async () => company(companyId),
@@ -82,6 +82,7 @@ function world({ table = true } = {}) {
     const deps = {
       "next/server": nextServer, "@/lib/session": session, "@/lib/prisma": prisma, "@/lib/merchant-intelligence": mi,
       "@/lib/merchant-intelligence-data": data, "@/lib/merchant-assistant": assistant,
+      "next/navigation": { unstable_rethrow: (e) => { if (e?.digest?.startsWith?.("NEXT_REDIRECT")) throw e; } },
     };
     return {
       data,
@@ -161,4 +162,17 @@ test("assistant validates input, throttles, and answers from the tenant's data o
   let limited = 0;
   for (let i = 0; i < 25; i++) if ((await ask.POST(req({ question: "revenue" }))).status === 429) limited++;
   assert.ok(limited > 0, "per-company throttle engages");
+});
+
+test("an expired session redirect is not reported as a server error", async () => {
+  const w = world();
+  const r = w.routes("company-a");
+  const redirect = Object.assign(new Error("NEXT_REDIRECT"), { digest: "NEXT_REDIRECT;replace;/login;307;" });
+  const deps = {
+    "next/server": nextServer, "@/lib/session": { getCurrentCompany: async () => { throw redirect; } },
+    "@/lib/prisma": { __esModule: true, default: w.db }, "@/lib/merchant-intelligence": mi, "@/lib/merchant-intelligence-data": r.data,
+    "next/navigation": { unstable_rethrow: (e) => { if (e?.digest?.startsWith?.("NEXT_REDIRECT")) throw e; } },
+  };
+  const route = load("app/api/dashboard/intelligence/cost-profiles/route.ts", deps);
+  await assert.rejects(() => route.GET(), /NEXT_REDIRECT/);
 });

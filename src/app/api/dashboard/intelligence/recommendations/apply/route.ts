@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { unstable_rethrow } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { loadMerchantIntelligence } from "@/lib/merchant-intelligence-data";
 
@@ -22,6 +23,9 @@ export async function POST(request: Request) {
     if (!proposal) {
       return NextResponse.json({ error: "This recommendation is no longer available. Refresh to see the latest." }, { status: 409, headers: PRIVATE });
     }
+    if (!Number.isFinite(proposal.proposed) || proposal.proposed <= 0 || proposal.proposed > Math.max(proposal.current, 1) * 1.5 + 0.05) {
+      return NextResponse.json({ error: "This suggestion is outside the safe range. Edit pricing yourself instead." }, { status: 409, headers: PRIVATE });
+    }
     if (Number(body.proposed) !== proposal.proposed) {
       return NextResponse.json({ error: "The suggested value changed. Review it again before saving." }, { status: 409, headers: PRIVATE });
     }
@@ -34,6 +38,7 @@ export async function POST(request: Request) {
     }
     return NextResponse.json({ ok: true, field: proposal.field, value: proposal.proposed }, { headers: PRIVATE });
   } catch (error) {
+    unstable_rethrow(error);
     console.error("[intelligence] apply recommendation failed:", error instanceof Error ? error.message : String(error));
     return NextResponse.json({ error: "Could not save the change. Nothing was updated." }, { status: 500, headers: PRIVATE });
   }
