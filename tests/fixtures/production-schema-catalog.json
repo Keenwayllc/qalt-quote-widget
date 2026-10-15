@@ -319,7 +319,23 @@
   "WidgetSettings.showWeight boolean NOT NULL DEFAULT false",
   "WidgetSettings.themeMode text NOT NULL DEFAULT 'light'::text",
   "WidgetSettings.vehicleOptions jsonb NOT NULL DEFAULT '[]'::jsonb",
-  "WidgetSettings.websiteUrl text"
+  "WidgetSettings.websiteUrl text",
+  "MerchantCostProfile.averageSpeedMph double precision",
+  "MerchantCostProfile.companyId text NOT NULL",
+  "MerchantCostProfile.createdAt timestamp(3) without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP",
+  "MerchantCostProfile.deadheadMiles double precision",
+  "MerchantCostProfile.driverHourlyCost double precision",
+  "MerchantCostProfile.followUpAfterHours integer",
+  "MerchantCostProfile.fuelPricePerGallon double precision",
+  "MerchantCostProfile.handlingMinutes double precision",
+  "MerchantCostProfile.id text NOT NULL",
+  "MerchantCostProfile.label text NOT NULL DEFAULT 'All vehicles'::text",
+  "MerchantCostProfile.milesPerGallon double precision",
+  "MerchantCostProfile.otherCostPerJob double precision",
+  "MerchantCostProfile.targetMarginPercent double precision",
+  "MerchantCostProfile.tollsPerJob double precision",
+  "MerchantCostProfile.updatedAt timestamp(3) without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP",
+  "MerchantCostProfile.vehicleKey text NOT NULL DEFAULT ''::text"
  ],
  "constraints": [
   "AbandonedQuote AbandonedQuote_companyId_fkey FOREIGN KEY (\"companyId\") REFERENCES \"Company\"(id) ON UPDATE CASCADE ON DELETE CASCADE",
@@ -373,7 +389,9 @@
   "WidgetInstallation WidgetInstallation_formId_fkey FOREIGN KEY (\"formId\") REFERENCES \"WidgetSettings\"(id) ON UPDATE CASCADE ON DELETE CASCADE",
   "WidgetInstallation WidgetInstallation_pkey PRIMARY KEY (id)",
   "WidgetSettings WidgetSettings_companyId_fkey FOREIGN KEY (\"companyId\") REFERENCES \"Company\"(id) ON UPDATE CASCADE ON DELETE RESTRICT",
-  "WidgetSettings WidgetSettings_pkey PRIMARY KEY (id)"
+  "WidgetSettings WidgetSettings_pkey PRIMARY KEY (id)",
+  "MerchantCostProfile MerchantCostProfile_companyId_fkey FOREIGN KEY (\"companyId\") REFERENCES \"Company\"(id) ON UPDATE CASCADE ON DELETE CASCADE",
+  "MerchantCostProfile MerchantCostProfile_pkey PRIMARY KEY (id)"
  ],
  "indexes": [
   "CREATE INDEX \"AbandonedQuote_companyId_status_lastActivityAt_idx\" ON public.\"AbandonedQuote\" USING btree (\"companyId\", status, \"lastActivityAt\")",
@@ -428,7 +446,9 @@
   "CREATE UNIQUE INDEX \"Webhook_pkey\" ON public.\"Webhook\" USING btree (id)",
   "CREATE UNIQUE INDEX \"WidgetInstallation_companyId_formId_domain_key\" ON public.\"WidgetInstallation\" USING btree (\"companyId\", \"formId\", domain)",
   "CREATE UNIQUE INDEX \"WidgetInstallation_pkey\" ON public.\"WidgetInstallation\" USING btree (id)",
-  "CREATE UNIQUE INDEX \"WidgetSettings_pkey\" ON public.\"WidgetSettings\" USING btree (id)"
+  "CREATE UNIQUE INDEX \"WidgetSettings_pkey\" ON public.\"WidgetSettings\" USING btree (id)",
+  "CREATE UNIQUE INDEX \"MerchantCostProfile_companyId_vehicleKey_key\" ON public.\"MerchantCostProfile\" USING btree (\"companyId\", \"vehicleKey\")",
+  "CREATE UNIQUE INDEX \"MerchantCostProfile_pkey\" ON public.\"MerchantCostProfile\" USING btree (id)"
  ],
  "rls": [
   "AbandonedQuote",
@@ -455,6 +475,7 @@
   "Webhook",
   "WidgetInstallation",
   "WidgetSettings",
-  "_prisma_migrations"
+  "_prisma_migrations",
+  "MerchantCostProfile"
  ]
 }

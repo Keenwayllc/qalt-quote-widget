@@ -8,14 +8,14 @@ datasource db {
 }
 
 model Company {
-  id                             String               @id @default(cuid())
-  email                          String               @unique
+  id                             String                @id @default(cuid())
+  email                          String                @unique
   passwordHash                   String
   name                           String
   logoUrl                        String?
   // How the logo is backed where contrast is poor: "auto" (detected),
   // "light" (logo is made for light backgrounds), or "dark" (made for dark).
-  logoBackdrop                   String               @default("auto")
+  logoBackdrop                   String                @default("auto")
   profilePicUrl                  String?
   phone                          String?
   website                        String?
@@ -24,31 +24,31 @@ model Company {
   state                          String?
   zip                            String?
   contactName                    String?
-  timezone                       String               @default("UTC")
+  timezone                       String                @default("UTC")
   businessType                   String?
-  onboardingStep                 Int                  @default(1)
+  onboardingStep                 Int                   @default(1)
   onboardingCompletedAt          DateTime?
-  subscriptionPlan               String               @default("STARTER")
+  subscriptionPlan               String                @default("STARTER")
   stripeCustomerId               String?
   stripeSubscriptionId           String?
   stripeConnectAccountId         String?
   trialEndsAt                    DateTime?
-  emailVerified                  Boolean              @default(false)
-  emailVerificationToken         String?              @unique
-  passwordResetToken             String?              @unique
+  emailVerified                  Boolean               @default(false)
+  emailVerificationToken         String?               @unique
+  passwordResetToken             String?               @unique
   passwordResetExpires           DateTime?
   customEmailDomain              String?
   customEmailFromName            String?
   resendDomainId                 String?
-  emailDomainVerified            Boolean              @default(false)
+  emailDomainVerified            Boolean               @default(false)
   emailDomainDnsRecords          Json?
-  customWidgetDomain             String?              @unique
-  customWidgetDomainVerified     Boolean              @default(false)
+  customWidgetDomain             String?               @unique
+  customWidgetDomainVerified     Boolean               @default(false)
   customWidgetDomainVerification Json?
-  isAdmin                        Boolean              @default(false)
+  isAdmin                        Boolean               @default(false)
   // God Mode / Qalt Data Operations. Separate from isAdmin so normal platform
   // admins do NOT get super-admin powers (e.g. self plan override).
-  isSuperAdmin                   Boolean              @default(false)
+  isSuperAdmin                   Boolean               @default(false)
   lastLoginAt                    DateTime?
   registrationSource             String?
   registrationReferrer           String?
@@ -58,7 +58,7 @@ model Company {
   registrationUtmCampaign        String?
   registrationUtmTerm            String?
   registrationUtmContent         String?
-  createdAt                      DateTime             @default(now())
+  createdAt                      DateTime              @default(now())
   // NOTE: a DB-level functional unique index "Company_email_lower_key" on
   // lower(email) enforces case-insensitive email uniqueness. Prisma cannot model
   // functional indexes, so it lives in the DB only (applied via manual migration).
@@ -72,6 +72,32 @@ model Company {
   jobs                           Job[]
   customerDocuments              CustomerDocument[]
   widgetInstallations            WidgetInstallation[]
+  costProfiles                   MerchantCostProfile[]
+}
+
+// Merchant-only cost assumptions for profit estimates (src/lib/merchant-intelligence.ts).
+// vehicleKey "" is the company default; per-vehicle rows override it and a null
+// field inherits the default. Never used to price quotes or Stripe charges.
+model MerchantCostProfile {
+  id                  String   @id @default(cuid())
+  companyId           String
+  vehicleKey          String   @default("")
+  label               String   @default("All vehicles")
+  fuelPricePerGallon  Float?
+  milesPerGallon      Float?
+  driverHourlyCost    Float?
+  averageSpeedMph     Float?
+  handlingMinutes     Float?
+  deadheadMiles       Float?
+  tollsPerJob         Float?
+  otherCostPerJob     Float?
+  targetMarginPercent Float?
+  followUpAfterHours  Int?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @default(now()) @updatedAt
+  company             Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, vehicleKey])
 }
 
 model PricingProfile {

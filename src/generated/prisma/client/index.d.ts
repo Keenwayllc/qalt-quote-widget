@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type Company = $Result.DefaultSelection<Prisma.$CompanyPayload>
 /**
+ * Model MerchantCostProfile
+ * 
+ */
+export type MerchantCostProfile = $Result.DefaultSelection<Prisma.$MerchantCostProfilePayload>
+/**
  * Model PricingProfile
  * 
  */
@@ -237,6 +242,16 @@ export class PrismaClient<
     * ```
     */
   get company(): Prisma.CompanyDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.merchantCostProfile`: Exposes CRUD operations for the **MerchantCostProfile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MerchantCostProfiles
+    * const merchantCostProfiles = await prisma.merchantCostProfile.findMany()
+    * ```
+    */
+  get merchantCostProfile(): Prisma.MerchantCostProfileDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.pricingProfile`: Exposes CRUD operations for the **PricingProfile** model.
@@ -842,6 +857,7 @@ export namespace Prisma {
 
   export const ModelName: {
     Company: 'Company',
+    MerchantCostProfile: 'MerchantCostProfile',
     PricingProfile: 'PricingProfile',
     WidgetSettings: 'WidgetSettings',
     WidgetInstallation: 'WidgetInstallation',
@@ -874,7 +890,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "pricingProfile" | "widgetSettings" | "widgetInstallation" | "quoteRequest" | "webhook" | "shopifyInstall" | "vehicleRequest" | "appError" | "monitorEvent" | "partnerInquiry" | "stopNote" | "readinessCheck" | "exceptionLog" | "job" | "jobStop" | "customerDocument" | "documentSequence"
+      modelProps: "company" | "merchantCostProfile" | "pricingProfile" | "widgetSettings" | "widgetInstallation" | "quoteRequest" | "webhook" | "shopifyInstall" | "vehicleRequest" | "appError" | "monitorEvent" | "partnerInquiry" | "stopNote" | "readinessCheck" | "exceptionLog" | "job" | "jobStop" | "customerDocument" | "documentSequence"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -949,6 +965,80 @@ export namespace Prisma {
           count: {
             args: Prisma.CompanyCountArgs<ExtArgs>
             result: $Utils.Optional<CompanyCountAggregateOutputType> | number
+          }
+        }
+      }
+      MerchantCostProfile: {
+        payload: Prisma.$MerchantCostProfilePayload<ExtArgs>
+        fields: Prisma.MerchantCostProfileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MerchantCostProfileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantCostProfilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MerchantCostProfileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantCostProfilePayload>
+          }
+          findFirst: {
+            args: Prisma.MerchantCostProfileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantCostProfilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MerchantCostProfileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantCostProfilePayload>
+          }
+          findMany: {
+            args: Prisma.MerchantCostProfileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantCostProfilePayload>[]
+          }
+          create: {
+            args: Prisma.MerchantCostProfileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantCostProfilePayload>
+          }
+          createMany: {
+            args: Prisma.MerchantCostProfileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MerchantCostProfileCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantCostProfilePayload>[]
+          }
+          delete: {
+            args: Prisma.MerchantCostProfileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantCostProfilePayload>
+          }
+          update: {
+            args: Prisma.MerchantCostProfileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantCostProfilePayload>
+          }
+          deleteMany: {
+            args: Prisma.MerchantCostProfileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MerchantCostProfileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MerchantCostProfileUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantCostProfilePayload>[]
+          }
+          upsert: {
+            args: Prisma.MerchantCostProfileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantCostProfilePayload>
+          }
+          aggregate: {
+            args: Prisma.MerchantCostProfileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMerchantCostProfile>
+          }
+          groupBy: {
+            args: Prisma.MerchantCostProfileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MerchantCostProfileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MerchantCostProfileCountArgs<ExtArgs>
+            result: $Utils.Optional<MerchantCostProfileCountAggregateOutputType> | number
           }
         }
       }
@@ -2319,6 +2409,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     company?: CompanyOmit
+    merchantCostProfile?: MerchantCostProfileOmit
     pricingProfile?: PricingProfileOmit
     widgetSettings?: WidgetSettingsOmit
     widgetInstallation?: WidgetInstallationOmit
@@ -2426,6 +2517,7 @@ export namespace Prisma {
     jobs: number
     customerDocuments: number
     widgetInstallations: number
+    costProfiles: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2439,6 +2531,7 @@ export namespace Prisma {
     jobs?: boolean | CompanyCountOutputTypeCountJobsArgs
     customerDocuments?: boolean | CompanyCountOutputTypeCountCustomerDocumentsArgs
     widgetInstallations?: boolean | CompanyCountOutputTypeCountWidgetInstallationsArgs
+    costProfiles?: boolean | CompanyCountOutputTypeCountCostProfilesArgs
   }
 
   // Custom InputTypes
@@ -2520,6 +2613,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountWidgetInstallationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WidgetInstallationWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountCostProfilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MerchantCostProfileWhereInput
   }
 
 
@@ -3232,6 +3332,7 @@ export namespace Prisma {
     jobs?: boolean | Company$jobsArgs<ExtArgs>
     customerDocuments?: boolean | Company$customerDocumentsArgs<ExtArgs>
     widgetInstallations?: boolean | Company$widgetInstallationsArgs<ExtArgs>
+    costProfiles?: boolean | Company$costProfilesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -3397,6 +3498,7 @@ export namespace Prisma {
     jobs?: boolean | Company$jobsArgs<ExtArgs>
     customerDocuments?: boolean | Company$customerDocumentsArgs<ExtArgs>
     widgetInstallations?: boolean | Company$widgetInstallationsArgs<ExtArgs>
+    costProfiles?: boolean | Company$costProfilesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3415,6 +3517,7 @@ export namespace Prisma {
       jobs: Prisma.$JobPayload<ExtArgs>[]
       customerDocuments: Prisma.$CustomerDocumentPayload<ExtArgs>[]
       widgetInstallations: Prisma.$WidgetInstallationPayload<ExtArgs>[]
+      costProfiles: Prisma.$MerchantCostProfilePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3868,6 +3971,7 @@ export namespace Prisma {
     jobs<T extends Company$jobsArgs<ExtArgs> = {}>(args?: Subset<T, Company$jobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     customerDocuments<T extends Company$customerDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, Company$customerDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomerDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     widgetInstallations<T extends Company$widgetInstallationsArgs<ExtArgs> = {}>(args?: Subset<T, Company$widgetInstallationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WidgetInstallationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    costProfiles<T extends Company$costProfilesArgs<ExtArgs> = {}>(args?: Subset<T, Company$costProfilesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MerchantCostProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4577,6 +4681,30 @@ export namespace Prisma {
   }
 
   /**
+   * Company.costProfiles
+   */
+  export type Company$costProfilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantCostProfile
+     */
+    select?: MerchantCostProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantCostProfile
+     */
+    omit?: MerchantCostProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantCostProfileInclude<ExtArgs> | null
+    where?: MerchantCostProfileWhereInput
+    orderBy?: MerchantCostProfileOrderByWithRelationInput | MerchantCostProfileOrderByWithRelationInput[]
+    cursor?: MerchantCostProfileWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MerchantCostProfileScalarFieldEnum | MerchantCostProfileScalarFieldEnum[]
+  }
+
+  /**
    * Company without action
    */
   export type CompanyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4592,6 +4720,1282 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CompanyInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model MerchantCostProfile
+   */
+
+  export type AggregateMerchantCostProfile = {
+    _count: MerchantCostProfileCountAggregateOutputType | null
+    _avg: MerchantCostProfileAvgAggregateOutputType | null
+    _sum: MerchantCostProfileSumAggregateOutputType | null
+    _min: MerchantCostProfileMinAggregateOutputType | null
+    _max: MerchantCostProfileMaxAggregateOutputType | null
+  }
+
+  export type MerchantCostProfileAvgAggregateOutputType = {
+    fuelPricePerGallon: number | null
+    milesPerGallon: number | null
+    driverHourlyCost: number | null
+    averageSpeedMph: number | null
+    handlingMinutes: number | null
+    deadheadMiles: number | null
+    tollsPerJob: number | null
+    otherCostPerJob: number | null
+    targetMarginPercent: number | null
+    followUpAfterHours: number | null
+  }
+
+  export type MerchantCostProfileSumAggregateOutputType = {
+    fuelPricePerGallon: number | null
+    milesPerGallon: number | null
+    driverHourlyCost: number | null
+    averageSpeedMph: number | null
+    handlingMinutes: number | null
+    deadheadMiles: number | null
+    tollsPerJob: number | null
+    otherCostPerJob: number | null
+    targetMarginPercent: number | null
+    followUpAfterHours: number | null
+  }
+
+  export type MerchantCostProfileMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    vehicleKey: string | null
+    label: string | null
+    fuelPricePerGallon: number | null
+    milesPerGallon: number | null
+    driverHourlyCost: number | null
+    averageSpeedMph: number | null
+    handlingMinutes: number | null
+    deadheadMiles: number | null
+    tollsPerJob: number | null
+    otherCostPerJob: number | null
+    targetMarginPercent: number | null
+    followUpAfterHours: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MerchantCostProfileMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    vehicleKey: string | null
+    label: string | null
+    fuelPricePerGallon: number | null
+    milesPerGallon: number | null
+    driverHourlyCost: number | null
+    averageSpeedMph: number | null
+    handlingMinutes: number | null
+    deadheadMiles: number | null
+    tollsPerJob: number | null
+    otherCostPerJob: number | null
+    targetMarginPercent: number | null
+    followUpAfterHours: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MerchantCostProfileCountAggregateOutputType = {
+    id: number
+    companyId: number
+    vehicleKey: number
+    label: number
+    fuelPricePerGallon: number
+    milesPerGallon: number
+    driverHourlyCost: number
+    averageSpeedMph: number
+    handlingMinutes: number
+    deadheadMiles: number
+    tollsPerJob: number
+    otherCostPerJob: number
+    targetMarginPercent: number
+    followUpAfterHours: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MerchantCostProfileAvgAggregateInputType = {
+    fuelPricePerGallon?: true
+    milesPerGallon?: true
+    driverHourlyCost?: true
+    averageSpeedMph?: true
+    handlingMinutes?: true
+    deadheadMiles?: true
+    tollsPerJob?: true
+    otherCostPerJob?: true
+    targetMarginPercent?: true
+    followUpAfterHours?: true
+  }
+
+  export type MerchantCostProfileSumAggregateInputType = {
+    fuelPricePerGallon?: true
+    milesPerGallon?: true
+    driverHourlyCost?: true
+    averageSpeedMph?: true
+    handlingMinutes?: true
+    deadheadMiles?: true
+    tollsPerJob?: true
+    otherCostPerJob?: true
+    targetMarginPercent?: true
+    followUpAfterHours?: true
+  }
+
+  export type MerchantCostProfileMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    vehicleKey?: true
+    label?: true
+    fuelPricePerGallon?: true
+    milesPerGallon?: true
+    driverHourlyCost?: true
+    averageSpeedMph?: true
+    handlingMinutes?: true
+    deadheadMiles?: true
+    tollsPerJob?: true
+    otherCostPerJob?: true
+    targetMarginPercent?: true
+    followUpAfterHours?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MerchantCostProfileMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    vehicleKey?: true
+    label?: true
+    fuelPricePerGallon?: true
+    milesPerGallon?: true
+    driverHourlyCost?: true
+    averageSpeedMph?: true
+    handlingMinutes?: true
+    deadheadMiles?: true
+    tollsPerJob?: true
+    otherCostPerJob?: true
+    targetMarginPercent?: true
+    followUpAfterHours?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MerchantCostProfileCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    vehicleKey?: true
+    label?: true
+    fuelPricePerGallon?: true
+    milesPerGallon?: true
+    driverHourlyCost?: true
+    averageSpeedMph?: true
+    handlingMinutes?: true
+    deadheadMiles?: true
+    tollsPerJob?: true
+    otherCostPerJob?: true
+    targetMarginPercent?: true
+    followUpAfterHours?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MerchantCostProfileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MerchantCostProfile to aggregate.
+     */
+    where?: MerchantCostProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MerchantCostProfiles to fetch.
+     */
+    orderBy?: MerchantCostProfileOrderByWithRelationInput | MerchantCostProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MerchantCostProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MerchantCostProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MerchantCostProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MerchantCostProfiles
+    **/
+    _count?: true | MerchantCostProfileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MerchantCostProfileAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MerchantCostProfileSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MerchantCostProfileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MerchantCostProfileMaxAggregateInputType
+  }
+
+  export type GetMerchantCostProfileAggregateType<T extends MerchantCostProfileAggregateArgs> = {
+        [P in keyof T & keyof AggregateMerchantCostProfile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMerchantCostProfile[P]>
+      : GetScalarType<T[P], AggregateMerchantCostProfile[P]>
+  }
+
+
+
+
+  export type MerchantCostProfileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MerchantCostProfileWhereInput
+    orderBy?: MerchantCostProfileOrderByWithAggregationInput | MerchantCostProfileOrderByWithAggregationInput[]
+    by: MerchantCostProfileScalarFieldEnum[] | MerchantCostProfileScalarFieldEnum
+    having?: MerchantCostProfileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MerchantCostProfileCountAggregateInputType | true
+    _avg?: MerchantCostProfileAvgAggregateInputType
+    _sum?: MerchantCostProfileSumAggregateInputType
+    _min?: MerchantCostProfileMinAggregateInputType
+    _max?: MerchantCostProfileMaxAggregateInputType
+  }
+
+  export type MerchantCostProfileGroupByOutputType = {
+    id: string
+    companyId: string
+    vehicleKey: string
+    label: string
+    fuelPricePerGallon: number | null
+    milesPerGallon: number | null
+    driverHourlyCost: number | null
+    averageSpeedMph: number | null
+    handlingMinutes: number | null
+    deadheadMiles: number | null
+    tollsPerJob: number | null
+    otherCostPerJob: number | null
+    targetMarginPercent: number | null
+    followUpAfterHours: number | null
+    createdAt: Date
+    updatedAt: Date
+    _count: MerchantCostProfileCountAggregateOutputType | null
+    _avg: MerchantCostProfileAvgAggregateOutputType | null
+    _sum: MerchantCostProfileSumAggregateOutputType | null
+    _min: MerchantCostProfileMinAggregateOutputType | null
+    _max: MerchantCostProfileMaxAggregateOutputType | null
+  }
+
+  type GetMerchantCostProfileGroupByPayload<T extends MerchantCostProfileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MerchantCostProfileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MerchantCostProfileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MerchantCostProfileGroupByOutputType[P]>
+            : GetScalarType<T[P], MerchantCostProfileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MerchantCostProfileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    vehicleKey?: boolean
+    label?: boolean
+    fuelPricePerGallon?: boolean
+    milesPerGallon?: boolean
+    driverHourlyCost?: boolean
+    averageSpeedMph?: boolean
+    handlingMinutes?: boolean
+    deadheadMiles?: boolean
+    tollsPerJob?: boolean
+    otherCostPerJob?: boolean
+    targetMarginPercent?: boolean
+    followUpAfterHours?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["merchantCostProfile"]>
+
+  export type MerchantCostProfileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    vehicleKey?: boolean
+    label?: boolean
+    fuelPricePerGallon?: boolean
+    milesPerGallon?: boolean
+    driverHourlyCost?: boolean
+    averageSpeedMph?: boolean
+    handlingMinutes?: boolean
+    deadheadMiles?: boolean
+    tollsPerJob?: boolean
+    otherCostPerJob?: boolean
+    targetMarginPercent?: boolean
+    followUpAfterHours?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["merchantCostProfile"]>
+
+  export type MerchantCostProfileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    vehicleKey?: boolean
+    label?: boolean
+    fuelPricePerGallon?: boolean
+    milesPerGallon?: boolean
+    driverHourlyCost?: boolean
+    averageSpeedMph?: boolean
+    handlingMinutes?: boolean
+    deadheadMiles?: boolean
+    tollsPerJob?: boolean
+    otherCostPerJob?: boolean
+    targetMarginPercent?: boolean
+    followUpAfterHours?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["merchantCostProfile"]>
+
+  export type MerchantCostProfileSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    vehicleKey?: boolean
+    label?: boolean
+    fuelPricePerGallon?: boolean
+    milesPerGallon?: boolean
+    driverHourlyCost?: boolean
+    averageSpeedMph?: boolean
+    handlingMinutes?: boolean
+    deadheadMiles?: boolean
+    tollsPerJob?: boolean
+    otherCostPerJob?: boolean
+    targetMarginPercent?: boolean
+    followUpAfterHours?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MerchantCostProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "vehicleKey" | "label" | "fuelPricePerGallon" | "milesPerGallon" | "driverHourlyCost" | "averageSpeedMph" | "handlingMinutes" | "deadheadMiles" | "tollsPerJob" | "otherCostPerJob" | "targetMarginPercent" | "followUpAfterHours" | "createdAt" | "updatedAt", ExtArgs["result"]["merchantCostProfile"]>
+  export type MerchantCostProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type MerchantCostProfileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type MerchantCostProfileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $MerchantCostProfilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MerchantCostProfile"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      vehicleKey: string
+      label: string
+      fuelPricePerGallon: number | null
+      milesPerGallon: number | null
+      driverHourlyCost: number | null
+      averageSpeedMph: number | null
+      handlingMinutes: number | null
+      deadheadMiles: number | null
+      tollsPerJob: number | null
+      otherCostPerJob: number | null
+      targetMarginPercent: number | null
+      followUpAfterHours: number | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["merchantCostProfile"]>
+    composites: {}
+  }
+
+  type MerchantCostProfileGetPayload<S extends boolean | null | undefined | MerchantCostProfileDefaultArgs> = $Result.GetResult<Prisma.$MerchantCostProfilePayload, S>
+
+  type MerchantCostProfileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MerchantCostProfileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MerchantCostProfileCountAggregateInputType | true
+    }
+
+  export interface MerchantCostProfileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MerchantCostProfile'], meta: { name: 'MerchantCostProfile' } }
+    /**
+     * Find zero or one MerchantCostProfile that matches the filter.
+     * @param {MerchantCostProfileFindUniqueArgs} args - Arguments to find a MerchantCostProfile
+     * @example
+     * // Get one MerchantCostProfile
+     * const merchantCostProfile = await prisma.merchantCostProfile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MerchantCostProfileFindUniqueArgs>(args: SelectSubset<T, MerchantCostProfileFindUniqueArgs<ExtArgs>>): Prisma__MerchantCostProfileClient<$Result.GetResult<Prisma.$MerchantCostProfilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MerchantCostProfile that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MerchantCostProfileFindUniqueOrThrowArgs} args - Arguments to find a MerchantCostProfile
+     * @example
+     * // Get one MerchantCostProfile
+     * const merchantCostProfile = await prisma.merchantCostProfile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MerchantCostProfileFindUniqueOrThrowArgs>(args: SelectSubset<T, MerchantCostProfileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MerchantCostProfileClient<$Result.GetResult<Prisma.$MerchantCostProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MerchantCostProfile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantCostProfileFindFirstArgs} args - Arguments to find a MerchantCostProfile
+     * @example
+     * // Get one MerchantCostProfile
+     * const merchantCostProfile = await prisma.merchantCostProfile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MerchantCostProfileFindFirstArgs>(args?: SelectSubset<T, MerchantCostProfileFindFirstArgs<ExtArgs>>): Prisma__MerchantCostProfileClient<$Result.GetResult<Prisma.$MerchantCostProfilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MerchantCostProfile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantCostProfileFindFirstOrThrowArgs} args - Arguments to find a MerchantCostProfile
+     * @example
+     * // Get one MerchantCostProfile
+     * const merchantCostProfile = await prisma.merchantCostProfile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MerchantCostProfileFindFirstOrThrowArgs>(args?: SelectSubset<T, MerchantCostProfileFindFirstOrThrowArgs<ExtArgs>>): Prisma__MerchantCostProfileClient<$Result.GetResult<Prisma.$MerchantCostProfilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MerchantCostProfiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantCostProfileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MerchantCostProfiles
+     * const merchantCostProfiles = await prisma.merchantCostProfile.findMany()
+     * 
+     * // Get first 10 MerchantCostProfiles
+     * const merchantCostProfiles = await prisma.merchantCostProfile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const merchantCostProfileWithIdOnly = await prisma.merchantCostProfile.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MerchantCostProfileFindManyArgs>(args?: SelectSubset<T, MerchantCostProfileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MerchantCostProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MerchantCostProfile.
+     * @param {MerchantCostProfileCreateArgs} args - Arguments to create a MerchantCostProfile.
+     * @example
+     * // Create one MerchantCostProfile
+     * const MerchantCostProfile = await prisma.merchantCostProfile.create({
+     *   data: {
+     *     // ... data to create a MerchantCostProfile
+     *   }
+     * })
+     * 
+     */
+    create<T extends MerchantCostProfileCreateArgs>(args: SelectSubset<T, MerchantCostProfileCreateArgs<ExtArgs>>): Prisma__MerchantCostProfileClient<$Result.GetResult<Prisma.$MerchantCostProfilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MerchantCostProfiles.
+     * @param {MerchantCostProfileCreateManyArgs} args - Arguments to create many MerchantCostProfiles.
+     * @example
+     * // Create many MerchantCostProfiles
+     * const merchantCostProfile = await prisma.merchantCostProfile.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MerchantCostProfileCreateManyArgs>(args?: SelectSubset<T, MerchantCostProfileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MerchantCostProfiles and returns the data saved in the database.
+     * @param {MerchantCostProfileCreateManyAndReturnArgs} args - Arguments to create many MerchantCostProfiles.
+     * @example
+     * // Create many MerchantCostProfiles
+     * const merchantCostProfile = await prisma.merchantCostProfile.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MerchantCostProfiles and only return the `id`
+     * const merchantCostProfileWithIdOnly = await prisma.merchantCostProfile.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MerchantCostProfileCreateManyAndReturnArgs>(args?: SelectSubset<T, MerchantCostProfileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MerchantCostProfilePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MerchantCostProfile.
+     * @param {MerchantCostProfileDeleteArgs} args - Arguments to delete one MerchantCostProfile.
+     * @example
+     * // Delete one MerchantCostProfile
+     * const MerchantCostProfile = await prisma.merchantCostProfile.delete({
+     *   where: {
+     *     // ... filter to delete one MerchantCostProfile
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MerchantCostProfileDeleteArgs>(args: SelectSubset<T, MerchantCostProfileDeleteArgs<ExtArgs>>): Prisma__MerchantCostProfileClient<$Result.GetResult<Prisma.$MerchantCostProfilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MerchantCostProfile.
+     * @param {MerchantCostProfileUpdateArgs} args - Arguments to update one MerchantCostProfile.
+     * @example
+     * // Update one MerchantCostProfile
+     * const merchantCostProfile = await prisma.merchantCostProfile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MerchantCostProfileUpdateArgs>(args: SelectSubset<T, MerchantCostProfileUpdateArgs<ExtArgs>>): Prisma__MerchantCostProfileClient<$Result.GetResult<Prisma.$MerchantCostProfilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MerchantCostProfiles.
+     * @param {MerchantCostProfileDeleteManyArgs} args - Arguments to filter MerchantCostProfiles to delete.
+     * @example
+     * // Delete a few MerchantCostProfiles
+     * const { count } = await prisma.merchantCostProfile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MerchantCostProfileDeleteManyArgs>(args?: SelectSubset<T, MerchantCostProfileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MerchantCostProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantCostProfileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MerchantCostProfiles
+     * const merchantCostProfile = await prisma.merchantCostProfile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MerchantCostProfileUpdateManyArgs>(args: SelectSubset<T, MerchantCostProfileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MerchantCostProfiles and returns the data updated in the database.
+     * @param {MerchantCostProfileUpdateManyAndReturnArgs} args - Arguments to update many MerchantCostProfiles.
+     * @example
+     * // Update many MerchantCostProfiles
+     * const merchantCostProfile = await prisma.merchantCostProfile.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MerchantCostProfiles and only return the `id`
+     * const merchantCostProfileWithIdOnly = await prisma.merchantCostProfile.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MerchantCostProfileUpdateManyAndReturnArgs>(args: SelectSubset<T, MerchantCostProfileUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MerchantCostProfilePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MerchantCostProfile.
+     * @param {MerchantCostProfileUpsertArgs} args - Arguments to update or create a MerchantCostProfile.
+     * @example
+     * // Update or create a MerchantCostProfile
+     * const merchantCostProfile = await prisma.merchantCostProfile.upsert({
+     *   create: {
+     *     // ... data to create a MerchantCostProfile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MerchantCostProfile we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MerchantCostProfileUpsertArgs>(args: SelectSubset<T, MerchantCostProfileUpsertArgs<ExtArgs>>): Prisma__MerchantCostProfileClient<$Result.GetResult<Prisma.$MerchantCostProfilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MerchantCostProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantCostProfileCountArgs} args - Arguments to filter MerchantCostProfiles to count.
+     * @example
+     * // Count the number of MerchantCostProfiles
+     * const count = await prisma.merchantCostProfile.count({
+     *   where: {
+     *     // ... the filter for the MerchantCostProfiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends MerchantCostProfileCountArgs>(
+      args?: Subset<T, MerchantCostProfileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MerchantCostProfileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MerchantCostProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantCostProfileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MerchantCostProfileAggregateArgs>(args: Subset<T, MerchantCostProfileAggregateArgs>): Prisma.PrismaPromise<GetMerchantCostProfileAggregateType<T>>
+
+    /**
+     * Group by MerchantCostProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantCostProfileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MerchantCostProfileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MerchantCostProfileGroupByArgs['orderBy'] }
+        : { orderBy?: MerchantCostProfileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MerchantCostProfileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMerchantCostProfileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MerchantCostProfile model
+   */
+  readonly fields: MerchantCostProfileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MerchantCostProfile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MerchantCostProfileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MerchantCostProfile model
+   */
+  interface MerchantCostProfileFieldRefs {
+    readonly id: FieldRef<"MerchantCostProfile", 'String'>
+    readonly companyId: FieldRef<"MerchantCostProfile", 'String'>
+    readonly vehicleKey: FieldRef<"MerchantCostProfile", 'String'>
+    readonly label: FieldRef<"MerchantCostProfile", 'String'>
+    readonly fuelPricePerGallon: FieldRef<"MerchantCostProfile", 'Float'>
+    readonly milesPerGallon: FieldRef<"MerchantCostProfile", 'Float'>
+    readonly driverHourlyCost: FieldRef<"MerchantCostProfile", 'Float'>
+    readonly averageSpeedMph: FieldRef<"MerchantCostProfile", 'Float'>
+    readonly handlingMinutes: FieldRef<"MerchantCostProfile", 'Float'>
+    readonly deadheadMiles: FieldRef<"MerchantCostProfile", 'Float'>
+    readonly tollsPerJob: FieldRef<"MerchantCostProfile", 'Float'>
+    readonly otherCostPerJob: FieldRef<"MerchantCostProfile", 'Float'>
+    readonly targetMarginPercent: FieldRef<"MerchantCostProfile", 'Float'>
+    readonly followUpAfterHours: FieldRef<"MerchantCostProfile", 'Int'>
+    readonly createdAt: FieldRef<"MerchantCostProfile", 'DateTime'>
+    readonly updatedAt: FieldRef<"MerchantCostProfile", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MerchantCostProfile findUnique
+   */
+  export type MerchantCostProfileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantCostProfile
+     */
+    select?: MerchantCostProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantCostProfile
+     */
+    omit?: MerchantCostProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantCostProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which MerchantCostProfile to fetch.
+     */
+    where: MerchantCostProfileWhereUniqueInput
+  }
+
+  /**
+   * MerchantCostProfile findUniqueOrThrow
+   */
+  export type MerchantCostProfileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantCostProfile
+     */
+    select?: MerchantCostProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantCostProfile
+     */
+    omit?: MerchantCostProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantCostProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which MerchantCostProfile to fetch.
+     */
+    where: MerchantCostProfileWhereUniqueInput
+  }
+
+  /**
+   * MerchantCostProfile findFirst
+   */
+  export type MerchantCostProfileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantCostProfile
+     */
+    select?: MerchantCostProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantCostProfile
+     */
+    omit?: MerchantCostProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantCostProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which MerchantCostProfile to fetch.
+     */
+    where?: MerchantCostProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MerchantCostProfiles to fetch.
+     */
+    orderBy?: MerchantCostProfileOrderByWithRelationInput | MerchantCostProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MerchantCostProfiles.
+     */
+    cursor?: MerchantCostProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MerchantCostProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MerchantCostProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MerchantCostProfiles.
+     */
+    distinct?: MerchantCostProfileScalarFieldEnum | MerchantCostProfileScalarFieldEnum[]
+  }
+
+  /**
+   * MerchantCostProfile findFirstOrThrow
+   */
+  export type MerchantCostProfileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantCostProfile
+     */
+    select?: MerchantCostProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantCostProfile
+     */
+    omit?: MerchantCostProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantCostProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which MerchantCostProfile to fetch.
+     */
+    where?: MerchantCostProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MerchantCostProfiles to fetch.
+     */
+    orderBy?: MerchantCostProfileOrderByWithRelationInput | MerchantCostProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MerchantCostProfiles.
+     */
+    cursor?: MerchantCostProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MerchantCostProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MerchantCostProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MerchantCostProfiles.
+     */
+    distinct?: MerchantCostProfileScalarFieldEnum | MerchantCostProfileScalarFieldEnum[]
+  }
+
+  /**
+   * MerchantCostProfile findMany
+   */
+  export type MerchantCostProfileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantCostProfile
+     */
+    select?: MerchantCostProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantCostProfile
+     */
+    omit?: MerchantCostProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantCostProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which MerchantCostProfiles to fetch.
+     */
+    where?: MerchantCostProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MerchantCostProfiles to fetch.
+     */
+    orderBy?: MerchantCostProfileOrderByWithRelationInput | MerchantCostProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MerchantCostProfiles.
+     */
+    cursor?: MerchantCostProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MerchantCostProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MerchantCostProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MerchantCostProfiles.
+     */
+    distinct?: MerchantCostProfileScalarFieldEnum | MerchantCostProfileScalarFieldEnum[]
+  }
+
+  /**
+   * MerchantCostProfile create
+   */
+  export type MerchantCostProfileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantCostProfile
+     */
+    select?: MerchantCostProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantCostProfile
+     */
+    omit?: MerchantCostProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantCostProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MerchantCostProfile.
+     */
+    data: XOR<MerchantCostProfileCreateInput, MerchantCostProfileUncheckedCreateInput>
+  }
+
+  /**
+   * MerchantCostProfile createMany
+   */
+  export type MerchantCostProfileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MerchantCostProfiles.
+     */
+    data: MerchantCostProfileCreateManyInput | MerchantCostProfileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MerchantCostProfile createManyAndReturn
+   */
+  export type MerchantCostProfileCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantCostProfile
+     */
+    select?: MerchantCostProfileSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantCostProfile
+     */
+    omit?: MerchantCostProfileOmit<ExtArgs> | null
+    /**
+     * The data used to create many MerchantCostProfiles.
+     */
+    data: MerchantCostProfileCreateManyInput | MerchantCostProfileCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantCostProfileIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MerchantCostProfile update
+   */
+  export type MerchantCostProfileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantCostProfile
+     */
+    select?: MerchantCostProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantCostProfile
+     */
+    omit?: MerchantCostProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantCostProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MerchantCostProfile.
+     */
+    data: XOR<MerchantCostProfileUpdateInput, MerchantCostProfileUncheckedUpdateInput>
+    /**
+     * Choose, which MerchantCostProfile to update.
+     */
+    where: MerchantCostProfileWhereUniqueInput
+  }
+
+  /**
+   * MerchantCostProfile updateMany
+   */
+  export type MerchantCostProfileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MerchantCostProfiles.
+     */
+    data: XOR<MerchantCostProfileUpdateManyMutationInput, MerchantCostProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which MerchantCostProfiles to update
+     */
+    where?: MerchantCostProfileWhereInput
+    /**
+     * Limit how many MerchantCostProfiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MerchantCostProfile updateManyAndReturn
+   */
+  export type MerchantCostProfileUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantCostProfile
+     */
+    select?: MerchantCostProfileSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantCostProfile
+     */
+    omit?: MerchantCostProfileOmit<ExtArgs> | null
+    /**
+     * The data used to update MerchantCostProfiles.
+     */
+    data: XOR<MerchantCostProfileUpdateManyMutationInput, MerchantCostProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which MerchantCostProfiles to update
+     */
+    where?: MerchantCostProfileWhereInput
+    /**
+     * Limit how many MerchantCostProfiles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantCostProfileIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MerchantCostProfile upsert
+   */
+  export type MerchantCostProfileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantCostProfile
+     */
+    select?: MerchantCostProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantCostProfile
+     */
+    omit?: MerchantCostProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantCostProfileInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MerchantCostProfile to update in case it exists.
+     */
+    where: MerchantCostProfileWhereUniqueInput
+    /**
+     * In case the MerchantCostProfile found by the `where` argument doesn't exist, create a new MerchantCostProfile with this data.
+     */
+    create: XOR<MerchantCostProfileCreateInput, MerchantCostProfileUncheckedCreateInput>
+    /**
+     * In case the MerchantCostProfile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MerchantCostProfileUpdateInput, MerchantCostProfileUncheckedUpdateInput>
+  }
+
+  /**
+   * MerchantCostProfile delete
+   */
+  export type MerchantCostProfileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantCostProfile
+     */
+    select?: MerchantCostProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantCostProfile
+     */
+    omit?: MerchantCostProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantCostProfileInclude<ExtArgs> | null
+    /**
+     * Filter which MerchantCostProfile to delete.
+     */
+    where: MerchantCostProfileWhereUniqueInput
+  }
+
+  /**
+   * MerchantCostProfile deleteMany
+   */
+  export type MerchantCostProfileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MerchantCostProfiles to delete
+     */
+    where?: MerchantCostProfileWhereInput
+    /**
+     * Limit how many MerchantCostProfiles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MerchantCostProfile without action
+   */
+  export type MerchantCostProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantCostProfile
+     */
+    select?: MerchantCostProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantCostProfile
+     */
+    omit?: MerchantCostProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantCostProfileInclude<ExtArgs> | null
   }
 
 
@@ -24829,6 +26233,28 @@ export namespace Prisma {
   export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
 
 
+  export const MerchantCostProfileScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    vehicleKey: 'vehicleKey',
+    label: 'label',
+    fuelPricePerGallon: 'fuelPricePerGallon',
+    milesPerGallon: 'milesPerGallon',
+    driverHourlyCost: 'driverHourlyCost',
+    averageSpeedMph: 'averageSpeedMph',
+    handlingMinutes: 'handlingMinutes',
+    deadheadMiles: 'deadheadMiles',
+    tollsPerJob: 'tollsPerJob',
+    otherCostPerJob: 'otherCostPerJob',
+    targetMarginPercent: 'targetMarginPercent',
+    followUpAfterHours: 'followUpAfterHours',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MerchantCostProfileScalarFieldEnum = (typeof MerchantCostProfileScalarFieldEnum)[keyof typeof MerchantCostProfileScalarFieldEnum]
+
+
   export const PricingProfileScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
@@ -25331,6 +26757,7 @@ export namespace Prisma {
     jobs?: JobListRelationFilter
     customerDocuments?: CustomerDocumentListRelationFilter
     widgetInstallations?: WidgetInstallationListRelationFilter
+    costProfiles?: MerchantCostProfileListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -25391,6 +26818,7 @@ export namespace Prisma {
     jobs?: JobOrderByRelationAggregateInput
     customerDocuments?: CustomerDocumentOrderByRelationAggregateInput
     widgetInstallations?: WidgetInstallationOrderByRelationAggregateInput
+    costProfiles?: MerchantCostProfileOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -25454,6 +26882,7 @@ export namespace Prisma {
     jobs?: JobListRelationFilter
     customerDocuments?: CustomerDocumentListRelationFilter
     widgetInstallations?: WidgetInstallationListRelationFilter
+    costProfiles?: MerchantCostProfileListRelationFilter
   }, "id" | "email" | "emailVerificationToken" | "passwordResetToken" | "customWidgetDomain">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -25562,6 +26991,119 @@ export namespace Prisma {
     registrationUtmTerm?: StringNullableWithAggregatesFilter<"Company"> | string | null
     registrationUtmContent?: StringNullableWithAggregatesFilter<"Company"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
+  }
+
+  export type MerchantCostProfileWhereInput = {
+    AND?: MerchantCostProfileWhereInput | MerchantCostProfileWhereInput[]
+    OR?: MerchantCostProfileWhereInput[]
+    NOT?: MerchantCostProfileWhereInput | MerchantCostProfileWhereInput[]
+    id?: StringFilter<"MerchantCostProfile"> | string
+    companyId?: StringFilter<"MerchantCostProfile"> | string
+    vehicleKey?: StringFilter<"MerchantCostProfile"> | string
+    label?: StringFilter<"MerchantCostProfile"> | string
+    fuelPricePerGallon?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    milesPerGallon?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    driverHourlyCost?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    averageSpeedMph?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    handlingMinutes?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    deadheadMiles?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    tollsPerJob?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    otherCostPerJob?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    targetMarginPercent?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    followUpAfterHours?: IntNullableFilter<"MerchantCostProfile"> | number | null
+    createdAt?: DateTimeFilter<"MerchantCostProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"MerchantCostProfile"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }
+
+  export type MerchantCostProfileOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    vehicleKey?: SortOrder
+    label?: SortOrder
+    fuelPricePerGallon?: SortOrderInput | SortOrder
+    milesPerGallon?: SortOrderInput | SortOrder
+    driverHourlyCost?: SortOrderInput | SortOrder
+    averageSpeedMph?: SortOrderInput | SortOrder
+    handlingMinutes?: SortOrderInput | SortOrder
+    deadheadMiles?: SortOrderInput | SortOrder
+    tollsPerJob?: SortOrderInput | SortOrder
+    otherCostPerJob?: SortOrderInput | SortOrder
+    targetMarginPercent?: SortOrderInput | SortOrder
+    followUpAfterHours?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type MerchantCostProfileWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_vehicleKey?: MerchantCostProfileCompanyIdVehicleKeyCompoundUniqueInput
+    AND?: MerchantCostProfileWhereInput | MerchantCostProfileWhereInput[]
+    OR?: MerchantCostProfileWhereInput[]
+    NOT?: MerchantCostProfileWhereInput | MerchantCostProfileWhereInput[]
+    companyId?: StringFilter<"MerchantCostProfile"> | string
+    vehicleKey?: StringFilter<"MerchantCostProfile"> | string
+    label?: StringFilter<"MerchantCostProfile"> | string
+    fuelPricePerGallon?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    milesPerGallon?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    driverHourlyCost?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    averageSpeedMph?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    handlingMinutes?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    deadheadMiles?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    tollsPerJob?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    otherCostPerJob?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    targetMarginPercent?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    followUpAfterHours?: IntNullableFilter<"MerchantCostProfile"> | number | null
+    createdAt?: DateTimeFilter<"MerchantCostProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"MerchantCostProfile"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId_vehicleKey">
+
+  export type MerchantCostProfileOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    vehicleKey?: SortOrder
+    label?: SortOrder
+    fuelPricePerGallon?: SortOrderInput | SortOrder
+    milesPerGallon?: SortOrderInput | SortOrder
+    driverHourlyCost?: SortOrderInput | SortOrder
+    averageSpeedMph?: SortOrderInput | SortOrder
+    handlingMinutes?: SortOrderInput | SortOrder
+    deadheadMiles?: SortOrderInput | SortOrder
+    tollsPerJob?: SortOrderInput | SortOrder
+    otherCostPerJob?: SortOrderInput | SortOrder
+    targetMarginPercent?: SortOrderInput | SortOrder
+    followUpAfterHours?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MerchantCostProfileCountOrderByAggregateInput
+    _avg?: MerchantCostProfileAvgOrderByAggregateInput
+    _max?: MerchantCostProfileMaxOrderByAggregateInput
+    _min?: MerchantCostProfileMinOrderByAggregateInput
+    _sum?: MerchantCostProfileSumOrderByAggregateInput
+  }
+
+  export type MerchantCostProfileScalarWhereWithAggregatesInput = {
+    AND?: MerchantCostProfileScalarWhereWithAggregatesInput | MerchantCostProfileScalarWhereWithAggregatesInput[]
+    OR?: MerchantCostProfileScalarWhereWithAggregatesInput[]
+    NOT?: MerchantCostProfileScalarWhereWithAggregatesInput | MerchantCostProfileScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MerchantCostProfile"> | string
+    companyId?: StringWithAggregatesFilter<"MerchantCostProfile"> | string
+    vehicleKey?: StringWithAggregatesFilter<"MerchantCostProfile"> | string
+    label?: StringWithAggregatesFilter<"MerchantCostProfile"> | string
+    fuelPricePerGallon?: FloatNullableWithAggregatesFilter<"MerchantCostProfile"> | number | null
+    milesPerGallon?: FloatNullableWithAggregatesFilter<"MerchantCostProfile"> | number | null
+    driverHourlyCost?: FloatNullableWithAggregatesFilter<"MerchantCostProfile"> | number | null
+    averageSpeedMph?: FloatNullableWithAggregatesFilter<"MerchantCostProfile"> | number | null
+    handlingMinutes?: FloatNullableWithAggregatesFilter<"MerchantCostProfile"> | number | null
+    deadheadMiles?: FloatNullableWithAggregatesFilter<"MerchantCostProfile"> | number | null
+    tollsPerJob?: FloatNullableWithAggregatesFilter<"MerchantCostProfile"> | number | null
+    otherCostPerJob?: FloatNullableWithAggregatesFilter<"MerchantCostProfile"> | number | null
+    targetMarginPercent?: FloatNullableWithAggregatesFilter<"MerchantCostProfile"> | number | null
+    followUpAfterHours?: IntNullableWithAggregatesFilter<"MerchantCostProfile"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"MerchantCostProfile"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MerchantCostProfile"> | Date | string
   }
 
   export type PricingProfileWhereInput = {
@@ -27223,6 +28765,7 @@ export namespace Prisma {
     jobs?: JobCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -27283,6 +28826,7 @@ export namespace Prisma {
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -27343,6 +28887,7 @@ export namespace Prisma {
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -27403,6 +28948,7 @@ export namespace Prisma {
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -27553,6 +29099,138 @@ export namespace Prisma {
     registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MerchantCostProfileCreateInput = {
+    id?: string
+    vehicleKey?: string
+    label?: string
+    fuelPricePerGallon?: number | null
+    milesPerGallon?: number | null
+    driverHourlyCost?: number | null
+    averageSpeedMph?: number | null
+    handlingMinutes?: number | null
+    deadheadMiles?: number | null
+    tollsPerJob?: number | null
+    otherCostPerJob?: number | null
+    targetMarginPercent?: number | null
+    followUpAfterHours?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutCostProfilesInput
+  }
+
+  export type MerchantCostProfileUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    vehicleKey?: string
+    label?: string
+    fuelPricePerGallon?: number | null
+    milesPerGallon?: number | null
+    driverHourlyCost?: number | null
+    averageSpeedMph?: number | null
+    handlingMinutes?: number | null
+    deadheadMiles?: number | null
+    tollsPerJob?: number | null
+    otherCostPerJob?: number | null
+    targetMarginPercent?: number | null
+    followUpAfterHours?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MerchantCostProfileUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vehicleKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    fuelPricePerGallon?: NullableFloatFieldUpdateOperationsInput | number | null
+    milesPerGallon?: NullableFloatFieldUpdateOperationsInput | number | null
+    driverHourlyCost?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageSpeedMph?: NullableFloatFieldUpdateOperationsInput | number | null
+    handlingMinutes?: NullableFloatFieldUpdateOperationsInput | number | null
+    deadheadMiles?: NullableFloatFieldUpdateOperationsInput | number | null
+    tollsPerJob?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherCostPerJob?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetMarginPercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    followUpAfterHours?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutCostProfilesNestedInput
+  }
+
+  export type MerchantCostProfileUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    vehicleKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    fuelPricePerGallon?: NullableFloatFieldUpdateOperationsInput | number | null
+    milesPerGallon?: NullableFloatFieldUpdateOperationsInput | number | null
+    driverHourlyCost?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageSpeedMph?: NullableFloatFieldUpdateOperationsInput | number | null
+    handlingMinutes?: NullableFloatFieldUpdateOperationsInput | number | null
+    deadheadMiles?: NullableFloatFieldUpdateOperationsInput | number | null
+    tollsPerJob?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherCostPerJob?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetMarginPercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    followUpAfterHours?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MerchantCostProfileCreateManyInput = {
+    id?: string
+    companyId: string
+    vehicleKey?: string
+    label?: string
+    fuelPricePerGallon?: number | null
+    milesPerGallon?: number | null
+    driverHourlyCost?: number | null
+    averageSpeedMph?: number | null
+    handlingMinutes?: number | null
+    deadheadMiles?: number | null
+    tollsPerJob?: number | null
+    otherCostPerJob?: number | null
+    targetMarginPercent?: number | null
+    followUpAfterHours?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MerchantCostProfileUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vehicleKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    fuelPricePerGallon?: NullableFloatFieldUpdateOperationsInput | number | null
+    milesPerGallon?: NullableFloatFieldUpdateOperationsInput | number | null
+    driverHourlyCost?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageSpeedMph?: NullableFloatFieldUpdateOperationsInput | number | null
+    handlingMinutes?: NullableFloatFieldUpdateOperationsInput | number | null
+    deadheadMiles?: NullableFloatFieldUpdateOperationsInput | number | null
+    tollsPerJob?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherCostPerJob?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetMarginPercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    followUpAfterHours?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MerchantCostProfileUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    vehicleKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    fuelPricePerGallon?: NullableFloatFieldUpdateOperationsInput | number | null
+    milesPerGallon?: NullableFloatFieldUpdateOperationsInput | number | null
+    driverHourlyCost?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageSpeedMph?: NullableFloatFieldUpdateOperationsInput | number | null
+    handlingMinutes?: NullableFloatFieldUpdateOperationsInput | number | null
+    deadheadMiles?: NullableFloatFieldUpdateOperationsInput | number | null
+    tollsPerJob?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherCostPerJob?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetMarginPercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    followUpAfterHours?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PricingProfileCreateInput = {
@@ -29525,6 +31203,12 @@ export namespace Prisma {
     none?: WidgetInstallationWhereInput
   }
 
+  export type MerchantCostProfileListRelationFilter = {
+    every?: MerchantCostProfileWhereInput
+    some?: MerchantCostProfileWhereInput
+    none?: MerchantCostProfileWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -29567,6 +31251,10 @@ export namespace Prisma {
   }
 
   export type WidgetInstallationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MerchantCostProfileOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -29838,6 +31526,153 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type CompanyScalarRelationFilter = {
+    is?: CompanyWhereInput
+    isNot?: CompanyWhereInput
+  }
+
+  export type MerchantCostProfileCompanyIdVehicleKeyCompoundUniqueInput = {
+    companyId: string
+    vehicleKey: string
+  }
+
+  export type MerchantCostProfileCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    vehicleKey?: SortOrder
+    label?: SortOrder
+    fuelPricePerGallon?: SortOrder
+    milesPerGallon?: SortOrder
+    driverHourlyCost?: SortOrder
+    averageSpeedMph?: SortOrder
+    handlingMinutes?: SortOrder
+    deadheadMiles?: SortOrder
+    tollsPerJob?: SortOrder
+    otherCostPerJob?: SortOrder
+    targetMarginPercent?: SortOrder
+    followUpAfterHours?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MerchantCostProfileAvgOrderByAggregateInput = {
+    fuelPricePerGallon?: SortOrder
+    milesPerGallon?: SortOrder
+    driverHourlyCost?: SortOrder
+    averageSpeedMph?: SortOrder
+    handlingMinutes?: SortOrder
+    deadheadMiles?: SortOrder
+    tollsPerJob?: SortOrder
+    otherCostPerJob?: SortOrder
+    targetMarginPercent?: SortOrder
+    followUpAfterHours?: SortOrder
+  }
+
+  export type MerchantCostProfileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    vehicleKey?: SortOrder
+    label?: SortOrder
+    fuelPricePerGallon?: SortOrder
+    milesPerGallon?: SortOrder
+    driverHourlyCost?: SortOrder
+    averageSpeedMph?: SortOrder
+    handlingMinutes?: SortOrder
+    deadheadMiles?: SortOrder
+    tollsPerJob?: SortOrder
+    otherCostPerJob?: SortOrder
+    targetMarginPercent?: SortOrder
+    followUpAfterHours?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MerchantCostProfileMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    vehicleKey?: SortOrder
+    label?: SortOrder
+    fuelPricePerGallon?: SortOrder
+    milesPerGallon?: SortOrder
+    driverHourlyCost?: SortOrder
+    averageSpeedMph?: SortOrder
+    handlingMinutes?: SortOrder
+    deadheadMiles?: SortOrder
+    tollsPerJob?: SortOrder
+    otherCostPerJob?: SortOrder
+    targetMarginPercent?: SortOrder
+    followUpAfterHours?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MerchantCostProfileSumOrderByAggregateInput = {
+    fuelPricePerGallon?: SortOrder
+    milesPerGallon?: SortOrder
+    driverHourlyCost?: SortOrder
+    averageSpeedMph?: SortOrder
+    handlingMinutes?: SortOrder
+    deadheadMiles?: SortOrder
+    tollsPerJob?: SortOrder
+    otherCostPerJob?: SortOrder
+    targetMarginPercent?: SortOrder
+    followUpAfterHours?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
   export type FloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -29870,11 +31705,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type CompanyScalarRelationFilter = {
-    is?: CompanyWhereInput
-    isNot?: CompanyWhereInput
   }
 
   export type WidgetSettingsNullableScalarRelationFilter = {
@@ -30187,17 +32017,6 @@ export namespace Prisma {
     loadCount?: SortOrder
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type QuoteRequestCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
@@ -30299,22 +32118,6 @@ export namespace Prisma {
     itemCount?: SortOrder
     estimatedPrice?: SortOrder
     vehicleCount?: SortOrder
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type WebhookCountOrderByAggregateInput = {
@@ -30977,6 +32780,13 @@ export namespace Prisma {
     connect?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
   }
 
+  export type MerchantCostProfileCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<MerchantCostProfileCreateWithoutCompanyInput, MerchantCostProfileUncheckedCreateWithoutCompanyInput> | MerchantCostProfileCreateWithoutCompanyInput[] | MerchantCostProfileUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: MerchantCostProfileCreateOrConnectWithoutCompanyInput | MerchantCostProfileCreateOrConnectWithoutCompanyInput[]
+    createMany?: MerchantCostProfileCreateManyCompanyInputEnvelope
+    connect?: MerchantCostProfileWhereUniqueInput | MerchantCostProfileWhereUniqueInput[]
+  }
+
   export type PricingProfileUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<PricingProfileCreateWithoutCompanyInput, PricingProfileUncheckedCreateWithoutCompanyInput> | PricingProfileCreateWithoutCompanyInput[] | PricingProfileUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: PricingProfileCreateOrConnectWithoutCompanyInput | PricingProfileCreateOrConnectWithoutCompanyInput[]
@@ -31045,6 +32855,13 @@ export namespace Prisma {
     connectOrCreate?: WidgetInstallationCreateOrConnectWithoutCompanyInput | WidgetInstallationCreateOrConnectWithoutCompanyInput[]
     createMany?: WidgetInstallationCreateManyCompanyInputEnvelope
     connect?: WidgetInstallationWhereUniqueInput | WidgetInstallationWhereUniqueInput[]
+  }
+
+  export type MerchantCostProfileUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<MerchantCostProfileCreateWithoutCompanyInput, MerchantCostProfileUncheckedCreateWithoutCompanyInput> | MerchantCostProfileCreateWithoutCompanyInput[] | MerchantCostProfileUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: MerchantCostProfileCreateOrConnectWithoutCompanyInput | MerchantCostProfileCreateOrConnectWithoutCompanyInput[]
+    createMany?: MerchantCostProfileCreateManyCompanyInputEnvelope
+    connect?: MerchantCostProfileWhereUniqueInput | MerchantCostProfileWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -31215,6 +33032,20 @@ export namespace Prisma {
     deleteMany?: WidgetInstallationScalarWhereInput | WidgetInstallationScalarWhereInput[]
   }
 
+  export type MerchantCostProfileUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<MerchantCostProfileCreateWithoutCompanyInput, MerchantCostProfileUncheckedCreateWithoutCompanyInput> | MerchantCostProfileCreateWithoutCompanyInput[] | MerchantCostProfileUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: MerchantCostProfileCreateOrConnectWithoutCompanyInput | MerchantCostProfileCreateOrConnectWithoutCompanyInput[]
+    upsert?: MerchantCostProfileUpsertWithWhereUniqueWithoutCompanyInput | MerchantCostProfileUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: MerchantCostProfileCreateManyCompanyInputEnvelope
+    set?: MerchantCostProfileWhereUniqueInput | MerchantCostProfileWhereUniqueInput[]
+    disconnect?: MerchantCostProfileWhereUniqueInput | MerchantCostProfileWhereUniqueInput[]
+    delete?: MerchantCostProfileWhereUniqueInput | MerchantCostProfileWhereUniqueInput[]
+    connect?: MerchantCostProfileWhereUniqueInput | MerchantCostProfileWhereUniqueInput[]
+    update?: MerchantCostProfileUpdateWithWhereUniqueWithoutCompanyInput | MerchantCostProfileUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: MerchantCostProfileUpdateManyWithWhereWithoutCompanyInput | MerchantCostProfileUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: MerchantCostProfileScalarWhereInput | MerchantCostProfileScalarWhereInput[]
+  }
+
   export type PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<PricingProfileCreateWithoutCompanyInput, PricingProfileUncheckedCreateWithoutCompanyInput> | PricingProfileCreateWithoutCompanyInput[] | PricingProfileUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: PricingProfileCreateOrConnectWithoutCompanyInput | PricingProfileCreateOrConnectWithoutCompanyInput[]
@@ -31353,6 +33184,50 @@ export namespace Prisma {
     update?: WidgetInstallationUpdateWithWhereUniqueWithoutCompanyInput | WidgetInstallationUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: WidgetInstallationUpdateManyWithWhereWithoutCompanyInput | WidgetInstallationUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: WidgetInstallationScalarWhereInput | WidgetInstallationScalarWhereInput[]
+  }
+
+  export type MerchantCostProfileUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<MerchantCostProfileCreateWithoutCompanyInput, MerchantCostProfileUncheckedCreateWithoutCompanyInput> | MerchantCostProfileCreateWithoutCompanyInput[] | MerchantCostProfileUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: MerchantCostProfileCreateOrConnectWithoutCompanyInput | MerchantCostProfileCreateOrConnectWithoutCompanyInput[]
+    upsert?: MerchantCostProfileUpsertWithWhereUniqueWithoutCompanyInput | MerchantCostProfileUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: MerchantCostProfileCreateManyCompanyInputEnvelope
+    set?: MerchantCostProfileWhereUniqueInput | MerchantCostProfileWhereUniqueInput[]
+    disconnect?: MerchantCostProfileWhereUniqueInput | MerchantCostProfileWhereUniqueInput[]
+    delete?: MerchantCostProfileWhereUniqueInput | MerchantCostProfileWhereUniqueInput[]
+    connect?: MerchantCostProfileWhereUniqueInput | MerchantCostProfileWhereUniqueInput[]
+    update?: MerchantCostProfileUpdateWithWhereUniqueWithoutCompanyInput | MerchantCostProfileUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: MerchantCostProfileUpdateManyWithWhereWithoutCompanyInput | MerchantCostProfileUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: MerchantCostProfileScalarWhereInput | MerchantCostProfileScalarWhereInput[]
+  }
+
+  export type CompanyCreateNestedOneWithoutCostProfilesInput = {
+    create?: XOR<CompanyCreateWithoutCostProfilesInput, CompanyUncheckedCreateWithoutCostProfilesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutCostProfilesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type CompanyUpdateOneRequiredWithoutCostProfilesNestedInput = {
+    create?: XOR<CompanyCreateWithoutCostProfilesInput, CompanyUncheckedCreateWithoutCostProfilesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutCostProfilesInput
+    upsert?: CompanyUpsertWithoutCostProfilesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutCostProfilesInput, CompanyUpdateWithoutCostProfilesInput>, CompanyUncheckedUpdateWithoutCostProfilesInput>
   }
 
   export type CompanyCreateNestedOneWithoutPricingProfilesInput = {
@@ -31550,14 +33425,6 @@ export namespace Prisma {
     connectOrCreate?: CustomerDocumentCreateOrConnectWithoutQuoteRequestInput | CustomerDocumentCreateOrConnectWithoutQuoteRequestInput[]
     createMany?: CustomerDocumentCreateManyQuoteRequestInputEnvelope
     connect?: CustomerDocumentWhereUniqueInput | CustomerDocumentWhereUniqueInput[]
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type CompanyUpdateOneRequiredWithoutQuoteRequestsNestedInput = {
@@ -32288,6 +34155,49 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -32325,33 +34235,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type PricingProfileCreateWithoutCompanyInput = {
@@ -32806,6 +34689,52 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MerchantCostProfileCreateWithoutCompanyInput = {
+    id?: string
+    vehicleKey?: string
+    label?: string
+    fuelPricePerGallon?: number | null
+    milesPerGallon?: number | null
+    driverHourlyCost?: number | null
+    averageSpeedMph?: number | null
+    handlingMinutes?: number | null
+    deadheadMiles?: number | null
+    tollsPerJob?: number | null
+    otherCostPerJob?: number | null
+    targetMarginPercent?: number | null
+    followUpAfterHours?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MerchantCostProfileUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    vehicleKey?: string
+    label?: string
+    fuelPricePerGallon?: number | null
+    milesPerGallon?: number | null
+    driverHourlyCost?: number | null
+    averageSpeedMph?: number | null
+    handlingMinutes?: number | null
+    deadheadMiles?: number | null
+    tollsPerJob?: number | null
+    otherCostPerJob?: number | null
+    targetMarginPercent?: number | null
+    followUpAfterHours?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MerchantCostProfileCreateOrConnectWithoutCompanyInput = {
+    where: MerchantCostProfileWhereUniqueInput
+    create: XOR<MerchantCostProfileCreateWithoutCompanyInput, MerchantCostProfileUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type MerchantCostProfileCreateManyCompanyInputEnvelope = {
+    data: MerchantCostProfileCreateManyCompanyInput | MerchantCostProfileCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PricingProfileUpsertWithWhereUniqueWithoutCompanyInput = {
     where: PricingProfileWhereUniqueInput
     update: XOR<PricingProfileUpdateWithoutCompanyInput, PricingProfileUncheckedUpdateWithoutCompanyInput>
@@ -33172,6 +35101,300 @@ export namespace Prisma {
     loadCount?: IntFilter<"WidgetInstallation"> | number
   }
 
+  export type MerchantCostProfileUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: MerchantCostProfileWhereUniqueInput
+    update: XOR<MerchantCostProfileUpdateWithoutCompanyInput, MerchantCostProfileUncheckedUpdateWithoutCompanyInput>
+    create: XOR<MerchantCostProfileCreateWithoutCompanyInput, MerchantCostProfileUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type MerchantCostProfileUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: MerchantCostProfileWhereUniqueInput
+    data: XOR<MerchantCostProfileUpdateWithoutCompanyInput, MerchantCostProfileUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type MerchantCostProfileUpdateManyWithWhereWithoutCompanyInput = {
+    where: MerchantCostProfileScalarWhereInput
+    data: XOR<MerchantCostProfileUpdateManyMutationInput, MerchantCostProfileUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type MerchantCostProfileScalarWhereInput = {
+    AND?: MerchantCostProfileScalarWhereInput | MerchantCostProfileScalarWhereInput[]
+    OR?: MerchantCostProfileScalarWhereInput[]
+    NOT?: MerchantCostProfileScalarWhereInput | MerchantCostProfileScalarWhereInput[]
+    id?: StringFilter<"MerchantCostProfile"> | string
+    companyId?: StringFilter<"MerchantCostProfile"> | string
+    vehicleKey?: StringFilter<"MerchantCostProfile"> | string
+    label?: StringFilter<"MerchantCostProfile"> | string
+    fuelPricePerGallon?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    milesPerGallon?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    driverHourlyCost?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    averageSpeedMph?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    handlingMinutes?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    deadheadMiles?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    tollsPerJob?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    otherCostPerJob?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    targetMarginPercent?: FloatNullableFilter<"MerchantCostProfile"> | number | null
+    followUpAfterHours?: IntNullableFilter<"MerchantCostProfile"> | number | null
+    createdAt?: DateTimeFilter<"MerchantCostProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"MerchantCostProfile"> | Date | string
+  }
+
+  export type CompanyCreateWithoutCostProfilesInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name: string
+    logoUrl?: string | null
+    logoBackdrop?: string
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
+    timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    subscriptionPlan?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripeConnectAccountId?: string | null
+    trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    isSuperAdmin?: boolean
+    lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
+    createdAt?: Date | string
+    pricingProfiles?: PricingProfileCreateNestedManyWithoutCompanyInput
+    quoteRequests?: QuoteRequestCreateNestedManyWithoutCompanyInput
+    widgetSettings?: WidgetSettingsCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestCreateNestedManyWithoutCompanyInput
+    webhooks?: WebhookCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
+    jobs?: JobCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutCostProfilesInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name: string
+    logoUrl?: string | null
+    logoBackdrop?: string
+    profilePicUrl?: string | null
+    phone?: string | null
+    website?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    zip?: string | null
+    contactName?: string | null
+    timezone?: string
+    businessType?: string | null
+    onboardingStep?: number
+    onboardingCompletedAt?: Date | string | null
+    subscriptionPlan?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripeConnectAccountId?: string | null
+    trialEndsAt?: Date | string | null
+    emailVerified?: boolean
+    emailVerificationToken?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    customEmailDomain?: string | null
+    customEmailFromName?: string | null
+    resendDomainId?: string | null
+    emailDomainVerified?: boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: string | null
+    customWidgetDomainVerified?: boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: boolean
+    isSuperAdmin?: boolean
+    lastLoginAt?: Date | string | null
+    registrationSource?: string | null
+    registrationReferrer?: string | null
+    registrationLandingPage?: string | null
+    registrationUtmSource?: string | null
+    registrationUtmMedium?: string | null
+    registrationUtmCampaign?: string | null
+    registrationUtmTerm?: string | null
+    registrationUtmContent?: string | null
+    createdAt?: Date | string
+    pricingProfiles?: PricingProfileUncheckedCreateNestedManyWithoutCompanyInput
+    quoteRequests?: QuoteRequestUncheckedCreateNestedManyWithoutCompanyInput
+    widgetSettings?: WidgetSettingsUncheckedCreateNestedManyWithoutCompanyInput
+    vehicleRequests?: VehicleRequestUncheckedCreateNestedManyWithoutCompanyInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutCompanyInput
+    shopifyInstalls?: ShopifyInstallUncheckedCreateNestedManyWithoutCompanyInput
+    stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
+    jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
+    customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
+    widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutCostProfilesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutCostProfilesInput, CompanyUncheckedCreateWithoutCostProfilesInput>
+  }
+
+  export type CompanyUpsertWithoutCostProfilesInput = {
+    update: XOR<CompanyUpdateWithoutCostProfilesInput, CompanyUncheckedUpdateWithoutCostProfilesInput>
+    create: XOR<CompanyCreateWithoutCostProfilesInput, CompanyUncheckedCreateWithoutCostProfilesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutCostProfilesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutCostProfilesInput, CompanyUncheckedUpdateWithoutCostProfilesInput>
+  }
+
+  export type CompanyUpdateWithoutCostProfilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoBackdrop?: StringFieldUpdateOperationsInput | string
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricingProfiles?: PricingProfileUpdateManyWithoutCompanyNestedInput
+    quoteRequests?: QuoteRequestUpdateManyWithoutCompanyNestedInput
+    widgetSettings?: WidgetSettingsUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUpdateManyWithoutCompanyNestedInput
+    webhooks?: WebhookUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutCostProfilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoBackdrop?: StringFieldUpdateOperationsInput | string
+    profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    businessType?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingCompletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeConnectAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailVerificationToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customEmailDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customEmailFromName?: NullableStringFieldUpdateOperationsInput | string | null
+    resendDomainId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailDomainDnsRecords?: NullableJsonNullValueInput | InputJsonValue
+    customWidgetDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    customWidgetDomainVerified?: BoolFieldUpdateOperationsInput | boolean
+    customWidgetDomainVerification?: NullableJsonNullValueInput | InputJsonValue
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isSuperAdmin?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registrationSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationReferrer?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationLandingPage?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmTerm?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationUtmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pricingProfiles?: PricingProfileUncheckedUpdateManyWithoutCompanyNestedInput
+    quoteRequests?: QuoteRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetSettings?: WidgetSettingsUncheckedUpdateManyWithoutCompanyNestedInput
+    vehicleRequests?: VehicleRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutCompanyNestedInput
+    shopifyInstalls?: ShopifyInstallUncheckedUpdateManyWithoutCompanyNestedInput
+    stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
+    customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
+    widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
   export type CompanyCreateWithoutPricingProfilesInput = {
     id?: string
     email: string
@@ -33229,6 +35452,7 @@ export namespace Prisma {
     jobs?: JobCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPricingProfilesInput = {
@@ -33288,6 +35512,7 @@ export namespace Prisma {
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPricingProfilesInput = {
@@ -33440,6 +35665,7 @@ export namespace Prisma {
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPricingProfilesInput = {
@@ -33499,6 +35725,7 @@ export namespace Prisma {
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WidgetSettingsUpsertWithoutPricingProfileInput = {
@@ -33641,6 +35868,7 @@ export namespace Prisma {
     jobs?: JobCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWidgetSettingsInput = {
@@ -33700,6 +35928,7 @@ export namespace Prisma {
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWidgetSettingsInput = {
@@ -33854,6 +36083,7 @@ export namespace Prisma {
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWidgetSettingsInput = {
@@ -33913,6 +36143,7 @@ export namespace Prisma {
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type PricingProfileUpsertWithoutWidgetSettingsInput = {
@@ -34045,6 +36276,7 @@ export namespace Prisma {
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWidgetInstallationsInput = {
@@ -34104,6 +36336,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWidgetInstallationsInput = {
@@ -34256,6 +36489,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWidgetInstallationsInput = {
@@ -34315,6 +36549,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WidgetSettingsUpsertWithoutWidgetInstallationsInput = {
@@ -34457,6 +36692,7 @@ export namespace Prisma {
     jobs?: JobCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutQuoteRequestsInput = {
@@ -34516,6 +36752,7 @@ export namespace Prisma {
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutQuoteRequestsInput = {
@@ -34669,6 +36906,7 @@ export namespace Prisma {
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutQuoteRequestsInput = {
@@ -34728,6 +36966,7 @@ export namespace Prisma {
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type JobUpsertWithWhereUniqueWithoutQuoteRequestInput = {
@@ -34819,6 +37058,7 @@ export namespace Prisma {
     jobs?: JobCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWebhooksInput = {
@@ -34878,6 +37118,7 @@ export namespace Prisma {
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWebhooksInput = {
@@ -34953,6 +37194,7 @@ export namespace Prisma {
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWebhooksInput = {
@@ -35012,6 +37254,7 @@ export namespace Prisma {
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutShopifyInstallsInput = {
@@ -35071,6 +37314,7 @@ export namespace Prisma {
     jobs?: JobCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutShopifyInstallsInput = {
@@ -35130,6 +37374,7 @@ export namespace Prisma {
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutShopifyInstallsInput = {
@@ -35205,6 +37450,7 @@ export namespace Prisma {
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutShopifyInstallsInput = {
@@ -35264,6 +37510,7 @@ export namespace Prisma {
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutVehicleRequestsInput = {
@@ -35323,6 +37570,7 @@ export namespace Prisma {
     jobs?: JobCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutVehicleRequestsInput = {
@@ -35382,6 +37630,7 @@ export namespace Prisma {
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutVehicleRequestsInput = {
@@ -35457,6 +37706,7 @@ export namespace Prisma {
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutVehicleRequestsInput = {
@@ -35516,6 +37766,7 @@ export namespace Prisma {
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutStopNotesInput = {
@@ -35575,6 +37826,7 @@ export namespace Prisma {
     jobs?: JobCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutStopNotesInput = {
@@ -35634,6 +37886,7 @@ export namespace Prisma {
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutStopNotesInput = {
@@ -35793,6 +38046,7 @@ export namespace Prisma {
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutStopNotesInput = {
@@ -35852,6 +38106,7 @@ export namespace Prisma {
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ReadinessCheckUpsertWithWhereUniqueWithoutStopNoteInput = {
@@ -36310,6 +38565,7 @@ export namespace Prisma {
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutJobsInput = {
@@ -36369,6 +38625,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     customerDocuments?: CustomerDocumentUncheckedCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutJobsInput = {
@@ -36597,6 +38854,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutJobsInput = {
@@ -36656,6 +38914,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     customerDocuments?: CustomerDocumentUncheckedUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type QuoteRequestUpsertWithoutJobsInput = {
@@ -36994,6 +39253,7 @@ export namespace Prisma {
     stopNotes?: StopNoteCreateNestedManyWithoutCompanyInput
     jobs?: JobCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCustomerDocumentsInput = {
@@ -37053,6 +39313,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedCreateNestedManyWithoutCompanyInput
     jobs?: JobUncheckedCreateNestedManyWithoutCompanyInput
     widgetInstallations?: WidgetInstallationUncheckedCreateNestedManyWithoutCompanyInput
+    costProfiles?: MerchantCostProfileUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCustomerDocumentsInput = {
@@ -37197,6 +39458,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUpdateManyWithoutCompanyNestedInput
     jobs?: JobUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCustomerDocumentsInput = {
@@ -37256,6 +39518,7 @@ export namespace Prisma {
     stopNotes?: StopNoteUncheckedUpdateManyWithoutCompanyNestedInput
     jobs?: JobUncheckedUpdateManyWithoutCompanyNestedInput
     widgetInstallations?: WidgetInstallationUncheckedUpdateManyWithoutCompanyNestedInput
+    costProfiles?: MerchantCostProfileUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type QuoteRequestUpsertWithoutCustomerDocumentsInput = {
@@ -37497,6 +39760,24 @@ export namespace Prisma {
     firstSeenAt?: Date | string
     lastSeenAt?: Date | string
     loadCount?: number
+  }
+
+  export type MerchantCostProfileCreateManyCompanyInput = {
+    id?: string
+    vehicleKey?: string
+    label?: string
+    fuelPricePerGallon?: number | null
+    milesPerGallon?: number | null
+    driverHourlyCost?: number | null
+    averageSpeedMph?: number | null
+    handlingMinutes?: number | null
+    deadheadMiles?: number | null
+    tollsPerJob?: number | null
+    otherCostPerJob?: number | null
+    targetMarginPercent?: number | null
+    followUpAfterHours?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PricingProfileUpdateWithoutCompanyInput = {
@@ -38015,6 +40296,60 @@ export namespace Prisma {
     firstSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastSeenAt?: DateTimeFieldUpdateOperationsInput | Date | string
     loadCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type MerchantCostProfileUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vehicleKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    fuelPricePerGallon?: NullableFloatFieldUpdateOperationsInput | number | null
+    milesPerGallon?: NullableFloatFieldUpdateOperationsInput | number | null
+    driverHourlyCost?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageSpeedMph?: NullableFloatFieldUpdateOperationsInput | number | null
+    handlingMinutes?: NullableFloatFieldUpdateOperationsInput | number | null
+    deadheadMiles?: NullableFloatFieldUpdateOperationsInput | number | null
+    tollsPerJob?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherCostPerJob?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetMarginPercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    followUpAfterHours?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MerchantCostProfileUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vehicleKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    fuelPricePerGallon?: NullableFloatFieldUpdateOperationsInput | number | null
+    milesPerGallon?: NullableFloatFieldUpdateOperationsInput | number | null
+    driverHourlyCost?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageSpeedMph?: NullableFloatFieldUpdateOperationsInput | number | null
+    handlingMinutes?: NullableFloatFieldUpdateOperationsInput | number | null
+    deadheadMiles?: NullableFloatFieldUpdateOperationsInput | number | null
+    tollsPerJob?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherCostPerJob?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetMarginPercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    followUpAfterHours?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MerchantCostProfileUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vehicleKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    fuelPricePerGallon?: NullableFloatFieldUpdateOperationsInput | number | null
+    milesPerGallon?: NullableFloatFieldUpdateOperationsInput | number | null
+    driverHourlyCost?: NullableFloatFieldUpdateOperationsInput | number | null
+    averageSpeedMph?: NullableFloatFieldUpdateOperationsInput | number | null
+    handlingMinutes?: NullableFloatFieldUpdateOperationsInput | number | null
+    deadheadMiles?: NullableFloatFieldUpdateOperationsInput | number | null
+    tollsPerJob?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherCostPerJob?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetMarginPercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    followUpAfterHours?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WidgetInstallationCreateManyFormInput = {

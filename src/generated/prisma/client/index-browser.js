@@ -170,6 +170,25 @@ exports.Prisma.CompanyScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.MerchantCostProfileScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  vehicleKey: 'vehicleKey',
+  label: 'label',
+  fuelPricePerGallon: 'fuelPricePerGallon',
+  milesPerGallon: 'milesPerGallon',
+  driverHourlyCost: 'driverHourlyCost',
+  averageSpeedMph: 'averageSpeedMph',
+  handlingMinutes: 'handlingMinutes',
+  deadheadMiles: 'deadheadMiles',
+  tollsPerJob: 'tollsPerJob',
+  otherCostPerJob: 'otherCostPerJob',
+  targetMarginPercent: 'targetMarginPercent',
+  followUpAfterHours: 'followUpAfterHours',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.PricingProfileScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
@@ -460,6 +479,7 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   Company: 'Company',
+  MerchantCostProfile: 'MerchantCostProfile',
   PricingProfile: 'PricingProfile',
   WidgetSettings: 'WidgetSettings',
   WidgetInstallation: 'WidgetInstallation',
