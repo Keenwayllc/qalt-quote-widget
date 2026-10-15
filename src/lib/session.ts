@@ -43,8 +43,8 @@ export const getCurrentCompany = cache(async function getCurrentCompany() {
   const company = await prisma.company.findUnique({
     where: { id: payload.companyId },
     include: {
-      pricingProfiles: true,
-      widgetSettings: true,
+      pricingProfiles: { orderBy: { id: "asc" } },
+      widgetSettings: { orderBy: { id: "asc" } },
     }
   });
 
@@ -64,16 +64,18 @@ export function getDefaultPricing(company: Awaited<ReturnType<typeof getCurrentC
   return company.pricingProfiles.filter((p) => p.widgetSettingsId === null).sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))[0] ?? null;
 }
 
+type PricingCompany = { widgetSettings: { id: string }[]; pricingProfiles: { id: string; widgetSettingsId: string | null }[] };
+
 /**
- * The pricing customers actually get when the company has exactly one form:
- * that form's own profile if it has one, else the company default.
+ * The live pricing: what the main widget quotes and what the Pricing page
+ * opens on. That is the first form's (lowest id) own profile, else the company
+ * default. Overview, Simulator, Templates and Onboarding all use this so a save
+ * on one page shows the same value everywhere.
  */
-export function getEffectivePricing(company: Awaited<ReturnType<typeof getCurrentCompany>>) {
-  if (company.widgetSettings.length === 1) {
-    const own = company.pricingProfiles.find((p) => p.widgetSettingsId === company.widgetSettings[0].id);
-    if (own) return own;
-  }
-  return getDefaultPricing(company);
+export function getEffectivePricing<C extends PricingCompany>(company: C): C["pricingProfiles"][number] | null {
+  const firstForm = [...company.widgetSettings].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))[0];
+  const own = firstForm ? company.pricingProfiles.find((p) => p.widgetSettingsId === firstForm.id) : undefined;
+  return own ?? getDefaultPricing(company as unknown as Awaited<ReturnType<typeof getCurrentCompany>>);
 }
 
 /**

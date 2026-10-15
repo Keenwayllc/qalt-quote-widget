@@ -219,14 +219,21 @@ export default function WidgetSettingsForm({
 
       const [resWidget, resProfile] = await Promise.all(requests);
 
-      const data = await resWidget.json();
+      const data = await resWidget.json().catch(() => ({}));
 
       if (resWidget.ok && (!resProfile || resProfile.ok)) {
         setSavedLogoBackdrop(logoBackdrop);
+        setLogoChanged(false);
         updateProfile({ logoBackdrop });
         setMessage({ type: "success", text: "Widget settings updated!" });
         setSavedPreviewKey((key) => key + 1);
         router.refresh();
+      } else if (resWidget.ok) {
+        // The form saved; only the company logo/background request failed.
+        setLogoChanged(false);
+        setSavedPreviewKey((key) => key + 1);
+        router.refresh();
+        setErrorStatus("Your form changes saved, but the logo settings did not. Try saving again.");
       } else {
         setErrorStatus(data.error || "Failed to update settings.");
       }

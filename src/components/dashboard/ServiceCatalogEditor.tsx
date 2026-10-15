@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ClipboardList, Check, Plus, Save, ListPlus, Trash2 } from "lucide-react";
 
 type ServiceOption = {
@@ -69,6 +70,7 @@ export default function ServiceCatalogEditor({
 }) {
   const [options, setOptions] = useState<ServiceOption[]>(() => cleanInitial(initialOptions));
   const [status, setStatus] = useState<SaveState>("idle");
+  const router = useRouter();
   const [validationError, setValidationError] = useState("");
 
   const usedNames = useMemo(
@@ -155,6 +157,7 @@ export default function ServiceCatalogEditor({
         }),
       });
       setStatus(res.ok ? "saved" : "error");
+      if (res.ok) router.refresh();
     } catch {
       setStatus("error");
     }

@@ -22,11 +22,13 @@ test("with duplicate defaults, the oldest wins on every page", () => {
   assert.equal(getDefaultPricing({ widgetSettings: [], pricingProfiles: [] }), null);
 });
 
-test("overview rate is the single form's own pricing when it has one", () => {
+test("live pricing is the first form's own pricing, else the default", () => {
   const company = { widgetSettings: [{ id: "form88" }], pricingProfiles: [profile("cma1", null, 3), profile("cmb2", "form88", 3.25)] };
   assert.equal(getEffectivePricing(company).baseRatePerMile, 3.25);
   assert.equal(getEffectivePricing({ ...company, pricingProfiles: [profile("cma1", null, 3)] }).baseRatePerMile, 3, "form without own pricing uses the default");
-  assert.equal(getEffectivePricing({ ...company, widgetSettings: [{ id: "form88" }, { id: "f2" }] }).baseRatePerMile, 3, "several forms: show the default");
+  // Several forms: the first form by id (what the Pricing page opens and the main widget quotes).
+  assert.equal(getEffectivePricing({ ...company, widgetSettings: [{ id: "form99" }, { id: "form88" }] }).baseRatePerMile, 3.25, "form88 sorts first");
+  assert.equal(getEffectivePricing({ ...company, widgetSettings: [{ id: "form88" }, { id: "a-form" }] }).baseRatePerMile, 3, "first form has no own pricing: default");
 });
 
 test("deleting a form deletes its pricing in the same transaction", () => {

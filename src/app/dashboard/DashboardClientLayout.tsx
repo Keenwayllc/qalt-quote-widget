@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import QaltLogo from "@/components/shared/QaltLogo";
@@ -163,6 +163,25 @@ function DashboardLayoutInner({
   ];
 
   const router = useRouter();
+  // New quotes arrive while the dashboard is open. Refresh server data (quote
+  // badge, plan, setup dots) when the merchant returns to the tab, at most once
+  // a minute, so the sidebar never stays stale.
+  const lastRefresh = useRef(0);
+  useEffect(() => {
+    const onFocus = () => {
+      if (document.visibilityState !== "visible") return;
+      const now = Date.now();
+      if (now - lastRefresh.current < 60_000) return;
+      lastRefresh.current = now;
+      router.refresh();
+    };
+    window.addEventListener("focus", onFocus);
+    document.addEventListener("visibilitychange", onFocus);
+    return () => {
+      window.removeEventListener("focus", onFocus);
+      document.removeEventListener("visibilitychange", onFocus);
+    };
+  }, [router]);
   const logoRef = useRef<HTMLButtonElement>(null);
 
   const handleLogoClick = () => {

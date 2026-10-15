@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Check, Plus, Save, Trash2, Truck } from "lucide-react";
 import { inferVehicleArtwork, parseVehicleArtworkKey, type VehicleArtworkKey } from "@/lib/form-vehicles";
 import VehicleArtworkPicker from "./VehicleArtworkPicker";
@@ -89,6 +90,7 @@ export default function VehicleCatalogEditor({
 }) {
   const [options, setOptions] = useState<VehicleOption[]>(() => cleanInitial(initialOptions));
   const [status, setStatus] = useState<SaveState>("idle");
+  const router = useRouter();
   const [validationError, setValidationError] = useState("");
 
   const usedNames = useMemo(
@@ -157,6 +159,7 @@ export default function VehicleCatalogEditor({
         }),
       });
       setStatus(res.ok ? "saved" : "error");
+      if (res.ok) router.refresh();
     } catch {
       setStatus("error");
     }

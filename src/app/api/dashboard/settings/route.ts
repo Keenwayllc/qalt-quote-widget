@@ -69,9 +69,11 @@ export async function PATCH(req: Request) {
       state: state || null,
       zip: zip || null,
       contactName: contactName || null,
-      logoUrl: logoUrl || null,
-      profilePicUrl: profilePicUrl || null,
     };
+    // Images are also saved from Widget Appearance; only touch them when sent,
+    // so saving Settings never restores an older logo.
+    if (logoUrl !== undefined) updateData.logoUrl = logoUrl || null;
+    if (profilePicUrl !== undefined) updateData.profilePicUrl = profilePicUrl || null;
 
     // God Mode / Qalt Data Operations: only super-admins may override their own
     // plan. Authorization is the isSuperAdmin flag on the account, never an email.

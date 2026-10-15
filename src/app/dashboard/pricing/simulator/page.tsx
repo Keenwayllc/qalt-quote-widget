@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getCurrentCompany } from "@/lib/session";
+import { getCurrentCompany, getEffectivePricing } from "@/lib/session";
 import prisma from "@/lib/prisma";
 import { estimatePriceDetailed, type EstimateRules } from "@/lib/calculator";
 import { applyPricingRules } from "@/lib/growth-engine";
@@ -8,7 +8,7 @@ export default async function PricingSimulatorPage({ searchParams }: { searchPar
   const company = await getCurrentCompany();
   const p = await searchParams;
   const distance=Math.max(0,Number(p.distance||10)); const weight=Math.max(0,Number(p.weight||0)); const items=Math.max(0,Number(p.items||1)); const stairs=Math.max(0,Number(p.stairs||0));
-  const profile = await prisma.pricingProfile.findFirst({ where: { companyId: company.id, widgetSettingsId: null }, orderBy: { id: "asc" } });
+  const profile = getEffectivePricing(company);
   if (!profile) return <div className="p-10">Configure pricing first.</div>;
   const detailed=estimatePriceDetailed(distance,profile as unknown as EstimateRules,{ hasStairs:stairs>0,stairsFlights:stairs,needsInsideDelivery:false,needsAddon3:false,packageWeight:weight,itemCount:items });
   const rules=await applyPricingRules(company.id,distance,{ hasStairs:stairs>0,stairsFlights:stairs,needsInsideDelivery:false,needsAddon3:false,packageWeight:weight,itemCount:items },detailed.total);

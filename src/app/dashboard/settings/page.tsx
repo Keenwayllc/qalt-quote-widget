@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useCompanyProfile } from "@/context/CompanyProfileContext";
 import {
   User, Mail, Save, CheckCircle2, AlertCircle, Send,
@@ -160,12 +161,18 @@ export default function SettingsPage() {
   const [errorMsg, setErrorMsg] = useState("");
   const [testStatus, setTestStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [testMsg, setTestMsg] = useState("");
+  const [loadError, setLoadError] = useState(false);
+  const [loaded, setLoaded] = useState<ProfileData | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     fetch("/api/dashboard/settings")
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error("load failed");
+        return r.json();
+      })
       .then((d) => {
-        setData({
+        const next: ProfileData = {
           name: d.name ?? "",
           email: d.email ?? "",
           subscriptionPlan: d.subscriptionPlan ?? "",
@@ -179,7 +186,13 @@ export default function SettingsPage() {
           zip: d.zip ?? "",
           contactName: d.contactName ?? "",
           isSuperAdmin: Boolean(d.isSuperAdmin),
-        });
+        };
+        setData(next);
+        setLoaded(next);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoadError(true);
         setLoading(false);
       });
   }, []);
@@ -191,35 +204,65 @@ export default function SettingsPage() {
     e.preventDefault();
     setSaving(true);
     setStatus("idle");
-    const res = await fetch("/api/dashboard/settings", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    const result = await res.json();
-    setSaving(false);
-    if (result.success) {
-      setStatus("success");
-      setTimeout(() => setStatus("idle"), 3000);
-      updateProfile({ logoUrl: data.logoUrl, profilePicUrl: data.profilePicUrl, companyName: data.name });
-    } else {
+    // Send images only when changed here, so a logo saved in Widget Appearance
+    // after this page loaded is never overwritten.
+    const body: Partial<ProfileData> = { ...data };
+    if (loaded && data.logoUrl === loaded.logoUrl) delete body.logoUrl;
+    if (loaded && data.profilePicUrl === loaded.profilePicUrl) delete body.profilePicUrl;
+    try {
+      const res = await fetch("/api/dashboard/settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const result = await res.json().catch(() => ({}));
+      if (res.ok && result.success) {
+        setStatus("success");
+        setTimeout(() => setStatus("idle"), 3000);
+        setLoaded(data);
+        updateProfile({ logoUrl: data.logoUrl, profilePicUrl: data.profilePicUrl, companyName: data.name });
+        // Sidebar plan, locks and name come from the server layout.
+        router.refresh();
+      } else {
+        setStatus("error");
+        setErrorMsg(result.error ?? "Could not save. Try again.");
+      }
+    } catch {
       setStatus("error");
-      setErrorMsg(result.error ?? "Something went wrong");
+      setErrorMsg("Could not reach the server. Check your connection and try again.");
+    } finally {
+      setSaving(false);
     }
   };
 
   const sendTestEmail = async () => {
     setTestStatus("sending");
-    const res = await fetch("/api/dashboard/test-email", { method: "POST" });
-    const d = await res.json();
-    if (d.success) { setTestStatus("sent"); setTestMsg(`Test email sent to ${d.sentTo}`); }
-    else { setTestStatus("error"); setTestMsg(d.error ?? "Unknown error"); }
+    try {
+      const res = await fetch("/api/dashboard/test-email", { method: "POST" });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok && d.success) { setTestStatus("sent"); setTestMsg(`Test email sent to ${d.sentTo}`); }
+      else { setTestStatus("error"); setTestMsg(d.error ?? "Could not send the test email."); }
+    } catch {
+      setTestStatus("error");
+      setTestMsg("Could not reach the server. Try again.");
+    }
   };
 
   if (loading) {
     return (
       <div className="p-8 flex items-center justify-center min-h-[200px]">
         <div className="w-6 h-6 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <div className="p-8 text-sm text-slate-600 dark:text-slate-300" role="alert">
+        Your settings could not load.{" "}
+        <button type="button" className="font-bold text-red-700 underline dark:text-red-400" onClick={() => window.location.reload()}>
+          Try again
+        </button>
       </div>
     );
   }
