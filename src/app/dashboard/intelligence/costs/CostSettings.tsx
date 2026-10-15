@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Truck } from "lucide-react";
+import VehicleRequestPanel from "@/components/dashboard/VehicleRequestPanel";
+import type { VehicleArtAsset } from "@/lib/vehicle-artwork-assets";
 import { COST_FIELDS, DEFAULT_FOLLOW_UP_HOURS, DEFAULT_TARGET_MARGIN, type CostFieldKey, type CostProfile } from "@/lib/merchant-intelligence";
 import styles from "../intelligence.module.css";
 
@@ -29,7 +31,9 @@ function toDraft(p: CostProfile | undefined): Draft {
   return d;
 }
 
-export default function CostSettings({ available, profiles, vehicles }: { available: boolean; profiles: CostProfile[]; vehicles: { key: string; label: string }[] }) {
+export type CostVehicle = { key: string; label: string; art: VehicleArtAsset | null; yours: boolean };
+
+export default function CostSettings({ available, profiles, vehicles }: { available: boolean; profiles: CostProfile[]; vehicles: CostVehicle[] }) {
   const base = profiles.find((p) => p.vehicleKey === "");
   return (
     <div className={styles.root}>
@@ -68,54 +72,94 @@ export default function CostSettings({ available, profiles, vehicles }: { availa
             <ProfileForm vehicleKey="" label="All vehicles" initial={toDraft(base)} showFollowUp />
           </section>
 
-          <section className={styles.panel} aria-labelledby="vehicle-costs">
-            <div className={styles.panelHead}>
-              <div>
-                <h2 id="vehicle-costs">Vehicle overrides</h2>
-                <p>Set only what differs for a vehicle, such as fuel efficiency. Blank fields use your All vehicles numbers.</p>
-              </div>
-            </div>
-            {vehicles.length === 0 ? (
-              <div className={styles.empty}>
-                <strong>No vehicles yet</strong>
-                <p>
-                  Vehicles you offer on a form appear here. <Link href="/dashboard/forms">Manage forms</Link>
-                </p>
-              </div>
-            ) : (
-              <ul className={styles.list}>
-                {vehicles.map((v) => (
-                  <VehicleRow key={v.key} vehicle={v} profile={profiles.find((p) => p.vehicleKey === v.key)} base={toDraft(base)} />
-                ))}
-              </ul>
-            )}
-          </section>
+          <VehicleCosts vehicles={vehicles} profiles={profiles} base={toDraft(base)} />
         </>
       )}
     </div>
   );
 }
 
-function VehicleRow({ vehicle, profile, base }: { vehicle: { key: string; label: string }; profile?: CostProfile; base: Draft }) {
-  const [open, setOpen] = useState(false);
-  const overrides = profile ? COST_FIELDS.filter((f) => profile[f.key] !== null).length : 0;
+function overrideCount(profile?: CostProfile) {
+  return profile ? COST_FIELDS.filter((f) => profile[f.key] !== null).length : 0;
+}
+
+function VehicleCosts({ vehicles, profiles, base }: { vehicles: CostVehicle[]; profiles: CostProfile[]; base: Draft }) {
+  const [selected, setSelected] = useState<string | null>(null);
+  const yours = vehicles.filter((v) => v.yours);
+  const catalog = vehicles.filter((v) => !v.yours);
+  const current = vehicles.find((v) => v.key === selected);
+  const profile = current ? profiles.find((p) => p.vehicleKey === current.key) : undefined;
+  const grid = (list: CostVehicle[]) => (
+    <div className={styles.vehicleGrid}>
+      {list.map((v) => {
+        const count = overrideCount(profiles.find((p) => p.vehicleKey === v.key));
+        return (
+          <button
+            key={v.key}
+            type="button"
+            className={styles.vehicleCard}
+            aria-pressed={selected === v.key}
+            onClick={() => setSelected((cur) => (cur === v.key ? null : v.key))}
+          >
+            <span className={styles.vehicleArt} aria-hidden>
+              {v.art ? (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element -- static transparent WebP, same as the widget */}
+                  <img className={styles.artLight} src={v.art.light} alt="" loading="lazy" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className={styles.artDark} src={v.art.dark} alt="" loading="lazy" />
+                </>
+              ) : (
+                <Truck size={28} />
+              )}
+            </span>
+            <span className={styles.vehicleName}>{v.label}</span>
+            <span className={`${styles.badge} ${count ? styles.healthy : styles.neutral}`}>{count ? `${count} custom` : "Default costs"}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
   return (
-    <li className={styles.vehicleRow}>
-      <div className={styles.vehicleHead}>
+    <section className={styles.panel} aria-labelledby="vehicle-costs">
+      <div className={styles.panelHead}>
         <div>
-          <h3>{vehicle.label}</h3>
-          <span className={styles.sub}>{overrides ? `${overrides} custom value${overrides === 1 ? "" : "s"}` : "Uses All vehicles costs"}</span>
+          <h2 id="vehicle-costs">Vehicle costs</h2>
+          <p>Pick a vehicle to set only what differs for it, such as fuel efficiency. Anything left blank uses your All vehicles numbers.</p>
         </div>
-        <button type="button" className={styles.button} aria-expanded={open} onClick={() => setOpen((v) => !v)}>
-          {open ? "Close" : overrides ? "Edit" : "Customize"}
-        </button>
       </div>
-      {open && (
-        <div className={styles.vehicleBody}>
-          <ProfileForm vehicleKey={vehicle.key} label={vehicle.label} initial={toDraft(profile)} placeholders={base} removable={!!profile} />
+
+      {current && (
+        <div className={styles.vehicleEditor} aria-live="polite">
+          <div className={styles.vehicleHead}>
+            <h3>{current.label}</h3>
+            <button type="button" className={styles.buttonGhost} onClick={() => setSelected(null)}>
+              Close
+            </button>
+          </div>
+          <div className={styles.vehicleBody}>
+            <ProfileForm key={current.key} vehicleKey={current.key} label={current.label} initial={toDraft(profile)} placeholders={base} removable={!!profile} />
+          </div>
         </div>
       )}
-    </li>
+
+      {yours.length > 0 && (
+        <>
+          <h3 className={styles.groupHeading}>Your vehicles</h3>
+          {grid(yours)}
+        </>
+      )}
+      <h3 className={styles.groupHeading}>All Qalt vehicles</h3>
+      {grid(catalog)}
+
+      <div className={styles.requestRow}>
+        <div>
+          <h3>Can&apos;t find your vehicle?</h3>
+          <p>Tell us what you drive and we&apos;ll add it to the Qalt catalog.</p>
+        </div>
+        <VehicleRequestPanel />
+      </div>
+    </section>
   );
 }
 
@@ -190,7 +234,7 @@ function ProfileForm({
                     className={styles.input}
                     inputMode="decimal"
                     value={draft[key]}
-                    placeholder={inherited ? inherited : f.critical ? "Required" : "0"}
+                    placeholder={inherited ? `Default ${inherited}` : placeholders ? "Default" : f.critical ? "Required" : key === "targetMarginPercent" ? String(DEFAULT_TARGET_MARGIN) : "Optional"}
                     onChange={(e) => setDraft((d) => ({ ...d, [key]: e.target.value }))}
                   />
                   <span>{f.unit}</span>

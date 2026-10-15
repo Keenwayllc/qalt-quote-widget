@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import ts from "typescript";
 import * as engine from "../src/lib/quote-profit-intelligence.ts";
+import * as formVehicles from "../src/lib/form-vehicles.ts";
 
 // Load the module the way overview-data.test.mjs does so its sibling import
 // resolves to the real profit engine.
@@ -13,7 +14,7 @@ export function loadIntelligence() {
   const code = ts.transpileModule(readFileSync(new URL("../src/lib/merchant-intelligence.ts", import.meta.url), "utf8"), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText;
-  const localRequire = (name) => (name === "./quote-profit-intelligence" ? engine : require(name));
+  const localRequire = (name) => (name === "./quote-profit-intelligence" ? engine : name === "./form-vehicles" ? formVehicles : require(name));
   new Function("require", "module", "exports", code)(localRequire, module, module.exports);
   return module.exports;
 }
@@ -263,4 +264,18 @@ test("optional costs left blank are listed, and time zones fall back to UTC", ()
   assert.equal(mi.safeTimeZone("America/Chicago"), "America/Chicago");
   assert.equal(mi.safeTimeZone("Not/AZone"), "UTC");
   assert.equal(mi.safeTimeZone(null), "UTC");
+});
+
+test("custom vehicle names fall back to the matching catalog vehicle's costs", () => {
+  const nulls = Object.fromEntries(Object.keys(base).map((k) => [k, null]));
+  const box26 = { ...nulls, vehicleKey: "box truck - 26 ft", label: "Box truck - 26 ft", milesPerGallon: 7 };
+  assert.equal(mi.catalogVehicleKey("Big Box Truck 26ft"), "box truck - 26 ft");
+  assert.equal(mi.catalogVehicleKey("Standard"), null, "unknown names do not guess");
+  assert.equal(mi.catalogVehicleKey("Mini Van"), "cargo van");
+  const r = mi.resolveCosts([base, box26], "Big Box Truck 26ft");
+  assert.equal(r.values.milesPerGallon, 7);
+  assert.equal(r.vehicleSpecific, true);
+  const exact = { ...nulls, vehicleKey: "big box truck 26ft", label: "Big Box Truck 26ft", milesPerGallon: 6 };
+  assert.equal(mi.resolveCosts([base, box26, exact], "Big Box Truck 26ft").values.milesPerGallon, 6, "exact name wins");
+  assert.equal(mi.resolveCosts([base, box26], "Standard").values.milesPerGallon, 20);
 });
