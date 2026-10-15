@@ -89,8 +89,7 @@ export async function POST(req: Request) {
 
     // Clone pricing from company default
     const defaultPricing = await prisma.pricingProfile.findFirst({
-      where: { companyId: payload.companyId, widgetSettingsId: null },
-    });
+      where: { companyId: payload.companyId, widgetSettingsId: null }, orderBy: { id: "asc" } });
 
     const form = await prisma.$transaction(async (tx) => {
       const created = await tx.widgetSettings.create({

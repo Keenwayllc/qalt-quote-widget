@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import { getEffectivePricing } from "@/lib/session";
 
 async function getCompanyId() {
   const cookieStore = await cookies();
@@ -53,7 +54,7 @@ export async function GET() {
 
   if (!company) return NextResponse.json({ error: "Company not found" }, { status: 404 });
 
-  const pricing = company.pricingProfiles.find((profile) => profile.widgetSettingsId === null) ?? company.pricingProfiles[0] ?? null;
+  const pricing = getEffectivePricing(company) ?? company.pricingProfiles[0] ?? null;
   const widget = company.widgetSettings[0] ?? null;
 
   return NextResponse.json({
@@ -152,10 +153,10 @@ export async function PATCH(req: Request) {
   const result = await prisma.$transaction(async (tx) => {
     const company = await tx.company.update({ where: { id: companyId }, data: companyData });
 
-    let pricing = await tx.pricingProfile.findFirst({
-      where: { companyId, widgetSettingsId: null },
-      orderBy: { id: "asc" },
-    });
+    // Live pricing: the first form's own profile, else the company default.
+    const firstForm = await tx.widgetSettings.findFirst({ where: { companyId }, orderBy: { id: "asc" }, select: { id: true } });
+    let pricing = (firstForm ? await tx.pricingProfile.findFirst({ where: { companyId, widgetSettingsId: firstForm.id } }) : null)
+      ?? await tx.pricingProfile.findFirst({ where: { companyId, widgetSettingsId: null }, orderBy: { id: "asc" } });
     if (!pricing) pricing = await tx.pricingProfile.findFirst({ where: { companyId }, orderBy: { id: "asc" } });
     if (pricing && Object.keys(pricingData).length > 0) {
       pricing = await tx.pricingProfile.update({ where: { id: pricing.id }, data: pricingData });

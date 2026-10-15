@@ -72,11 +72,13 @@ function CopyButton({ text }: { text: string }) {
 function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, addon3Label }: { quote: Quote; onClose: () => void; onUpdate: (q: Quote) => void; onDelete: (id: string) => Promise<void>; insideDeliveryLabel: string; addon3Label: string }) {
   const [notes, setNotes] = useState(quote.internalNotes || "");
   const [isUpdating, setIsUpdating] = useState(false);
+  const [updateError, setUpdateError] = useState("");
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const updateQuote = async (data: Partial<Quote>) => {
     setIsUpdating(true);
+    setUpdateError("");
     try {
       const res = await fetch(`/api/dashboard/quotes/${quote.id}`, {
         method: "PATCH",
@@ -86,7 +88,11 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
       if (res.ok) {
         const updated = await res.json();
         onUpdate(updated);
+      } else {
+        setUpdateError("That change did not save. Try again.");
       }
+    } catch {
+      setUpdateError("Could not reach the server. Check your connection and try again.");
     } finally {
       setIsUpdating(false);
     }
@@ -266,6 +272,12 @@ function QuoteDrawer({ quote, onClose, onUpdate, onDelete, insideDeliveryLabel, 
               </div>
             </div>
 
+            {updateError && (
+              <p role="alert" className="mt-5 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-bold text-rose-800 dark:border-rose-900/40 dark:bg-rose-950/30 dark:text-rose-300">
+                {updateError}
+              </p>
+            )}
+
             <QuoteProfitCard quoteId={quote.id} />
 
             <QuoteDocumentsCard quoteId={quote.id} />
@@ -402,9 +414,32 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
   const [bulkConfirm, setBulkConfirm] = useState(false);
   const [bulkDeleting, setBulkDeleting] = useState(false);
 
+  const [notice, setNotice] = useState("");
+
   const handleUpdate = (updated: Quote) => {
-    setQuotes((prev) => prev.map((q) => q.id === updated.id ? updated : q));
-    setSelected(updated);
+    setQuotes((prev) => prev.map((q) => q.id === updated.id ? { ...q, ...updated } : q));
+    setSelected((cur) => (cur ? { ...cur, ...updated } : updated));
+    router.refresh(); // header counts, Overview and the sidebar badge
+  };
+
+  // Board moves save here so List view, the drawer and the board stay in sync.
+  const handleStatusChange = async (id: string, status: string) => {
+    setNotice("");
+    try {
+      const res = await fetch(`/api/dashboard/quotes/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      if (!res.ok) throw new Error();
+      const updated = await res.json().catch(() => null);
+      setQuotes((prev) => prev.map((q) => (q.id === id ? { ...q, ...(updated ?? {}), status } : q)));
+      router.refresh();
+      return true;
+    } catch {
+      setNotice("That move did not save, so the quote went back to its column. Try again.");
+      return false;
+    }
   };
 
   const handleDelete = async (id: string) => {
@@ -416,7 +451,11 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
         setSelected((cur) => (cur?.id === id ? null : cur));
         setSelectedIds((prev) => { const next = new Set(prev); next.delete(id); return next; });
         router.refresh();
+      } else {
+        setNotice("The quote could not be deleted. Try again.");
       }
+    } catch {
+      setNotice("Could not reach the server. The quote was not deleted.");
     } finally {
       setDeletingId(null);
       setConfirmingId(null);
@@ -453,7 +492,11 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
         setSelected((cur) => (cur && idSet.has(cur.id) ? null : cur));
         clearSelection();
         router.refresh();
+      } else {
+        setNotice("Those quotes could not be deleted. Try again.");
       }
+    } catch {
+      setNotice("Could not reach the server. Nothing was deleted.");
     } finally {
       setBulkDeleting(false);
     }
@@ -504,7 +547,14 @@ export default function QuotesClient({ quotes: initialQuotes, insideDeliveryLabe
             </button>
           </div>
 
-          {view === "kanban" && <KanbanBoard quotes={quotes} onSelectQuote={setSelected} />}
+          {notice && (
+            <div role="alert" className="mb-4 flex items-start justify-between gap-3 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-bold text-rose-800 dark:border-rose-900/40 dark:bg-rose-950/30 dark:text-rose-300">
+              <span>{notice}</span>
+              <button type="button" onClick={() => setNotice("")} className="text-xs underline">Dismiss</button>
+            </div>
+          )}
+
+          {view === "kanban" && <KanbanBoard quotes={quotes} onSelectQuote={setSelected} onStatusChange={handleStatusChange} />}
 
           {view === "list" && <>
             {selectedIds.size > 0 && (

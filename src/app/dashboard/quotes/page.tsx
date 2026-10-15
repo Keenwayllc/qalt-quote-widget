@@ -21,6 +21,7 @@ export default async function QuotesListPage({ searchParams }: { searchParams: P
 
   const widget = await prisma.widgetSettings.findFirst({
     where: { companyId: company.id },
+    orderBy: { id: "asc" },
     select: { insideDeliveryLabel: true, addon3Label: true },
   });
 

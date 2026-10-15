@@ -41,7 +41,7 @@ export async function computeAuthoritativeQuote(input:ComputeInput):Promise<Quot
   const pricingFormId = ownedWidgetSettings?.id;
   let pricingProfile:PricingRulesWithServices|null=null;
   if(pricingFormId){const fp=await prisma.pricingProfile.findFirst({where:{widgetSettingsId:pricingFormId,companyId}});if(fp)pricingProfile=fp as unknown as PricingRulesWithServices;}
-  if(!pricingProfile){const dp=await prisma.pricingProfile.findFirst({where:{companyId,widgetSettingsId:null}});if(dp)pricingProfile=dp as unknown as PricingRulesWithServices;}
+  if(!pricingProfile){const dp=await prisma.pricingProfile.findFirst({where:{companyId,widgetSettingsId:null}, orderBy: { id: "asc" } });if(dp)pricingProfile=dp as unknown as PricingRulesWithServices;}
   if(!pricingProfile)return{ok:false,status:404,error:"Pricing not configured"};
 
   const services=parseServiceOptions(pricingProfile.serviceOptions);

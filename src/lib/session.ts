@@ -43,8 +43,8 @@ export const getCurrentCompany = cache(async function getCurrentCompany() {
   const company = await prisma.company.findUnique({
     where: { id: payload.companyId },
     include: {
-      pricingProfiles: true,
-      widgetSettings: true,
+      pricingProfiles: { orderBy: { id: "asc" } },
+      widgetSettings: { orderBy: { id: "asc" } },
     }
   });
 
@@ -55,9 +55,27 @@ export const getCurrentCompany = cache(async function getCurrentCompany() {
   return company;
 });
 
-/** Returns the company-level default pricing (widgetSettingsId === null) */
+/**
+ * Returns the company-level default pricing (widgetSettingsId === null). If a
+ * company has more than one (older form deletions left orphans), the oldest
+ * wins, matching every `findFirst({ orderBy: { id: "asc" } })` lookup.
+ */
 export function getDefaultPricing(company: Awaited<ReturnType<typeof getCurrentCompany>>) {
-  return company.pricingProfiles.find((p) => p.widgetSettingsId === null) ?? null;
+  return company.pricingProfiles.filter((p) => p.widgetSettingsId === null).sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))[0] ?? null;
+}
+
+type PricingCompany = { widgetSettings: { id: string }[]; pricingProfiles: { id: string; widgetSettingsId: string | null }[] };
+
+/**
+ * The live pricing: what the main widget quotes and what the Pricing page
+ * opens on. That is the first form's (lowest id) own profile, else the company
+ * default. Overview, Simulator, Templates and Onboarding all use this so a save
+ * on one page shows the same value everywhere.
+ */
+export function getEffectivePricing<C extends PricingCompany>(company: C): C["pricingProfiles"][number] | null {
+  const firstForm = [...company.widgetSettings].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))[0];
+  const own = firstForm ? company.pricingProfiles.find((p) => p.widgetSettingsId === firstForm.id) : undefined;
+  return own ?? getDefaultPricing(company as unknown as Awaited<ReturnType<typeof getCurrentCompany>>);
 }
 
 /**

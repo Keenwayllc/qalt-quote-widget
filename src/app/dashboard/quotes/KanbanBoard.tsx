@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   DndContext,
   DragEndEvent,
@@ -151,14 +151,21 @@ function OverlayCard({ quote }: { quote: Quote }) {
 }
 
 export default function KanbanBoard({
-  quotes: initialQuotes,
+  quotes: sourceQuotes,
   onSelectQuote,
+  onStatusChange,
 }: {
   quotes: Quote[];
   onSelectQuote: (q: Quote) => void;
+  /** Persists a move; resolves false when the save failed (the card snaps back). */
+  onStatusChange: (id: string, status: string) => Promise<boolean>;
 }) {
-  const [quotes, setQuotes] = useState<Quote[]>(initialQuotes);
+  // Local copy only for the drag preview; always re-synced from the parent.
+  const [quotes, setQuotes] = useState<Quote[]>(sourceQuotes);
   const [activeId, setActiveId] = useState<string | null>(null);
+  useEffect(() => {
+    setQuotes(sourceQuotes);
+  }, [sourceQuotes]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
@@ -202,18 +209,11 @@ export default function KanbanBoard({
     if (!over) return;
 
     const movedQuote = quotes.find((q) => q.id === active.id);
-    if (!movedQuote) return;
+    const original = sourceQuotes.find((q) => q.id === active.id);
+    if (!movedQuote || !original || movedQuote.status === original.status) return;
 
-    // Persist to DB
-    try {
-      await fetch(`/api/dashboard/quotes/${movedQuote.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: movedQuote.status }),
-      });
-    } catch {
-      // silently ignore — status already updated optimistically
-    }
+    const saved = await onStatusChange(movedQuote.id, movedQuote.status);
+    if (!saved) setQuotes(sourceQuotes); // roll back the preview
   };
 
   return (

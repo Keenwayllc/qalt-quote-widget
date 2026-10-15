@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   DollarSign,
   Weight,
@@ -243,6 +244,8 @@ export default function PricingPage({
 
   // ── Shared helpers ───────────────────────────────────────────────────────
 
+  const router = useRouter();
+
   const patchPricing = async (
     fields: Record<string, unknown>,
     setStatus: (s: SectionStatus) => void
@@ -257,6 +260,7 @@ export default function PricingPage({
       if (res.ok) {
         setStatus("success");
         setTimeout(() => setStatus("idle"), 3000);
+        router.refresh(); // form switcher, sidebar and other pages read this too
       } else {
         setStatus("error");
         setTimeout(() => setStatus("idle"), 4000);
@@ -286,6 +290,7 @@ export default function PricingPage({
       if (res.ok) {
         setStatus("success");
         setTimeout(() => setStatus("idle"), 3000);
+        router.refresh(); // form switcher, sidebar and other pages read this too
       } else {
         setStatus("error");
         setTimeout(() => setStatus("idle"), 4000);
