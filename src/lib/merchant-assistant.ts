@@ -1,5 +1,5 @@
 /**
- * Qalt Assistant, rule-based release. Answers merchant questions from verified
+ * Quinn, the Qalt merchant assistant (rule-based release). Answers merchant questions from verified
  * calculations in merchant-intelligence.ts; it never invents numbers, never
  * writes data and never contacts customers. Pure: callers pass rows already
  * scoped to the signed-in company.
@@ -256,7 +256,7 @@ export function answerQuestion(question: string, ctx: Ctx): AssistantAnswer {
     default:
       return {
         ...base,
-        answer: `I answer questions from your Qalt quotes and cost settings. Try one of these:\n${SUGGESTED_QUESTIONS.map((q) => `• ${q}`).join("\n")}`,
+        answer: `I'm Quinn. I answer questions from your Qalt quotes and cost settings. Try one of these:\n${SUGGESTED_QUESTIONS.map((q) => `• ${q}`).join("\n")}`,
       };
   }
 }
